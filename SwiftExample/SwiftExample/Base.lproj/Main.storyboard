@@ -27,19 +27,19 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVj-xW-aqu">
-                                <rect key="frame" x="0.0" y="91" width="375" height="30"/>
+                                <rect key="frame" x="0.0" y="91" width="375" height="31"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2b-3H-Q8j">
-                                        <rect key="frame" x="0.0" y="0.0" width="201" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="31"/>
                                         <state key="normal" title="Save"/>
                                         <connections>
                                             <action selector="buttonSave:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ioI-oX-GMm"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yCK-Xu-aC9">
-                                        <rect key="frame" x="201" y="0.0" width="174" height="30"/>
+                                        <rect key="frame" x="125" y="0.0" width="125" height="31"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="174" id="xx2-hR-guJ"/>
+                                            <constraint firstAttribute="width" constant="125" id="GgR-5L-biY"/>
                                         </constraints>
                                         <state key="normal" title="Delete"/>
                                         <connections>
@@ -47,10 +47,36 @@
                                             <action selector="buttonSave:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VI7-QW-Mgk"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xf4-sg-z4a">
+                                        <rect key="frame" x="250" y="0.0" width="125" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="125" id="Dg6-Ud-r3L"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="UpdateName"/>
+                                        <connections>
+                                            <action selector="buttonUpdate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zlm-Yr-niy"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Xf4-sg-z4a" secondAttribute="trailing" id="19W-Lq-GfR"/>
+                                    <constraint firstAttribute="bottom" secondItem="Xf4-sg-z4a" secondAttribute="bottom" id="4q8-5h-0kT"/>
+                                    <constraint firstItem="Xf4-sg-z4a" firstAttribute="leading" secondItem="yCK-Xu-aC9" secondAttribute="trailing" id="FDF-fo-GRQ"/>
+                                    <constraint firstItem="Xf4-sg-z4a" firstAttribute="top" secondItem="hVj-xW-aqu" secondAttribute="top" id="OEw-m9-3iq"/>
+                                    <constraint firstAttribute="trailing" secondItem="Xf4-sg-z4a" secondAttribute="trailing" id="OfW-WM-ycN"/>
+                                    <constraint firstAttribute="bottom" secondItem="yCK-Xu-aC9" secondAttribute="bottom" id="PPl-OA-YoZ"/>
+                                    <constraint firstItem="Xf4-sg-z4a" firstAttribute="leading" secondItem="yCK-Xu-aC9" secondAttribute="trailing" id="Pmd-1w-bPr"/>
+                                    <constraint firstItem="Xf4-sg-z4a" firstAttribute="top" secondItem="hVj-xW-aqu" secondAttribute="top" id="Yu4-dE-EUn"/>
+                                    <constraint firstItem="yCK-Xu-aC9" firstAttribute="top" secondItem="hVj-xW-aqu" secondAttribute="top" id="aNE-In-eGq"/>
+                                    <constraint firstAttribute="trailing" secondItem="Xf4-sg-z4a" secondAttribute="trailing" id="can-OX-gXP"/>
+                                    <constraint firstItem="Xf4-sg-z4a" firstAttribute="leading" secondItem="yCK-Xu-aC9" secondAttribute="trailing" id="ipU-wF-p4h"/>
+                                    <constraint firstAttribute="bottom" secondItem="Xf4-sg-z4a" secondAttribute="bottom" id="wp4-FJ-yI8"/>
+                                    <constraint firstItem="yCK-Xu-aC9" firstAttribute="leading" secondItem="J2b-3H-Q8j" secondAttribute="trailing" id="xzZ-ba-2JH"/>
+                                </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FcX-Zb-R4h">
-                                <rect key="frame" x="0.0" y="121" width="375" height="546"/>
+                                <rect key="frame" x="0.0" y="122" width="375" height="545"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="iPN-xF-r0C">

@@ -66,7 +66,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         readValues()
 
-        print("Herro saved successfully")
+        print("Hero saved successfully")
         
     }
     
@@ -78,6 +78,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var stmt:OpaquePointer?
                 
         print(DELETE_QUERY)
+        
         if sqlite3_prepare_v2(db, DELETE_QUERY, -1, &stmt, nil) != SQLITE_OK{
             let errMsg = String(cString: sqlite3_errmsg(db)!)
             print("error preparing delete: v1\(errMsg)")
@@ -90,19 +91,45 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             return
         }
         sqlite3_finalize(stmt)
+        print("Hero deleted successfully")
     
         readValues()
     }
+    
+    @IBAction func buttonUpdate(_ sender: UIButton) {
+        let UPDATE_QUERY = "UPDATE Heroes SET name = '\(textFieldName.text!)', powerrank = '\(textFieldPowerRanking.text!)' WHERE powerrank = '\(textFieldPowerRanking.text!)';"
+               var stmt:OpaquePointer?
+               print(UPDATE_QUERY)
+                                                                  
+               if sqlite3_prepare(db, UPDATE_QUERY, -1, &stmt, nil) != SQLITE_OK{
+                   let errMsg = String(cString: sqlite3_errmsg(db)!)
+                   print("error preparing update: v1\(errMsg)")
+                   return
+               }
+               
+               if sqlite3_step(stmt) != SQLITE_DONE {
+                   let errMsg = String(cString : sqlite3_errmsg(db)!)
+                   print("update fail :: \(errMsg)")
+                   return
+               }
+               
+               sqlite3_finalize(stmt)
+               print("Hero updateed successfully")
+               readValues()
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return heroList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
+        let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "cell")
         let hero: Hero
         hero = heroList[indexPath.row]
         cell.textLabel?.text = hero.name
+        cell.detailTextLabel?.text = String(hero.powerRanking)
+
         return cell
     }
     
