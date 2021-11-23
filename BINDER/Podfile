@@ -11,4 +11,7 @@ target 'BINDER' do
   pod 'Firebase/Core'
   pod 'FirebaseUI/Auth'
   pod 'GoogleSignIn'
+  pod 'Firebase/Database'
+  pod 'FSCalendar'
+  pod 'BottomHalfModal'
 end
