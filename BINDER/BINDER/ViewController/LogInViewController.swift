@@ -53,23 +53,40 @@ class LogInViewController: UIViewController {
                     break
                 }
             } else {
-                print("User signs in successfully")
                 guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
                     //아니면 종료
                     return
                 }
+                
+                homeVC.pw = password
+                homeVC.id = email
                 if (Auth.auth().currentUser?.isEmailVerified == true){
                     homeVC.verified = true
                 } else { homeVC.verified = false }
-                //화면전환
-                homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                self.present(homeVC, animated: true)
+                
+                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassViewController else {
+                    //아니면 종료
+                    return
+                }
+                let tb = UITabBarController()
+                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                tb.setViewControllers([homeVC, myClassVC], animated: true)
+                self.present(tb, animated: true, completion: nil)
+                //
+                //                print("User signs in successfully")
+                //                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                //                    //아니면 종료
+                //                    return
+                //                }
+                //
+                //                //화면전환
+                //                homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                //                homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                //                self.present(homeVC, animated: true)
             }
         }
         
     }
-    
     
     @IBAction func googleLogInBtnClicked(_ sender: Any) {
         GIDSignIn.sharedInstance()?.signIn()
