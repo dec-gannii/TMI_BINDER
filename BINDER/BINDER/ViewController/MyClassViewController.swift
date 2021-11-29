@@ -17,6 +17,7 @@ class MyClassViewController: UIViewController {
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var testScoreTextField: UITextField!
     @IBOutlet weak var evaluationMemoTextView: UITextView!
+    @IBOutlet weak var evaluationOKBtn: UIButton!
     
     var date: String!
     
@@ -56,6 +57,7 @@ class MyClassViewController: UIViewController {
         super.viewDidLoad()
         
         evaluationView.isHidden = true
+        evaluationOKBtn.isHidden = true
         
         self.calendarText()
         self.calendarColor()
@@ -69,7 +71,6 @@ class MyClassViewController: UIViewController {
     }
     
     @IBAction func OKButtonClicked(_ sender: Any) {
-        print("CLICKED")
         let db = Firestore.firestore()
         var ref: DocumentReference? = nil
         
@@ -83,11 +84,13 @@ class MyClassViewController: UIViewController {
                 print("Error adding document: \(err)")
             }
             self.evaluationView.isHidden = true
+            self.evaluationOKBtn.isHidden = true
             self.progressTextView.text = ""
             self.testScoreTextField.text = ""
             self.evaluationMemoTextView.text = ""
         }
         evaluationView.isHidden = true
+        evaluationOKBtn.isHidden = true
     }
 }
 extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
@@ -113,6 +116,7 @@ extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioni
         
         if(date != nil){
             evaluationView.isHidden = false
+            evaluationOKBtn.isHidden = false
         }
         
         let dateFormatter = DateFormatter()
