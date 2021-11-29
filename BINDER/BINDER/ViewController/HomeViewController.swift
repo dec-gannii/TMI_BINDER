@@ -10,19 +10,17 @@ import Firebase
 import GoogleSignIn
 import FirebaseDatabase
 import FSCalendar
-import BottomHalfModal
 
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var emailVerificationCheckBtn: UIButton!
-    @IBOutlet weak var logoutBtn: UIButton!
     @IBOutlet weak var calendarView: FSCalendar!
     
     var id : String = ""
     var pw : String = ""
     var name : String = ""
-    var number : Int = 0
+    var number : Int = 1
     var verified : Bool = false
     var type : String = ""
     
@@ -60,6 +58,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         ref = Database.database().reference()
         calendarView.delegate = self
         verifiedCheck()
@@ -71,40 +70,70 @@ class HomeViewController: UIViewController {
         if (!verified) {
             stateLabel.text = "작성한 이메일로 인증을 진행해주세요."
             emailVerificationCheckBtn.isHidden = false
-            logoutBtn.isHidden = true
+            calendarView.isHidden = true
         } else {
-            if (Auth.auth().currentUser?.email != nil) {
-                if (type == "teacher") {
-                    stateLabel.text = "선생님으로 로그인 성공!\n환영합니다!"
-                } else if (type == "student") {
-                    stateLabel.text = "학생으로 로그인 성공!\n환영합니다!"
+            let db = Firestore.firestore()
+            var docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
+            if (docRef != nil) {
+                getTeacherInfo()
+                if (Auth.auth().currentUser?.email != nil) {
+                    calendarView.isHidden = false
+                    emailVerificationCheckBtn.isHidden = true
                 }
-                logoutBtn.isHidden = false
-                emailVerificationCheckBtn.isHidden = true
+            } else {
+                getStudentInfo()
+                if (Auth.auth().currentUser?.email != nil) {
+                    calendarView.isHidden = false
+                    emailVerificationCheckBtn.isHidden = true
+                }
             }
         }
     }
     
-    func getInfo(){
-        print("number : \(self.number)")
-        self.ref.child("users").child("user").child("\(self.number)").observeSingleEvent(of: .value, with: { snapshot in
-            let value = snapshot.value as? NSDictionary
-            let number = value?["number"] as? Int ?? 0
-            let name = value?["name"] as? String ?? ""
-            let id = value?["email"] as? String ?? ""
-            let pw = value?["password"] as? String ?? ""
-            let type = value?["type"] as? String ?? ""
-            
-            self.number = number
-            self.name = name
-            self.id = id
-            self.pw = pw
-        })
+    func getTeacherInfo(){
+        let db = Firestore.firestore()
+        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                self.name = data?["Name"] as? String ?? ""
+                self.stateLabel.text = self.name + " 선생님 환영합니다!"
+                self.id = data?["Email"] as? String ?? ""
+                self.pw = data?["Password"] as? String ?? ""
+                self.type = data?["Type"] as? String ?? ""
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func getStudentInfo(){
+        let db = Firestore.firestore()
+        let docRef = db.collection("student").document(Auth.auth().currentUser!.uid)
+        
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                self.name = data?["Name"] as? String ?? ""
+                self.stateLabel.text = self.name + " 학생 환영합니다!"
+                self.id = data?["Email"] as? String ?? ""
+                self.pw = data?["Password"] as? String ?? ""
+                self.type = data?["Type"] as? String ?? ""
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     func verifiedCheck() {
         print("pw: " + self.pw)
-        getInfo()
+        getStudentInfo()
+        getTeacherInfo()
         Auth.auth().signIn(withEmail: id, password: pw) { result, error in
             var check = Auth.auth().currentUser?.isEmailVerified
             if error != nil {
@@ -147,15 +176,14 @@ class HomeViewController: UIViewController {
         if (verified == false) {
             stateLabel.text = "이메일 인증이 진행중입니다."
             emailVerificationCheckBtn.isHidden = false
-            logoutBtn.isHidden = true
         } else {
             if (Auth.auth().currentUser?.email != nil) {
                 if (type == "teacher") {
-                    stateLabel.text = "선생님으로 인증 성공!\n환영합니다!"
+                    stateLabel.text = name + " 선생님 환영합니다!"
                 } else if (type == "student") {
-                    stateLabel.text = "학생으로 인증 성공!\n환영합니다!"
+                    stateLabel.text = name + " 학생 환영합니다!"
                 }
-                logoutBtn.isHidden = false
+                calendarView.isHidden = false
                 emailVerificationCheckBtn.isHidden = true
             }
         }
