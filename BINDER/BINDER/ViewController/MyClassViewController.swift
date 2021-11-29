@@ -20,6 +20,7 @@ class MyClassViewController: UIViewController {
     @IBOutlet weak var evaluationOKBtn: UIButton!
     
     var date: String!
+    var userName: String!
     
     func calendarColor() {
         calendarView.backgroundColor = UIColor(red: 242/255, green: 245/255, blue: 249/255, alpha: 1)
@@ -55,6 +56,19 @@ class MyClassViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getUserInfo()
+        
+        let db = Firestore.firestore()
+        let docRef = db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection("\(date)").document("DailyEvaluation")
+        
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                self.date = data?["EvaluationDate"] as? String ?? ""
+            } else {
+                print("Document does not exist")
+            }
+        }
         
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
@@ -68,6 +82,24 @@ class MyClassViewController: UIViewController {
         
         self.evaluationMemoTextView.layer.borderWidth = 1.0
         self.evaluationMemoTextView.layer.borderColor = UIColor.systemGray6.cgColor
+    }
+    
+    func getUserInfo() {
+        let db = Firestore.firestore()
+        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                self.userName = data?["Name"] as? String ?? ""
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                self.questionLabel.text = "오늘 " + self.userName! + " 학생의 수업 참여는 어땠나요?";
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     @IBAction func OKButtonClicked(_ sender: Any) {
@@ -97,32 +129,53 @@ extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioni
     
     internal func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
-        let db = Firestore.firestore()
-        let docRef = db.collection("student").document(Auth.auth().currentUser!.uid).collection("\(date)").document("DailyEvaluation")
+        let selectedDate = date
+        let nowDate = Date()
         
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                self.date = data?["EvaluationDate"] as? String ?? ""
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                self.progressTextView.text = data?["Progress"] as? String ?? ""
-                self.evaluationMemoTextView.text = data?["EvaluationMemo"] as? String ?? ""
-                self.testScoreTextField.text = "\(data?["TestScore"] as? Int ?? 0)"
-                print("Document data: \(dataDescription)")
+        let distanceDay = Calendar.current.dateComponents([.day], from: selectedDate, to: nowDate).day
+        
+        if (!(distanceDay! <= 0)) {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
+            dateFormatter.locale = Locale(identifier: "ko_KR")
+            let dateStr = dateFormatter.string(from: date)
+            
+            let db = Firestore.firestore()
+            let docRef = db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection(dateStr).document("DailyEvaluation")
+            
+            if (docRef != nil){
+                print ("docRef NOT nil")
+                evaluationView.isHidden = false
+                evaluationOKBtn.isHidden = false
+                docRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        self.date = data?["EvaluationDate"] as? String ?? ""
+                        let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                        let progressText = data?["Progress"] as? String ?? ""
+                        self.progressTextView.text = progressText
+                        let evaluationMemo = data?["EvaluationMemo"] as? String ?? ""
+                        self.evaluationMemoTextView.text = evaluationMemo
+                        let testScore = "\(data?["TestScore"] as? Int ?? 0)"
+                        self.testScoreTextField.text = testScore
+                        print("Document data: \(dataDescription)")
+                    } else {
+                        print("Document does not exist")
+                        self.progressTextView.text = ""
+                        self.testScoreTextField.text = ""
+                        self.evaluationMemoTextView.text = ""
+                    }
+                }
             } else {
-                print("Document does not exist")
+                self.progressTextView.text = ""
+                self.testScoreTextField.text = ""
+                self.evaluationMemoTextView.text = ""
             }
+        } else {
+            evaluationView.isHidden = true
+            evaluationOKBtn.isHidden = true
         }
-        
-        if(date != nil){
-            evaluationView.isHidden = false
-            evaluationOKBtn.isHidden = false
-        }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        self.date = dateFormatter.string(from: date)
     }
 }
 

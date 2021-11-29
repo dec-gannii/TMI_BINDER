@@ -72,10 +72,20 @@ class HomeViewController: UIViewController {
             emailVerificationCheckBtn.isHidden = false
             calendarView.isHidden = true
         } else {
-            if (Auth.auth().currentUser?.email != nil) {
-                stateLabel.text = "환영합니다!"
-                calendarView.isHidden = false
-                emailVerificationCheckBtn.isHidden = true
+            let db = Firestore.firestore()
+            var docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
+            if (docRef != nil) {
+                getTeacherInfo()
+                if (Auth.auth().currentUser?.email != nil) {
+                    calendarView.isHidden = false
+                    emailVerificationCheckBtn.isHidden = true
+                }
+            } else {
+                getStudentInfo()
+                if (Auth.auth().currentUser?.email != nil) {
+                    calendarView.isHidden = false
+                    emailVerificationCheckBtn.isHidden = true
+                }
             }
         }
     }
@@ -88,6 +98,7 @@ class HomeViewController: UIViewController {
             if let document = document, document.exists {
                 let data = document.data()
                 self.name = data?["Name"] as? String ?? ""
+                self.stateLabel.text = self.name + " 선생님 환영합니다!"
                 self.id = data?["Email"] as? String ?? ""
                 self.pw = data?["Password"] as? String ?? ""
                 self.type = data?["Type"] as? String ?? ""
@@ -107,6 +118,7 @@ class HomeViewController: UIViewController {
             if let document = document, document.exists {
                 let data = document.data()
                 self.name = data?["Name"] as? String ?? ""
+                self.stateLabel.text = self.name + " 학생 환영합니다!"
                 self.id = data?["Email"] as? String ?? ""
                 self.pw = data?["Password"] as? String ?? ""
                 self.type = data?["Type"] as? String ?? ""
