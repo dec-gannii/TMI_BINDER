@@ -157,7 +157,7 @@ extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioni
                         self.progressTextView.text = progressText
                         let evaluationMemo = data?["EvaluationMemo"] as? String ?? ""
                         self.evaluationMemoTextView.text = evaluationMemo
-                        let testScore = "\(data?["TestScore"] as? Int ?? 0)"
+                        let testScore = "\(data?["TestScore"] as? String ?? "")"
                         self.testScoreTextField.text = testScore
                         print("Document data: \(dataDescription)")
                     } else {
