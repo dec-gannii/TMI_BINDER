@@ -36,7 +36,8 @@ class InsertClassInfoViewController: UIViewController {
         var current_time_string = formatter_time.string(from: Date())
         
         if (subjectTextField.text != "" && moneyTextField.text != "" && creditDayTextField.text != "") {
-            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Class").document(sName + "(" + sEmail + ")").setData([
+            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Class").document(sName + "(" + sEmail + ") " + subjectTextField.text!).setData([
+                "StudentName": sName,
                 "Subject": subjectTextField.text!,
                 "Salary": moneyTextField.text!,
                 "CreditDay": creditDayTextField.text!,
@@ -48,7 +49,24 @@ class InsertClassInfoViewController: UIViewController {
                 }
             }
             print("done")
-//            self.dismiss(animated: true, completion: nil)
+            
+            guard let studentListVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentListViewController") as? StudentListViewController else { return }
+            
+            studentListVC.isStudentAdded = true
+            // 날짜를 원하는 형식으로 저장하기 위한 방법입니다.
+            //            self.present(studentListVC, animated: true, completion: nil)
+            self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+            //
+            //            studentListVC.studentListView.addSubview(classButton)
+            //            classButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10).isActive = true
+            //            classButton.translatesAutoresizingMaskIntoConstraints = false
+            //
+            //            classButton.heightAnchor.constraint(equalToConstant: 150).isActive = true
+            //
+            //            classButton.setTitle("OK", for: .normal)
+            //            classButton.setTitleColor(.black, for: .normal)
+            //            classButton.backgroundColor = .orange
+            //            self.dismiss(animated: true, completion: nil)
         }
     }
 }
