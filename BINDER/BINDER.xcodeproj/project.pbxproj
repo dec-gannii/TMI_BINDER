@@ -17,6 +17,10 @@
 		7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D159274941ED00745522 /* HomeViewController.swift */; };
 		7F16D15F2749500900745522 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D15E2749500900745522 /* LogInViewController.swift */; };
 		7F16D16127496FC800745522 /* TypeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D16027496FC800745522 /* TypeSelectViewController.swift */; };
+		7F23A96627573D5200272CCE /* AddTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F23A96527573D5200272CCE /* AddTodoViewController.swift */; };
+		7F5D12972756032D00A87F17 /* AddStudentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5D12962756032D00A87F17 /* AddStudentViewController.swift */; };
+		7F5D12992756038C00A87F17 /* StudentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5D12982756038C00A87F17 /* StudentListViewController.swift */; };
+		7F5D129B27560DA800A87F17 /* InsertClassInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5D129A27560DA800A87F17 /* InsertClassInfoViewController.swift */; };
 		7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */; };
 		7FF68A782750C698004EB9E6 /* MyClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF68A772750C698004EB9E6 /* MyClassViewController.swift */; };
 		9454EBA32409A1CC3B2E881A /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8194590D892163E6369F0B86 /* Pods_BINDER.framework */; };
@@ -37,6 +41,10 @@
 		7F16D159274941ED00745522 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		7F16D15E2749500900745522 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		7F16D16027496FC800745522 /* TypeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeSelectViewController.swift; sourceTree = "<group>"; };
+		7F23A96527573D5200272CCE /* AddTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoViewController.swift; sourceTree = "<group>"; };
+		7F5D12962756032D00A87F17 /* AddStudentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentViewController.swift; sourceTree = "<group>"; };
+		7F5D12982756038C00A87F17 /* StudentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentListViewController.swift; sourceTree = "<group>"; };
+		7F5D129A27560DA800A87F17 /* InsertClassInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertClassInfoViewController.swift; sourceTree = "<group>"; };
 		7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		7FF68A772750C698004EB9E6 /* MyClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyClassViewController.swift; sourceTree = "<group>"; };
 		8194590D892163E6369F0B86 /* Pods_BINDER.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BINDER.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +104,10 @@
 				7F16D16027496FC800745522 /* TypeSelectViewController.swift */,
 				7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */,
 				7FF68A772750C698004EB9E6 /* MyClassViewController.swift */,
+				7F5D12962756032D00A87F17 /* AddStudentViewController.swift */,
+				7F5D12982756038C00A87F17 /* StudentListViewController.swift */,
+				7F5D129A27560DA800A87F17 /* InsertClassInfoViewController.swift */,
+				7F23A96527573D5200272CCE /* AddTodoViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -251,10 +263,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F5D12992756038C00A87F17 /* StudentListViewController.swift in Sources */,
 				7F16D16127496FC800745522 /* TypeSelectViewController.swift in Sources */,
 				7FF68A782750C698004EB9E6 /* MyClassViewController.swift in Sources */,
+				7F5D12972756032D00A87F17 /* AddStudentViewController.swift in Sources */,
+				7F23A96627573D5200272CCE /* AddTodoViewController.swift in Sources */,
 				7F16D1482749390300745522 /* SignInViewController.swift in Sources */,
 				7F16D1442749390300745522 /* AppDelegate.swift in Sources */,
+				7F5D129B27560DA800A87F17 /* InsertClassInfoViewController.swift in Sources */,
 				7F16D1462749390300745522 /* SceneDelegate.swift in Sources */,
 				7F16D15F2749500900745522 /* LogInViewController.swift in Sources */,
 				7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */,

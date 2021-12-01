@@ -27,11 +27,9 @@ class HomeViewController: UIViewController {
     var ref: DatabaseReference!
     
     func calendarColor() {
-        calendarView.backgroundColor = UIColor(red: 242/255, green: 245/255, blue: 249/255, alpha: 1)
-        
-        calendarView.appearance.weekdayTextColor = .black
-        calendarView.appearance.titleWeekendColor = .systemRed
-        calendarView.appearance.headerTitleColor = .black
+        calendarView.appearance.weekdayTextColor = .systemGray
+        calendarView.appearance.titleWeekendColor = .systemGray
+        calendarView.appearance.headerTitleColor = .systemGray
         
         calendarView.appearance.eventDefaultColor = .systemPink
         calendarView.appearance.selectionColor = .none

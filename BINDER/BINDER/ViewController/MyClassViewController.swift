@@ -26,12 +26,12 @@ class MyClassViewController: UIViewController {
         calendarView.backgroundColor = UIColor(red: 242/255, green: 245/255, blue: 249/255, alpha: 1)
         calendarView.scope = .week
         
-        calendarView.appearance.weekdayTextColor = .black
-        calendarView.appearance.titleWeekendColor = .systemRed
+        calendarView.appearance.weekdayTextColor = .systemGray
+        calendarView.appearance.titleWeekendColor = .systemGray
         calendarView.appearance.headerTitleColor = .black
         
         calendarView.appearance.eventDefaultColor = .systemPink
-        calendarView.appearance.selectionColor = .systemGray
+        calendarView.appearance.selectionColor = .systemGray3
         calendarView.appearance.titleSelectionColor = .black
         calendarView.appearance.todayColor = .systemOrange
         calendarView.appearance.titleTodayColor = .black
@@ -157,7 +157,7 @@ extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioni
                         self.progressTextView.text = progressText
                         let evaluationMemo = data?["EvaluationMemo"] as? String ?? ""
                         self.evaluationMemoTextView.text = evaluationMemo
-                        let testScore = "\(data?["TestScore"] as? Int ?? 0)"
+                        let testScore = "\(data?["TestScore"] as? String ?? "")"
                         self.testScoreTextField.text = testScore
                         print("Document data: \(dataDescription)")
                     } else {
