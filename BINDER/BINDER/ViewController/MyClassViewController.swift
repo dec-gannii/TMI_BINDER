@@ -140,34 +140,51 @@ extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioni
         let distanceDay = Calendar.current.dateComponents([.day], from: selectedDate, to: nowDate).day
         
         if (!(distanceDay! <= 0)) {
-            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
             dateFormatter.locale = Locale(identifier: "ko_KR")
-            let dateStr = dateFormatter.string(from: date)
+            let dateStr = dateFormatter.string(from: selectedDate)
+            self.date = dateStr
             
             let db = Firestore.firestore()
             let docRef = db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection(dateStr).document("DailyEvaluation")
             
             if (docRef != nil){
-                print ("docRef NOT nil")
                 evaluationView.isHidden = false
                 evaluationOKBtn.isHidden = false
                 docRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
                         self.date = data?["EvaluationDate"] as? String ?? ""
+                        
                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                        let homeworkCompletion = "\(data?["homeworkCompletion"] as? String ?? "")"
-                        self.homeworkScoreTextField.text = homeworkCompletion
-                        let classAttitude = "\(data?["ClassAttitude"] as? String ?? "")"
-                        self.classScoreTextField.text = classAttitude
+                        
+                        let homeworkCompletion = data?["HomeworkCompletion"] as? Int ?? 0
+                        if (homeworkCompletion == 0) {
+                            self.homeworkScoreTextField.text = ""
+                        } else {
+                            self.homeworkScoreTextField.text = "\(homeworkCompletion)"
+                        }
+                        
+                        let classAttitude = data?["ClassAttitude"] as? Int ?? 0
+                        if (classAttitude == 0) {
+                            self.classScoreTextField.text = ""
+                        } else {
+                            self.classScoreTextField.text = "\(classAttitude)"
+                        }
+                        
                         let progressText = data?["Progress"] as? String ?? ""
                         self.progressTextView.text = progressText
+                        
                         let evaluationMemo = data?["EvaluationMemo"] as? String ?? ""
                         self.evaluationMemoTextView.text = evaluationMemo
-                        let testScore = "\(data?["TestScore"] as? String ?? "")"
-                        self.testScoreTextField.text = testScore
+                        
+                        let testScore = data?["TestScore"] as? Int ?? 0
+                        if (testScore == 0) {
+                            self.testScoreTextField.text = ""
+                        } else {
+                            self.testScoreTextField.text = "\(testScore)"
+                        }
                         print("Document data: \(dataDescription)")
                     } else {
                         print("Document does not exist")
@@ -178,12 +195,6 @@ extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioni
                         self.classScoreTextField.text = ""
                     }
                 }
-            } else {
-                self.progressTextView.text = ""
-                self.testScoreTextField.text = ""
-                self.evaluationMemoTextView.text = ""
-                self.homeworkScoreTextField.text = ""
-                self.classScoreTextField.text = ""
             }
         } else {
             evaluationView.isHidden = true
