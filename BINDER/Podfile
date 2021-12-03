@@ -13,4 +13,6 @@ target 'BINDER' do
   pod 'GoogleSignIn'
   pod 'Firebase/Firestore'
   pod 'FSCalendar'
+  pod 'Charts'
+  pod 'BulletinBoard'
 end
