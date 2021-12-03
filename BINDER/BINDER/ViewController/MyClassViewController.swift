@@ -18,6 +18,9 @@ class MyClassViewController: UIViewController {
     @IBOutlet weak var testScoreTextField: UITextField!
     @IBOutlet weak var evaluationMemoTextView: UITextView!
     @IBOutlet weak var evaluationOKBtn: UIButton!
+    @IBOutlet weak var homeworkScoreTextField: UITextField!
+    @IBOutlet weak var classScoreTextField: UITextField!
+    
     
     var date: String!
     var userName: String!
@@ -109,6 +112,8 @@ class MyClassViewController: UIViewController {
         db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection("\(self.date!)").document("DailyEvaluation").setData([
             "Progress": progressTextView.text!,
             "TestScore": Int(testScoreTextField.text!),
+            "HomeworkCompletion": Int(homeworkScoreTextField.text!),
+            "ClassAttitude": Int(classScoreTextField.text!),
             "EvaluationMemo": evaluationMemoTextView.text!,
             "EvaluationDate": self.date
         ]) { err in
@@ -153,6 +158,10 @@ extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioni
                         let data = document.data()
                         self.date = data?["EvaluationDate"] as? String ?? ""
                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                        let homeworkCompletion = "\(data?["homeworkCompletion"] as? String ?? "")"
+                        self.homeworkScoreTextField.text = homeworkCompletion
+                        let classAttitude = "\(data?["ClassAttitude"] as? String ?? "")"
+                        self.classScoreTextField.text = classAttitude
                         let progressText = data?["Progress"] as? String ?? ""
                         self.progressTextView.text = progressText
                         let evaluationMemo = data?["EvaluationMemo"] as? String ?? ""
@@ -165,12 +174,16 @@ extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioni
                         self.progressTextView.text = ""
                         self.testScoreTextField.text = ""
                         self.evaluationMemoTextView.text = ""
+                        self.homeworkScoreTextField.text = ""
+                        self.classScoreTextField.text = ""
                     }
                 }
             } else {
                 self.progressTextView.text = ""
                 self.testScoreTextField.text = ""
                 self.evaluationMemoTextView.text = ""
+                self.homeworkScoreTextField.text = ""
+                self.classScoreTextField.text = ""
             }
         } else {
             evaluationView.isHidden = true

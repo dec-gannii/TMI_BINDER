@@ -24,6 +24,9 @@ class HomeViewController: UIViewController {
     var verified : Bool = false
     var type : String = ""
     
+    var events = [Date]()
+    var date : String!
+    
     var ref: DatabaseReference!
     
     func calendarColor() {
@@ -52,6 +55,15 @@ class HomeViewController: UIViewController {
     func calendarEvent() {
         calendarView.dataSource = self
         calendarView.delegate = self
+    }
+    
+    func setUpEvents(_ eventDate: String) {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "yyyy-MM-dd EEEE"
+        let event = formatter.date(from: eventDate)
+        let sampledate = formatter.date(from: eventDate)
+        events = [event!, sampledate!]
     }
     
     override func viewDidLoad() {
@@ -197,10 +209,13 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
         dateFormatter.locale = Locale(identifier: "ko_KR")
+        self.date = dateFormatter.string(from: date)
+        setUpEvents(dateFormatter.string(from: date))
         addScehduleVC.date = dateFormatter.string(from: date)
         // 날짜를 원하는 형식으로 저장하기 위한 방법입니다.
         self.present(addScehduleVC, animated: true, completion: nil)
     }
+    
 }
 
 extension HomeViewController: FSCalendarDataSource {
