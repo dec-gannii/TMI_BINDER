@@ -8,7 +8,9 @@
 import UIKit
 import Charts
 import BLTNBoard
-import FirebaseFirestore
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class GraphViewController: UIViewController {
 
@@ -20,6 +22,8 @@ class GraphViewController: UIViewController {
     let floatValue: [CGFloat] = [4,4]
     var barColors = [UIColor]()
     
+    let db = Firestore.firestore()
+    var ref: DatabaseReference!
     
     private lazy var boardManager: BLTNItemManager = {
         

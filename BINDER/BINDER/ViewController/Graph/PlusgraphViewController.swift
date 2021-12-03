@@ -6,11 +6,14 @@
 //
 
 import UIKit
-import FirebaseFirestore
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class PlusgraphViewController:UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     let db = Firestore.firestore()
+    var ref: DatabaseReference!
     
     @IBOutlet weak var studyShowPicker: UITextField!
     @IBOutlet weak var scoreTextField: UITextField!
@@ -95,17 +98,14 @@ class PlusgraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
             
         } else {
             // 데이터 저장
-            var ref: DocumentReference? = nil
-            ref = db.collection("Grape").addDocument(data: [
-                "Type": todayStudy,
-                "Score": todayScore
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                } else {
-                    print("Document added with ID: \(ref!.documentID)")
-                }
-            }
+            db.collection("student").document(Auth.auth().currentUser!.uid).collection("Grape").document(todayStudy).setData([
+                 "type": todayStudy,
+                 "score":todayScore
+             ]) { err in
+                 if let err = err {
+                     print("Error adding document: \(err)")
+                 }
+             }
             
             if let preVC = self.presentingViewController as? UIViewController {
                 preVC.dismiss(animated: true, completion: nil)
