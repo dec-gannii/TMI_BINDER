@@ -63,11 +63,11 @@ class GraphViewController: UIViewController {
     }
     
     func barColorSetting(){
-        barColors.append(UIColor.red)
-        barColors.append(UIColor.orange)
-        barColors.append(UIColor.yellow)
-        barColors.append(UIColor.green)
-        barColors.append(UIColor.blue)
+        barColors.append(UIColor.init(displayP3Red: 22/255, green: 32/255, blue: 60/255, alpha: 1))
+        barColors.append(UIColor.init(displayP3Red: 82/255, green: 90/255, blue: 109/255, alpha: 1))
+        barColors.append(UIColor.init(displayP3Red: 126/255, green: 129/255, blue: 144/255, alpha: 1))
+        barColors.append(UIColor.init(displayP3Red: 146/255, green: 150/255, blue: 160/255, alpha: 1))
+        barColors.append(UIColor.init(displayP3Red: 175/255, green: 178/255, blue: 186/255, alpha: 1))
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
