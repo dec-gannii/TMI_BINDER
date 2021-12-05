@@ -113,7 +113,13 @@ class SignInViewController: UIViewController {
                     return
                 }
             }
-            
+            if(type == "Student"){
+                let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfo")
+                subInfoVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                subInfoVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                self.present(subInfoVC!, animated: true, completion: nil)
+            }
+            else{
             guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
                 //아니면 종료
                 return
@@ -138,7 +144,7 @@ class SignInViewController: UIViewController {
 //            homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
 //            //화면전환
 //            self.present(homeVC, animated: true)
-            
+            }
         } else {
             if (!self.isValidEmail(id)){
                 emailAlertLabel.isHidden = false
