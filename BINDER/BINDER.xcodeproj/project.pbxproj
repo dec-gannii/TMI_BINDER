@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72AA275D05C2007F6F7C /* GraphViewController.swift */; };
+		69EE72AF275D0662007F6F7C /* PlusGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */; };
 		7F16D1442749390300745522 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1432749390300745522 /* AppDelegate.swift */; };
 		7F16D1462749390300745522 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1452749390300745522 /* SceneDelegate.swift */; };
 		7F16D1482749390300745522 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1472749390300745522 /* SignInViewController.swift */; };
@@ -30,6 +32,8 @@
 /* Begin PBXFileReference section */
 		5F9B9D54CC0BA11B11C12834 /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
 		68395CBA2DA434A3DC560C93 /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
+		69EE72AA275D05C2007F6F7C /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusGraphViewController.swift; sourceTree = "<group>"; };
 		7F16D1402749390300745522 /* BINDER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BINDER.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F16D1432749390300745522 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F16D1452749390300745522 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +68,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		69EE72A9275D05B0007F6F7C /* Grape */ = {
+			isa = PBXGroup;
+			children = (
+				69EE72AA275D05C2007F6F7C /* GraphViewController.swift */,
+				69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */,
+			);
+			path = Grape;
+			sourceTree = "<group>";
+		};
 		7F16D1372749390300745522 = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +113,7 @@
 		7F16D15B2749467000745522 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				69EE72A9275D05B0007F6F7C /* Grape */,
 				7F16D1472749390300745522 /* SignInViewController.swift */,
 				7F16D159274941ED00745522 /* HomeViewController.swift */,
 				7F16D15E2749500900745522 /* LogInViewController.swift */,
@@ -275,9 +289,11 @@
 				7F16D1482749390300745522 /* SignInViewController.swift in Sources */,
 				7F16D1442749390300745522 /* AppDelegate.swift in Sources */,
 				7F5D129B27560DA800A87F17 /* InsertClassInfoViewController.swift in Sources */,
+				69EE72AF275D0662007F6F7C /* PlusGraphViewController.swift in Sources */,
 				7F16D1462749390300745522 /* SceneDelegate.swift in Sources */,
 				7F16D15F2749500900745522 /* LogInViewController.swift in Sources */,
 				7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */,
+				69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */,
 				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
