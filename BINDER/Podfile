@@ -6,13 +6,13 @@ target 'BINDER' do
   use_frameworks!
 
   # Pods for BINDER
-  pod 'FirebaseUI'
+  pod 'Firebase'
   pod 'Firebase/Auth'
-  pod 'Firebase/Core'
-  pod 'FirebaseUI/Auth'
-  pod 'GoogleSignIn'
-  pod 'Firebase/Firestore'
-  pod 'FSCalendar'
-  pod 'Charts'
-  pod 'BulletinBoard'
+  pod 'FirebaseAuth'
+  pod 'FirebaseAuthUI'
+  pod 'FirebaseEmailAuthUI'
+  pod 'FirebaseGoogleAuthUI'
+  pod 'FirebaseOAuthUI'
+  pod 'FirebaseUI'
+  pod 'Firebase/Analytics'
 end
