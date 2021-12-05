@@ -130,4 +130,9 @@ class GraphViewController: UIViewController {
         print("Did tap skip")
     }
      */
+    @IBAction func goHome(_ sender: Any) {
+        if let preVC = self.presentingViewController as? UIViewController {
+            preVC.dismiss(animated: true, completion: nil)
+        }
+    }
 }
