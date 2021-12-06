@@ -134,10 +134,15 @@ class SignInViewController: UIViewController {
                 //아니면 종료
                 return
             }
+                
+            guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                    return
+            }
+                
             let tb = UITabBarController()
-            tb.modalPresentationStyle = .fullScreen
-            tb.setViewControllers([homeVC, myClassVC], animated: true)
-            present(tb, animated: true, completion: nil)
+            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+            tb.setViewControllers([homeVC, myClassVC, myPageVC], animated: true)
+            self.present(tb, animated: true, completion: nil)
             
             
 //            homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정

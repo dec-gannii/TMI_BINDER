@@ -117,15 +117,23 @@ class StudentSubInfoController:UIViewController, UITextFieldDelegate, UIPickerVi
                 }
             }
             
-            guard let signinVC = self.storyboard?.instantiateViewController(withIdentifier: "SignInViewController") as? SignInViewController else {
+            guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
                 //아니면 종료
                 return
             }
-            signinVC.type = "student"
-            signinVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-            signinVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-            //화면전환
-            self.present(signinVC, animated: true)
+            
+            guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassViewController else {
+                //아니면 종료
+                return
+            }
+            guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                return
+            }
+            
+            let tb = UITabBarController()
+            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+            tb.setViewControllers([homeVC, myClassVC, myPageVC], animated: true)
+            self.present(tb, animated: true, completion: nil)
         }
     }
     
