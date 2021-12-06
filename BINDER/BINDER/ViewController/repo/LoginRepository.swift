@@ -1,0 +1,47 @@
+//
+//  binder
+//
+//  Created by 하유림 on 2021/11/26.
+//
+import Foundation
+import Firebase
+
+class LoginRepository {
+    
+    static let shared = LoginRepository()
+    
+    var teacherItem: TeacherItem?
+    
+    init() {
+    }
+    
+    func doLogin(completion: @escaping () -> Void, failure: @escaping ((_ error: Error?) -> Void)) {
+        let db = Firestore.firestore()
+        db.collection("teacher").document("yurim").getDocument { (document, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                    failure(err)
+                } else {
+                    
+                    guard let doc = document, doc.exists else {
+                        print(">>>>> 해당하는 선생님 존재하지 않음")
+                        failure(err)
+                        return
+                    }
+                    
+                    let teacherDt = doc.data()!
+                    let age = teacherDt["age"] as? Int ?? 0
+                    let email = teacherDt["email"] as? String ?? ""
+                    let name = teacherDt["name"] as? String ?? ""
+                    let password = teacherDt["password"] as? String ?? ""
+                    let phone = teacherDt["phone"] as? String ?? ""
+                    let profile = teacherDt["profile"] as? String ?? ""
+                    self.teacherItem = TeacherItem(age: age, email: email, name: name, password: password, phone: phone, profile: profile)
+                    
+                    /// 성공 알림
+                    completion()
+                }
+            }
+    }
+    
+}
