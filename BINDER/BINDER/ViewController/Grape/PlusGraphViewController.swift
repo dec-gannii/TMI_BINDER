@@ -98,7 +98,7 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
             
         } else {
             // 데이터 저장
-            db.collection("student").document(Auth.auth().currentUser!.uid).collection("Grape").document(todayStudy).setData([
+            db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").document(todayStudy).setData([
                  "type": todayStudy,
                  "score":todayScore
              ]) { err in

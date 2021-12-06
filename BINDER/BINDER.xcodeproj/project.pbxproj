@@ -57,8 +57,8 @@
 		6965DE6D275DEF280072C16A /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		6965DE6E275DEF280072C16A /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		6965DE6F275DEF280072C16A /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
-		6965DE73275DEF320072C16A /* CardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CardTableViewCell.swift; path = cells/CardTableViewCell.swift; sourceTree = "<group>"; };
-		6965DE74275DEF320072C16A /* PlusTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlusTableViewCell.swift; path = cells/PlusTableViewCell.swift; sourceTree = "<group>"; };
+		6965DE73275DEF320072C16A /* CardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardTableViewCell.swift; sourceTree = "<group>"; };
+		6965DE74275DEF320072C16A /* PlusTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlusTableViewCell.swift; sourceTree = "<group>"; };
 		6965DE77275DEF3B0072C16A /* LoginRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRepository.swift; sourceTree = "<group>"; };
 		6965DE79275DEF410072C16A /* CircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
 		6965DE7B275DEF490072C16A /* PayType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayType.swift; sourceTree = "<group>"; };
@@ -152,6 +152,8 @@
 		6942598C275DE907003E0997 /* cells */ = {
 			isa = PBXGroup;
 			children = (
+				6965DE73275DEF320072C16A /* CardTableViewCell.swift */,
+				6965DE74275DEF320072C16A /* PlusTableViewCell.swift */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -244,8 +246,6 @@
 				6942598E275DE915003E0997 /* models */,
 				6942598D275DE90D003E0997 /* extension */,
 				6942598C275DE907003E0997 /* cells */,
-				6965DE73275DEF320072C16A /* CardTableViewCell.swift */,
-				6965DE74275DEF320072C16A /* PlusTableViewCell.swift */,
 				6942598B275DE902003E0997 /* repo */,
 				6942598A275DE8F6003E0997 /* controls */,
 				69425989275DE8F2003E0997 /* data */,
