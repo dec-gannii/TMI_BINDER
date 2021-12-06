@@ -24,14 +24,21 @@
 
  #include <stdlib.h>
 
+ #import "FBSDKAEMAdvertiserRuleFactory.h"
  #import "FBSDKAEMConfiguration.h"
  #import "FBSDKAEMInvocation.h"
- #import "FBSDKCoreKit+Internal.h"
+ #import "FBSDKCoreKitBasicsImport.h"
+ #import "FBSDKGraphRequestProtocol.h"
+ #import "FBSDKGraphRequestProviding.h"
+ #import "FBSDKLogger.h"
+ #import "FBSDKSettings.h"
 
  #define FBSDK_AEM_CONFIG_TIME_OUT 86400
 
 typedef void (^FBSDKAEMReporterBlock)(NSError *);
 
+static NSString *const BUSINESS_ID_KEY = @"advertiser_id";
+static NSString *const BUSINESS_IDS_KEY = @"advertiser_ids";
 static NSString *const AL_APPLINK_DATA_KEY = @"al_applink_data";
 static NSString *const CAMPAIGN_ID_KEY = @"campaign_id";
 static NSString *const CONVERSION_DATA_KEY = @"conversion_data";
@@ -78,10 +85,13 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
   if (@available(iOS 14.0, *)) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+      [FBSDKAEMConfiguration configureWithRuleProvider:[FBSDKAEMAdvertiserRuleFactory new]];
       g_reportFile = [FBSDKBasicUtility persistenceFilePath:FBSDKAEMReporterFileName];
       g_configFile = [FBSDKBasicUtility persistenceFilePath:FBSDKAEMConfigFileName];
       g_completionBlocks = [NSMutableArray new];
-      g_serialQueue = dispatch_queue_create(dispatchQueueLabel, DISPATCH_QUEUE_SERIAL);
+      if (!g_serialQueue) {
+        g_serialQueue = dispatch_queue_create(dispatchQueueLabel, DISPATCH_QUEUE_SERIAL);
+      }
       [self dispatchOnQueue:g_serialQueue block:^() {
         g_configs = [self _loadConfigs];
         g_invocations = [self _loadReportData];
@@ -135,6 +145,7 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
 + (void)recordAndUpdateEvent:(NSString *)event
                     currency:(nullable NSString *)currency
                        value:(nullable NSNumber *)value
+                  parameters:(nullable NSDictionary *)parameters
 {
   if (@available(iOS 14.0, *)) {
     if (!g_isAEMReportEnabled || 0 == event.length) {
@@ -144,15 +155,41 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
       if (0 == g_configs.count || 0 == g_invocations.count) {
         return;
       }
-      FBSDKAEMInvocation *invocation = g_invocations.lastObject;
-      if ([invocation attributeEvent:event currency:currency value:value configs:g_configs]) {
-        if ([invocation updateConversionValueWithConfigs:g_configs]) {
+
+      FBSDKAEMInvocation *attributedInvocation = [self _attributedInvocation:g_invocations Event:event currency:currency value:value parameters:parameters configs:g_configs];
+      if (attributedInvocation) {
+        if ([attributedInvocation updateConversionValueWithConfigs:g_configs]) {
           [self _sendAggregationRequest];
         }
         [self _saveReportData];
       }
     }];
   }
+}
+
++ (nullable FBSDKAEMInvocation *)_attributedInvocation:(NSArray<FBSDKAEMInvocation *> *)invocations
+                                                 Event:(NSString *)event
+                                              currency:(nullable NSString *)currency
+                                                 value:(nullable NSNumber *)value
+                                            parameters:(nullable NSDictionary *)parameters
+                                               configs:(NSDictionary<NSString *, NSMutableArray<FBSDKAEMConfiguration *> *> *)configs
+{
+  BOOL isGeneralInvocationVisited = NO;
+  FBSDKAEMInvocation *attributedInvocation = nil;
+  for (FBSDKAEMInvocation *invocation in [invocations reverseObjectEnumerator]) {
+    if (!invocation.businessID && isGeneralInvocationVisited) {
+      continue;
+    }
+
+    if ([invocation attributeEvent:event currency:currency value:value parameters:parameters configs:configs]) {
+      attributedInvocation = invocation;
+      break;
+    }
+    if (!invocation.businessID) {
+      isGeneralInvocationVisited = YES;
+    }
+  }
+  return attributedInvocation;
 }
 
 + (void)_appendAndSaveInvocation:(FBSDKAEMInvocation *)invocation
@@ -168,7 +205,7 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
   [self dispatchOnQueue:g_serialQueue block:^() {
     [FBSDKTypeUtility array:g_completionBlocks addObject:block];
     // Executes blocks if there is cache
-    if ([self _isConfigRefreshTimestampValid] && g_configs.count > 0) {
+    if (![self _shouldRefresh]) {
       for (FBSDKAEMReporterBlock executionBlock in g_completionBlocks) {
         executionBlock(nil);
       }
@@ -180,11 +217,11 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
     }
     g_isLoadingConfiguration = YES;
     id<FBSDKGraphRequest> request = [self.requestProvider createGraphRequestWithGraphPath:[NSString stringWithFormat:@"%@/aem_conversion_configs", [FBSDKSettings appID]]
-                                                                               parameters:@{}
+                                                                               parameters:[self _requestParameters]
                                                                               tokenString:nil
                                                                                HTTPMethod:FBSDKHTTPMethodGET
                                                                                     flags:FBSDKGraphRequestFlagSkipClientToken | FBSDKGraphRequestFlagDisableErrorRecovery];
-    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+    [request startWithCompletion:^(id<FBSDKGraphRequestConnecting> connection, id result, NSError *error) {
       [self dispatchOnQueue:g_serialQueue block:^() {
         if (error) {
           for (FBSDKAEMReporterBlock executionBlock in g_completionBlocks) {
@@ -211,12 +248,37 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
   }];
 }
 
++ (NSDictionary<NSString *, id> *)_requestParameters
+{
+  NSMutableDictionary<NSString *, id> *params = [NSMutableDictionary new];
+  // append business ids to the request params
+  NSMutableArray<NSString *> *businessIDs = [NSMutableArray new];
+  for (FBSDKAEMInvocation *invocation in g_invocations) {
+    [FBSDKTypeUtility array:businessIDs addObject:invocation.businessID];
+  }
+  NSString *businessIDsString = [FBSDKBasicUtility JSONStringForObject:businessIDs error:nil invalidObjectHandler:nil];
+  [FBSDKTypeUtility dictionary:params setObject:businessIDsString forKey:BUSINESS_IDS_KEY];
+  return [params copy];
+}
+
 + (BOOL)_isConfigRefreshTimestampValid
 {
   return g_configRefreshTimestamp && [[NSDate date] timeIntervalSinceDate:g_configRefreshTimestamp] < FBSDK_AEM_CONFIG_TIME_OUT;
 }
 
- #pragma mark - Bacground methods
++ (BOOL)_shouldRefresh
+{
+  // Refresh if there exists invocation which has business ID
+  for (FBSDKAEMInvocation *invocation in g_invocations) {
+    if (invocation.businessID) {
+      return YES;
+    }
+  }
+  // Refresh if timestamp is expired or cached config is empty
+  return (![self _isConfigRefreshTimestampValid]) || (0 == g_configs.count);
+}
+
+ #pragma mark - Background methods
 
 + (NSMutableDictionary<NSString *, NSMutableArray<FBSDKAEMConfiguration *> *> *)_loadConfigs
 {
@@ -268,10 +330,10 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
     return;
   }
   NSMutableArray<FBSDKAEMConfiguration *> *configs = [FBSDKTypeUtility dictionary:g_configs objectForKey:config.configMode ofType:NSMutableArray.class];
-  // Remove the config in the array that has the same "validFrom" as the added config
+  // Remove the config in the array that has the same "validFrom" and "businessID" as the added config
   NSMutableArray<FBSDKAEMConfiguration *> *res = [NSMutableArray new];
   for (FBSDKAEMConfiguration *c in configs) {
-    if (c.validFrom == config.validFrom) {
+    if ([config isSameValidFrom:c.validFrom businessID:c.businessID]) {
       continue;
     }
     [FBSDKTypeUtility array:res addObject:c];
@@ -320,16 +382,7 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
   NSMutableArray<FBSDKAEMInvocation *> *aggregatedInvocations = [NSMutableArray new];
   for (FBSDKAEMInvocation *invocation in g_invocations) {
     if (!invocation.isAggregated) {
-      NSInteger delay = 24 + arc4random_uniform(24);
-      NSMutableDictionary<NSString *, id> *conversionParams = [NSMutableDictionary new];
-      [FBSDKTypeUtility dictionary:conversionParams setObject:invocation.campaignID forKey:CAMPAIGN_ID_KEY];
-      [FBSDKTypeUtility dictionary:conversionParams setObject:@(invocation.conversionValue) forKey:CONVERSION_DATA_KEY];
-      [FBSDKTypeUtility dictionary:conversionParams setObject:@(delay) forKey:CONSUMPTION_HOUR_KEY];
-      [FBSDKTypeUtility dictionary:conversionParams setObject:invocation.ACSToken forKey:TOKEN_KEY];
-      [FBSDKTypeUtility dictionary:conversionParams setObject:@"server" forKey:DELAY_FLOW_KEY];
-      [FBSDKTypeUtility dictionary:conversionParams setObject:invocation.ACSConfigID forKey:CONFIG_ID_KEY];
-      [FBSDKTypeUtility dictionary:conversionParams setObject:[invocation getHMAC:delay] forKey:HMAC_KEY];
-      [FBSDKTypeUtility array:params addObject:[conversionParams copy]];
+      [FBSDKTypeUtility array:params addObject:[self _aggregationRequestParameters:invocation]];
       [FBSDKTypeUtility array:aggregatedInvocations addObject:invocation];
     }
   }
@@ -345,7 +398,7 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
                                                                                 tokenString:nil
                                                                                  HTTPMethod:FBSDKHTTPMethodPOST
                                                                                       flags:FBSDKGraphRequestFlagSkipClientToken | FBSDKGraphRequestFlagDisableErrorRecovery];
-      [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+      [request startWithCompletion:^(id<FBSDKGraphRequestConnecting> connection, id result, NSError *error) {
         if (error) {
           return;
         }
@@ -361,6 +414,22 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
   } @catch (NSException *exception) {
     [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorAppEvents logEntry:@"Fail to send AEM reports"];
   }
+}
+
++ (NSDictionary<NSString *, id> *)_aggregationRequestParameters:(FBSDKAEMInvocation *)invocation
+{
+  NSInteger delay = 24 + arc4random_uniform(24);
+  NSMutableDictionary<NSString *, id> *conversionParams = [NSMutableDictionary new];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:invocation.campaignID forKey:CAMPAIGN_ID_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:@(invocation.conversionValue) forKey:CONVERSION_DATA_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:@(delay) forKey:CONSUMPTION_HOUR_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:invocation.ACSToken forKey:TOKEN_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:@"server" forKey:DELAY_FLOW_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:invocation.ACSConfigID forKey:CONFIG_ID_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:[invocation getHMAC:delay] forKey:HMAC_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:invocation.businessID forKey:BUSINESS_ID_KEY];
+
+  return [conversionParams copy];
 }
 
 + (void)dispatchOnQueue:(dispatch_queue_t)queue block:(dispatch_block_t)block
@@ -384,26 +453,32 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
 
 + (void)_clearConfigs
 {
-  BOOL isConfigCacheUpdated = NO;
+  BOOL shouldSaveCache = NO;
   if (g_configs.count > 0) {
     NSMutableDictionary<NSString *, NSMutableArray<FBSDKAEMConfiguration *> *> *configs = [NSMutableDictionary new];
     for (NSString *key in g_configs) {
-      NSMutableArray<FBSDKAEMConfiguration *> *configList = [FBSDKTypeUtility dictionary:g_configs objectForKey:key ofType:NSMutableArray.class];
-      NSMutableArray<FBSDKAEMConfiguration *> *newConfigs = [NSMutableArray new];
-      for (int i = 0; i < configList.count - 1; i++) {
-        FBSDKAEMConfiguration *config = [FBSDKTypeUtility array:configList objectAtIndex:i];
-        if (![self _isUsingConfig:config forInvocations:g_invocations]) {
-          isConfigCacheUpdated = YES;
+      NSMutableArray<FBSDKAEMConfiguration *> *oldConfigurations = [FBSDKTypeUtility dictionary:g_configs objectForKey:key ofType:NSMutableArray.class];
+      NSMutableArray<FBSDKAEMConfiguration *> *newConfigurations = [NSMutableArray new];
+
+      // Removes the last of the old configurations and stores it so it can be
+      // added to the array-to-save
+      FBSDKAEMConfiguration *lastConfiguration = oldConfigurations.lastObject;
+      [oldConfigurations removeLastObject];
+
+      for (FBSDKAEMConfiguration *oldConfiguration in oldConfigurations) {
+        if (![self _isUsingConfig:oldConfiguration forInvocations:g_invocations]) {
+          shouldSaveCache = YES;
           continue;
         }
-        [FBSDKTypeUtility array:newConfigs addObject:config];
+        [FBSDKTypeUtility array:newConfigurations addObject:oldConfiguration];
       }
-      [FBSDKTypeUtility array:newConfigs addObject:configList.lastObject];
-      [FBSDKTypeUtility dictionary:configs setObject:newConfigs forKey:key];
+
+      [FBSDKTypeUtility array:newConfigurations addObject:lastConfiguration];
+      [FBSDKTypeUtility dictionary:configs setObject:newConfigurations forKey:key];
     }
     g_configs = configs;
   }
-  if (isConfigCacheUpdated) {
+  if (shouldSaveCache) {
     [self _saveConfigs];
   }
 }
@@ -431,7 +506,7 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBSDKAEMRepo
         forInvocations:(NSArray<FBSDKAEMInvocation *> *)invocations
 {
   for (FBSDKAEMInvocation *invocation in invocations) {
-    if (invocation.configID == config.validFrom) {
+    if ([config isSameValidFrom:invocation.configID businessID:invocation.businessID]) {
       return YES;
     }
   }

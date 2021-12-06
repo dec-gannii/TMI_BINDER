@@ -20,6 +20,7 @@
 #import "FBSDKAccessToken+Internal.h"
 #import "FBSDKAccessToken+TokenStringProviding.h"
 
+#import "FBSDKCoreKitBasicsImport.h"
 #import "FBSDKGraphRequestPiggybackManager.h"
 #import "FBSDKInternalUtility.h"
 #import "FBSDKMath.h"
@@ -194,12 +195,22 @@ static id<FBSDKGraphRequestConnectionProviding> g_connectionFactory;
 
 + (void)refreshCurrentAccessToken:(FBSDKGraphRequestBlock)completionHandler
 {
+  FBSDKGraphRequestCompletion completion = ^void (id<FBSDKGraphRequestConnecting> connection, id result, NSError *error) {
+    if (completionHandler) {
+      completionHandler(FBSDK_CAST_TO_CLASS_OR_NIL(connection, FBSDKGraphRequestConnection), result, error);
+    }
+  };
+  [self refreshCurrentAccessTokenWithCompletion:completion];
+}
+
++ (void)refreshCurrentAccessTokenWithCompletion:(nullable FBSDKGraphRequestCompletion)completion
+{
   if ([FBSDKAccessToken currentAccessToken]) {
     id<FBSDKGraphRequestConnecting> connection = [FBSDKAccessToken.connectionFactory createGraphRequestConnection];
-    [FBSDKGraphRequestPiggybackManager addRefreshPiggyback:connection permissionHandler:completionHandler];
+    [FBSDKGraphRequestPiggybackManager addRefreshPiggyback:connection permissionHandler:completion];
     [connection start];
-  } else if (completionHandler) {
-    completionHandler(
+  } else if (completion) {
+    completion(
       nil,
       nil,
       [FBSDKError

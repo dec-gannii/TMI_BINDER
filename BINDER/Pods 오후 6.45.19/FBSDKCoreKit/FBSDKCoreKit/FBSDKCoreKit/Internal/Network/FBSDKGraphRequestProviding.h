@@ -18,7 +18,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "FBSDKGraphRequestFlags.h"
+#if SWIFT_PACKAGE
+ #import "FBSDKGraphRequestFlags.h"
+#else
+ #import <FBSDKCoreKit/FBSDKGraphRequestFlags.h>
+#endif
 
 @protocol FBSDKGraphRequest;
 
@@ -36,6 +40,9 @@ NS_SWIFT_NAME(GraphRequestProviding)
                                                       HTTPMethod:(nullable FBSDKHTTPMethod)method
                                                            flags:(FBSDKGraphRequestFlags)flags;
 
+- (id<FBSDKGraphRequest>)createGraphRequestWithGraphPath:(NSString *)graphPath
+                                              parameters:(NSDictionary<NSString *, id> *)parameters;
+
 - (id<FBSDKGraphRequest>)createGraphRequestWithGraphPath:(NSString *)graphPath;
 
 - (id<FBSDKGraphRequest>)createGraphRequestWithGraphPath:(NSString *)graphPath
@@ -47,6 +54,10 @@ NS_SWIFT_NAME(GraphRequestProviding)
                            tokenString:(nullable NSString *)tokenString
                            version:(nullable NSString *)version
                            HTTPMethod:(FBSDKHTTPMethod)method;
+
+- (id<FBSDKGraphRequest>)createGraphRequestWithGraphPath:(NSString *)graphPath
+                                              parameters:(NSDictionary*)parameters
+                                                   flags:(FBSDKGraphRequestFlags)flags;
 
 @end
 

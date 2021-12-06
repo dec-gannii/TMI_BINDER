@@ -26,6 +26,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(AEMInvocation)
 @interface FBSDKAEMInvocation : NSObject <NSCopying, NSSecureCoding>
 
 @property (nonatomic, readonly, copy) NSString *campaignID;
@@ -36,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, readonly, copy) NSString *ACSConfigID;
 
-@property (nullable, nonatomic, readonly, copy) NSString *advertiserID;
+@property (nullable, nonatomic, readonly, copy) NSString *businessID;
 
 @property (nonatomic, readonly, copy) NSDate *timestamp;
 
@@ -62,6 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)attributeEvent:(NSString *)event
               currency:(nullable NSString *)currency
                  value:(nullable NSNumber *)value
+            parameters:(nullable NSDictionary *)parameters
                configs:(nullable NSDictionary<NSString *, NSArray<FBSDKAEMConfiguration *> *> *)configs;
 
 - (BOOL)updateConversionValueWithConfigs:(nullable NSDictionary<NSString *, NSArray<FBSDKAEMConfiguration *> *> *)configs;

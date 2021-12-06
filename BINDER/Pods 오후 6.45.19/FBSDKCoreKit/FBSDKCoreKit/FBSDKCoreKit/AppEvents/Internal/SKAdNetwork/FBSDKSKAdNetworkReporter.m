@@ -26,9 +26,14 @@
 
  #import <objc/message.h>
 
- #import "FBSDKCoreKit+Internal.h"
+ #import "FBSDKAppEventsUtility.h"
+ #import "FBSDKConversionValueUpdating.h"
+ #import "FBSDKCoreKitBasicsImport.h"
+ #import "FBSDKDataPersisting.h"
+ #import "FBSDKGraphRequestProtocol.h"
  #import "FBSDKGraphRequestProviding.h"
  #import "FBSDKSKAdNetworkConversionConfiguration.h"
+ #import "FBSDKSettings.h"
 
  #define FBSDK_SKADNETWORK_CONFIG_TIME_OUT 86400
 
@@ -51,15 +56,18 @@ static NSMutableSet<NSString *> *g_recordedEvents;
 static NSMutableDictionary<NSString *, NSMutableDictionary *> *g_recordedValues;
 static id<FBSDKGraphRequestProviding> _requestProvider;
 static id<FBSDKDataPersisting> _store;
+static Class<FBSDKConversionValueUpdating> _conversionValueUpdatable;
 
 @implementation FBSDKSKAdNetworkReporter
 
 + (void)configureWithRequestProvider:(id<FBSDKGraphRequestProviding>)requestProvider
                                store:(id<FBSDKDataPersisting>)store
+            conversionValueUpdatable:(Class<FBSDKConversionValueUpdating>)conversionValueUpdatable
 {
   if (self == [FBSDKSKAdNetworkReporter class]) {
     _requestProvider = requestProvider;
     _store = store;
+    _conversionValueUpdatable = conversionValueUpdatable;
   }
 }
 
@@ -71,6 +79,11 @@ static id<FBSDKDataPersisting> _store;
 + (id<FBSDKDataPersisting>)store
 {
   return _store;
+}
+
++ (Class<FBSDKConversionValueUpdating>)conversionValueUpdatable
+{
+  return _conversionValueUpdatable;
 }
 
 + (void)enable
@@ -143,7 +156,7 @@ static id<FBSDKDataPersisting> _store;
     }
     g_isRequestStarted = YES;
     id<FBSDKGraphRequest> request = [self.requestProvider createGraphRequestWithGraphPath:[NSString stringWithFormat:@"%@/ios_skadnetwork_conversion_config", [FBSDKSettings appID]]];
-    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+    [request startWithCompletion:^(id<FBSDKGraphRequestConnecting> connection, id result, NSError *error) {
       dispatch_async(serialQueue, ^{
         if (error) {
           g_isRequestStarted = NO;
@@ -238,12 +251,7 @@ static id<FBSDKDataPersisting> _store;
     if ([self _shouldCutoff]) {
       return;
     }
-    SEL selector = NSSelectorFromString(@"updateConversionValue:");
-    if (![[SKAdNetwork class] respondsToSelector:selector]) {
-      return;
-    }
-    send_type msgSend = (send_type)objc_msgSend;
-    msgSend([SKAdNetwork class], selector, value);
+    [_conversionValueUpdatable updateConversionValue:value];
     g_conversionValue = value + 1;
     g_timestamp = [NSDate date];
     [self _saveReportData];
@@ -269,7 +277,20 @@ static id<FBSDKDataPersisting> _store;
   g_recordedEvents = [NSMutableSet new];
   g_recordedValues = [NSMutableDictionary new];
   if ([cachedReportData isKindOfClass:[NSData class]]) {
-    NSDictionary<NSString *, id> *data = [FBSDKTypeUtility dictionaryValue:[NSKeyedUnarchiver unarchiveObjectWithData:cachedReportData]];
+    NSDictionary<NSString *, id> *data;
+    if (@available(iOS 11.0, *)) {
+      data = [FBSDKTypeUtility dictionaryValue:[NSKeyedUnarchiver
+                                                unarchivedObjectOfClasses:[NSSet setWithArray:
+                                                                           @[NSString.class,
+                                                                             NSNumber.class,
+                                                                             NSArray.class,
+                                                                             NSDictionary.class,
+                                                                             NSSet.class]]
+                                                fromData:cachedReportData
+                                                error:nil]];
+    } else {
+      data = [FBSDKTypeUtility dictionaryValue:[NSKeyedUnarchiver unarchiveObjectWithData:cachedReportData]];
+    }
     if (data) {
       g_conversionValue = [FBSDKTypeUtility integerValue:data[@"conversion_value"]];
       g_timestamp = [FBSDKTypeUtility dictionary:data objectForKey:@"timestamp" ofType:NSDate.class];
@@ -308,6 +329,7 @@ static id<FBSDKDataPersisting> _store;
 {
   _store = nil;
   _requestProvider = nil;
+  _conversionValueUpdatable = nil;
   [self setConfiguration:nil];
   [self setSKAdNetworkReportEnabled:false];
 }

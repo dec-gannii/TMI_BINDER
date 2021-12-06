@@ -24,7 +24,7 @@
 
  #import <CommonCrypto/CommonHMAC.h>
 
- #import "FBSDKCoreKit+Internal.h"
+ #import "FBSDKCoreKitBasicsImport.h"
 
  #define SEC_IN_DAY 86400
 
@@ -32,7 +32,7 @@ static NSString *const CAMPAIGN_ID_KEY = @"campaign_ids";
 static NSString *const ACS_TOKEN_KEY = @"acs_token";
 static NSString *const ACS_SHARED_SECRET_KEY = @"shared_secret";
 static NSString *const ACS_CONFIG_ID_KEY = @"acs_config_id";
-static NSString *const ADVERTISER_ID_KEY = @"advertiser_id";
+static NSString *const BUSINESS_ID_KEY = @"advertiser_id";
 static NSString *const TIMESTAMP_KEY = @"timestamp";
 static NSString *const CONFIG_MODE_KEY = @"config_mode";
 static NSString *const CONFIG_ID_KEY = @"config_id";
@@ -42,6 +42,11 @@ static NSString *const CONVERSION_VALUE_KEY = @"conversion_value";
 static NSString *const PRIORITY_KEY = @"priority";
 static NSString *const CONVERSION_TIMESTAMP_KEY = @"conversion_timestamp";
 static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
+
+typedef NSString *const FBSDKAEMInvocationConfigMode;
+
+FBSDKAEMInvocationConfigMode FBSDKAEMInvocationConfigDefaultMode = @"DEFAULT";
+FBSDKAEMInvocationConfigMode FBSDKAEMInvocationConfigBrandMode = @"BRAND";
 
 @implementation FBSDKAEMInvocation
 
@@ -57,7 +62,7 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
     NSString *ACSToken = [FBSDKTypeUtility dictionary:applinkData objectForKey:ACS_TOKEN_KEY ofType:NSString.class];
     NSString *ACSSharedSecret = [FBSDKTypeUtility dictionary:applinkData objectForKey:ACS_SHARED_SECRET_KEY ofType:NSString.class];
     NSString *ACSConfigID = [FBSDKTypeUtility dictionary:applinkData objectForKey:CONFIG_ID_KEY ofType:NSString.class];
-    NSString *advertiserID = [FBSDKTypeUtility dictionary:applinkData objectForKey:ADVERTISER_ID_KEY ofType:NSString.class];
+    NSString *businessID = [FBSDKTypeUtility dictionary:applinkData objectForKey:BUSINESS_ID_KEY ofType:NSString.class];
     if (campaignID == nil || ACSToken == nil) {
       return nil;
     }
@@ -65,7 +70,7 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
                                                  ACSToken:ACSToken
                                           ACSSharedSecret:ACSSharedSecret
                                               ACSConfigID:ACSConfigID
-                                             advertiserID:advertiserID];
+                                               businessID:businessID];
   } @catch (NSException *exception) {
     return nil;
   }
@@ -75,13 +80,13 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
                                    ACSToken:(NSString *)ACSToken
                             ACSSharedSecret:(nullable NSString *)ACSSharedSecret
                                 ACSConfigID:(nullable NSString *)ACSConfigID
-                               advertiserID:(nullable NSString *)advertiserID
+                                 businessID:(nullable NSString *)businessID
 {
   return [self initWithCampaignID:campaignID
                          ACSToken:ACSToken
                   ACSSharedSecret:ACSSharedSecret
                       ACSConfigID:ACSConfigID
-                     advertiserID:advertiserID
+                       businessID:businessID
                         timestamp:nil
                        configMode:nil
                          configID:-1
@@ -97,7 +102,7 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
                                    ACSToken:(NSString *)ACSToken
                             ACSSharedSecret:(nullable NSString *)ACSSharedSecret
                                 ACSConfigID:(nullable NSString *)ACSConfigID
-                               advertiserID:(nullable NSString *)advertiserID
+                                 businessID:(nullable NSString *)businessID
                                   timestamp:(nullable NSDate *)timestamp
                                  configMode:(nullable NSString *)configMode
                                    configID:(NSInteger)configID
@@ -113,7 +118,7 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
     _ACSToken = ACSToken;
     _ACSSharedSecret = ACSSharedSecret;
     _ACSConfigID = ACSConfigID;
-    _advertiserID = advertiserID;
+    _businessID = businessID;
     if ([timestamp isKindOfClass:NSDate.class]) {
       _timestamp = timestamp;
     } else {
@@ -142,10 +147,15 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
 - (BOOL)attributeEvent:(NSString *)event
               currency:(nullable NSString *)currency
                  value:(nullable NSNumber *)value
+            parameters:(nullable NSDictionary *)parameters
                configs:(nullable NSDictionary<NSString *, NSArray<FBSDKAEMConfiguration *> *> *)configs
 {
   FBSDKAEMConfiguration *config = [self _findConfig:configs];
   if ([self _isOutOfWindowWithConfig:config] || ![config.eventSet containsObject:event]) {
+    return NO;
+  }
+  // Check advertiser rule matching
+  if (config.matchingRule && ![config.matchingRule isMatchedEventParameters:parameters]) {
     return NO;
   }
   BOOL isAttributed = NO;
@@ -205,8 +215,11 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
     return nil;
   }
   @try {
+    NSData *secretData = [self decodeBase64UrlSafeString:_ACSSharedSecret];
+    if (!secretData) {
+      return nil;
+    }
     NSMutableData *hmac = [NSMutableData dataWithLength:CC_SHA512_DIGEST_LENGTH];
-    NSData *secretData = [_ACSSharedSecret dataUsingEncoding:NSUTF8StringEncoding];
     NSString *text = [NSString stringWithFormat:@"%@|%@|%@|%@", _campaignID, @(_conversionValue), @(delay), @"server"];
     NSData *clearTextData = [text dataUsingEncoding:NSUTF8StringEncoding];
     CCHmac(kCCHmacAlgSHA512, [secretData bytes], [secretData length], [clearTextData bytes], [clearTextData length], hmac.mutableBytes);
@@ -223,6 +236,20 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
   }
 }
 
+- (nullable NSData *)decodeBase64UrlSafeString:(NSString *)base64UrlSafeString
+{
+  if (!base64UrlSafeString.length) {
+    return nil;
+  }
+  NSString *base64String = [base64UrlSafeString stringByReplacingOccurrencesOfString:@"-" withString:@"+"];
+  base64String = [base64String stringByReplacingOccurrencesOfString:@"_" withString:@"/"];
+  base64String = [base64String stringByReplacingOccurrencesOfString:@"-" withString:@"+"];
+  NSString *padding = [@"" stringByPaddingToLength:(4 - base64String.length % 4) withString:@"=" startingAtIndex:0];
+  base64String = [base64String stringByAppendingString:padding];
+  NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:base64String options:0];
+  return decodedData;
+}
+
 - (BOOL)_isOutOfWindowWithConfig:(nullable FBSDKAEMConfiguration *)config
 {
   if (!config) {
@@ -235,13 +262,14 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
 
 - (nullable FBSDKAEMConfiguration *)_findConfig:(nullable NSDictionary<NSString *, NSArray<FBSDKAEMConfiguration *> *> *)configs
 {
-  NSArray<FBSDKAEMConfiguration *> *configList = [FBSDKTypeUtility dictionary:configs objectForKey:@"DEFAULT" ofType:NSArray.class];
+  NSString *configMode = _businessID ? FBSDKAEMInvocationConfigBrandMode : FBSDKAEMInvocationConfigDefaultMode;
+  NSArray<FBSDKAEMConfiguration *> *configList = [FBSDKTypeUtility dictionary:configs objectForKey:configMode ofType:NSArray.class];
   if (0 == configList.count) {
     return nil;
   }
   if (_configID > 0) {
     for (FBSDKAEMConfiguration *config in configList) {
-      if (config.validFrom == _configID) {
+      if ([config isSameValidFrom:_configID businessID:_businessID]) {
         return config;
       }
     }
@@ -249,7 +277,7 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
   } else {
     FBSDKAEMConfiguration *config = nil;
     for (FBSDKAEMConfiguration *c in [configList reverseObjectEnumerator]) {
-      if (c.validFrom <= _timestamp.timeIntervalSince1970) {
+      if (c.validFrom <= _timestamp.timeIntervalSince1970 && [c isSameBusinessID:_businessID]) {
         config = c;
         break;
       }
@@ -281,7 +309,7 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
   NSString *ACSToken = [decoder decodeObjectOfClass:NSString.class forKey:ACS_TOKEN_KEY];
   NSString *ACSSharedSecret = [decoder decodeObjectOfClass:NSString.class forKey:ACS_SHARED_SECRET_KEY];
   NSString *ACSConfigID = [decoder decodeObjectOfClass:NSString.class forKey:ACS_CONFIG_ID_KEY];
-  NSString *advertiserID = [decoder decodeObjectOfClass:NSString.class forKey:ADVERTISER_ID_KEY];
+  NSString *businessID = [decoder decodeObjectOfClass:NSString.class forKey:BUSINESS_ID_KEY];
   NSDate *timestamp = [decoder decodeObjectOfClass:NSDate.class forKey:TIMESTAMP_KEY];
   NSString *configMode = [decoder decodeObjectOfClass:NSString.class forKey:CONFIG_MODE_KEY];
   NSInteger configID = [decoder decodeIntegerForKey:CONFIG_ID_KEY];
@@ -295,7 +323,7 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
                          ACSToken:ACSToken
                   ACSSharedSecret:ACSSharedSecret
                       ACSConfigID:ACSConfigID
-                     advertiserID:advertiserID
+                       businessID:businessID
                         timestamp:timestamp
                        configMode:configMode
                          configID:configID
@@ -313,7 +341,7 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
   [encoder encodeObject:_ACSToken forKey:ACS_TOKEN_KEY];
   [encoder encodeObject:_ACSSharedSecret forKey:ACS_SHARED_SECRET_KEY];
   [encoder encodeObject:_ACSConfigID forKey:ACS_CONFIG_ID_KEY];
-  [encoder encodeObject:_advertiserID forKey:ADVERTISER_ID_KEY];
+  [encoder encodeObject:_businessID forKey:BUSINESS_ID_KEY];
   [encoder encodeObject:_timestamp forKey:TIMESTAMP_KEY];
   [encoder encodeObject:_configMode forKey:CONFIG_MODE_KEY];
   [encoder encodeInteger:_configID forKey:CONFIG_ID_KEY];
@@ -355,9 +383,34 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
   _configID = configID;
 }
 
+- (void)setBusinessID:(NSString *_Nullable)businessID
+{
+  _businessID = businessID;
+}
+
 - (void)setConversionTimestamp:(NSDate *_Nonnull)conversionTimestamp
 {
   _conversionTimestamp = conversionTimestamp;
+}
+
+- (void)setConversionValue:(NSInteger)conversionValue
+{
+  _conversionValue = conversionValue;
+}
+
+- (void)setCampaignID:(NSString *_Nonnull)campaignID
+{
+  _campaignID = campaignID;
+}
+
+- (void)setACSSharedSecret:(NSString *_Nullable)ACSSharedSecret
+{
+  _ACSSharedSecret = ACSSharedSecret;
+}
+
+- (void)setACSConfigID:(NSString *_Nullable)ACSConfigID
+{
+  _ACSConfigID = ACSConfigID;
 }
 
 - (void)reset
@@ -365,6 +418,7 @@ static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
   _timestamp = [NSDate date];
   _configMode = @"DEFAULT";
   _configID = -1;
+  _businessID = nil;
   _recordedEvents = [NSMutableSet new];
   _recordedValues = [NSMutableDictionary new];
   _conversionValue = -1;

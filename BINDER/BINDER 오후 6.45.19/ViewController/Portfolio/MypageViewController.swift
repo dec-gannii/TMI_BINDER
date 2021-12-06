@@ -24,7 +24,7 @@ class MyPageViewController: UIViewController {
        
         viewDecorating()
     }
-
+    
     @IBAction func LogOutBtnClicked(_ sender: Any) {
         do {
             try Auth.auth().signOut()
@@ -46,6 +46,7 @@ class MyPageViewController: UIViewController {
             self.present(loginVC!, animated: true, completion: nil)
         }
     }
+    
     func viewDecorating(){
         portfoiolBtn.layer.cornerRadius = 20
         pageView.layer.cornerRadius = 30

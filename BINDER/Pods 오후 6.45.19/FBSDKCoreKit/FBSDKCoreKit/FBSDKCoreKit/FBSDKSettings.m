@@ -20,10 +20,10 @@
 
 #import <AdSupport/AdSupport.h>
 
-#import "FBSDKAccessTokenExpirer.h"
 #import "FBSDKAppEventsConfigurationProtocol.h"
 #import "FBSDKAppEventsConfigurationProviding.h"
 #import "FBSDKCoreKitBasicsImport.h"
+#import "FBSDKCoreKitVersions.h"
 #import "FBSDKDataPersisting.h"
 #import "FBSDKEventLogging.h"
 #import "FBSDKInternalUtility.h"
@@ -48,6 +48,7 @@
     return _ ## PROPERTY_NAME; \
   } \
   - (void)SETTER:(TYPE *)value { \
+    [self validateConfiguration];  \
     _ ## PROPERTY_NAME = [value copy]; \
     if (ENABLE_CACHE) { \
       if (value != nil) { \
@@ -87,8 +88,6 @@ static NSString *const FBSDKSettingsUseCachedValuesForExpensiveMetadata = @"com.
 static NSString *const FBSDKSettingsUseTokenOptimizations = @"com.facebook.sdk.FBSDKSettingsUseTokenOptimizations";
 static BOOL g_disableErrorRecovery;
 static NSString *g_userAgentSuffix;
-static NSString *g_defaultGraphAPIVersion;
-static FBSDKAccessTokenExpirer *g_accessTokenExpirer;
 static NSDictionary<NSString *, id> *g_dataProcessingOptions = nil;
 
 //
@@ -114,6 +113,8 @@ static NSString *const advertiserIDCollectionEnabledFalseWarning =
 @property (nullable, nonatomic) id<FBSDKInfoDictionaryProviding> infoDictionaryProvider;
 @property (nullable, nonatomic) id<FBSDKEventLogging> eventLogger;
 @property (nullable, nonatomic) NSNumber *advertiserTrackingStatusBacking;
+@property (nonatomic) BOOL isConfigured;
+@property (nonatomic) NSString *graphAPIVersion;
 
 FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_DECL(NSString, appID, setAppID);
 FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_DECL(NSString, appURLSchemeSuffix, setAppURLSchemeSuffix);
@@ -146,15 +147,6 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_DECL(NSNumber, _codelessDebugLogEnable
 
 static dispatch_once_t sharedSettingsNonce;
 
-+ (void)initialize
-{
-  if (self == [FBSDKSettings class]) {
-    // This should be moved to ApplicationDelegate and its initialization
-    // should be separated from its storage and notification observing
-    g_accessTokenExpirer = [FBSDKAccessTokenExpirer new];
-  }
-}
-
 // Transitional singleton introduced as a way to change the usage semantics
 // from a type-based interface to an instance-based interface.
 // Once that is complete then types that use `+[FBSDKSettings foo]` can take an
@@ -181,6 +173,8 @@ static dispatch_once_t sharedSettingsNonce;
   self.appEventsConfigurationProvider = provider;
   self.infoDictionaryProvider = infoDictionaryProvider;
   self.eventLogger = eventLogger;
+
+  self.isConfigured = YES;
 }
 
 + (void)      configureWithStore:(id<FBSDKDataPersisting>)store
@@ -505,6 +499,20 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(
   return FBSDK_VERSION_STRING;
 }
 
+#pragma mark - Configuration Validation
+
+- (void)validateConfiguration
+{
+#if DEBUG
+  if (!self.isConfigured) {
+    static NSString *const reason = @"As of v9.0, you must initialize the SDK prior to calling any methods or setting any properties. "
+    "You can do this by calling `FBSDKApplicationDelegate`'s `application:didFinishLaunchingWithOptions:` method."
+    "Learn more: https://developers.facebook.com/docs/ios/getting-started";
+    @throw [NSException exceptionWithName:@"InvalidOperationException" reason:reason userInfo:nil];
+  }
+#endif
+}
+
 #pragma mark - Internal
 
 + (NSString *)userAgentSuffix
@@ -521,8 +529,8 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(
 
 + (void)setGraphAPIVersion:(NSString *)version
 {
-  if (![g_defaultGraphAPIVersion isEqualToString:version]) {
-    g_defaultGraphAPIVersion = version;
+  if (![self.sharedSettings.graphAPIVersion isEqualToString:version]) {
+    self.sharedSettings.graphAPIVersion = version;
   }
 }
 
@@ -533,7 +541,12 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(
 
 + (NSString *)graphAPIVersion
 {
-  return g_defaultGraphAPIVersion ?: self.defaultGraphAPIVersion;
+  return [self.sharedSettings graphAPIVersion];
+}
+
+- (NSString *)graphAPIVersion
+{
+  return _graphAPIVersion ?: FBSDKSettings.defaultGraphAPIVersion;
 }
 
 + (NSNumber *)appEventSettingsForPlistKey:(NSString *)plistKey
@@ -559,9 +572,13 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(
   if (!g_dataProcessingOptions) {
     NSData *data = [self.store objectForKey:FBSDKSettingsDataProcessingOptions];
     if ([data isKindOfClass:[NSData class]]) {
-      NSDictionary<NSString *, id> *dataProcessingOptions = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-      if (dataProcessingOptions && [dataProcessingOptions isKindOfClass:[NSDictionary class]]) {
-        g_dataProcessingOptions = dataProcessingOptions;
+      if (@available(iOS 11.0, tvOS 11.0, *)) {
+        g_dataProcessingOptions = [NSKeyedUnarchiver unarchivedObjectOfClasses:[NSSet setWithArray:@[NSString.class, NSNumber.class, NSArray.class, NSDictionary.class, NSSet.class]] fromData:data error:nil];
+      } else {
+        NSDictionary<NSString *, id> *dataProcessingOptions = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        if (dataProcessingOptions && [dataProcessingOptions isKindOfClass:[NSDictionary class]]) {
+          g_dataProcessingOptions = dataProcessingOptions;
+        }
       }
     }
   }
@@ -588,11 +605,6 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(
   return NO;
 }
 
-+ (void)logWarnings
-{
-  [self.sharedSettings logWarnings];
-}
-
 - (void)logWarnings
 {
   // Log warnings for App Event Flags
@@ -605,11 +617,6 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(
   if (!self._advertiserIDCollectionEnabled.boolValue) {
     NSLog(advertiserIDCollectionEnabledFalseWarning);
   }
-}
-
-+ (void)logIfSDKSettingsChanged
-{
-  [self.sharedSettings logIfSDKSettingsChanged];
 }
 
 - (void)logIfSDKSettingsChanged
@@ -644,7 +651,7 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(
   }
 }
 
-+ (void)recordInstall
+- (void)recordInstall
 {
   if (![self.store objectForKey:FBSDKSettingsInstallTimestamp]) {
     [self.store setObject:[NSDate date] forKey:FBSDKSettingsInstallTimestamp];

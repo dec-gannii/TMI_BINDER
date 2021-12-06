@@ -7,17 +7,49 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7F7620942744D7D400F02D4D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F7620932744D7D400F02D4D /* GoogleService-Info.plist */; };
-		7FCB9B9D2741146C00FE300F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB9B9C2741146C00FE300F /* AppDelegate.swift */; };
-		7FCB9B9F2741146C00FE300F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB9B9E2741146C00FE300F /* SceneDelegate.swift */; };
-		7FCB9BA12741146C00FE300F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB9BA02741146C00FE300F /* ViewController.swift */; };
-		7FCB9BA42741146C00FE300F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FCB9BA22741146C00FE300F /* Main.storyboard */; };
-		7FCB9BA62741146F00FE300F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FCB9BA52741146F00FE300F /* Assets.xcassets */; };
-		7FCB9BA92741146F00FE300F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FCB9BA72741146F00FE300F /* LaunchScreen.storyboard */; };
-		CD336BED185449E832D65B77 /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BB35ABF3384352CB6FB2CAB /* Pods_BINDER.framework */; };
+		6965DE6A275DEF1C0072C16A /* StudentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE67275DEF1B0072C16A /* StudentItem.swift */; };
+		6965DE6B275DEF1C0072C16A /* ClassItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE68275DEF1C0072C16A /* ClassItem.swift */; };
+		6965DE6C275DEF1C0072C16A /* TeacherItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE69275DEF1C0072C16A /* TeacherItem.swift */; };
+		6965DE70275DEF290072C16A /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE6D275DEF280072C16A /* UIView.swift */; };
+		6965DE71275DEF290072C16A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE6E275DEF280072C16A /* UIColor.swift */; };
+		6965DE72275DEF290072C16A /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE6F275DEF280072C16A /* Date.swift */; };
+		6965DE75275DEF330072C16A /* CardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE73275DEF320072C16A /* CardTableViewCell.swift */; };
+		6965DE76275DEF330072C16A /* PlusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE74275DEF320072C16A /* PlusTableViewCell.swift */; };
+		6965DE78275DEF3B0072C16A /* LoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE77275DEF3B0072C16A /* LoginRepository.swift */; };
+		6965DE7A275DEF410072C16A /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE79275DEF410072C16A /* CircleButton.swift */; };
+		6965DE7C275DEF490072C16A /* PayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE7B275DEF490072C16A /* PayType.swift */; };
+		6965DE7E275DEF5D0072C16A /* AddStudentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE7D275DEF5D0072C16A /* AddStudentDelegate.swift */; };
+		6965DE83275DEF670072C16A /* AddStudentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE7F275DEF670072C16A /* AddStudentVC.swift */; };
+		6965DE84275DEF670072C16A /* MyClassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE80275DEF670072C16A /* MyClassVC.swift */; };
+		6965DE85275DEF670072C16A /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE81275DEF670072C16A /* BaseVC.swift */; };
+		6965DE86275DEF670072C16A /* ClassInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE82275DEF670072C16A /* ClassInfoVC.swift */; };
+		69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72AA275D05C2007F6F7C /* GraphViewController.swift */; };
+		69EE72AF275D0662007F6F7C /* PlusGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */; };
+		69EE72B2275D11C2007F6F7C /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B1275D11C2007F6F7C /* MypageViewController.swift */; };
+		69EE72B4275D11D5007F6F7C /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */; };
+		69EE72B6275D1451007F6F7C /* StudentSubInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B5275D1451007F6F7C /* StudentSubInfoController.swift */; };
+		7F16D1442749390300745522 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1432749390300745522 /* AppDelegate.swift */; };
+		7F16D1462749390300745522 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1452749390300745522 /* SceneDelegate.swift */; };
+		7F16D1482749390300745522 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1472749390300745522 /* SignInViewController.swift */; };
+		7F16D14B2749390300745522 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F16D1492749390300745522 /* Main.storyboard */; };
+		7F16D14D2749390500745522 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F16D14C2749390500745522 /* Assets.xcassets */; };
+		7F16D1502749390500745522 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F16D14E2749390500745522 /* LaunchScreen.storyboard */; };
+		7F16D1582749394500745522 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F16D1572749394500745522 /* GoogleService-Info.plist */; };
+		7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D159274941ED00745522 /* HomeViewController.swift */; };
+		7F16D15F2749500900745522 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D15E2749500900745522 /* LogInViewController.swift */; };
+		7F16D16127496FC800745522 /* TypeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D16027496FC800745522 /* TypeSelectViewController.swift */; };
+		7F17FB83275BB45500834B4D /* ScheduleCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */; };
+		7F5D12972756032D00A87F17 /* AddStudentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5D12962756032D00A87F17 /* AddStudentViewController.swift */; };
+		7F5D12992756038C00A87F17 /* StudentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5D12982756038C00A87F17 /* StudentListViewController.swift */; };
+		7F5D129B27560DA800A87F17 /* InsertClassInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5D129A27560DA800A87F17 /* InsertClassInfoViewController.swift */; };
+		7F8CC8FA275BB29E00BE195D /* ScheduleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8CC8F9275BB29E00BE195D /* ScheduleListViewController.swift */; };
+		7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */; };
+		7FF68A782750C698004EB9E6 /* MyClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF68A772750C698004EB9E6 /* MyClassViewController.swift */; };
+		9454EBA32409A1CC3B2E881A /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8194590D892163E6369F0B86 /* Pods_BINDER.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+<<<<<<< HEAD:BINDER/BINDER 오후 6.45.19.xcodeproj/project.pbxproj
 <<<<<<< Updated upstream
 		4C6F11700E5B96D1F1CD446A /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
 		5C5573FE570DE2C1C4CAC197 /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
@@ -32,6 +64,8 @@
 		7FCB9BA82741146F00FE300F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7FCB9BAA2741146F00FE300F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 =======
+=======
+>>>>>>> temp:BINDER/BINDER.xcodeproj/project.pbxproj
 		5F9B9D54CC0BA11B11C12834 /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
 		68395CBA2DA434A3DC560C93 /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
 		6965DE67275DEF1B0072C16A /* StudentItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentItem.swift; sourceTree = "<group>"; };
@@ -75,30 +109,38 @@
 		7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		7FF68A772750C698004EB9E6 /* MyClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyClassViewController.swift; sourceTree = "<group>"; };
 		8194590D892163E6369F0B86 /* Pods_BINDER.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BINDER.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+<<<<<<< HEAD:BINDER/BINDER 오후 6.45.19.xcodeproj/project.pbxproj
 >>>>>>> Stashed changes
+=======
+>>>>>>> temp:BINDER/BINDER.xcodeproj/project.pbxproj
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7FCB9B962741146C00FE300F /* Frameworks */ = {
+		7F16D13D2749390300745522 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD336BED185449E832D65B77 /* Pods_BINDER.framework in Frameworks */,
+				9454EBA32409A1CC3B2E881A /* Pods_BINDER.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0B6417C6800E3BE514B3E4C0 /* Pods */ = {
+		69425987275DE8D9003E0997 /* MyClass */ = {
 			isa = PBXGroup;
 			children = (
-				5C5573FE570DE2C1C4CAC197 /* Pods-BINDER.debug.xcconfig */,
-				4C6F11700E5B96D1F1CD446A /* Pods-BINDER.release.xcconfig */,
+				6965DE7F275DEF670072C16A /* AddStudentVC.swift */,
+				6965DE81275DEF670072C16A /* BaseVC.swift */,
+				6965DE82275DEF670072C16A /* ClassInfoVC.swift */,
+				6965DE80275DEF670072C16A /* MyClassVC.swift */,
 			);
+<<<<<<< HEAD:BINDER/BINDER 오후 6.45.19.xcodeproj/project.pbxproj
 <<<<<<< Updated upstream
 			path = Pods;
 =======
+=======
+>>>>>>> temp:BINDER/BINDER.xcodeproj/project.pbxproj
 			path = MyClass;
 			sourceTree = "<group>";
 		};
@@ -179,6 +221,7 @@
 				69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */,
 			);
 			path = Portfolio;
+<<<<<<< HEAD:BINDER/BINDER 오후 6.45.19.xcodeproj/project.pbxproj
 			sourceTree = "<group>";
 		};
 		69EE72B7275D1458007F6F7C /* Login */ = {
@@ -191,44 +234,60 @@
 			);
 			path = Login;
 >>>>>>> Stashed changes
+=======
+>>>>>>> temp:BINDER/BINDER.xcodeproj/project.pbxproj
 			sourceTree = "<group>";
 		};
-		7FCB9B902741146C00FE300F = {
+		69EE72B7275D1458007F6F7C /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				7FCB9B9B2741146C00FE300F /* BINDER */,
-				7FCB9B9A2741146C00FE300F /* Products */,
-				0B6417C6800E3BE514B3E4C0 /* Pods */,
-				822F359E0C93B13CDEFF814A /* Frameworks */,
+				69EE72B5275D1451007F6F7C /* StudentSubInfoController.swift */,
+				7F16D1472749390300745522 /* SignInViewController.swift */,
+				7F16D15E2749500900745522 /* LogInViewController.swift */,
+				7F16D16027496FC800745522 /* TypeSelectViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		7F16D1372749390300745522 = {
+			isa = PBXGroup;
+			children = (
+				7F16D1422749390300745522 /* BINDER */,
+				7F16D1412749390300745522 /* Products */,
+				839068290A7852076C3D8CCB /* Pods */,
+				9E1DE7B4CC02C8DD40D27867 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		7FCB9B9A2741146C00FE300F /* Products */ = {
+		7F16D1412749390300745522 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7FCB9B992741146C00FE300F /* BINDER.app */,
+				7F16D1402749390300745522 /* BINDER.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7FCB9B9B2741146C00FE300F /* BINDER */ = {
+		7F16D1422749390300745522 /* BINDER */ = {
 			isa = PBXGroup;
 			children = (
-				7FCB9B9C2741146C00FE300F /* AppDelegate.swift */,
-				7FCB9B9E2741146C00FE300F /* SceneDelegate.swift */,
-				7FCB9BA02741146C00FE300F /* ViewController.swift */,
-				7FCB9BA22741146C00FE300F /* Main.storyboard */,
-				7FCB9BA52741146F00FE300F /* Assets.xcassets */,
-				7FCB9BA72741146F00FE300F /* LaunchScreen.storyboard */,
-				7FCB9BAA2741146F00FE300F /* Info.plist */,
-				7F7620932744D7D400F02D4D /* GoogleService-Info.plist */,
+				7F16D15B2749467000745522 /* ViewController */,
+				7F16D1432749390300745522 /* AppDelegate.swift */,
+				7F16D1452749390300745522 /* SceneDelegate.swift */,
+				7F16D1492749390300745522 /* Main.storyboard */,
+				7F16D14C2749390500745522 /* Assets.xcassets */,
+				7F16D14E2749390500745522 /* LaunchScreen.storyboard */,
+				7F16D1512749390500745522 /* Info.plist */,
+				7F16D1572749394500745522 /* GoogleService-Info.plist */,
 			);
 			path = BINDER;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD:BINDER/BINDER 오후 6.45.19.xcodeproj/project.pbxproj
 <<<<<<< Updated upstream
 		822F359E0C93B13CDEFF814A /* Frameworks */ = {
 =======
+=======
+>>>>>>> temp:BINDER/BINDER.xcodeproj/project.pbxproj
 		7F16D15B2749467000745522 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,10 +315,22 @@
 			sourceTree = "<group>";
 		};
 		839068290A7852076C3D8CCB /* Pods */ = {
+<<<<<<< HEAD:BINDER/BINDER 오후 6.45.19.xcodeproj/project.pbxproj
 >>>>>>> Stashed changes
+=======
+>>>>>>> temp:BINDER/BINDER.xcodeproj/project.pbxproj
 			isa = PBXGroup;
 			children = (
-				6BB35ABF3384352CB6FB2CAB /* Pods_BINDER.framework */,
+				5F9B9D54CC0BA11B11C12834 /* Pods-BINDER.debug.xcconfig */,
+				68395CBA2DA434A3DC560C93 /* Pods-BINDER.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		9E1DE7B4CC02C8DD40D27867 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8194590D892163E6369F0B86 /* Pods_BINDER.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -267,16 +338,16 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7FCB9B982741146C00FE300F /* BINDER */ = {
+		7F16D13F2749390300745522 /* BINDER */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7FCB9BAD2741146F00FE300F /* Build configuration list for PBXNativeTarget "BINDER" */;
+			buildConfigurationList = 7F16D1542749390600745522 /* Build configuration list for PBXNativeTarget "BINDER" */;
 			buildPhases = (
-				31B9FACAA3F81DD1FE01192A /* [CP] Check Pods Manifest.lock */,
-				7FCB9B952741146C00FE300F /* Sources */,
-				7FCB9B962741146C00FE300F /* Frameworks */,
-				7FCB9B972741146C00FE300F /* Resources */,
-				E44533AF1A7B99078CB3DEE1 /* [CP] Embed Pods Frameworks */,
-				0B6FD2643C74A127C1227424 /* [CP] Copy Pods Resources */,
+				C943DB73B136CD4548482E82 /* [CP] Check Pods Manifest.lock */,
+				7F16D13C2749390300745522 /* Sources */,
+				7F16D13D2749390300745522 /* Frameworks */,
+				7F16D13E2749390300745522 /* Resources */,
+				BC3BF91EB4213974B7E526C2 /* [CP] Embed Pods Frameworks */,
+				A01C3E35D6497978F0C2FF57 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -284,25 +355,25 @@
 			);
 			name = BINDER;
 			productName = BINDER;
-			productReference = 7FCB9B992741146C00FE300F /* BINDER.app */;
+			productReference = 7F16D1402749390300745522 /* BINDER.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		7FCB9B912741146C00FE300F /* Project object */ = {
+		7F16D1382749390300745522 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1310;
 				TargetAttributes = {
-					7FCB9B982741146C00FE300F = {
+					7F16D13F2749390300745522 = {
 						CreatedOnToolsVersion = 13.1;
 					};
 				};
 			};
-			buildConfigurationList = 7FCB9B942741146C00FE300F /* Build configuration list for PBXProject "BINDER" */;
+			buildConfigurationList = 7F16D13B2749390300745522 /* Build configuration list for PBXProject "BINDER" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -310,32 +381,32 @@
 				en,
 				Base,
 			);
-			mainGroup = 7FCB9B902741146C00FE300F;
-			productRefGroup = 7FCB9B9A2741146C00FE300F /* Products */;
+			mainGroup = 7F16D1372749390300745522;
+			productRefGroup = 7F16D1412749390300745522 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7FCB9B982741146C00FE300F /* BINDER */,
+				7F16D13F2749390300745522 /* BINDER */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7FCB9B972741146C00FE300F /* Resources */ = {
+		7F16D13E2749390300745522 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FCB9BA92741146F00FE300F /* LaunchScreen.storyboard in Resources */,
-				7F7620942744D7D400F02D4D /* GoogleService-Info.plist in Resources */,
-				7FCB9BA62741146F00FE300F /* Assets.xcassets in Resources */,
-				7FCB9BA42741146C00FE300F /* Main.storyboard in Resources */,
+				7F16D1502749390500745522 /* LaunchScreen.storyboard in Resources */,
+				7F16D1582749394500745522 /* GoogleService-Info.plist in Resources */,
+				7F16D14D2749390500745522 /* Assets.xcassets in Resources */,
+				7F16D14B2749390300745522 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0B6FD2643C74A127C1227424 /* [CP] Copy Pods Resources */ = {
+		A01C3E35D6497978F0C2FF57 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -352,7 +423,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		31B9FACAA3F81DD1FE01192A /* [CP] Check Pods Manifest.lock */ = {
+		BC3BF91EB4213974B7E526C2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C943DB73B136CD4548482E82 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -374,51 +462,65 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E44533AF1A7B99078CB3DEE1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7FCB9B952741146C00FE300F /* Sources */ = {
+		7F16D13C2749390300745522 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FCB9BA12741146C00FE300F /* ViewController.swift in Sources */,
-				7FCB9B9D2741146C00FE300F /* AppDelegate.swift in Sources */,
-				7FCB9B9F2741146C00FE300F /* SceneDelegate.swift in Sources */,
+				6965DE6C275DEF1C0072C16A /* TeacherItem.swift in Sources */,
+				6965DE86275DEF670072C16A /* ClassInfoVC.swift in Sources */,
+				6965DE85275DEF670072C16A /* BaseVC.swift in Sources */,
+				7F17FB83275BB45500834B4D /* ScheduleCellTableViewCell.swift in Sources */,
+				6965DE70275DEF290072C16A /* UIView.swift in Sources */,
+				7F5D12992756038C00A87F17 /* StudentListViewController.swift in Sources */,
+				7F16D16127496FC800745522 /* TypeSelectViewController.swift in Sources */,
+				6965DE83275DEF670072C16A /* AddStudentVC.swift in Sources */,
+				6965DE7C275DEF490072C16A /* PayType.swift in Sources */,
+				6965DE75275DEF330072C16A /* CardTableViewCell.swift in Sources */,
+				7FF68A782750C698004EB9E6 /* MyClassViewController.swift in Sources */,
+				6965DE7A275DEF410072C16A /* CircleButton.swift in Sources */,
+				7F5D12972756032D00A87F17 /* AddStudentViewController.swift in Sources */,
+				6965DE7E275DEF5D0072C16A /* AddStudentDelegate.swift in Sources */,
+				7F8CC8FA275BB29E00BE195D /* ScheduleListViewController.swift in Sources */,
+				6965DE76275DEF330072C16A /* PlusTableViewCell.swift in Sources */,
+				7F16D1482749390300745522 /* SignInViewController.swift in Sources */,
+				69EE72B2275D11C2007F6F7C /* MypageViewController.swift in Sources */,
+				6965DE71275DEF290072C16A /* UIColor.swift in Sources */,
+				69EE72B6275D1451007F6F7C /* StudentSubInfoController.swift in Sources */,
+				7F16D1442749390300745522 /* AppDelegate.swift in Sources */,
+				7F5D129B27560DA800A87F17 /* InsertClassInfoViewController.swift in Sources */,
+				69EE72AF275D0662007F6F7C /* PlusGraphViewController.swift in Sources */,
+				6965DE78275DEF3B0072C16A /* LoginRepository.swift in Sources */,
+				7F16D1462749390300745522 /* SceneDelegate.swift in Sources */,
+				7F16D15F2749500900745522 /* LogInViewController.swift in Sources */,
+				7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */,
+				6965DE6A275DEF1C0072C16A /* StudentItem.swift in Sources */,
+				6965DE72275DEF290072C16A /* Date.swift in Sources */,
+				69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */,
+				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
+				69EE72B4275D11D5007F6F7C /* PortfolioViewController.swift in Sources */,
+				6965DE6B275DEF1C0072C16A /* ClassItem.swift in Sources */,
+				6965DE84275DEF670072C16A /* MyClassVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		7FCB9BA22741146C00FE300F /* Main.storyboard */ = {
+		7F16D1492749390300745522 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7FCB9BA32741146C00FE300F /* Base */,
+				7F16D14A2749390300745522 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		7FCB9BA72741146F00FE300F /* LaunchScreen.storyboard */ = {
+		7F16D14E2749390500745522 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7FCB9BA82741146F00FE300F /* Base */,
+				7F16D14F2749390500745522 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -426,7 +528,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		7FCB9BAB2741146F00FE300F /* Debug */ = {
+		7F16D1522749390500745522 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -465,7 +567,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -487,7 +589,7 @@
 			};
 			name = Debug;
 		};
-		7FCB9BAC2741146F00FE300F /* Release */ = {
+		7F16D1532749390500745522 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -525,7 +627,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -542,9 +644,9 @@
 			};
 			name = Release;
 		};
-		7FCB9BAE2741146F00FE300F /* Debug */ = {
+		7F16D1552749390600745522 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C5573FE570DE2C1C4CAC197 /* Pods-BINDER.debug.xcconfig */;
+			baseConfigurationReference = 5F9B9D54CC0BA11B11C12834 /* Pods-BINDER.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -553,14 +655,17 @@
 				DEVELOPMENT_TEAM = 79KDG8ZYHT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BINDER/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BINDER;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.TMI.BINDER;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -569,9 +674,9 @@
 			};
 			name = Debug;
 		};
-		7FCB9BAF2741146F00FE300F /* Release */ = {
+		7F16D1562749390600745522 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C6F11700E5B96D1F1CD446A /* Pods-BINDER.release.xcconfig */;
+			baseConfigurationReference = 68395CBA2DA434A3DC560C93 /* Pods-BINDER.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -580,15 +685,17 @@
 				DEVELOPMENT_TEAM = 79KDG8ZYHT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BINDER/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BINDER;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "$(inherited)";
-				"OTHER_LDFLAGS[arch=*]" = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.TMI.BINDER;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -600,25 +707,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7FCB9B942741146C00FE300F /* Build configuration list for PBXProject "BINDER" */ = {
+		7F16D13B2749390300745522 /* Build configuration list for PBXProject "BINDER" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7FCB9BAB2741146F00FE300F /* Debug */,
-				7FCB9BAC2741146F00FE300F /* Release */,
+				7F16D1522749390500745522 /* Debug */,
+				7F16D1532749390500745522 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7FCB9BAD2741146F00FE300F /* Build configuration list for PBXNativeTarget "BINDER" */ = {
+		7F16D1542749390600745522 /* Build configuration list for PBXNativeTarget "BINDER" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7FCB9BAE2741146F00FE300F /* Debug */,
-				7FCB9BAF2741146F00FE300F /* Release */,
+				7F16D1552749390600745522 /* Debug */,
+				7F16D1562749390600745522 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 7FCB9B912741146C00FE300F /* Project object */;
+	rootObject = 7F16D1382749390300745522 /* Project object */;
 }

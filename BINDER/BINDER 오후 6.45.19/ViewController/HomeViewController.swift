@@ -159,6 +159,7 @@ class HomeViewController: UIViewController {
         
     }
     
+    
     @IBAction func CheckVerification(_ sender: Any) {
         verifiedCheck()
         if (verified == false) {

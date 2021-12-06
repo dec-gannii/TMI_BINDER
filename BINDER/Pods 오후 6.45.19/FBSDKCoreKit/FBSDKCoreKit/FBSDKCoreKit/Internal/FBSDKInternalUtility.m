@@ -39,9 +39,18 @@ typedef NS_ENUM(NSUInteger, FBSDKInternalUtilityVersionShift) {
   // FBSDKInternalUtilityPatchVersionShift = 0, // unused
 };
 
+@interface FBSDKInternalUtility ()
+
+// TODO: Replace this with an instance variable i.e.: @property (nonnull, nonatomic) id<FBSDKLogging> logger;
+@property (class, nonnull, nonatomic) Class<FBSDKLogging> loggerType;
+@property (nonatomic) BOOL isConfigured;
+
+@end
+
 @implementation FBSDKInternalUtility
 
 static id<FBSDKInfoDictionaryProviding> _infoDictionaryProvider;
+static Class<FBSDKLogging> _loggerType;
 
 // These are stored at the class level so that they can be reset in unit tests
 static dispatch_once_t fetchApplicationQuerySchemesToken;
@@ -77,6 +86,8 @@ static BOOL ShouldOverrideHostWithGamingDomain(NSString *hostPrefix)
 {
   if (self == FBSDKInternalUtility.class) {
     _infoDictionaryProvider = infoDictionaryProvider;
+
+    self.sharedUtility.isConfigured = YES;
   }
 }
 
@@ -85,7 +96,25 @@ static BOOL ShouldOverrideHostWithGamingDomain(NSString *hostPrefix)
   return _infoDictionaryProvider;
 }
 
++ (void)setLoggerType:(Class<FBSDKLogging>)loggerType
+{
+  _loggerType = loggerType;
+}
+
++ (Class<FBSDKLogging>)loggerType
+{
+  if (_loggerType == nil) {
+    _loggerType = [FBSDKLogger class];
+  }
+  return _loggerType;
+}
+
 + (NSString *)appURLScheme
+{
+  return self.sharedUtility.appURLScheme;
+}
+
+- (NSString *)appURLScheme
 {
   NSString *appID = ([FBSDKSettings appID] ?: @"");
   NSString *suffix = ([FBSDKSettings appURLSchemeSuffix] ?: @"");
@@ -234,10 +263,10 @@ static BOOL ShouldOverrideHostWithGamingDomain(NSString *hostPrefix)
         && [versionScanner scanInteger:NULL]
         && [versionScanner scanString:@"." intoString:NULL]
         && [versionScanner scanInteger:NULL]) {
-      [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
-                             logEntry:[NSString stringWithFormat:@"Invalid Graph API version:%@, assuming %@ instead",
-                                       version,
-                                       [FBSDKSettings graphAPIVersion]]];
+      [self.loggerType singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
+                                 logEntry:[NSString stringWithFormat:@"Invalid Graph API version:%@, assuming %@ instead",
+                                           version,
+                                           [FBSDKSettings graphAPIVersion]]];
       version = nil;
     }
     if (![path hasPrefix:@"/"]) {
@@ -378,9 +407,10 @@ static NSMapTable *_transientObjects;
   } else if (count != 0) {
     [_transientObjects setObject:@(count - 1) forKey:object];
   } else {
-    [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
-                       formatString:@"unregisterTransientObject:%@ count is 0. This may indicate a bug in the FBSDK. Please"
-     " file a report to developers.facebook.com/bugs if you encounter any problems. Thanks!", [object class]];
+    NSString *msg = [NSString stringWithFormat:@"unregisterTransientObject:%@ count is 0. This may indicate a bug in the FBSDK. Please"
+                     " file a report to developers.facebook.com/bugs if you encounter any problems. Thanks!", [object class]];
+    [self.loggerType singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
+                               logEntry:msg];
   }
 }
 
@@ -435,8 +465,9 @@ static NSMapTable *_transientObjects;
   @try {
     components.scheme = scheme;
   } @catch (NSException *exception) {
-    [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
-                       formatString:@"Invalid URL scheme provided: %@", scheme];
+    NSString *msg = [NSString stringWithFormat:@"Invalid URL scheme provided: %@", scheme];
+    [self.loggerType singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
+                               logEntry:msg];
     return NO;
   }
 
@@ -446,6 +477,7 @@ static NSMapTable *_transientObjects;
 
 + (void)validateAppID
 {
+  [self.sharedUtility validateConfiguration];
   if (![FBSDKSettings appID]) {
     NSString *reason = @"App ID not found. Add a string value with your app ID for the key "
     @"FacebookAppID to the Info.plist or call [FBSDKSettings setAppID:].";
@@ -455,6 +487,7 @@ static NSMapTable *_transientObjects;
 
 + (NSString *)validateRequiredClientAccessToken
 {
+  [self.sharedUtility validateConfiguration];
   if (![FBSDKSettings clientToken]) {
     NSString *reason = @"ClientToken is required to be set for this operation. "
     @"Set the FacebookClientToken in the Info.plist or call [FBSDKSettings setClientToken:]. "
@@ -525,8 +558,8 @@ static NSMapTable *_transientObjects;
   }
 
   if (topWindow == nil) {
-    [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
-                       formatString:@"Unable to find a valid UIWindow", nil];
+    [self.class.loggerType singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
+                                     logEntry:@"Unable to find a valid UIWindow"];
   }
   return topWindow;
 }
@@ -536,8 +569,9 @@ static NSMapTable *_transientObjects;
   UIWindow *keyWindow = [self.sharedUtility findWindow];
   // SDK expects a key window at this point, if it is not, make it one
   if (keyWindow != nil && !keyWindow.isKeyWindow) {
-    [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
-                       formatString:@"Unable to obtain a key window, marking %@ as keyWindow", keyWindow.description];
+    NSString *msg = [NSString stringWithFormat:@"Unable to obtain a key window, marking %@ as keyWindow", keyWindow.description];
+    [self.loggerType singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
+                               logEntry:msg];
     [keyWindow makeKeyWindow];
   }
 
@@ -581,6 +615,8 @@ static NSMapTable *_transientObjects;
 
 + (BOOL)isRegisteredURLScheme:(NSString *)urlScheme
 {
+  [self.sharedUtility validateConfiguration];
+
   static NSArray *urlTypes = nil;
   dispatch_once(&fetchUrlSchemesToken, ^{
     urlTypes = [self.infoDictionaryProvider.infoDictionary valueForKey:@"CFBundleURLTypes"];
@@ -611,7 +647,7 @@ static NSMapTable *_transientObjects;
 
   if (![self isRegisteredCanOpenURLScheme:urlScheme]) {
     NSString *reason = [NSString stringWithFormat:@"%@ is missing from your Info.plist under LSApplicationQueriesSchemes and is required.", urlScheme];
-    [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors logEntry:reason];
+    [self.loggerType singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors logEntry:reason];
   }
 }
 
@@ -641,6 +677,18 @@ static NSMapTable *_transientObjects;
     return YES;
   }
   return NO;
+}
+
+- (void)validateConfiguration
+{
+#if DEBUG
+  if (!self.isConfigured) {
+    static NSString *const reason = @"As of v9.0, you must initialize the SDK prior to calling any methods or setting any properties. "
+    "You can do this by calling `FBSDKApplicationDelegate`'s `application:didFinishLaunchingWithOptions:` method. "
+    "Learn more: https://developers.facebook.com/docs/ios/getting-started";
+    @throw [NSException exceptionWithName:@"InvalidOperationException" reason:reason userInfo:nil];
+  }
+#endif
 }
 
 #pragma mark - Testability
@@ -675,11 +723,6 @@ static NSMapTable *_transientObjects;
     sharedUtilityNonce = 0;
   }
   _infoDictionaryProvider = nil;
-}
-
-+ (void)setInfoDictionaryProvider:(id<FBSDKInfoDictionaryProviding>)provider
-{
-  _infoDictionaryProvider = provider;
 }
 
  #endif

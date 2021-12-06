@@ -23,9 +23,12 @@
  #import <Foundation/Foundation.h>
 
  #import "FBSDKAEMRule.h"
+ #import "FBSDKAEMAdvertiserRuleMatching.h"
+ #import "FBSDKAEMAdvertiserRuleProviding.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(AEMConfiguration)
 @interface FBSDKAEMConfiguration : NSObject <NSCopying, NSSecureCoding>
 
 @property (nonatomic, readonly, assign) NSInteger cutoffTime;
@@ -37,13 +40,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, copy) NSString *configMode;
 
+@property (nullable, nonatomic, readonly, copy) NSString *businessID;
+
+@property (nullable, nonatomic, readonly, copy) id<FBSDKAEMAdvertiserRuleMatching> matchingRule;
+
 @property (nonatomic, readonly) NSArray<FBSDKAEMRule *> *conversionValueRules;
 
 @property (nonatomic, readonly) NSSet<NSString *> *eventSet;
 
 @property (nonatomic, readonly) NSSet<NSString *> *currencySet;
 
++ (void)configureWithRuleProvider:(id<FBSDKAEMAdvertiserRuleProviding>)ruleProvider;
+
 - (nullable instancetype)initWithJSON:(nullable NSDictionary<NSString *, id> *)dict;
+
+- (BOOL)isSameValidFrom:(NSInteger)validFrom
+             businessID:(nullable NSString *)businessID;
+
+- (BOOL)isSameBusinessID:(nullable NSString *)businessID;
 
 @end
 

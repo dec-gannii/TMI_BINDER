@@ -19,6 +19,8 @@
 #import "FBSDKErrorReport.h"
 
 #import "FBSDKCoreKitBasicsImport.h"
+#import "FBSDKGraphRequest.h"
+#import "FBSDKGraphRequestConnection.h"
 #import "FBSDKGraphRequestFactory.h"
 #import "FBSDKGraphRequestProviding.h"
 #import "FBSDKInternalUtility.h"
@@ -36,6 +38,7 @@
 @property (nonatomic, strong) id<FBSDKSettings> settings;
 @property (nonatomic, strong) Class<FBSDKFileDataExtracting> dataExtractor;
 @property (nonatomic, readonly, strong) NSString *directoryPath;
+@property (nonatomic) BOOL isEnabled;
 
 @end
 
@@ -89,7 +92,7 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
   if (![self.settings isDataProcessingRestricted]) {
     [self uploadErrors];
   }
-  [FBSDKError enableErrorReport];
+  self.isEnabled = YES;
 }
 
 + (void)saveError:(NSInteger)errorCode
@@ -105,12 +108,14 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
       errorDomain:(NSErrorDomain)errorDomain
           message:(nullable NSString *)message
 {
-  NSString *timestamp = [NSString stringWithFormat:@"%.0lf", [[NSDate date] timeIntervalSince1970]];
-  [self _saveErrorInfoToDisk:@{
-     kFBSDKErrorCode : @(errorCode),
-     kFBSDKErrorDomain : errorDomain,
-     kFBSDKErrorTimestamp : timestamp,
-   }];
+  if (self.isEnabled) {
+    NSString *timestamp = [NSString stringWithFormat:@"%.0lf", [[NSDate date] timeIntervalSince1970]];
+    [self _saveErrorInfoToDisk:@{
+       kFBSDKErrorCode : @(errorCode),
+       kFBSDKErrorDomain : errorDomain,
+       kFBSDKErrorTimestamp : timestamp,
+     }];
+  }
 }
 
 #pragma mark - Private Methods
@@ -122,7 +127,8 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
                      withIntermediateDirectories:NO
                                       attributes:NULL
                                            error:NULL]) {
-      [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorInformational formatString:@"Failed to create library at %@", self.directoryPath];
+      NSString *msg = [NSString stringWithFormat:@"Failed to create library at %@", self.directoryPath];
+      [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorInformational logEntry:msg];
     }
   }
 }
@@ -142,7 +148,7 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
                                                                              parameters:@{@"error_reports" : errorData ?: @""}
                                                                              HTTPMethod:FBSDKHTTPMethodPOST];
 
-  [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+  [request startWithCompletion:^(id<FBSDKGraphRequestConnecting> connection, id result, NSError *error) {
     if (!error && [result isKindOfClass:[NSDictionary class]] && result[@"success"]) {
       [self _clearErrorInfo];
     }
@@ -204,5 +210,16 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
   NSString *timestamp = [NSString stringWithFormat:@"%.0lf", [[NSDate date] timeIntervalSince1970]];
   return [self.directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"error_report_%@.json", timestamp]];
 }
+
+#if DEBUG
+ #if FBSDKTEST
+
+- (void)reset
+{
+  _isEnabled = NO;
+}
+
+ #endif
+#endif
 
 @end

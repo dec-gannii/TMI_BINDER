@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  BINDER
 //
-//  Created by 김가은 on 2021/11/14.
+//  Created by 김가은 on 2021/11/20.
 //
 
 import UIKit

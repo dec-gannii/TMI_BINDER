@@ -60,7 +60,6 @@ class MyClassViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getUserInfo()
-        calendarView.backgroundColor = UIColor(red: 242/255, green: 245/255, blue: 249/255, alpha: 1)
         
         evaluationView.layer.cornerRadius = 9
         evaluationView.layer.masksToBounds = true

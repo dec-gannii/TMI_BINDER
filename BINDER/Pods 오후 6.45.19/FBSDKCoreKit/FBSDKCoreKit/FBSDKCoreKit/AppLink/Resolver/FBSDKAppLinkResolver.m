@@ -26,11 +26,9 @@
 
  #import "FBSDKAppLink.h"
  #import "FBSDKAppLinkResolverRequestBuilder.h"
- #import "FBSDKAppLinkTarget.h"
  #import "FBSDKCoreKitBasicsImport.h"
  #import "FBSDKLogger.h"
  #import "FBSDKSettings+Internal.h"
- #import "FBSDKUtility.h"
 
 // Dependencies
  #import "FBSDKAccessToken+AccessTokenProtocols.h"
@@ -38,7 +36,6 @@
  #import "FBSDKAppLinkResolverRequestBuilder+Protocols.h"
  #import "FBSDKAppLinkResolverRequestBuilding.h"
  #import "FBSDKClientTokenProviding.h"
- #import "FBSDKGraphRequestProtocol.h"
  #import "FBSDKSettings+ClientTokenProviding.h"
 
 static NSString *const kURLKey = @"url";
@@ -120,7 +117,7 @@ static NSString *const kAppLinksKey = @"app_links";
 
   id<FBSDKGraphRequest> request = [self.requestBuilder requestForURLs:urls];
 
-  [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+  [request startWithCompletion:^(id<FBSDKGraphRequestConnecting> connection, id result, NSError *error) {
     if (error) {
       handler(@{}, error);
       return;
