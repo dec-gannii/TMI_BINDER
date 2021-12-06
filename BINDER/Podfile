@@ -15,4 +15,10 @@ target 'BINDER' do
   pod 'FSCalendar'
   pod 'Charts'
   pod 'BulletinBoard'
+
+  # 이미지 로더
+  pod 'Kingfisher'
+  
+  # 파이어베이스
+  pod 'Firebase/Firestore'
 end

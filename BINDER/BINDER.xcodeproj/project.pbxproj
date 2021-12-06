@@ -74,6 +74,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		69425987275DE8D9003E0997 /* MyClass */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyClass;
+			sourceTree = "<group>";
+		};
+		69425988275DE8EA003E0997 /* protocol */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = protocol;
+			sourceTree = "<group>";
+		};
+		69425989275DE8F2003E0997 /* data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		6942598A275DE8F6003E0997 /* controls */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = controls;
+			sourceTree = "<group>";
+		};
+		6942598B275DE902003E0997 /* repo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = repo;
+			sourceTree = "<group>";
+		};
+		6942598C275DE907003E0997 /* cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = cells;
+			sourceTree = "<group>";
+		};
+		6942598D275DE90D003E0997 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
+		6942598E275DE915003E0997 /* models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
 		69EE72A9275D05B0007F6F7C /* Grape */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +195,14 @@
 		7F16D15B2749467000745522 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				6942598E275DE915003E0997 /* models */,
+				6942598D275DE90D003E0997 /* extension */,
+				6942598C275DE907003E0997 /* cells */,
+				6942598B275DE902003E0997 /* repo */,
+				6942598A275DE8F6003E0997 /* controls */,
+				69425989275DE8F2003E0997 /* data */,
+				69425988275DE8EA003E0997 /* protocol */,
+				69425987275DE8D9003E0997 /* MyClass */,
 				69EE72B7275D1458007F6F7C /* Login */,
 				69EE72B0275D119C007F6F7C /* Portfolio */,
 				69EE72A9275D05B0007F6F7C /* Grape */,
