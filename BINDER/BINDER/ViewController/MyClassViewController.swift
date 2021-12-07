@@ -26,7 +26,6 @@ class MyClassViewController: UIViewController {
     var userName: String!
     
     func calendarColor() {
-        calendarView.backgroundColor = UIColor(red: 242/255, green: 245/255, blue: 249/255, alpha: 1)
         calendarView.scope = .week
         
         calendarView.appearance.weekdayTextColor = .systemGray

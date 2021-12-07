@@ -434,7 +434,7 @@ Cg
             <objects>
                 <viewController storyboardIdentifier="HomeViewController" id="H0V-Ou-VbF" customClass="HomeViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cnN-qO-uvK">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="성공!" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q8h-cN-SMl">
@@ -491,9 +491,11 @@ Cg
                             <constraint firstItem="EyS-0Q-x0E" firstAttribute="trailing" secondItem="FCe-qj-a2K" secondAttribute="trailing" constant="50" id="xZu-dU-4vf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="HOME" image="house.fill" catalog="system" id="zzG-fP-VA7">
-                        <color key="badgeColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <imageReference key="selectedImage" image="house.fill" catalog="system"/>
+                    <tabBarItem key="tabBarItem" title="HOME" image="Home_Color" id="zzG-fP-VA7">
+                        <imageReference key="selectedImage" image="Home_Color"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="unselectedImage" value="Home_Gray"/>
+                        </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <connections>
                         <outlet property="calendarView" destination="DrS-OT-NXC" id="bAM-u9-3GE"/>
@@ -603,12 +605,12 @@ Cg
             </objects>
             <point key="canvasLocation" x="2802.898550724638" y="-139.28571428571428"/>
         </scene>
-        <!--CLASS-->
+        <!--MyClass-->
         <scene sceneID="Z3Y-Ak-y8J">
             <objects>
                 <viewController storyboardIdentifier="MyClassViewController" id="sKG-Iw-VA5" customClass="MyClassViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cqY-Yi-og9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hvv-qH-wZl">
@@ -844,9 +846,14 @@ Cg
                             <constraint firstItem="NmI-65-I9Z" firstAttribute="trailing" secondItem="TNX-5Q-jFg" secondAttribute="trailing" constant="20" id="uPm-c6-hcx"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="CLASS" image="folder.fill" catalog="system" id="Fy8-EM-ybl">
-                        <color key="badgeColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <imageReference key="selectedImage" image="folder.fill" catalog="system"/>
+                    <tabBarItem key="tabBarItem" title="MyClass" image="MyClass_Color" id="Fy8-EM-ybl">
+                        <imageReference key="selectedImage" image="MyClass_Color"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">
+                                <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="image" keyPath="unselectedImage" value="MyClass_Gray"/>
+                        </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <connections>
                         <outlet property="calendarView" destination="Tpo-IR-KzX" id="xQ3-FU-9YK"/>
@@ -1308,13 +1315,16 @@ Cg
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="kKO-JD-h6L" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="gX6-7t-KdD"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="DwH-1V-k6W">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="DwH-1V-k6W">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <color key="barTintColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <color key="selectedImageTintColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">
+                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </tabBar>
                     <connections>
                         <segue destination="sKG-Iw-VA5" kind="relationship" relationship="viewControllers" id="eV4-1a-cs5"/>
@@ -1357,7 +1367,7 @@ Cg
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Back" cornerStyle="small">
-                                    <color key="baseBackgroundColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="baseBackgroundColor" red="0.047058823529411764" green="0.066666666666666666" blue="0.19215686274509802" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="goHome:" destination="C4a-F4-h3n" eventType="touchUpInside" id="Ptd-oC-jkA"/>
@@ -1516,12 +1526,12 @@ Cg
             </objects>
             <point key="canvasLocation" x="2803" y="510"/>
         </scene>
-        <!--My Page-->
+        <!--Questions-->
         <scene sceneID="y2r-lW-tEW">
             <objects>
                 <viewController storyboardIdentifier="MyPageViewController" id="E9D-63-hKX" customClass="MyPageViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SNr-cS-zgx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="티엠아이" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hEi-Rx-R6J">
@@ -1621,7 +1631,14 @@ Cg
                             <constraint firstItem="hEi-Rx-R6J" firstAttribute="top" secondItem="SQB-NC-Iw4" secondAttribute="bottom" constant="40" id="uz9-Mx-VfK"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="My Page" image="person.fill" catalog="system" id="yOk-Nm-i6T"/>
+                    <tabBarItem key="tabBarItem" title="Questions" image="Question_Color" selectedImage="Question_Color" id="yOk-Nm-i6T">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">
+                                <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="image" keyPath="unselectedImage" value="Question_Gray"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <connections>
                         <outlet property="imageView" destination="LwR-zi-C4B" id="veo-Sw-t4x"/>
                         <outlet property="nameLabel" destination="hEi-Rx-R6J" id="9Co-W8-S51"/>
@@ -2062,12 +2079,12 @@ Cg
             </objects>
             <point key="canvasLocation" x="28" y="-488"/>
         </scene>
-        <!--MYCLASS-->
+        <!--MyPage-->
         <scene sceneID="bCe-mH-WBb">
             <objects>
                 <viewController storyboardIdentifier="MyClassVC" id="16n-DI-0qO" customClass="MyClassVC" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0VL-2a-wI5">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QpZ-0z-rUP" userLabel="명함">
@@ -2105,11 +2122,11 @@ Cg
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0BT-OV-jZp" userLabel="테이블">
-                                <rect key="frame" x="0.0" y="205" width="414" height="691"/>
+                                <rect key="frame" x="0.0" y="205" width="414" height="608"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="K9a-xg-1Kt">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="691"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="608"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="class" id="Qz8-nH-kSe" customClass="CardTableViewCell" customModule="BINDER" customModuleProvider="target">
@@ -2286,7 +2303,7 @@ Cg
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NiO-UN-mir"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="0BT-OV-jZp" secondAttribute="bottom" id="ADf-YK-rtg"/>
                             <constraint firstItem="QpZ-0z-rUP" firstAttribute="leading" secondItem="NiO-UN-mir" secondAttribute="leading" id="FJn-ej-ifm"/>
@@ -2297,15 +2314,17 @@ Cg
                             <constraint firstItem="0BT-OV-jZp" firstAttribute="top" secondItem="QpZ-0z-rUP" secondAttribute="bottom" id="zEF-hA-Ojo"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="MYCLASS" id="aHl-T2-TCa">
-                        <imageReference key="image" image="square.and.pencil" catalog="system" renderingMode="hierarchical">
+                    <tabBarItem key="tabBarItem" title="MyPage" selectedImage="MyPage_Color" id="aHl-T2-TCa">
+                        <imageReference key="image" image="MyPage_Color" renderingMode="hierarchical">
                             <hierarchicalColors>
                                 <color systemColor="labelColor"/>
                                 <color systemColor="secondaryLabelColor"/>
                                 <color systemColor="tertiaryLabelColor"/>
                             </hierarchicalColors>
                         </imageReference>
-                        <color key="badgeColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="unselectedImage" value="MyPage_Gray"/>
+                        </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <connections>
                         <outlet property="studentTV" destination="K9a-xg-1Kt" id="OlP-hD-AN7"/>
@@ -2883,13 +2902,17 @@ Cg
         </scene>
     </scenes>
     <resources>
+        <image name="Home_Color" width="25" height="25"/>
+        <image name="Home_Gray" width="25" height="25"/>
+        <image name="MyClass_Color" width="25" height="25"/>
+        <image name="MyClass_Gray" width="25" height="25"/>
+        <image name="MyPage_Color" width="25" height="25"/>
+        <image name="MyPage_Gray" width="25" height="25"/>
+        <image name="Question_Color" width="25" height="25"/>
+        <image name="Question_Gray" width="25" height="25"/>
         <image name="arrowtriangle.down.fill" catalog="system" width="128" height="124"/>
         <image name="chevron.backward" catalog="system" width="96" height="128"/>
-        <image name="folder.fill" catalog="system" width="128" height="97"/>
-        <image name="house.fill" catalog="system" width="128" height="106"/>
         <image name="pencil" catalog="system" width="128" height="113"/>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
-        <image name="square.and.pencil" catalog="system" width="128" height="115"/>
         <image name="student_cell_back" width="120.5" height="146"/>
         <image name="student_plus_btn" width="25" height="26"/>
         <systemColor name="labelColor">
