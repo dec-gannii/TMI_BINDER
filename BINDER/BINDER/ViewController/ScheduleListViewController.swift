@@ -17,13 +17,8 @@ class ScheduleListViewController: UIViewController {
     var scheduleMemos: [String] = []
     var count: Int = 0
     
-    var ref: DatabaseReference!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ref = Database.database().reference()
-        ref.keepSynced(true)
         
         let queue = DispatchQueue.global()
         queue.sync {

@@ -47,9 +47,42 @@ class AddScheduleViewController: UIViewController {
                         print("Error adding document: \(err)")
                     }
                 }
-                self.dismiss(animated: true, completion: nil)
+                db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).getDocuments()
+                {
+                    (querySnapshot, err) in
+                    
+                    if let err = err
+                    {
+                        print("Error getting documents: \(err)");
+                    }
+                    else
+                    {
+                        var count = 0
+                        for document in querySnapshot!.documents {
+                            count += 1
+                            print("\(document.documentID) => \(document.data())");
+                        }
+                        
+                        if (count == 1) {
+                            db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count])
+                            { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                }
+                            }
+                        }else {
+                            db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count-1])
+                            { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                }
+                            }
+                        }
+                        print("Count = \(count)");
+                    }
+                }
             }
+            self.dismiss(animated: true, completion: nil)
         }
-        
     }
 }
