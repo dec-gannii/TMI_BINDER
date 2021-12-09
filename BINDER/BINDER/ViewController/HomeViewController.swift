@@ -29,6 +29,8 @@ class HomeViewController: UIViewController {
     
     var ref: DatabaseReference!
     
+    let db = Firestore.firestore()
+    
     func calendarColor() {
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
@@ -82,9 +84,7 @@ class HomeViewController: UIViewController {
             emailVerificationCheckBtn.isHidden = false
             calendarView.isHidden = true
         } else {
-            let db = Firestore.firestore()
-            var docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
-            if (docRef != nil) {
+            if (self.type == "teacher") {
                 getTeacherInfo()
                 if (Auth.auth().currentUser?.email != nil) {
                     calendarView.isHidden = false
@@ -101,8 +101,7 @@ class HomeViewController: UIViewController {
     }
     
     func getTeacherInfo(){
-        let db = Firestore.firestore()
-        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -121,8 +120,7 @@ class HomeViewController: UIViewController {
     }
     
     func getStudentInfo(){
-        let db = Firestore.firestore()
-        let docRef = db.collection("student").document(Auth.auth().currentUser!.uid)
+        let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -145,7 +143,7 @@ class HomeViewController: UIViewController {
         getStudentInfo()
         getTeacherInfo()
         Auth.auth().signIn(withEmail: id, password: pw) { result, error in
-            var check = Auth.auth().currentUser?.isEmailVerified
+            let check = Auth.auth().currentUser?.isEmailVerified
             if error != nil {
                 print(error!.localizedDescription)
             } else {
@@ -184,14 +182,38 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
-        guard let scheduleListVC = self.storyboard?.instantiateViewController(withIdentifier: "ScheduleListViewController") as? ScheduleListViewController else { return }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
         dateFormatter.locale = Locale(identifier: "ko_KR")
+        
+        guard let scheduleListVC = self.storyboard?.instantiateViewController(withIdentifier: "ScheduleListViewController") as? ScheduleListViewController else { return }
+        
+        //        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(dateFormatter.string(from: date)).document("Count").getDocument {
+        //            (document, error) in
+        //            if let document = document, document.exists {
+        //                let data = document.data()
+        //                scheduleListVC.count = data?["count"] as? Int ?? 0
+        //            } else {
+        //                print("Document does not exist")
+        //            }
+        //        }
+        
+        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(dateFormatter.string(from: date)).document("Count").addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            scheduleListVC.count = data["count"] as! Int
+        }
         self.date = dateFormatter.string(from: date)
         setUpEvents(dateFormatter.string(from: date))
+        
         scheduleListVC.date = dateFormatter.string(from: date)
-        // 날짜를 원하는 형식으로 저장하기 위한 방법입니다.
         self.present(scheduleListVC, animated: true, completion: nil)
     }
     

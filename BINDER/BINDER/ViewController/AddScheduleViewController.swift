@@ -16,26 +16,54 @@ class AddScheduleViewController: UIViewController {
     @IBOutlet weak var scheduleTime: UITextField!
     @IBOutlet weak var scheduleMemo: UITextView!
     var date: String!
-    var isEditingMode: Bool!
+    var editingTitle: String!
+    var isEditMode: Bool = false
+    
+    let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.dateLabel.text = date
         self.scheduleMemo.layer.borderWidth = 1.0
         self.scheduleMemo.layer.borderColor = UIColor.systemGray6.cgColor
+        
+        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document(editingTitle).getDocument { (document, error) in
+            if let document = document, document.exists {
+                self.isEditMode = true
+                let data = document.data()
+                let memo = data?["Memo"] as? String ?? ""
+                self.scheduleMemo.text = memo
+                let place = data?["Place"] as? String ?? ""
+                self.schedulePlace.text = place
+                let title = data?["Title"] as? String ?? ""
+                self.scheduleTitle.text = title
+                let time = data?["Time"] as? String ?? ""
+                self.scheduleTime.text = time
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     @IBAction func AddScheduleSubmitBtn(_ sender: Any) {
-        let db = Firestore.firestore()
-        var ref: DocumentReference? = nil
-        
-        var formatter_time = DateFormatter()
+        let formatter_time = DateFormatter()
         formatter_time.dateFormat = "YYYY-MM-dd HH:mm"
-        var current_time_string = formatter_time.string(from: Date())
+        let current_time_string = formatter_time.string(from: Date())
+        
+        if (isEditMode == true) {
+            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document(editingTitle).delete() { err in
+                if let err = err {
+                    print("Error removing document: \(err)")
+                } else {
+                    print("Document successfully removed!")
+                }
+            }
+        }
         
         if (scheduleTitle.text != "") {
             if ((scheduleTitle.text?.trimmingCharacters(in: .whitespaces)) != "") {
-                db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).document(scheduleTitle.text!).setData([
+                self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).document(scheduleTitle.text!).setData([
                     "Title": scheduleTitle.text!,
                     "Place": schedulePlace.text!,
                     "Date" : dateLabel.text!,
@@ -47,7 +75,7 @@ class AddScheduleViewController: UIViewController {
                         print("Error adding document: \(err)")
                     }
                 }
-                db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).getDocuments()
+                self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).getDocuments()
                 {
                     (querySnapshot, err) in
                     
@@ -64,14 +92,14 @@ class AddScheduleViewController: UIViewController {
                         }
                         
                         if (count == 1) {
-                            db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count])
+                            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count])
                             { err in
                                 if let err = err {
                                     print("Error adding document: \(err)")
                                 }
                             }
-                        }else {
-                            db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count-1])
+                        } else {
+                            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count-1])
                             { err in
                                 if let err = err {
                                     print("Error adding document: \(err)")
