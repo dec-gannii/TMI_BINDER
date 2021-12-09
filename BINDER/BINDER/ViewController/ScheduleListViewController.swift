@@ -31,17 +31,7 @@ class ScheduleListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        //        self.scheduleListTableView.beginUpdates()
         self.scheduleListTableView.reloadData()
-        //        self.scheduleListTableView.endUpdates()
-    }
-    
-    @IBAction func EditButtonClicked(_ sender: Any) {
-//        guard let editScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
-//        editScheduleVC.date = self.date
-//        editScheduleVC.isEditingMode = true
-//        editScheduleVC.editingTitle = self.selectedTitle
-//        self.present(editScheduleVC, animated: true, completion: nil)
     }
     
     @IBAction func AddButtonClicked(_ sender: Any) {
@@ -89,15 +79,11 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let editScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
-//        editScheduleVC.editingTitle = self.scheduleTitles[indexPath.row]
-//        self.selectedTitle = scheduleTitles[indexPath.row]
         guard let editScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
         editScheduleVC.date = self.date
         editScheduleVC.editingTitle = scheduleTitles[indexPath.row]
         self.present(editScheduleVC, animated: true, completion: nil)
     }
-    //    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle { return .delete }
     
     //    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     //

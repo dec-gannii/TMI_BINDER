@@ -28,14 +28,12 @@ class HomeViewController: UIViewController {
     var date : String!
     
     var ref: DatabaseReference!
-    
     let db = Firestore.firestore()
     
     func calendarColor() {
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
         calendarView.appearance.headerTitleColor =  UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
-        
         calendarView.appearance.eventDefaultColor = .systemPink
         calendarView.appearance.selectionColor = .none
         calendarView.appearance.titleSelectionColor = .black
@@ -50,7 +48,6 @@ class HomeViewController: UIViewController {
         calendarView.appearance.headerDateFormat = "YYYY년 M월"
         calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 25, weight: .heavy)
         calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 15)
-        
         calendarView.locale = Locale(identifier: "ko_KR")
     }
     
@@ -154,9 +151,7 @@ class HomeViewController: UIViewController {
                 }
             }
         }
-        
     }
-    
     
     @IBAction func CheckVerification(_ sender: Any) {
         verifiedCheck()
@@ -175,7 +170,6 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    
 }
 
 extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
@@ -187,16 +181,6 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         dateFormatter.locale = Locale(identifier: "ko_KR")
         
         guard let scheduleListVC = self.storyboard?.instantiateViewController(withIdentifier: "ScheduleListViewController") as? ScheduleListViewController else { return }
-        
-        //        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(dateFormatter.string(from: date)).document("Count").getDocument {
-        //            (document, error) in
-        //            if let document = document, document.exists {
-        //                let data = document.data()
-        //                scheduleListVC.count = data?["count"] as? Int ?? 0
-        //            } else {
-        //                print("Document does not exist")
-        //            }
-        //        }
         
         self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(dateFormatter.string(from: date)).document("Count").addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot else {
@@ -216,7 +200,6 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         scheduleListVC.date = dateFormatter.string(from: date)
         self.present(scheduleListVC, animated: true, completion: nil)
     }
-    
 }
 
 extension HomeViewController: FSCalendarDataSource {

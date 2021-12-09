@@ -519,12 +519,6 @@ Cg
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
                                     <navigationItem title="SCHEDULES" id="teE-l1-QNb">
-                                        <barButtonItem key="leftBarButtonItem" image="pencil" catalog="system" id="dfV-op-CTs">
-                                            <color key="tintColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <connections>
-                                                <action selector="EditButtonClicked:" destination="HC5-nV-Quc" id="Raz-yw-Pt5"/>
-                                            </connections>
-                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="DPw-tr-z8q">
                                             <color key="tintColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <connections>
@@ -2906,7 +2900,6 @@ Cg
         <image name="arrowtriangle.down.fill" catalog="system" width="128" height="124"/>
         <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <image name="folder.fill" catalog="system" width="128" height="97"/>
-        <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="student_cell_back" width="120.5" height="146"/>
         <image name="student_plus_btn" width="25" height="26"/>
         <systemColor name="labelColor">

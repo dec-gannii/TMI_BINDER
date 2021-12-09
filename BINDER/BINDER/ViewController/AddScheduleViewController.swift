@@ -28,7 +28,8 @@ class AddScheduleViewController: UIViewController {
         self.scheduleMemo.layer.borderWidth = 1.0
         self.scheduleMemo.layer.borderColor = UIColor.systemGray6.cgColor
         
-        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document(editingTitle).getDocument { (document, error) in
+        if (self.editingTitle != nil) {
+        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document(self.editingTitle).getDocument { (document, error) in
             if let document = document, document.exists {
                 self.isEditMode = true
                 let data = document.data()
@@ -43,6 +44,8 @@ class AddScheduleViewController: UIViewController {
             } else {
                 print("Document does not exist")
             }
+        }
+            
         }
     }
     
