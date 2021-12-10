@@ -28,14 +28,13 @@ class HomeViewController: UIViewController {
     var date : String!
     
     var ref: DatabaseReference!
+    let db = Firestore.firestore()
     
     func calendarColor() {
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
         calendarView.appearance.headerTitleColor =  UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
-        
         calendarView.appearance.eventDefaultColor = .systemPink
-        calendarView.appearance.eventSelectionColor = .systemPink
         calendarView.appearance.selectionColor = .none
         calendarView.appearance.titleSelectionColor = .black
         calendarView.appearance.todayColor = .systemOrange
@@ -49,7 +48,6 @@ class HomeViewController: UIViewController {
         calendarView.appearance.headerDateFormat = "YYYY년 M월"
         calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 25, weight: .heavy)
         calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 15)
-        
         calendarView.locale = Locale(identifier: "ko_KR")
     }
     
@@ -71,7 +69,6 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         ref = Database.database().reference()
-        ref.keepSynced(true)
         calendarView.delegate = self
         verifiedCheck()
         
@@ -84,9 +81,7 @@ class HomeViewController: UIViewController {
             emailVerificationCheckBtn.isHidden = false
             calendarView.isHidden = true
         } else {
-            let db = Firestore.firestore()
-            var docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
-            if (docRef != nil) {
+            if (self.type == "teacher") {
                 getTeacherInfo()
                 if (Auth.auth().currentUser?.email != nil) {
                     calendarView.isHidden = false
@@ -103,8 +98,7 @@ class HomeViewController: UIViewController {
     }
     
     func getTeacherInfo(){
-        let db = Firestore.firestore()
-        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -123,8 +117,7 @@ class HomeViewController: UIViewController {
     }
     
     func getStudentInfo(){
-        let db = Firestore.firestore()
-        let docRef = db.collection("student").document(Auth.auth().currentUser!.uid)
+        let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -147,7 +140,7 @@ class HomeViewController: UIViewController {
         getStudentInfo()
         getTeacherInfo()
         Auth.auth().signIn(withEmail: id, password: pw) { result, error in
-            var check = Auth.auth().currentUser?.isEmailVerified
+            let check = Auth.auth().currentUser?.isEmailVerified
             if error != nil {
                 print(error!.localizedDescription)
             } else {
@@ -158,9 +151,7 @@ class HomeViewController: UIViewController {
                 }
             }
         }
-        
     }
-    
     
     @IBAction func CheckVerification(_ sender: Any) {
         verifiedCheck()
@@ -179,53 +170,36 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    
 }
 
 extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
-        guard let scheduleListVC = self.storyboard?.instantiateViewController(withIdentifier: "ScheduleListViewController") as? ScheduleListViewController else { return }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
         dateFormatter.locale = Locale(identifier: "ko_KR")
+        
+        guard let scheduleListVC = self.storyboard?.instantiateViewController(withIdentifier: "ScheduleListViewController") as? ScheduleListViewController else { return }
+        
+        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(dateFormatter.string(from: date)).document("Count").addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            scheduleListVC.count = data["count"] as! Int
+        }
         self.date = dateFormatter.string(from: date)
         setUpEvents(dateFormatter.string(from: date))
+        
         scheduleListVC.date = dateFormatter.string(from: date)
-        
-        
-        let schedule = dateFormatter.date(from: self.date)
-        events.append(schedule!)
-        
-        // 날짜를 원하는 형식으로 저장하기 위한 방법입니다.
         self.present(scheduleListVC, animated: true, completion: nil)
     }
-    
-    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) async -> Int {
-        var count = 0
-        
-        if self.events.contains(date) {
-            let db = Firestore.firestore()
-            let docRef = db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date)
-            
-            await docRef.whereField("Date", isEqualTo: self.date).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        count = document.data().count
-                    }
-                }
-            }
-            return count
-        } else {
-            return count
-        }
-    }
-    
-    
 }
 
 extension HomeViewController: FSCalendarDataSource {

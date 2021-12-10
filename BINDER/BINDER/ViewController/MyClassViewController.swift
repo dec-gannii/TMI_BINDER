@@ -21,9 +21,10 @@ class MyClassViewController: UIViewController {
     @IBOutlet weak var homeworkScoreTextField: UITextField!
     @IBOutlet weak var classScoreTextField: UITextField!
     
-    
     var date: String!
     var userName: String!
+    
+    let db = Firestore.firestore()
     
     func calendarColor() {
         calendarView.scope = .week
@@ -60,22 +61,7 @@ class MyClassViewController: UIViewController {
         super.viewDidLoad()
         getUserInfo()
         
-        evaluationView.layer.cornerRadius = 9
-        evaluationView.layer.masksToBounds = true
-        evaluationMemoTextView.layer.cornerRadius = 9
-        progressTextView.layer.cornerRadius = 9
-        
-        let db = Firestore.firestore()
-        let docRef = db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection("\(date)").document("DailyEvaluation")
-        
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                self.date = data?["EvaluationDate"] as? String ?? ""
-            } else {
-                print("Document does not exist")
-            }
-        }
+        evaluationView.layer.cornerRadius = 10
         
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
@@ -92,8 +78,7 @@ class MyClassViewController: UIViewController {
     }
     
     func getUserInfo() {
-        let db = Firestore.firestore()
-        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -110,16 +95,13 @@ class MyClassViewController: UIViewController {
     }
     
     @IBAction func OKButtonClicked(_ sender: Any) {
-        let db = Firestore.firestore()
-        var ref: DocumentReference? = nil
-        
-        db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection("\(self.date!)").document("DailyEvaluation").setData([
+        self.db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection("\(self.date!)").document("DailyEvaluation").setData([
             "Progress": progressTextView.text!,
-            "TestScore": Int(testScoreTextField.text!),
-            "HomeworkCompletion": Int(homeworkScoreTextField.text!),
-            "ClassAttitude": Int(classScoreTextField.text!),
+            "TestScore": Int(testScoreTextField.text!) ?? 0,
+            "HomeworkCompletion": Int(homeworkScoreTextField.text!) ?? 0,
+            "ClassAttitude": Int(classScoreTextField.text!) ?? 0,
             "EvaluationMemo": evaluationMemoTextView.text!,
-            "EvaluationDate": self.date
+            "EvaluationDate": self.date ?? ""
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
@@ -150,54 +132,51 @@ extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioni
             let dateStr = dateFormatter.string(from: selectedDate)
             self.date = dateStr
             
-            let db = Firestore.firestore()
-            let docRef = db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection(dateStr).document("DailyEvaluation")
+            let docRef = self.db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection(dateStr).document("DailyEvaluation")
             
-            if (docRef != nil){
-                evaluationView.isHidden = false
-                evaluationOKBtn.isHidden = false
-                docRef.getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        let data = document.data()
-                        self.date = data?["EvaluationDate"] as? String ?? ""
-                        
-                        let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                        
-                        let homeworkCompletion = data?["HomeworkCompletion"] as? Int ?? 0
-                        if (homeworkCompletion == 0) {
-                            self.homeworkScoreTextField.text = ""
-                        } else {
-                            self.homeworkScoreTextField.text = "\(homeworkCompletion)"
-                        }
-                        
-                        let classAttitude = data?["ClassAttitude"] as? Int ?? 0
-                        if (classAttitude == 0) {
-                            self.classScoreTextField.text = ""
-                        } else {
-                            self.classScoreTextField.text = "\(classAttitude)"
-                        }
-                        
-                        let progressText = data?["Progress"] as? String ?? ""
-                        self.progressTextView.text = progressText
-                        
-                        let evaluationMemo = data?["EvaluationMemo"] as? String ?? ""
-                        self.evaluationMemoTextView.text = evaluationMemo
-                        
-                        let testScore = data?["TestScore"] as? Int ?? 0
-                        if (testScore == 0) {
-                            self.testScoreTextField.text = ""
-                        } else {
-                            self.testScoreTextField.text = "\(testScore)"
-                        }
-                        print("Document data: \(dataDescription)")
-                    } else {
-                        print("Document does not exist")
-                        self.progressTextView.text = ""
-                        self.testScoreTextField.text = ""
-                        self.evaluationMemoTextView.text = ""
+            evaluationView.isHidden = false
+            evaluationOKBtn.isHidden = false
+            docRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    self.date = data?["EvaluationDate"] as? String ?? ""
+                    
+                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                    
+                    let homeworkCompletion = data?["HomeworkCompletion"] as? Int ?? 0
+                    if (homeworkCompletion == 0) {
                         self.homeworkScoreTextField.text = ""
-                        self.classScoreTextField.text = ""
+                    } else {
+                        self.homeworkScoreTextField.text = "\(homeworkCompletion)"
                     }
+                    
+                    let classAttitude = data?["ClassAttitude"] as? Int ?? 0
+                    if (classAttitude == 0) {
+                        self.classScoreTextField.text = ""
+                    } else {
+                        self.classScoreTextField.text = "\(classAttitude)"
+                    }
+                    
+                    let progressText = data?["Progress"] as? String ?? ""
+                    self.progressTextView.text = progressText
+                    
+                    let evaluationMemo = data?["EvaluationMemo"] as? String ?? ""
+                    self.evaluationMemoTextView.text = evaluationMemo
+                    
+                    let testScore = data?["TestScore"] as? Int ?? 0
+                    if (testScore == 0) {
+                        self.testScoreTextField.text = ""
+                    } else {
+                        self.testScoreTextField.text = "\(testScore)"
+                    }
+                    print("Document data: \(dataDescription)")
+                } else {
+                    print("Document does not exist")
+                    self.progressTextView.text = ""
+                    self.testScoreTextField.text = ""
+                    self.evaluationMemoTextView.text = ""
+                    self.homeworkScoreTextField.text = ""
+                    self.classScoreTextField.text = ""
                 }
             }
         } else {
