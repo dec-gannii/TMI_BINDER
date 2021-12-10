@@ -23,8 +23,6 @@ class ScheduleListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("받은 카운트 : \(self.count)")
-        
         scheduleListTableView.delegate = self
         scheduleListTableView.dataSource = self
     }
@@ -85,20 +83,58 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         self.present(editScheduleVC, animated: true, completion: nil)
     }
     
-    //    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    //
-    //        if editingStyle == .delete {
-    //            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document(scheduleTitles[indexPath.row]).delete() { err in
-    //                if let err = err {
-    //                    print("Error removing document: \(err)")
-    //                } else {
-    //                    print("Document successfully removed!")
-    //                }
-    //            }
-    //            scheduleTitles.remove(at: indexPath.row)
-    //            scheduleMemos.remove(at: indexPath.row)
-    //            self.scheduleListTableView.reloadData()
-    //            scheduleListTableView.deleteRows(at: [indexPath], with: .fade)
-    //        }
-    //    }
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle { return .delete }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let selectedTitle = scheduleTitles[indexPath.row]
+        if editingStyle == .delete {
+            //            scheduleTitles.remove(at: indexPath.row)
+            //            scheduleMemos.remove(at: indexPath.row)
+            //            scheduleListTableView.deleteRows(at: [indexPath], with: .fade)
+            
+            
+            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document(selectedTitle).delete() { err in
+                if let err = err {
+                    print("Error removing document: \(err)")
+                } else {
+                    print("Document successfully removed!")
+                }
+            }
+            
+            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).getDocuments()
+            {
+                (querySnapshot, err) in
+                
+                if let err = err
+                {
+                    print("Error getting documents: \(err)");
+                }
+                else
+                {
+                    var count = 0
+                    for document in querySnapshot!.documents {
+                        count += 1
+                        print("\(document.documentID) => \(document.data())");
+                    }
+                    
+                    if (count == 1) {
+                        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count])
+                        { err in
+                            if let err = err {
+                                print("Error adding document: \(err)")
+                            }
+                        }
+                    } else {
+                        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count-1])
+                        { err in
+                            if let err = err {
+                                print("Error adding document: \(err)")
+                            }
+                        }
+                    }
+                    print("Count = \(count)");
+                }
+            }
+        }
+    }
 }

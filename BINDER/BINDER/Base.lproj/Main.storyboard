@@ -1009,6 +1009,7 @@ Cg
                     </view>
                     <connections>
                         <outlet property="dateLabel" destination="TRI-at-T4H" id="Cdc-sX-EeU"/>
+                        <outlet property="okBtn" destination="cQp-ZQ-WG8" id="eAp-ZH-Hfm"/>
                         <outlet property="scheduleMemo" destination="et1-3f-aqQ" id="OqP-H0-7rR"/>
                         <outlet property="schedulePlace" destination="F7n-UX-HYN" id="GFs-jJ-JRU"/>
                         <outlet property="scheduleTime" destination="dmv-5Y-jlZ" id="sdi-SZ-hfy"/>
