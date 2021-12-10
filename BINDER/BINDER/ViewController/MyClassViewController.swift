@@ -61,21 +61,7 @@ class MyClassViewController: UIViewController {
         super.viewDidLoad()
         getUserInfo()
         
-        evaluationView.layer.cornerRadius = 9
-        evaluationView.layer.masksToBounds = true
-        evaluationMemoTextView.layer.cornerRadius = 9
-        progressTextView.layer.cornerRadius = 9
-        
-//        let docRef = self.db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection(self.date).document("DailyEvaluation")
-//
-//        docRef.getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                let data = document.data()
-//                self.date = data?["EvaluationDate"] as? String ?? ""
-//            } else {
-//                print("Document does not exist")
-//            }
-//        }
+        evaluationView.layer.cornerRadius = 10
         
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
