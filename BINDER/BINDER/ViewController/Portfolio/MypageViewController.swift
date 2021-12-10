@@ -11,20 +11,48 @@ import Firebase
 
 class MyPageViewController: UIViewController {
     @IBOutlet weak var pageView: UIView!
-
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var roleLabel: UILabel!
     
     @IBOutlet weak var portfoiolBtn: UIButton!
+    
+    let db = Firestore.firestore()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-       
+        getUserInfo()
         viewDecorating()
     }
     
+    func getUserInfo(){
+        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        if (docRef != nil){
+            docRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                    
+                    let name = data?["Name"] as? String ?? ""
+                    self.nameLabel.text = name
+                    
+                   var role = data?["Type"] as? String ?? ""
+                   if role == "teacher"{
+                        role = "선생님"
+                    }else if role == "student"{
+                        role = "학생"
+                    }
+                    self.roleLabel.text = role
+                    
+                    print("Document data: \(dataDescription)")
+                } else {
+                    print("Document does not exist")
+                }
+            }
+        }
+    }
     @IBAction func LogOutBtnClicked(_ sender: Any) {
         do {
             try Auth.auth().signOut()
