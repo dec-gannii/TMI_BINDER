@@ -1096,6 +1096,7 @@ Cg
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="LogInBtnClicked:" destination="7Oi-nm-qsH" eventType="touchUpInside" id="tig-Ps-txt"/>
+                                    <segue destination="kKO-JD-h6L" kind="presentation" identifier="mainTabSegue" modalPresentationStyle="fullScreen" id="bPa-Lj-Eig"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BTW-Ji-PyH">
