@@ -30,6 +30,7 @@ class GraphViewController: UIViewController {
     var barColors = [UIColor]()
     var count = 0
     var todos = Array<String>()
+    var bRec:Bool = false
     
    /* private lazy var boardManager: BLTNItemManager = {
         
@@ -140,26 +141,41 @@ class GraphViewController: UIViewController {
     
     }
     func getTodos(){
-        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("Count")
-        
-            docRef.getDocument { (document, error) in
+    
+            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("todos").getDocument {(document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                    
                     self.count = data?["count"] as? Int ?? 0
-                    print("Document data: \(dataDescription)")
                     print("count: \(self.count)")
+                    for i in 1...self.count {
+                        self.todos.append(data?["todo\(i)"] as! String)
+                    }
+                    print("Document data: \(dataDescription)")
                 } else {
                     print("Document does not exist")
                 }
+                self.tableView.reloadData()
             }
-    
-    
-        
     }
     
     /*
+     
+     let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("Count")
+     
+         docRef.getDocument { (document, error) in
+             if let document = document, document.exists {
+                 let data = document.data()
+                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                 
+                 self.count = data?["count"] as? Int ?? 0
+                 print("Document data: \(dataDescription)")
+                 print("count: \(self.count)")
+             } else {
+                 print("Document does not exist")
+             }
+         }
+     
     @IBAction func didTapButton(){
         boardManager.showBulletin(above: self)
     }
@@ -181,20 +197,31 @@ class GraphViewController: UIViewController {
     @IBAction func goButtonClicked(_ sender: Any) {
         todos.append(todoTF.text ?? "")
         count = count + 1
-        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("Count").setData(["count": count])
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("todos").updateData([
+            "count": count,
             "todo\(count)":todoTF.text ?? ""
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
             }
         }
-        
+        todoTF.text = ""
         self.tableView.reloadData()
+    }
+    @IBAction func checkBtnTapped(_ sender: Any) {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
+        bRec = !bRec
+        if bRec {
+            cell.CheckButton.setImage(UIImage(named: "Circle"), for: .normal)
+        } else {
+            cell.CheckButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+        }
     }
 }
 
 extension GraphViewController:UITableViewDataSource {
+    
 func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return todos.count
 }

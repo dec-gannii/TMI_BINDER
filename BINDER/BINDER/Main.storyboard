@@ -821,7 +821,7 @@ Cg
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TNX-5Q-jFg">
-                                <rect key="frame" x="300" y="733" width="94" height="50"/>
+                                <rect key="frame" x="163" y="733" width="88" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="xT8-O4-qst"/>
@@ -842,6 +842,7 @@ Cg
                         <constraints>
                             <constraint firstItem="Hvv-qH-wZl" firstAttribute="trailing" secondItem="NmI-65-I9Z" secondAttribute="trailing" id="00t-DL-G6d"/>
                             <constraint firstItem="ttH-aM-CsO" firstAttribute="top" secondItem="Tpo-IR-KzX" secondAttribute="bottom" constant="10" id="8K3-eg-T2L"/>
+                            <constraint firstItem="TNX-5Q-jFg" firstAttribute="centerX" secondItem="cqY-Yi-og9" secondAttribute="centerX" id="Dgw-hw-0dF"/>
                             <constraint firstItem="NmI-65-I9Z" firstAttribute="trailing" secondItem="ttH-aM-CsO" secondAttribute="trailing" constant="20" id="EZ6-he-rcS"/>
                             <constraint firstItem="Tpo-IR-KzX" firstAttribute="top" secondItem="Hvv-qH-wZl" secondAttribute="bottom" constant="10" id="OKj-JP-VSd"/>
                             <constraint firstItem="Tpo-IR-KzX" firstAttribute="leading" secondItem="NmI-65-I9Z" secondAttribute="leading" constant="20" id="PQf-4s-EEN"/>
@@ -853,8 +854,6 @@ Cg
                             <constraint firstItem="Ueo-9B-Puz" firstAttribute="leading" secondItem="NmI-65-I9Z" secondAttribute="leading" constant="20" id="amt-jX-mvP"/>
                             <constraint firstItem="Ueo-9B-Puz" firstAttribute="top" secondItem="ttH-aM-CsO" secondAttribute="bottom" constant="10" id="bDL-9O-3fM"/>
                             <constraint firstItem="Tpo-IR-KzX" firstAttribute="trailing" secondItem="NmI-65-I9Z" secondAttribute="trailing" constant="-20" id="pvs-XK-InX"/>
-                            <constraint firstItem="TNX-5Q-jFg" firstAttribute="leading" secondItem="NmI-65-I9Z" secondAttribute="leading" constant="300" id="qzP-HG-fUi"/>
-                            <constraint firstItem="NmI-65-I9Z" firstAttribute="trailing" secondItem="TNX-5Q-jFg" secondAttribute="trailing" constant="20" id="uPm-c6-hcx"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Class" image="MyClass_Gray" id="Fy8-EM-ybl">
@@ -1441,7 +1440,7 @@ Cg
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="circle" catalog="system"/>
                                                     <connections>
-                                                        <action selector="checkBtnTapped:" destination="KFP-Mq-aiN" eventType="touchUpInside" id="qOr-Vo-gjb"/>
+                                                        <action selector="checkBtnTapped:" destination="C4a-F4-h3n" eventType="touchUpInside" id="Hjp-Tg-uzM"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WaK-VR-oiV">
