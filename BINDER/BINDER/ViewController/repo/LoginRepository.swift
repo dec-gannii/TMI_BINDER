@@ -34,8 +34,8 @@ class LoginRepository {
                     let email = teacherDt["Email"] as? String ?? ""
                     let name = teacherDt["Name"] as? String ?? ""
                     let password = teacherDt["Password"] as? String ?? ""
-                    let phone = teacherDt["phone"] as? String ?? ""
-                    let profile = teacherDt["profile"] as? String ?? ""
+                    let phone = teacherDt["Phone"] as? String ?? ""
+                    let profile = teacherDt["Profile"] as? String ?? ""
                     self.teacherItem = TeacherItem(age: age, email: email, name: name, password: password, phone: phone, profile: profile)
                     
                     /// 성공 알림

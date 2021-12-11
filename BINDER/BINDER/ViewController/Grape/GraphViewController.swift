@@ -8,10 +8,13 @@
 import UIKit
 import Charts
 import BLTNBoard
-import FirebaseFirestore
+import Firebase
 
 class GraphViewController: UIViewController {
-
+    
+    let db = Firestore.firestore()
+    var ref: DatabaseReference!
+    
     //@IBOutlet var plusButton: UIButton!
     @IBOutlet var barChartView: BarChartView!
 
@@ -25,7 +28,7 @@ class GraphViewController: UIViewController {
     var scores: [Double]!
     let floatValue: [CGFloat] = [5,5]
     var barColors = [UIColor]()
-    
+    var count = 0
     var todos = Array<String>()
     
    /* private lazy var boardManager: BLTNItemManager = {
@@ -65,6 +68,7 @@ class GraphViewController: UIViewController {
         allRound()
         barColorSetting()
         setChart(dataPoints: days, values: scores)
+        getTodos()
     }
     
     func allRound() {
@@ -135,6 +139,20 @@ class GraphViewController: UIViewController {
 
     
     }
+    
+    func getTodos(){
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("portfoilo").getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                for i in 0...self.count {
+                    self.todos.append(data?["todo\(i)"] as? String ?? "")
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+        tableView.reloadData()
+    }
     /*
     @IBAction func didTapButton(){
         boardManager.showBulletin(above: self)
@@ -156,6 +174,15 @@ class GraphViewController: UIViewController {
     
     @IBAction func goButtonClicked(_ sender: Any) {
         todos.append(todoTF.text ?? "")
+        count = count + 1
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("todos").updateData([
+            "todo\(count)":todoTF.text ?? ""
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            }
+        }
+        
         tableView.reloadData()
     }
 }

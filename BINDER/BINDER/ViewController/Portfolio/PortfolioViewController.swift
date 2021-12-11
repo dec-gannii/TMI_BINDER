@@ -30,7 +30,6 @@ class PortfolioViewController: UIViewController {
         super.viewDidLoad()
         
         viewRound()
-        
         getUserInfo()
         getPortfoiloInfo()
     }
