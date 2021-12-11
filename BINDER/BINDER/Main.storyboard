@@ -1242,10 +1242,10 @@ Cg
             </objects>
             <point key="canvasLocation" x="-1275" y="177"/>
         </scene>
-        <!--View Controller-->
+        <!--Show Portfolio View Controller-->
         <scene sceneID="Cb5-hx-cXL">
             <objects>
-                <viewController id="ne2-5S-zxG" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShowPortfolioViewController" id="ne2-5S-zxG" customClass="ShowPortfolioViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="W83-eQ-WIh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1284,14 +1284,29 @@ Cg
                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="ShowProtfolioBtn:" destination="ne2-5S-zxG" eventType="touchUpInside" id="k81-cA-9lK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eNH-fD-XBe">
+                                <rect key="frame" x="343" y="54" width="41" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system">
+                                    <color key="baseForegroundColor" red="0.047058823530000002" green="0.066666666669999999" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="xBtnClicked:" destination="ne2-5S-zxG" eventType="touchUpInside" id="3rJ-9U-W0z"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="oLg-UK-KZn"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Ow2-MZ-iRi" firstAttribute="top" secondItem="peU-qf-I0v" secondAttribute="bottom" constant="10" id="92O-nC-7zy"/>
+                            <constraint firstItem="oLg-UK-KZn" firstAttribute="trailing" secondItem="eNH-fD-XBe" secondAttribute="trailing" constant="30" id="Kxv-K8-Oby"/>
                             <constraint firstItem="oLg-UK-KZn" firstAttribute="trailing" secondItem="u5X-Cg-bR3" secondAttribute="trailing" constant="40" id="P63-SJ-EeX"/>
                             <constraint firstItem="Ixt-jn-ZAq" firstAttribute="top" secondItem="u5X-Cg-bR3" secondAttribute="bottom" constant="40" id="SOb-Zx-xhg"/>
+                            <constraint firstItem="eNH-fD-XBe" firstAttribute="top" secondItem="oLg-UK-KZn" secondAttribute="top" constant="10" id="WVu-01-bAK"/>
                             <constraint firstItem="peU-qf-I0v" firstAttribute="leading" secondItem="oLg-UK-KZn" secondAttribute="leading" constant="30" id="Zc7-WW-HA9"/>
                             <constraint firstItem="Ow2-MZ-iRi" firstAttribute="leading" secondItem="oLg-UK-KZn" secondAttribute="leading" constant="30" id="dUm-Gf-TiG"/>
                             <constraint firstItem="Ixt-jn-ZAq" firstAttribute="leading" secondItem="oLg-UK-KZn" secondAttribute="leading" constant="40" id="dZs-eo-Dpc"/>
@@ -1304,6 +1319,9 @@ Cg
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2le-FY-3jH"/>
+                    <connections>
+                        <outlet property="teacherEmailTextField" destination="u5X-Cg-bR3" id="70S-GL-BtJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WPO-qE-TQb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1724,6 +1742,9 @@ Cg
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gWu-8F-IAr">
                                         <rect key="frame" x="295" y="50" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="ShowProtfolioBtnClicked:" destination="E9D-63-hKX" eventType="valueChanged" id="iUb-3k-Sfq"/>
+                                        </connections>
                                     </switch>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1776,7 +1797,7 @@ Cg
         <!--Portfolio View Controller-->
         <scene sceneID="3fb-UI-uW8">
             <objects>
-                <viewController storyboardIdentifier="ProtfolioViewController" id="ysu-dg-S4I" customClass="PortfolioViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PortfolioViewController" id="ysu-dg-S4I" customClass="PortfolioViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dkz-J2-TRe">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1816,7 +1837,7 @@ Cg
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내용을 작성해주세요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VM6-qm-J9w">
                                                         <rect key="frame" x="20" y="15" width="137" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -1955,19 +1976,19 @@ Cg
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="rWd-8R-fsf">
-                                        <rect key="frame" x="40" y="90" width="324" height="130"/>
+                                        <rect key="frame" x="40" y="90" width="324" height="90"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="d9P-WC-dpo">
-                                                <rect key="frame" x="0.0" y="30" width="184" height="70.5"/>
+                                                <rect key="frame" x="0.0" y="10" width="224" height="70.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dOU-lg-A8n">
-                                                        <rect key="frame" x="0.0" y="0.0" width="184" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="224" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="메일" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70b-5G-klQ">
-                                                        <rect key="frame" x="0.0" y="50" width="184" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="50" width="224" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -1975,17 +1996,18 @@ Cg
                                                 </subviews>
                                             </stackView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="teacher" translatesAutoresizingMaskIntoConstraints="NO" id="QXZ-nd-dmh">
-                                                <rect key="frame" x="204" y="5" width="120" height="120"/>
+                                                <rect key="frame" x="244" y="5" width="80" height="80"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="120" id="ZdL-hN-5Rk"/>
+                                                    <constraint firstAttribute="height" constant="80" id="ZdL-hN-5Rk"/>
                                                     <constraint firstAttribute="width" secondItem="QXZ-nd-dmh" secondAttribute="height" multiplier="1:1" id="osT-lb-U0U"/>
-                                                    <constraint firstAttribute="width" constant="120" id="rSH-cd-bhw"/>
+                                                    <constraint firstAttribute="width" constant="80" id="rSH-cd-bhw"/>
                                                 </constraints>
                                             </imageView>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="QXZ-nd-dmh" secondAttribute="bottom" constant="5" id="RFy-7g-7lH"/>
                                             <constraint firstItem="QXZ-nd-dmh" firstAttribute="top" secondItem="rWd-8R-fsf" secondAttribute="top" constant="5" id="etr-Wn-96t"/>
+                                            <constraint firstItem="QXZ-nd-dmh" firstAttribute="leading" secondItem="d9P-WC-dpo" secondAttribute="trailing" constant="20" id="xNd-DJ-EPk"/>
                                         </constraints>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9lk-ba-L47">
@@ -2033,10 +2055,12 @@ Cg
                         <outlet property="contentView2" destination="QwT-MP-aKB" id="Hgj-Ch-cV9"/>
                         <outlet property="contentView3" destination="ach-16-KDY" id="bKa-8m-8iU"/>
                         <outlet property="contentView4" destination="lOH-uV-zr7" id="BIm-1u-5aw"/>
+                        <outlet property="editBtn" destination="JsV-nH-BMm" id="fMN-If-B4b"/>
                         <outlet property="eduTL" destination="2aQ-J7-RwL" id="SQ9-lB-AL5"/>
                         <outlet property="extraExpTL" destination="KXh-tc-cM2" id="efW-sw-ydD"/>
                         <outlet property="studentListView" destination="C6r-0X-b5O" id="l9w-0H-je4"/>
                         <outlet property="teacherEmail" destination="70b-5G-klQ" id="I81-Mn-LuU"/>
+                        <outlet property="teacherEvaluationTL" destination="VM6-qm-J9w" id="Mku-d2-FuS"/>
                         <outlet property="teacherImage" destination="QXZ-nd-dmh" id="jY9-hp-ydm"/>
                         <outlet property="teacherName" destination="dOU-lg-A8n" id="hSw-ql-xLY"/>
                     </connections>

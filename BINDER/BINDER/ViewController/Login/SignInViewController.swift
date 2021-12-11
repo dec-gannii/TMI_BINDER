@@ -45,7 +45,8 @@ class SignInViewController: UIViewController {
             "Email": email,
             "Password": password,
             "Age": age,
-            "Type": type
+            "Type": type,
+            "Uid": Auth.auth().currentUser?.uid
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")

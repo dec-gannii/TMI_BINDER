@@ -27,26 +27,71 @@ class MyPageViewController: BaseVC {
         // Do any additional setup after loading the view.
         openPortfolioSwitch.onTintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
         getUserInfo()
+        getPortfolioShow()
         viewDecorating()
     }
     
     func getUserInfo(){
         LoginRepository.shared.doLogin {
-                    /// 가져오는 시간 걸림
-                    self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
-                    self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
-                    
-                    let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-                    self.imageView.kf.setImage(with: url)
-                    self.imageView.makeCircle()
-                    
-                    /// 클래스 가져오기
-                    //self.setMyClasses()
-                } failure: { error in
-                    self.showDefaultAlert(msg: "")
-                }
-                /// 클로저, 리스너
+            /// 가져오는 시간 걸림
+            self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
+            self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
+            
+            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+            self.imageView.kf.setImage(with: url)
+            self.imageView.makeCircle()
+            
+            /// 클래스 가져오기
+            //self.setMyClasses()
+        } failure: { error in
+            self.showDefaultAlert(msg: "")
+        }
+        /// 클로저, 리스너
     }
+    
+    func getPortfolioShow() {
+        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio")
+        
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                
+                let isShowOK = data?["portfolioShow"] as? String ?? ""
+                if (isShowOK == "On") {
+                    self.openPortfolioSwitch.setOn(true, animated: true)
+                } else {
+                    self.openPortfolioSwitch.setOn(false, animated: true)
+                }
+                
+                print("Document data: \(dataDescription)")
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    @IBAction func ShowProtfolioBtnClicked(_ sender: Any) {
+        if (self.openPortfolioSwitch.isOn) {
+            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").updateData([
+                "portfolioShow": "On"
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                }
+            }
+        } else {
+            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").updateData([
+                "portfolioShow": "Off"
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                }
+            }
+        }
+        
+    }
+    
     @IBAction func LogOutBtnClicked(_ sender: Any) {
         do {
             try Auth.auth().signOut()
@@ -79,5 +124,6 @@ class MyPageViewController: BaseVC {
         pageView.layer.shadowRadius = 5
         pageView.layer.shadowOpacity = 0.3
     }
-
+    
 }
+

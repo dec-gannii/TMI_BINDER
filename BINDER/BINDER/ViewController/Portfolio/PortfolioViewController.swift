@@ -15,6 +15,7 @@ class PortfolioViewController: UIViewController {
     @IBOutlet weak var teacherEmail: UILabel!
     @IBOutlet weak var studentListView: UIView!
     
+    @IBOutlet weak var teacherEvaluationTL: UILabel!
     @IBOutlet weak var extraExpTL: UILabel!
     @IBOutlet weak var classMetTL: UILabel!
     @IBOutlet weak var eduTL: UILabel!
@@ -24,6 +25,12 @@ class PortfolioViewController: UIViewController {
     @IBOutlet weak var contentView3: UIView!
     @IBOutlet weak var contentView4: UIView!
     
+    @IBOutlet weak var editBtn: UIButton!
+    
+    var isShowMode: Bool = false
+    var showModeEmail: String = ""
+    var isShowOK: Bool = false
+    
     let db = Firestore.firestore()
     
     override func viewDidLoad() {
@@ -32,6 +39,12 @@ class PortfolioViewController: UIViewController {
         viewRound()
         getUserInfo()
         getPortfoiloInfo()
+        
+        if (isShowMode == true) {
+            self.editBtn.isHidden = true
+        } else {
+            self.editBtn.isHidden = false
+        }
     }
     func viewRound(){
         contentView1.clipsToBounds = true
@@ -45,13 +58,25 @@ class PortfolioViewController: UIViewController {
         
         contentView4.clipsToBounds = true
         contentView4.layer.cornerRadius = 10
-       
+        
     }
     
     func getUserInfo(){
         studentListView.setNeedsDisplay()
-        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
-        if (docRef != nil){
+        if (isShowMode == true) {
+            self.db.collection("teacher").whereField("Email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        self.teacherName.text = document.data()["Name"] as? String ?? ""
+                        self.teacherEmail.text = document.data()["Email"] as? String ?? ""
+                    }
+                }
+            }
+        } else {
+            let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
@@ -73,9 +98,9 @@ class PortfolioViewController: UIViewController {
     
     
     func getPortfoiloInfo() {
-        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfoilo").document("portfoilo")
-        
-        if (docRef != nil){
+        if (isShowMode == false){
+            let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio")
+            
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
@@ -98,6 +123,96 @@ class PortfolioViewController: UIViewController {
                     self.extraExpTL.text = "None"
                 }
             }
+        } else {
+            var teacherUid = ""
+            self.db.collection("teacher").whereField("Email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        teacherUid = document.data()["Uid"] as? String ?? ""
+                        self.db.collection("teacher").document(teacherUid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                let data = document.data()
+                                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                                let portfolioAccess = data?["portfolioShow"] as? String ?? ""
+                                if (portfolioAccess == "On") {
+                                    let eduText = data?["eduHistory"] as? String ?? ""
+                                    self.eduTL.text = eduText
+                                    
+                                    let classText = data?["classMethod"] as? String ?? ""
+                                    self.classMetTL.text = classText
+                                    
+                                    let extraText = data?["extraExprience"] as? String ?? ""
+                                    self.extraExpTL.text = extraText
+                                    
+                                    self.teacherEvaluationTL.text = ""
+                                } else {
+                                    self.eduTL.text = "비공개 설정되어 있습니다."
+                                    self.teacherEvaluationTL.text = "비공개 설정되어 있습니다."
+                                    self.classMetTL.text = "비공개 설정되어 있습니다."
+                                    self.extraExpTL.text = "비공개 설정되어 있습니다."
+                                }
+                                
+                                print("Document data: \(dataDescription)")
+                            } else {
+                                print("Document does not exist")
+                                self.eduTL.text = "None"
+                                self.classMetTL.text = "None"
+                                self.extraExpTL.text = "None"
+                            }
+                        }
+                    }
+                }
+            }
+            //            self.db.collection("teacher").whereField("portfolioEmail", isEqualTo: showModeEmail).getDocuments() {
+            //                (querySnapshot, err) in
+            //                if let err = err {
+            //                    print(">>>>> document 에러 : \(err)")
+            //                } else {
+            //                    for document in querySnapshot!.documents {
+            //                        print("\(document.documentID) => \(document.data())")
+            //                        let eduText = document.data()["eduHistory"] as? String ?? ""
+            //                        self.eduTL.text = eduText
+            //
+            //                        let classText = document.data()["classMethod"] as? String ?? ""
+            //                        self.classMetTL.text = classText
+            //
+            //                        let extraText = document.data()["extraExprience"] as? String ?? ""
+            //                        self.extraExpTL.text = extraText
+            //                    }
+            //                }
+            //            }
+//            let docRef = db.collection("teacher").document(teacherUid).collection("Portfolio").document("portfolio")
+//            docRef.getDocument { (document, error) in
+//                if let document = document, document.exists {
+//                    let data = document.data()
+//                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+//
+//                    let eduText = data?["eduHistory"] as? String ?? ""
+//                    self.eduTL.text = eduText
+//
+//                    let classText = data?["classMethod"] as? String ?? ""
+//                    self.classMetTL.text = classText
+//
+//                    let extraText = data?["extraExprience"] as? String ?? ""
+//                    self.extraExpTL.text = extraText
+//
+//                    print("Document data: \(dataDescription)")
+//                } else {
+//                    print("Document does not exist")
+//                    self.eduTL.text = "None"
+//                    self.classMetTL.text = "None"
+//                    self.extraExpTL.text = "None"
+//                }
+//            }
+//
+            //            let showOK = document.data()!["portfolioShow"] as? String ?? ""
+            //            if (showOK == "Off") {
+            //                self.eduTL.text = "선생님이 비공개로 설정해두었습니다."
+            //                self.classMetTL.text = "선생님이 비공개로 설정해두었습니다."
+            //                self.extraExpTL.text = "선생님이 비공개로 설정해두었습니다."
         }
     }
     
