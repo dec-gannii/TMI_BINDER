@@ -147,7 +147,7 @@ extension ClassInfoVC {
         
         // 데이터베이스 연결
         let db = Firestore.firestore()
-        db.collection("teacher").document("yurim").collection("class").document(studentItem.name + "(" + studentItem.email + ") " + subjectTextField.text!).setData([
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(studentItem.name + "(" + studentItem.email + ") " + subjectTextField.text!).setData([
             "email" : studentItem.email,
             "name" : studentItem.name,
             "goal" : studentItem.goal,

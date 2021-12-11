@@ -74,7 +74,7 @@ class MyClassVC: BaseVC {
     // 내 수업 가져오기
     func setMyClasses() {
         let db = Firestore.firestore()
-        db.collection("teacher").document("yurim").collection("class").getDocuments() { (querySnapshot, err) in
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")
                     self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
