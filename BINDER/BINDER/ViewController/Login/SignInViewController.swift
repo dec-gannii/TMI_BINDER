@@ -133,14 +133,16 @@ class SignInViewController: UIViewController {
                 guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassVC") as? MyClassVC else {
                     return
                 }
+                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionVC") as? QuestionViewController else {
+                    return
+                }
                 
                 guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
                     return
                 }
-                
                 let tb = UITabBarController()
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                tb.setViewControllers([homeVC, myClassVC, myPageVC], animated: true)
+                tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
                 tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
                 self.present(tb, animated: true, completion: nil)
             }
