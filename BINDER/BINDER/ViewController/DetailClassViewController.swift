@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 import FSCalendar
 
-class MyClassViewController: UIViewController {
+class DetailClassViewController: UIViewController {
     
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var evaluationView: UIView!
@@ -122,7 +122,7 @@ class MyClassViewController: UIViewController {
         evaluationOKBtn.isHidden = true
     }
 }
-extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
+extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
     
     internal func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
@@ -192,6 +192,6 @@ extension MyClassViewController: FSCalendarDelegate, UIViewControllerTransitioni
     }
 }
 
-extension MyClassViewController: FSCalendarDataSource {
+extension DetailClassViewController: FSCalendarDataSource {
     
 }

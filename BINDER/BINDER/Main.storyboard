@@ -429,7 +429,7 @@ Cg
             </objects>
             <point key="canvasLocation" x="28" y="177"/>
         </scene>
-        <!--HOME-->
+        <!--Home View Controller-->
         <scene sceneID="fCZ-gd-pb2">
             <objects>
                 <viewController storyboardIdentifier="HomeViewController" id="H0V-Ou-VbF" customClass="HomeViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
@@ -502,7 +502,7 @@ Cg
                             <constraint firstItem="EyS-0Q-x0E" firstAttribute="trailing" secondItem="FCe-qj-a2K" secondAttribute="trailing" constant="50" id="xZu-dU-4vf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="HOME" image="Home_Gray" id="zzG-fP-VA7">
+                    <tabBarItem key="tabBarItem" title="" image="Home_Gray" id="zzG-fP-VA7">
                         <color key="badgeColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Home_Color"/>
@@ -613,7 +613,7 @@ Cg
         <!--Class-->
         <scene sceneID="Z3Y-Ak-y8J">
             <objects>
-                <viewController storyboardIdentifier="MyClassViewController" id="sKG-Iw-VA5" customClass="MyClassViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailClassViewController" id="sKG-Iw-VA5" customClass="DetailClassViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cqY-Yi-og9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1102,7 +1102,6 @@ Cg
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="LogInBtnClicked:" destination="7Oi-nm-qsH" eventType="touchUpInside" id="tig-Ps-txt"/>
-                                    <segue destination="kKO-JD-h6L" kind="presentation" identifier="mainTabSegue" modalPresentationStyle="fullScreen" id="bPa-Lj-Eig"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BTW-Ji-PyH">
@@ -1634,7 +1633,7 @@ Cg
             </objects>
             <point key="canvasLocation" x="4745" y="522"/>
         </scene>
-        <!--MyPage-->
+        <!--My Page View Controller-->
         <scene sceneID="y2r-lW-tEW">
             <objects>
                 <viewController storyboardIdentifier="MyPageViewController" id="E9D-63-hKX" customClass="MyPageViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
@@ -1756,7 +1755,7 @@ Cg
                             <constraint firstItem="5VV-V4-ogH" firstAttribute="trailing" secondItem="2Rc-xh-AkG" secondAttribute="trailing" constant="40" id="nYq-pO-sE7"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="MyPage" image="MyPage_Gray" id="yOk-Nm-i6T">
+                    <tabBarItem key="tabBarItem" title="" image="MyPage_Gray" id="yOk-Nm-i6T">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="MyPage_Color"/>
                         </userDefinedRuntimeAttributes>
@@ -2211,10 +2210,10 @@ Cg
             </objects>
             <point key="canvasLocation" x="28" y="-488"/>
         </scene>
-        <!--MyClass-->
+        <!--My ClassVC-->
         <scene sceneID="bCe-mH-WBb">
             <objects>
-                <viewController storyboardIdentifier="MyClassVC" id="16n-DI-0qO" customClass="MyClassVC" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyClassViewController" id="16n-DI-0qO" customClass="MyClassVC" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0VL-2a-wI5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2449,7 +2448,7 @@ Cg
                             <constraint firstItem="0BT-OV-jZp" firstAttribute="top" secondItem="QpZ-0z-rUP" secondAttribute="bottom" id="zEF-hA-Ojo"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="MyClass" id="aHl-T2-TCa">
+                    <tabBarItem key="tabBarItem" title="" id="aHl-T2-TCa">
                         <imageReference key="image" image="MyClass_Gray" renderingMode="hierarchical">
                             <hierarchicalColors>
                                 <color systemColor="labelColor"/>
@@ -3163,10 +3162,10 @@ Cg
             </objects>
             <point key="canvasLocation" x="2803" y="1860"/>
         </scene>
-        <!--Question-->
+        <!--Question View Controller-->
         <scene sceneID="aew-iU-Fwx">
             <objects>
-                <viewController storyboardIdentifier="QuestionVC" id="b8d-fl-tSf" customClass="QuestionViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="QuestionViewController" id="b8d-fl-tSf" customClass="QuestionViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xPM-D5-kap">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3394,7 +3393,7 @@ Cg
                             <constraint firstItem="xKq-Ir-q6Q" firstAttribute="leading" secondItem="aXh-5D-YBX" secondAttribute="leading" id="xN5-b1-1jG"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Question" id="7DO-gU-6MF">
+                    <tabBarItem key="tabBarItem" title="" id="7DO-gU-6MF">
                         <imageReference key="image" image="Question_Gray" renderingMode="hierarchical">
                             <hierarchicalColors>
                                 <color systemColor="labelColor"/>
@@ -3404,7 +3403,7 @@ Cg
                         </imageReference>
                         <color key="badgeColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="MyClass_Color"/>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Question_Color"/>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <userDefinedRuntimeAttributes>
@@ -3423,13 +3422,13 @@ Cg
     </scenes>
     <resources>
         <image name="GrapeImage" width="64" height="64"/>
-        <image name="Home_Color" width="25" height="25"/>
+        <image name="Home_Color" width="40" height="38"/>
         <image name="Home_Gray" width="25" height="25"/>
-        <image name="MyClass_Color" width="25" height="25"/>
+        <image name="MyClass_Color" width="53" height="42"/>
         <image name="MyClass_Gray" width="25" height="25"/>
-        <image name="MyPage_Color" width="25" height="25"/>
+        <image name="MyPage_Color" width="49" height="41"/>
         <image name="MyPage_Gray" width="25" height="25"/>
-        <image name="Question_Color" width="25" height="25"/>
+        <image name="Question_Color" width="55" height="41"/>
         <image name="Question_Gray" width="25" height="25"/>
         <image name="arrowtriangle.down.fill" catalog="system" width="128" height="124"/>
         <image name="background" width="390" height="844"/>
