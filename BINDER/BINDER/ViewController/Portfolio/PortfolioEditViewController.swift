@@ -17,13 +17,26 @@ class PortfolioEditViewController: UIViewController {
     let db = Firestore.firestore()
     var ref: DatabaseReference!
     
-    
     var edu = ""
     var classMethod = ""
     var extra = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfoilo").document("portfoilo").getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let eduHistory = data?["eduHistory"] as? String ?? ""
+                self.eduHistoryTF.text = eduHistory
+                let classMethod = data?["classMethod"] as? String ?? ""
+                self.classMetTF.text = classMethod
+                let extraExprience = data?["extraExprience"] as? String ?? ""
+                self.extraExpTF.text = extraExprience
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     @IBAction func editButton(_ sender: Any) {
@@ -41,6 +54,7 @@ class PortfolioEditViewController: UIViewController {
         let portfoiloVC = self.storyboard?.instantiateViewController(withIdentifier: "ProtfolioViewController")
         portfoiloVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
         portfoiloVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+        portfoiloVC?.isEditing = true
         self.present(portfoiloVC!, animated: true, completion: nil)
         
     }
