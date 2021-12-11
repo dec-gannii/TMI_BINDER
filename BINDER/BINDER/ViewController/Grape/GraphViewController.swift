@@ -208,31 +208,34 @@ class GraphViewController: UIViewController {
         todoTF.text = ""
         self.tableView.reloadData()
     }
-    @IBAction func checkBtnTapped(_ sender: Any) {
-        
+}
+
+extension GraphViewController:UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return todos.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
-        bRec = !bRec
-        if bRec {
-            cell.CheckButton.setImage(UIImage(named: "Circle"), for: .normal)
+        let todo = self.todos[indexPath.row]
+        
+        cell.TodoLabel.text = "\(todo)"
+        
+        cell.selectionStyle = .none
+        cell.CheckButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
+        return cell
+    }
+    @objc func checkMarkButtonClicked(sender: UIButton){
+        print("button preesed")
+        
+        if sender.isSelected{
+            sender.isSelected = false
+            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
         } else {
-            cell.CheckButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+            sender.isSelected = true
+            sender.setImage(UIImage(systemName: "circle"), for: .normal)
         }
     }
-}
-
-extension GraphViewController:UITableViewDataSource {
-    
-func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return todos.count
-}
-
-func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-    let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
-    let todo = self.todos[indexPath.row]
-    
-    cell.TodoLabel.text = "\(todo)"
-    
-    return cell
-}
 }

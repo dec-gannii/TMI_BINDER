@@ -1457,9 +1457,6 @@ Cg
                                                     <color key="tintColor" red="0.039215686270000001" green="0.40784313729999999" blue="0.85882352939999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="circle" catalog="system"/>
-                                                    <connections>
-                                                        <action selector="checkBtnTapped:" destination="C4a-F4-h3n" eventType="touchUpInside" id="Hjp-Tg-uzM"/>
-                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WaK-VR-oiV">
                                                     <rect key="frame" x="82.5" y="16" width="281.5" height="22.5"/>
