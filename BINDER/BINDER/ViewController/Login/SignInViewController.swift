@@ -130,8 +130,7 @@ class SignInViewController: UIViewController {
                 homeVC.name = self.nameTextField.text!
                 homeVC.type = self.type
                 
-                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassViewController else {
-                    //아니면 종료
+                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassVC") as? MyClassVC else {
                     return
                 }
                 
@@ -139,14 +138,9 @@ class SignInViewController: UIViewController {
                     return
                 }
                 
-                guard let myClass2VC =
-                        self.storyboard?.instantiateViewController(withIdentifier: "MyClassVC") as? MyClassVC else {
-                            return
-                        }
-                
                 let tb = UITabBarController()
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                tb.setViewControllers([homeVC, myClassVC, myPageVC, myClass2VC], animated: true)
+                tb.setViewControllers([homeVC, myClassVC, myPageVC], animated: true)
                 tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
                 self.present(tb, animated: true, completion: nil)
             }

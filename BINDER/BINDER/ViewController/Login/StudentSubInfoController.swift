@@ -122,23 +122,19 @@ class StudentSubInfoController:UIViewController, UITextFieldDelegate, UIPickerVi
                 return
             }
             
-            guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassViewController else {
-                //아니면 종료
+            guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassVC") as? MyClassVC else {
                 return
             }
+            
             guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
                 return
             }
             
-            guard let myClass2VC =
-                    self.storyboard?.instantiateViewController(withIdentifier: "MyClassVC") as? MyClassVC else {
-                        return
-                    }
-            
             let tb = UITabBarController()
             tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-            tb.setViewControllers([homeVC, myClassVC, myPageVC, myClass2VC], animated: true)
+            tb.setViewControllers([homeVC, myClassVC, myPageVC], animated: true)
             self.present(tb, animated: true, completion: nil)
+
         }
     }
     
