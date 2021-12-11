@@ -9,7 +9,7 @@ import Kingfisher
 import Firebase
 
 class MyClassVC: BaseVC {
-
+    
     /// 선생님 이름 변수
     @IBOutlet weak var teacherName: UILabel!
     
@@ -75,49 +75,49 @@ class MyClassVC: BaseVC {
     func setMyClasses() {
         let db = Firestore.firestore()
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print(">>>>> document 에러 : \(err)")
-                    self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
-                } else {
-                    /// nil이 아닌지 확인한다.
-                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                        return
-                    }
-                    
-                    /// 조회하기 위해 원래 있던 것 들 다 지움
-                    self.classItems.removeAll()
-                    
-                    
-                    for document in snapshot.documents {
-                        print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
-                        
-                        /// document.data()를 통해서 값 받아옴, data는 dictionary
-                        let classDt = document.data()
-                        
-                        /// nil값 처리
-                        let email = classDt["email"] as? String ?? ""
-                        let name = classDt["name"] as? String ?? ""
-                        let goal = classDt["goal"] as? String ?? ""
-                        let subject = classDt["subject"] as? String ?? ""
-                        let currentCnt = classDt["currentCnt"] as? Int ?? 0
-                        let totalCnt = classDt["totalCnt"] as? Int ?? 0
-                        let circleColor = classDt["circleColor"] as? String ?? "026700"
-                        let recentDate = classDt["recentDate"] as? String ?? ""
-                        let payType = classDt["payType"] as? String ?? ""
-                        let payDate = classDt["payDate"] as? String ?? ""
-                        let payAmount = classDt["payAmount"] as? String ?? ""
-                        let schedule = classDt["schedule"] as? String ?? ""
-                        let repeatYN = classDt["repeatYN"] as? String ?? ""
-                        let item = ClassItem(email: email, name: name, goal: goal, subject: subject, recentDate: recentDate, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: circleColor, payType: payType, payDate: payDate, payAmount: payAmount, schedule: schedule, repeatYN: repeatYN)
-                        
-                        /// 모든 값을 더한다.
-                        self.classItems.append(item)
-                    }
-                    
-                    /// UITableView를 reload 하기
-                    self.studentTV.reloadData()
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+                self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
+            } else {
+                /// nil이 아닌지 확인한다.
+                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                    return
                 }
+                
+                /// 조회하기 위해 원래 있던 것 들 다 지움
+                self.classItems.removeAll()
+                
+                
+                for document in snapshot.documents {
+                    print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                    
+                    /// document.data()를 통해서 값 받아옴, data는 dictionary
+                    let classDt = document.data()
+                    
+                    /// nil값 처리
+                    let email = classDt["email"] as? String ?? ""
+                    let name = classDt["name"] as? String ?? ""
+                    let goal = classDt["goal"] as? String ?? ""
+                    let subject = classDt["subject"] as? String ?? ""
+                    let currentCnt = classDt["currentCnt"] as? Int ?? 0
+                    let totalCnt = classDt["totalCnt"] as? Int ?? 0
+                    let circleColor = classDt["circleColor"] as? String ?? "026700"
+                    let recentDate = classDt["recentDate"] as? String ?? ""
+                    let payType = classDt["payType"] as? String ?? ""
+                    let payDate = classDt["payDate"] as? String ?? ""
+                    let payAmount = classDt["payAmount"] as? String ?? ""
+                    let schedule = classDt["schedule"] as? String ?? ""
+                    let repeatYN = classDt["repeatYN"] as? String ?? ""
+                    let item = ClassItem(email: email, name: name, goal: goal, subject: subject, recentDate: recentDate, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: circleColor, payType: payType, payDate: payDate, payAmount: payAmount, schedule: schedule, repeatYN: repeatYN)
+                    
+                    /// 모든 값을 더한다.
+                    self.classItems.append(item)
+                }
+                
+                /// UITableView를 reload 하기
+                self.studentTV.reloadData()
             }
+        }
     }
     
 }
@@ -166,9 +166,10 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     /// 수업관리하기 버튼 클릭
     /// - Parameter sender: 버튼
     @IBAction func onClickManageButton(_ sender: UIButton) {
-        let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController")
+        let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController")
         weekendVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
         weekendVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+        
         self.present(weekendVC!, animated: true, completion: nil)
     }
     

@@ -18,8 +18,6 @@ class AddStudentVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        emailTf.text = "lee.student@gamil.com" // 테스트 코드
-        
         /// 키보드 띄우기
         emailTf.becomeFirstResponder()
     }

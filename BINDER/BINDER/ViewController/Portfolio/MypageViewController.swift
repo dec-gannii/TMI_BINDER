@@ -8,13 +8,14 @@
 import UIKit
 import FirebaseFirestore
 import Firebase
+import Kingfisher
 
-class MyPageViewController: UIViewController {
+class MyPageViewController: BaseVC {
     @IBOutlet weak var pageView: UIView!
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var roleLabel: UILabel!
+    @IBOutlet weak var teacherEmail: UILabel!
     
     @IBOutlet weak var portfoiolBtn: UIButton!
     @IBOutlet weak var openPortfolioSwitch: UISwitch!
@@ -30,30 +31,21 @@ class MyPageViewController: UIViewController {
     }
     
     func getUserInfo(){
-        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
-        if (docRef != nil){
-            docRef.getDocument { (document, error) in
-                if let document = document, document.exists {
-                    let data = document.data()
-                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+        LoginRepository.shared.doLogin {
+                    /// 가져오는 시간 걸림
+                    self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
+                    self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
                     
-                    let name = data?["Name"] as? String ?? ""
-                    self.nameLabel.text = name
+                    let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+                    self.imageView.kf.setImage(with: url)
+                    self.imageView.makeCircle()
                     
-                   var role = data?["Type"] as? String ?? ""
-                   if role == "teacher"{
-                        role = "선생님"
-                    }else if role == "student"{
-                        role = "학생"
-                    }
-                    self.roleLabel.text = role
-                    
-                    print("Document data: \(dataDescription)")
-                } else {
-                    print("Document does not exist")
+                    /// 클래스 가져오기
+                    //self.setMyClasses()
+                } failure: { error in
+                    self.showDefaultAlert(msg: "")
                 }
-            }
-        }
+                /// 클로저, 리스너
     }
     @IBAction func LogOutBtnClicked(_ sender: Any) {
         do {

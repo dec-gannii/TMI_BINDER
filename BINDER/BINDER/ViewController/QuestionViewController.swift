@@ -7,7 +7,7 @@
 
 import UIKit
 
-class QuestionViewController:UIViewController {
+class QuestionViewController: BaseVC {
     
     @IBOutlet weak var teacherName: UILabel!
     @IBOutlet weak var teacherEmail: UILabel!
@@ -15,5 +15,24 @@ class QuestionViewController:UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getUserInfo()
+    }
+    
+    func getUserInfo(){
+        LoginRepository.shared.doLogin {
+                    /// 가져오는 시간 걸림
+                    self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
+                    self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
+                    
+                    let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+                    self.teacherImage.kf.setImage(with: url)
+                    self.teacherImage.makeCircle()
+                    
+                    /// 클래스 가져오기
+                    //self.setMyClasses()
+                } failure: { error in
+                    self.showDefaultAlert(msg: "")
+                }
+                /// 클로저, 리스너
     }
 }
