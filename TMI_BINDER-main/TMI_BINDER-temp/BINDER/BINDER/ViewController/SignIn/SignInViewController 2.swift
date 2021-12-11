@@ -113,43 +113,32 @@ class SignInViewController: UIViewController {
                     return
                 }
             }
-            if(type == "student"){
-                let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfo")
-                subInfoVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                subInfoVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                self.present(subInfoVC!, animated: true, completion: nil)
+            
+            guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                //아니면 종료
+                return
             }
-            else{
-                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                    //아니면 종료
-                    return
-                }
-                homeVC.id = self.emailTextField.text!
-                homeVC.pw = self.pwTextField.text!
-                homeVC.number = SignInViewController.number
-                homeVC.name = self.nameTextField.text!
-                homeVC.type = self.type
-                
-                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassViewController else {
-                    //아니면 종료
-                    return
-                }
-                
-                guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                    return
-                }
-                
-                guard let myClass2VC =
-                        self.storyboard?.instantiateViewController(withIdentifier: "MyClassVC") as? MyClassVC else {
-                            return
-                        }
-                
-                let tb = UITabBarController()
-                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                tb.setViewControllers([homeVC, myClassVC, myPageVC, myClass2VC], animated: true)
-                tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
-                self.present(tb, animated: true, completion: nil)
+            homeVC.id = self.emailTextField.text!
+            homeVC.pw = self.pwTextField.text!
+            homeVC.number = SignInViewController.number
+            homeVC.name = self.nameTextField.text!
+            homeVC.type = self.type
+            
+            guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassViewController else {
+                //아니면 종료
+                return
             }
+            let tb = UITabBarController()
+            tb.modalPresentationStyle = .fullScreen
+            tb.setViewControllers([homeVC, myClassVC], animated: true)
+            present(tb, animated: true, completion: nil)
+            
+            
+//            homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+//            homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+//            //화면전환
+//            self.present(homeVC, animated: true)
+            
         } else {
             if (!self.isValidEmail(id)){
                 emailAlertLabel.isHidden = false
