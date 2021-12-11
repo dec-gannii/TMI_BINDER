@@ -59,8 +59,14 @@ class GraphViewController: UIViewController {
         barChartView.noDataFont = .systemFont(ofSize: 20)
         barChartView.noDataTextColor = .lightGray
         
+        allRound()
         barColorSetting()
         setChart(dataPoints: days, values: scores)
+    }
+    
+    func allRound() {
+        self.clipsToBounds = true
+        self.layer.cornerRadius = 20
     }
     
     func barColorSetting(){
