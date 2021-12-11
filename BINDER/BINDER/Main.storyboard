@@ -3403,7 +3403,7 @@ Cg
                         </imageReference>
                         <color key="badgeColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="MyClass_Color"/>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Question_Color"/>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <userDefinedRuntimeAttributes>
