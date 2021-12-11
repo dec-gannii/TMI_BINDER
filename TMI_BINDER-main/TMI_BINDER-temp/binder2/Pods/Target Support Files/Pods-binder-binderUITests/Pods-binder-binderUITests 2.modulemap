@@ -1,0 +1,6 @@
+framework module Pods_binder_binderUITests {
+  umbrella header "Pods-binder-binderUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

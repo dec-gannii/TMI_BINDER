@@ -94,6 +94,12 @@ class MyClassViewController: UIViewController {
         }
     }
     
+    @IBAction func goBack(_ sender: Any) {
+        if let preVC = self.presentingViewController as? UIViewController {
+            preVC.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     @IBAction func OKButtonClicked(_ sender: Any) {
         self.db.collection("Evaluation").document(Auth.auth().currentUser!.uid).collection("\(self.date!)").document("DailyEvaluation").setData([
             "Progress": progressTextView.text!,
