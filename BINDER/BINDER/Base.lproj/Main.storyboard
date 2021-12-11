@@ -1607,7 +1607,7 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="bottom" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="2Rc-xh-AkG">
-                                <rect key="frame" x="230" y="144" width="97" height="30"/>
+                                <rect key="frame" x="230" y="175" width="97" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hEi-Rx-R6J">
                                         <rect key="frame" x="0.0" y="0.0" width="43.5" height="30"/>
@@ -1623,14 +1623,13 @@ Cg
                                     </label>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jxr-k4-zq0">
-                                <rect key="frame" x="230" y="74" width="138" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jxr-k4-zq0">
+                                <rect key="frame" x="280" y="74" width="88" height="31"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SQB-NC-Iw4">
-                                        <rect key="frame" x="0.0" y="0.0" width="69" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="31"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="로그아웃">
-                                            <fontDescription key="titleFontDescription" type="system" pointSize="13"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="iphone.and.arrow.forward" catalog="system">
                                             <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -1638,13 +1637,15 @@ Cg
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gc6-Mz-Frj">
-                                        <rect key="frame" x="69" y="0.0" width="69" height="30"/>
+                                        <rect key="frame" x="48" y="0.0" width="40" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="Lm2-VH-Esc"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="설정">
                                             <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <buttonConfiguration key="configuration" style="plain" title="설정">
-                                            <fontDescription key="titleFontDescription" type="system" pointSize="13"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="gearshape" catalog="system">
                                             <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                     </button>
@@ -1710,13 +1711,13 @@ Cg
                         <constraints>
                             <constraint firstItem="jxr-k4-zq0" firstAttribute="top" secondItem="5VV-V4-ogH" secondAttribute="top" constant="30" id="0b2-tY-mib"/>
                             <constraint firstItem="d0Q-Cz-Dn4" firstAttribute="leading" secondItem="5VV-V4-ogH" secondAttribute="leading" constant="25" id="1kw-bc-CeW"/>
-                            <constraint firstItem="2Rc-xh-AkG" firstAttribute="top" secondItem="jxr-k4-zq0" secondAttribute="bottom" constant="40" id="7JX-CE-hub"/>
+                            <constraint firstItem="2Rc-xh-AkG" firstAttribute="top" secondItem="jxr-k4-zq0" secondAttribute="bottom" constant="70" id="7JX-CE-hub"/>
                             <constraint firstItem="LwR-zi-C4B" firstAttribute="leading" secondItem="5VV-V4-ogH" secondAttribute="leading" constant="40" id="8g2-d2-aTh"/>
                             <constraint firstItem="d0Q-Cz-Dn4" firstAttribute="top" secondItem="LwR-zi-C4B" secondAttribute="bottom" constant="50" id="VeD-x9-WXb"/>
                             <constraint firstItem="5VV-V4-ogH" firstAttribute="trailing" secondItem="d0Q-Cz-Dn4" secondAttribute="trailing" constant="25" id="g9y-2p-Cnw"/>
                             <constraint firstItem="2Rc-xh-AkG" firstAttribute="leading" secondItem="LwR-zi-C4B" secondAttribute="trailing" constant="50" id="gtw-nB-dhD"/>
                             <constraint firstItem="LwR-zi-C4B" firstAttribute="top" secondItem="5VV-V4-ogH" secondAttribute="top" constant="40" id="jZZ-VH-auy"/>
-                            <constraint firstItem="jxr-k4-zq0" firstAttribute="leading" secondItem="LwR-zi-C4B" secondAttribute="trailing" constant="50" id="mW7-hB-g9Y"/>
+                            <constraint firstItem="jxr-k4-zq0" firstAttribute="leading" secondItem="LwR-zi-C4B" secondAttribute="trailing" constant="100" id="mW7-hB-g9Y"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Question" image="Question_Gray" id="yOk-Nm-i6T">
@@ -3224,6 +3225,8 @@ Cg
         <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="folder.fill" catalog="system" width="128" height="97"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="iphone.and.arrow.forward" catalog="system" width="108" height="128"/>
         <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="student_cell_back" width="120.5" height="146"/>
         <image name="student_plus_btn" width="25" height="26"/>
