@@ -107,7 +107,7 @@ class StudentSubInfoController:UIViewController, UITextFieldDelegate, UIPickerVi
         }
         else {
             // 데이터 저장
-           db.collection("student").document(Auth.auth().currentUser!.uid).collection("Subinfo").document(goal).setData([
+           db.collection("student").document(Auth.auth().currentUser!.uid).updateData([
                 "age": age,
                 "phonenum": phonenum,
                 "goal": goal

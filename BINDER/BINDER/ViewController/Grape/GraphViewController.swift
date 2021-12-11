@@ -139,20 +139,26 @@ class GraphViewController: UIViewController {
 
     
     }
-    
     func getTodos(){
-        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("portfoilo").getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                for i in 0...self.count {
-                    self.todos.append(data?["todo\(i)"] as? String ?? "")
+        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("Count")
+        
+            docRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                    
+                    self.count = data?["count"] as? Int ?? 0
+                    print("Document data: \(dataDescription)")
+                    print("count: \(self.count)")
+                } else {
+                    print("Document does not exist")
                 }
-            } else {
-                print("Document does not exist")
             }
-        }
-        tableView.reloadData()
+    
+    
+        
     }
+    
     /*
     @IBAction func didTapButton(){
         boardManager.showBulletin(above: self)
@@ -175,6 +181,7 @@ class GraphViewController: UIViewController {
     @IBAction func goButtonClicked(_ sender: Any) {
         todos.append(todoTF.text ?? "")
         count = count + 1
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("Count").setData(["count": count])
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("todos").updateData([
             "todo\(count)":todoTF.text ?? ""
         ]) { err in
@@ -183,7 +190,7 @@ class GraphViewController: UIViewController {
             }
         }
         
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
 }
 
