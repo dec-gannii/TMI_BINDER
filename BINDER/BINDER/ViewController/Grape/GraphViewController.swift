@@ -23,7 +23,7 @@ class GraphViewController: UIViewController {
     
     var days: [String]!
     var scores: [Double]!
-    let floatValue: [CGFloat] = [4,4]
+    let floatValue: [CGFloat] = [5,5]
     var barColors = [UIColor]()
     
     var todos = Array<String>()
@@ -69,10 +69,10 @@ class GraphViewController: UIViewController {
     
     func allRound() {
         okButton.clipsToBounds = true
-        okButton.layer.cornerRadius = 20
+        okButton.layer.cornerRadius = 10
         
         plusButton.clipsToBounds = true
-        plusButton.layer.cornerRadius = 20
+        plusButton.layer.cornerRadius = 10
     }
     
     func barColorSetting(){
@@ -100,11 +100,11 @@ class GraphViewController: UIViewController {
         // 데이터 삽입
         let chartData = BarChartData(dataSet: chartDataSet)
         barChartView.data = chartData
-        
         barChartView.drawValueAboveBarEnabled = true
         
         // 선택 안되게
         chartDataSet.highlightEnabled = false
+        
         // 줌 안되게
         barChartView.doubleTapToZoomEnabled = false
         
@@ -113,6 +113,8 @@ class GraphViewController: UIViewController {
         barChartView.leftAxis.gridColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 0.4)
         barChartView.leftAxis.gridLineWidth = CGFloat(1.0)
         barChartView.leftAxis.gridLineDashLengths = floatValue
+        barChartView.leftAxis.axisMaximum = 100
+        barChartView.leftAxis.axisMinimum = 0
         
         // X축 레이블 위치 조정
         barChartView.xAxis.labelPosition = .bottom
