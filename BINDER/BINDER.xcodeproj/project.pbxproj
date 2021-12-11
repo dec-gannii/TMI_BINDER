@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912805E276398EB00712739 /* PortfolioEditViewController.swift */; };
+		691A7BA2276460C6003DCB05 /* Todocell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691A7BA1276460C6003DCB05 /* Todocell.swift */; };
 		6965DE6A275DEF1C0072C16A /* StudentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE67275DEF1B0072C16A /* StudentItem.swift */; };
 		6965DE6B275DEF1C0072C16A /* ClassItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE68275DEF1C0072C16A /* ClassItem.swift */; };
 		6965DE6C275DEF1C0072C16A /* TeacherItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE69275DEF1C0072C16A /* TeacherItem.swift */; };
@@ -48,6 +50,8 @@
 /* Begin PBXFileReference section */
 		5F9B9D54CC0BA11B11C12834 /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
 		68395CBA2DA434A3DC560C93 /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
+		6912805E276398EB00712739 /* PortfolioEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEditViewController.swift; sourceTree = "<group>"; };
+		691A7BA1276460C6003DCB05 /* Todocell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todocell.swift; sourceTree = "<group>"; };
 		6965DE67275DEF1B0072C16A /* StudentItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentItem.swift; sourceTree = "<group>"; };
 		6965DE68275DEF1C0072C16A /* ClassItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassItem.swift; sourceTree = "<group>"; };
 		6965DE69275DEF1C0072C16A /* TeacherItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherItem.swift; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 			children = (
 				69EE72AA275D05C2007F6F7C /* GraphViewController.swift */,
 				69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */,
+				691A7BA1276460C6003DCB05 /* Todocell.swift */,
 			);
 			path = Grape;
 			sourceTree = "<group>";
@@ -186,6 +191,7 @@
 			children = (
 				69EE72B1275D11C2007F6F7C /* MypageViewController.swift */,
 				69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */,
+				6912805E276398EB00712739 /* PortfolioEditViewController.swift */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -432,11 +438,13 @@
 				7F16D1462749390300745522 /* SceneDelegate.swift in Sources */,
 				7F16D15F2749500900745522 /* LogInViewController.swift in Sources */,
 				7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */,
+				691A7BA2276460C6003DCB05 /* Todocell.swift in Sources */,
 				6965DE6A275DEF1C0072C16A /* StudentItem.swift in Sources */,
 				6965DE72275DEF290072C16A /* Date.swift in Sources */,
 				69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */,
 				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
 				69EE72B4275D11D5007F6F7C /* PortfolioViewController.swift in Sources */,
+				6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */,
 				6965DE6B275DEF1C0072C16A /* ClassItem.swift in Sources */,
 				6965DE84275DEF670072C16A /* MyClassVC.swift in Sources */,
 			);
