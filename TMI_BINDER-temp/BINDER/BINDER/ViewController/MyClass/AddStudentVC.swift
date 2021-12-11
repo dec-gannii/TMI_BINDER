@@ -18,7 +18,7 @@ class AddStudentVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        emailTf.text = "lee.student@gamil.com" // 테스트 코드
+        // emailTf.text = "lee.student@gamil.com" // 테스트 코드
         
         /// 키보드 띄우기
         emailTf.becomeFirstResponder()
@@ -42,7 +42,7 @@ class AddStudentVC: BaseVC {
     func searchStudent(email: String) {
         let db = Firestore.firestore()
         /// 입력한 이메일과 갖고있는 이메일이 같은지 확인
-        db.collection("student").whereField("email", isEqualTo: email)
+        db.collection("student").whereField("Email", isEqualTo: email)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")
@@ -56,12 +56,12 @@ class AddStudentVC: BaseVC {
                     
                     /// first : 여러개가 와도 첫번째 것만 봄.
                     let studentDt = snapshot.documents.first!.data()
-                    let age = studentDt["age"] as? Int ?? 0
-                    let email = studentDt["email"] as? String ?? ""
-                    let goal = studentDt["goal"] as? String ?? ""
-                    let name = studentDt["name"] as? String ?? ""
-                    let password = studentDt["password"] as? String ?? ""
-                    let phone = studentDt["phone"] as? String ?? ""
+                    let age = studentDt["Age"] as? Int ?? 0
+                    let email = studentDt["Email"] as? String ?? ""
+                    let goal = studentDt["Goal"] as? String ?? ""
+                    let name = studentDt["Name"] as? String ?? ""
+                    let password = studentDt["Password"] as? String ?? ""
+                    let phone = studentDt["Phone"] as? String ?? ""
                     let item = StudentItem(age: age, email: email, goal: goal, name: name, password: password, phone: phone)
                     
                     /// 값 넘어가기

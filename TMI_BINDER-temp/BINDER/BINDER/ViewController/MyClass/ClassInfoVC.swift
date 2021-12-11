@@ -6,6 +6,7 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 
 class ClassInfoVC: BaseVC {
     
@@ -26,12 +27,16 @@ class ClassInfoVC: BaseVC {
     @IBOutlet weak var isRepeat: UISwitch!
     @IBOutlet var days : [UIButton]!
     
+    let randomColor = ColorUtils.randomColor()
+    
     var payType: PayType = .countly {
         didSet {
             changeUI()
         }
     }
     
+
+
     weak var delegate: AddStudentDelegate?
     
     var studentItem: StudentItem!
@@ -43,6 +48,14 @@ class ClassInfoVC: BaseVC {
         
         /// 둥근 테두리 주기
         classColor.makeCircle()
+        
+        /// 랜덤 컬러 주기
+        if let hex = Int(randomColor, radix: 16) {
+        classColor.backgroundColor = UIColor.init(rgb: hex)
+        } else {
+        classColor.backgroundColor = UIColor.red
+        }
+        
         studentBox.allRound()
         classInputBox.allRound()
         
@@ -111,6 +124,7 @@ class ClassInfoVC: BaseVC {
         }
         return res
     }
+    
 }
 
 // MARK: - 클릭 이벤트
@@ -147,14 +161,14 @@ extension ClassInfoVC {
         
         // 데이터베이스 연결
         let db = Firestore.firestore()
-        db.collection("teacher").document("yurim").collection("class").document(studentItem.name + "(" + studentItem.email + ") " + subjectTextField.text!).setData([
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(studentItem.name + "(" + studentItem.email + ") " + subjectTextField.text!).setData([
             "email" : studentItem.email,
             "name" : studentItem.name,
             "goal" : studentItem.goal,
             "subject" : subject,
             "currentCnt" : 0,
-            "totalCnt" : 100,
-            "circleColor" : "A80101",
+            "totalCnt" : 8,
+            "circleColor" : randomColor,
             "recentDate" : "",
             "payType" : payType == .timly ? "T" : "C",
             "payDate": payDate,

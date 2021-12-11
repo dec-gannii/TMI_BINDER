@@ -28,6 +28,8 @@
 		69EE72B2275D11C2007F6F7C /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B1275D11C2007F6F7C /* MypageViewController.swift */; };
 		69EE72B4275D11D5007F6F7C /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */; };
 		69EE72B6275D1451007F6F7C /* StudentSubInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B5275D1451007F6F7C /* StudentSubInfoController.swift */; };
+		6FA406EE2764870D00ED847F /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA406ED2764870D00ED847F /* ColorUtils.swift */; };
+		6FA406F027648E9600ED847F /* CustomTabVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA406EF27648E9600ED847F /* CustomTabVC.swift */; };
 		7F16D1442749390300745522 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1432749390300745522 /* AppDelegate.swift */; };
 		7F16D1462749390300745522 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1452749390300745522 /* SceneDelegate.swift */; };
 		7F16D1482749390300745522 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1472749390300745522 /* SignInViewController.swift */; };
@@ -72,6 +74,8 @@
 		69EE72B1275D11C2007F6F7C /* MypageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewController.swift; sourceTree = "<group>"; };
 		69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		69EE72B5275D1451007F6F7C /* StudentSubInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSubInfoController.swift; sourceTree = "<group>"; };
+		6FA406ED2764870D00ED847F /* ColorUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
+		6FA406EF27648E9600ED847F /* CustomTabVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabVC.swift; sourceTree = "<group>"; };
 		7F16D1402749390300745522 /* BINDER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BINDER.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F16D1432749390300745522 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F16D1452749390300745522 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -207,6 +211,14 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		6FA406EC276486DB00ED847F /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				6FA406ED2764870D00ED847F /* ColorUtils.swift */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
 		7F16D1372749390300745522 = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +255,7 @@
 		7F16D15B2749467000745522 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				6FA406EC276486DB00ED847F /* utils */,
 				6942598E275DE915003E0997 /* models */,
 				6942598D275DE90D003E0997 /* extension */,
 				6942598C275DE907003E0997 /* cells */,
@@ -262,6 +275,7 @@
 				7F5D129A27560DA800A87F17 /* InsertClassInfoViewController.swift */,
 				7F8CC8F9275BB29E00BE195D /* ScheduleListViewController.swift */,
 				7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */,
+				6FA406EF27648E9600ED847F /* CustomTabVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -418,6 +432,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6965DE6C275DEF1C0072C16A /* TeacherItem.swift in Sources */,
+				6FA406EE2764870D00ED847F /* ColorUtils.swift in Sources */,
 				6965DE86275DEF670072C16A /* ClassInfoVC.swift in Sources */,
 				6965DE85275DEF670072C16A /* BaseVC.swift in Sources */,
 				7F17FB83275BB45500834B4D /* ScheduleCellTableViewCell.swift in Sources */,
@@ -427,6 +442,7 @@
 				6965DE83275DEF670072C16A /* AddStudentVC.swift in Sources */,
 				6965DE7C275DEF490072C16A /* PayType.swift in Sources */,
 				6965DE75275DEF330072C16A /* CardTableViewCell.swift in Sources */,
+				6FA406F027648E9600ED847F /* CustomTabVC.swift in Sources */,
 				7FF68A782750C698004EB9E6 /* MyClassViewController.swift in Sources */,
 				6965DE7A275DEF410072C16A /* CircleButton.swift in Sources */,
 				7F5D12972756032D00A87F17 /* AddStudentViewController.swift in Sources */,

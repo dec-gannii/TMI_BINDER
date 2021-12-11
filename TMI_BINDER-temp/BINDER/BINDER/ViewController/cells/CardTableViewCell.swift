@@ -12,6 +12,7 @@ class CardTableViewCell: UITableViewCell {
     @IBOutlet weak var studentName: UILabel!
     @IBOutlet weak var subjectName: UILabel!
     @IBOutlet weak var subjectGoal: UILabel!
+    @IBOutlet weak var recentDate: UILabel!
     @IBOutlet weak var cntLb: UILabel!
     @IBOutlet weak var contentViewCell: UIView!
     @IBOutlet weak var manageBtn: UIButton!

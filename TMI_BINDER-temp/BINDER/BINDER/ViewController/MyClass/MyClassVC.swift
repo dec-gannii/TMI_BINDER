@@ -7,6 +7,7 @@
 import UIKit
 import Kingfisher
 import Firebase
+import StoreKit
 
 class MyClassVC: BaseVC {
 
@@ -74,7 +75,7 @@ class MyClassVC: BaseVC {
     // 내 수업 가져오기
     func setMyClasses() {
         let db = Firestore.firestore()
-        db.collection("teacher").document("yurim").collection("class").getDocuments() { (querySnapshot, err) in
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")
                     self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
@@ -101,7 +102,7 @@ class MyClassVC: BaseVC {
                         let subject = classDt["subject"] as? String ?? ""
                         let currentCnt = classDt["currentCnt"] as? Int ?? 0
                         let totalCnt = classDt["totalCnt"] as? Int ?? 0
-                        let circleColor = classDt["circleColor"] as? String ?? "026700"
+                        let circleColor = classDt["circleColor"] as? String ?? "FFFFFF"
                         let recentDate = classDt["recentDate"] as? String ?? ""
                         let payType = classDt["payType"] as? String ?? ""
                         let payDate = classDt["payDate"] as? String ?? ""
@@ -146,6 +147,7 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             cell.studentName.text = "\(item.name) 학생 "
             cell.subjectName.text = item.subject
             cell.subjectGoal.text = item.goal
+            cell.recentDate.text = "최근수업 : \(item.recentDate)"
             cell.cntLb.text = "\(item.currentCnt) / \(item.totalCnt)"
             
             cell.classColor.makeCircle()
