@@ -17,12 +17,14 @@ class MyPageViewController: UIViewController {
     @IBOutlet weak var roleLabel: UILabel!
     
     @IBOutlet weak var portfoiolBtn: UIButton!
+    @IBOutlet weak var openPortfolioSwitch: UISwitch!
     
     let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        openPortfolioSwitch.onTintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
         getUserInfo()
         viewDecorating()
     }
