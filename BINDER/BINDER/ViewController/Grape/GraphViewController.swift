@@ -15,11 +15,15 @@ class GraphViewController: UIViewController {
     //@IBOutlet var plusButton: UIButton!
     @IBOutlet var barChartView: BarChartView!
 
+    @IBOutlet weak var todoTF: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+    
     var days: [String]!
     var scores: [Double]!
     let floatValue: [CGFloat] = [4,4]
     var barColors = [UIColor]()
     
+    var todos = Array<String>()
     
    /* private lazy var boardManager: BLTNItemManager = {
         
@@ -135,4 +139,25 @@ class GraphViewController: UIViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
+    
+    @IBAction func goButtonClicked(_ sender: Any) {
+        todos.append(todoTF.text ?? "")
+        tableView.reloadData()
+    }
+}
+
+extension GraphViewController:UITableViewDataSource {
+func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return todos.count
+}
+
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+    let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
+    let todo = self.todos[indexPath.row]
+    
+    cell.TodoLabel.text = "\(todo)"
+    
+    return cell
+}
 }
