@@ -77,13 +77,13 @@ class LogInViewController: UIViewController {
                             return
                         }
                 
-                
-//                self.performSegue(withIdentifier: "mainTabSegue", sender: nil)
-                
                 let tb = UITabBarController()
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
                 self.present(tb, animated: true, completion: nil)
+                
+//                self.performSegue(withIdentifier: "mainTabSegue", sender: nil)
+                
                 //
                 //                print("User signs in successfully")
                 //                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
