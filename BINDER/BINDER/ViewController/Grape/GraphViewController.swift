@@ -15,6 +15,9 @@ class GraphViewController: UIViewController {
     //@IBOutlet var plusButton: UIButton!
     @IBOutlet var barChartView: BarChartView!
 
+    @IBOutlet weak var okButton: UIButton!
+    @IBOutlet weak var plusButton: UIButton!
+    
     @IBOutlet weak var todoTF: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
@@ -59,8 +62,17 @@ class GraphViewController: UIViewController {
         barChartView.noDataFont = .systemFont(ofSize: 20)
         barChartView.noDataTextColor = .lightGray
         
+        allRound()
         barColorSetting()
         setChart(dataPoints: days, values: scores)
+    }
+    
+    func allRound() {
+        okButton.clipsToBounds = true
+        okButton.layer.cornerRadius = 20
+        
+        plusButton.clipsToBounds = true
+        plusButton.layer.cornerRadius = 20
     }
     
     func barColorSetting(){
@@ -98,8 +110,8 @@ class GraphViewController: UIViewController {
         
         // 차트 점선으로 표시
         barChartView.xAxis.gridColor = .clear
-        barChartView.leftAxis.gridColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
-        barChartView.leftAxis.gridLineWidth = CGFloat(1.5)
+        barChartView.leftAxis.gridColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 0.4)
+        barChartView.leftAxis.gridLineWidth = CGFloat(1.0)
         barChartView.leftAxis.gridLineDashLengths = floatValue
         
         // X축 레이블 위치 조정

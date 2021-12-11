@@ -8,6 +8,11 @@
 import UIKit
 
 class QuestionViewController:UIViewController {
+    
+    @IBOutlet weak var teacherName: UILabel!
+    @IBOutlet weak var teacherEmail: UILabel!
+    @IBOutlet weak var teacherImage: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
