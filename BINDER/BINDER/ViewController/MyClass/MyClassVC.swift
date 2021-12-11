@@ -166,7 +166,10 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     /// 수업관리하기 버튼 클릭
     /// - Parameter sender: 버튼
     @IBAction func onClickManageButton(_ sender: UIButton) {
-        print("클릭됨 : \(sender.tag)")
+        let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController")
+        weekendVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+        weekendVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+        self.present(weekendVC!, animated: true, completion: nil)
     }
     
     /// didDelectRowAt: 셀 전체 클릭
