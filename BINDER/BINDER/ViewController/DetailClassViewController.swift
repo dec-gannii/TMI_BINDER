@@ -20,9 +20,11 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var evaluationOKBtn: UIButton!
     @IBOutlet weak var homeworkScoreTextField: UITextField!
     @IBOutlet weak var classScoreTextField: UITextField!
+    @IBOutlet weak var classNavigationBar: UINavigationBar!
     
     var date: String!
     var userName: String!
+    var userIndex: Int!
     
     let db = Firestore.firestore()
     
@@ -75,23 +77,48 @@ class DetailClassViewController: UIViewController {
         
         self.evaluationMemoTextView.layer.borderWidth = 1.0
         self.evaluationMemoTextView.layer.borderColor = UIColor.systemGray6.cgColor
+        print(self.userIndex)
     }
     
     func getUserInfo() {
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
+//        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
         
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                self.userName = data?["Name"] as? String ?? ""
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                
-                self.questionLabel.text = "오늘 " + self.userName! + " 학생의 수업 참여는 어땠나요?";
-            } else {
-                print("Document does not exist")
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: self.userIndex)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            
+                            let name = document.data()["name"] as? String ?? ""
+                            self.userName = name
+                            self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
+                            
+                            self.classNavigationBar.topItem!.title = self.userName
+                        }
+                    }
+                    
+                    //                    print ("index : \(index) name : \(name)")
+                    //                    weekendVC.userIndex = index
+                }
             }
-        }
+        
+        //        docRef.getDocument { (document, error) in
+        //            if let document = document, document.exists {
+        //                let data = document.data()
+        //                self.userName = data?["Name"] as? String ?? ""
+        //                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+        //                print("Document data: \(dataDescription)")
+        //
+        //                self.questionLabel.text = "오늘 " + self.userName! + " 학생의 수업 참여는 어땠나요?"
+        //            } else {
+        //                print("Document does not exist")
+        //            }
+        //        }
     }
     
     @IBAction func goBack(_ sender: Any) {

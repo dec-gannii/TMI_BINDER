@@ -642,10 +642,10 @@ Cg
                                 <rect key="frame" x="20" y="308" width="374" height="330"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EeZ-G7-wcV">
-                                        <rect key="frame" x="30" y="10" width="314" height="303"/>
+                                        <rect key="frame" x="30" y="10" width="314" height="300.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lMx-AQ-Yeb">
-                                                <rect key="frame" x="0.0" y="0.0" width="314" height="303"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="314" height="300.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Hhr-Ja-iH2">
                                                         <rect key="frame" x="0.0" y="0.0" width="314" height="70.5"/>
@@ -677,13 +677,13 @@ Cg
                                                         </constraints>
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ApM-p9-kuc">
-                                                        <rect key="frame" x="0.0" y="78.5" width="314" height="20.5"/>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                        <rect key="frame" x="0.0" y="78.5" width="314" height="18"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cx8-Tw-ICg">
-                                                        <rect key="frame" x="0.0" y="107" width="314" height="34"/>
+                                                        <rect key="frame" x="0.0" y="104.5" width="314" height="34"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="숙제 완성도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfH-SZ-j4S">
                                                                 <rect key="frame" x="0.0" y="7" width="244" height="20.5"/>
@@ -711,7 +711,7 @@ Cg
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="N2d-Tz-j85">
-                                                        <rect key="frame" x="0.0" y="149" width="314" height="34"/>
+                                                        <rect key="frame" x="0.0" y="146.5" width="314" height="34"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수업 성실도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Mp-09-Irk">
                                                                 <rect key="frame" x="0.0" y="7" width="244" height="20.5"/>
@@ -739,7 +739,7 @@ Cg
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="pRi-gH-Rd7">
-                                                        <rect key="frame" x="0.0" y="191" width="314" height="34"/>
+                                                        <rect key="frame" x="0.0" y="188.5" width="314" height="34"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="테스트 점수" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nmz-X8-cv4">
                                                                 <rect key="frame" x="0.0" y="7" width="244" height="20.5"/>
@@ -767,7 +767,7 @@ Cg
                                                         </subviews>
                                                     </stackView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="xTA-bE-Hfl">
-                                                        <rect key="frame" x="0.0" y="233" width="314" height="70"/>
+                                                        <rect key="frame" x="0.0" y="230.5" width="314" height="70"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="70" id="Z3W-tt-qhi"/>
@@ -865,6 +865,7 @@ Cg
                     </tabBarItem>
                     <connections>
                         <outlet property="calendarView" destination="Tpo-IR-KzX" id="xQ3-FU-9YK"/>
+                        <outlet property="classNavigationBar" destination="Hvv-qH-wZl" id="cDY-jd-6TB"/>
                         <outlet property="classScoreTextField" destination="CtD-mg-fPd" id="WIe-VE-Hz0"/>
                         <outlet property="evaluationMemoTextView" destination="xTA-bE-Hfl" id="neh-sJ-3z1"/>
                         <outlet property="evaluationOKBtn" destination="Ueo-9B-Puz" id="NgB-t7-Wvi"/>
