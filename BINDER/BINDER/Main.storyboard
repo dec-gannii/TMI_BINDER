@@ -833,7 +833,7 @@ Cg
                                     <color key="baseBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="C4a-F4-h3n" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="phc-89-jtp"/>
+                                    <action selector="ShowGraph:" destination="sKG-Iw-VA5" eventType="touchUpInside" id="sbq-nK-hkN"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1355,7 +1355,7 @@ Cg
         <!--Graph View Controller-->
         <scene sceneID="g9Z-fS-Rw6">
             <objects>
-                <viewController id="C4a-F4-h3n" customClass="GraphViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GraphViewController" id="C4a-F4-h3n" customClass="GraphViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Arx-zb-fag">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1514,6 +1514,7 @@ Cg
                     </view>
                     <connections>
                         <outlet property="barChartView" destination="VOS-Np-xKL" id="MFR-dW-Buf"/>
+                        <outlet property="classNavigationBar" destination="TLQ-mt-6CK" id="URH-py-hyb"/>
                         <outlet property="okButton" destination="Keb-U2-yjl" id="Y14-cc-Hni"/>
                         <outlet property="plusButton" destination="Ux0-k4-MCg" id="ZG1-1d-ofI"/>
                         <outlet property="tableView" destination="yXp-bY-139" id="YQO-8s-grs"/>

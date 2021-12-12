@@ -24,6 +24,9 @@ class GraphViewController: UIViewController {
     @IBOutlet weak var todoTF: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var classNavigationBar: UINavigationBar!
+    
+    var userName: String!
     var days: [String]!
     var scores: [Double]!
     let floatValue: [CGFloat] = [5,5]
@@ -58,6 +61,7 @@ class GraphViewController: UIViewController {
 
         //plusButton.backgroundColor = .link
         //plusButton.setTitleColor(.white, for: .normal)
+        self.classNavigationBar.topItem!.title = self.userName
         
         days = ["3월모고","1학기중간","6월모고","1학기기말"]
         scores = [68.0,88.5,70.5,90.0]

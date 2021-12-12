@@ -79,6 +79,15 @@ class DetailClassViewController: UIViewController {
         self.evaluationMemoTextView.layer.borderColor = UIColor.systemGray6.cgColor
         print(self.userIndex)
     }
+    @IBAction func ShowGraph(_ sender: Any) {
+        guard let graphVC = self.storyboard?.instantiateViewController(withIdentifier: "GraphViewController") as? GraphViewController else { return }
+        
+        graphVC.modalPresentationStyle = .fullScreen
+        graphVC.modalTransitionStyle = .crossDissolve
+        graphVC.userName = self.userName
+        
+        self.present(graphVC, animated: true, completion: nil)
+    }
     
     func getUserInfo() {
 //        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
