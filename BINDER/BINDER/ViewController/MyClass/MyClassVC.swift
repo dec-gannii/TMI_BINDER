@@ -131,6 +131,8 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
         return classItems.count + 1
     }
     
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row == classItems.count {
@@ -147,7 +149,7 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             cell.subjectName.text = item.subject
             cell.subjectGoal.text = item.goal
             cell.cntLb.text = "\(item.currentCnt) / \(item.totalCnt)"
-            
+            cell.recentDate.text = "최근 수업 : \(item.recentDate)"
             cell.classColor.makeCircle()
             if let hex = Int(item.circleColor, radix: 16) {
                 cell.classColor.backgroundColor = UIColor.init(rgb: hex)

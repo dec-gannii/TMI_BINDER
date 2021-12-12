@@ -50,6 +50,7 @@ class ClassInfoVC: BaseVC {
         studentEmail.text = studentItem.email
         studentName.text = "\(studentItem.name) 학생"
         studentGoal.text = studentItem.goal
+        //recentDate.text = recent
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tap)
