@@ -9,10 +9,9 @@ import UIKit
 
 class Todocell:UITableViewCell{
     
+   
     @IBOutlet weak var CheckButton: UIButton!
     @IBOutlet weak var TodoLabel: UILabel!
     
-    @IBAction func checkBtnTapped(_ sender: Any) {
-        CheckButton.isSelected.toggle()
-    }
+   
 }
