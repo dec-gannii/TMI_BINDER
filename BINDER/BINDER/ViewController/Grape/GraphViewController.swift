@@ -248,7 +248,6 @@ extension GraphViewController:UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func checkMarkButtonClicked(sender: UIButton){
-        print("button preesed")
         
         if sender.isSelected{
             sender.isSelected = false
