@@ -99,6 +99,8 @@ class DetailClassViewController: UIViewController {
         graphVC.modalTransitionStyle = .crossDissolve
         // 학생의 이름 데이터 넘겨주기
         graphVC.userName = self.userName
+        graphVC.userSubject = self.userSubject
+        graphVC.userEmail = self.userEmail
         
         self.present(graphVC, animated: true, completion: nil)
     }

@@ -26,6 +26,8 @@ class GraphViewController: UIViewController {
     
     @IBOutlet weak var classNavigationBar: UINavigationBar!
     
+    var userEmail: String!
+    var userSubject: String!
     var userName: String!
     var days: [String]!
     var scores: [Double]!
@@ -146,7 +148,8 @@ class GraphViewController: UIViewController {
     }
     func getTodos(){
         
-        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("todos").getDocument {(document, error) in
+//        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("todos")
+        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
             if let document = document, document.exists {
                 let data = document.data()
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -201,12 +204,24 @@ class GraphViewController: UIViewController {
     @IBAction func goButtonClicked(_ sender: Any) {
         todos.append(todoTF.text ?? "")
         count = count + 1
-        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("todos").updateData([
-            "count": count,
-            "todo\(count)":todoTF.text ?? ""
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
+        if (count == 1) {
+            docRef.setData([
+                "count": count,
+                "todo\(count)":todoTF.text ?? ""
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                }
+            }
+        } else {
+            docRef.updateData([
+                "count": count,
+                "todo\(count)":todoTF.text ?? ""
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                }
             }
         }
         todoTF.text = ""
