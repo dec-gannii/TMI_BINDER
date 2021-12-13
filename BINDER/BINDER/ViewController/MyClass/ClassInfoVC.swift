@@ -26,6 +26,8 @@ class ClassInfoVC: BaseVC {
     @IBOutlet weak var isRepeat: UISwitch!
     @IBOutlet var days : [UIButton]!
     
+    let classColor1 = ColorUtils.randomColor()
+    
     var payType: PayType = .countly {
         didSet {
             changeUI()
@@ -44,6 +46,13 @@ class ClassInfoVC: BaseVC {
         /// 둥근 테두리 주기
         classColor.makeCircle()
         //classColor.randomColor()
+        
+        if let hex = Int(classColor1, radix: 16) {
+            classColor.backgroundColor = UIColor.init(rgb: hex)
+        } else {
+            classColor.backgroundColor = UIColor.red
+        }
+        
         studentBox.allRound()
         classInputBox.allRound()
         
@@ -155,7 +164,7 @@ extension ClassInfoVC {
             "subject" : subject,
             "currentCnt" : 0,
             "totalCnt" : 8,
-            "circleColor" : "",
+            "circleColor" : classColor1,
             "recentDate" : "",
             "payType" : payType == .timly ? "T" : "C",
             "payDate": payDate,

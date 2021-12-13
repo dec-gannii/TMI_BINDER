@@ -108,6 +108,7 @@ class MyClassVC: BaseVC{
                     let payAmount = classDt["payAmount"] as? String ?? ""
                     let schedule = classDt["schedule"] as? String ?? ""
                     let repeatYN = classDt["repeatYN"] as? String ?? ""
+                    
                     let item = ClassItem(email: email, name: name, goal: goal, subject: subject, recentDate: recentDate, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: classColor, payType: payType, payDate: payDate, payAmount: payAmount, schedule: schedule, repeatYN: repeatYN)
                     
                     /// 모든 값을 더한다.
