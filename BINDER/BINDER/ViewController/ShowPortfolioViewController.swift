@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 
+// 포트폴리오 조회 뷰 컨트롤러
 class ShowPortfolioViewController: UIViewController {
     
     let db = Firestore.firestore()
@@ -16,13 +17,14 @@ class ShowPortfolioViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+    // 포트폴리오 조회 버튼 클릭 시 실행되는 메소드
     @IBAction func ShowProtfolioBtn(_ sender: Any) {
-        self.db.collection("teacher").whereField("Email", isEqualTo: teacherEmailTextField.text).getDocuments() { (querySnapshot, err) in
+        // 입력된 이메일과 동일한 값을 가지는 이메일 필드가 있다면 수행
+        self.db.collection("teacher").whereField("Email", isEqualTo: teacherEmailTextField.text!).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
             } else {
-                
+                // 도큐먼트 존재 안 하면 유효하지 않은 선생님 이메일이라고 alert 발생
                 guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                     let alert = UIAlertController(title: "탐색 오류", message: "유효하지 않은 선생님의 이메일입니다!", preferredStyle: UIAlertController.Style.alert)
                     let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
@@ -31,6 +33,7 @@ class ShowPortfolioViewController: UIViewController {
                     return
                 }
                 
+                // 포트폴리오를 보여주는 화면 present
                 guard let portfolioVC = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioViewController") as? PortfolioViewController else { return }
                 portfolioVC.isShowMode = true
                 portfolioVC.showModeEmail = self.teacherEmailTextField.text!
@@ -43,8 +46,9 @@ class ShowPortfolioViewController: UIViewController {
         }
     }
     
+    // x 버튼 클릭 시 실행되는 메소드
     @IBAction func xBtnClicked(_ sender: Any) {
-        if let preVC = self.presentingViewController as? UIViewController {
+        if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
