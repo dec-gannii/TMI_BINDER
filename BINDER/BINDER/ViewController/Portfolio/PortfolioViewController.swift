@@ -218,8 +218,10 @@ class PortfolioViewController: UIViewController {
     
     
     @IBAction func goBack(_ sender: Any) {
-        if let preVC = self.presentingViewController as? UIViewController {
-            preVC.dismiss(animated: true, completion: nil)
-        }
+        let backVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController")
+        backVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+        backVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+        self.present(backVC!, animated: true, completion: nil)
+
     }
 }
