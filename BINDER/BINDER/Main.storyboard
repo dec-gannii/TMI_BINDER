@@ -3233,7 +3233,7 @@ Cg
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="class" rowHeight="130" id="k4Y-Jk-gCH">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="question" rowHeight="130" id="k4Y-Jk-gCH" customClass="QuestionTableViewCell" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="44.5" width="414" height="130"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="k4Y-Jk-gCH" id="ib1-GP-Yez">
@@ -3253,33 +3253,35 @@ Cg
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SMf-uY-bUH" userLabel="배경">
-                                                                    <rect key="frame" x="261" y="20.5" width="55" height="34"/>
+                                                                    <rect key="frame" x="261" y="21" width="55" height="30"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수학" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oeW-FX-aob">
-                                                                            <rect key="frame" x="10" y="5" width="35" height="24"/>
-                                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                                            <rect key="frame" x="14" y="6" width="26" height="18"/>
+                                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
                                                                     <color key="backgroundColor" systemColor="systemTealColor"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="bottom" secondItem="oeW-FX-aob" secondAttribute="bottom" constant="5" id="KUt-kc-5Qs"/>
-                                                                        <constraint firstItem="oeW-FX-aob" firstAttribute="leading" secondItem="SMf-uY-bUH" secondAttribute="leading" constant="10" id="NPa-0j-LWg"/>
-                                                                        <constraint firstItem="oeW-FX-aob" firstAttribute="top" secondItem="SMf-uY-bUH" secondAttribute="top" constant="5" id="TXA-uV-DCy"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="oeW-FX-aob" secondAttribute="trailing" constant="10" id="cl1-16-9LT"/>
+                                                                        <constraint firstItem="oeW-FX-aob" firstAttribute="top" secondItem="SMf-uY-bUH" secondAttribute="top" constant="6" id="MQS-ZM-vBO"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="oeW-FX-aob" secondAttribute="bottom" constant="6" id="VV9-eT-QoS"/>
+                                                                        <constraint firstItem="oeW-FX-aob" firstAttribute="leading" secondItem="SMf-uY-bUH" secondAttribute="leading" constant="14" id="eQH-Pc-Vvt"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="oeW-FX-aob" secondAttribute="trailing" constant="15" id="nzm-rg-gIf"/>
                                                                     </constraints>
                                                                 </view>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.94509476420000005" green="0.96078532930000005" blue="0.97254794840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
-                                                                <constraint firstItem="B6t-7p-QOJ" firstAttribute="top" secondItem="SMf-uY-bUH" secondAttribute="bottom" constant="20" id="2bm-ij-Lu1"/>
                                                                 <constraint firstAttribute="bottom" secondItem="B6t-7p-QOJ" secondAttribute="bottom" constant="15" id="CGf-9l-uzb"/>
-                                                                <constraint firstAttribute="height" constant="95" id="Qlv-LI-ugK"/>
+                                                                <constraint firstItem="SMf-uY-bUH" firstAttribute="top" secondItem="X2I-SI-u1k" secondAttribute="top" constant="21" id="G2s-MK-Qbw"/>
+                                                                <constraint firstAttribute="trailing" secondItem="SMf-uY-bUH" secondAttribute="trailing" constant="30" id="PNF-C2-mm9"/>
+                                                                <constraint firstAttribute="height" constant="110" id="Qlv-LI-ugK"/>
+                                                                <constraint firstItem="SMf-uY-bUH" firstAttribute="leading" secondItem="dfF-uc-LHj" secondAttribute="trailing" constant="140.5" id="XAB-PI-B1s"/>
+                                                                <constraint firstItem="B6t-7p-QOJ" firstAttribute="top" secondItem="SMf-uY-bUH" secondAttribute="bottom" constant="23.5" id="asm-Fg-gUe"/>
                                                                 <constraint firstItem="dfF-uc-LHj" firstAttribute="leading" secondItem="X2I-SI-u1k" secondAttribute="leading" id="bck-2V-cDh"/>
                                                                 <constraint firstAttribute="bottom" secondItem="dfF-uc-LHj" secondAttribute="bottom" constant="-22" id="kNM-LR-knl"/>
                                                                 <constraint firstAttribute="trailing" secondItem="B6t-7p-QOJ" secondAttribute="trailing" constant="30" id="qTU-A9-vNI"/>
-                                                                <constraint firstItem="SMf-uY-bUH" firstAttribute="trailing" secondItem="B6t-7p-QOJ" secondAttribute="trailing" id="x8g-aF-plK"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
@@ -3290,6 +3292,12 @@ Cg
                                                         <constraint firstAttribute="bottom" secondItem="X2I-SI-u1k" secondAttribute="bottom" constant="10" id="j0I-o3-qmb"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="classColor" destination="SMf-uY-bUH" id="aU0-G4-J2k"/>
+                                                    <outlet property="contentViewCell" destination="X2I-SI-u1k" id="PzK-Gn-yup"/>
+                                                    <outlet property="studentName" destination="B6t-7p-QOJ" id="TUT-m7-5Xc"/>
+                                                    <outlet property="subjectName" destination="oeW-FX-aob" id="hIL-5j-2DD"/>
+                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                         <connections>
@@ -3333,7 +3341,9 @@ Cg
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <connections>
+                        <outlet property="questionTV" destination="XBV-B9-Mjt" id="4KK-MT-gpO"/>
                         <outlet property="teacherEmail" destination="e6F-Gx-Ej5" id="2r0-da-7mL"/>
+                        <outlet property="teacherImage" destination="gbW-b5-rHu" id="2Ej-Vm-U0w"/>
                         <outlet property="teacherName" destination="01g-Zq-lpg" id="Apb-m9-JYW"/>
                     </connections>
                 </viewController>

@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import Kingfisher
+import Firebase
 
 class QuestionViewController: BaseVC {
+    
     
     @IBOutlet weak var teacherName: UILabel!
     @IBOutlet weak var teacherEmail: UILabel!
@@ -28,30 +31,63 @@ class QuestionViewController: BaseVC {
                     self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
                     self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
                     
-                    //let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-                    //self.teacherImage.kf.setImage(with: url)
-                    //self.teacherImage.makeCircle()
+                    let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+                    self.teacherImage.kf.setImage(with: url)
+                    self.teacherImage.makeCircle()
                     
                     /// 클래스 가져오기
-                    //self.setMyClasses()
+                    self.setQuestionroom()
                 } failure: { error in
                     self.showDefaultAlert(msg: "")
                 }
                 /// 클로저, 리스너
     }
     
-    /// 질문 셋팅
-
-    
+    /// 질문방 내용 세팅
     // 내 수업 가져오기
-    func setMyClasses() {
+    func setQuestionroom() {
+        let db = Firestore.firestore()
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+                self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
+            } else {
+                /// nil이 아닌지 확인한다.
+                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                    return
+                }
                 
-        /// UITableView를 reload 하기
-        self.questionTV.reloadData()
+                /// 조회하기 위해 원래 있던 것 들 다 지움
+                self.questionItems.removeAll()
+                
+                
+                for document in snapshot.documents {
+                    print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                    
+                    /// document.data()를 통해서 값 받아옴, data는 dictionary
+                    let classDt = document.data()
+                    
+                    /// nil값 처리
+                    let name = classDt["name"] as? String ?? ""
+                    let subject = classDt["subject"] as? String ?? ""
+                    let classColor = classDt["circleColor"] as? String ?? "026700"
+                    let email = classDt["email"] as? String ?? ""
+                    let item = QuestionItem(studentName : name, subjectName : subject, classColor: classColor, email: email)
+                    
+                    /// 모든 값을 더한다.
+                    self.questionItems.append(item)
+                }
+                
+                /// UITableView를 reload 하기
+                self.questionTV.reloadData()
+            }
+        }
     }
-        
     
 }
+
+    
+
 
 // MARK: - 테이블뷰 관련
 
@@ -59,38 +95,27 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
     
     /// 테이블 셀 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return questionItems.count + 1
+        return questionItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
-        return cell
-//        if indexPath.row == questionItems.count {
-//
-//        }
-//        else {
-//
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionViewController")! as! CardTableViewCell
-//
-//            let item:ClassItem = classItems[indexPath.row]
-//            cell.studentName.text = "\(item.name) 학생 "
-//            cell.subjectName.text = item.subject
-//            cell.subjectGoal.text = item.goal
-//            cell.cntLb.text = "\(item.currentCnt) / \(item.totalCnt)"
-//
-//            cell.classColor.makeCircle()
-//            if let hex = Int(item.circleColor, radix: 16) {
-//                cell.classColor.backgroundColor = UIColor.init(rgb: hex)
-//            } else {
-//                cell.classColor.backgroundColor = UIColor.red
-//            }
-//
-//            cell.manageBtn.addTarget(self, action: #selector(onClickManageButton(_:)), for: .touchUpInside)
-//            cell.manageBtn.tag = indexPath.row
-//
-//            return cell
-//        }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "question")! as! QuestionTableViewCell
+
+        let item:QuestionItem = questionItems[indexPath.row]
+            cell.studentName.text = "\(item.studentName) 학생"
+            cell.subjectName.text = item.subjectName
+            //print(item.subjectName)
+            cell.classColor.allRoundSmall()
+            if let hex = Int(item.classColor, radix: 16) {
+                cell.classColor.backgroundColor = UIColor.init(rgb: hex)
+            } else {
+                cell.classColor.backgroundColor = UIColor.red
+            }
+        
+            return cell
+        
     }
     
     

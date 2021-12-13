@@ -101,14 +101,14 @@ class MyClassVC: BaseVC {
                     let subject = classDt["subject"] as? String ?? ""
                     let currentCnt = classDt["currentCnt"] as? Int ?? 0
                     let totalCnt = classDt["totalCnt"] as? Int ?? 0
-                    let circleColor = classDt["circleColor"] as? String ?? "026700"
+                    let classColor = classDt["circleColor"] as? String ?? "026700"
                     let recentDate = classDt["recentDate"] as? String ?? ""
                     let payType = classDt["payType"] as? String ?? ""
                     let payDate = classDt["payDate"] as? String ?? ""
                     let payAmount = classDt["payAmount"] as? String ?? ""
                     let schedule = classDt["schedule"] as? String ?? ""
                     let repeatYN = classDt["repeatYN"] as? String ?? ""
-                    let item = ClassItem(email: email, name: name, goal: goal, subject: subject, recentDate: recentDate, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: circleColor, payType: payType, payDate: payDate, payAmount: payAmount, schedule: schedule, repeatYN: repeatYN)
+                    let item = ClassItem(email: email, name: name, goal: goal, subject: subject, recentDate: recentDate, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: classColor, payType: payType, payDate: payDate, payAmount: payAmount, schedule: schedule, repeatYN: repeatYN)
                     
                     /// 모든 값을 더한다.
                     self.classItems.append(item)

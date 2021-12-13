@@ -31,4 +31,10 @@ extension UIView {
         self.layer.cornerRadius = 20
     }
     
+    /// 전체 라운드 처리 조금만
+    func allRoundSmall() {
+        self.clipsToBounds = true
+        self.layer.cornerRadius = 5
+    }
+    
 }

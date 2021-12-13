@@ -155,7 +155,7 @@ extension ClassInfoVC {
             "subject" : subject,
             "currentCnt" : 0,
             "totalCnt" : 100,
-            "circleColor" : "A80101",
+            "circleColor" : "",
             "recentDate" : "",
             "payType" : payType == .timly ? "T" : "C",
             "payDate": payDate,

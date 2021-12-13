@@ -11,7 +11,7 @@ class ColorUtils {
     // circle color 랜덤 지정
     static func randomColor() -> String
     {
-        let colors: [String] = ["224C86", "91B15A", "A4D3DE", "C04076", "DD613C", "F0D56C"]
+        let colors: [String] = ["A80101", "FFCB00", "13203E"]
         let randomColor = colors.randomElement()!
         return randomColor
     }
