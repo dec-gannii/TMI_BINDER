@@ -1444,7 +1444,7 @@ Cg
                                     </button>
                                 </subviews>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="yXp-bY-139">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="yXp-bY-139">
                                 <rect key="frame" x="0.0" y="512" width="414" height="330"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -1460,7 +1460,7 @@ Cg
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="lFe-Ed-Oxl" secondAttribute="height" multiplier="1:1" id="9Hb-al-ghB"/>
                                                     </constraints>
-                                                    <color key="tintColor" red="0.039215686270000001" green="0.40784313729999999" blue="0.85882352939999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="tintColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="circle" catalog="system"/>
                                                 </button>
@@ -1471,6 +1471,7 @@ Cg
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="WaK-VR-oiV" firstAttribute="top" secondItem="nqR-aa-OmK" secondAttribute="topMargin" constant="5" id="1hf-7A-yJo"/>
                                                 <constraint firstItem="lFe-Ed-Oxl" firstAttribute="top" secondItem="nqR-aa-OmK" secondAttribute="top" constant="5" id="3Bs-eG-2pu"/>
@@ -1481,6 +1482,7 @@ Cg
                                                 <constraint firstAttribute="bottomMargin" secondItem="WaK-VR-oiV" secondAttribute="bottom" constant="5" id="kuc-Km-u2G"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="CheckButton" destination="lFe-Ed-Oxl" id="Ik5-ty-iHc"/>
                                             <outlet property="TodoLabel" destination="WaK-VR-oiV" id="bTr-5H-JiW"/>
