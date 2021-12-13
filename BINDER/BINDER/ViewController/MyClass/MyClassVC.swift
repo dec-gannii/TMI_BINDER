@@ -25,7 +25,6 @@ class MyClassVC: BaseVC {
     /// 수업 변수 배열
     var classItems: [ClassItem] = []
     
-    
     // MARK: - 라이프 사이클
     
     override func viewDidLoad() {
@@ -168,11 +167,36 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     /// 수업관리하기 버튼 클릭
     /// - Parameter sender: 버튼
     @IBAction func onClickManageButton(_ sender: UIButton) {
-        let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController")
-        weekendVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-        weekendVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+//        let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController")
+        var index: Int!
         
-        self.present(weekendVC!, animated: true, completion: nil)
+        let db = Firestore.firestore()
+        /// 입력한 이메일과 갖고있는 이메일이 같은지 확인
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: sender.tag)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                        return
+                    }
+                    
+                    guard let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
+                    
+                    weekendVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    weekendVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                    /// first : 여러개가 와도 첫번째 것만 봄.
+                    let studentDt = snapshot.documents.first!.data()
+                    index = studentDt["index"] as? Int ?? 0
+//                    let name = studentDt["name"] as? String ?? ""
+//                    print ("index : \(index)")
+                    weekendVC.userIndex = index
+                    
+                    self.present(weekendVC, animated: true, completion: nil)
+                }
+            }
+        
+        print("클릭됨 : \(sender.tag)")
     }
     
     /// didDelectRowAt: 셀 전체 클릭

@@ -12,7 +12,7 @@ class PortfolioEditViewController: UIViewController {
     
     @IBOutlet weak var eduHistoryTF: UITextField!
     @IBOutlet weak var classMetTF: UITextField!
-    @IBOutlet weak var extraExpTF: UITextField!
+    @IBOutlet weak var extraExpTF: UITextView!
     
     let db = Firestore.firestore()
     var ref: DatabaseReference!
@@ -23,6 +23,9 @@ class PortfolioEditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.extraExpTF.layer.borderWidth = 1.0
+        self.extraExpTF.layer.borderColor = UIColor.systemGray6.cgColor
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
             if let document = document, document.exists {
