@@ -20,6 +20,7 @@ class PortfolioEditViewController: UIViewController {
     var edu = ""
     var classMethod = ""
     var extra = ""
+    var showPortfolio = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +39,9 @@ class PortfolioEditViewController: UIViewController {
                 self.extraExpTF.text = extraExprience
                 let showPortfolio = data?["portfolioShow"] as? String ?? ""
                 if (showPortfolio == "Off") {
-                    self.eduHistoryTF.text = "비공개 설정 상태입니다."
-                    self.classMetTF.text = "비공개 설정 상태입니다."
-                    self.extraExpTF.text = "비공개 설정 상태입니다."
+                    self.showPortfolio = "Off"
+                } else {
+                    self.showPortfolio = "On"
                 }
             } else {
                 print("Document does not exist")
@@ -85,7 +86,8 @@ class PortfolioEditViewController: UIViewController {
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").setData([
             "eduHistory": eduHistoryTF.text ?? "None",
             "classMethod": classMetTF.text ?? "None",
-            "extraExprience": extraExpTF.text ?? "None"
+            "extraExprience": extraExpTF.text ?? "None",
+            "portfolioShow": self.showPortfolio
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
