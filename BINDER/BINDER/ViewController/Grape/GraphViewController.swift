@@ -232,16 +232,14 @@ extension GraphViewController:UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     @objc func checkMarkButtonClicked(sender: UIButton){
-      
+        print("button preesed")
+        
         if sender.isSelected{
-            sender.setImage(UIImage(systemName: "circle"), for: .normal)
-            print("button normal")
             sender.isSelected = false
-            
-        } else {
             sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
-            print("button selected")
+        } else {
             sender.isSelected = true
+            sender.setImage(UIImage(systemName: "circle"), for: .normal)
         }
     }
 }

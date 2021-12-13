@@ -10,6 +10,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseDatabase
 
+// 회원가입 뷰 컨트롤러
 class SignInViewController: UIViewController {
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -30,16 +31,18 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         ref = Database.database().reference()
         
+        // 오류 발생 시 나타날 label들 우선 숨겨두기
         nameAlertLabel.isHidden = true
         pwAlertLabel.isHidden = true
         emailAlertLabel.isHidden = true
         ageAlertLabel.isHidden = true
     }
     
+    // 정보 저장하는 메소드
     func saveInfo(_ number: Int, _ name: String, _ email: String, _ password: String, _ type: String, _ age: Int){
         let db = Firestore.firestore()
-        var ref: DocumentReference? = nil
         
+        // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
         db.collection("\(type)").document(Auth.auth().currentUser!.uid).setData([
             "Name": name,
             "Email": email,
@@ -54,6 +57,7 @@ class SignInViewController: UIViewController {
         }
     }
     
+    // 유효한 이름인지 (공백은 아닌지) 검사하는 메소드
     func isValidName(_ name: String) -> Bool {
         let nameValidation = name.trimmingCharacters(in: .whitespaces)
         if ((nameValidation.isEmpty) == true) {
@@ -61,22 +65,28 @@ class SignInViewController: UIViewController {
         } else { return true }
     }
     
+    // 이메일 형식인지 검사하는 메소드
     func isValidEmail(_ email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
     
+    // 유효한 비밀번호인지 검사하는 메소드
     func isValidPassword(_ password: String) -> Bool {
+        // 최소한 6개의 문자로 이루어져 있어야 함
         let minPasswordLength = 6
         return password.count >= minPasswordLength
     }
     
+    // 유효한 나이인지를 검사하는 메소드
     func isValidAge(_ age: Int) -> Bool {
-        if (age == Int(ageTextField.text!.trimmingCharacters(in: .whitespaces))) {return true}
+        // 공백 검사
+        if (age == Int(ageTextField.text!.trimmingCharacters(in: .whitespaces))) { return true }
         else { return false }
     }
     
+    // 로그인 버튼 클릭 시 실행되는 메소드
     @IBAction func GoToSignInBtnClicked(_ sender: Any) {
         let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
         loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
@@ -84,7 +94,9 @@ class SignInViewController: UIViewController {
         self.present(loginVC!, animated: true, completion: nil)
     }
     
+    // 회원가입 버튼 클릭 시 실행되는 메소드
     @IBAction func SignUpBtnClicked(_ sender: Any) {
+        // textfield들의 값 가져와서 로컬 변수에 저장
         guard let name = self.nameTextField.text?.trimmingCharacters(in: .whitespaces) else { return }
         guard let id = self.emailTextField.text else { return }
         guard let pw = self.pwTextField.text else { return }
@@ -95,9 +107,9 @@ class SignInViewController: UIViewController {
         self.nameAlertLabel.isHidden = true
         self.ageAlertLabel.isHidden = true
         
-        var verified = false
-        
+        // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면,
         if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) && self.isValidAge(age)) {
+            // 사용자를 생성
             Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
                 print(error?.localizedDescription)
                 Auth.auth().currentUser?.sendEmailVerification(completion: {(error) in
@@ -108,23 +120,30 @@ class SignInViewController: UIViewController {
                         
                     }
                 })
+                
+                // 정보 저장
                 self.saveInfo(SignInViewController.number, name, id, pw, self.type, age)
                 SignInViewController.number = SignInViewController.number + 1
                 guard let user = authResult?.user else {
                     return
                 }
             }
+            
+            // 타입이 학생이라면,
             if(type == "student"){
+                // 추가 정보를 입력하는 뷰로 이동
                 let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfo")
                 subInfoVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 subInfoVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
                 self.present(subInfoVC!, animated: true, completion: nil)
             }
             else{
+                // 아니라면 바로 홈으로 이동
                 guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
                     //아니면 종료
                     return
                 }
+                // 데이터 넘겨주기
                 homeVC.id = self.emailTextField.text!
                 homeVC.pw = self.pwTextField.text!
                 homeVC.number = SignInViewController.number
@@ -141,6 +160,8 @@ class SignInViewController: UIViewController {
                 guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
                     return
                 }
+                
+                // tab bar 추가하기
                 let tb = UITabBarController()
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
@@ -148,6 +169,7 @@ class SignInViewController: UIViewController {
                 self.present(tb, animated: true, completion: nil)
             }
         } else {
+            // 유효하지 않다면, 에러가 난 부분 label로 알려주기 위해 error label 숨김 해제
             if (!self.isValidEmail(id)){
                 emailAlertLabel.isHidden = false
                 emailAlertLabel.text = "이메일 형식이 올바르지 않습니다!"

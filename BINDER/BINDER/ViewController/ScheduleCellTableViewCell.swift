@@ -7,6 +7,7 @@
 
 import UIKit
 
+// 일정 리스트 테이블 뷰 셀
 class ScheduleCellTableViewCell: UITableViewCell {
     
     @IBOutlet weak var scheduleDate: UILabel!

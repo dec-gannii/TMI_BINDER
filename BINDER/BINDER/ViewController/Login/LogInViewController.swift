@@ -10,6 +10,7 @@ import Firebase
 import GoogleSignIn
 import AuthenticationServices
 
+// 로그인 뷰 컨트롤러
 class LogInViewController: UIViewController {
     
     @IBOutlet weak var emailTextField: UITextField!
@@ -29,6 +30,7 @@ class LogInViewController: UIViewController {
     @IBAction func LogInBtnClicked(_ sender: Any) {
         guard let email = emailTextField.text, let password = pwTextField.text else { return }
         
+        // 로그인 수행 시, 에러 발생하면 띄울 alert
         Auth.auth().signIn(withEmail: email, password: password) { (authResult, error) in
             if let error = error as? NSError {
                 switch AuthErrorCode(rawValue: error.code) {
@@ -53,11 +55,13 @@ class LogInViewController: UIViewController {
                     break
                 }
             } else {
+                // 별 오류 없으면 로그인 되어서 홈 뷰 컨트롤러 띄우기
                 guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
                     //아니면 종료
                     return
                 }
                 
+                // 아이디와 비밀번호 정보 넘겨주기
                 homeVC.pw = password
                 homeVC.id = email
                 if (Auth.auth().currentUser?.isEmailVerified == true){
@@ -77,27 +81,13 @@ class LogInViewController: UIViewController {
                             return
                         }
                 
+                // tab bar 설정
                 let tb = UITabBarController()
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
                 self.present(tb, animated: true, completion: nil)
-                
-//                self.performSegue(withIdentifier: "mainTabSegue", sender: nil)
-                
-                //
-                //                print("User signs in successfully")
-                //                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                //                    //아니면 종료
-                //                    return
-                //                }
-                //
-                //                //화면전환
-                //                homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                //                homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                //                self.present(homeVC, animated: true)
             }
         }
-        
     }
     
     @IBAction func googleLogInBtnClicked(_ sender: Any) {
@@ -115,6 +105,7 @@ class LogInViewController: UIViewController {
         self.present(homeVC, animated: true)
     }
     
+    // 회원가입 버튼 클릭 시 실행되는 메소드
     @IBAction func SignInBtnClicked(_ sender: Any) {
         let typeSelectVC = self.storyboard?.instantiateViewController(withIdentifier: "TypeSelectViewController")
         typeSelectVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
