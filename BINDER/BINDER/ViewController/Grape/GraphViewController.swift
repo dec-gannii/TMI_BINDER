@@ -17,7 +17,7 @@ class GraphViewController: UIViewController {
     
     //@IBOutlet var plusButton: UIButton!
     @IBOutlet var barChartView: BarChartView!
-
+    
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var plusButton: UIButton!
     
@@ -35,30 +35,30 @@ class GraphViewController: UIViewController {
     var todos = Array<String>()
     var bRec:Bool = false
     
-   /* private lazy var boardManager: BLTNItemManager = {
-        
-        let item = BLTNPageItem(title: "Push")
-        item.actionButtonTitle = "추가하기"
-        item.alternativeButtonTitle = "취소하기"
-        item.descriptionText = "성적 타입과 성적을 입력하세요"
-        
-        item.actionHandler = { _ in
-            GrapeViewController.didTapBoardContinue()
-        }
-        item.alternativeHandler = { _ in
-            GrapeViewController.didTapBoardSkip()
-        }
-        item.appearance.actionButtonColor = .systemGreen
-        item.appearance.alternativeButtonTitleColor = .gray
-        
-       return BLTNItemManager(rootItem: item)
-    }()
-    
-    */
+    /* private lazy var boardManager: BLTNItemManager = {
+     
+     let item = BLTNPageItem(title: "Push")
+     item.actionButtonTitle = "추가하기"
+     item.alternativeButtonTitle = "취소하기"
+     item.descriptionText = "성적 타입과 성적을 입력하세요"
+     
+     item.actionHandler = { _ in
+     GrapeViewController.didTapBoardContinue()
+     }
+     item.alternativeHandler = { _ in
+     GrapeViewController.didTapBoardSkip()
+     }
+     item.appearance.actionButtonColor = .systemGreen
+     item.appearance.alternativeButtonTitleColor = .gray
+     
+     return BLTNItemManager(rootItem: item)
+     }()
+     
+     */
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //plusButton.backgroundColor = .link
         //plusButton.setTitleColor(.white, for: .normal)
         self.classNavigationBar.topItem!.title = self.userName
@@ -141,56 +141,56 @@ class GraphViewController: UIViewController {
         barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
         // 옵션 애니메이션
         //barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
-
-    
+        
+        
     }
     func getTodos(){
-    
-            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("todos").getDocument {(document, error) in
-                if let document = document, document.exists {
-                    let data = document.data()
-                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                    self.count = data?["count"] as? Int ?? 0
-                    print("count: \(self.count)")
-                    for i in 1...self.count {
-                        self.todos.append(data?["todo\(i)"] as! String)
-                    }
-                    print("Document data: \(dataDescription)")
-                } else {
-                    print("Document does not exist")
+        
+        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("todos").getDocument {(document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                self.count = data?["count"] as? Int ?? 0
+                print("count: \(self.count)")
+                for i in 1...self.count {
+                    self.todos.append(data?["todo\(i)"] as! String)
                 }
-                self.tableView.reloadData()
+                print("Document data: \(dataDescription)")
+            } else {
+                print("Document does not exist")
             }
+            self.tableView.reloadData()
+        }
     }
     
     /*
      
      let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("Count")
      
-         docRef.getDocument { (document, error) in
-             if let document = document, document.exists {
-                 let data = document.data()
-                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                 
-                 self.count = data?["count"] as? Int ?? 0
-                 print("Document data: \(dataDescription)")
-                 print("count: \(self.count)")
-             } else {
-                 print("Document does not exist")
-             }
-         }
+     docRef.getDocument { (document, error) in
+     if let document = document, document.exists {
+     let data = document.data()
+     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
      
-    @IBAction func didTapButton(){
-        boardManager.showBulletin(above: self)
-    }
-    
-    static func didTapBoardContinue(){
-        print("Did tap continue")
-    }
-    
-    static func didTapBoardSkip(){
-        print("Did tap skip")
-    }
+     self.count = data?["count"] as? Int ?? 0
+     print("Document data: \(dataDescription)")
+     print("count: \(self.count)")
+     } else {
+     print("Document does not exist")
+     }
+     }
+     
+     @IBAction func didTapButton(){
+     boardManager.showBulletin(above: self)
+     }
+     
+     static func didTapBoardContinue(){
+     print("Did tap continue")
+     }
+     
+     static func didTapBoardSkip(){
+     print("Did tap skip")
+     }
      */
     @IBAction func goHome(_ sender: Any) {
         if let preVC = self.presentingViewController as? UIViewController {
@@ -219,9 +219,9 @@ extension GraphViewController:UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todos.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
         let todo = self.todos[indexPath.row]
         
@@ -231,15 +231,19 @@ extension GraphViewController:UITableViewDataSource, UITableViewDelegate {
         cell.CheckButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
         return cell
     }
+    
     @objc func checkMarkButtonClicked(sender: UIButton){
         print("button preesed")
         
         if sender.isSelected{
             sender.isSelected = false
-            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+            print("button normal")
+            sender.setImage(UIImage(systemName: "circle"), for: .normal)
+            
         } else {
             sender.isSelected = true
-            sender.setImage(UIImage(systemName: "circle"), for: .normal)
+            print("button selected")
+            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
         }
     }
 }
