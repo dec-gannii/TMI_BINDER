@@ -8,7 +8,7 @@ import UIKit
 import Kingfisher
 import Firebase
 
-class MyClassVC: BaseVC {
+class MyClassVC: BaseVC{
     
     /// 선생님 이름 변수
     @IBOutlet weak var teacherName: UILabel!
@@ -24,6 +24,7 @@ class MyClassVC: BaseVC {
     
     /// 수업 변수 배열
     var classItems: [ClassItem] = []
+    
     
     // MARK: - 라이프 사이클
     

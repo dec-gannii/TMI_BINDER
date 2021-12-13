@@ -43,6 +43,7 @@ class ClassInfoVC: BaseVC {
         
         /// 둥근 테두리 주기
         classColor.makeCircle()
+        //classColor.randomColor()
         studentBox.allRound()
         classInputBox.allRound()
         
@@ -50,7 +51,6 @@ class ClassInfoVC: BaseVC {
         studentEmail.text = studentItem.email
         studentName.text = "\(studentItem.name) 학생"
         studentGoal.text = studentItem.goal
-        //recentDate.text = recent
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tap)
@@ -154,7 +154,7 @@ extension ClassInfoVC {
             "goal" : studentItem.goal,
             "subject" : subject,
             "currentCnt" : 0,
-            "totalCnt" : 100,
+            "totalCnt" : 8,
             "circleColor" : "",
             "recentDate" : "",
             "payType" : payType == .timly ? "T" : "C",

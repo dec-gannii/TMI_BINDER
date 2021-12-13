@@ -63,7 +63,7 @@ class GraphViewController: UIViewController {
         
         //plusButton.backgroundColor = .link
         //plusButton.setTitleColor(.white, for: .normal)
-        self.classNavigationBar.topItem!.title = self.userName
+        self.classNavigationBar.topItem!.title = self.userName + " 학생"
         
         days = ["3월모고","1학기중간","6월모고","1학기기말"]
         scores = [68.0,88.5,70.5,90.0]
