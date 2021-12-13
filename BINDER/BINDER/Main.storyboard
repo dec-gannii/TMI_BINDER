@@ -3088,7 +3088,7 @@ Cg
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="내용을 입력해주세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vWr-57-K52">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vWr-57-K52">
                                 <rect key="frame" x="40" y="205.5" width="334" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="MBD-Sk-6j6"/>
@@ -3103,7 +3103,7 @@ Cg
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="내용을 입력해주세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dvF-pX-R9M">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dvF-pX-R9M">
                                 <rect key="frame" x="40" y="311" width="334" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Bqz-va-Rj8"/>
@@ -3118,17 +3118,18 @@ Cg
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="내용을 입력해주세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eoh-V9-SHw">
-                                <rect key="frame" x="40" y="416.5" width="334" height="50"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cwj-6O-Pvv">
+                                <rect key="frame" x="40" y="416.5" width="334" height="100"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="ywc-Ba-nem"/>
+                                    <constraint firstAttribute="height" constant="100" id="E86-ym-4cu"/>
                                 </constraints>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="08w-Gj-q5N">
-                                <rect key="frame" x="30" y="496.5" width="354" height="50"/>
+                                <rect key="frame" x="30" y="536.5" width="354" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pj0-T1-hoG">
                                         <rect key="frame" x="0.0" y="0.0" width="167" height="50"/>
@@ -3163,6 +3164,7 @@ Cg
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="sJx-Wc-8o9" firstAttribute="top" secondItem="vWr-57-K52" secondAttribute="bottom" constant="30" id="1Vk-fw-ifp"/>
+                            <constraint firstItem="08w-Gj-q5N" firstAttribute="top" secondItem="cwj-6O-Pvv" secondAttribute="bottom" constant="20" id="8xu-VH-eKz"/>
                             <constraint firstItem="y2I-ty-DfO" firstAttribute="top" secondItem="ccB-eK-hQH" secondAttribute="top" constant="100" id="Da6-mQ-cxM"/>
                             <constraint firstItem="ccB-eK-hQH" firstAttribute="trailing" secondItem="sJx-Wc-8o9" secondAttribute="trailing" constant="40" id="E5n-lV-RXP"/>
                             <constraint firstItem="08w-Gj-q5N" firstAttribute="leading" secondItem="ccB-eK-hQH" secondAttribute="leading" constant="30" id="ELC-Xz-LwW"/>
@@ -3170,32 +3172,31 @@ Cg
                             <constraint firstItem="ccB-eK-hQH" firstAttribute="trailing" secondItem="InQ-G1-aci" secondAttribute="trailing" constant="40" id="KUC-xk-3cc"/>
                             <constraint firstItem="ccB-eK-hQH" firstAttribute="trailing" secondItem="08w-Gj-q5N" secondAttribute="trailing" constant="30" id="MN0-8D-fTQ"/>
                             <constraint firstItem="ccB-eK-hQH" firstAttribute="trailing" secondItem="XC2-Hc-NQu" secondAttribute="trailing" constant="40" id="N8h-2u-wK8"/>
-                            <constraint firstItem="08w-Gj-q5N" firstAttribute="top" secondItem="Eoh-V9-SHw" secondAttribute="bottom" constant="30" id="PYg-Sk-a88"/>
                             <constraint firstItem="ccB-eK-hQH" firstAttribute="trailing" secondItem="vWr-57-K52" secondAttribute="trailing" constant="40" id="QFG-ik-1AU"/>
                             <constraint firstItem="sJx-Wc-8o9" firstAttribute="leading" secondItem="ccB-eK-hQH" secondAttribute="leading" constant="40" id="Sa9-CG-hVV"/>
-                            <constraint firstItem="Eoh-V9-SHw" firstAttribute="top" secondItem="XC2-Hc-NQu" secondAttribute="bottom" constant="5" id="Vpw-Kh-3gN"/>
+                            <constraint firstItem="cwj-6O-Pvv" firstAttribute="top" secondItem="XC2-Hc-NQu" secondAttribute="bottom" constant="5" id="Ujs-fL-CRw"/>
                             <constraint firstItem="XC2-Hc-NQu" firstAttribute="leading" secondItem="ccB-eK-hQH" secondAttribute="leading" constant="40" id="WIE-y7-fcd"/>
                             <constraint firstItem="ccB-eK-hQH" firstAttribute="trailing" secondItem="dvF-pX-R9M" secondAttribute="trailing" constant="40" id="aAQ-7P-Neu"/>
                             <constraint firstItem="vWr-57-K52" firstAttribute="leading" secondItem="ccB-eK-hQH" secondAttribute="leading" constant="40" id="cdO-UZ-RdZ"/>
-                            <constraint firstItem="ccB-eK-hQH" firstAttribute="trailing" secondItem="Eoh-V9-SHw" secondAttribute="trailing" constant="40" id="i0a-JI-kd9"/>
                             <constraint firstItem="dvF-pX-R9M" firstAttribute="leading" secondItem="ccB-eK-hQH" secondAttribute="leading" constant="40" id="jWS-mS-chB"/>
+                            <constraint firstItem="cwj-6O-Pvv" firstAttribute="leading" secondItem="ccB-eK-hQH" secondAttribute="leading" constant="40" id="jab-Yo-SFE"/>
                             <constraint firstItem="y2I-ty-DfO" firstAttribute="centerX" secondItem="1Ki-8J-WJ3" secondAttribute="centerX" id="kEN-9h-M5x"/>
+                            <constraint firstItem="ccB-eK-hQH" firstAttribute="trailing" secondItem="cwj-6O-Pvv" secondAttribute="trailing" constant="40" id="oDp-hl-9fa"/>
                             <constraint firstItem="XC2-Hc-NQu" firstAttribute="top" secondItem="dvF-pX-R9M" secondAttribute="bottom" constant="30" id="peT-Eg-4DA"/>
                             <constraint firstItem="InQ-G1-aci" firstAttribute="top" secondItem="y2I-ty-DfO" secondAttribute="bottom" constant="50" id="pkq-fA-uhi"/>
                             <constraint firstItem="vWr-57-K52" firstAttribute="top" secondItem="InQ-G1-aci" secondAttribute="bottom" constant="5" id="rcy-sO-wIJ"/>
-                            <constraint firstItem="Eoh-V9-SHw" firstAttribute="leading" secondItem="ccB-eK-hQH" secondAttribute="leading" constant="40" id="tH3-bk-Pgv"/>
                             <constraint firstItem="dvF-pX-R9M" firstAttribute="top" secondItem="sJx-Wc-8o9" secondAttribute="bottom" constant="5" id="zix-x2-xyb"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="classMetTF" destination="dvF-pX-R9M" id="aJH-Fi-UgY"/>
                         <outlet property="eduHistoryTF" destination="vWr-57-K52" id="Cr6-kF-fIy"/>
-                        <outlet property="extraExpTF" destination="Eoh-V9-SHw" id="Qm4-8B-MUf"/>
+                        <outlet property="extraExpTF" destination="cwj-6O-Pvv" id="M9Y-i7-N6Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yJe-UU-QeZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2803" y="1860"/>
+            <point key="canvasLocation" x="2802.898550724638" y="1859.5982142857142"/>
         </scene>
         <!--Question View Controller-->
         <scene sceneID="aew-iU-Fwx">
