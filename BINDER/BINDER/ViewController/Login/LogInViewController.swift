@@ -72,7 +72,7 @@ class LogInViewController: UIViewController {
                     //아니면 종료
                     return
                 }
-
+                
                 guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
                     return
                 }

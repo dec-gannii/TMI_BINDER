@@ -46,6 +46,21 @@ class PortfolioViewController: UIViewController {
             self.editBtn.isHidden = false
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+        viewRound()
+        getUserInfo()
+        getPortfoiloInfo()
+        
+        if (isShowMode == true) {
+            self.editBtn.isHidden = true
+        } else {
+            self.editBtn.isHidden = false
+        }
+        super.viewWillAppear(animated)
+    }
+    
     func viewRound(){
         contentView1.clipsToBounds = true
         contentView1.layer.cornerRadius = 10
@@ -58,7 +73,6 @@ class PortfolioViewController: UIViewController {
         
         contentView4.clipsToBounds = true
         contentView4.layer.cornerRadius = 10
-        
     }
     
     func getUserInfo(){
@@ -171,6 +185,13 @@ class PortfolioViewController: UIViewController {
     
     
     @IBAction func goBack(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        if (isShowMode == true){
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            if let preVC = self.presentingViewController as? UIViewController {
+                preVC.dismiss(animated: true, completion: nil)
+            }
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
