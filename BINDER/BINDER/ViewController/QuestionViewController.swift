@@ -27,20 +27,17 @@ class QuestionViewController: BaseVC {
     
     func getUserInfo(){
         LoginRepository.shared.doLogin {
-                    /// 가져오는 시간 걸림
-                    self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
-                    self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
-                    
-                    let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-                    self.teacherImage.kf.setImage(with: url)
-                    self.teacherImage.makeCircle()
-                    
-                    /// 클래스 가져오기
-                    self.setQuestionroom()
-                } failure: { error in
-                    self.showDefaultAlert(msg: "")
-                }
-                /// 클로저, 리스너
+            self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
+            self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
+            
+            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+            self.teacherImage.kf.setImage(with: url)
+            self.teacherImage.makeCircle()
+            
+            self.setQuestionroom()
+        } failure: { error in
+            self.showDefaultAlert(msg: "")
+        }
     }
     
     /// 질문방 내용 세팅
@@ -86,7 +83,7 @@ class QuestionViewController: BaseVC {
     
 }
 
-    
+
 
 
 // MARK: - 테이블뷰 관련
@@ -99,22 +96,22 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         
-            let cell = tableView.dequeueReusableCell(withIdentifier: "question")! as! QuestionTableViewCell
-
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "question")! as! QuestionTableViewCell
+        
         let item:QuestionItem = questionItems[indexPath.row]
-            cell.studentName.text = "\(item.studentName) 학생"
-            cell.subjectName.text = item.subjectName
-            //print(item.subjectName)
-            cell.classColor.allRoundSmall()
-            if let hex = Int(item.classColor, radix: 16) {
-                cell.classColor.backgroundColor = UIColor.init(rgb: hex)
-            } else {
-                cell.classColor.backgroundColor = UIColor.red
-            }
+        cell.studentName.text = "\(item.studentName) 학생"
+        cell.subjectName.text = item.subjectName
+        //print(item.subjectName)
+        cell.classColor.allRoundSmall()
+        if let hex = Int(item.classColor, radix: 16) {
+            cell.classColor.backgroundColor = UIColor.init(rgb: hex)
+        } else {
+            cell.classColor.backgroundColor = UIColor.red
+        }
         
-            return cell
+        return cell
         
     }
     
@@ -131,13 +128,5 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
     
     /// didDelectRowAt: 셀 전체 클릭
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        // 플러스 row
-//        if indexPath.row == questionItems.count {
-//            performSegue(withIdentifier: "addStudentSegue", sender: nil)
-//        }
-//        // 학생 row
-//        else {
-//            // 아무것도 하지 않음
-//        }
     }
 }

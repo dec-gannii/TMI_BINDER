@@ -50,18 +50,6 @@ class PortfolioEditViewController: UIViewController {
     }
     
     @IBAction func editButton(_ sender: Any) {
-        
-//        self.db.collection("teacher").whereField("Email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
-//            if let err = err {
-//                print(">>>>> document 에러 : \(err)")
-//            } else {
-//                for document in querySnapshot!.documents {
-//                    print("\(document.documentID) => \(document.data())")
-//                    self.teacherName.text = document.data()["Name"] as? String ?? ""
-//                    self.teacherEmail.text = document.data()["Email"] as? String ?? ""
-//                }
-//            }
-//        }
         let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {

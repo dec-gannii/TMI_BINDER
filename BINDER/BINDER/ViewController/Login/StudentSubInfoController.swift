@@ -10,7 +10,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseDatabase
 
-class StudentSubInfoController:UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     let db = Firestore.firestore()
     var ref: DatabaseReference!
@@ -134,7 +134,6 @@ class StudentSubInfoController:UIViewController, UITextFieldDelegate, UIPickerVi
                 return
             }
           
-            
             let tb = UITabBarController()
             tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
             tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)

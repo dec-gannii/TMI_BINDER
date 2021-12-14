@@ -166,53 +166,6 @@ class PortfolioViewController: UIViewController {
                     }
                 }
             }
-            //            self.db.collection("teacher").whereField("portfolioEmail", isEqualTo: showModeEmail).getDocuments() {
-            //                (querySnapshot, err) in
-            //                if let err = err {
-            //                    print(">>>>> document 에러 : \(err)")
-            //                } else {
-            //                    for document in querySnapshot!.documents {
-            //                        print("\(document.documentID) => \(document.data())")
-            //                        let eduText = document.data()["eduHistory"] as? String ?? ""
-            //                        self.eduTL.text = eduText
-            //
-            //                        let classText = document.data()["classMethod"] as? String ?? ""
-            //                        self.classMetTL.text = classText
-            //
-            //                        let extraText = document.data()["extraExprience"] as? String ?? ""
-            //                        self.extraExpTL.text = extraText
-            //                    }
-            //                }
-            //            }
-            //            let docRef = db.collection("teacher").document(teacherUid).collection("Portfolio").document("portfolio")
-            //            docRef.getDocument { (document, error) in
-            //                if let document = document, document.exists {
-            //                    let data = document.data()
-            //                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-            //
-            //                    let eduText = data?["eduHistory"] as? String ?? ""
-            //                    self.eduTL.text = eduText
-            //
-            //                    let classText = data?["classMethod"] as? String ?? ""
-            //                    self.classMetTL.text = classText
-            //
-            //                    let extraText = data?["extraExprience"] as? String ?? ""
-            //                    self.extraExpTL.text = extraText
-            //
-            //                    print("Document data: \(dataDescription)")
-            //                } else {
-            //                    print("Document does not exist")
-            //                    self.eduTL.text = "None"
-            //                    self.classMetTL.text = "None"
-            //                    self.extraExpTL.text = "None"
-            //                }
-            //            }
-            //
-            //            let showOK = document.data()!["portfolioShow"] as? String ?? ""
-            //            if (showOK == "Off") {
-            //                self.eduTL.text = "선생님이 비공개로 설정해두었습니다."
-            //                self.classMetTL.text = "선생님이 비공개로 설정해두었습니다."
-            //                self.extraExpTL.text = "선생님이 비공개로 설정해두었습니다."
         }
     }
     

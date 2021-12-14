@@ -33,7 +33,6 @@ class MyPageViewController: BaseVC {
     
     func getUserInfo(){
         LoginRepository.shared.doLogin {
-            /// 가져오는 시간 걸림
             self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
@@ -41,12 +40,9 @@ class MyPageViewController: BaseVC {
             self.imageView.kf.setImage(with: url)
             self.imageView.makeCircle()
             
-            /// 클래스 가져오기
-            //self.setMyClasses()
         } failure: { error in
             self.showDefaultAlert(msg: "")
         }
-        /// 클로저, 리스너
     }
     
     func getPortfolioShow() {
