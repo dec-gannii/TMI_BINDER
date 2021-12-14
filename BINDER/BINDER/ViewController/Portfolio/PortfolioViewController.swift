@@ -184,30 +184,30 @@ class PortfolioViewController: UIViewController {
             //                    }
             //                }
             //            }
-//            let docRef = db.collection("teacher").document(teacherUid).collection("Portfolio").document("portfolio")
-//            docRef.getDocument { (document, error) in
-//                if let document = document, document.exists {
-//                    let data = document.data()
-//                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-//
-//                    let eduText = data?["eduHistory"] as? String ?? ""
-//                    self.eduTL.text = eduText
-//
-//                    let classText = data?["classMethod"] as? String ?? ""
-//                    self.classMetTL.text = classText
-//
-//                    let extraText = data?["extraExprience"] as? String ?? ""
-//                    self.extraExpTL.text = extraText
-//
-//                    print("Document data: \(dataDescription)")
-//                } else {
-//                    print("Document does not exist")
-//                    self.eduTL.text = "None"
-//                    self.classMetTL.text = "None"
-//                    self.extraExpTL.text = "None"
-//                }
-//            }
-//
+            //            let docRef = db.collection("teacher").document(teacherUid).collection("Portfolio").document("portfolio")
+            //            docRef.getDocument { (document, error) in
+            //                if let document = document, document.exists {
+            //                    let data = document.data()
+            //                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+            //
+            //                    let eduText = data?["eduHistory"] as? String ?? ""
+            //                    self.eduTL.text = eduText
+            //
+            //                    let classText = data?["classMethod"] as? String ?? ""
+            //                    self.classMetTL.text = classText
+            //
+            //                    let extraText = data?["extraExprience"] as? String ?? ""
+            //                    self.extraExpTL.text = extraText
+            //
+            //                    print("Document data: \(dataDescription)")
+            //                } else {
+            //                    print("Document does not exist")
+            //                    self.eduTL.text = "None"
+            //                    self.classMetTL.text = "None"
+            //                    self.extraExpTL.text = "None"
+            //                }
+            //            }
+            //
             //            let showOK = document.data()!["portfolioShow"] as? String ?? ""
             //            if (showOK == "Off") {
             //                self.eduTL.text = "선생님이 비공개로 설정해두었습니다."
@@ -218,13 +218,6 @@ class PortfolioViewController: UIViewController {
     
     
     @IBAction func goBack(_ sender: Any) {
-//        if let preVC = self.presentingViewController as? UIViewController {
-//            preVC.dismiss(animated: true, completion: nil)
-//        }
-        if (isShowMode == true) {
-            self.dismiss(animated: true, completion: nil)
-        } else {
-            self.dismiss(animated: true, completion: nil)
-        }
+        self.dismiss(animated: true, completion: nil)
     }
 }
