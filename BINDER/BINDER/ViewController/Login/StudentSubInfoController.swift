@@ -22,43 +22,90 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var goalLabel: UILabel!
+    @IBOutlet weak var goalAlertLabel: UILabel!
+    @IBOutlet weak var phoneAlertLabel: UILabel!
+    @IBOutlet weak var ageAlertLabel: UILabel!
     
     let agelist = ["초등학생","중학생","고등학생","일반인"]
     var age = "0"
     var phonenum = "0"
     var goal = "0"
+    var type: String = ""
+    var pw: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
         
-        ageLabel.text = nil
-        phoneLabel.text = nil
-        goalLabel.text = nil
-        
-        createPickerView()
-        dismissPickerView()
+        if (type == "teacher") {
+            ageLabel.text = "학부모 인증 비밀번호"
+            ageAlertLabel.text = "잘못된 입력입니다."
+            ageAlertLabel.isHidden = true
+            ageShowPicker.placeholder = "학부모 인증에 사용될 비밀번호를 입력해주세요."
+            phoneLabel.isHidden = true
+            phoneAlertLabel.isHidden = true
+            phonenumTextField.isHidden = true
+            goalLabel.isHidden = true
+            goalAlertLabel.isHidden = true
+            goalTextField.isHidden = true
+        }
+        else {
+            ageLabel.text = nil
+            phoneLabel.text = nil
+            goalLabel.text = nil
+            
+            createPickerView()
+            dismissPickerView()
+        }
+    }
+    
+    func countOfDigit() -> Int {
+        // 숫자의 자릿수를 세는 함수
+        var count: Int = 0
+        while Int(pw) > 0 {
+            pw /= 10
+            count += 1
+        }
+        return count
+    }
+    
+//    func countOfDigit(_ number: Int) -> Int {
+//        // 숫자의 자릿수를 세는 함수
+//        var num = number
+//        var count: Int = 0
+//        while num > 0 {
+//            num /= 10
+//            count += 1
+//        }
+//        return count
+//    }
+    
+    //  숫자인지를 검사하는 메소드
+    func isValidPw(_ pw: Int) -> Bool {
+        //         공백 검사
+        if (pw == Int(ageShowPicker.text!.trimmingCharacters(in: .whitespaces))) { return true }
+        else { return false }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            return 1
-        }
-
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            return agelist.count
+        return 1
     }
-
-
+    
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return agelist.count
+    }
+    
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         age = agelist[row]
         return agelist[row]
-        }
-
-
+    }
+    
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         ageShowPicker.text = agelist[row]
-        }
+    }
     
     func createPickerView() {
         let pickerView = UIPickerView()
@@ -67,9 +114,9 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         ageShowPicker.tintColor = .clear
         
         ageShowPicker.inputView = pickerView
-      }
-
-      func dismissPickerView() {
+    }
+    
+    func dismissPickerView() {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         let doneBT = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(donePicker))
@@ -78,9 +125,9 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         
         toolBar.setItems([cancelBT,flexibleSpace,doneBT], animated: true)
         toolBar.isUserInteractionEnabled = true
-
+        
         ageShowPicker.inputAccessoryView = toolBar
-      }
+    }
     
     @objc func donePicker() {
         ageShowPicker.text = "\(age)"
@@ -91,55 +138,96 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
     @objc func cancelPicker() {
         ageShowPicker.resignFirstResponder()
     }
-
+    
     
     @IBAction func goNext(_ sender: Any) {
         phonenum = phonenumTextField.text!
         goal = goalTextField.text!
-        if age == "0" {
-            ageLabel.text = "하나를 선택해주세요"
-        }
-        else if phonenum == "" {
-            phoneLabel.text = "전화번호를 작성해주세요"
-        }
-        else if goal == "" {
-            goalLabel.text = "목표를 작성해주세요"
-        }
-        else {
-            // 데이터 저장
-           db.collection("student").document(Auth.auth().currentUser!.uid).updateData([
-                "age": age,
-                "phonenum": phonenum,
-                "goal": goal
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
+        pw = Int(ageShowPicker.text!)!
+        let countOfDigit = countOfDigit()
+        if (type == "teacher"){
+            if (isValidPw(pw) || countOfDigit > 6) {
+                ageAlertLabel.text = "올바른 형식의 비밀번호가 아닙니다."
+                ageAlertLabel.isHidden = false
+            } else {
+                // 데이터 저장
+                ageAlertLabel.isHidden = true
+                db.collection("teacher").document(Auth.auth().currentUser!.uid).updateData([
+                    "parentPW": ageShowPicker.text!
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
                 }
+                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                    //아니면 종료
+                    return
+                }
+                
+                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
+                    return
+                }
+                
+                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
+                    return
+                }
+                
+                guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                    return
+                }
+                
+                let tb = UITabBarController()
+                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
+                self.present(tb, animated: true, completion: nil)
             }
-            
-            guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                //아니면 종료
-                return
+        } else if (type == "student") {
+            if age == "0" {
+                ageAlertLabel.text = "하나를 선택해주세요"
             }
-            
-            guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassVC") as? MyClassVC else {
-                return
+            else if phonenum == "" {
+                phoneAlertLabel.text = "전화번호를 작성해주세요"
             }
-            
-            guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionVC") as? QuestionViewController else {
-                return
+            else if goal == "" {
+                goalAlertLabel.text = "목표를 작성해주세요"
             }
-            
-            guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                return
+            else {
+                goalAlertLabel.isHidden = true
+                phoneAlertLabel.isHidden = true
+                ageAlertLabel.isHidden = true
+                // 데이터 저장
+                db.collection("student").document(Auth.auth().currentUser!.uid).updateData([
+                    "age": age,
+                    "phonenum": phonenum,
+                    "goal": goal
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
+                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                    //아니면 종료
+                    return
+                }
+                
+                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
+                    return
+                }
+                
+                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
+                    return
+                }
+                
+                guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                    return
+                }
+                
+                let tb = UITabBarController()
+                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
+                self.present(tb, animated: true, completion: nil)
             }
-          
-            let tb = UITabBarController()
-            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-            tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
-            self.present(tb, animated: true, completion: nil)
-
         }
     }
-    
 }
+

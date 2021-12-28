@@ -16,11 +16,11 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var pwTextField: UITextField!
-    @IBOutlet weak var ageTextField: UITextField!
+//    @IBOutlet weak var ageTextField: UITextField!
     @IBOutlet weak var nameAlertLabel: UILabel!
     @IBOutlet weak var emailAlertLabel: UILabel!
     @IBOutlet weak var pwAlertLabel: UILabel!
-    @IBOutlet weak var ageAlertLabel: UILabel!
+//    @IBOutlet weak var ageAlertLabel: UILabel!
     
     static var number : Int = 1
     var verified : Bool = false
@@ -35,11 +35,10 @@ class SignInViewController: UIViewController {
         nameAlertLabel.isHidden = true
         pwAlertLabel.isHidden = true
         emailAlertLabel.isHidden = true
-        ageAlertLabel.isHidden = true
     }
     
-    // 정보 저장하는 메소드
-    func saveInfo(_ number: Int, _ name: String, _ email: String, _ password: String, _ type: String, _ age: Int){
+    // 정보 저장하는 메소드 , _ age: Int
+    func saveInfo(_ number: Int, _ name: String, _ email: String, _ password: String, _ type: String){
         let db = Firestore.firestore()
         
         // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
@@ -47,7 +46,7 @@ class SignInViewController: UIViewController {
             "Name": name,
             "Email": email,
             "Password": password,
-            "Age": age,
+//            "Age": age,
             "Type": type,
             "Uid": Auth.auth().currentUser?.uid
         ]) { err in
@@ -80,11 +79,11 @@ class SignInViewController: UIViewController {
     }
     
     // 유효한 나이인지를 검사하는 메소드
-    func isValidAge(_ age: Int) -> Bool {
+//    func isValidAge(_ age: Int) -> Bool {
         // 공백 검사
-        if (age == Int(ageTextField.text!.trimmingCharacters(in: .whitespaces))) { return true }
-        else { return false }
-    }
+//        if (age == Int(ageTextField.text!.trimmingCharacters(in: .whitespaces))) { return true }
+//        else { return false }
+//    }
     
     // 로그인 버튼 클릭 시 실행되는 메소드
     @IBAction func GoToSignInBtnClicked(_ sender: Any) {
@@ -100,15 +99,15 @@ class SignInViewController: UIViewController {
         guard let name = self.nameTextField.text?.trimmingCharacters(in: .whitespaces) else { return }
         guard let id = self.emailTextField.text else { return }
         guard let pw = self.pwTextField.text else { return }
-        guard let age = Int(self.ageTextField.text!.trimmingCharacters(in: .whitespaces)) else { return }
+//        guard let age = Int(self.ageTextField.text!.trimmingCharacters(in: .whitespaces)) else { return }
         
         self.emailAlertLabel.isHidden = true
         self.pwAlertLabel.isHidden = true
         self.nameAlertLabel.isHidden = true
-        self.ageAlertLabel.isHidden = true
+//        self.ageAlertLabel.isHidden = true
         
-        // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면,
-        if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) && self.isValidAge(age)) {
+        // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면, && self.isValidAge(age)
+        if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) ) {
             // 사용자를 생성
             Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
                 print(error?.localizedDescription)
@@ -121,8 +120,8 @@ class SignInViewController: UIViewController {
                     }
                 })
                 
-                // 정보 저장
-                self.saveInfo(SignInViewController.number, name, id, pw, self.type, age)
+                // 정보 저장 , age
+                self.saveInfo(SignInViewController.number, name, id, pw, self.type)
                 SignInViewController.number = SignInViewController.number + 1
                 guard let user = authResult?.user else {
                     return
@@ -130,14 +129,18 @@ class SignInViewController: UIViewController {
             }
             
             // 타입이 학생이라면,
-            if(type == "student"){
+            if(type == "student" || type == "teacher"){
                 // 추가 정보를 입력하는 뷰로 이동
-                let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfo")
-                subInfoVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                subInfoVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                self.present(subInfoVC!, animated: true, completion: nil)
-            }
-            else{
+//                let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfo")
+                guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
+                    //아니면 종료
+                    return
+                }
+                subInfoVC.type = self.type
+                subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                self.present(subInfoVC, animated: true, completion: nil)
+            } else{
                 // 아니라면 바로 홈으로 이동
                 guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
                     //아니면 종료
@@ -150,10 +153,10 @@ class SignInViewController: UIViewController {
                 homeVC.name = self.nameTextField.text!
                 homeVC.type = self.type
                 
-                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassVC") as? MyClassVC else {
+                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
                     return
                 }
-                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionVC") as? QuestionViewController else {
+                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
                     return
                 }
                 
@@ -182,10 +185,10 @@ class SignInViewController: UIViewController {
                 nameAlertLabel.isHidden = false
                 nameAlertLabel.text = "이름 형식이 올바르지 않습니다!"
             }
-            if (!self.isValidAge((age))) {
-                ageAlertLabel.isHidden = false
-                ageAlertLabel.text = "나이 형식이 올바르지 않습니다!"
-            }
+//            if (!self.isValidAge((age))) {
+//                ageAlertLabel.isHidden = false
+//                ageAlertLabel.text = "나이 형식이 올바르지 않습니다!"
+//            }
         }
     }
 }
