@@ -217,6 +217,7 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         
         // 날짜 데이터 넘겨주기
         scheduleListVC.date = dateFormatter.string(from: date)
+        scheduleListVC.modalPresentationStyle = .fullScreen
         self.present(scheduleListVC, animated: true, completion: nil)
     }
 }
