@@ -38,6 +38,7 @@ class ScheduleListViewController: UIViewController {
         super.viewDidAppear(true)
         scheduleListTableView.reloadData()
     }
+    
     // 일정 추가 버튼 (+) 클릭 시 사용되는 메소드
     @IBAction func AddButtonClicked(_ sender: Any) {
         guard let addScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
@@ -98,6 +99,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         guard let editScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
         editScheduleVC.date = self.date // 선택된 날짜 데이터 전달
         editScheduleVC.editingTitle = scheduleTitles[indexPath.row] // 선택된 셀의 일정 제목 데이터 전달
+        editScheduleVC.modalPresentationStyle = .fullScreen
         self.present(editScheduleVC, animated: true, completion: nil)
     }
     
@@ -134,7 +136,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
                     }
                     
                     if (count == 1) {
-                        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count])
+                        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": 0])
                         { err in
                             if let err = err {
                                 print("Error adding document: \(err)")

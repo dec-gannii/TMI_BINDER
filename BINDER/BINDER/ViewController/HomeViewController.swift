@@ -17,6 +17,12 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var emailVerificationCheckBtn: UIButton!
     @IBOutlet weak var calendarView: FSCalendar!
+    @IBOutlet weak var HomeStudentIconLabel: UILabel!
+    @IBOutlet weak var HomeStudentIconSecondLabel: UILabel!
+    @IBOutlet weak var HomeStudentIconThirdLabel: UILabel!
+    
+    /// 수업 변수 배열
+    var classItems: [String] = []
     
     var id : String = ""
     var pw : String = ""
@@ -58,10 +64,11 @@ class HomeViewController: UIViewController {
         calendarView.dataSource = self
         calendarView.delegate = self
     }
+    
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-         self.view.endEditing(true)
-   }
+        self.view.endEditing(true)
+    }
     
     // 이벤트 추가하기 (날짜를 events 배열에 추가)
     func setUpEvents(_ eventDate: String) {
@@ -80,6 +87,11 @@ class HomeViewController: UIViewController {
         calendarView.delegate = self
         verifiedCheck() // 인증된 이메일인지 체크하는 메소드
         
+        setMyClasses()
+        
+        getTeacherInfo()
+        getStudentInfo()
+        
         self.calendarText()
         self.calendarColor()
         self.calendarEvent()
@@ -88,21 +100,58 @@ class HomeViewController: UIViewController {
         if (!verified) {
             stateLabel.text = "작성한 이메일로 인증을 진행해주세요."
             emailVerificationCheckBtn.isHidden = false
-            calendarView.isHidden = true // 캘린더 뷰 안 보이도록 함
+            //            calendarView.isHidden = true // 캘린더 뷰 안 보이도록 함
+            HomeStudentIconLabel.text = "등록된 학생이 없습니다."
+            HomeStudentIconSecondLabel.text = "등록된 학생이 없습니다."
+            HomeStudentIconThirdLabel.text = "등록된 학생이 없습니다."
         } else {
             // 인증되었고,
             if (self.type == "teacher") { // 선생님 계정이라면
-                getTeacherInfo()
+                print(classItems)
+                HomeStudentIconLabel.text = classItems[0]
+                HomeStudentIconSecondLabel.text = classItems[1]
+                HomeStudentIconThirdLabel.text = classItems[2]
+                if (Auth.auth().currentUser?.email != nil) {
+                    emailVerificationCheckBtn.isHidden = true
+                    HomeStudentIconLabel.text = "등록된 학생이 없습니다."
+                    HomeStudentIconSecondLabel.text = "등록된 학생이 없습니다."
+                    HomeStudentIconThirdLabel.text = "등록된 학생이 없습니다."
+                }
+            } else {
+                // 학생 계정이라면
                 if (Auth.auth().currentUser?.email != nil) {
                     calendarView.isHidden = false
                     emailVerificationCheckBtn.isHidden = true
                 }
+            }
+        }
+    }
+    
+    // 내 수업 가져오기
+    func setMyClasses() {
+        let db = Firestore.firestore()
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
             } else {
-                // 학생 계정이라면
-                getStudentInfo()
-                if (Auth.auth().currentUser?.email != nil) {
-                    calendarView.isHidden = false
-                    emailVerificationCheckBtn.isHidden = true
+                /// nil이 아닌지 확인한다.
+                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                    return
+                }
+                
+                for document in snapshot.documents {
+                    print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                    
+                    /// document.data()를 통해서 값 받아옴, data는 dictionary
+                    let classDt = document.data()
+                    
+                    /// nil값 처리
+                    let email = classDt["email"] as? String ?? ""
+                    let name = classDt["name"] as? String ?? ""
+                    let subject = classDt["subject"] as? String ?? ""
+                    
+                    let item = HomeStudentLinkIconItem(email: email, name: name, subject: subject)
+                    self.classItems.append(item.name)
                 }
             }
         }
@@ -118,9 +167,13 @@ class HomeViewController: UIViewController {
                 let data = document.data()
                 self.name = data?["Name"] as? String ?? ""
                 self.stateLabel.text = self.name + " 선생님 환영합니다!"
+                if (Auth.auth().currentUser?.email == data?["Email"] as! String) {
+                    self.type = "teacher"
+                } else {
+                    self.type = data?["Type"] as? String ?? ""
+                }
                 self.id = data?["Email"] as? String ?? ""
                 self.pw = data?["Password"] as? String ?? ""
-                self.type = data?["Type"] as? String ?? ""
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
             } else {
@@ -141,7 +194,11 @@ class HomeViewController: UIViewController {
                 self.stateLabel.text = self.name + " 학생 환영합니다!"
                 self.id = data?["Email"] as? String ?? ""
                 self.pw = data?["Password"] as? String ?? ""
-                self.type = data?["Type"] as? String ?? ""
+                if (Auth.auth().currentUser?.email == data?["Email"] as! String) {
+                    self.type = "student"
+                } else {
+                    self.type = data?["Type"] as? String ?? ""
+                }
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
             } else {

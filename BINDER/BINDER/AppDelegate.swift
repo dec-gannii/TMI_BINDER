@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func application(_ application: UIApplication, open url: URL,
                      options: [UIApplication.OpenURLOptionsKey: Any])
     -> Bool {
-        return GIDSignIn.sharedInstance()!.handle(url)
+        return GIDSignIn.sharedInstance().handle(url)
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -35,8 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         let db = Firestore.firestore()
         
-        GIDSignIn.sharedInstance()?.clientID = "382918594867-akdm60fcq7msffhgglug1eou939g2ebh.apps.googleusercontent.com"
-        GIDSignIn.sharedInstance()?.delegate = self
+        if let user = Auth.auth().currentUser {
+            print("You're sign in as \(user.uid), email: \(user.email ?? "no email")")
+        }
+        
+//        GIDSignIn.sharedInstance()?.clientID = "382918594867-akdm60fcq7msffhgglug1eou939g2ebh.apps.googleusercontent.com"
+//        GIDSignIn.sharedInstance()?.delegate = self
         
         return true
     }

@@ -449,14 +449,120 @@ Cg
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oI4-BA-kgC">
+                                <rect key="frame" x="20" y="484" width="374" height="319"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BrC-0X-7kd">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="319"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6hK-hH-1Po">
+                                                <rect key="frame" x="0.0" y="0.0" width="650" height="319"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ra6-Ca-7J6">
+                                                        <rect key="frame" x="20" y="15" width="200" height="289"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="200" id="LQS-2V-bsZ"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Button" backgroundImage="StudentLinkBtn"/>
+                                                        <buttonConfiguration key="configuration" style="plain">
+                                                            <backgroundConfiguration key="background" image="StudentLinkBtn"/>
+                                                        </buttonConfiguration>
+                                                    </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IF0-Z3-9Qk">
+                                                        <rect key="frame" x="50" y="30" width="140" height="17"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j0Y-xB-UtO">
+                                                        <rect key="frame" x="230" y="15" width="200" height="289"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="200" id="jD3-a7-AgN"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Button" backgroundImage="StudentLinkBtn"/>
+                                                        <buttonConfiguration key="configuration" style="plain">
+                                                            <backgroundConfiguration key="background" image="StudentLinkBtn"/>
+                                                        </buttonConfiguration>
+                                                    </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hL-0N-aVe">
+                                                        <rect key="frame" x="260" y="30" width="140" height="17"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9w5-Cz-D4p">
+                                                        <rect key="frame" x="440" y="15" width="200" height="289"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="200" id="lfT-Hq-g5c"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Button" backgroundImage="StudentLinkBtn"/>
+                                                        <buttonConfiguration key="configuration" style="plain">
+                                                            <backgroundConfiguration key="background" image="StudentLinkBtn"/>
+                                                        </buttonConfiguration>
+                                                    </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8r-GD-8g8">
+                                                        <rect key="frame" x="470" y="30" width="140" height="17"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="IF0-Z3-9Qk" firstAttribute="leading" secondItem="6hK-hH-1Po" secondAttribute="leading" constant="50" id="2MS-1J-HY7"/>
+                                                    <constraint firstItem="9w5-Cz-D4p" firstAttribute="leading" secondItem="j0Y-xB-UtO" secondAttribute="trailing" constant="10" id="3t0-kY-N9K"/>
+                                                    <constraint firstItem="9w5-Cz-D4p" firstAttribute="top" secondItem="6hK-hH-1Po" secondAttribute="top" constant="15" id="BoT-xR-1iX"/>
+                                                    <constraint firstItem="X8r-GD-8g8" firstAttribute="top" secondItem="6hK-hH-1Po" secondAttribute="top" constant="30" id="HKT-8G-UZQ"/>
+                                                    <constraint firstItem="j0Y-xB-UtO" firstAttribute="leading" secondItem="IF0-Z3-9Qk" secondAttribute="trailing" constant="40" id="K4X-eH-Cf7"/>
+                                                    <constraint firstItem="X8r-GD-8g8" firstAttribute="leading" secondItem="j0Y-xB-UtO" secondAttribute="trailing" constant="40" id="Ko3-SA-6f2"/>
+                                                    <constraint firstAttribute="bottom" secondItem="j0Y-xB-UtO" secondAttribute="bottom" constant="15" id="Kvl-7N-o8B"/>
+                                                    <constraint firstAttribute="width" constant="650" id="MDV-3e-oGZ"/>
+                                                    <constraint firstItem="2hL-0N-aVe" firstAttribute="top" secondItem="6hK-hH-1Po" secondAttribute="top" constant="30" id="SX8-xQ-Jpf"/>
+                                                    <constraint firstItem="IF0-Z3-9Qk" firstAttribute="top" secondItem="6hK-hH-1Po" secondAttribute="top" constant="30" id="VVN-AR-7ns"/>
+                                                    <constraint firstItem="j0Y-xB-UtO" firstAttribute="leading" secondItem="ra6-Ca-7J6" secondAttribute="trailing" constant="10" id="cXu-cs-C5a"/>
+                                                    <constraint firstAttribute="bottom" secondItem="ra6-Ca-7J6" secondAttribute="bottom" constant="15" id="d7l-ZH-h2s"/>
+                                                    <constraint firstAttribute="trailing" secondItem="X8r-GD-8g8" secondAttribute="trailing" constant="40" id="oFc-DX-42j"/>
+                                                    <constraint firstAttribute="bottom" secondItem="9w5-Cz-D4p" secondAttribute="bottom" constant="15" id="qEg-xc-eF2"/>
+                                                    <constraint firstItem="2hL-0N-aVe" firstAttribute="leading" secondItem="ra6-Ca-7J6" secondAttribute="trailing" constant="40" id="ufm-8H-0sS"/>
+                                                    <constraint firstItem="j0Y-xB-UtO" firstAttribute="top" secondItem="6hK-hH-1Po" secondAttribute="top" constant="15" id="voC-T0-2Kf"/>
+                                                    <constraint firstItem="ra6-Ca-7J6" firstAttribute="top" secondItem="6hK-hH-1Po" secondAttribute="top" constant="15" id="vs4-9a-DHr"/>
+                                                    <constraint firstItem="9w5-Cz-D4p" firstAttribute="leading" secondItem="2hL-0N-aVe" secondAttribute="trailing" constant="40" id="wC5-x4-EdI"/>
+                                                    <constraint firstItem="ra6-Ca-7J6" firstAttribute="leading" secondItem="6hK-hH-1Po" secondAttribute="leading" constant="20" id="xLo-sV-yog"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="6hK-hH-1Po" secondAttribute="trailing" id="1Zk-tK-bzl"/>
+                                            <constraint firstItem="6hK-hH-1Po" firstAttribute="top" secondItem="BrC-0X-7kd" secondAttribute="top" id="Cnt-9C-1xm"/>
+                                            <constraint firstAttribute="bottom" secondItem="6hK-hH-1Po" secondAttribute="bottom" id="cmX-IM-QM6"/>
+                                            <constraint firstItem="6hK-hH-1Po" firstAttribute="height" secondItem="dXM-CU-ety" secondAttribute="height" id="x6K-CX-wpR"/>
+                                            <constraint firstItem="6hK-hH-1Po" firstAttribute="leading" secondItem="BrC-0X-7kd" secondAttribute="leading" id="ycr-99-Voz"/>
+                                        </constraints>
+                                        <viewLayoutGuide key="contentLayoutGuide" id="5xq-X2-i0i"/>
+                                        <viewLayoutGuide key="frameLayoutGuide" id="dXM-CU-ety"/>
+                                    </scrollView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="BrC-0X-7kd" secondAttribute="trailing" id="6O5-BZ-ArU"/>
+                                    <constraint firstItem="BrC-0X-7kd" firstAttribute="top" secondItem="oI4-BA-kgC" secondAttribute="top" id="ZOT-qu-gWP"/>
+                                    <constraint firstItem="BrC-0X-7kd" firstAttribute="leading" secondItem="oI4-BA-kgC" secondAttribute="leading" id="b3t-Yb-TE7"/>
+                                    <constraint firstAttribute="bottom" secondItem="BrC-0X-7kd" secondAttribute="bottom" id="eyn-sd-Qqs"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EyS-0Q-x0E"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="EyS-0Q-x0E" firstAttribute="trailing" secondItem="oI4-BA-kgC" secondAttribute="trailing" constant="20" id="0Gg-Ts-arH"/>
                             <constraint firstItem="EyS-0Q-x0E" firstAttribute="trailing" secondItem="Q8h-cN-SMl" secondAttribute="trailing" constant="20" id="2UV-Ht-4m8"/>
                             <constraint firstItem="RF3-LM-YBL" firstAttribute="bottom" secondItem="EyS-0Q-x0E" secondAttribute="bottom" id="6DD-19-THh"/>
+                            <constraint firstItem="EyS-0Q-x0E" firstAttribute="bottom" secondItem="oI4-BA-kgC" secondAttribute="bottom" constant="10" id="6xr-qD-Hvd"/>
                             <constraint firstItem="Q8h-cN-SMl" firstAttribute="top" secondItem="EyS-0Q-x0E" secondAttribute="top" constant="30" id="9Sy-6u-hlr"/>
+                            <constraint firstItem="oI4-BA-kgC" firstAttribute="top" secondItem="DrS-OT-NXC" secondAttribute="bottom" constant="10" id="Cqn-X4-iPx"/>
                             <constraint firstItem="DrS-OT-NXC" firstAttribute="leading" secondItem="EyS-0Q-x0E" secondAttribute="leading" constant="20" id="F2J-si-Ll3"/>
+                            <constraint firstItem="oI4-BA-kgC" firstAttribute="leading" secondItem="EyS-0Q-x0E" secondAttribute="leading" constant="20" id="Jni-Vg-z3p"/>
                             <constraint firstItem="FCe-qj-a2K" firstAttribute="top" secondItem="Q8h-cN-SMl" secondAttribute="bottom" constant="3" id="SRm-Sj-gXM"/>
                             <constraint firstItem="RF3-LM-YBL" firstAttribute="top" secondItem="EyS-0Q-x0E" secondAttribute="top" id="Sqe-NJ-7pR"/>
                             <constraint firstItem="DrS-OT-NXC" firstAttribute="top" secondItem="FCe-qj-a2K" secondAttribute="bottom" constant="10" id="VQA-ec-m78"/>
@@ -475,6 +581,9 @@ Cg
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <connections>
+                        <outlet property="HomeStudentIconLabel" destination="IF0-Z3-9Qk" id="V7T-gK-zC5"/>
+                        <outlet property="HomeStudentIconSecondLabel" destination="2hL-0N-aVe" id="7z2-p7-pMA"/>
+                        <outlet property="HomeStudentIconThirdLabel" destination="X8r-GD-8g8" id="87A-ne-ap8"/>
                         <outlet property="calendarView" destination="DrS-OT-NXC" id="bAM-u9-3GE"/>
                         <outlet property="emailVerificationCheckBtn" destination="FCe-qj-a2K" id="oH4-V4-epf"/>
                         <outlet property="stateLabel" destination="Q8h-cN-SMl" id="QpN-N6-RQ5"/>
@@ -482,7 +591,7 @@ Cg
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="07d-nY-S9k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1508.6956521739132" y="-139.28571428571428"/>
+            <point key="canvasLocation" x="1509" y="-589"/>
         </scene>
         <!--Schedule List View Controller-->
         <scene sceneID="abd-L9-PBE">
@@ -3353,6 +3462,7 @@ Cg
         <image name="MyPage_Gray" width="25" height="25"/>
         <image name="Question_Color" width="55" height="41"/>
         <image name="Question_Gray" width="25" height="25"/>
+        <image name="StudentLinkBtn" width="632" height="898"/>
         <image name="arrowtriangle.down.fill" catalog="system" width="128" height="124"/>
         <image name="background" width="390" height="844"/>
         <image name="chevron.backward" catalog="system" width="96" height="128"/>
