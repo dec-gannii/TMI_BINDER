@@ -468,6 +468,9 @@ Cg
                                                         <buttonConfiguration key="configuration" style="plain">
                                                             <backgroundConfiguration key="background" image="StudentLinkBtn"/>
                                                         </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="ButtonClicked:" destination="H0V-Ou-VbF" eventType="touchUpInside" id="uOO-RO-aJY"/>
+                                                        </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IF0-Z3-9Qk">
                                                         <rect key="frame" x="50" y="30" width="140" height="17"/>
@@ -485,6 +488,9 @@ Cg
                                                         <buttonConfiguration key="configuration" style="plain">
                                                             <backgroundConfiguration key="background" image="StudentLinkBtn"/>
                                                         </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="Button2Clicked:" destination="H0V-Ou-VbF" eventType="touchUpInside" id="I56-J8-IDA"/>
+                                                        </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hL-0N-aVe">
                                                         <rect key="frame" x="260" y="30" width="140" height="17"/>
@@ -502,6 +508,9 @@ Cg
                                                         <buttonConfiguration key="configuration" style="plain">
                                                             <backgroundConfiguration key="background" image="StudentLinkBtn"/>
                                                         </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="Button3Clicked:" destination="H0V-Ou-VbF" eventType="touchUpInside" id="7YD-XM-9Hx"/>
+                                                        </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8r-GD-8g8">
                                                         <rect key="frame" x="470" y="30" width="140" height="17"/>
@@ -591,7 +600,7 @@ Cg
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="07d-nY-S9k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1509" y="-589"/>
+            <point key="canvasLocation" x="1509" y="-139"/>
         </scene>
         <!--Schedule List View Controller-->
         <scene sceneID="abd-L9-PBE">

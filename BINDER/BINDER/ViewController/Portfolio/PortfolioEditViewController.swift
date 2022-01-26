@@ -20,7 +20,7 @@ class PortfolioEditViewController: UIViewController {
     var edu = ""
     var classMethod = ""
     var extra = ""
-    var showPortfolio = ""
+    var showPortfolio = "On"
     
     override func viewDidLoad() {
         super.viewDidLoad()

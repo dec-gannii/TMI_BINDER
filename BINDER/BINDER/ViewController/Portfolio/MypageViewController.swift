@@ -37,10 +37,10 @@ class MyPageViewController: BaseVC {
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
             
-//            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
             
             // photoURL 있는 경우
-            let url = Auth.auth().currentUser?.photoURL
+//            let url = Auth.auth().currentUser?.photoURL
             self.imageView.kf.setImage(with: url)
             self.imageView.makeCircle()
             
