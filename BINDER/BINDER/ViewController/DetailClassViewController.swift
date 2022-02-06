@@ -88,6 +88,11 @@ class DetailClassViewController: UIViewController {
         
         self.evaluationMemoTextView.layer.borderWidth = 1.0
         self.evaluationMemoTextView.layer.borderColor = UIColor.systemGray6.cgColor
+        
+        if (self.userName != nil) {
+            self.classNavigationBar.topItem!.title = self.userName + " 학생"
+            self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
+        }
         print(self.userIndex)
     }
     
