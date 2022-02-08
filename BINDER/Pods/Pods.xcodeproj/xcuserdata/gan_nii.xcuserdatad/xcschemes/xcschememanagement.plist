@@ -21,12 +21,12 @@
 		<key>BulletinBoard.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>51</integer>
+			<integer>49</integer>
 		</dict>
 		<key>Charts.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>49</integer>
+			<integer>50</integer>
 		</dict>
 		<key>FBSDKCoreKit-FacebookSDKStrings.xcscheme</key>
 		<dict>
@@ -297,7 +297,7 @@
 		<key>Kingfisher.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>50</integer>
+			<integer>52</integer>
 		</dict>
 		<key>Pods-BINDER.xcscheme</key>
 		<dict>
