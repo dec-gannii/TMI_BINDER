@@ -345,6 +345,20 @@ class HomeViewController: UIViewController {
                 }
                 calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
                 emailVerificationCheckBtn.isHidden = true // 이메일 인증 확인 버튼 숨기기
+                if (self.type == "teacher") { // 선생님 계정이라면
+                    if (Auth.auth().currentUser?.email != nil) {
+                        emailVerificationCheckBtn.isHidden = true
+                        HomeStudentIconLabel.text = "등록된 학생이 없습니다."
+                        HomeStudentIconSecondLabel.text = "등록된 학생이 없습니다."
+                        HomeStudentIconThirdLabel.text = "등록된 학생이 없습니다."
+                    }
+                } else {
+                    // 학생 계정이라면
+                    if (Auth.auth().currentUser?.email != nil) {
+                        calendarView.isHidden = false
+                        emailVerificationCheckBtn.isHidden = true
+                    }
+                }
             }
         }
     }

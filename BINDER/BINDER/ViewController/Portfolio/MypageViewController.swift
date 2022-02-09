@@ -107,10 +107,20 @@ class MyPageViewController: BaseVC {
             self.present(signinVC!, animated: true, completion: nil)
         } else {
             // Show login page
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
-            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-            self.present(loginVC!, animated: true, completion: nil)
+            guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else {
+                //아니면 종료
+                return
+            }
+            loginVC.modalTransitionStyle = .crossDissolve
+            loginVC.modalPresentationStyle = .fullScreen
+            loginVC.isLogouted = true
+            
+            self.present(loginVC, animated: true, completion: nil)
+//            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
+//            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+//            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+//
+//            self.present(loginVC!, animated: true, completion: nil)
         }
     }
     

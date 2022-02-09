@@ -91,10 +91,44 @@ class SignInViewController: UIViewController {
     
     // 로그인 버튼 클릭 시 실행되는 메소드
     @IBAction func GoToSignInBtnClicked(_ sender: Any) {
-        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
-        loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-        loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-        self.present(loginVC!, animated: true, completion: nil)
+        if (self.isGoogleSignIn == true) {
+            guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                //아니면 종료
+                return
+            }
+            // 데이터 넘겨주기
+            homeVC.id = self.emailTextField.text!
+            homeVC.pw = self.pwTextField.text!
+            homeVC.number = SignInViewController.number
+            homeVC.name = self.nameTextField.text!
+            homeVC.type = self.type
+            homeVC.verified = true
+            
+            guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
+                return
+            }
+            guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
+                return
+            }
+            
+            guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                return
+            }
+            
+            // tab bar 추가하기
+            let tb = UITabBarController()
+            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+            tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
+            tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
+            self.present(tb, animated: true, completion: nil)
+            self.present(homeVC, animated: true, completion: nil)
+            
+        } else {
+            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
+            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+            self.present(loginVC!, animated: true, completion: nil)
+        }
     }
     
     // 회원가입 버튼 클릭 시 실행되는 메소드
