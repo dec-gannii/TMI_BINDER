@@ -38,11 +38,19 @@ class CheckPasswordViewController: UIViewController {
     
     @IBAction func BackBtnClicked(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+        //        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func OKBtnClicked(_ sender: Any) {
         if (currentPW == pwTextField.text) {
-            print("right PW")
+            
+            guard let editInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "EditInfoViewController") as? EditInfoViewController else { return }
+            
+            editInfoVC.modalPresentationStyle = .fullScreen
+            editInfoVC.modalTransitionStyle = .crossDissolve
+            
+            self.present(editInfoVC, animated: true, completion: nil)
+            //            self.navigationController?.pushViewController(editInfoVC, animated: true)
             errorLabel.isHidden = true
         } else {
             errorLabel.text = "현재 비밀번호가 올바르지 않습니다!"

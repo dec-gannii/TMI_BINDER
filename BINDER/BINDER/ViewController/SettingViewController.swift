@@ -23,6 +23,7 @@ class SettingViewController: UIViewController, UITableViewDelegate {
     
     @IBAction func BackBtnClicked(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+//        self.navigationController?.popViewController(animated: true)
     }
     
 }
@@ -53,6 +54,7 @@ extension SettingViewController: UIViewControllerTransitioningDelegate, UITableV
 //            self.navigationViewController?.pushViewController(checkpwVC, animated: true)
             checkpwVC.modalPresentationStyle = .fullScreen
             checkpwVC.modalTransitionStyle = .crossDissolve
+//            self.navigationController?.pushViewController(checkpwVC, animated: true)
             self.present(checkpwVC, animated: true, completion: nil)
             
         }
