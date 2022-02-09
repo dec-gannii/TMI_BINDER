@@ -28,12 +28,6 @@ class ScheduleListViewController: UIViewController {
         scheduleListTableView.dataSource = self
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(true)
-//        print("viewWillAppear \(self.count)")
-//        scheduleListTableView.reloadData()
-//    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         scheduleListTableView.reloadData()
@@ -115,6 +109,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
                     print("Error removing document: \(err)")
                 } else {
                     print("Document successfully removed!")
+                    self.count = self.count - 1
                     self.scheduleListTableView.reloadData()
                 }
             }

@@ -44,6 +44,8 @@
 		7F16D16127496FC800745522 /* TypeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D16027496FC800745522 /* TypeSelectViewController.swift */; };
 		7F17FB83275BB45500834B4D /* ScheduleCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */; };
 		7F4285312765034500BA0310 /* ShowPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */; };
+		7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6E5E4A27B2C00000292601 /* SettingViewController.swift */; };
+		7F6E5E4D27B2C3ED00292601 /* CheckPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6E5E4C27B2C3ED00292601 /* CheckPasswordViewController.swift */; };
 		7F716942276498B0001FD4F4 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F716941276498B0001FD4F4 /* LogInViewController.swift */; };
 		7F716946276499CA001FD4F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F716945276499CA001FD4F4 /* Main.storyboard */; };
 		7F8CC8FA275BB29E00BE195D /* ScheduleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8CC8F9275BB29E00BE195D /* ScheduleListViewController.swift */; };
@@ -95,6 +97,8 @@
 		7F16D16027496FC800745522 /* TypeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeSelectViewController.swift; sourceTree = "<group>"; };
 		7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellTableViewCell.swift; sourceTree = "<group>"; };
 		7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPortfolioViewController.swift; sourceTree = "<group>"; };
+		7F6E5E4A27B2C00000292601 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		7F6E5E4C27B2C3ED00292601 /* CheckPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPasswordViewController.swift; sourceTree = "<group>"; };
 		7F716941276498B0001FD4F4 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		7F716945276499CA001FD4F4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		7F8CC8F9275BB29E00BE195D /* ScheduleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleListViewController.swift; sourceTree = "<group>"; };
@@ -285,6 +289,8 @@
 				7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */,
 				69E5F68F2764C762003D7DD1 /* QuestionViewController.swift */,
 				7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */,
+				7F6E5E4A27B2C00000292601 /* SettingViewController.swift */,
+				7F6E5E4C27B2C3ED00292601 /* CheckPasswordViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -452,6 +458,7 @@
 				6965DE83275DEF670072C16A /* AddStudentVC.swift in Sources */,
 				69E5F6902764C762003D7DD1 /* QuestionViewController.swift in Sources */,
 				6965DE7C275DEF490072C16A /* PayType.swift in Sources */,
+				7F6E5E4D27B2C3ED00292601 /* CheckPasswordViewController.swift in Sources */,
 				6965DE75275DEF330072C16A /* CardTableViewCell.swift in Sources */,
 				7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */,
 				6965DE7A275DEF410072C16A /* CircleButton.swift in Sources */,
@@ -475,6 +482,7 @@
 				6965DE72275DEF290072C16A /* Date.swift in Sources */,
 				69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */,
 				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
+				7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */,
 				69EE72B4275D11D5007F6F7C /* PortfolioViewController.swift in Sources */,
 				6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */,
 				6965DE6B275DEF1C0072C16A /* ClassItem.swift in Sources */,

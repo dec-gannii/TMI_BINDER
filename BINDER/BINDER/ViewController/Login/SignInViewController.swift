@@ -43,10 +43,10 @@ class SignInViewController: UIViewController {
             pwTextField.placeholder = "이메일로 전송된 링크에서 변경한 비밀번호를 입력해주세요."
             Auth.auth().sendPasswordReset(withEmail: (Auth.auth().currentUser?.email)!)
             emailTextField.isEnabled = false
-        }
+        } 
     }
     
-    // 정보 저장하는 메소드 , _ age: Int
+    // 정보 저장하는 메소드
     func saveInfo(_ number: Int, _ name: String, _ email: String, _ password: String, _ type: String){
         let db = Firestore.firestore()
         
