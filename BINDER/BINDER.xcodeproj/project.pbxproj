@@ -31,6 +31,8 @@
 		69EE72B2275D11C2007F6F7C /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B1275D11C2007F6F7C /* MypageViewController.swift */; };
 		69EE72B4275D11D5007F6F7C /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */; };
 		69EE72B6275D1451007F6F7C /* StudentSubInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B5275D1451007F6F7C /* StudentSubInfoController.swift */; };
+		6F2ED45027B3444800DD7CB7 /* QuestionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2ED44F27B3444800DD7CB7 /* QuestionListViewController.swift */; };
+		6F86FBD427B37FDC00670928 /* QuestionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F86FBD327B37FDC00670928 /* QuestionListItem.swift */; };
 		6FA406F42764D63900ED847F /* QuestionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA406F32764D63900ED847F /* QuestionItem.swift */; };
 		6FA5E4D02767843400C879AF /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA5E4CF2767843400C879AF /* ColorUtils.swift */; };
 		6FF28C0A2766135000D3BDE9 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF28C092766135000D3BDE9 /* QuestionTableViewCell.swift */; };
@@ -82,6 +84,8 @@
 		69EE72B1275D11C2007F6F7C /* MypageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewController.swift; sourceTree = "<group>"; };
 		69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		69EE72B5275D1451007F6F7C /* StudentSubInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSubInfoController.swift; sourceTree = "<group>"; };
+		6F2ED44F27B3444800DD7CB7 /* QuestionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionListViewController.swift; sourceTree = "<group>"; };
+		6F86FBD327B37FDC00670928 /* QuestionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionListItem.swift; sourceTree = "<group>"; };
 		6FA406F32764D63900ED847F /* QuestionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionItem.swift; sourceTree = "<group>"; };
 		6FA5E4CF2767843400C879AF /* ColorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
 		6FF28C092766135000D3BDE9 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
@@ -191,6 +195,7 @@
 				6965DE69275DEF1C0072C16A /* TeacherItem.swift */,
 				6FA406F32764D63900ED847F /* QuestionItem.swift */,
 				7F8FAD2E279EC877001E4581 /* HomeStudentLinkIconItem.swift */,
+				6F86FBD327B37FDC00670928 /* QuestionListItem.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -291,6 +296,7 @@
 				7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */,
 				7F6E5E4A27B2C00000292601 /* SettingViewController.swift */,
 				7F6E5E4C27B2C3ED00292601 /* CheckPasswordViewController.swift */,
+				6F2ED44F27B3444800DD7CB7 /* QuestionListViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -462,6 +468,7 @@
 				6965DE75275DEF330072C16A /* CardTableViewCell.swift in Sources */,
 				7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */,
 				6965DE7A275DEF410072C16A /* CircleButton.swift in Sources */,
+				6F86FBD427B37FDC00670928 /* QuestionListItem.swift in Sources */,
 				6965DE7E275DEF5D0072C16A /* AddStudentDelegate.swift in Sources */,
 				7F8CC8FA275BB29E00BE195D /* ScheduleListViewController.swift in Sources */,
 				6965DE76275DEF330072C16A /* PlusTableViewCell.swift in Sources */,
@@ -472,6 +479,7 @@
 				6965DE71275DEF290072C16A /* UIColor.swift in Sources */,
 				69EE72B6275D1451007F6F7C /* StudentSubInfoController.swift in Sources */,
 				6FF28C0A2766135000D3BDE9 /* QuestionTableViewCell.swift in Sources */,
+				6F2ED45027B3444800DD7CB7 /* QuestionListViewController.swift in Sources */,
 				7F16D1442749390300745522 /* AppDelegate.swift in Sources */,
 				69EE72AF275D0662007F6F7C /* PlusGraphViewController.swift in Sources */,
 				6965DE78275DEF3B0072C16A /* LoginRepository.swift in Sources */,
