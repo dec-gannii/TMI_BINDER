@@ -1523,7 +1523,7 @@ Cg
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="12l-oW-UIy" kind="presentation" id="KXl-Rl-dsC"/>
+                                    <action selector="PlusScores:" destination="C4a-F4-h3n" eventType="touchUpInside" id="a0t-8v-ebN"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VOS-Np-xKL" customClass="BarChartView" customModule="Charts">
@@ -1658,43 +1658,43 @@ Cg
         <!--Plus Graph View Controller-->
         <scene sceneID="Ylg-pF-y6z">
             <objects>
-                <viewController id="12l-oW-UIy" customClass="PlusGraphViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlusGraphViewController" id="12l-oW-UIy" customClass="PlusGraphViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="A0L-CU-DDr" customClass="Plus">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="성적 추가하기" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kRD-2I-Zdh">
-                                <rect key="frame" x="40" y="100" width="334" height="30"/>
+                                <rect key="frame" x="40" y="144" width="334" height="30"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="시험 종류" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xco-BU-lOS">
-                                <rect key="frame" x="40" y="180" width="334" height="19.5"/>
+                                <rect key="frame" x="40" y="224" width="334" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="시험 점수" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCw-0n-JPp">
-                                <rect key="frame" x="40" y="284.5" width="334" height="19.5"/>
+                                <rect key="frame" x="40" y="328.5" width="334" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GpX-pq-gl7">
-                                <rect key="frame" x="40" y="254.5" width="334" height="16"/>
+                                <rect key="frame" x="40" y="298.5" width="334" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.93725490570000003" green="0.29803922770000002" blue="0.270588249" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dsp-g0-VPM">
-                                <rect key="frame" x="40" y="359" width="334" height="16"/>
+                                <rect key="frame" x="40" y="403" width="334" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.93725490570000003" green="0.29803922770000002" blue="0.270588249" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="시험 종류를 선택해주세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NXe-Vj-k5j">
-                                <rect key="frame" x="40" y="204.5" width="334" height="50"/>
+                                <rect key="frame" x="40" y="248.5" width="334" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="CTN-Tr-ed5"/>
                                 </constraints>
@@ -1702,7 +1702,7 @@ Cg
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="점수를 입력해주세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8z6-hT-vPc">
-                                <rect key="frame" x="40" y="309" width="334" height="50"/>
+                                <rect key="frame" x="40" y="353" width="334" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Xt7-1g-UET"/>
                                 </constraints>
@@ -1710,7 +1710,7 @@ Cg
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="FMt-Fr-kJd">
-                                <rect key="frame" x="30" y="405" width="354" height="50"/>
+                                <rect key="frame" x="30" y="449" width="354" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dwI-H7-3lr">
                                         <rect key="frame" x="0.0" y="0.0" width="167" height="50"/>
@@ -4031,7 +4031,7 @@ Cg
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fAJ-6j-LYg">
                                 <rect key="frame" x="20" y="98" width="374" height="764"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <mutableString key="text">제1장 총칙
+                                <string key="text">제1장 총칙
 
 제1조 (목적) 이 약관은 디지털미디어학과 캡스톤디자인설계의 팀 tmi(이하 tmi)가 운영하는 과외 학생 관리 시스템 (BINDER) "애플리케이션”(이하 “앱”)의 서비스 이용 및 제공에 관한 제반 사항의 규정을 목적으로 합니다.
 
@@ -4049,7 +4049,7 @@ Cg
 
 제3조 (학생의 경우) 이메일 인증 후 선생님이 자신과의 수업을 등록하면수업 관리에서 자신의 성적 및 질문 사항들을 모아보거나 관리할 수 있다. 
 
-제3조 (학부모의 경우) 이메일 인증후 자녀의 학습 상황에 대한 선생님의  월말 평가 또는 일별 평가에 대해 확인해볼 수 있다.</mutableString>
+제3조 (학부모의 경우) 이메일 인증후 자녀의 학습 상황에 대한 선생님의  월말 평가 또는 일별 평가에 대해 확인해볼 수 있다.</string>
                                 <color key="textColor" red="0.43039341910000001" green="0.4283142238" blue="0.4324726143" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

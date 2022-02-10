@@ -19,7 +19,7 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var pwAlertLabel: UILabel!
     @IBOutlet weak var googleLogInBtn: GIDSignInButton!
     
-    var isLogouted = false
+    var isLogouted = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
