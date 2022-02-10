@@ -61,6 +61,11 @@ class AddScheduleViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    // 취소 버튼 클릭 시 실행되는 메소드
+    @IBAction func CancelBtnClicked(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     // 추가 버튼 클릭 시 실행되는 메소드
     @IBAction func AddScheduleSubmitBtn(_ sender: Any) {
         // 날짜 받아오기

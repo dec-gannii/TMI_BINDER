@@ -982,13 +982,13 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TRI-at-T4H">
-                                <rect key="frame" x="40" y="124" width="334" height="29"/>
+                                <rect key="frame" x="40" y="94" width="334" height="29"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="3At-t7-gja">
-                                <rect key="frame" x="40" y="203" width="334" height="40"/>
+                                <rect key="frame" x="40" y="173" width="334" height="40"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 제목" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HR5-81-hYq">
                                         <rect key="frame" x="0.0" y="0.0" width="63.5" height="40"/>
@@ -1007,7 +1007,7 @@ Cg
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="YbG-iQ-1kn">
-                                <rect key="frame" x="40" y="293" width="334" height="40"/>
+                                <rect key="frame" x="40" y="263" width="334" height="40"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 장소" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnD-J2-wol">
                                         <rect key="frame" x="0.0" y="0.0" width="63.5" height="40"/>
@@ -1026,7 +1026,7 @@ Cg
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="e77-jd-9s1">
-                                <rect key="frame" x="40" y="383" width="334" height="40"/>
+                                <rect key="frame" x="40" y="353" width="334" height="40"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 시간" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zYV-2A-Lct">
                                         <rect key="frame" x="0.0" y="0.0" width="63.5" height="40"/>
@@ -1046,7 +1046,7 @@ Cg
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ZBM-yR-uRD">
-                                <rect key="frame" x="40" y="473" width="334" height="125"/>
+                                <rect key="frame" x="40" y="443" width="334" height="125"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 메모" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MOR-7u-6pX">
                                         <rect key="frame" x="0.0" y="0.0" width="63.5" height="20.5"/>
@@ -1066,33 +1066,66 @@ Cg
                                     </textView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cQp-ZQ-WG8">
-                                <rect key="frame" x="40" y="802" width="334" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="XRc-0F-M2g"/>
-                                </constraints>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled">
-                                    <backgroundConfiguration key="background" cornerRadius="9"/>
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="일정 등록하기">
-                                            <attributes>
-                                                <color key="NSBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <color key="NSColor" red="0.9739802695509413" green="1" blue="0.96869612079366474" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="18" name="AppleSDGothicNeo-SemiBold"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="baseBackgroundColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="AddScheduleSubmitBtn:" destination="a9n-ON-Rt7" eventType="touchUpInside" id="Kw9-xG-mXW"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="HIJ-sp-iw7">
+                                <rect key="frame" x="40" y="588" width="334" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kL-sJ-Nfh">
+                                        <rect key="frame" x="0.0" y="0.0" width="162" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="alC-Gi-Qy3"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled">
+                                            <backgroundConfiguration key="background" cornerRadius="9"/>
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="취소">
+                                                    <attributes>
+                                                        <color key="NSBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="NSColor" red="0.9739802695509413" green="1" blue="0.96869612079366474" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <font key="NSFont" size="18" name="AppleSDGothicNeo-SemiBold"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="baseBackgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="AddScheduleSubmitBtn:" destination="a9n-ON-Rt7" eventType="touchUpInside" id="68r-Bh-cKe"/>
+                                            <action selector="CancelBtnClicked:" destination="a9n-ON-Rt7" eventType="touchUpInside" id="y4V-7q-HLx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cQp-ZQ-WG8">
+                                        <rect key="frame" x="172" y="0.0" width="162" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="XRc-0F-M2g"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled">
+                                            <backgroundConfiguration key="background" cornerRadius="9"/>
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="일정 등록하기">
+                                                    <attributes>
+                                                        <color key="NSBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="NSColor" red="0.9739802695509413" green="1" blue="0.96869612079366474" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <font key="NSFont" size="18" name="AppleSDGothicNeo-SemiBold"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="baseBackgroundColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="AddScheduleSubmitBtn:" destination="a9n-ON-Rt7" eventType="touchUpInside" id="Kw9-xG-mXW"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="aDP-wQ-PeT"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1101,20 +1134,20 @@ Cg
                             <constraint firstItem="aDP-wQ-PeT" firstAttribute="trailing" secondItem="YbG-iQ-1kn" secondAttribute="trailing" constant="40" id="GV3-5B-mab"/>
                             <constraint firstItem="aDP-wQ-PeT" firstAttribute="trailing" secondItem="ZBM-yR-uRD" secondAttribute="trailing" constant="40" id="HmZ-hX-NCn"/>
                             <constraint firstItem="aDP-wQ-PeT" firstAttribute="trailing" secondItem="3At-t7-gja" secondAttribute="trailing" constant="40" id="Ksx-g8-ASW"/>
-                            <constraint firstItem="TRI-at-T4H" firstAttribute="top" secondItem="aDP-wQ-PeT" secondAttribute="top" constant="80" id="OkB-3G-VZi"/>
+                            <constraint firstItem="TRI-at-T4H" firstAttribute="top" secondItem="aDP-wQ-PeT" secondAttribute="top" constant="50" id="OkB-3G-VZi"/>
                             <constraint firstItem="e77-jd-9s1" firstAttribute="leading" secondItem="aDP-wQ-PeT" secondAttribute="leading" constant="40" id="WIT-2X-Iik"/>
                             <constraint firstItem="aDP-wQ-PeT" firstAttribute="trailing" secondItem="e77-jd-9s1" secondAttribute="trailing" constant="40" id="WkC-GR-vxQ"/>
                             <constraint firstItem="YbG-iQ-1kn" firstAttribute="top" secondItem="3At-t7-gja" secondAttribute="bottom" constant="50" id="YKq-3M-YAv"/>
-                            <constraint firstItem="cQp-ZQ-WG8" firstAttribute="leading" secondItem="aDP-wQ-PeT" secondAttribute="leading" constant="40" id="ace-xv-BtX"/>
                             <constraint firstItem="ZBM-yR-uRD" firstAttribute="top" secondItem="e77-jd-9s1" secondAttribute="bottom" constant="50" id="ajh-Qu-sj6"/>
                             <constraint firstItem="TRI-at-T4H" firstAttribute="leading" secondItem="aDP-wQ-PeT" secondAttribute="leading" constant="40" id="cfJ-Z0-e7C"/>
+                            <constraint firstItem="HIJ-sp-iw7" firstAttribute="top" secondItem="ZBM-yR-uRD" secondAttribute="bottom" constant="20" id="eFn-fa-Cxi"/>
                             <constraint firstItem="3At-t7-gja" firstAttribute="leading" secondItem="aDP-wQ-PeT" secondAttribute="leading" constant="40" id="j9f-Wk-4rO"/>
+                            <constraint firstItem="HIJ-sp-iw7" firstAttribute="leading" secondItem="aDP-wQ-PeT" secondAttribute="leading" constant="40" id="kxJ-4c-Iy2"/>
                             <constraint firstItem="YbG-iQ-1kn" firstAttribute="leading" secondItem="aDP-wQ-PeT" secondAttribute="leading" constant="40" id="mMY-ot-Hl4"/>
                             <constraint firstItem="e77-jd-9s1" firstAttribute="top" secondItem="YbG-iQ-1kn" secondAttribute="bottom" constant="50" id="rYZ-LK-LuE"/>
                             <constraint firstItem="3At-t7-gja" firstAttribute="top" secondItem="TRI-at-T4H" secondAttribute="bottom" constant="50" id="rj9-TF-bdE"/>
                             <constraint firstItem="aDP-wQ-PeT" firstAttribute="trailing" secondItem="TRI-at-T4H" secondAttribute="trailing" constant="40" id="sh9-wM-wL7"/>
-                            <constraint firstItem="aDP-wQ-PeT" firstAttribute="trailing" secondItem="cQp-ZQ-WG8" secondAttribute="trailing" constant="40" id="wlN-Di-C2U"/>
-                            <constraint firstItem="aDP-wQ-PeT" firstAttribute="bottom" secondItem="cQp-ZQ-WG8" secondAttribute="bottom" constant="10" id="x4g-pk-Wkg"/>
+                            <constraint firstItem="aDP-wQ-PeT" firstAttribute="trailing" secondItem="HIJ-sp-iw7" secondAttribute="trailing" constant="40" id="zYM-Jh-IQk"/>
                         </constraints>
                     </view>
                     <connections>

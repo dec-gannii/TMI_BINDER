@@ -13,10 +13,11 @@ class EditInfoViewController: UIViewController {
     var ref: DatabaseReference!
     let db = Firestore.firestore()
     
-    //    var userName = ""
-    //    var userEmail = ""
+    //        var userName = ""
+//        var userEmail = ""
     //    var parentPW = ""
     var type = ""
+    var currentPW = ""
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
@@ -63,6 +64,7 @@ class EditInfoViewController: UIViewController {
                 //                self.userEmail = data?["Email"] as? String ?? ""
                 //                self.parentPW = data?["parentPW"] as? String ?? ""
                 self.type = data?["Type"] as? String ?? ""
+                self.currentPW = data?["Password"] as? String ?? ""
             } else {
                 print("Document does not exist")
             }
@@ -96,16 +98,20 @@ class EditInfoViewController: UIViewController {
     }
     
     @IBAction func OKBtnClicked(_ sender: Any) {
-        var name = ""
-        var newPW = ""
+        var name = self.nameTextField.text ?? ""
+        var newPW = self.currentPW
         var parentPW = parentPassword.text ?? ""
         
         if (newPassword.text == newPasswordCheck.text) {
             if (isValidName(nameTextField.text!) && isValidPassword(newPassword.text!)) {
                 name = self.nameTextField.text!
                 newPW = self.newPassword.text!
-                Auth.auth().currentUser?.updatePassword(to: newPW) { error in
-                  print("error")
+                if (newPW != "") {
+                    Auth.auth().currentUser?.updatePassword(to: newPW) { error in
+                        print("error")
+                    }
+                } else {
+                    newPW = self.currentPW
                 }
                 
                 if (parentPassword.text!.count <= 6) {
@@ -132,41 +138,51 @@ class EditInfoViewController: UIViewController {
                 }
             }
         }
-        
-        if (name != "" && newPW != "" && parentPW != "") {
+        if (newPW != self.currentPW) {
             saveInfo(name, newPW, parentPW)
+            guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
             
-            guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                //아니면 종료
-                return
+            loginVC.modalPresentationStyle = .fullScreen
+            loginVC.modalTransitionStyle = .crossDissolve
+            loginVC.isLogouted = true
+            
+            self.present(loginVC, animated: true, completion: nil)
+        } else {
+            if (name != "") {
+                saveInfo(name, newPW, parentPW)
+                
+                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                    //아니면 종료
+                    return
+                }
+                
+                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
+                    return
+                }
+                
+                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
+                    return
+                }
+                
+                guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                    return
+                }
+                
+                // tab bar 추가하기
+                let tb = UITabBarController()
+                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
+                tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
+                tb.selectedIndex = 3
+                self.present(tb, animated: true, completion: nil)
+                //
+                //            guard let settingVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingViewController") as? SettingViewController else { return }
+                //
+                //            settingVC.modalPresentationStyle = .fullScreen
+                //            settingVC.modalTransitionStyle = .crossDissolve
+                //
+                //            self.present(settingVC, animated: true, completion: nil)
             }
-            
-            guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
-                return
-            }
-            
-            guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
-                return
-            }
-            
-            guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                return
-            }
-            
-            // tab bar 추가하기
-            let tb = UITabBarController()
-            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-            tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
-            tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
-            tb.selectedIndex = 3
-            self.present(tb, animated: true, completion: nil)
-//
-//            guard let settingVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingViewController") as? SettingViewController else { return }
-//
-//            settingVC.modalPresentationStyle = .fullScreen
-//            settingVC.modalTransitionStyle = .crossDissolve
-//
-//            self.present(settingVC, animated: true, completion: nil)
         }
     }
 }

@@ -329,7 +329,6 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    
     // 인증 확인 버튼 클릭시 실행되는 메소드
     @IBAction func CheckVerification(_ sender: Any) {
         verifiedCheck() // 이메일 인증 여부 확인 메소드 실행
@@ -397,7 +396,5 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         self.present(scheduleListVC, animated: true, completion: nil)
     }
 }
-
 extension HomeViewController: FSCalendarDataSource {
-    
 }

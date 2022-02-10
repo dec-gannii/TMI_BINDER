@@ -57,6 +57,4 @@ class CheckPasswordViewController: UIViewController {
             errorLabel.isHidden = false
         }
     }
-    
 }
-
