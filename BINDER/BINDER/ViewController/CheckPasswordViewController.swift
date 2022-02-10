@@ -24,14 +24,22 @@ class CheckPasswordViewController: UIViewController {
     
     func getPW() {
         // 데이터베이스 경로
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        var docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
         
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
                 self.currentPW = data?["Password"] as? String ?? ""
             } else {
-                print("Document does not exist")
+                docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
+                docRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        self.currentPW = data?["Password"] as? String ?? ""
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
             }
         }
     }

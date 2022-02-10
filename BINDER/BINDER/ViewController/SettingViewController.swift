@@ -13,7 +13,7 @@ class SettingViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var settingTableView: UITableView!
     
     var tableViewItems = ["정보수정", "이용약관"]
-    var tableViewSections = ["설정"]
+//    var tableViewSections = ["설정"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,13 +29,13 @@ class SettingViewController: UIViewController, UITableViewDelegate {
 }
 
 extension SettingViewController: UIViewControllerTransitioningDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return tableViewSections.count
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return tableViewSections[section]
-    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return tableViewSections.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return tableViewSections[section]
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewItems.count
@@ -56,7 +56,13 @@ extension SettingViewController: UIViewControllerTransitioningDelegate, UITableV
             checkpwVC.modalTransitionStyle = .crossDissolve
 //            self.navigationController?.pushViewController(checkpwVC, animated: true)
             self.present(checkpwVC, animated: true, completion: nil)
-            
+        } else if (indexPath.row == 1) {
+            guard let termVC = self.storyboard?.instantiateViewController(withIdentifier: "TermViewController") as? TermViewController else { return }
+//            self.navigationViewController?.pushViewController(checkpwVC, animated: true)
+            termVC.modalPresentationStyle = .fullScreen
+            termVC.modalTransitionStyle = .crossDissolve
+//            self.navigationController?.pushViewController(checkpwVC, animated: true)
+            self.present(termVC, animated: true, completion: nil)
         }
     }
     

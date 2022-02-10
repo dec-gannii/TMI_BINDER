@@ -593,6 +593,7 @@ Cg
                         <outlet property="HomeStudentIconLabel" destination="IF0-Z3-9Qk" id="V7T-gK-zC5"/>
                         <outlet property="HomeStudentIconSecondLabel" destination="2hL-0N-aVe" id="7z2-p7-pMA"/>
                         <outlet property="HomeStudentIconThirdLabel" destination="X8r-GD-8g8" id="87A-ne-ap8"/>
+                        <outlet property="HomeStudentScrollView" destination="BrC-0X-7kd" id="hRu-DT-LSh"/>
                         <outlet property="calendarView" destination="DrS-OT-NXC" id="bAM-u9-3GE"/>
                         <outlet property="emailVerificationCheckBtn" destination="FCe-qj-a2K" id="oH4-V4-epf"/>
                         <outlet property="stateLabel" destination="Q8h-cN-SMl" id="QpN-N6-RQ5"/>
@@ -1922,6 +1923,7 @@ Cg
                         <outlet property="openPortfolioSwitch" destination="gWu-8F-IAr" id="FZd-ce-DcA"/>
                         <outlet property="pageView" destination="d0Q-Cz-Dn4" id="Rot-kk-gA1"/>
                         <outlet property="portfoiolBtn" destination="aAA-2t-GlQ" id="hSa-Hy-anZ"/>
+                        <outlet property="portfolioPageView" destination="d0Q-Cz-Dn4" id="EU0-Ho-hSI"/>
                         <outlet property="teacherEmail" destination="epm-og-qms" id="6FT-VJ-ye4"/>
                     </connections>
                 </viewController>
@@ -3728,7 +3730,7 @@ Cg
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uza-E3-I8z">
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
-                                    <navigationItem largeTitleDisplayMode="always" id="vTA-pz-mzP">
+                                    <navigationItem title="설정" largeTitleDisplayMode="always" id="vTA-pz-mzP">
                                         <barButtonItem key="leftBarButtonItem" image="chevron.backward" catalog="system" id="237-Qa-hXG">
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
@@ -3778,7 +3780,7 @@ Cg
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8qW-6y-h0l">
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
-                                    <navigationItem id="Ca5-4y-ANY">
+                                    <navigationItem title="현재 비밀번호 확인" id="Ca5-4y-ANY">
                                         <barButtonItem key="leftBarButtonItem" image="chevron.backward" catalog="system" id="jEd-qg-cfA">
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
@@ -4012,11 +4014,77 @@ Cg
                         <outlet property="newPassword" destination="VY9-Zn-DPh" id="5ed-ve-NHb"/>
                         <outlet property="newPasswordCheck" destination="YSe-8T-hwz" id="LVu-W3-BGm"/>
                         <outlet property="parentPassword" destination="2dO-9S-wwg" id="UKd-s9-tCa"/>
+                        <outlet property="parentPasswordLabel" destination="CPp-E4-UNf" id="QyN-pl-DP6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fgn-d6-ZlB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3568" y="1860"/>
+        </scene>
+        <!--Term View Controller-->
+        <scene sceneID="Sge-1Y-74f">
+            <objects>
+                <viewController storyboardIdentifier="TermViewController" id="M8E-uH-PFr" customClass="TermViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Whm-jJ-m4k">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fAJ-6j-LYg">
+                                <rect key="frame" x="20" y="98" width="374" height="764"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <mutableString key="text">제1장 총칙
+
+제1조 (목적) 이 약관은 디지털미디어학과 캡스톤디자인설계의 팀 tmi(이하 tmi)가 운영하는 과외 학생 관리 시스템 (BINDER) "애플리케이션”(이하 “앱”)의 서비스 이용 및 제공에 관한 제반 사항의 규정을 목적으로 합니다.
+
+제 2장 BINDER 앱 소개
+
+제1조 (앱 이름) 과외를 진행하는 선생님들의 서류철과 같은 관리 시스템 앱이 되겠다는 의미를 담아 "BINDER" 라는 이름을 가진다.
+
+제2조 (목적) 과외를 진행하는 선생님과 학생 상호간의 스케줄 공유 및 질문을 시스템 상에서 기록으로 남겨 예습 / 복습이 쉬워지게 하고, 과외를 진행하는 선생님의 과외 포트폴리오를 작성할 수 있도록 한다.
+
+제 3장 사용 방법
+
+제1조 자신의 역할에 맞는 회원가입 및 로그인을 진행한다. 앱에서 사용할 이메일 또는 구글 로그인으로 로그인을 진행할 수 있다.
+
+제2조 (선생님의 경우) 이메일 인증 후 과외를 진행하는 학생과의 수업을 등록하여 학생 별로 수업을 관리할 수 있으며 학생의 질문에 답하거나 자신의 포트폴리오를 작성할 수 있다. 또한 캘린더를 통한 스케줄 관리가 가능하다.
+
+제3조 (학생의 경우) 이메일 인증 후 선생님이 자신과의 수업을 등록하면수업 관리에서 자신의 성적 및 질문 사항들을 모아보거나 관리할 수 있다. 
+
+제3조 (학부모의 경우) 이메일 인증후 자녀의 학습 상황에 대한 선생님의  월말 평가 또는 일별 평가에 대해 확인해볼 수 있다.</mutableString>
+                                <color key="textColor" red="0.43039341910000001" green="0.4283142238" blue="0.4324726143" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kfv-OM-ZL4">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="이용약관" id="rkk-Xc-eT7">
+                                        <barButtonItem key="leftBarButtonItem" image="chevron.backward" catalog="system" id="3J3-tj-ghN">
+                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <connections>
+                                                <action selector="BackBtnClicked:" destination="M8E-uH-PFr" id="6iI-nj-FRz"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="zZX-dS-6vX"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fAJ-6j-LYg" firstAttribute="leading" secondItem="zZX-dS-6vX" secondAttribute="leading" constant="20" id="1Qa-Lq-8Gb"/>
+                            <constraint firstItem="zZX-dS-6vX" firstAttribute="trailing" secondItem="fAJ-6j-LYg" secondAttribute="trailing" constant="20" id="1RN-jc-62v"/>
+                            <constraint firstItem="kfv-OM-ZL4" firstAttribute="trailing" secondItem="zZX-dS-6vX" secondAttribute="trailing" id="COu-kl-6NR"/>
+                            <constraint firstItem="kfv-OM-ZL4" firstAttribute="leading" secondItem="zZX-dS-6vX" secondAttribute="leading" id="Jly-Sk-nR5"/>
+                            <constraint firstItem="zZX-dS-6vX" firstAttribute="bottom" secondItem="fAJ-6j-LYg" secondAttribute="bottom" id="MYs-gy-T7c"/>
+                            <constraint firstItem="fAJ-6j-LYg" firstAttribute="top" secondItem="kfv-OM-ZL4" secondAttribute="bottom" constant="10" id="cdl-EH-8cl"/>
+                            <constraint firstItem="kfv-OM-ZL4" firstAttribute="top" secondItem="zZX-dS-6vX" secondAttribute="top" id="lW6-9k-3Wy"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MwH-03-RTX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4253.623188405797" y="1859.5982142857142"/>
         </scene>
     </scenes>
     <resources>

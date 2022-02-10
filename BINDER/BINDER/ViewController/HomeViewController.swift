@@ -20,6 +20,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var HomeStudentIconLabel: UILabel!
     @IBOutlet weak var HomeStudentIconSecondLabel: UILabel!
     @IBOutlet weak var HomeStudentIconThirdLabel: UILabel!
+    @IBOutlet weak var HomeStudentScrollView: UIScrollView!
     
     /// 수업 변수 배열
     var classItems: [String] = []
@@ -101,6 +102,7 @@ class HomeViewController: UIViewController {
             stateLabel.text = "작성한 이메일로 인증을 진행해주세요."
             emailVerificationCheckBtn.isHidden = false
             //            calendarView.isHidden = true // 캘린더 뷰 안 보이도록 함
+            //                HomeStudentScrollView.isHidden = false
             HomeStudentIconLabel.text = "인증되지 않은 계정입니다."
             HomeStudentIconSecondLabel.text = "인증되지 않은 계정입니다."
             HomeStudentIconThirdLabel.text = "인증되지 않은 계정입니다."
@@ -109,6 +111,7 @@ class HomeViewController: UIViewController {
             if (self.type == "teacher") { // 선생님 계정이라면
                 if (Auth.auth().currentUser?.email != nil) {
                     emailVerificationCheckBtn.isHidden = true
+                    //                    HomeStudentScrollView.isHidden = false
                     HomeStudentIconLabel.text = "등록된 학생이 없습니다."
                     HomeStudentIconSecondLabel.text = "등록된 학생이 없습니다."
                     HomeStudentIconThirdLabel.text = "등록된 학생이 없습니다."
@@ -279,6 +282,7 @@ class HomeViewController: UIViewController {
                 }
                 self.id = data?["Email"] as? String ?? ""
                 self.pw = data?["Password"] as? String ?? ""
+                self.HomeStudentScrollView.isHidden = false
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
             } else {
@@ -304,6 +308,7 @@ class HomeViewController: UIViewController {
                 } else {
                     self.type = data?["Type"] as? String ?? ""
                 }
+                self.HomeStudentScrollView.isHidden = true
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
             } else {
