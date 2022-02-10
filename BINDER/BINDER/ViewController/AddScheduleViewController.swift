@@ -95,7 +95,6 @@ class AddScheduleViewController: UIViewController {
                     print("Error adding document: \(err)")
                 }
             }
-            
             self.dismiss(animated: true, completion: nil)
         }
         else {

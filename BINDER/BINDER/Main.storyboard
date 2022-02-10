@@ -1094,7 +1094,6 @@ Cg
                                             <color key="baseBackgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="AddScheduleSubmitBtn:" destination="a9n-ON-Rt7" eventType="touchUpInside" id="68r-Bh-cKe"/>
                                             <action selector="CancelBtnClicked:" destination="a9n-ON-Rt7" eventType="touchUpInside" id="y4V-7q-HLx"/>
                                         </connections>
                                     </button>
@@ -1122,7 +1121,7 @@ Cg
                                             <color key="baseBackgroundColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="AddScheduleSubmitBtn:" destination="a9n-ON-Rt7" eventType="touchUpInside" id="Kw9-xG-mXW"/>
+                                            <action selector="AddScheduleSubmitBtn:" destination="a9n-ON-Rt7" eventType="touchUpInside" id="zcT-Bd-mGK"/>
                                         </connections>
                                     </button>
                                 </subviews>
