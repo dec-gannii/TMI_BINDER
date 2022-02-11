@@ -8,9 +8,35 @@
 import UIKit
 import Firebase
 import FSCalendar
+import Charts
+import BLTNBoard
 
-// 수업 관리를 위한 디테일 클래스 뷰 컨트롤러
 class DetailClassViewController: UIViewController {
+    
+    let db = Firestore.firestore()
+    var ref: DatabaseReference!
+    
+    //@IBOutlet var plusButton: UIButton!
+    @IBOutlet var barChartView: BarChartView!
+    @IBOutlet weak var okButton: UIButton!
+    @IBOutlet weak var plusButton: UIButton!
+    @IBOutlet weak var todoTF: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+    
+    var userEmail: String!
+    var userSubject: String!
+    var userName: String!
+    var days: [String]!
+    var scores: [Double]!
+    let floatValue: [CGFloat] = [5,5]
+    var barColors = [UIColor]()
+    var count = 0
+    var todos = Array<String>()
+    var bRec:Bool = false
+    
+    var date: String!
+    var userIndex: Int!
+    var keyHeight: CGFloat?
     
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var evaluationView: UIView!
@@ -23,14 +49,45 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var classScoreTextField: UITextField!
     @IBOutlet weak var classNavigationBar: UINavigationBar!
     
-    var date: String!
-    var userName: String!
-    var userIndex: Int!
-    var keyHeight: CGFloat?
-    var userEmail: String!
-    var userSubject: String!
-    
-    let db = Firestore.firestore()
+    override func viewDidLoad() {
+        
+        //        days = ["3월모고","1학기중간","6월모고","1학기기말"]
+        //        scores = [68.0,88.5,70.5,90.0]
+        //        days = []
+        //        scores = []
+        getScores()
+        
+        barChartView.noDataText = "데이터가 없습니다."
+        barChartView.noDataFont = .systemFont(ofSize: 20)
+        barChartView.noDataTextColor = .lightGray
+        
+        allRound()
+        barColorSetting()
+        
+        super.viewDidLoad()
+        getUserInfo()
+        
+        evaluationView.layer.cornerRadius = 10
+        
+        evaluationView.isHidden = true
+        evaluationOKBtn.isHidden = true
+        
+        self.calendarText()
+        self.calendarColor()
+        self.calendarEvent()
+        
+        self.progressTextView.layer.borderWidth = 1.0
+        self.progressTextView.layer.borderColor = UIColor.systemGray6.cgColor
+        
+        self.evaluationMemoTextView.layer.borderWidth = 1.0
+        self.evaluationMemoTextView.layer.borderColor = UIColor.systemGray6.cgColor
+        
+        if (self.userName != nil) {
+            self.classNavigationBar.topItem!.title = self.userName + " 학생"
+            self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
+        }
+        print(self.userIndex)
+    }
     
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
@@ -70,49 +127,31 @@ class DetailClassViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        getUserInfo()
-        
-        evaluationView.layer.cornerRadius = 10
-        
-        evaluationView.isHidden = true
-        evaluationOKBtn.isHidden = true
-        
-        self.calendarText()
-        self.calendarColor()
-        self.calendarEvent()
-        
-        self.progressTextView.layer.borderWidth = 1.0
-        self.progressTextView.layer.borderColor = UIColor.systemGray6.cgColor
-        
-        self.evaluationMemoTextView.layer.borderWidth = 1.0
-        self.evaluationMemoTextView.layer.borderColor = UIColor.systemGray6.cgColor
-        
-        if (self.userName != nil) {
-            self.classNavigationBar.topItem!.title = self.userName + " 학생"
-            self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
-        }
-        print(self.userIndex)
-    }
-    
-    // 그래프를 보여주도록 하는 메소드
-    @IBAction func ShowGraph(_ sender: Any) {
-        self.evaluationView.isHidden = true
-        guard let graphVC = self.storyboard?.instantiateViewController(withIdentifier: "GraphViewController") as? GraphViewController else { return }
-        
-        graphVC.modalPresentationStyle = .fullScreen
-        graphVC.modalTransitionStyle = .crossDissolve
-        // 학생의 이름 데이터 넘겨주기
-        graphVC.userName = self.userName
-        graphVC.userSubject = self.userSubject
-        graphVC.userEmail = self.userEmail
-        
-        self.present(graphVC, animated: true, completion: nil)
-    }
-    
     // 사용자의 정보를 가져오도록 하는 메소드
     func getUserInfo() {
+        
+        let docRef = self.db.collection("teacher")
+        docRef.whereField("Uid", isEqualTo: Auth.auth().currentUser?.uid)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        
+                        let type = document.data()["Type"] as? String ?? ""
+                        if (type == "student") {
+                            self.okButton.isHidden = true
+                            self.todoTF.placeholder = "선생님만 추가 가능합니다."
+                            self.todoTF.isEnabled = false
+                            self.plusButton.isHidden = false
+                        } else if (type == "teacher") {
+                            self.plusButton.isHidden = true
+                        }
+                    }
+                }
+            }
+        
         // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: self.userIndex)
             .getDocuments() { (querySnapshot, err) in
@@ -134,10 +173,91 @@ class DetailClassViewController: UIViewController {
                             self.userSubject = document.data()["subject"] as? String ?? ""
                             
                             self.classNavigationBar.topItem!.title = self.userName + " 학생"
+                            
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
+                                if let document = document, document.exists {
+                                    let data = document.data()
+                                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                                    self.count = data?["count"] as? Int ?? 0
+                                    print("count: \(self.count)")
+                                    for i in 1...self.count {
+                                        self.todos.append(data?["todo\(i)"] as! String)
+                                    }
+                                    print("Document data: \(dataDescription)")
+                                } else {
+                                    print("Document does not exist")
+                                }
+                                self.tableView.reloadData()
+                            }
                         }
                     }
                 }
             }
+    
+    }
+    
+    func getScores() {
+        let studentDocRef = self.db.collection("student")
+        var studentUid = ""
+        
+        if let email = self.userEmail {
+            studentDocRef.whereField("Email", isEqualTo: email).getDocuments() {
+                (QuerySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in QuerySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        
+                        studentUid = document.data()["Uid"] as? String ?? ""
+                        print ("Uid1 : \(studentUid)")
+                    }
+                }
+                let docRef = self.db.collection("student").document(studentUid).collection("Graph")
+                docRef.document("Count").getDocument {(document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                        let countOfScores = data?["count"] as? Int ?? 0
+                        print ("count of doc : \(countOfScores)")
+                        docRef.whereField("isScore", isEqualTo: "true")
+                            .getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        print("\(document.documentID) => \(document.data())")
+                                        
+                                        let type = document.data()["type"] as? String ?? ""
+                                        let score = Double(document.data()["score"] as? String ?? "0.0")
+                                        
+                                        if (countOfScores > 0) {
+                                            if (countOfScores == 1) {
+                                                self.days.insert(type, at: 0)
+                                                self.scores.insert(score!, at: 0)
+                                            } else {
+                                                for i in stride(from: 0, to: 1, by: 1) {
+                                                    print ("i : \(i)")
+                                                    self.days.insert(document.data()["type"] as? String ?? "", at: i)
+                                                    self.scores.insert(Double(document.data()["score"] as? String ?? "0.0")!, at: i)
+                                                }
+                                            }
+                                            self.setChart(dataPoints: self.days, values: self.scores)
+                                            print ("days : \(self.days) / scores : \(self.scores)")
+                                        } else if (countOfScores <= 0) {
+                                            self.barChartView.noDataText = "데이터가 없습니다."
+                                        }
+                                    }
+                                }
+                            }
+                        print("Document data: \(dataDescription)")
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        }
     }
     
     // 뒤로가기 버튼 클릭 시 실행되는 메소드
@@ -170,6 +290,193 @@ class DetailClassViewController: UIViewController {
         }
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
+    }
+    
+    func allRound() {
+        okButton.clipsToBounds = true
+        okButton.layer.cornerRadius = 10
+        
+        plusButton.clipsToBounds = true
+        plusButton.layer.cornerRadius = 10
+    }
+    
+    func barColorSetting(){
+        barColors.append(UIColor.init(displayP3Red: 22/255, green: 32/255, blue: 60/255, alpha: 1))
+        barColors.append(UIColor.init(displayP3Red: 82/255, green: 90/255, blue: 109/255, alpha: 1))
+        barColors.append(UIColor.init(displayP3Red: 126/255, green: 129/255, blue: 144/255, alpha: 1))
+        barColors.append(UIColor.init(displayP3Red: 146/255, green: 150/255, blue: 160/255, alpha: 1))
+        barColors.append(UIColor.init(displayP3Red: 175/255, green: 178/255, blue: 186/255, alpha: 1))
+    }
+    
+    func setChart(dataPoints: [String], values: [Double]) {
+        
+        // 데이터 생성
+        var dataEntries: [BarChartDataEntry] = []
+        for i in 0..<dataPoints.count {
+            let dataEntry = BarChartDataEntry(x: Double(i), y: values[i])
+            dataEntries.append(dataEntry)
+        }
+        
+        let chartDataSet = BarChartDataSet(entries: dataEntries, label: "성적 그래프")
+        
+        // 차트 컬러
+        chartDataSet.colors = barColors
+        
+        // 데이터 삽입
+        let chartData = BarChartData(dataSet: chartDataSet)
+        barChartView.data = chartData
+        barChartView.drawValueAboveBarEnabled = true
+        
+        // 선택 안되게
+        chartDataSet.highlightEnabled = false
+        
+        // 줌 안되게
+        barChartView.doubleTapToZoomEnabled = false
+        
+        // 차트 점선으로 표시
+        barChartView.xAxis.gridColor = .clear
+        barChartView.leftAxis.gridColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 0.4)
+        barChartView.leftAxis.gridLineWidth = CGFloat(1.0)
+        barChartView.leftAxis.gridLineDashLengths = floatValue
+        barChartView.leftAxis.axisMaximum = 100
+        barChartView.leftAxis.axisMinimum = 0
+        
+        // X축 레이블 위치 조정
+        barChartView.xAxis.labelPosition = .bottom
+        // X축 레이블 포맷 지정
+        barChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: days)
+        barChartView.legend.setCustom(entries: [])
+        
+        // X축 레이블 갯수 최대로 설정 (이 코드 안쓸 시 Jan Mar May 이런식으로 띄엄띄엄 조금만 나옴)
+        barChartView.xAxis.setLabelCount(dataPoints.count, force: false)
+        
+        // 오른쪽 레이블 제거
+        barChartView.rightAxis.enabled = false
+        
+        // 기본 애니메이션
+        barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+        // 옵션 애니메이션
+        //barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
+        
+    }
+   
+    @IBAction func PlusScores(_ sender: Any) {
+        
+        guard let plusGraphVC = self.storyboard?.instantiateViewController(withIdentifier: "PlusGraphViewController") as? PlusGraphViewController else { return }
+        
+        plusGraphVC.modalTransitionStyle = .crossDissolve
+        plusGraphVC.modalPresentationStyle = .fullScreen
+        plusGraphVC.userName = self.userName
+        plusGraphVC.userEmail = self.userEmail
+        plusGraphVC.userSubject = self.userSubject
+        
+        self.present(plusGraphVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func goButtonClicked(_ sender: Any) {
+        todos.append(todoTF.text ?? "")
+        count = count + 1
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
+        if (count == 1) {
+            docRef.setData([
+                "count": count,
+                "todo\(count)":todoTF.text ?? ""
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                }
+            }
+        } else {
+            docRef.updateData([
+                "count": count,
+                "todo\(count)":todoTF.text ?? ""
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                }
+            }
+        }
+        todoTF.text = ""
+        self.tableView.reloadData()
+    }
+    
+    /*
+    // 그래프를 보여주도록 하는 메소드
+    @IBAction func ShowGraph(_ sender: Any) {
+        self.evaluationView.isHidden = true
+        guard let graphVC = self.storyboard?.instantiateViewController(withIdentifier: "GraphViewController") as? GraphViewController else { return }
+        
+        graphVC.modalPresentationStyle = .fullScreen
+        graphVC.modalTransitionStyle = .crossDissolve
+        // 학생의 이름 데이터 넘겨주기
+        graphVC.userName = self.userName
+        graphVC.userSubject = self.userSubject
+        graphVC.userEmail = self.userEmail
+        
+        self.present(graphVC, animated: true, completion: nil)
+    }
+ 
+    // 사용자의 정보를 가져오도록 하는 메소드
+    func getUserInfo() {
+        // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: self.userIndex)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            
+                            // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
+                            // 네비게이션 바의 이름도 설정해주기
+                            let name = document.data()["name"] as? String ?? ""
+                            self.userName = name
+                            self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
+                            self.userEmail = document.data()["email"] as? String ?? ""
+                            self.userSubject = document.data()["subject"] as? String ?? ""
+                            
+                            self.classNavigationBar.topItem!.title = self.userName + " 학생"
+                        }
+                    }
+                }
+            }
+    }
+    */
+}
+
+extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return todos.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
+        let todo = self.todos[indexPath.row]
+        
+        cell.TodoLabel.text = "\(todo)"
+        
+        cell.selectionStyle = .none
+        cell.CheckButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
+        return cell
+    }
+    
+    @objc func checkMarkButtonClicked(sender: UIButton){
+        
+        if sender.isSelected{
+            sender.isSelected = false
+            print("button normal")
+            sender.setImage(UIImage(systemName: "circle"), for: .normal)
+            
+        } else {
+            sender.isSelected = true
+            print("button selected")
+            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+        }
     }
 }
 
