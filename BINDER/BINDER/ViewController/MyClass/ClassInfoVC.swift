@@ -150,7 +150,7 @@ extension ClassInfoVC {
                     print("student \(document.documentID) => \(document.data())");
                 }
                 if (count > 0) {
-                    db.collection("student").document(uid).collection("class").document("\(LoginRepository.shared.teacherItem!.name) " + self.subjectTextField.text!).updateData(["index": count-1])
+                    db.collection("student").document(uid).collection("class").document("\(LoginRepository.shared.teacherItem!.name)(\(LoginRepository.shared.teacherItem!.email)) " + self.subjectTextField.text!).updateData(["index": count-1])
                     { err in
                         if let err = err {
                             print("Error adding document: \(err)")
@@ -244,7 +244,7 @@ extension ClassInfoVC {
                                     studentUid = document.data()["Uid"] as? String ?? ""
                                     
                                     print ("student UID : \(studentUid)")
-                                    db.collection("student").document(studentUid).collection("class").document("\(LoginRepository.shared.teacherItem!.name) " + self.subjectTextField.text!).setData([
+                                    db.collection("student").document(studentUid).collection("class").document("\(LoginRepository.shared.teacherItem!.name)(\(LoginRepository.shared.teacherItem!.email)) " + self.subjectTextField.text!).setData([
                                         "email" : "\(LoginRepository.shared.teacherItem!.email)",
                                         "name" : "\(LoginRepository.shared.teacherItem!.name)",
                                         "subject" : self.subjectTextField.text!,

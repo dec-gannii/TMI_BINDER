@@ -22,8 +22,6 @@ class QuestionListViewController : BaseVC {
     
     /// 질문방 내용 세팅
     // 질문 리스트 가져오기
-    <<<<<<< HEAD
-    =======
     func setQuestionList() {
         let db = Firestore.firestore()
         db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").getDocuments() { (querySnapshot, err) in
@@ -66,26 +64,27 @@ class QuestionListViewController : BaseVC {
     
 }
 
-extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    /// 테이블 셀 개수
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return questionListItems.count
-    }
-    
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource {
+//
+//    /// 테이블 셀 개수
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return questionListItems.count
+//    }
+//
+//
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if imgURL == nil {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionTableViewCell
-            return cell
-            
-        } else {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
-        }
-        
-    }
-}
+//        if imgURL == nil {
+//
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionTableViewCell
+//            return cell
+//
+//        } else {
+//
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
+//        }
+//
+//
+//    }
+//}
