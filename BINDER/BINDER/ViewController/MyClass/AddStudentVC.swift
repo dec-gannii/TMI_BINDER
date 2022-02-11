@@ -34,7 +34,6 @@ class AddStudentVC: BaseVC {
     
     // MARK: - 기능
     
-    
     /// 학생 정보 가져오기
     /// - Parameter email: 학생 이메일
     func searchStudent(email: String) {
@@ -60,7 +59,8 @@ class AddStudentVC: BaseVC {
                     let name = studentDt["Name"] as? String ?? ""
                     let password = studentDt["Password"] as? String ?? ""
                     let phone = studentDt["Phone"] as? String ?? ""
-                    let item = StudentItem(age: age, email: email, goal: goal, name: name, password: password, phone: phone)
+                    let profile = studentDt["Profile"] as? String ?? ""
+                    let item = StudentItem(age: age, email: email, goal: goal, name: name, password: password, phone: phone, profile: profile)
                     
                     /// 값 넘어가기
                     self.performSegue(withIdentifier: "inputClassSegue", sender: item)

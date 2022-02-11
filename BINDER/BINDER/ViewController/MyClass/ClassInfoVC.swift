@@ -26,6 +26,8 @@ class ClassInfoVC: BaseVC {
     @IBOutlet weak var isRepeat: UISwitch!
     @IBOutlet var days : [UIButton]!
     
+    var studentCount = 0
+    
     let classColor1 = ColorUtils.randomColor()
     
     var payType: PayType = .countly {
@@ -81,7 +83,7 @@ class ClassInfoVC: BaseVC {
         guard let userInfo = notification.userInfo else { return }
         var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-
+        
         var contentInset:UIEdgeInsets = contentSv.contentInset
         
         let window = UIApplication.shared.keyWindow
@@ -90,7 +92,7 @@ class ClassInfoVC: BaseVC {
         contentInset.bottom = keyboardFrame.size.height + bottomPadding
         contentSv.contentInset = contentInset
     }
-
+    
     /// 키보드 내려갈때 처리
     /// - Parameter notification: 노티피케이션
     @objc func keyboardWillHide(notification:NSNotification) {
@@ -123,14 +125,77 @@ class ClassInfoVC: BaseVC {
     }
 }
 
+
+
 // MARK: - 클릭 이벤트
 
 extension ClassInfoVC {
-    
     /// 저장하기 클릭
+    func getStudentClassCount(_ uid: String) {
+        let db = Firestore.firestore()
+        self.studentCount = 0
+        db.collection("student").document(uid).collection("class").getDocuments()
+        {
+            (querySnapshot, err) in
+            
+            if let err = err
+            {
+                print("Error getting documents: \(err)");
+            }
+            else
+            {
+                var count = 0
+                for document in querySnapshot!.documents {
+                    count += 1
+                    print("student \(document.documentID) => \(document.data())");
+                }
+                if (count > 0) {
+                    db.collection("student").document(uid).collection("class").document("\(LoginRepository.shared.teacherItem!.name) " + self.subjectTextField.text!).updateData(["index": count-1])
+                    { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func getTeacherClassCount() {
+        let db = Firestore.firestore()
+        self.studentCount = 0
+        
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments()
+        {
+            (querySnapshot, err) in
+            
+            if let err = err
+            {
+                print("Error getting documents: \(err)");
+            }
+            else
+            {
+                var count = 0
+                
+                for document in querySnapshot!.documents {
+                    count += 1
+                    print("\(document.documentID) => \(document.data())");
+                }
+                if (count > 0) {
+                    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.studentItem.name + "(" + self.studentItem.email + ") " + self.subjectTextField.text!).updateData(["index": count-1])
+                    { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    
     /// - Parameter sender: 버튼
     @IBAction func onClickSave(_ sender: UIButton) {
-        
         // 키보드 내려가기
         dismissKeyboard()
         
@@ -156,22 +221,67 @@ extension ClassInfoVC {
         }
         
         // 데이터베이스 연결
+        var studentUid = ""
         let db = Firestore.firestore()
-        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(studentItem.name + "(" + studentItem.email + ") " + subjectTextField.text!).setData([
-            "email" : studentItem.email,
-            "name" : studentItem.name,
-            "goal" : studentItem.goal,
+        
+        db.collection("student").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments {
+            (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    db.collection("student").whereField("Email", isEqualTo: "\(self.studentItem.email)").getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print(">>>>> document 에러 : \(err)")
+                        } else {
+                            if let err = err {
+                                print("Error getting documents: \(err)")
+                            } else {
+                                for document in querySnapshot!.documents {
+                                    print("\(document.documentID) => \(document.data())")
+                                    studentUid = document.data()["Uid"] as? String ?? ""
+                                    
+                                    print ("student UID : \(studentUid)")
+                                    db.collection("student").document(studentUid).collection("class").document("\(LoginRepository.shared.teacherItem!.name) " + self.subjectTextField.text!).setData([
+                                        "email" : "\(LoginRepository.shared.teacherItem!.email)",
+                                        "name" : "\(LoginRepository.shared.teacherItem!.name)",
+                                        "subject" : self.subjectTextField.text!,
+                                        "currentCnt" : 0,
+                                        "totalCnt" : 8,
+                                        "circleColor" : self.classColor1,
+                                        "recentDate" : "",
+                                        "datetime": Date().formatted() ])
+                                    { err in
+                                        if let err = err {
+                                            print(">>>>> document 에러 : \(err)")
+                                            self.showDefaultAlert(msg: "수업 저장 중에 에러가 발생했습니다.")
+                                        }
+                                    }
+                                }
+                                self.getStudentClassCount(studentUid)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.studentItem.name + "(" + self.studentItem.email + ") " + self.subjectTextField.text!).setData([
+            "email" : self.studentItem.email,
+            "name" : self.studentItem.name,
+            "goal" : self.studentItem.goal,
             "subject" : subject,
             "currentCnt" : 0,
             "totalCnt" : 8,
-            "circleColor" : classColor1,
+            "circleColor" : self.classColor1,
             "recentDate" : "",
-            "payType" : payType == .timly ? "T" : "C",
+            "payType" : self.payType == .timly ? "T" : "C",
             "payDate": payDate,
             "payAmount": payment,
             "schedule" : schedule,
-            "repeatYN": isRepeat.isOn,
-            "datetime": Date().formatted() ])
+            "repeatYN": self.isRepeat.isOn,
+            "datetime": Date().formatted()])
         { err in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
@@ -185,6 +295,8 @@ extension ClassInfoVC {
                 })
             }
         }
+        
+        self.getTeacherClassCount()
     }
     
     /// 과외비 버튼 클릭
