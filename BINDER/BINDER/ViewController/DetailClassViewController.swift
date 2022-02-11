@@ -242,21 +242,6 @@ class DetailClassViewController: UIViewController {
                     }
                 }
                 
-//                if (studentUid == "") {
-//                    studentDocRef = self.db.collection("teacher")
-//                    studentDocRef.whereField("Email", isEqualTo: email).getDocuments() {
-//                        (QuerySnapshot, err) in
-//                        if let err = err {
-//                            print("Error getting documents: \(err)")
-//                        } else {
-//                            for document in QuerySnapshot!.documents {
-//                                studentUid = document.data()["Uid"] as? String ?? ""
-//                                print ("Uid2 : \(studentUid)")
-//                            }
-//                        }
-//                    }
-//                }
-                
                 let docRef = self.db.collection("student").document(studentUid).collection("Graph")
                 docRef.document("Count").getDocument {(document, error) in
                     if let document = document, document.exists {
