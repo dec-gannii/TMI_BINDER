@@ -77,10 +77,10 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         
         if imgURL == nil {
 
-            let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionTableViewCell
-            return cell
+           let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionTableViewCell
+           return cell
 
-        } else {
+       } else {
 
             let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
 
