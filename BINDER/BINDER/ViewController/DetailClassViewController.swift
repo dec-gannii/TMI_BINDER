@@ -98,6 +98,7 @@ class DetailClassViewController: UIViewController {
     
     // 그래프를 보여주도록 하는 메소드
     @IBAction func ShowGraph(_ sender: Any) {
+        self.evaluationView.isHidden = true
         guard let graphVC = self.storyboard?.instantiateViewController(withIdentifier: "GraphViewController") as? GraphViewController else { return }
         
         graphVC.modalPresentationStyle = .fullScreen

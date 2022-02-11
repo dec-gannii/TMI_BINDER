@@ -19,6 +19,8 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var pwAlertLabel: UILabel!
     @IBOutlet weak var googleLogInBtn: GIDSignInButton!
     
+    var isLogouted = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,7 +29,9 @@ class LogInViewController: UIViewController {
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        //GIDSignIn.sharedInstance()?.restorePreviousSignIn() //자동로그인
+        if (isLogouted == false) {
+            GIDSignIn.sharedInstance()?.restorePreviousSignIn() // 자동로그인
+        }
         emailAlertLabel.isHidden = true
         pwAlertLabel.isHidden = true
     }
@@ -144,23 +148,47 @@ extension LogInViewController: GIDSignInDelegate {
                 //                    TypeSelectVC.verified = true
                 //                } else { TypeSelectVC.verified = false }
                 //화면전환
-                TypeSelectVC.isGoogleSignIn = true
-                TypeSelectVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                TypeSelectVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                self.present(TypeSelectVC, animated: true)
-                // 홈 화면으로 바로 이동
-                //                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                //                    //아니면 종료
-                //                    return
-                //                }
-                //                //        GIDSignIn.sharedInstance()?.signIn()
-                //                if (Auth.auth().currentUser?.isEmailVerified == true){
-                //                    homeVC.verified = true
-                //                } else { homeVC.verified = false }
-                //                //화면전환
-                //                homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                //                homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                //                self.present(homeVC, animated: true)
+                if ((Auth.auth().currentUser) != nil) {
+                    // 홈 화면으로 바로 이동
+                    guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                        //아니면 종료
+                        return
+                    }
+                    //        GIDSignIn.sharedInstance()?.signIn()
+                    if (Auth.auth().currentUser?.isEmailVerified == true){
+                        homeVC.verified = true
+                    } else { homeVC.verified = false }
+                    //화면전환
+                    guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
+                        //아니면 종료
+                        return
+                    }
+                    
+                    guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
+                        return
+                    }
+                    guard let myPageVC =
+                            self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                                return
+                            }
+                    
+                    // tab bar 설정
+                    let tb = UITabBarController()
+                    tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
+                    self.present(tb, animated: true, completion: nil)
+                    
+//                    homeVC.verified = true
+//                    homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+//                    homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+//                    self.present(homeVC, animated: true)
+                } else {
+                    TypeSelectVC.isGoogleSignIn = true
+                    TypeSelectVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    TypeSelectVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                    self.present(TypeSelectVC, animated: true)
+                }
+                
             }
         }
     }

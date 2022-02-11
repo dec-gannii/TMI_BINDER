@@ -20,6 +20,8 @@ class MyPageViewController: BaseVC {
     @IBOutlet weak var portfoiolBtn: UIButton!
     @IBOutlet weak var openPortfolioSwitch: UISwitch!
     
+    @IBOutlet weak var portfolioPageView: UIView!
+    
     let db = Firestore.firestore()
     
     override func viewDidLoad() {
@@ -32,20 +34,41 @@ class MyPageViewController: BaseVC {
     }
     
     func getUserInfo(){
-        LoginRepository.shared.doLogin {
-            self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
-            self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
-            
-            
-            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-            
-            // photoURL 있는 경우
-//            let url = Auth.auth().currentUser?.photoURL
-            self.imageView.kf.setImage(with: url)
-            self.imageView.makeCircle()
-            
-        } failure: { error in
-            self.showDefaultAlert(msg: "")
+        var docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                LoginRepository.shared.doLogin {
+                    self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
+                    self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
+                    
+                    let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+                    
+                    // photoURL 있는 경우
+        //            let url = Auth.auth().currentUser?.photoURL
+                    self.imageView.kf.setImage(with: url)
+                    self.imageView.makeCircle()
+                    
+                } failure: { error in
+                    self.showDefaultAlert(msg: "")
+                }
+//                print("Document data: \(dataDescription)")
+            } else {
+                docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
+                docRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        let userName = data?["Name"] as? String ?? ""
+                        self.nameLabel.text = "\(userName) 학생"
+                        let userEmail = data?["Email"] as? String ?? ""
+                        self.teacherEmail.text = userEmail
+                        let url = Auth.auth().currentUser?.photoURL
+                        
+                        self.portfolioPageView.isHidden = true
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
+            }
         }
     }
     
@@ -107,10 +130,20 @@ class MyPageViewController: BaseVC {
             self.present(signinVC!, animated: true, completion: nil)
         } else {
             // Show login page
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
-            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-            self.present(loginVC!, animated: true, completion: nil)
+            guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else {
+                //아니면 종료
+                return
+            }
+            loginVC.modalTransitionStyle = .crossDissolve
+            loginVC.modalPresentationStyle = .fullScreen
+            loginVC.isLogouted = true
+            
+            self.present(loginVC, animated: true, completion: nil)
+//            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
+//            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+//            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+//
+//            self.present(loginVC!, animated: true, completion: nil)
         }
     }
     
