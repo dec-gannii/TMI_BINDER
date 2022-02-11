@@ -1,24 +1,23 @@
 //
-//  binder
+//  QuestionListViewCell.swift
+//  BINDER
 //
-//  Created by 하유림 on 2021/11/26.
+//  Created by 하유림 on 2022/02/09.
 //
 
 import UIKit
+import Kingfisher
+import Firebase
 
-class CardTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var classColor: UIView!
-    @IBOutlet weak var studentName: UILabel!
+class QuestionListTableViewCell: UITableViewCell {
+    
+    // 테이블 뷰 요소 연결
     @IBOutlet weak var subjectName: UILabel!
-    @IBOutlet weak var recentDate: UILabel!
-    @IBOutlet weak var subjectGoal: UILabel!
-    @IBOutlet weak var cntLb: UILabel!
+    @IBOutlet weak var background: UIView!
+    @IBOutlet weak var questionContent: UILabel!
+    @IBOutlet weak var answerisCheck: UILabel!
     @IBOutlet weak var contentViewCell: UIView!
-    @IBOutlet weak var manageBtn: UIButton!
     
-    
-    // 둥글게하기
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -27,11 +26,10 @@ class CardTableViewCell: UITableViewCell {
         
         self.selectionStyle = .none
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
-    
 }

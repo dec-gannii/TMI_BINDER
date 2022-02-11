@@ -3493,7 +3493,7 @@ Cg
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="question" rowHeight="309" id="I1T-Ms-bMR" userLabel="question_1" customClass="QuestionTableViewCell" customModule="BINDER" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="question" rowHeight="309" id="I1T-Ms-bMR" userLabel="imageCell" customClass="QuestionListTableViewImageCell" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="44.5" width="414" height="309"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="I1T-Ms-bMR" id="QN8-1g-6LK">
@@ -3528,7 +3528,7 @@ Cg
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5g8-W4-QFB">
                                                                     <rect key="frame" x="18" y="99" width="310" height="184"/>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="선생님 이 내용 잘 모르겠어요 저번 수업에서 알려주신 공식 그대로 적용했는데도 잘 안돼요ㅠㅠ 동영상으로 찍어주실 수 있나요?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUh-27-6ue">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="선생님 이 내용 잘 모르겠어요 저번 수업에서 알려주신 공식 그대로 적용했는데도 잘 안돼요ㅠㅠ 동영상으로 찍어주실 수 있나요?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUh-27-6ue" userLabel="questionContent">
                                                                     <rect key="frame" x="18" y="58" width="308" height="34"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3562,12 +3562,20 @@ Cg
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
+                                                    <outlet property="answerCheck" destination="Lic-8T-NAA" id="noD-iU-RpQ"/>
+                                                    <outlet property="answerisCheck" destination="Lic-8T-NAA" id="mbQ-mc-tAc"/>
+                                                    <outlet property="background" destination="EWN-Zd-gxm" id="JuA-L0-gc7"/>
                                                     <outlet property="classColor" destination="EWN-Zd-gxm" id="3HM-h4-rW6"/>
-                                                    <outlet property="contentViewCell" destination="D23-I4-FUl" id="dze-Hd-izi"/>
+                                                    <outlet property="contentViewCell" destination="P9l-Jn-zHE" id="Xm8-XB-iqZ"/>
+                                                    <outlet property="image" destination="5g8-W4-QFB" id="4Un-IG-yWu"/>
+                                                    <outlet property="imageView" destination="zUh-27-6ue" id="AAN-ip-prd"/>
+                                                    <outlet property="questionContent" destination="zUh-27-6ue" id="LPV-qh-OvU"/>
+                                                    <outlet property="questionImage" destination="5g8-W4-QFB" id="G03-JQ-kul"/>
                                                     <outlet property="studentName" destination="P9l-Jn-zHE" id="Krd-5w-BrF"/>
+                                                    <outlet property="subject" destination="P9l-Jn-zHE" id="rhs-cb-JNy"/>
                                                 </connections>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="214" id="Iou-eT-ur2" userLabel="question_2">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="214" id="Iou-eT-ur2" userLabel="defaultCell" customClass="QuestionListTableViewCell" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="353.5" width="414" height="214"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Iou-eT-ur2" id="X6g-0z-CrP">
@@ -3628,6 +3636,14 @@ Cg
                                                         <constraint firstItem="UHm-jX-6e6" firstAttribute="top" secondItem="X6g-0z-CrP" secondAttribute="topMargin" constant="10" id="HSj-bV-lka"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="answerisCheck" destination="gnF-vj-s3P" id="VxH-Od-euZ"/>
+                                                    <outlet property="background" destination="NMm-v7-j2N" id="jbr-cw-41R"/>
+                                                    <outlet property="contentView" destination="UHm-jX-6e6" id="qMt-St-1Bm"/>
+                                                    <outlet property="contentViewCell" destination="UHm-jX-6e6" id="wdw-Rc-Vhs"/>
+                                                    <outlet property="questionContent" destination="mBt-mk-W2B" id="gdq-6o-w2W"/>
+                                                    <outlet property="subjectName" destination="6Ce-Ct-GM1" id="rEX-sc-Cth"/>
+                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                         <connections>
@@ -3665,6 +3681,9 @@ Cg
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="LAf-j2-oK9"/>
+                    <connections>
+                        <outlet property="questionListTV" destination="Snw-Y9-T67" id="qxO-VX-a9H"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qID-yW-Djr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
