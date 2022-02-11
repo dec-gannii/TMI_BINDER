@@ -28,16 +28,21 @@ class ScheduleListViewController: UIViewController {
         scheduleListTableView.dataSource = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        self.scheduleListTableView.reloadData()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        scheduleListTableView.reloadData()
     }
     
     // 일정 추가 버튼 (+) 클릭 시 사용되는 메소드
     @IBAction func AddButtonClicked(_ sender: Any) {
         guard let addScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
         addScheduleVC.date = self.date // 날짜 정보를 넘겨주기
+        addScheduleVC.modalPresentationStyle = .fullScreen
         self.present(addScheduleVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func BackButtonClicked(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -58,14 +63,16 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
                     let scheduleTitle = document.data()["Title"] as? String ?? ""
                     let scheduleMemo = document.data()["Memo"] as? String ?? ""
                     
-                    // 여러 개의 일정이 있을 수 있으므로 가져와서 배열에 저장
-                    self.scheduleTitles.append(scheduleTitle)
-                    self.scheduleMemos.append(scheduleMemo)
+                    if (!self.scheduleTitles.contains(scheduleTitle)) {
+                        // 여러 개의 일정이 있을 수 있으므로 가져와서 배열에 저장
+                        self.scheduleTitles.append(scheduleTitle)
+                        print(scheduleTitle)
+                        self.scheduleMemos.append(scheduleMemo)
+                    }
                     
                     // 가져온 내용들을 순서대로 일정 셀의 텍스트로 설정
                     scheduleCell.scheduleTitle.text = self.scheduleTitles[indexPath.row]
                     scheduleCell.scheduleMemo.text = self.scheduleMemos[indexPath.row]
-                    
                     // 일정의 제목은 필수 항목이므로 일정 제목 개수만큼을 개수로 지정
                     self.count = self.scheduleTitles.count
                 }
@@ -86,6 +93,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         guard let editScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
         editScheduleVC.date = self.date // 선택된 날짜 데이터 전달
         editScheduleVC.editingTitle = scheduleTitles[indexPath.row] // 선택된 셀의 일정 제목 데이터 전달
+        editScheduleVC.modalPresentationStyle = .fullScreen
         self.present(editScheduleVC, animated: true, completion: nil)
     }
     
@@ -101,6 +109,8 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
                     print("Error removing document: \(err)")
                 } else {
                     print("Document successfully removed!")
+                    self.count = self.count - 1
+                    self.scheduleListTableView.reloadData()
                 }
             }
             
@@ -121,7 +131,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
                     }
                     
                     if (count == 1) {
-                        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count])
+                        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": 0])
                         { err in
                             if let err = err {
                                 print("Error adding document: \(err)")

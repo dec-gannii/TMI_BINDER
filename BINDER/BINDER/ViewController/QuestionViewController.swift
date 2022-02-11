@@ -11,11 +11,12 @@ import Firebase
 
 class QuestionViewController: BaseVC {
     
-    
+    // 요소 연결(테이블 뷰 관)
     @IBOutlet weak var teacherName: UILabel!
     @IBOutlet weak var teacherEmail: UILabel!
     @IBOutlet weak var teacherImage: UIImageView!
     
+    // 테이블 뷰 연결
     @IBOutlet weak var questionTV: UITableView!
     
     var questionItems: [QuestionItem] = []
@@ -31,6 +32,7 @@ class QuestionViewController: BaseVC {
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
             let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+//            let url = Auth.auth().currentUser?.photoURL
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             
@@ -118,7 +120,7 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
     
     /// 수업관리하기 버튼 클릭
     /// - Parameter sender: 버튼
-    @IBAction func onClickManageButton(_ sender: UIButton) {
+    @IBAction func onClickQuestionListButton(_ sender: UIButton) {
         let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController")
         weekendVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
         weekendVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정

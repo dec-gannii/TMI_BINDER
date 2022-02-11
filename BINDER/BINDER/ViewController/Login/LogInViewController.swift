@@ -19,17 +19,29 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var pwAlertLabel: UILabel!
     @IBOutlet weak var googleLogInBtn: GIDSignInButton!
     
+    var isLogouted = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        //GIDSignIn.sharedInstance()?.restorePreviousSignIn() //자동로그인
+        GIDSignIn.sharedInstance()?.delegate = self
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        if (isLogouted == false) {
+            GIDSignIn.sharedInstance()?.restorePreviousSignIn() // 자동로그인
+        }
         emailAlertLabel.isHidden = true
         pwAlertLabel.isHidden = true
     }
     
     @IBAction func LogInBtnClicked(_ sender: Any) {
+        self.pwAlertLabel.isHidden = true
+        self.emailAlertLabel.isHidden = true
+        print ("=== clicked ===")
         guard let email = emailTextField.text, let password = pwTextField.text else { return }
-        
+        print ("email : " + email + "pw : " + password)
         // 로그인 수행 시, 에러 발생하면 띄울 alert
         Auth.auth().signIn(withEmail: email, password: password) { (authResult, error) in
             if let error = error as? NSError {
@@ -46,6 +58,9 @@ class LogInViewController: UIViewController {
                     self.emailAlertLabel.isHidden = true
                     self.pwAlertLabel.isHidden = false
                     self.pwAlertLabel.text = "비밀번호가 틀렸습니다!"
+                    break
+                case .emailAlreadyInUse:
+                    Auth.auth().signIn(withEmail: email, password: password)
                     break
                 default:
                     let alert = UIAlertController(title: "로그인 실패", message: "로그인에 실패하였습니다. 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
@@ -91,18 +106,6 @@ class LogInViewController: UIViewController {
     }
     
     @IBAction func googleLogInBtnClicked(_ sender: Any) {
-        GIDSignIn.sharedInstance()?.signIn()
-        guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-            //아니면 종료
-            return
-        }
-        if (Auth.auth().currentUser?.isEmailVerified == true){
-            homeVC.verified = true
-        } else { homeVC.verified = false }
-        //화면전환
-        homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-        homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-        self.present(homeVC, animated: true)
     }
     
     // 회원가입 버튼 클릭 시 실행되는 메소드
@@ -119,28 +122,73 @@ class LogInViewController: UIViewController {
     }
 }
 
+// MARK: - Google Login Extension
 extension LogInViewController: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
-            print("sigIn error: \(error.localizedDescription)")
+            print("signIn error: \(error.localizedDescription)")
             return
         } else {
             print("user email: \(user.profile.email ?? "no email")")
         }
+        
         guard let auth = user.authentication else { return }
-        
-        let googleCredential = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
-        
-        // 파이어베이스 로그인
-        
-        Auth.auth().signIn(with: googleCredential) { (authResult, error) in
-            if let error = error {
+        let googleCredential = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken) // 파이어베이스 로그인
+        Auth.auth().signIn(with: googleCredential) {
+            (authResult, error) in if let error = error {
                 print("Firebase sign in error: \(error)")
                 return
-            }
-            else {
+            } else {
                 print("User is signed with Firebase&Google")
-                self.performSegue(withIdentifier: "HomeViewController", sender: nil)
+                guard let TypeSelectVC = self.storyboard?.instantiateViewController(withIdentifier: "TypeSelectViewController") as? TypeSelectViewController else {
+                    //아니면 종료
+                    return
+                }
+                //                if (Auth.auth().currentUser?.isEmailVerified == true){
+                //                    TypeSelectVC.verified = true
+                //                } else { TypeSelectVC.verified = false }
+                //화면전환
+                if ((Auth.auth().currentUser) != nil) {
+                    // 홈 화면으로 바로 이동
+                    guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                        //아니면 종료
+                        return
+                    }
+                    //        GIDSignIn.sharedInstance()?.signIn()
+                    if (Auth.auth().currentUser?.isEmailVerified == true){
+                        homeVC.verified = true
+                    } else { homeVC.verified = false }
+                    //화면전환
+                    guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
+                        //아니면 종료
+                        return
+                    }
+                    
+                    guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
+                        return
+                    }
+                    guard let myPageVC =
+                            self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                                return
+                            }
+                    
+                    // tab bar 설정
+                    let tb = UITabBarController()
+                    tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
+                    self.present(tb, animated: true, completion: nil)
+                    
+//                    homeVC.verified = true
+//                    homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+//                    homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+//                    self.present(homeVC, animated: true)
+                } else {
+                    TypeSelectVC.isGoogleSignIn = true
+                    TypeSelectVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    TypeSelectVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                    self.present(TypeSelectVC, animated: true)
+                }
+                
             }
         }
     }

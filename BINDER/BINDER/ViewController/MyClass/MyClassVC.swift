@@ -60,6 +60,7 @@ class MyClassVC: BaseVC{
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
             let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+//            let url = Auth.auth().currentUser?.photoURL
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             

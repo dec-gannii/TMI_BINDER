@@ -54,6 +54,10 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             phoneLabel.text = nil
             goalLabel.text = nil
             
+            goalAlertLabel.isHidden = true
+            phoneAlertLabel.isHidden = true
+            ageAlertLabel.isHidden = true
+            
             createPickerView()
             dismissPickerView()
         }
@@ -143,9 +147,9 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
     @IBAction func goNext(_ sender: Any) {
         phonenum = phonenumTextField.text!
         goal = goalTextField.text!
-        pw = Int(ageShowPicker.text!)!
         let countOfDigit = countOfDigit()
         if (type == "teacher"){
+            pw = Int(ageShowPicker.text!)!
             if (isValidPw(pw) || countOfDigit > 6) {
                 ageAlertLabel.text = "올바른 형식의 비밀번호가 아닙니다."
                 ageAlertLabel.isHidden = false

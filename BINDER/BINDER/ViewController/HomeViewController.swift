@@ -17,6 +17,13 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var emailVerificationCheckBtn: UIButton!
     @IBOutlet weak var calendarView: FSCalendar!
+    @IBOutlet weak var HomeStudentIconLabel: UILabel!
+    @IBOutlet weak var HomeStudentIconSecondLabel: UILabel!
+    @IBOutlet weak var HomeStudentIconThirdLabel: UILabel!
+    @IBOutlet weak var HomeStudentScrollView: UIScrollView!
+    
+    /// 수업 변수 배열
+    var classItems: [String] = []
     
     var id : String = ""
     var pw : String = ""
@@ -58,10 +65,11 @@ class HomeViewController: UIViewController {
         calendarView.dataSource = self
         calendarView.delegate = self
     }
+    
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-         self.view.endEditing(true)
-   }
+        self.view.endEditing(true)
+    }
     
     // 이벤트 추가하기 (날짜를 events 배열에 추가)
     func setUpEvents(_ eventDate: String) {
@@ -80,6 +88,11 @@ class HomeViewController: UIViewController {
         calendarView.delegate = self
         verifiedCheck() // 인증된 이메일인지 체크하는 메소드
         
+        setMyClasses()
+        
+        getTeacherInfo()
+        getStudentInfo()
+        
         self.calendarText()
         self.calendarColor()
         self.calendarEvent()
@@ -88,24 +101,168 @@ class HomeViewController: UIViewController {
         if (!verified) {
             stateLabel.text = "작성한 이메일로 인증을 진행해주세요."
             emailVerificationCheckBtn.isHidden = false
-            calendarView.isHidden = true // 캘린더 뷰 안 보이도록 함
+            //            calendarView.isHidden = true // 캘린더 뷰 안 보이도록 함
+            //                HomeStudentScrollView.isHidden = false
+            HomeStudentIconLabel.text = "인증되지 않은 계정입니다."
+            HomeStudentIconSecondLabel.text = "인증되지 않은 계정입니다."
+            HomeStudentIconThirdLabel.text = "인증되지 않은 계정입니다."
         } else {
             // 인증되었고,
             if (self.type == "teacher") { // 선생님 계정이라면
-                getTeacherInfo()
                 if (Auth.auth().currentUser?.email != nil) {
-                    calendarView.isHidden = false
                     emailVerificationCheckBtn.isHidden = true
+                    //                    HomeStudentScrollView.isHidden = false
+                    HomeStudentIconLabel.text = "등록된 학생이 없습니다."
+                    HomeStudentIconSecondLabel.text = "등록된 학생이 없습니다."
+                    HomeStudentIconThirdLabel.text = "등록된 학생이 없습니다."
                 }
             } else {
                 // 학생 계정이라면
-                getStudentInfo()
                 if (Auth.auth().currentUser?.email != nil) {
                     calendarView.isHidden = false
                     emailVerificationCheckBtn.isHidden = true
                 }
             }
         }
+    }
+    
+    // 내 수업 가져오기
+    func setMyClasses() {
+        
+        // 데이터베이스에서 학생 리스트 가져오기
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
+        // Date field가 현재 날짜와 동일한 도큐먼트 모두 가져오기
+        docRef.whereField("circleColor", isEqualTo: "A80101").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    // 사용할 것들 가져와서 지역 변수로 저장
+                    self.HomeStudentIconLabel.text = document.data()["name"] as? String ?? ""
+                }
+            }
+        }
+        
+        docRef.whereField("circleColor", isEqualTo: "FFCB00").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    // 사용할 것들 가져와서 지역 변수로 저장
+                    self.HomeStudentIconSecondLabel.text = document.data()["name"] as? String ?? ""
+                }
+            }
+        }
+        
+        docRef.whereField("circleColor", isEqualTo: "13203E").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    // 사용할 것들 가져와서 지역 변수로 저장
+                    self.HomeStudentIconThirdLabel.text = document.data()["name"] as? String ?? ""
+                }
+            }
+        }
+    }
+    
+    @IBAction func ButtonClicked(_ sender: Any) {
+        // 데이터베이스 경로
+        var email = ""
+        var subject = ""
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
+        
+        docRef.whereField("name", isEqualTo: self.HomeStudentIconLabel.text).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    // 사용할 것들 가져와서 지역 변수로 저장
+                    email = document.data()["email"] as? String ?? ""
+                    subject = document.data()["subject"] as? String ?? ""
+                }
+            }
+        }
+        
+        guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
+        
+        detailClassVC.modalPresentationStyle = .fullScreen
+        detailClassVC.modalTransitionStyle = .crossDissolve
+        // 학생의 이름 데이터 넘겨주기
+        detailClassVC.userName = self.HomeStudentIconLabel.text
+        detailClassVC.userSubject = subject
+        detailClassVC.userEmail = email
+        detailClassVC.userIndex = 0
+        
+        self.present(detailClassVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func Button2Clicked(_ sender: Any) {
+        // 데이터베이스 경로
+        var email = ""
+        var subject = ""
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
+        
+        docRef.whereField("name", isEqualTo: self.HomeStudentIconSecondLabel.text).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    // 사용할 것들 가져와서 지역 변수로 저장
+                    email = document.data()["email"] as? String ?? ""
+                    subject = document.data()["subject"] as? String ?? ""
+                }
+            }
+        }
+        
+        guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
+        
+        detailClassVC.modalPresentationStyle = .fullScreen
+        detailClassVC.modalTransitionStyle = .crossDissolve
+        // 학생의 이름 데이터 넘겨주기
+        detailClassVC.userName = self.HomeStudentIconSecondLabel.text
+        detailClassVC.userSubject = subject
+        detailClassVC.userEmail = email
+        detailClassVC.userIndex = 1
+        
+        self.present(detailClassVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func Button3Clicked(_ sender: Any) {
+        // 데이터베이스 경로
+        var email = ""
+        var subject = ""
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
+        
+        docRef.whereField("name", isEqualTo: self.HomeStudentIconThirdLabel.text).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    // 사용할 것들 가져와서 지역 변수로 저장
+                    email = document.data()["email"] as? String ?? ""
+                    subject = document.data()["subject"] as? String ?? ""
+                }
+            }
+        }
+        
+        guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
+        
+        detailClassVC.modalPresentationStyle = .fullScreen
+        detailClassVC.modalTransitionStyle = .crossDissolve
+        // 학생의 이름 데이터 넘겨주기
+        detailClassVC.userName = self.HomeStudentIconThirdLabel.text
+        detailClassVC.userSubject = subject
+        detailClassVC.userEmail = email
+        detailClassVC.userIndex = 2
+        
+        self.present(detailClassVC, animated: true, completion: nil)
     }
     
     func getTeacherInfo(){
@@ -118,9 +275,14 @@ class HomeViewController: UIViewController {
                 let data = document.data()
                 self.name = data?["Name"] as? String ?? ""
                 self.stateLabel.text = self.name + " 선생님 환영합니다!"
+                if (Auth.auth().currentUser?.email == data?["Email"] as! String) {
+                    self.type = "teacher"
+                } else {
+                    self.type = data?["Type"] as? String ?? ""
+                }
                 self.id = data?["Email"] as? String ?? ""
                 self.pw = data?["Password"] as? String ?? ""
-                self.type = data?["Type"] as? String ?? ""
+                self.HomeStudentScrollView.isHidden = false
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
             } else {
@@ -141,7 +303,12 @@ class HomeViewController: UIViewController {
                 self.stateLabel.text = self.name + " 학생 환영합니다!"
                 self.id = data?["Email"] as? String ?? ""
                 self.pw = data?["Password"] as? String ?? ""
-                self.type = data?["Type"] as? String ?? ""
+                if (Auth.auth().currentUser?.email == data?["Email"] as! String) {
+                    self.type = "student"
+                } else {
+                    self.type = data?["Type"] as? String ?? ""
+                }
+                self.HomeStudentScrollView.isHidden = true
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
             } else {
@@ -167,7 +334,6 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    
     // 인증 확인 버튼 클릭시 실행되는 메소드
     @IBAction func CheckVerification(_ sender: Any) {
         verifiedCheck() // 이메일 인증 여부 확인 메소드 실행
@@ -183,6 +349,20 @@ class HomeViewController: UIViewController {
                 }
                 calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
                 emailVerificationCheckBtn.isHidden = true // 이메일 인증 확인 버튼 숨기기
+                if (self.type == "teacher") { // 선생님 계정이라면
+                    if (Auth.auth().currentUser?.email != nil) {
+                        emailVerificationCheckBtn.isHidden = true
+                        HomeStudentIconLabel.text = "등록된 학생이 없습니다."
+                        HomeStudentIconSecondLabel.text = "등록된 학생이 없습니다."
+                        HomeStudentIconThirdLabel.text = "등록된 학생이 없습니다."
+                    }
+                } else {
+                    // 학생 계정이라면
+                    if (Auth.auth().currentUser?.email != nil) {
+                        calendarView.isHidden = false
+                        emailVerificationCheckBtn.isHidden = true
+                    }
+                }
             }
         }
     }
@@ -217,10 +397,9 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         
         // 날짜 데이터 넘겨주기
         scheduleListVC.date = dateFormatter.string(from: date)
+        scheduleListVC.modalPresentationStyle = .fullScreen
         self.present(scheduleListVC, animated: true, completion: nil)
     }
 }
-
 extension HomeViewController: FSCalendarDataSource {
-    
 }
