@@ -23,15 +23,15 @@ class MyClassVC: BaseVC{
     @IBOutlet weak var studentTV: UITableView!
     
     
-//    @IBOutlet weak var manageClassBtn: UIButton!
+    //    @IBOutlet weak var manageClassBtn: UIButton!
     
     
-//    @IBOutlet weak var addBtn: UIImageView!
+    //    @IBOutlet weak var addBtn: UIImageView!
     
     
-//    @IBOutlet weak var addView: UIView!
-
-
+    //    @IBOutlet weak var addView: UIView!
+    
+    
     /// 수업 변수 배열
     var classItems: [ClassItem] = []
     var type = ""
@@ -134,7 +134,7 @@ class MyClassVC: BaseVC{
             self.teacherEmail.text = LoginRepository.shared.studentItem!.email
             
             let url = URL(string: LoginRepository.shared.studentItem!.profile)
-//                        let url = Auth.auth().currentUser?.photoURL
+            //                        let url = Auth.auth().currentUser?.photoURL
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             
@@ -266,9 +266,11 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             
             if (self.type == "teacher") {
                 print ("my type is \(self.type)")
-//                cell.isHidden = false
+                //                let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
+                cell.isHidden = false
             } else {
-//                cell.isHidden = true
+                //                let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
+                cell.isHidden = true
             }
             return cell
             
@@ -339,20 +341,20 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
                     weekendVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
                     /// first : 여러개가 와도 첫번째 것만 봄.
                     
-                        let studentDt = snapshot.documents.first!.data()
+                    let studentDt = snapshot.documents.first!.data()
                     
                     if (self.type == "teacher") {
-//                        let studentDt = snapshot.documents.first!.data()
+                        //                        let studentDt = snapshot.documents.first!.data()
                         index = studentDt["index"] as? Int ?? 0
                         name = studentDt["name"] as? String ?? ""
-//                        email = studentDt["email"] as? String ?? ""
+                        //                        email = studentDt["email"] as? String ?? ""
                         subject = studentDt["subject"] as? String ?? ""
                         type = "teacher"
                     } else if (self.type == "student") {
                         let teacherDt = snapshot.documents.first!.data()
                         index = teacherDt["index"] as? Int ?? 0
                         name = teacherDt["name"] as? String ?? ""
-//                        email = teacherDt["email"] as? String ?? ""
+                        //                        email = teacherDt["email"] as? String ?? ""
                         type = "student"
                         subject = teacherDt["subject"] as? String ?? ""
                     }
@@ -364,19 +366,19 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
                     weekendVC.userType = type
                     weekendVC.userSubject = subject
                     
-//                    let studentDt = snapshot.documents.first!.data()
-//                    index = studentDt["index"] as? Int ?? 0
-//                    let name = studentDt["name"] as? String ?? ""
-//                    let email = studentDt["email"] as? String ?? ""
-//                    let type = "student"
-//                    //                    print ("index : \(index)")
-//                    weekendVC.userIndex = index
-//                    weekendVC.userEmail = email
-//                    weekendVC.userName = name
-//                    weekendVC.userType = type
-//                    if (self.type == "student") {
-//                        weekendVC.userEmail = self.studentEmail
-//                    }
+                    //                    let studentDt = snapshot.documents.first!.data()
+                    //                    index = studentDt["index"] as? Int ?? 0
+                    //                    let name = studentDt["name"] as? String ?? ""
+                    //                    let email = studentDt["email"] as? String ?? ""
+                    //                    let type = "student"
+                    //                    //                    print ("index : \(index)")
+                    //                    weekendVC.userIndex = index
+                    //                    weekendVC.userEmail = email
+                    //                    weekendVC.userName = name
+                    //                    weekendVC.userType = type
+                    //                    if (self.type == "student") {
+                    //                        weekendVC.userEmail = self.studentEmail
+                    //                    }
                     
                     self.present(weekendVC, animated: true, completion: nil)
                 }

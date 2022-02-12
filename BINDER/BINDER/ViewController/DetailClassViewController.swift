@@ -202,6 +202,39 @@ class DetailClassViewController: UIViewController {
                     for document in querySnapshot!.documents {
                         print("2 : \(document.documentID) => \(document.data())")
                         
+                        let studentName = document.data()["Name"] as? String ?? ""
+                        let studentEmail = document.data()["Email"] as? String ?? ""
+                        let teacherDocRef = self.db.collection("teacher")
+                        
+                        if let email = self.userEmail {
+                            teacherDocRef.whereField("Email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        print("2-1 here : \(document.documentID) => \(document.data())")
+                                        let teacherUid = document.data()["Uid"] as? String ?? ""
+                                        
+                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
+                                            if let document = document, document.exists {
+                                                let data = document.data()
+                                                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                                                self.count = data?["count"] as? Int ?? 0
+                                                print("count: \(self.count)")
+                                                for i in 1...self.count {
+                                                    self.todos.append(data?["todo\(i)"] as! String)
+                                                }
+                                                print("Document data: \(dataDescription)")
+                                            } else {
+                                                print("Document does not exist")
+                                            }
+                                            self.tableView.reloadData()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
                         self.okButton.isHidden = true
                         self.todoTF.placeholder = "선생님만 추가 가능합니다."
                         self.todoTF.isEnabled = false
