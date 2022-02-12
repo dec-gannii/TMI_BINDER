@@ -4237,6 +4237,7 @@ Cg
                     </view>
                     <navigationItem key="navigationItem" id="Jwl-l4-MrS"/>
                     <connections>
+                        <outlet property="EvaluationTitleLabel" destination="y4k-OW-CJb" id="R3J-SG-Xiq"/>
                         <outlet property="barChartView" destination="2L6-ye-Pdj" id="6KX-z4-Ltp"/>
                         <outlet property="calendarView" destination="3cg-tj-gpk" id="NVU-wg-K6j"/>
                         <outlet property="classNavigationBar" destination="fio-MH-2fj" id="Ce3-Gh-Pho"/>

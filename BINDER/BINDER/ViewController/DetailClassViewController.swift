@@ -50,6 +50,7 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var homeworkScoreTextField: UITextField!
     @IBOutlet weak var classScoreTextField: UITextField!
     @IBOutlet weak var classNavigationBar: UINavigationBar!
+    @IBOutlet weak var EvaluationTitleLabel: UILabel!
     
     override func viewDidLoad() {
         
@@ -239,6 +240,7 @@ class DetailClassViewController: UIViewController {
                         self.todoTF.placeholder = "선생님만 추가 가능합니다."
                         self.todoTF.isEnabled = false
                         self.plusButton.isHidden = false
+                        self.EvaluationTitleLabel.isHidden = true
                         self.calendarView.isHidden = true
                     }
                 }
@@ -248,10 +250,9 @@ class DetailClassViewController: UIViewController {
     func getScores() {
         var studentUid = ""
         
-        if let email = self.userEmail, let name = self.userName, let subject = self.userSubject {
+        if let email = self.userEmail {
             
-            var studentDocRef = self.db.collection("student")
-            //                .document(Auth.auth().currentUser!.uid).collection("\(name)(\(email)) \(subject)")
+            let studentDocRef = self.db.collection("student")
             
             print ("email : \(email)")
             var studentEmail = ""
