@@ -65,6 +65,7 @@ class QuestionListViewController : BaseVC {
     
 }
 
+
 extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource {
     
     /// 테이블 셀 개수
@@ -117,9 +118,27 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
-    
-    
-    
-    
-
-
+//extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource {
+//
+//    /// 테이블 셀 개수
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return questionListItems.count
+//    }
+//
+//
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+//        if imgURL == nil {
+//
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionTableViewCell
+//            return cell
+//
+//        } else {
+//
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
+//        }
+//
+//
+//    }
+//}

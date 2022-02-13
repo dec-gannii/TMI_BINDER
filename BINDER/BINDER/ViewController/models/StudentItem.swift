@@ -12,14 +12,16 @@ struct StudentItem: Decodable {
     let name: String
     let password: String
     let phone: String
+    let profile: String
     
-    init(age: Int, email: String, goal: String, name: String, password: String, phone: String) {
+    init(age: Int, email: String, goal: String, name: String, password: String, phone: String, profile: String) {
         self.age = age
         self.email = email
         self.goal = goal
         self.name = name
         self.password = password
         self.phone = phone
+        self.profile = profile
     }
     
 }

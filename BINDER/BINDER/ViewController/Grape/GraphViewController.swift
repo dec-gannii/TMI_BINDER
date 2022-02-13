@@ -29,6 +29,7 @@ class GraphViewController: UIViewController {
     var userEmail: String!
     var userSubject: String!
     var userName: String!
+    var userType: String!
     //    var days: [String]!
     //    var scores: [Double]!
     var days: [String] = []
@@ -38,6 +39,9 @@ class GraphViewController: UIViewController {
     var count = 0
     var todos = Array<String>()
     var bRec:Bool = false
+    
+//        var studentName = ""
+//        var studentEmail = ""
     
     /* private lazy var boardManager: BLTNItemManager = {
      
@@ -65,8 +69,16 @@ class GraphViewController: UIViewController {
         
         //plusButton.backgroundColor = .link
         //plusButton.setTitleColor(.white, for: .normal)
-        self.classNavigationBar.topItem!.title = self.userName + " 학생"
+        getUserInfo()
         
+        if (self.userType != "student") {
+            self.classNavigationBar.topItem!.title = self.userName + " 학생"
+        } else {
+            self.classNavigationBar.topItem!.title = self.userName + " 선생님"
+            self.okButton.isHidden = true
+            self.todoTF.placeholder = "선생님만 수정 가능합니다."
+            self.todoTF.isEnabled = false
+        }
         //        days = ["3월모고","1학기중간","6월모고","1학기기말"]
         //        scores = [68.0,88.5,70.5,90.0]
         //        days = []
@@ -79,16 +91,22 @@ class GraphViewController: UIViewController {
         
         allRound()
         barColorSetting()
-        getUserInfo()
         getTodos()
     }
     
     func getScores() {
         let studentDocRef = self.db.collection("student")
         var studentUid = ""
+        var studentEmail = ""
         
         if let email = self.userEmail {
-            studentDocRef.whereField("Email", isEqualTo: email).getDocuments() {
+            print ("email : \(email)")
+            if (self.userType == "student") {
+                studentEmail = (Auth.auth().currentUser?.email)!
+            } else {
+                studentEmail = email
+            }
+            studentDocRef.whereField("Email", isEqualTo: studentEmail).getDocuments() {
                 (QuerySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -100,6 +118,7 @@ class GraphViewController: UIViewController {
                         print ("Uid1 : \(studentUid)")
                     }
                 }
+                
                 let docRef = self.db.collection("student").document(studentUid).collection("Graph")
                 docRef.document("Count").getDocument {(document, error) in
                     if let document = document, document.exists {
@@ -244,12 +263,15 @@ class GraphViewController: UIViewController {
         plusGraphVC.userName = self.userName
         plusGraphVC.userEmail = self.userEmail
         plusGraphVC.userSubject = self.userSubject
-        
+        plusGraphVC.userType = "student"
+//                plusGraphVC.userName = self.studentName
+//                plusGraphVC.userEmail = self.studentEmail
+//                plusGraphVC.userType = "student"
         self.present(plusGraphVC, animated: true, completion: nil)
     }
     
     func getUserInfo() {
-        let docRef = self.db.collection("teacher")
+        var docRef = self.db.collection("teacher")
         docRef.whereField("Uid", isEqualTo: Auth.auth().currentUser?.uid)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
@@ -270,6 +292,24 @@ class GraphViewController: UIViewController {
                     }
                 }
             }
+        
+//                docRef = self.db.collection("student")
+//                docRef.whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid)
+//                    .getDocuments() { (querySnapshot, err) in
+//                        if let err = err {
+//                            print("Error getting documents: \(err)")
+//                        } else {
+//                            for document in querySnapshot!.documents {
+//                                print("here :: \(document.documentID) => \(document.data())")
+//
+//                                let studentName = document.data()["Name"] as? String ?? ""
+//                                self.studentName = studentName
+//                                let studentEmail = document.data()["Email"] as? String ?? ""
+//                                self.studentEmail = studentEmail
+//                            }
+//                        }
+//                    }
+        
     }
     /*
      

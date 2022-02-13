@@ -28,6 +28,11 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     var userName = ""
     var userEmail = ""
     var userSubject = ""
+    var userType = ""
+    
+//    var userType = ""
+//    var studentName = ""
+//    var studentEmail = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,14 +100,15 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     
     @IBAction func goPlus(_ sender: Any) {
         todayScore = scoreTextField.text!
+        let docRef = db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph")
+        
         if todayStudy == "0"{
             studyLabel.text = "하나를 선택해주세요"
         } else if todayScore == "" {
             scoreLabel.text = "성적을 작성해주세요"
-            
         } else {
             // 데이터 저장
-            db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").document(todayStudy).setData([
+            docRef.document(todayStudy).setData([
                 "type": todayStudy,
                 "score":todayScore,
                 "isScore": "true"
@@ -111,7 +117,7 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
                     print("Error adding document: \(err)")
                 }
             }
-            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Graph").getDocuments()
+            docRef.getDocuments()
             {
                 (querySnapshot, err) in
                 
@@ -130,7 +136,7 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
                     // 현재 존재하는 데이터가 하나면,
                     if (count == 1) {
                         // 1으로 저장
-                        self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").document("Count").setData(["count": count])
+                        docRef.document("Count").setData(["count": count])
                         { err in
                             if let err = err {
                                 print("Error adding document: \(err)")
@@ -139,28 +145,34 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
                     } else {
                         // 현재 존재하는 데이터들이 여러 개면, Count 도큐먼트를 포함한 것이므로
                         // 하나를 뺀 수로 지정해서 저장해줌
-                        self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").document("Count").setData(["count": count-1])
+                        docRef.document("Count").setData(["count": count-1])
                         { err in
                             if let err = err {
                                 print("Error adding document: \(err)")
                             }
                         }
                     }
+                    guard let graphVC = self.storyboard?.instantiateViewController(withIdentifier: "GraphViewController") as? GraphViewController else { return }
+                    
+                    graphVC.modalTransitionStyle = .crossDissolve
+                    graphVC.modalPresentationStyle = .fullScreen
+                    
+                    graphVC.userName = self.userName
+                    graphVC.userEmail = self.userEmail
+                    graphVC.userSubject = self.userSubject
+                    graphVC.userType = "student"
+//                    graphVC.studentName = self.userName
+//                    graphVC.studentEmail = self.userEmail
+                    self.present(graphVC, animated: true, completion: nil)
+                    //            if let preVC = self.presentingViewController as? UIViewController {
+                    //                preVC.dismiss(animated: true, completion: nil)
+                    //            }
+                }
                 }
             }
             
             
-            guard let graphVC = self.storyboard?.instantiateViewController(withIdentifier: "GraphViewController") as? GraphViewController else { return }
-            graphVC.modalTransitionStyle = .crossDissolve
-            graphVC.modalPresentationStyle = .fullScreen
-            graphVC.userName = self.userName
-            graphVC.userEmail = self.userEmail
-            graphVC.userSubject = self.userSubject
-            self.present(graphVC, animated: true, completion: nil)
-            //            if let preVC = self.presentingViewController as? UIViewController {
-            //                preVC.dismiss(animated: true, completion: nil)
-            //            }
-        }
+            
     }
     
     func getScore() {
@@ -175,13 +187,15 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
                         for document in querySnapshot!.documents {
                             print("\(document.documentID) => \(document.data())")
                             
-//                            let type = document.data()["type"] as? String ?? ""
                             let score = document.data()["score"] as? String ?? ""
                             self.scoreTextField.text = score
+                            break
                         }
                     }
                 }
             }
+        self.scoreTextField.text = ""
+        
     }
     
     @IBAction func goBack(_ sender: Any) {

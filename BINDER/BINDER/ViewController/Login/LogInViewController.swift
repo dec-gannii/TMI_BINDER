@@ -19,7 +19,7 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var pwAlertLabel: UILabel!
     @IBOutlet weak var googleLogInBtn: GIDSignInButton!
     
-    var isLogouted = true
+    var isLogouted = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,6 +148,7 @@ extension LogInViewController: GIDSignInDelegate {
                 //                    TypeSelectVC.verified = true
                 //                } else { TypeSelectVC.verified = false }
                 //화면전환
+                
                 if ((Auth.auth().currentUser) != nil) {
                     // 홈 화면으로 바로 이동
                     guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
@@ -178,6 +179,7 @@ extension LogInViewController: GIDSignInDelegate {
                     tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
                     self.present(tb, animated: true, completion: nil)
                     
+                    self.isLogouted = false
 //                    homeVC.verified = true
 //                    homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
 //                    homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
