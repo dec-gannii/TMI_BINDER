@@ -11,6 +11,12 @@ import Firebase
 
 class QuestionListViewController : BaseVC {
     
+    // 네비게이션바
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    
+    // 답변 완료만 보기 토글
+    @IBOutlet weak var answeredToggle: UISwitch!
+    
     // 테이블 뷰 연결
     @IBOutlet weak var questionListTV: UITableView!
     
@@ -46,12 +52,12 @@ class QuestionListViewController : BaseVC {
                     let classDt = document.data()
                     
                     /// nil값 처리
-                    let subjectName = classDt["subjectName"] as? String ?? ""
+                    let title = classDt["title"] as? String ?? ""
                     let answerCheck = classDt["answerCheck"] as? Bool ?? false
                     let questionContent = classDt["questionContent"] as? String ?? ""
                     let imgURL = classDt["imgURL"] as? String ?? ""
                     let email = classDt["email"] as? String ?? ""
-                    let item = QuestionListItem(subjectName: subjectName, answerCheck: answerCheck, imgURL: imgURL as! String, questionContent: questionContent, email: email as! String)
+                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL as! String, questionContent: questionContent, email: email as! String)
                     
                     /// 모든 값을 더한다.
                     self.questionListItems.append(item)
@@ -64,8 +70,6 @@ class QuestionListViewController : BaseVC {
     }
     
 }
-
-
 extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource {
     
     /// 테이블 셀 개수
@@ -81,7 +85,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         if item.imgURL == nil {     // 기본 셀일 경우
 
             let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
-            cell.subjectName.text = "\(item.subjectName)"
+            cell.title.text = "\(item.title)"
             cell.questionContent.text = "\(item.questionContent)"
             
             if item.answerCheck == false {
@@ -99,7 +103,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
 
             let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
 
-            cell.subjectName.text = "\(item.subjectName)"
+            cell.title.text = "\(item.title)"
             cell.questionContent.text = "\(item.questionContent)"
             
             let url = URL(string: item.imgURL)
@@ -117,28 +121,3 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         }
     }
 }
-
-//extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource {
-//
-//    /// 테이블 셀 개수
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return questionListItems.count
-//    }
-//
-//
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-//        if imgURL == nil {
-//
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionTableViewCell
-//            return cell
-//
-//        } else {
-//
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
-//        }
-//
-//
-//    }
-//}

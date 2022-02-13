@@ -14,7 +14,7 @@ class QuestionListTableViewCell: UITableViewCell {
     // 테이블 뷰 요소 연결
     
     // 과목이름
-    @IBOutlet weak var subjectName: UILabel!
+    @IBOutlet weak var title: UILabel!
     // 답변 완료 여부 배경
     @IBOutlet weak var background: UIView!
     // 질문 내용

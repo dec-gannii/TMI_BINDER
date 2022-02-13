@@ -3264,7 +3264,7 @@ Cg
                                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D23-I4-FUl">
                                                             <rect key="frame" x="34" y="10" width="346" height="319"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수학" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P9l-Jn-zHE" userLabel="subjectName">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수학" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P9l-Jn-zHE" userLabel="title">
                                                                     <rect key="frame" x="18" y="12" width="29.5" height="32"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                                     <nil key="textColor"/>
@@ -3334,6 +3334,7 @@ Cg
                                                     <outlet property="questionImage" destination="5g8-W4-QFB" id="G03-JQ-kul"/>
                                                     <outlet property="studentName" destination="P9l-Jn-zHE" id="Krd-5w-BrF"/>
                                                     <outlet property="subject" destination="P9l-Jn-zHE" id="rhs-cb-JNy"/>
+                                                    <outlet property="title" destination="P9l-Jn-zHE" id="ItH-Tw-osr"/>
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="214" id="Iou-eT-ur2" userLabel="defaultCell" customClass="QuestionListTableViewCell" customModule="BINDER" customModuleProvider="target">
@@ -3349,7 +3350,7 @@ Cg
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NMm-v7-j2N" userLabel="배경">
                                                                     <rect key="frame" x="250" y="12" width="76" height="32"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="답변 완료" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnF-vj-s3P">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="답변 완료" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnF-vj-s3P" userLabel="answerCheck">
                                                                             <rect key="frame" x="10" y="7" width="56" height="18"/>
                                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3362,7 +3363,7 @@ Cg
                                                                         <constraint firstItem="gnF-vj-s3P" firstAttribute="centerY" secondItem="NMm-v7-j2N" secondAttribute="centerY" id="nuw-dE-wiW"/>
                                                                     </constraints>
                                                                 </view>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수학" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ce-Ct-GM1" userLabel="subjectName">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수학" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ce-Ct-GM1" userLabel="title">
                                                                     <rect key="frame" x="18" y="12" width="29.5" height="32"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                                     <nil key="textColor"/>
@@ -3398,6 +3399,7 @@ Cg
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
+                                                    <outlet property="answerCheck" destination="gnF-vj-s3P" id="kQz-y3-R8e"/>
                                                     <outlet property="answerisCheck" destination="gnF-vj-s3P" id="VxH-Od-euZ"/>
                                                     <outlet property="background" destination="NMm-v7-j2N" id="jbr-cw-41R"/>
                                                     <outlet property="contentView" destination="UHm-jX-6e6" id="qMt-St-1Bm"/>
@@ -3415,7 +3417,7 @@ Cg
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ytb-MW-7qm">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ytb-MW-7qm" userLabel="answeredToggle">
                                 <rect key="frame" x="345" y="116.5" width="51" height="31"/>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="답변 완료만 보기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFE-1q-Nq0">
@@ -3443,6 +3445,8 @@ Cg
                     </view>
                     <navigationItem key="navigationItem" id="LAf-j2-oK9"/>
                     <connections>
+                        <outlet property="answeredToggle" destination="ytb-MW-7qm" id="M66-qs-3ru"/>
+                        <outlet property="navigationBar" destination="DaZ-Ba-BQ4" id="RBa-t7-4K1"/>
                         <outlet property="questionListTV" destination="Snw-Y9-T67" id="qxO-VX-a9H"/>
                     </connections>
                 </viewController>

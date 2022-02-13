@@ -10,17 +10,16 @@ import Foundation
 struct QuestionListItem : Decodable {
     
     // 변수 선언
-    let subjectName: String         // 과목 이름
+    let title: String         // 질문 제목
     let answerCheck: Bool           // (true: 답변 완료, false: 답변 대기)
     let imgURL: String              // 이미지 URL
     let email : String              // 이메일
     let questionContent : String    // 질문 내용
     
-    init(subjectName : String, answerCheck : Bool, imgURL : String, questionContent: String, email : String)
+    init(title : String, answerCheck : Bool, imgURL : String, questionContent: String, email : String)
     {
-        self.subjectName = subjectName
+        self.title = title
         self.answerCheck = answerCheck
-        //self.background = background
         self.questionContent = questionContent
         self.imgURL = imgURL
         self.email = email
