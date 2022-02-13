@@ -9,10 +9,11 @@ import Foundation
 
 struct QuestionItem: Decodable {
     
-    let studentName: String
-    let subjectName : String
-    let classColor : String
-    let email : String
+    // 변수
+    let studentName: String     // 학생 이름
+    let subjectName : String    // 과목 이름
+    let classColor : String     // 수업 색상
+    let email : String          // 이메일
     
     init(studentName : String, subjectName : String, classColor : String, email : String) {
         self.studentName = studentName

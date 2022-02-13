@@ -9,12 +9,12 @@ import UIKit
 
 class QuestionListTableViewImageCell: UITableViewCell {
     
-    @IBOutlet weak var contentViewCell: UILabel!
-    @IBOutlet weak var subject: UILabel!
-    @IBOutlet weak var answerCheck: UILabel!
-    @IBOutlet weak var background: UIView!
-    @IBOutlet weak var questionContent: UILabel!
-    @IBOutlet weak var questionImage: UIImageView!
+    @IBOutlet weak var contentViewCell: UILabel!    // 전체 배경
+    @IBOutlet weak var subjectName: UILabel!        // 과목 이름
+    @IBOutlet weak var answerCheck: UILabel!        // 답변 완료 여부
+    @IBOutlet weak var background: UIView!          // 답변 완료 여부 배경
+    @IBOutlet weak var questionContent: UILabel!    // 질문 내용
+    @IBOutlet weak var questionImage: UIImageView!  // 질문 이미지
     
     override func awakeFromNib() {
         super.awakeFromNib()

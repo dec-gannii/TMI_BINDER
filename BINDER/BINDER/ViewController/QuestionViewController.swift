@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 import Firebase
+import AVFoundation
 
 class QuestionViewController: BaseVC {
     
@@ -18,6 +19,9 @@ class QuestionViewController: BaseVC {
     
     // 테이블 뷰 연결
     @IBOutlet weak var questionTV: UITableView!
+    
+    // 값을 넘기기 위한 Delegate
+    weak var delegate: QuestionListViewDelegate?
     
     var questionItems: [QuestionItem] = []
     
@@ -86,8 +90,6 @@ class QuestionViewController: BaseVC {
 }
 
 
-
-
 // MARK: - 테이블뷰 관련
 
 extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
@@ -117,18 +119,19 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    
-    /// 수업관리하기 버튼 클릭
-    /// - Parameter sender: 버튼
-    @IBAction func onClickQuestionListButton(_ sender: UIButton) {
-        let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController")
-        weekendVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-        weekendVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-        
-        self.present(weekendVC!, animated: true, completion: nil)
-    }
-    
     /// didDelectRowAt: 셀 전체 클릭
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+    /// segue를 호출할 때, 데이터를 넘기고 싶은 경우에 사용
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        // delegate 전달
+        if let resultVC = segue.destination as? QuestionListViewController {
+            //resultVC.delegate = self
+        }
+        
     }
 }

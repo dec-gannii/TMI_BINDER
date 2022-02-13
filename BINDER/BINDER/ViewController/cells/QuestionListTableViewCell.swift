@@ -12,10 +12,17 @@ import Firebase
 class QuestionListTableViewCell: UITableViewCell {
     
     // 테이블 뷰 요소 연결
+    
+    // 과목이름
     @IBOutlet weak var subjectName: UILabel!
+    // 답변 완료 여부 배경
     @IBOutlet weak var background: UIView!
+    // 질문 내용
     @IBOutlet weak var questionContent: UILabel!
-    @IBOutlet weak var answerisCheck: UILabel!
+    // 답변 완료 여부
+    @IBOutlet weak var answerCheck: UILabel!
+    
+    // 전체 셀 배경
     @IBOutlet weak var contentViewCell: UIView!
     
     override func awakeFromNib() {
