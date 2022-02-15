@@ -3419,6 +3419,9 @@ Cg
                             </view>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ytb-MW-7qm" userLabel="answeredToggle">
                                 <rect key="frame" x="345" y="116.5" width="51" height="31"/>
+                                <connections>
+                                    <action selector="stateChange:" destination="vQb-Mw-hEt" eventType="valueChanged" id="iJ1-CD-cOO"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="답변 완료만 보기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFE-1q-Nq0">
                                 <rect key="frame" x="221" y="121" width="118" height="22"/>
@@ -3445,7 +3448,7 @@ Cg
                     </view>
                     <navigationItem key="navigationItem" id="LAf-j2-oK9"/>
                     <connections>
-                        <outlet property="answeredToggle" destination="ytb-MW-7qm" id="M66-qs-3ru"/>
+                        <outlet property="answeredToggle" destination="ytb-MW-7qm" id="Q5y-QK-av1"/>
                         <outlet property="navigationBar" destination="DaZ-Ba-BQ4" id="RBa-t7-4K1"/>
                         <outlet property="questionListTV" destination="Snw-Y9-T67" id="qxO-VX-a9H"/>
                     </connections>

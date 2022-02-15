@@ -14,8 +14,12 @@ class QuestionListViewController : BaseVC {
     // 네비게이션바
     @IBOutlet weak var navigationBar: UINavigationBar!
     
-    // 답변 완료만 보기 토글
     @IBOutlet weak var answeredToggle: UISwitch!
+    
+    @IBAction func stateChange(_ sender: UISwitch) {
+//        if 토글 클릭 >  return answeredCheck 테이블
+//        else return 전체 테이블뷰
+    }
     
     // 테이블 뷰 연결
     @IBOutlet weak var questionListTV: UITableView!
@@ -26,6 +30,8 @@ class QuestionListViewController : BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setQuestionList()
+        stateChange(answeredToggle)
     }
     
     /// 질문방 내용 세팅
@@ -74,6 +80,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
     
     /// 테이블 셀 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return questionListItems.count
     }
     
