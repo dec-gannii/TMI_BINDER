@@ -439,33 +439,36 @@ class DetailClassViewController: UIViewController {
         self.present(plusGraphVC, animated: true, completion: nil)
     }
     
+    //투두리스트 추가 버튼 클릭시
     @IBAction func goButtonClicked(_ sender: Any) {
-        todos.append(todoTF.text ?? "")
-        count = count + 1
-        
-        var docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
-        
-        if (count == 1) {
-            docRef.setData([
-                "count": count,
-                "todo\(count)":todoTF.text ?? ""
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
+        if todoTF.text != "" {
+            todos.append(todoTF.text ?? "")
+            count = count + 1
+            
+            var docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
+            
+            if (count == 1) {
+                docRef.setData([
+                    "count": count,
+                    "todo\(count)":todoTF.text ?? ""
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
+            } else {
+                docRef.updateData([
+                    "count": count,
+                    "todo\(count)":todoTF.text ?? ""
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
                 }
             }
-        } else {
-            docRef.updateData([
-                "count": count,
-                "todo\(count)":todoTF.text ?? ""
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                }
-            }
+            todoTF.text = ""
+            self.tableView.reloadData()
         }
-        todoTF.text = ""
-        self.tableView.reloadData()
     }
     
     /*
@@ -517,10 +520,12 @@ class DetailClassViewController: UIViewController {
 
 extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     
+    //데이터 카운트
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todos.count
     }
     
+    // 데이터 나타내기
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
@@ -532,6 +537,40 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         cell.CheckButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
         return cell
     }
+    
+    // 데이터 삭제
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            
+            if editingStyle == .delete {
+                
+                todos.remove(at: indexPath.row)
+            
+                count = count - 1
+            
+            var docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
+            
+                docRef.updateData([
+                    "count": count
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
+                for i in 1...self.count {
+                    docRef.updateData([
+                        "todo\(i)":todos[i]
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                }
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                
+            } else if editingStyle == .insert {
+                
+            }
+        }
     
     @objc func checkMarkButtonClicked(sender: UIButton){
         
