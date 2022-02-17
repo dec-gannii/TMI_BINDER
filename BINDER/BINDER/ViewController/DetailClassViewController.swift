@@ -148,6 +148,7 @@ class DetailClassViewController: UIViewController {
                         self.plusButton.isHidden = true
                         if let index = self.userIndex {
                             // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
+                            print("index = \(index)")
                             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
                                 .getDocuments() { (querySnapshot, err) in
                                     if let err = err {
