@@ -3611,7 +3611,7 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xlW-n6-hgv">
-                                <rect key="frame" x="40" y="118" width="334" height="20.5"/>
+                                <rect key="frame" x="40" y="188" width="334" height="20.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -3623,7 +3623,7 @@ Cg
                                 </items>
                             </navigationBar>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qXf-4f-R8x">
-                                <rect key="frame" x="40" y="146.5" width="334" height="50"/>
+                                <rect key="frame" x="40" y="216.5" width="334" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Oxe-aS-WTL"/>
                                 </constraints>
@@ -3631,13 +3631,13 @@ Cg
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="19X-rN-ayZ">
-                                <rect key="frame" x="40" y="216.5" width="334" height="20.5"/>
+                                <rect key="frame" x="40" y="286.5" width="334" height="20.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XdL-jR-MVz">
-                                <rect key="frame" x="40" y="245" width="334" height="50"/>
+                                <rect key="frame" x="40" y="315" width="334" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Ehg-sX-iuO"/>
                                 </constraints>
@@ -3646,13 +3646,13 @@ Cg
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="새로운 비밀번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LG3-Zv-FhK">
-                                <rect key="frame" x="40" y="315" width="334" height="20.5"/>
+                                <rect key="frame" x="40" y="385" width="334" height="20.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VY9-Zn-DPh">
-                                <rect key="frame" x="40" y="343.5" width="334" height="50"/>
+                                <rect key="frame" x="40" y="413.5" width="334" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="ygi-ep-Pg1"/>
                                 </constraints>
@@ -3660,13 +3660,13 @@ Cg
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="새로운 비밀번호 확인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cbg-JD-ZhT">
-                                <rect key="frame" x="40" y="413.5" width="334" height="20.5"/>
+                                <rect key="frame" x="40" y="483.5" width="334" height="20.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YSe-8T-hwz">
-                                <rect key="frame" x="40" y="442" width="334" height="50"/>
+                                <rect key="frame" x="40" y="512" width="334" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="6JT-Pd-2Sn"/>
                                 </constraints>
@@ -3674,13 +3674,13 @@ Cg
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="학부모 인증 비밀번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPp-E4-UNf">
-                                <rect key="frame" x="40" y="512" width="334" height="20.5"/>
+                                <rect key="frame" x="40" y="582" width="334" height="20.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2dO-9S-wwg">
-                                <rect key="frame" x="40" y="540.5" width="334" height="50"/>
+                                <rect key="frame" x="40" y="610.5" width="334" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="9iX-qA-2ak"/>
                                 </constraints>
@@ -3688,7 +3688,7 @@ Cg
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="NqH-vB-wtw">
-                                <rect key="frame" x="40" y="615.5" width="334" height="40"/>
+                                <rect key="frame" x="40" y="685.5" width="334" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="agH-d2-jgR">
                                         <rect key="frame" x="0.0" y="0.0" width="162" height="40"/>
@@ -3724,7 +3724,7 @@ Cg
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="bkI-Ev-mNP" firstAttribute="trailing" secondItem="CPp-E4-UNf" secondAttribute="trailing" constant="40" id="7Ar-0t-rOU"/>
-                            <constraint firstItem="xlW-n6-hgv" firstAttribute="top" secondItem="Ai1-hW-bux" secondAttribute="bottom" constant="30" id="8wN-2i-ac4"/>
+                            <constraint firstItem="xlW-n6-hgv" firstAttribute="top" secondItem="Ai1-hW-bux" secondAttribute="bottom" constant="100" id="8wN-2i-ac4"/>
                             <constraint firstItem="YSe-8T-hwz" firstAttribute="top" secondItem="Cbg-JD-ZhT" secondAttribute="bottom" constant="8" id="Dta-8C-Mrv"/>
                             <constraint firstItem="LG3-Zv-FhK" firstAttribute="top" secondItem="XdL-jR-MVz" secondAttribute="bottom" constant="20" id="ES6-h6-DSX"/>
                             <constraint firstItem="qXf-4f-R8x" firstAttribute="top" secondItem="xlW-n6-hgv" secondAttribute="bottom" constant="8" id="EZN-M6-k8h"/>

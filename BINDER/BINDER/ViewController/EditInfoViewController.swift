@@ -28,6 +28,11 @@ class EditInfoViewController: UIViewController {
         getInfo()
     }
     
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
     // 유효한 이름인지 (공백은 아닌지) 검사하는 메소드
     func isValidName(_ name: String) -> Bool {
         let nameValidation = name.trimmingCharacters(in: .whitespaces)
