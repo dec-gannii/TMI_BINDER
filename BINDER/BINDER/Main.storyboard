@@ -322,18 +322,18 @@ Cg
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled">
-                                    <backgroundConfiguration key="background" cornerRadius="9"/>
                                     <attributedString key="attributedTitle">
                                         <fragment content="계속하기">
                                             <attributes>
-                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="NSBackgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <font key="NSFont" size="20" name="AppleSDGothicNeo-SemiBold"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="baseBackgroundColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="baseBackgroundColor" red="0.047058823530000002" green="0.066666666669999999" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="SignUpBtnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vmP-Ud-6V3"/>
@@ -1921,6 +1921,7 @@ Cg
                         <outlet property="editBtn" destination="JsV-nH-BMm" id="fMN-If-B4b"/>
                         <outlet property="eduTL" destination="2aQ-J7-RwL" id="SQ9-lB-AL5"/>
                         <outlet property="extraExpTL" destination="KXh-tc-cM2" id="efW-sw-ydD"/>
+                        <outlet property="plusBtn" destination="28y-9H-a1z" id="H3p-Pe-BOt"/>
                         <outlet property="studentListView" destination="C6r-0X-b5O" id="l9w-0H-je4"/>
                         <outlet property="teacherEmail" destination="70b-5G-klQ" id="I81-Mn-LuU"/>
                         <outlet property="teacherEvaluationTL" destination="VM6-qm-J9w" id="Mku-d2-FuS"/>

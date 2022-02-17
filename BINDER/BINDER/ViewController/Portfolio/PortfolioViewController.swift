@@ -26,6 +26,7 @@ class PortfolioViewController: UIViewController {
     @IBOutlet weak var contentView4: UIView!
     
     @IBOutlet weak var editBtn: UIButton!
+    @IBOutlet weak var plusBtn: UIButton!
     
     var isShowMode: Bool = false
     var showModeEmail: String = ""
@@ -42,6 +43,7 @@ class PortfolioViewController: UIViewController {
         
         if (isShowMode == true) {
             self.editBtn.isHidden = true
+            
         } else {
             self.editBtn.isHidden = false
         }
@@ -55,6 +57,7 @@ class PortfolioViewController: UIViewController {
         
         if (isShowMode == true) {
             self.editBtn.isHidden = true
+            self.plusBtn.setTitle("", for: .normal)
         } else {
             self.editBtn.isHidden = false
         }

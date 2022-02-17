@@ -48,6 +48,19 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             goalLabel.isHidden = true
             goalAlertLabel.isHidden = true
             goalTextField.isHidden = true
+        } else if (type == "parent") {
+            ageLabel.text = "학부모 인증 비밀번호"
+            ageAlertLabel.text = "잘못된 입력입니다."
+            ageAlertLabel.isHidden = true
+            ageShowPicker.placeholder = "학부모 인증 비밀번호를 입력해주세요."
+//            phoneLabel.isHidden = true
+            phoneLabel.text = "자녀 휴대폰 번호"
+            phoneAlertLabel.isHidden = true
+            phonenumTextField.placeholder = "자녀의 휴대폰 번호를 입력해주세요."
+            goalLabel.text = "선생님 이메일"
+            goalAlertLabel.text = "해당하는 선생님이 존재하지 않습니다!"
+            goalAlertLabel.isHidden = true
+            goalTextField.placeholder = "선생님의 이메일 주소를 입력해주세요."
         }
         else {
             ageLabel.text = nil

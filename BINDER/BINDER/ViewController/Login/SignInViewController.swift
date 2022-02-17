@@ -37,7 +37,7 @@ class SignInViewController: UIViewController {
         pwAlertLabel.isHidden = true
         emailAlertLabel.isHidden = true
         
-        if (isGoogleSignIn == true) {
+        if (isGoogleSignIn == true && self.type != "parent") {
             emailTextField.text = Auth.auth().currentUser?.email
             nameTextField.text = Auth.auth().currentUser?.displayName
             pwTextField.placeholder = "이메일로 전송된 링크에서 변경한 비밀번호를 입력해주세요."
@@ -168,7 +168,7 @@ class SignInViewController: UIViewController {
             }
             
             // 타입이 학생이라면,
-            if(type == "student" || type == "teacher"){
+            if(type == "student" || type == "teacher" || type == "parent"){
                 // 추가 정보를 입력하는 뷰로 이동
                 //                let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfo")
                 guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
