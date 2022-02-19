@@ -12,7 +12,7 @@ class SettingViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet weak var settingTableView: UITableView!
     
-    var tableViewItems = ["정보수정", "이용약관"]
+    var tableViewItems = ["정보수정", "이용약관", "서비스 탈퇴"]
 //    var tableViewSections = ["설정"]
     
     override func viewDidLoad() {
@@ -62,6 +62,11 @@ extension SettingViewController: UIViewControllerTransitioningDelegate, UITableV
             termVC.modalPresentationStyle = .fullScreen
             termVC.modalTransitionStyle = .crossDissolve
 //            self.navigationController?.pushViewController(checkpwVC, animated: true)
+            self.present(termVC, animated: true, completion: nil)
+        } else if (indexPath.row == 2) {
+            guard let termVC = self.storyboard?.instantiateViewController(withIdentifier: "SecessionViewController") as? SecessionViewController else { return }
+            termVC.modalPresentationStyle = .fullScreen
+            termVC.modalTransitionStyle = .crossDissolve
             self.present(termVC, animated: true, completion: nil)
         }
     }

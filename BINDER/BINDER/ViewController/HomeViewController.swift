@@ -163,7 +163,7 @@ class HomeViewController: UIViewController {
             }
         }
         
-        docRef.whereField("index", isEqualTo: 3).getDocuments() { (querySnapshot, err) in
+        docRef.whereField("index", isEqualTo: 2).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {

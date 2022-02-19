@@ -1383,7 +1383,7 @@ Cg
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ID-rW-0El" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5214" y="1410"/>
+            <point key="canvasLocation" x="5199" y="1106"/>
         </scene>
         <!--Plus Graph View Controller-->
         <scene sceneID="Ylg-pF-y6z">
@@ -3691,14 +3691,15 @@ Cg
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="NqH-vB-wtw">
-                                <rect key="frame" x="40" y="685.5" width="334" height="40"/>
+                                <rect key="frame" x="40" y="685.5" width="334" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="agH-d2-jgR">
-                                        <rect key="frame" x="0.0" y="0.0" width="162" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="162" height="50"/>
                                         <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="취소" cornerStyle="small">
+                                            <fontDescription key="titleFontDescription" type="boldSystem" pointSize="17"/>
                                             <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="baseBackgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
@@ -3707,9 +3708,10 @@ Cg
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sZ-eX-lEu">
-                                        <rect key="frame" x="172" y="0.0" width="162" height="40"/>
+                                        <rect key="frame" x="172" y="0.0" width="162" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="완료" cornerStyle="small">
+                                            <fontDescription key="titleFontDescription" type="boldSystem" pointSize="17"/>
                                             <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="baseBackgroundColor" red="0.047058823530000002" green="0.066666666669999999" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </buttonConfiguration>
@@ -3719,7 +3721,7 @@ Cg
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Gle-Ie-L5t"/>
+                                    <constraint firstAttribute="height" constant="50" id="Gle-Ie-L5t"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -3786,7 +3788,7 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fAJ-6j-LYg">
-                                <rect key="frame" x="20" y="98" width="374" height="764"/>
+                                <rect key="frame" x="20" y="108" width="374" height="754"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <string key="text">제1장 총칙
 
@@ -3833,7 +3835,7 @@ Cg
                             <constraint firstItem="kfv-OM-ZL4" firstAttribute="trailing" secondItem="zZX-dS-6vX" secondAttribute="trailing" id="COu-kl-6NR"/>
                             <constraint firstItem="kfv-OM-ZL4" firstAttribute="leading" secondItem="zZX-dS-6vX" secondAttribute="leading" id="Jly-Sk-nR5"/>
                             <constraint firstItem="zZX-dS-6vX" firstAttribute="bottom" secondItem="fAJ-6j-LYg" secondAttribute="bottom" id="MYs-gy-T7c"/>
-                            <constraint firstItem="fAJ-6j-LYg" firstAttribute="top" secondItem="kfv-OM-ZL4" secondAttribute="bottom" constant="10" id="cdl-EH-8cl"/>
+                            <constraint firstItem="fAJ-6j-LYg" firstAttribute="top" secondItem="kfv-OM-ZL4" secondAttribute="bottom" constant="20" id="cdl-EH-8cl"/>
                             <constraint firstItem="kfv-OM-ZL4" firstAttribute="top" secondItem="zZX-dS-6vX" secondAttribute="top" id="lW6-9k-3Wy"/>
                         </constraints>
                     </view>
@@ -4269,6 +4271,76 @@ Cg
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HhN-UA-e6D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3463.7681159420295" y="521.65178571428567"/>
+        </scene>
+        <!--Secession View Controller-->
+        <scene sceneID="Xp8-au-rTL">
+            <objects>
+                <viewController storyboardIdentifier="SecessionViewController" id="T7z-jv-jjv" customClass="SecessionViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4j3-tv-Ej4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqq-B5-ABc">
+                                <rect key="frame" x="20" y="228" width="374" height="50"/>
+                                <color key="backgroundColor" red="0.047058823530000002" green="0.066666666669999999" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Rgb-K8-gIv"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="탈퇴" cornerStyle="small">
+                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="17"/>
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="SecessionBtnClicked:" destination="T7z-jv-jjv" eventType="touchUpInside" id="UQc-ab-f3d"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KE6-rn-bCy">
+                                <rect key="frame" x="20" y="108" width="374" height="100"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="HRP-u9-kmp"/>
+                                </constraints>
+                                <string key="text">서비스를 탈퇴하게 되면 현재까지 저장된 고객님의 정보와 
+수업 기록들이 모두 삭제됩니다. 
+
+탈퇴를 계속 진행하시겠습니까?</string>
+                                <color key="textColor" red="0.43039341910000001" green="0.4283142238" blue="0.4324726143" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vQV-3w-XYU">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="서비스 탈퇴" id="u06-3m-sR1">
+                                        <barButtonItem key="leftBarButtonItem" image="chevron.backward" catalog="system" id="473-6b-4bB">
+                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <connections>
+                                                <action selector="BackBtnClicked:" destination="T7z-jv-jjv" id="fVj-Ah-qA8"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="p6B-P7-UON"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="eqq-B5-ABc" firstAttribute="leading" secondItem="p6B-P7-UON" secondAttribute="leading" constant="20" id="0Zx-HG-7kk"/>
+                            <constraint firstItem="p6B-P7-UON" firstAttribute="trailing" secondItem="eqq-B5-ABc" secondAttribute="trailing" constant="20" id="6x1-Lv-BrO"/>
+                            <constraint firstItem="KE6-rn-bCy" firstAttribute="top" secondItem="vQV-3w-XYU" secondAttribute="bottom" constant="20" id="8XG-gA-Hoy"/>
+                            <constraint firstItem="vQV-3w-XYU" firstAttribute="trailing" secondItem="p6B-P7-UON" secondAttribute="trailing" id="AMk-lE-V6Z"/>
+                            <constraint firstItem="eqq-B5-ABc" firstAttribute="top" secondItem="KE6-rn-bCy" secondAttribute="bottom" constant="20" id="F3B-fj-IhV"/>
+                            <constraint firstItem="KE6-rn-bCy" firstAttribute="leading" secondItem="p6B-P7-UON" secondAttribute="leading" constant="20" id="FkC-UY-DtF"/>
+                            <constraint firstItem="p6B-P7-UON" firstAttribute="trailing" secondItem="KE6-rn-bCy" secondAttribute="trailing" constant="20" id="Zkr-AA-ffB"/>
+                            <constraint firstItem="vQV-3w-XYU" firstAttribute="leading" secondItem="p6B-P7-UON" secondAttribute="leading" id="wEA-NG-86p"/>
+                            <constraint firstItem="vQV-3w-XYU" firstAttribute="top" secondItem="p6B-P7-UON" secondAttribute="top" id="yXc-zz-Sl3"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z2m-9o-Yu0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4934.7826086956529" y="1859.5982142857142"/>
         </scene>
     </scenes>
     <resources>
