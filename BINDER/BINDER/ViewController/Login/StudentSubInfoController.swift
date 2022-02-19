@@ -163,7 +163,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         let countOfDigit = countOfDigit()
         if (type == "teacher"){
             pw = Int(ageShowPicker.text!)!
-            if (isValidPw(pw) || countOfDigit > 6) {
+            if (!isValidPw(pw) || countOfDigit > 6) {
                 ageAlertLabel.text = "올바른 형식의 비밀번호가 아닙니다."
                 ageAlertLabel.isHidden = false
             } else {

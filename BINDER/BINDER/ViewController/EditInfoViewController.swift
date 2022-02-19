@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 
+// 정보 수정 화면
 class EditInfoViewController: UIViewController {
     
     var ref: DatabaseReference!
@@ -25,7 +26,7 @@ class EditInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getInfo()
+        getInfo() // 사용자 정보 가져오기
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
@@ -48,6 +49,7 @@ class EditInfoViewController: UIViewController {
         return password.count >= minPasswordLength
     }
     
+    // 사용자 정보를 가져오는 메소드
     func getInfo() {
         // 데이터베이스 경로
         var docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
@@ -55,18 +57,17 @@ class EditInfoViewController: UIViewController {
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
+                // 이름, 이메일, 학부모 인증용 비밀번호, 사용자의 타입
                 let userName = data?["Name"] as? String ?? ""
                 self.nameTextField.text = userName
                 let userEmail = data?["Email"] as? String ?? ""
                 self.emailLabel.text = userEmail
                 let parentPW = data?["parentPW"] as? String ?? ""
                 self.parentPassword.text = parentPW
-                //                self.userName = data?["Name"] as? String ?? ""
-                //                self.userEmail = data?["Email"] as? String ?? ""
-                //                self.parentPW = data?["parentPW"] as? String ?? ""
                 self.type = data?["Type"] as? String ?? ""
                 self.currentPW = data?["Password"] as? String ?? ""
             } else {
+                // 현재 사용자에 해당하는 선생님 문서가 없으면 학생 문서로 다시 검색
                 docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
                 
                 docRef.getDocument { (document, error) in
@@ -119,32 +120,36 @@ class EditInfoViewController: UIViewController {
         }
     }
     
+    // 뒤로가기 버튼 클릭 시 수행되는 메소드
     @IBAction func CancelBtnClicked(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     
+    // 비밀번호 체크를 하는 메소드
     func CheckPW() -> Bool {
-        let newPW = self.newPassword.text
-        let newPWCheck = self.newPasswordCheck.text
-        if ((newPW == "" && newPWCheck == "") || (newPW == self.currentPW && newPWCheck == self.currentPW)) {
+        let newPW = self.newPassword.text // 새롭게 변경할 비밀번호
+        let newPWCheck = self.newPasswordCheck.text // 새롭게 변경할 비밀번호 확인
+        if ((newPW == "" && newPWCheck == "") || (newPW == self.currentPW || newPWCheck == self.currentPW)) {
+            // 새롭게 변경할 비밀번호와 새롭게 변경할 비밀번호 확인이 모두 공백이거나 현재의 비밀번호와 새로운 비밀번호가 동일한 경우
             return true
         }
-        if (newPW == newPWCheck) {
-            if (self.isValidPassword(newPW!)) {
+        if (newPW == newPWCheck) { // 새롭게 변경할 비밀번호와 새롭게 변경할 비밀번호 확인이 동일하면,
+            if (self.isValidPassword(newPW!)) { // 유효한 비밀번호인 경우
                 return true
-            } else {
+            } else { // 유효하지 않은 비밀번호인 경우
                 return false
             }
-        } else {
+        } else { // 새롭게 변경할 비밀번호와 새롭게 변경할 비밀번호 확인이 동일하지 않으면,
             return false
         }
     }
     
+    // 학부모 인증용 비밀번호 확인 메소드
     func CheckParentPW() -> Bool {
         let parentPW = self.parentPassword.text
         if (self.type == "teacher"){
             if (parentPassword.text!.count <= 6) {
-                if let convertedNum = Int(parentPW!) {
+                if let convertedNum = Int(parentPW!) { // 숫자형으로 변환
                     print("\(convertedNum)")
                     return true
                 } else {
@@ -157,6 +162,7 @@ class EditInfoViewController: UIViewController {
         return true
     }
     
+    // 유효한 이름인지 확인하는 메소드
     func CheckName() -> Bool {
         let userName = self.nameTextField.text
         if (isValidName(userName!)) {
@@ -166,31 +172,36 @@ class EditInfoViewController: UIViewController {
         }
     }
     
+    // 확인 버튼 클릭 시 수행되는 메소드
     @IBAction func OKBtnClicked(_ sender: Any) {
         var name = self.nameTextField.text ?? ""
         var newPW = self.currentPW
         var parentPW = self.parentPassword.text ?? ""
         
-        if (self.CheckPW() && self.CheckName() && self.CheckParentPW()) {
+        if (self.CheckPW() && self.CheckName() && self.CheckParentPW()) { // 이름, 비밀번호, 학부모 비밀번호 확인이 모두 되면
             newPW = self.newPassword.text!
             name = self.nameTextField.text!
             parentPW = self.parentPassword.text!
             
-            if ((newPassword.text == "" && newPasswordCheck.text == "") || (newPassword.text == self.currentPW && newPasswordCheck.text == self.currentPW)) {
+            if ((newPassword.text == "" && newPasswordCheck.text == "") || (newPassword.text == self.currentPW || newPasswordCheck.text == self.currentPW)) {
+                // 새롭게 변경할 비밀번호와 새롭게 변경할 비밀번호 확인이 모두 공백이거나 새로운 비밀번호가 현재 비밀번호와 동일하면 새로운 비밀번호를
+                // 현재 비밀번호로 설정
                 newPW = self.currentPW
             }
-            
+            // 만약 새로운 비밀번호가 현재 비밀번호와 다르면
             if (newPW != self.currentPW) {
-                if (self.type == "teacher") {
+                if (self.type == "teacher") { // 선생님인 경우, 선생님 정보 저장 메소드로 정보 저장
                     saveInfo(name, newPW, parentPW)
-                } else if (self.type == "student") {
+                } else if (self.type == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
                     saveStudentInfo(name, newPW)
                 }
                 
+                // 새로운 비밀번호로 지정
                 Auth.auth().currentUser?.updatePassword(to: newPW) { error in
                     print("error")
                 }
                 
+                // 비밀번호가 수정되었다면 로그인 화면으로 이동
                 guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
                 
                 loginVC.modalPresentationStyle = .fullScreen
@@ -199,8 +210,12 @@ class EditInfoViewController: UIViewController {
                 
                 self.present(loginVC, animated: true, completion: nil)
             } else {
-                if (name != "") {
-                    saveInfo(name, newPW, parentPW)
+                if (name != "") { // 이름이 공백이 아니면
+                    if (self.type == "teacher") { // 선생님인 경우, 선생님 정보 저장 메소드로 정보 저장
+                        saveInfo(name, newPW, parentPW)
+                    } else if (self.type == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
+                        saveStudentInfo(name, newPW)
+                    }
                     
                     guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
                         //아니면 종료
@@ -224,11 +239,12 @@ class EditInfoViewController: UIViewController {
                     tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                     tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
                     tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
-                    tb.selectedIndex = 3
+                    tb.selectedIndex = 3 // 설정 화면으로 이동
                     self.present(tb, animated: true, completion: nil)
                 }
             }
         } else {
+            // 상황에 맞는 오류 메시지 띄우기
             if (!self.CheckPW()) {
                 let alert = UIAlertController(title: "오류", message: "비밀번호가 올바르지 않습니다!", preferredStyle: UIAlertController.Style.alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) {

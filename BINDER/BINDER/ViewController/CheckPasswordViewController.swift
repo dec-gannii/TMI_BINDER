@@ -22,6 +22,7 @@ class CheckPasswordViewController: UIViewController {
         getPW()
     }
     
+    // 비밀번호가 맞는지 확인하기 위해 비밀번호를 확인하는 메소드
     func getPW() {
         // 데이터베이스 경로
         var docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
@@ -46,21 +47,21 @@ class CheckPasswordViewController: UIViewController {
     
     @IBAction func BackBtnClicked(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
-        //        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func OKBtnClicked(_ sender: Any) {
+        // 만약 현재 저장되어 있는 비밀번호와 입력한 비밀번호가 동일하면
         if (currentPW == pwTextField.text) {
-            
+            // 정보 수정 화면으로 이동
             guard let editInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "EditInfoViewController") as? EditInfoViewController else { return }
             
             editInfoVC.modalPresentationStyle = .fullScreen
             editInfoVC.modalTransitionStyle = .crossDissolve
             
             self.present(editInfoVC, animated: true, completion: nil)
-            //            self.navigationController?.pushViewController(editInfoVC, animated: true)
             errorLabel.isHidden = true
         } else {
+            // 만약 현재 저장되어 있는 비밀번호와 입력한 비밀번호가 동일하지 않으면 오류 발생 Label 숨김 해제
             errorLabel.text = "현재 비밀번호가 올바르지 않습니다!"
             errorLabel.isHidden = false
         }

@@ -122,13 +122,14 @@ class HomeViewController: UIViewController {
     
     // 내 수업 가져오기
     func setMyClasses() {
-        // 데이터베이스에서 학생 리스트 가져오기
+        // 데이터베이스에서 학생 리스트 가져오기, 초기화
         self.HomeStudentIconLabel.text = ""
         self.HomeStudentIconSecondLabel.text = ""
         self.HomeStudentIconThirdLabel.text = ""
         
         let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
-        // Date field가 현재 날짜와 동일한 도큐먼트 모두 가져오기
+        
+        // index가 0, 1, 2인 세 명의 학생 정보 가져오기
         docRef.whereField("index", isEqualTo: 0).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -171,6 +172,7 @@ class HomeViewController: UIViewController {
             }
         }
         
+        // 만약 학생이 없다면 버튼과 레이블을 숨기기
         if (self.HomeStudentIconLabel.text == "" || self.HomeStudentIconLabel.text == "Name Label") {
             self.firstLinkBtn.isHidden = true
             self.HomeStudentIconLabel.isHidden = true
@@ -198,6 +200,7 @@ class HomeViewController: UIViewController {
         
         guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
         
+        // 설정해둔 버튼의 태그에 따라서 레이블의 이름을 가지고 비교 후 학생 관리 페이지로 넘어가기
         if ((sender as AnyObject).tag == 0) {
             if let name = self.HomeStudentIconLabel.text {
                 docRef.whereField("name", isEqualTo: name).getDocuments() { (querySnapshot, err) in
@@ -232,7 +235,7 @@ class HomeViewController: UIViewController {
                         print("Error getting documents: \(err)")
                     } else {
                         for document in querySnapshot!.documents {
-                            print("clicked : \(document.documentID) => \(document.data())")
+                            print("\(document.documentID) => \(document.data())")
                             // 사용할 것들 가져와서 지역 변수로 저장
                             btnIndex = document.data()["index"] as? Int ?? 0
                             email = document.data()["email"] as? String ?? ""
@@ -259,7 +262,7 @@ class HomeViewController: UIViewController {
                         print("Error getting documents: \(err)")
                     } else {
                         for document in querySnapshot!.documents {
-                            print("clicked : \(document.documentID) => \(document.data())")
+                            print("\(document.documentID) => \(document.data())")
                             // 사용할 것들 가져와서 지역 변수로 저장
                             btnIndex = document.data()["index"] as? Int ?? 0
                             email = document.data()["email"] as? String ?? ""
@@ -280,8 +283,6 @@ class HomeViewController: UIViewController {
                 }
             }
         }
-        
-        
     }
     
     func getTeacherInfo(){
@@ -294,7 +295,7 @@ class HomeViewController: UIViewController {
                 let data = document.data()
                 self.name = data?["Name"] as? String ?? ""
                 self.stateLabel.text = self.name + " 선생님 환영합니다!"
-                if (Auth.auth().currentUser?.email == data?["Email"] as! String) {
+                if (Auth.auth().currentUser?.email == (data?["Email"] as! String)) {
                     self.type = "teacher"
                 } else {
                     self.type = data?["Type"] as? String ?? ""
@@ -302,8 +303,6 @@ class HomeViewController: UIViewController {
                 self.id = data?["Email"] as? String ?? ""
                 self.pw = data?["Password"] as? String ?? ""
                 self.HomeStudentScrollView.isHidden = false
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
             } else {
                 print("Document does not exist")
             }
@@ -322,14 +321,12 @@ class HomeViewController: UIViewController {
                 self.stateLabel.text = self.name + " 학생 환영합니다!"
                 self.id = data?["Email"] as? String ?? ""
                 self.pw = data?["Password"] as? String ?? ""
-                if (Auth.auth().currentUser?.email == data?["Email"] as! String) {
+                if (Auth.auth().currentUser?.email == (data?["Email"] as! String)) {
                     self.type = "student"
                 } else {
                     self.type = data?["Type"] as? String ?? ""
                 }
                 self.HomeStudentScrollView.isHidden = true
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
             } else {
                 print("Document does not exist")
             }
@@ -371,9 +368,7 @@ class HomeViewController: UIViewController {
                 if (self.type == "teacher") { // 선생님 계정이라면
                     if (Auth.auth().currentUser?.email != nil) {
                         emailVerificationCheckBtn.isHidden = true
-                        HomeStudentIconLabel.text = "등록된 학생이 없습니다."
-                        HomeStudentIconSecondLabel.text = "등록된 학생이 없습니다."
-                        HomeStudentIconThirdLabel.text = "등록된 학생이 없습니다."
+                        HomeStudentScrollView.isHidden = true
                     }
                 } else {
                     // 학생 계정이라면

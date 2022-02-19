@@ -13,7 +13,6 @@ class SettingViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var settingTableView: UITableView!
     
     var tableViewItems = ["정보수정", "이용약관", "서비스 탈퇴"]
-//    var tableViewSections = ["설정"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,20 +22,11 @@ class SettingViewController: UIViewController, UITableViewDelegate {
     
     @IBAction func BackBtnClicked(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
-//        self.navigationController?.popViewController(animated: true)
     }
     
 }
 
 extension SettingViewController: UIViewControllerTransitioningDelegate, UITableViewDataSource {
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return tableViewSections.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return tableViewSections[section]
-//    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewItems.count
     }
@@ -48,20 +38,15 @@ extension SettingViewController: UIViewControllerTransitioningDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         if (indexPath.row == 0) {
             guard let checkpwVC = self.storyboard?.instantiateViewController(withIdentifier: "CheckPasswordViewController") as? CheckPasswordViewController else { return }
-//            self.navigationViewController?.pushViewController(checkpwVC, animated: true)
             checkpwVC.modalPresentationStyle = .fullScreen
             checkpwVC.modalTransitionStyle = .crossDissolve
-//            self.navigationController?.pushViewController(checkpwVC, animated: true)
             self.present(checkpwVC, animated: true, completion: nil)
         } else if (indexPath.row == 1) {
             guard let termVC = self.storyboard?.instantiateViewController(withIdentifier: "TermViewController") as? TermViewController else { return }
-//            self.navigationViewController?.pushViewController(checkpwVC, animated: true)
             termVC.modalPresentationStyle = .fullScreen
             termVC.modalTransitionStyle = .crossDissolve
-//            self.navigationController?.pushViewController(checkpwVC, animated: true)
             self.present(termVC, animated: true, completion: nil)
         } else if (indexPath.row == 2) {
             guard let termVC = self.storyboard?.instantiateViewController(withIdentifier: "SecessionViewController") as? SecessionViewController else { return }

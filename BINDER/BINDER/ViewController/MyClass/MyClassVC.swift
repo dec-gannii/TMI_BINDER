@@ -78,8 +78,6 @@ class MyClassVC: BaseVC{
                         self.type = type
                         
                         self.setTeacherInfo()
-                        
-                        print ("type : \(type)")
                     }
                 }
             }
@@ -98,8 +96,6 @@ class MyClassVC: BaseVC{
                         self.type = type
                         
                         self.setStudentInfo()
-                        
-                        print ("type : \(type)")
                     }
                 }
             }
@@ -260,18 +256,16 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if indexPath.row == classItems.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
             
-            if (self.type == "teacher") {
-                print ("my type is \(self.type)")
-                //                let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
+            if (type == "teacher") {
+                print ("my type is \(type)")
                 cell.isHidden = false
             } else {
-                //                let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
                 cell.isHidden = true
             }
+            
             return cell
             
         } else {
@@ -282,6 +276,7 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             if (self.type == "teacher") {
                 cell.studentName.text = "\(item.name) 학생 "
                 cell.manageBtn.titleLabel!.text = "수업 관리하기"
+                
             } else {
                 cell.studentName.text = "\(item.name) 선생님 "
                 cell.manageBtn.titleLabel!.text = "수업 확인하기"
@@ -308,7 +303,6 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     /// 수업관리하기 버튼 클릭
     /// - Parameter sender: 버튼
     @IBAction func onClickManageButton(_ sender: UIButton) {
-        //        let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController")
         var index: Int!
         var name: String!
         var email: String!
@@ -344,17 +338,14 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
                     let studentDt = snapshot.documents.first!.data()
                     
                     if (self.type == "teacher") {
-                        //                        let studentDt = snapshot.documents.first!.data()
                         index = studentDt["index"] as? Int ?? 0
                         name = studentDt["name"] as? String ?? ""
-                        //                        email = studentDt["email"] as? String ?? ""
                         subject = studentDt["subject"] as? String ?? ""
                         type = "teacher"
                     } else if (self.type == "student") {
                         let teacherDt = snapshot.documents.first!.data()
                         index = teacherDt["index"] as? Int ?? 0
                         name = teacherDt["name"] as? String ?? ""
-                        //                        email = teacherDt["email"] as? String ?? ""
                         type = "student"
                         subject = teacherDt["subject"] as? String ?? ""
                     }
@@ -365,20 +356,6 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
                     weekendVC.userName = name
                     weekendVC.userType = type
                     weekendVC.userSubject = subject
-                    
-                    //                    let studentDt = snapshot.documents.first!.data()
-                    //                    index = studentDt["index"] as? Int ?? 0
-                    //                    let name = studentDt["name"] as? String ?? ""
-                    //                    let email = studentDt["email"] as? String ?? ""
-                    //                    let type = "student"
-                    //                    //                    print ("index : \(index)")
-                    //                    weekendVC.userIndex = index
-                    //                    weekendVC.userEmail = email
-                    //                    weekendVC.userName = name
-                    //                    weekendVC.userType = type
-                    //                    if (self.type == "student") {
-                    //                        weekendVC.userEmail = self.studentEmail
-                    //                    }
                     
                     self.present(weekendVC, animated: true, completion: nil)
                 }

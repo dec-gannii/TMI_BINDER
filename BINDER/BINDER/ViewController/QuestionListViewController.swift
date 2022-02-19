@@ -17,8 +17,8 @@ class QuestionListViewController : BaseVC {
     @IBOutlet weak var answeredToggle: UISwitch!
     
     @IBAction func stateChange(_ sender: UISwitch) {
-//        if 토글 클릭 >  return answeredCheck 테이블
-//        else return 전체 테이블뷰
+        //        if 토글 클릭 >  return answeredCheck 테이블
+        //        else return 전체 테이블뷰
     }
     
     // 테이블 뷰 연결
@@ -90,7 +90,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         let item:QuestionListItem = questionListItems[indexPath.row]
         
         if item.imgURL == nil {     // 기본 셀일 경우
-
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
             cell.title.text = "\(item.title)"
             cell.questionContent.text = "\(item.questionContent)"
@@ -103,13 +103,13 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                 cell.answerCheck.text = "답변 완료"
                 cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
             }
-                
+            
             return cell
-
+            
         } else {       // 이미지 셀일 경우
-
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
-
+            
             cell.title.text = "\(item.title)"
             cell.questionContent.text = "\(item.questionContent)"
             
@@ -123,7 +123,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                 cell.answerCheck.text = "답변 완료"
                 cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
             }
-
+            
             return cell
         }
     }
