@@ -238,8 +238,7 @@ class DetailClassViewController: UIViewController {
                         }
                         
                         self.okButton.isHidden = true
-                        self.todoTF.placeholder = "선생님만 추가 가능합니다."
-                        self.todoTF.isEnabled = false
+                        self.todoTF.isHidden = true
                         self.plusButton.isHidden = false
                         self.EvaluationTitleLabel.isHidden = true
                         self.calendarView.isHidden = true

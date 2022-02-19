@@ -21,6 +21,9 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var HomeStudentIconSecondLabel: UILabel!
     @IBOutlet weak var HomeStudentIconThirdLabel: UILabel!
     @IBOutlet weak var HomeStudentScrollView: UIScrollView!
+    @IBOutlet weak var firstLinkBtn: UIButton!
+    @IBOutlet weak var secondLinkBtn: UIButton!
+    @IBOutlet weak var thirdLinkBtn: UIButton!
     
     /// 수업 변수 배열
     var classItems: [String] = []
@@ -101,8 +104,6 @@ class HomeViewController: UIViewController {
         if (!verified) {
             stateLabel.text = "작성한 이메일로 인증을 진행해주세요."
             emailVerificationCheckBtn.isHidden = false
-            //            calendarView.isHidden = true // 캘린더 뷰 안 보이도록 함
-            //                HomeStudentScrollView.isHidden = false
             HomeStudentIconLabel.text = "인증되지 않은 계정입니다."
             HomeStudentIconSecondLabel.text = "인증되지 않은 계정입니다."
             HomeStudentIconThirdLabel.text = "인증되지 않은 계정입니다."
@@ -111,7 +112,6 @@ class HomeViewController: UIViewController {
             if (self.type == "teacher") { // 선생님 계정이라면
                 if (Auth.auth().currentUser?.email != nil) {
                     emailVerificationCheckBtn.isHidden = true
-                    //                    HomeStudentScrollView.isHidden = false
                     HomeStudentIconLabel.text = "등록된 학생이 없습니다."
                     HomeStudentIconSecondLabel.text = "등록된 학생이 없습니다."
                     HomeStudentIconThirdLabel.text = "등록된 학생이 없습니다."
@@ -128,11 +128,14 @@ class HomeViewController: UIViewController {
     
     // 내 수업 가져오기
     func setMyClasses() {
-        
         // 데이터베이스에서 학생 리스트 가져오기
+        self.HomeStudentIconLabel.text = ""
+        self.HomeStudentIconSecondLabel.text = ""
+        self.HomeStudentIconThirdLabel.text = ""
+        
         let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
         // Date field가 현재 날짜와 동일한 도큐먼트 모두 가져오기
-        docRef.whereField("circleColor", isEqualTo: "A80101").getDocuments() { (querySnapshot, err) in
+        docRef.whereField("index", isEqualTo: 0).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -140,11 +143,13 @@ class HomeViewController: UIViewController {
                     print("\(document.documentID) => \(document.data())")
                     // 사용할 것들 가져와서 지역 변수로 저장
                     self.HomeStudentIconLabel.text = document.data()["name"] as? String ?? ""
+                    self.firstLinkBtn.isHidden = false
+                    self.HomeStudentIconLabel.isHidden = false
                 }
             }
         }
         
-        docRef.whereField("circleColor", isEqualTo: "FFCB00").getDocuments() { (querySnapshot, err) in
+        docRef.whereField("index", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -152,11 +157,13 @@ class HomeViewController: UIViewController {
                     print("\(document.documentID) => \(document.data())")
                     // 사용할 것들 가져와서 지역 변수로 저장
                     self.HomeStudentIconSecondLabel.text = document.data()["name"] as? String ?? ""
+                    self.secondLinkBtn.isHidden = false
+                    self.HomeStudentIconSecondLabel.isHidden = false
                 }
             }
         }
         
-        docRef.whereField("circleColor", isEqualTo: "13203E").getDocuments() { (querySnapshot, err) in
+        docRef.whereField("index", isEqualTo: 3).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -164,8 +171,25 @@ class HomeViewController: UIViewController {
                     print("\(document.documentID) => \(document.data())")
                     // 사용할 것들 가져와서 지역 변수로 저장
                     self.HomeStudentIconThirdLabel.text = document.data()["name"] as? String ?? ""
+                    self.thirdLinkBtn.isHidden = false
+                    self.HomeStudentIconThirdLabel.isHidden = false
                 }
             }
+        }
+        
+        if (self.HomeStudentIconLabel.text == "" || self.HomeStudentIconLabel.text == "Name Label") {
+            self.firstLinkBtn.isHidden = true
+            self.HomeStudentIconLabel.isHidden = true
+        }
+        
+        if (self.HomeStudentIconSecondLabel.text == "" || self.HomeStudentIconSecondLabel.text == "Name Label") {
+            self.secondLinkBtn.isHidden = true
+            self.HomeStudentIconSecondLabel.isHidden = true
+        }
+        
+        if (self.HomeStudentIconThirdLabel.text == "" || self.HomeStudentIconThirdLabel.text == "Name Label") {
+            self.thirdLinkBtn.isHidden = true
+            self.HomeStudentIconThirdLabel.isHidden = true
         }
     }
     
@@ -192,9 +216,6 @@ class HomeViewController: UIViewController {
                         email = document.data()["email"] as? String ?? ""
                         subject = document.data()["subject"] as? String ?? ""
                     }
-                    
-                    print ("name in HomeVC : \(name)")
-                    print ("email in HomeVC : \(email)")
                     
                     detailClassVC.modalPresentationStyle = .fullScreen
                     detailClassVC.modalTransitionStyle = .crossDissolve
