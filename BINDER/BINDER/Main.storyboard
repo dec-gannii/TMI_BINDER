@@ -458,7 +458,7 @@ Cg
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6hK-hH-1Po">
                                                 <rect key="frame" x="0.0" y="0.0" width="650" height="319"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j0Y-xB-UtO">
+                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j0Y-xB-UtO">
                                                         <rect key="frame" x="230" y="15" width="200" height="289"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="200" id="jD3-a7-AgN"/>
@@ -469,7 +469,7 @@ Cg
                                                             <backgroundConfiguration key="background" image="StudentLinkBtn"/>
                                                         </buttonConfiguration>
                                                         <connections>
-                                                            <action selector="Button2Clicked:" destination="H0V-Ou-VbF" eventType="touchUpInside" id="I56-J8-IDA"/>
+                                                            <action selector="ButtonClicked:" destination="H0V-Ou-VbF" eventType="touchUpInside" id="rj4-A5-luP"/>
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hL-0N-aVe">
@@ -478,7 +478,7 @@ Cg
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9w5-Cz-D4p">
+                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9w5-Cz-D4p">
                                                         <rect key="frame" x="440" y="15" width="200" height="289"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="200" id="lfT-Hq-g5c"/>
@@ -489,7 +489,7 @@ Cg
                                                             <backgroundConfiguration key="background" image="StudentLinkBtn"/>
                                                         </buttonConfiguration>
                                                         <connections>
-                                                            <action selector="Button3Clicked:" destination="H0V-Ou-VbF" eventType="touchUpInside" id="7YD-XM-9Hx"/>
+                                                            <action selector="ButtonClicked:" destination="H0V-Ou-VbF" eventType="touchUpInside" id="6Jj-T4-V5T"/>
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8r-GD-8g8">

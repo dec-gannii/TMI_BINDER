@@ -104,22 +104,16 @@ class HomeViewController: UIViewController {
         if (!verified) {
             stateLabel.text = "작성한 이메일로 인증을 진행해주세요."
             emailVerificationCheckBtn.isHidden = false
-            HomeStudentIconLabel.text = "인증되지 않은 계정입니다."
-            HomeStudentIconSecondLabel.text = "인증되지 않은 계정입니다."
-            HomeStudentIconThirdLabel.text = "인증되지 않은 계정입니다."
         } else {
             // 인증되었고,
             if (self.type == "teacher") { // 선생님 계정이라면
                 if (Auth.auth().currentUser?.email != nil) {
                     emailVerificationCheckBtn.isHidden = true
-                    HomeStudentIconLabel.text = "등록된 학생이 없습니다."
-                    HomeStudentIconSecondLabel.text = "등록된 학생이 없습니다."
-                    HomeStudentIconThirdLabel.text = "등록된 학생이 없습니다."
+                    HomeStudentScrollView.isHidden = true
                 }
             } else {
                 // 학생 계정이라면
                 if (Auth.auth().currentUser?.email != nil) {
-                    calendarView.isHidden = false
                     emailVerificationCheckBtn.isHidden = true
                 }
             }
@@ -200,120 +194,94 @@ class HomeViewController: UIViewController {
         var btnIndex = 0
         let type = "teacher"
         
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
+        let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
         
         guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
         
-        if let name = self.HomeStudentIconLabel.text {
-            docRef.whereField("name", isEqualTo: name).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("clicked : \(document.documentID) => \(document.data())")
-                        // 사용할 것들 가져와서 지역 변수로 저장
-                        btnIndex = document.data()["index"] as? Int ?? 0
-                        email = document.data()["email"] as? String ?? ""
-                        subject = document.data()["subject"] as? String ?? ""
+        if ((sender as AnyObject).tag == 0) {
+            if let name = self.HomeStudentIconLabel.text {
+                docRef.whereField("name", isEqualTo: name).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            // 사용할 것들 가져와서 지역 변수로 저장
+                            btnIndex = document.data()["index"] as? Int ?? 0
+                            email = document.data()["email"] as? String ?? ""
+                            subject = document.data()["subject"] as? String ?? ""
+                        }
+                        // 학생의 이름 데이터 넘겨주기
+                        detailClassVC.userName = name
+                        detailClassVC.userSubject = subject
+                        detailClassVC.userEmail = email
+                        detailClassVC.userIndex = btnIndex
+                        detailClassVC.userType = type
+                        
+                        detailClassVC.modalPresentationStyle = .fullScreen
+                        detailClassVC.modalTransitionStyle = .crossDissolve
+                        
+                        self.present(detailClassVC, animated: true, completion: nil)
                     }
-                    
-                    detailClassVC.modalPresentationStyle = .fullScreen
-                    detailClassVC.modalTransitionStyle = .crossDissolve
-                    // 학생의 이름 데이터 넘겨주기
-                    detailClassVC.userName = name
-                    detailClassVC.userSubject = subject
-                    detailClassVC.userEmail = email
-                    detailClassVC.userIndex = btnIndex
-                    detailClassVC.userType = type
-                    
-                    self.present(detailClassVC, animated: true, completion: nil)
+                }
+            }
+        } else if ((sender as AnyObject).tag == 1) {
+            if let name = self.HomeStudentIconSecondLabel.text {
+                docRef.whereField("name", isEqualTo: name).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            print("clicked : \(document.documentID) => \(document.data())")
+                            // 사용할 것들 가져와서 지역 변수로 저장
+                            btnIndex = document.data()["index"] as? Int ?? 0
+                            email = document.data()["email"] as? String ?? ""
+                            subject = document.data()["subject"] as? String ?? ""
+                        }
+                        // 학생의 이름 데이터 넘겨주기
+                        detailClassVC.userName = name
+                        detailClassVC.userSubject = subject
+                        detailClassVC.userEmail = email
+                        detailClassVC.userIndex = btnIndex
+                        detailClassVC.userType = type
+                        
+                        detailClassVC.modalPresentationStyle = .fullScreen
+                        detailClassVC.modalTransitionStyle = .crossDissolve
+                        
+                        self.present(detailClassVC, animated: true, completion: nil)
+                    }
+                }
+            }
+        } else if ((sender as AnyObject).tag == 2) {
+            if let name = self.HomeStudentIconThirdLabel.text {
+                docRef.whereField("name", isEqualTo: name).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            print("clicked : \(document.documentID) => \(document.data())")
+                            // 사용할 것들 가져와서 지역 변수로 저장
+                            btnIndex = document.data()["index"] as? Int ?? 0
+                            email = document.data()["email"] as? String ?? ""
+                            subject = document.data()["subject"] as? String ?? ""
+                        }
+                        // 학생의 이름 데이터 넘겨주기
+                        detailClassVC.userName = name
+                        detailClassVC.userSubject = subject
+                        detailClassVC.userEmail = email
+                        detailClassVC.userIndex = btnIndex
+                        detailClassVC.userType = type
+                        
+                        detailClassVC.modalPresentationStyle = .fullScreen
+                        detailClassVC.modalTransitionStyle = .crossDissolve
+                        
+                        self.present(detailClassVC, animated: true, completion: nil)
+                    }
                 }
             }
         }
-    }
-    
-    @IBAction func Button2Clicked(_ sender: Any) {
-        // 데이터베이스 경로
-        var email = ""
-        var subject = ""
-        var btnIndex = 0
-        let type = "teacher"
         
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
         
-        guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
-        
-        if let name = self.HomeStudentIconSecondLabel.text {
-            docRef.whereField("name", isEqualTo: name).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("clicked : \(document.documentID) => \(document.data())")
-                        // 사용할 것들 가져와서 지역 변수로 저장
-                        btnIndex = document.data()["index"] as? Int ?? 0
-                        email = document.data()["email"] as? String ?? ""
-                        subject = document.data()["subject"] as? String ?? ""
-                    }
-                    
-                    print ("name in HomeVC : \(name)")
-                    print ("email in HomeVC : \(email)")
-                    
-                    detailClassVC.modalPresentationStyle = .fullScreen
-                    detailClassVC.modalTransitionStyle = .crossDissolve
-                    // 학생의 이름 데이터 넘겨주기
-                    detailClassVC.userName = name
-                    detailClassVC.userSubject = subject
-                    detailClassVC.userEmail = email
-                    detailClassVC.userIndex = btnIndex
-                    detailClassVC.userType = type
-                    
-                    self.present(detailClassVC, animated: true, completion: nil)
-                }
-            }
-        }
-    }
-    
-    @IBAction func Button3Clicked(_ sender: Any) {
-        // 데이터베이스 경로
-        var email = ""
-        var subject = ""
-        var btnIndex = 0
-        let type = "teacher"
-        
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
-        
-        guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
-        
-        if let name = self.HomeStudentIconThirdLabel.text {
-            docRef.whereField("name", isEqualTo: name).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("clicked : \(document.documentID) => \(document.data())")
-                        // 사용할 것들 가져와서 지역 변수로 저장
-                        btnIndex = document.data()["index"] as? Int ?? 0
-                        email = document.data()["email"] as? String ?? ""
-                        subject = document.data()["subject"] as? String ?? ""
-                    }
-                    
-                    print ("name in HomeVC : \(name)")
-                    print ("email in HomeVC : \(email)")
-                    
-                    detailClassVC.modalPresentationStyle = .fullScreen
-                    detailClassVC.modalTransitionStyle = .crossDissolve
-                    // 학생의 이름 데이터 넘겨주기
-                    detailClassVC.userName = name
-                    detailClassVC.userSubject = subject
-                    detailClassVC.userEmail = email
-                    detailClassVC.userIndex = btnIndex
-                    detailClassVC.userType = type
-                    
-                    self.present(detailClassVC, animated: true, completion: nil)
-                }
-            }
-        }
     }
     
     func getTeacherInfo(){
