@@ -394,7 +394,7 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         guard let scheduleListVC = self.storyboard?.instantiateViewController(withIdentifier: "ScheduleListViewController") as? ScheduleListViewController else { return }
         // 데이터베이스의 Count document에서 count 정보를 받아서 전달
 //        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(dateFormatter.string(from: date))
-        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("schedule").document(dateFormatter.string(from: date)).collection("scheduleList").document("Count").addSnapshotListener { documentSnapshot, error in
+        self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(dateFormatter.string(from: date)).collection("scheduleList").document("Count").addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return
@@ -412,6 +412,7 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         
         // 날짜 데이터 넘겨주기
         scheduleListVC.date = dateFormatter.string(from: date)
+        scheduleListVC.type = self.type
         scheduleListVC.modalPresentationStyle = .fullScreen
         self.present(scheduleListVC, animated: true, completion: nil)
     }
