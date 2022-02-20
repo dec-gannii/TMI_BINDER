@@ -32,19 +32,19 @@ class QuestionViewController: BaseVC {
     }
     
     func getUserInfo(){
-//        LoginRepository.shared.doLogin {
-//            self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
-//            self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
-//
-//            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-//            //            let url = Auth.auth().currentUser?.photoURL
-//            self.teacherImage.kf.setImage(with: url)
-//            self.teacherImage.makeCircle()
-//
-//            self.setQuestionroom()
-//        } failure: { error in
-//            self.showDefaultAlert(msg: "")
-//        }
+        //        LoginRepository.shared.doLogin {
+        //            self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
+        //            self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
+        //
+        //            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+        //            //            let url = Auth.auth().currentUser?.photoURL
+        //            self.teacherImage.kf.setImage(with: url)
+        //            self.teacherImage.makeCircle()
+        //
+        //            self.setQuestionroom()
+        //        } failure: { error in
+        //            self.showDefaultAlert(msg: "")
+        //        }
         let db = Firestore.firestore()
         db.collection("teacher").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -123,7 +123,6 @@ class QuestionViewController: BaseVC {
         /// 클로저, 리스너
     }
     
-    
     /// 질문방 내용 세팅
     // 내 수업 가져오기
     func setQuestionroom() {
@@ -135,6 +134,46 @@ class QuestionViewController: BaseVC {
             } else {
                 /// nil이 아닌지 확인한다.
                 guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                    
+                    db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print(">>>>> document 에러 : \(err)")
+                            self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
+                        } else {
+                            /// nil이 아닌지 확인한다.
+                            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                
+                                return
+                            }
+                            
+                            /// 조회하기 위해 원래 있던 것 들 다 지움
+                            self.questionItems.removeAll()
+                            
+                            
+                            for document in snapshot.documents {
+                                print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                                
+                                /// document.data()를 통해서 값 받아옴, data는 dictionary
+                                let classDt = document.data()
+                                
+                                self.type = "student"
+                                /// nil값 처리
+                                let name = classDt["name"] as? String ?? ""
+                                let subject = classDt["subject"] as? String ?? ""
+                                let classColor = classDt["circleColor"] as? String ?? "026700"
+                                let email = classDt["email"] as? String ?? ""
+                                
+                                let item = QuestionItem(studentName : name, subjectName : subject, classColor: classColor, email: email)
+                                
+                                /// 모든 값을 더한다.
+                                self.questionItems.append(item)
+                            }
+                            
+                            /// UITableView를 reload 하기
+                            self.questionTV.reloadData()
+                        }
+                    }
+                    
                     return
                 }
                 
@@ -164,7 +203,6 @@ class QuestionViewController: BaseVC {
             }
         }
     }
-    
 }
 
 
@@ -183,7 +221,11 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "question")! as! QuestionTableViewCell
         
         let item:QuestionItem = questionItems[indexPath.row]
-        cell.studentName.text = "\(item.studentName) 학생"
+        if (self.type == "teacher") {
+            cell.studentName.text = "\(item.studentName) 학생"
+        } else {
+            cell.studentName.text = "\(item.studentName) 선생님"
+        }
         cell.subjectName.text = item.subjectName
         //print(item.subjectName)
         cell.classColor.allRoundSmall()
