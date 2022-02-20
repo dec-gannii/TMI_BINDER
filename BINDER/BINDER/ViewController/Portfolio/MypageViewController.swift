@@ -41,17 +41,19 @@ class MyPageViewController: BaseVC {
                     self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
                     self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
                     
-                    let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-                    // photoURL 있는 경우
-//                    let url = Auth.auth().currentUser?.photoURL
-//                    print (url)
+                    var url: URL
+                    if let photoUrl = Auth.auth().currentUser?.photoURL {
+                        url = photoUrl
+                    } else {
+                        url = URL(string: LoginRepository.shared.teacherItem!.profile)!
+                    }
+                    
                     self.imageView.kf.setImage(with: url)
                     self.imageView.makeCircle()
                     
                 } failure: { error in
                     self.showDefaultAlert(msg: "")
                 }
-//                print("Document data: \(dataDescription)")
             } else {
                 docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
                 docRef.getDocument { (document, error) in
@@ -61,7 +63,18 @@ class MyPageViewController: BaseVC {
                         self.nameLabel.text = "\(userName) 학생"
                         let userEmail = data?["Email"] as? String ?? ""
                         self.teacherEmail.text = userEmail
-                        let url = Auth.auth().currentUser?.photoURL
+                        let profile =  data?["Profile"] as? String ?? ""
+                        
+                        var url: URL
+                        if let photoUrl = Auth.auth().currentUser?.photoURL {
+                            url = photoUrl
+                        } else {
+                            url = URL(string: profile)!
+                        }
+                        
+                        self.imageView.kf.setImage(with: url)
+                        self.imageView.makeCircle()
+//                        let url = Auth.auth().currentUser?.photoURL
                         
                         self.portfolioPageView.isHidden = true
                     } else {
