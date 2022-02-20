@@ -59,7 +59,7 @@ class QuestionViewController: BaseVC {
                 } else {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        let type = document.data()["Type"] as? String ?? ""
+                        let type = document.data()["type"] as? String ?? ""
                         self.type = type
                         
                         self.setTeacherInfo()
@@ -77,7 +77,7 @@ class QuestionViewController: BaseVC {
                 } else {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        let type = document.data()["Type"] as? String ?? ""
+                        let type = document.data()["type"] as? String ?? ""
                         self.type = type
                         
                         self.setStudentInfo()
@@ -225,11 +225,13 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "question")! as! QuestionTableViewCell
         
         let item:QuestionItem = questionItems[indexPath.row]
+        
         if (self.type == "teacher") {
             cell.studentName.text = "\(item.studentName) 학생"
         } else {
             cell.studentName.text = "\(item.studentName) 선생님"
         }
+        
         cell.subjectName.text = item.subjectName
         //print(item.subjectName)
         cell.classColor.allRoundSmall()
