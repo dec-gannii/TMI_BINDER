@@ -3590,7 +3590,7 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="정보 수정을 위해 비밀번호 확인이 필요합니다!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cK0-fn-bCp">
-                                <rect key="frame" x="30" y="318" width="364" height="64.5"/>
+                                <rect key="frame" x="30" y="158" width="364" height="64.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
                                 <color key="textColor" red="0.047058823530000002" green="0.066666666669999999" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -3609,7 +3609,7 @@ Cg
                                 </items>
                             </navigationBar>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="현재 비밀번호를 입력해주세요." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Vs-BU-l1S">
-                                <rect key="frame" x="20" y="407.5" width="374" height="50"/>
+                                <rect key="frame" x="20" y="352.5" width="374" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="qdn-GD-nml"/>
                                 </constraints>
@@ -3617,7 +3617,7 @@ Cg
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5H-S7-5hB">
-                                <rect key="frame" x="20" y="487.5" width="374" height="50"/>
+                                <rect key="frame" x="20" y="432.5" width="374" height="50"/>
                                 <color key="backgroundColor" red="0.047058823530000002" green="0.066666666669999999" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="UnN-Rl-F4w"/>
@@ -3632,8 +3632,8 @@ Cg
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2rM-0L-Ehl">
-                                <rect key="frame" x="20" y="545.5" width="374" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="20" y="490.5" width="374" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -3641,7 +3641,7 @@ Cg
                         <viewLayoutGuide key="safeArea" id="phN-cj-WHC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="cK0-fn-bCp" firstAttribute="top" secondItem="8qW-6y-h0l" secondAttribute="bottom" constant="230" id="Egg-ZA-T7N"/>
+                            <constraint firstItem="cK0-fn-bCp" firstAttribute="top" secondItem="8qW-6y-h0l" secondAttribute="bottom" constant="70" id="Egg-ZA-T7N"/>
                             <constraint firstItem="c5H-S7-5hB" firstAttribute="leading" secondItem="phN-cj-WHC" secondAttribute="leading" constant="20" id="KIa-y9-Uqc"/>
                             <constraint firstItem="7Vs-BU-l1S" firstAttribute="leading" secondItem="phN-cj-WHC" secondAttribute="leading" constant="20" id="KjT-WU-noJ"/>
                             <constraint firstItem="phN-cj-WHC" firstAttribute="trailing" secondItem="cK0-fn-bCp" secondAttribute="trailing" constant="20" id="Oz3-oY-At3"/>
@@ -3655,7 +3655,7 @@ Cg
                             <constraint firstItem="c5H-S7-5hB" firstAttribute="top" secondItem="7Vs-BU-l1S" secondAttribute="bottom" constant="30" id="hhN-XF-mIe"/>
                             <constraint firstItem="cK0-fn-bCp" firstAttribute="leading" secondItem="phN-cj-WHC" secondAttribute="leading" constant="30" id="u3v-J8-An5"/>
                             <constraint firstItem="2rM-0L-Ehl" firstAttribute="top" secondItem="c5H-S7-5hB" secondAttribute="bottom" constant="8" id="yKk-R5-8LY"/>
-                            <constraint firstItem="7Vs-BU-l1S" firstAttribute="top" secondItem="cK0-fn-bCp" secondAttribute="bottom" constant="25" id="zlX-mK-AVd"/>
+                            <constraint firstItem="7Vs-BU-l1S" firstAttribute="top" secondItem="cK0-fn-bCp" secondAttribute="bottom" constant="130" id="zlX-mK-AVd"/>
                         </constraints>
                     </view>
                     <connections>
@@ -3757,7 +3757,6 @@ Cg
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="agH-d2-jgR">
                                         <rect key="frame" x="0.0" y="0.0" width="162" height="50"/>
-                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="취소" cornerStyle="small">
