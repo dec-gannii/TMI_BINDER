@@ -353,7 +353,90 @@ class DetailClassViewController: UIViewController {
             self.testScoreTextField.text = ""
             self.evaluationMemoTextView.text = ""
         }
-        evaluationView.isHidden = true
+        
+        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                var currentCnt = data?["currentCnt"] as? Int ?? 0
+                let subject = data?["subject"] as? String ?? "" // 과목
+                
+                self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        let name =  data?["name"] as? String ?? "" // 선생님 이름
+                        let email = data?["email"] as? String ?? "" // 선생님 이메일
+                        
+                        self.db.collection("student").whereField("email", isEqualTo: self.userEmail!).getDocuments() { (querySnapshot, err) in
+                            if let err = err { // 학생 이메일이랑 같으면
+                                print("Error getting documents: \(err)")
+                            } else {
+                                for document in querySnapshot!.documents {
+                                    print("\(document.documentID) => \(document.data())")
+                                    // 사용할 것들 가져와서 지역 변수로 저장
+                                    let uid = document.data()["uid"] as? String ?? "" // 학생 uid
+                                    print ("uid : \(uid), name : \(name), email : \(email), subject : \(subject)")
+                                    self.db.collection("student").document(uid).collection("class").document(name + "(" + email + ") " + subject).getDocument { (document, error) in
+                                        if let document = document, document.exists {
+                                            let data = document.data()
+                                            var currentCnt = data?["currentCnt"] as? Int ?? 0
+                                            
+                                            print ("currentCnt : \(currentCnt)")
+                                            
+                                            if (currentCnt+1 >= 8) {
+                                                currentCnt = currentCnt % 8
+                                                self.db.collection("student").document(uid).collection("class").document(name + "(" + email + ") " + self.userSubject).updateData([
+                                                    "currentCnt": currentCnt + 1
+                                                ]) { err in
+                                                    if let err = err {
+                                                        print("Error adding document: \(err)")
+                                                    }
+                                                }
+                                            } else {
+                                                self.db.collection("student").document(uid).collection("class").document(name + "(" + email + ") " + self.userSubject).updateData([
+                                                    "currentCnt": currentCnt + 1
+                                                ]) { err in
+                                                    if let err = err {
+                                                        print("Error adding document: \(err)")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                }
+                
+                if (currentCnt+1 >= 8) {
+                    currentCnt = currentCnt % 8
+                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                        "currentCnt": currentCnt + 1
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                } else {
+                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                        "currentCnt": currentCnt + 1
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                }
+                
+                
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+        
+        self.evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
     }
     
