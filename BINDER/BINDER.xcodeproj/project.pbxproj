@@ -198,6 +198,7 @@
 		6942598C275DE907003E0997 /* cells */ = {
 			isa = PBXGroup;
 			children = (
+				691A7BA1276460C6003DCB05 /* Todocell.swift */,
 				7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */,
 				6965DE73275DEF320072C16A /* CardTableViewCell.swift */,
 				6965DE74275DEF320072C16A /* PlusTableViewCell.swift */,
@@ -237,7 +238,6 @@
 				7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */,
 				69EE72AA275D05C2007F6F7C /* GraphViewController.swift */,
 				69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */,
-				691A7BA1276460C6003DCB05 /* Todocell.swift */,
 			);
 			path = Grape;
 			sourceTree = "<group>";

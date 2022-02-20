@@ -53,15 +53,15 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         // 데이터베이스에서 일정 리스트 가져오기
         let docRef = self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date)
         // Date field가 현재 날짜와 동일한 도큐먼트 모두 가져오기
-        docRef.whereField("Date", isEqualTo: self.date).getDocuments() { (querySnapshot, err) in
+        docRef.whereField("date", isEqualTo: self.date).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
                     // 사용할 것들 가져와서 지역 변수로 저장
-                    let scheduleTitle = document.data()["Title"] as? String ?? ""
-                    let scheduleMemo = document.data()["Memo"] as? String ?? ""
+                    let scheduleTitle = document.data()["title"] as? String ?? ""
+                    let scheduleMemo = document.data()["memo"] as? String ?? ""
                     
                     if (!self.scheduleTitles.contains(scheduleTitle)) {
                         // 여러 개의 일정이 있을 수 있으므로 가져와서 배열에 저장

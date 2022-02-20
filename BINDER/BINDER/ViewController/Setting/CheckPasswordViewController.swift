@@ -30,13 +30,13 @@ class CheckPasswordViewController: UIViewController {
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                self.currentPW = data?["Password"] as? String ?? ""
+                self.currentPW = data?["password"] as? String ?? ""
             } else {
                 docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
                 docRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
-                        self.currentPW = data?["Password"] as? String ?? ""
+                        self.currentPW = data?["password"] as? String ?? ""
                     } else {
                         print("Document does not exist")
                     }

@@ -26,7 +26,6 @@ class MyPageViewController: BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         openPortfolioSwitch.onTintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
         getUserInfo()
         getPortfolioShow()
@@ -59,11 +58,11 @@ class MyPageViewController: BaseVC {
                 docRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
-                        let userName = data?["Name"] as? String ?? ""
+                        let userName = data?["name"] as? String ?? ""
                         self.nameLabel.text = "\(userName) 학생"
-                        let userEmail = data?["Email"] as? String ?? ""
+                        let userEmail = data?["email"] as? String ?? ""
                         self.teacherEmail.text = userEmail
-                        let profile =  data?["Profile"] as? String ?? ""
+                        let profile =  data?["profile"] as? String ?? ""
                         
                         var url: URL
                         if let photoUrl = Auth.auth().currentUser?.photoURL {
@@ -74,7 +73,7 @@ class MyPageViewController: BaseVC {
                         
                         self.imageView.kf.setImage(with: url)
                         self.imageView.makeCircle()
-//                        let url = Auth.auth().currentUser?.photoURL
+                        //                        let url = Auth.auth().currentUser?.photoURL
                         
                         self.portfolioPageView.isHidden = true
                     } else {
@@ -152,11 +151,6 @@ class MyPageViewController: BaseVC {
             loginVC.isLogouted = true
             
             self.present(loginVC, animated: true, completion: nil)
-//            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
-//            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-//            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-//
-//            self.present(loginVC!, animated: true, completion: nil)
         }
     }
     

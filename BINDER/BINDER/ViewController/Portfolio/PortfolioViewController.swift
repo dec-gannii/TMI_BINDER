@@ -50,7 +50,6 @@ class PortfolioViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("viewWillAppear")
         viewRound()
         getUserInfo()
         getPortfoiloInfo()
@@ -81,14 +80,14 @@ class PortfolioViewController: UIViewController {
     func getUserInfo(){
         studentListView.setNeedsDisplay()
         if (isShowMode == true) {
-            self.db.collection("teacher").whereField("Email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
+            self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")
                 } else {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        self.teacherName.text = document.data()["Name"] as? String ?? ""
-                        self.teacherEmail.text = document.data()["Email"] as? String ?? ""
+                        self.teacherName.text = document.data()["name"] as? String ?? ""
+                        self.teacherEmail.text = document.data()["email"] as? String ?? ""
                     }
                 }
             }
@@ -99,10 +98,10 @@ class PortfolioViewController: UIViewController {
                     let data = document.data()
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                     
-                    let name = data?["Name"] as? String ?? ""
+                    let name = data?["name"] as? String ?? ""
                     self.teacherName.text = name
                     
-                    let email = data?["Email"] as? String ?? ""
+                    let email = data?["email"] as? String ?? ""
                     self.teacherEmail.text = email
                     
                     print("Document data: \(dataDescription)")
@@ -142,13 +141,13 @@ class PortfolioViewController: UIViewController {
             }
         } else {
             var teacherUid = ""
-            self.db.collection("teacher").whereField("Email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
+            self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")
                 } else {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        teacherUid = document.data()["Uid"] as? String ?? ""
+                        teacherUid = document.data()["uid"] as? String ?? ""
                         self.db.collection("teacher").document(teacherUid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
                             if let document = document, document.exists {
                                 let data = document.data()

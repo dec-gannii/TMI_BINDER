@@ -16,11 +16,9 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var pwTextField: UITextField!
-    //    @IBOutlet weak var ageTextField: UITextField!
     @IBOutlet weak var nameAlertLabel: UILabel!
     @IBOutlet weak var emailAlertLabel: UILabel!
     @IBOutlet weak var pwAlertLabel: UILabel!
-    //    @IBOutlet weak var ageAlertLabel: UILabel!
     
     static var number : Int = 1
     var verified : Bool = false
@@ -52,12 +50,12 @@ class SignInViewController: UIViewController {
         
         // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
         db.collection("\(type)").document(Auth.auth().currentUser!.uid).setData([
-            "Name": name,
-            "Email": email,
-            "Password": password,
-            "Type": type,
-            "Uid": Auth.auth().currentUser?.uid,
-            "Profile": Auth.auth().currentUser?.photoURL?.absoluteString
+            "name": name,
+            "email": email,
+            "password": password,
+            "type": type,
+            "uid": Auth.auth().currentUser?.uid,
+            "profile": Auth.auth().currentUser?.photoURL?.absoluteString
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
