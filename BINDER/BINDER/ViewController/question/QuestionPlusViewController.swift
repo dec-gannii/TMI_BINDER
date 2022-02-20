@@ -26,6 +26,12 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var questionName: UITextField!
     
     var studyMemo = "0"
+    var file_name:String!
+    var name:String!
+    
+    var captureImage: UIImage!
+    var videoURL: URL!
+    var flagImageSave = false
     
     override func viewDidLoad() {
         
@@ -57,6 +63,25 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
             textView.text = "질문 내용을 작성해주세요."
             textView.textColor = UIColor.lightGray
         }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // 미디어 종류 확인
+        let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! NSString
+       
+        // 미디어 종류가 사진(Image)일 경우
+        if mediaType.isEqual(to: kUTTypeImage as NSString as String){
+            
+            // 사진을 가져와 captureImage에 저장
+            captureImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+            
+            if flagImageSave { // flagImageSave가 true이면
+                // 사진을 포토 라이브러리에 저장
+                UIImageWriteToSavedPhotosAlbum(captureImage, self, nil, nil)
+            }
+            imageView.image = captureImage // 가져온 사진을 이미지 뷰에 출력
+        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func selectImage(_ sender: UIButton) {
@@ -102,6 +127,7 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
             }
         }
         actionSheet.addAction(action_gallery)
+        actionSheet.addAction(action_camera)
         
         present(actionSheet, animated: true, completion: nil)
     }
@@ -120,41 +146,52 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         }
             print("이미지 있음")
         
-        guard let name = questionName.text else {
-            let textalertVC = UIAlertController(title: "알림", message: "질문의 위치를 작성해주세요", preferredStyle: .alert)
+        name = questionName.text
+        studyMemo = textView.text!
+        
+        if name == "" || studyMemo == "질문 내용을 작성해주세요." {
+            let textalertVC = UIAlertController(title: "알림", message: "질문의 위치 또는 질문 내용을 작성해주세요", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             textalertVC.addAction(okAction)
             self.present(textalertVC, animated: true, completion: nil)
             print("제목 없음")
-            return
         }
-        print("제목 작성 완료")
-        studyMemo = textView.text!
-        
-        if let data = image.pngData(){
-            debugPrint(data)
-            db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document("\(name)").setData([
-                 "url":data
-             ]) { err in
-                 if let err = err {
-                     print("Error adding document: \(err)")
-                 }
-             }
-        }
-        
-        if studyMemo == "질문 내용을 작성해주세요."{
-            textView.text = "질문 내용을 작성해주세요."
+        else {
             
-        } else {
-            // 데이터 저장
-            db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document("\(name)").updateData([
-                 "question": studyMemo
-             ]) { err in
-                 if let err = err {
-                     print("Error adding document: \(err)")
-                 }
-             }
+            print("제목 작성 완료")
+            
+            if let data = image.pngData(){
+                let urlRef = storageRef.child("image/\(file_name!).png")
+                
+                let metadata = StorageMetadata()
+                metadata.contentType = "image/png"
+                let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                        guard let metadata = metadata else {
+                            return
+                        }
+                
+                    urlRef.downloadURL { (url, error) in
+                        guard let downloadURL = url else {
+                            return
+                        }
+                        self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).setData([
+                            "url":"\(downloadURL)",
+                             "title":self.name,
+                             "question": self.studyMemo
+                         ]) { err in
+                             if let err = err {
+                                 print("Error adding document: \(err)")
+                             }
+                         }
+                    }
+                }
+            }
+            
+            if let preVC = self.presentingViewController as? UIViewController {
+                preVC.dismiss(animated: true, completion: nil)
+            }
         }
+        
     }
 }
 
@@ -183,6 +220,11 @@ extension QuestionPlusViewController: UIImagePickerControllerDelegate,UINavigati
         guard let selectedImage = info[.originalImage] as? UIImage else {
             return
         }
+        
+        if let url = info[.imageURL] as? URL {
+            file_name = (url.lastPathComponent as NSString).deletingPathExtension
+        }
+        
         imageView.image = selectedImage
     }
 }

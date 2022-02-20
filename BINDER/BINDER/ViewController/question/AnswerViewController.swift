@@ -20,6 +20,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     
     let storage = Storage.storage()
     var storageRef:StorageReference!
+    var name:String!
     
     @IBOutlet var imgView: UIImageView!
     @IBOutlet weak var textView: UITextView!
@@ -106,6 +107,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
             }
         }
         actionSheet.addAction(action_gallery)
+        actionSheet.addAction(action_video)
         
         present(actionSheet, animated: true, completion: nil)
     }
@@ -174,6 +176,8 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     UISaveVideoAtPathToSavedPhotosAlbum(videoURL.relativePath, self, nil, nil)
                 }
             }
+            
+            
             // 현재의 뷰 컨트롤러를 제거. 즉, 뷰에서 이미지 피커 화면을 제거하여 초기 뷰를 보여줌
             self.dismiss(animated: true, completion: nil)
         }
@@ -196,7 +200,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     @IBAction func btnAnswer(_ sender: Any) {
         print("upload")
         guard let image = imgView.image else {
-            let alertVC = UIAlertController(title: "알림", message: "이미지를 선택하고 업로드 기능을 실행하세요", preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "알림", message: "이미지 또는 영상을 선택하고 업로드 기능을 실행하세요", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alertVC.addAction(okAction)
             self.present(alertVC, animated: true, completion: nil)
@@ -206,7 +210,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
             print("이미지 있음")
         if let data = image.pngData(){
             debugPrint(data)
-            db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document("answer").setData([
+            db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                  "url":data
              ]) { err in
                  if let err = err {
@@ -221,7 +225,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
             
         } else {
             // 데이터 저장
-            db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document("answer").setData([
+            db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                  "answer": answer
              ]) { err in
                  if let err = err {
