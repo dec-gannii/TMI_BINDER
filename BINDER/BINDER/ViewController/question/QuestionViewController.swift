@@ -46,7 +46,7 @@ class QuestionViewController: BaseVC {
         //            self.showDefaultAlert(msg: "")
         //        }
         let db = Firestore.firestore()
-        db.collection("teacher").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
             } else {
@@ -64,7 +64,7 @@ class QuestionViewController: BaseVC {
             }
         }
         
-        db.collection("student").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
             } else {
