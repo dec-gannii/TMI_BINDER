@@ -37,13 +37,13 @@ class LoginRepository {
                                 return
                             }
                             let studnentDt = doc.data()!
-                            let age = studnentDt["Age"] as? Int ?? 0
-                            let email = studnentDt["Email"] as? String ?? ""
-                            let name = studnentDt["Name"] as? String ?? ""
-                            let password = studnentDt["Password"] as? String ?? ""
-                            let phone = studnentDt["Phone"] as? String ?? ""
-                            let profile = studnentDt["Profile"] as? String ?? ""
-                            let goal = studnentDt["Goal"] as? String ?? ""
+                            let age = studnentDt["age"] as? Int ?? 0
+                            let email = studnentDt["email"] as? String ?? ""
+                            let name = studnentDt["name"] as? String ?? ""
+                            let password = studnentDt["password"] as? String ?? ""
+                            let phone = studnentDt["phone"] as? String ?? ""
+                            let profile = studnentDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                            let goal = studnentDt["goal"] as? String ?? ""
                             self.studentItem = StudentItem(age: age, email: email, goal: goal, name: name, password: password, phone: phone, profile: profile)
                             
                             /// 성공 알림
@@ -55,12 +55,12 @@ class LoginRepository {
                 }
                 
                 let teacherDt = doc.data()!
-                let age = teacherDt["Age"] as? Int ?? 0
-                let email = teacherDt["Email"] as? String ?? ""
-                let name = teacherDt["Name"] as? String ?? ""
-                let password = teacherDt["Password"] as? String ?? ""
-                let phone = teacherDt["Phone"] as? String ?? ""
-                let profile = teacherDt["Profile"] as? String ?? ""
+                let age = teacherDt["age"] as? Int ?? 0
+                let email = teacherDt["email"] as? String ?? ""
+                let name = teacherDt["name"] as? String ?? ""
+                let password = teacherDt["password"] as? String ?? ""
+                let phone = teacherDt["phone"] as? String ?? ""
+                let profile = teacherDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                 self.teacherItem = TeacherItem(age: age, email: email, name: name, password: password, phone: phone, profile: profile)
                 
                 /// 성공 알림

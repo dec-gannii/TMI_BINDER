@@ -21,4 +21,5 @@ target 'BINDER' do
   
   # 파이어베이스
   pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
 end

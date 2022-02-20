@@ -22,16 +22,6 @@ class MyClassVC: BaseVC{
     /// 학생 리스트
     @IBOutlet weak var studentTV: UITableView!
     
-    
-    //    @IBOutlet weak var manageClassBtn: UIButton!
-    
-    
-    //    @IBOutlet weak var addBtn: UIImageView!
-    
-    
-    //    @IBOutlet weak var addView: UIView!
-    
-    
     /// 수업 변수 배열
     var classItems: [ClassItem] = []
     var type = ""
@@ -57,7 +47,6 @@ class MyClassVC: BaseVC{
         if let resultVC = segue.destination as? AddStudentVC {
             resultVC.delegate = self
         }
-        
     }
     
     // MARK: - 기능
@@ -65,7 +54,7 @@ class MyClassVC: BaseVC{
     /// 유저 정보 가져오기
     func getUserInfo() {
         let db = Firestore.firestore()
-        db.collection("teacher").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
             } else {
@@ -74,18 +63,16 @@ class MyClassVC: BaseVC{
                 } else {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        let type = document.data()["Type"] as? String ?? ""
+                        let type = document.data()["type"] as? String ?? ""
                         self.type = type
                         
                         self.setTeacherInfo()
-                        
-                        print ("type : \(type)")
                     }
                 }
             }
         }
         
-        db.collection("student").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
             } else {
@@ -94,12 +81,10 @@ class MyClassVC: BaseVC{
                 } else {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        let type = document.data()["Type"] as? String ?? ""
+                        let type = document.data()["type"] as? String ?? ""
                         self.type = type
                         
                         self.setStudentInfo()
-                        
-                        print ("type : \(type)")
                     }
                 }
             }
@@ -113,8 +98,13 @@ class MyClassVC: BaseVC{
             self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
-            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-            //            let url = Auth.auth().currentUser?.photoURL
+            var url: URL
+            if let photoUrl = Auth.auth().currentUser?.photoURL {
+                url = photoUrl
+            } else {
+                url = URL(string: LoginRepository.shared.teacherItem!.profile)!
+            }
+            
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             
@@ -133,8 +123,13 @@ class MyClassVC: BaseVC{
             self.teacherName.text = "\(LoginRepository.shared.studentItem!.name) 학생"
             self.teacherEmail.text = LoginRepository.shared.studentItem!.email
             
-            let url = URL(string: LoginRepository.shared.studentItem!.profile)
-            //                        let url = Auth.auth().currentUser?.photoURL
+            var url: URL
+            if let photoUrl = Auth.auth().currentUser?.photoURL {
+                url = photoUrl
+            } else {
+                url = URL(string: LoginRepository.shared.studentItem!.profile)!
+            }
+            
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             
@@ -260,18 +255,15 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if indexPath.row == classItems.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
             
-            if (self.type == "teacher") {
-                print ("my type is \(self.type)")
-                //                let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
+            if (type == "teacher") {
                 cell.isHidden = false
             } else {
-                //                let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
                 cell.isHidden = true
             }
+            
             return cell
             
         } else {
@@ -282,6 +274,7 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             if (self.type == "teacher") {
                 cell.studentName.text = "\(item.name) 학생 "
                 cell.manageBtn.titleLabel!.text = "수업 관리하기"
+                
             } else {
                 cell.studentName.text = "\(item.name) 선생님 "
                 cell.manageBtn.titleLabel!.text = "수업 확인하기"
@@ -308,7 +301,6 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     /// 수업관리하기 버튼 클릭
     /// - Parameter sender: 버튼
     @IBAction func onClickManageButton(_ sender: UIButton) {
-        //        let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController")
         var index: Int!
         var name: String!
         var email: String!
@@ -344,17 +336,14 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
                     let studentDt = snapshot.documents.first!.data()
                     
                     if (self.type == "teacher") {
-                        //                        let studentDt = snapshot.documents.first!.data()
                         index = studentDt["index"] as? Int ?? 0
                         name = studentDt["name"] as? String ?? ""
-                        //                        email = studentDt["email"] as? String ?? ""
                         subject = studentDt["subject"] as? String ?? ""
                         type = "teacher"
                     } else if (self.type == "student") {
                         let teacherDt = snapshot.documents.first!.data()
                         index = teacherDt["index"] as? Int ?? 0
                         name = teacherDt["name"] as? String ?? ""
-                        //                        email = teacherDt["email"] as? String ?? ""
                         type = "student"
                         subject = teacherDt["subject"] as? String ?? ""
                     }
@@ -365,20 +354,6 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
                     weekendVC.userName = name
                     weekendVC.userType = type
                     weekendVC.userSubject = subject
-                    
-                    //                    let studentDt = snapshot.documents.first!.data()
-                    //                    index = studentDt["index"] as? Int ?? 0
-                    //                    let name = studentDt["name"] as? String ?? ""
-                    //                    let email = studentDt["email"] as? String ?? ""
-                    //                    let type = "student"
-                    //                    //                    print ("index : \(index)")
-                    //                    weekendVC.userIndex = index
-                    //                    weekendVC.userEmail = email
-                    //                    weekendVC.userName = name
-                    //                    weekendVC.userType = type
-                    //                    if (self.type == "student") {
-                    //                        weekendVC.userEmail = self.studentEmail
-                    //                    }
                     
                     self.present(weekendVC, animated: true, completion: nil)
                 }

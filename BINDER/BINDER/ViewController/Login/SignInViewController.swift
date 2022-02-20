@@ -16,11 +16,9 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var pwTextField: UITextField!
-    //    @IBOutlet weak var ageTextField: UITextField!
     @IBOutlet weak var nameAlertLabel: UILabel!
     @IBOutlet weak var emailAlertLabel: UILabel!
     @IBOutlet weak var pwAlertLabel: UILabel!
-    //    @IBOutlet weak var ageAlertLabel: UILabel!
     
     static var number : Int = 1
     var verified : Bool = false
@@ -37,7 +35,7 @@ class SignInViewController: UIViewController {
         pwAlertLabel.isHidden = true
         emailAlertLabel.isHidden = true
         
-        if (isGoogleSignIn == true) {
+        if (isGoogleSignIn == true && self.type != "parent") {
             emailTextField.text = Auth.auth().currentUser?.email
             nameTextField.text = Auth.auth().currentUser?.displayName
             pwTextField.placeholder = "이메일로 전송된 링크에서 변경한 비밀번호를 입력해주세요."
@@ -52,12 +50,12 @@ class SignInViewController: UIViewController {
         
         // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
         db.collection("\(type)").document(Auth.auth().currentUser!.uid).setData([
-            "Name": name,
-            "Email": email,
-            "Password": password,
-            "Type": type,
-            "Uid": Auth.auth().currentUser?.uid,
-            "Profile": Auth.auth().currentUser?.photoURL?.absoluteString
+            "name": name,
+            "email": email,
+            "password": password,
+            "type": type,
+            "uid": Auth.auth().currentUser?.uid,
+            "profile": Auth.auth().currentUser?.photoURL?.absoluteString ?? "https://ifh.cc/g/Lt9Ip8.png"
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
@@ -168,7 +166,7 @@ class SignInViewController: UIViewController {
             }
             
             // 타입이 학생이라면,
-            if(type == "student" || type == "teacher"){
+            if(type == "student" || type == "teacher" || type == "parent"){
                 // 추가 정보를 입력하는 뷰로 이동
                 //                let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfo")
                 guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {

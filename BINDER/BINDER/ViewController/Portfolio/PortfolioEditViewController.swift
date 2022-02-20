@@ -56,7 +56,7 @@ class PortfolioEditViewController: UIViewController {
                 let data = document.data()
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 
-                let email = data?["Email"] as? String ?? ""
+                let email = data?["email"] as? String ?? ""
                 
                 self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").updateData([
                     "portfolioEmail": email
@@ -84,15 +84,6 @@ class PortfolioEditViewController: UIViewController {
         if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
-//        self.dismiss(animated: true, completion: nil)
-//        let portfolioVC = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioViewController")
-//
-//        portfolioVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-//        portfolioVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-//        portfolioVC?.isEditing = true
-//
-//        self.present(portfolioVC!, animated: true, completion: nil)
-        
     }
     
     @IBAction func cancelButton(_ sender: Any) {

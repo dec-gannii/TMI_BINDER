@@ -19,7 +19,7 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var pwAlertLabel: UILabel!
     @IBOutlet weak var googleLogInBtn: GIDSignInButton!
     
-    var isLogouted = false
+    var isLogouted = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,12 +36,17 @@ class LogInViewController: UIViewController {
         pwAlertLabel.isHidden = true
     }
     
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
     @IBAction func LogInBtnClicked(_ sender: Any) {
         self.pwAlertLabel.isHidden = true
         self.emailAlertLabel.isHidden = true
-        print ("=== clicked ===")
+        
         guard let email = emailTextField.text, let password = pwTextField.text else { return }
-        print ("email : " + email + "pw : " + password)
+        
         // 로그인 수행 시, 에러 발생하면 띄울 alert
         Auth.auth().signIn(withEmail: email, password: password) { (authResult, error) in
             if let error = error as? NSError {
@@ -144,9 +149,7 @@ extension LogInViewController: GIDSignInDelegate {
                     //아니면 종료
                     return
                 }
-                //                if (Auth.auth().currentUser?.isEmailVerified == true){
-                //                    TypeSelectVC.verified = true
-                //                } else { TypeSelectVC.verified = false }
+                
                 //화면전환
                 
                 if ((Auth.auth().currentUser) != nil) {
@@ -155,10 +158,11 @@ extension LogInViewController: GIDSignInDelegate {
                         //아니면 종료
                         return
                     }
-                    //        GIDSignIn.sharedInstance()?.signIn()
+                    
                     if (Auth.auth().currentUser?.isEmailVerified == true){
                         homeVC.verified = true
                     } else { homeVC.verified = false }
+                    
                     //화면전환
                     guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
                         //아니면 종료
@@ -180,17 +184,12 @@ extension LogInViewController: GIDSignInDelegate {
                     self.present(tb, animated: true, completion: nil)
                     
                     self.isLogouted = false
-//                    homeVC.verified = true
-//                    homeVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-//                    homeVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-//                    self.present(homeVC, animated: true)
                 } else {
                     TypeSelectVC.isGoogleSignIn = true
                     TypeSelectVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                     TypeSelectVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
                     self.present(TypeSelectVC, animated: true)
                 }
-                
             }
         }
     }
