@@ -198,6 +198,7 @@
 		6942598C275DE907003E0997 /* cells */ = {
 			isa = PBXGroup;
 			children = (
+				7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */,
 				6965DE73275DEF320072C16A /* CardTableViewCell.swift */,
 				6965DE74275DEF320072C16A /* PlusTableViewCell.swift */,
 				6FF28C092766135000D3BDE9 /* QuestionTableViewCell.swift */,
@@ -244,6 +245,7 @@
 		69EE72B0275D119C007F6F7C /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
+				7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */,
 				69EE72B1275D11C2007F6F7C /* MypageViewController.swift */,
 				69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */,
 				6912805E276398EB00712739 /* PortfolioEditViewController.swift */,
@@ -306,6 +308,8 @@
 		7F16D15B2749467000745522 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				7FAC9E5327C21414005BDFB2 /* Setting */,
+				7FAC9E5227C213D1005BDFB2 /* Schedule */,
 				6922197B27C13CCE00A03788 /* question */,
 				6FA5E4CE2767843400C879AF /* utils */,
 				6942598E275DE915003E0997 /* models */,
@@ -320,17 +324,29 @@
 				69EE72B0275D119C007F6F7C /* Portfolio */,
 				69EE72A9275D05B0007F6F7C /* Grape */,
 				7F16D159274941ED00745522 /* HomeViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		7FAC9E5227C213D1005BDFB2 /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
 				7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */,
 				7F8CC8F9275BB29E00BE195D /* ScheduleListViewController.swift */,
-				7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */,
-				7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
+		7FAC9E5327C21414005BDFB2 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
 				7F6E5E4A27B2C00000292601 /* SettingViewController.swift */,
 				7F6E5E4C27B2C3ED00292601 /* CheckPasswordViewController.swift */,
 				7F7818E727B3AE2600241655 /* EditInfoViewController.swift */,
 				7F63AB6E27B4E3620081ED49 /* TermViewController.swift */,
 				7FA6B7D527C0C67100BFEBDA /* SecessionViewController.swift */,
 			);
-			path = ViewController;
+			path = Setting;
 			sourceTree = "<group>";
 		};
 		839068290A7852076C3D8CCB /* Pods */ = {
