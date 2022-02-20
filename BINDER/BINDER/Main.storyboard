@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7Oi-nm-qsH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vQb-Mw-hEt">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -3254,7 +3254,7 @@ Cg
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="question" rowHeight="309" id="I1T-Ms-bMR" userLabel="imageCell" customClass="QuestionListTableViewImageCell" customModule="BINDER" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="imageCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="question" rowHeight="309" id="I1T-Ms-bMR" userLabel="imageCell" customClass="QuestionListTableViewImageCell" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="44.5" width="414" height="309"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="I1T-Ms-bMR" id="QN8-1g-6LK">
@@ -3337,7 +3337,7 @@ Cg
                                                     <outlet property="title" destination="P9l-Jn-zHE" id="ItH-Tw-osr"/>
                                                 </connections>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="214" id="Iou-eT-ur2" userLabel="defaultCell" customClass="QuestionListTableViewCell" customModule="BINDER" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="defaultCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="214" id="Iou-eT-ur2" userLabel="defaultCell" customClass="QuestionListTableViewCell" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="353.5" width="414" height="214"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Iou-eT-ur2" id="X6g-0z-CrP">
@@ -3424,7 +3424,7 @@ Cg
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="답변 완료만 보기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFE-1q-Nq0">
-                                <rect key="frame" x="221" y="121" width="118" height="22"/>
+                                <rect key="frame" x="217" y="121" width="118" height="22"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -3434,15 +3434,15 @@ Cg
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="oUG-60-iPh" firstAttribute="leading" secondItem="DaZ-Ba-BQ4" secondAttribute="leading" id="0Fh-AZ-ewB"/>
-                            <constraint firstItem="cFE-1q-Nq0" firstAttribute="top" secondItem="DaZ-Ba-BQ4" secondAttribute="bottom" constant="33" id="3TO-Rz-yRS"/>
+                            <constraint firstItem="oUG-60-iPh" firstAttribute="top" secondItem="cFE-1q-Nq0" secondAttribute="bottom" constant="12" id="4oI-5t-xZ4"/>
+                            <constraint firstItem="ytb-MW-7qm" firstAttribute="centerY" secondItem="cFE-1q-Nq0" secondAttribute="centerY" id="9cW-TT-jNh"/>
                             <constraint firstItem="oUG-60-iPh" firstAttribute="leading" secondItem="XeN-Ml-q3D" secondAttribute="leading" id="ARY-fq-r04"/>
-                            <constraint firstItem="cFE-1q-Nq0" firstAttribute="leading" secondItem="Vmo-D6-hlg" secondAttribute="leading" constant="221" id="FGi-qA-4r9"/>
-                            <constraint firstItem="oUG-60-iPh" firstAttribute="top" secondItem="cFE-1q-Nq0" secondAttribute="bottom" constant="12" id="M8y-bZ-hUj"/>
+                            <constraint firstItem="ytb-MW-7qm" firstAttribute="leading" secondItem="cFE-1q-Nq0" secondAttribute="trailing" constant="10" id="K3V-xT-L1F"/>
                             <constraint firstItem="Vmo-D6-hlg" firstAttribute="trailing" secondItem="ytb-MW-7qm" secondAttribute="trailing" constant="20" id="WyG-Tn-Le9"/>
+                            <constraint firstItem="ytb-MW-7qm" firstAttribute="top" secondItem="XeN-Ml-q3D" secondAttribute="top" constant="116.5" id="aUR-bH-lWa"/>
                             <constraint firstAttribute="trailing" secondItem="oUG-60-iPh" secondAttribute="trailing" id="dgR-KS-xZN"/>
                             <constraint firstItem="Vmo-D6-hlg" firstAttribute="bottom" secondItem="oUG-60-iPh" secondAttribute="bottom" constant="67" id="rrT-aJ-T8f"/>
-                            <constraint firstItem="cFE-1q-Nq0" firstAttribute="top" secondItem="XeN-Ml-q3D" secondAttribute="top" constant="121" id="u8L-hJ-dDQ"/>
-                            <constraint firstItem="ytb-MW-7qm" firstAttribute="centerY" secondItem="cFE-1q-Nq0" secondAttribute="centerY" id="xmt-Ac-wu9"/>
+                            <constraint firstItem="ytb-MW-7qm" firstAttribute="top" secondItem="DaZ-Ba-BQ4" secondAttribute="bottom" constant="28.5" id="vGQ-oa-Dnu"/>
                             <constraint firstItem="oUG-60-iPh" firstAttribute="trailing" secondItem="DaZ-Ba-BQ4" secondAttribute="trailing" id="zrp-hI-mk3"/>
                         </constraints>
                     </view>

@@ -14,12 +14,8 @@ class QuestionListViewController : BaseVC {
     // 네비게이션바
     @IBOutlet weak var navigationBar: UINavigationBar!
     
+    // 토글
     @IBOutlet weak var answeredToggle: UISwitch!
-    
-    @IBAction func stateChange(_ sender: UISwitch) {
-//        if 토글 클릭 >  return answeredCheck 테이블
-//        else return 전체 테이블뷰
-    }
     
     // 테이블 뷰 연결
     @IBOutlet weak var questionListTV: UITableView!
@@ -30,15 +26,18 @@ class QuestionListViewController : BaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setQuestionList()
-        stateChange(answeredToggle)
     }
     
     /// 질문방 내용 세팅
     // 질문 리스트 가져오기
     func setQuestionList() {
         let db = Firestore.firestore()
-        db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").getDocuments() { (querySnapshot, err) in
+        // Auth.auth().currentUser!.uid
+        //db.collection("student").getDocuments(){ (querySnapshot, err) in
+            
+        db.collection("student").document("nGGOu9nxtaPuwWF42ccC5eKwiun1").collection("questionList").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
                 self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
@@ -76,6 +75,9 @@ class QuestionListViewController : BaseVC {
     }
     
 }
+
+// MARK: - 테이블 뷰 관련
+
 extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource {
     
     /// 테이블 셀 개수
@@ -89,7 +91,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         
         let item:QuestionListItem = questionListItems[indexPath.row]
         
-        if item.imgURL == nil {     // 기본 셀일 경우
+        if item.imgURL == "" {     // 기본 셀일 경우
 
             let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
             cell.title.text = "\(item.title)"
@@ -99,7 +101,6 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                 cell.answerCheck.text = "답변 대기"
                 cell.background.backgroundColor = UIColor.init(red: 19, green: 32, blue: 62, alpha: 1)
             } else {
-                // 오류 발생 지점(부동 소숫점 오류)
                 cell.answerCheck.text = "답변 완료"
                 cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
             }

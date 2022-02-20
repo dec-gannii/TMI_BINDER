@@ -38,13 +38,13 @@
 		6FB9139927B3A1C2000154FF /* QuestionListTableViewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB9139827B3A1C2000154FF /* QuestionListTableViewImageCell.swift */; };
 		6FB9139B27B3A499000154FF /* QuestionListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB9139A27B3A499000154FF /* QuestionListTableViewCell.swift */; };
 		6FBF7BBC27B5E49300ED0144 /* QuestionListViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBF7BBB27B5E49300ED0144 /* QuestionListViewDelegate.swift */; };
+		6FE4FB2927BD376C000E16F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6FE4FB2827BD376C000E16F4 /* GoogleService-Info.plist */; };
 		6FF28C0A2766135000D3BDE9 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF28C092766135000D3BDE9 /* QuestionTableViewCell.swift */; };
 		7F16D1442749390300745522 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1432749390300745522 /* AppDelegate.swift */; };
 		7F16D1462749390300745522 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1452749390300745522 /* SceneDelegate.swift */; };
 		7F16D1482749390300745522 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1472749390300745522 /* SignInViewController.swift */; };
 		7F16D14D2749390500745522 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F16D14C2749390500745522 /* Assets.xcassets */; };
 		7F16D1502749390500745522 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F16D14E2749390500745522 /* LaunchScreen.storyboard */; };
-		7F16D1582749394500745522 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F16D1572749394500745522 /* GoogleService-Info.plist */; };
 		7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D159274941ED00745522 /* HomeViewController.swift */; };
 		7F16D16127496FC800745522 /* TypeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D16027496FC800745522 /* TypeSelectViewController.swift */; };
 		7F17FB83275BB45500834B4D /* ScheduleCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */; };
@@ -96,6 +96,7 @@
 		6FB9139827B3A1C2000154FF /* QuestionListTableViewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QuestionListTableViewImageCell.swift; path = BINDER/ViewController/models/QuestionListTableViewImageCell.swift; sourceTree = SOURCE_ROOT; };
 		6FB9139A27B3A499000154FF /* QuestionListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionListTableViewCell.swift; sourceTree = "<group>"; };
 		6FBF7BBB27B5E49300ED0144 /* QuestionListViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionListViewDelegate.swift; sourceTree = "<group>"; };
+		6FE4FB2827BD376C000E16F4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6FF28C092766135000D3BDE9 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		7F16D1402749390300745522 /* BINDER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BINDER.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F16D1432749390300745522 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,7 +105,6 @@
 		7F16D14C2749390500745522 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F16D14F2749390500745522 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F16D1512749390500745522 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7F16D1572749394500745522 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F16D159274941ED00745522 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		7F16D16027496FC800745522 /* TypeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeSelectViewController.swift; sourceTree = "<group>"; };
 		7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellTableViewCell.swift; sourceTree = "<group>"; };
@@ -273,6 +273,7 @@
 		7F16D1422749390300745522 /* BINDER */ = {
 			isa = PBXGroup;
 			children = (
+				6FE4FB2827BD376C000E16F4 /* GoogleService-Info.plist */,
 				7F16D15B2749467000745522 /* ViewController */,
 				7F16D1432749390300745522 /* AppDelegate.swift */,
 				7F716945276499CA001FD4F4 /* Main.storyboard */,
@@ -280,7 +281,6 @@
 				7F16D14C2749390500745522 /* Assets.xcassets */,
 				7F16D14E2749390500745522 /* LaunchScreen.storyboard */,
 				7F16D1512749390500745522 /* Info.plist */,
-				7F16D1572749394500745522 /* GoogleService-Info.plist */,
 			);
 			path = BINDER;
 			sourceTree = "<group>";
@@ -395,7 +395,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F16D1502749390500745522 /* LaunchScreen.storyboard in Resources */,
-				7F16D1582749394500745522 /* GoogleService-Info.plist in Resources */,
+				6FE4FB2927BD376C000E16F4 /* GoogleService-Info.plist in Resources */,
 				7F16D14D2749390500745522 /* Assets.xcassets in Resources */,
 				7F716946276499CA001FD4F4 /* Main.storyboard in Resources */,
 			);
