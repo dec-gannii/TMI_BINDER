@@ -31,7 +31,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         var captureImage: UIImage!
         var videoURL: URL!
         var flagImageSave = false
-    
+    var type:Int = 0
         var answer = "0"
 
     override func viewDidLoad() {
@@ -159,6 +159,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 
                 // 사진을 가져와 captureImage에 저장
                 captureImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+                type = 1
                 
                 if flagImageSave { // flagImageSave가 true이면
                     // 사진을 포토 라이브러리에 저장
@@ -172,6 +173,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 if flagImageSave { // flagImageSave가 true이면
                     // 촬영한 비디오를 옴
                     videoURL = (info[UIImagePickerController.InfoKey.mediaURL] as! URL)
+                    type = 2
                     // 비디오를 포토 라이브러리에 저장
                     UISaveVideoAtPathToSavedPhotosAlbum(videoURL.relativePath, self, nil, nil)
                 }
@@ -208,32 +210,52 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
             return
         }
             print("이미지 있음")
-        if let data = image.pngData(){
-            debugPrint(data)
-            db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).collection("answer").document(Auth.auth().currentUser!.uid).setData([
-                 "url":data
-             ]) { err in
-                 if let err = err {
-                     print("Error adding document: \(err)")
-                 }
-             }
-        }
         
-        answer = textView.text!
-        if answer == "답변 내용을 작성해주세요."{
-            textView.text = "답변 내용을 작성해주세요."
-            
+        answer = textView.text
+        
+        if answer == "질문 내용을 작성해주세요." {
+            let textalertVC = UIAlertController(title: "알림", message: "질문의 위치 또는 질문 내용을 작성해주세요", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            textalertVC.addAction(okAction)
+            self.present(textalertVC, animated: true, completion: nil)
+            print("제목 없음")
         } else {
-            // 데이터 저장
-            db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).collection("answer").document(Auth.auth().currentUser!.uid).setData([
-                 "answer": answer
-             ]) { err in
-                 if let err = err {
-                     print("Error adding document: \(err)")
+            if type == 1 {
+                if let data = image.pngData(){
+                    let urlRef = storageRef.child("image/\(captureImage!).png")
+                    
+                    let metadata = StorageMetadata()
+                    metadata.contentType = "image/png"
+                    let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                            guard let metadata = metadata else {
+                                return
+                            }
+                    
+                        urlRef.downloadURL { (url, error) in
+                            guard let downloadURL = url else {
+                                return
+                            }
+                            self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).setData([
+                                "url":"\(downloadURL)",
+                                "answer": self.answer
+                             ]) { err in
+                                 if let err = err {
+                                     print("Error adding document: \(err)")
+                                 }
+                             }
+                        }
+                    }
+                }
+            } else {
+                self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).setData([
+                    "url":"\(videoURL)",
+                     "answer": answer
+                 ]) { err in
+                     if let err = err {
+                         print("Error adding document: \(err)")
+                     }
                  }
-             }
+            }
         }
-        
     }
-    
 }

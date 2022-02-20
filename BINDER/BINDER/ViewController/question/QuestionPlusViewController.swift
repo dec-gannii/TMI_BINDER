@@ -118,6 +118,7 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
 
     @IBAction func uploadImage(_ sender: Any) {
         print("upload")
+        /*
         guard let image = imageView.image else {
             let alertVC = UIAlertController(title: "알림", message: "이미지를 선택하고 업로드 기능을 실행하세요", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -126,6 +127,8 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
             print("이미지 없음")
             return
         }
+         */
+        let image = imageView.image
             print("이미지 있음")
         
         name = questionName.text
@@ -142,7 +145,7 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
             
             print("제목 작성 완료")
             
-            if let data = image.pngData(){
+            if let data = image!.pngData(){
                 let urlRef = storageRef.child("image/\(file_name!).png")
                 
                 let metadata = StorageMetadata()
@@ -167,6 +170,16 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                          }
                     }
                 }
+            } else {
+                self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).setData([
+                    "url":"",
+                     "title":self.name,
+                     "question": self.studyMemo
+                 ]) { err in
+                     if let err = err {
+                         print("Error adding document: \(err)")
+                     }
+                 }
             }
             
             if let preVC = self.presentingViewController as? UIViewController {
