@@ -58,14 +58,14 @@ class EditInfoViewController: UIViewController {
             if let document = document, document.exists {
                 let data = document.data()
                 // 이름, 이메일, 학부모 인증용 비밀번호, 사용자의 타입
-                let userName = data?["Name"] as? String ?? ""
+                let userName = data?["name"] as? String ?? ""
                 self.nameTextField.text = userName
-                let userEmail = data?["Email"] as? String ?? ""
+                let userEmail = data?["email"] as? String ?? ""
                 self.emailLabel.text = userEmail
                 let parentPW = data?["parentPW"] as? String ?? ""
                 self.parentPassword.text = parentPW
-                self.type = data?["Type"] as? String ?? ""
-                self.currentPW = data?["Password"] as? String ?? ""
+                self.type = data?["type"] as? String ?? ""
+                self.currentPW = data?["password"] as? String ?? ""
             } else {
                 // 현재 사용자에 해당하는 선생님 문서가 없으면 학생 문서로 다시 검색
                 docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
@@ -73,12 +73,12 @@ class EditInfoViewController: UIViewController {
                 docRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
-                        let userName = data?["Name"] as? String ?? ""
+                        let userName = data?["name"] as? String ?? ""
                         self.nameTextField.text = userName
-                        let userEmail = data?["Email"] as? String ?? ""
+                        let userEmail = data?["email"] as? String ?? ""
                         self.emailLabel.text = userEmail
-                        self.type = data?["Type"] as? String ?? ""
-                        self.currentPW = data?["Password"] as? String ?? ""
+                        self.type = data?["type"] as? String ?? ""
+                        self.currentPW = data?["password"] as? String ?? ""
                         self.parentPassword.isHidden = true
                         self.parentPasswordLabel.isHidden = true
                     } else {
@@ -95,8 +95,8 @@ class EditInfoViewController: UIViewController {
         
         // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
         db.collection("\(self.type)").document(Auth.auth().currentUser!.uid).updateData([
-            "Name": name,
-            "Password": password,
+            "name": name,
+            "password": password,
             "parentPW": parentPW
         ]) { err in
             if let err = err {
@@ -111,8 +111,8 @@ class EditInfoViewController: UIViewController {
         
         // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
         db.collection("\(self.type)").document(Auth.auth().currentUser!.uid).updateData([
-            "Name": name,
-            "Password": password
+            "name": name,
+            "password": password
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")

@@ -8,7 +8,7 @@ import UIKit
 import Firebase
 
 class AddStudentVC: BaseVC {
-
+    
     @IBOutlet weak var emailTf: UITextField!
     
     weak var delegate: AddStudentDelegate?
@@ -53,19 +53,18 @@ class AddStudentVC: BaseVC {
                     
                     /// first : 여러개가 와도 첫번째 것만 봄.
                     let studentDt = snapshot.documents.first!.data()
-                    let age = studentDt["Age"] as? Int ?? 0
-                    let email = studentDt["Email"] as? String ?? ""
-                    let goal = studentDt["Goal"] as? String ?? ""
-                    let name = studentDt["Name"] as? String ?? ""
-                    let password = studentDt["Password"] as? String ?? ""
-                    let phone = studentDt["Phone"] as? String ?? ""
-                    let profile = studentDt["Profile"] as? String ?? ""
+                    let age = studentDt["age"] as? Int ?? 0
+                    let email = studentDt["email"] as? String ?? ""
+                    let goal = studentDt["goal"] as? String ?? ""
+                    let name = studentDt["name"] as? String ?? ""
+                    let password = studentDt["password"] as? String ?? ""
+                    let phone = studentDt["phone"] as? String ?? ""
+                    let profile = studentDt["profile"] as? String ?? ""
                     let item = StudentItem(age: age, email: email, goal: goal, name: name, password: password, phone: phone, profile: profile)
                     
                     /// 값 넘어가기
                     self.performSegue(withIdentifier: "inputClassSegue", sender: item)
                 }
-                
                 /// 변수 다시 공백으로 바꾸기
                 self.emailTf.text = ""
             }
@@ -81,5 +80,4 @@ class AddStudentVC: BaseVC {
         }
         searchStudent(email: email)
     }
-    
 }

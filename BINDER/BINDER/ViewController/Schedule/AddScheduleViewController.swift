@@ -40,13 +40,13 @@ class AddScheduleViewController: UIViewController {
                 if let document = document, document.exists {
                     self.isEditMode = true
                     let data = document.data()
-                    let memo = data?["Memo"] as? String ?? ""
+                    let memo = data?["memo"] as? String ?? ""
                     self.scheduleMemo.text = memo
-                    let place = data?["Place"] as? String ?? ""
+                    let place = data?["place"] as? String ?? ""
                     self.schedulePlace.text = place
-                    let title = data?["Title"] as? String ?? ""
+                    let title = data?["title"] as? String ?? ""
                     self.scheduleTitle.text = title
-                    let time = data?["Time"] as? String ?? ""
+                    let time = data?["time"] as? String ?? ""
                     self.scheduleTime.text = time
                 } else {
                     print("Document does not exist")
@@ -84,12 +84,12 @@ class AddScheduleViewController: UIViewController {
                 }
             }
             self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).document(scheduleTitle.text!).setData([
-                "Title": scheduleTitle.text!,
-                "Place": schedulePlace.text!,
-                "Date" : dateLabel.text!,
-                "Time": scheduleTime.text!,
-                "Memo": scheduleMemo.text!,
-                "SavedTime": current_time_string ])
+                "title": scheduleTitle.text!,
+                "place": schedulePlace.text!,
+                "date" : dateLabel.text!,
+                "time": scheduleTime.text!,
+                "memo": scheduleMemo.text!,
+                "savedTime": current_time_string ])
             { err in
                 if let err = err {
                     print("Error adding document: \(err)")
@@ -103,12 +103,12 @@ class AddScheduleViewController: UIViewController {
                 if ((scheduleTitle.text?.trimmingCharacters(in: .whitespaces)) != "") {
                     // 데이터베이스에 입력된 내용 추가
                     self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).document(scheduleTitle.text!).setData([
-                        "Title": scheduleTitle.text!,
-                        "Place": schedulePlace.text!,
-                        "Date" : dateLabel.text!,
-                        "Time": scheduleTime.text!,
-                        "Memo": scheduleMemo.text!,
-                        "SavedTime": current_time_string ])
+                        "title": scheduleTitle.text!,
+                        "place": schedulePlace.text!,
+                        "date" : dateLabel.text!,
+                        "time": scheduleTime.text!,
+                        "memo": scheduleMemo.text!,
+                        "savedTime": current_time_string ])
                     { err in
                         if let err = err {
                             print("Error adding document: \(err)")

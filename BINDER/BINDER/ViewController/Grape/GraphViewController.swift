@@ -40,8 +40,8 @@ class GraphViewController: UIViewController {
     var todos = Array<String>()
     var bRec:Bool = false
     
-//        var studentName = ""
-//        var studentEmail = ""
+    //        var studentName = ""
+    //        var studentEmail = ""
     
     /* private lazy var boardManager: BLTNItemManager = {
      
@@ -79,10 +79,7 @@ class GraphViewController: UIViewController {
             self.todoTF.placeholder = "선생님만 수정 가능합니다."
             self.todoTF.isEnabled = false
         }
-        //        days = ["3월모고","1학기중간","6월모고","1학기기말"]
-        //        scores = [68.0,88.5,70.5,90.0]
-        //        days = []
-        //        scores = []
+        
         getScores()
         
         barChartView.noDataText = "데이터가 없습니다."
@@ -100,13 +97,12 @@ class GraphViewController: UIViewController {
         var studentEmail = ""
         
         if let email = self.userEmail {
-            print ("email : \(email)")
             if (self.userType == "student") {
                 studentEmail = (Auth.auth().currentUser?.email)!
             } else {
                 studentEmail = email
             }
-            studentDocRef.whereField("Email", isEqualTo: studentEmail).getDocuments() {
+            studentDocRef.whereField("email", isEqualTo: studentEmail).getDocuments() {
                 (QuerySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -114,8 +110,7 @@ class GraphViewController: UIViewController {
                     for document in QuerySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
                         
-                        studentUid = document.data()["Uid"] as? String ?? ""
-                        print ("Uid1 : \(studentUid)")
+                        studentUid = document.data()["uid"] as? String ?? ""
                     }
                 }
                 
@@ -125,7 +120,7 @@ class GraphViewController: UIViewController {
                         let data = document.data()
                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                         let countOfScores = data?["count"] as? Int ?? 0
-                        print ("count of doc : \(countOfScores)")
+                        
                         docRef.whereField("isScore", isEqualTo: "true")
                             .getDocuments() { (querySnapshot, err) in
                                 if let err = err {
@@ -143,13 +138,11 @@ class GraphViewController: UIViewController {
                                                 self.scores.insert(score!, at: 0)
                                             } else {
                                                 for i in stride(from: 0, to: 1, by: 1) {
-                                                    print ("i : \(i)")
                                                     self.days.insert(document.data()["type"] as? String ?? "", at: i)
                                                     self.scores.insert(Double(document.data()["score"] as? String ?? "0.0")!, at: i)
                                                 }
                                             }
                                             self.setChart(dataPoints: self.days, values: self.scores)
-                                            print ("days : \(self.days) / scores : \(self.scores)")
                                         } else if (countOfScores <= 0) {
                                             self.barChartView.noDataText = "데이터가 없습니다."
                                         }
@@ -236,13 +229,12 @@ class GraphViewController: UIViewController {
     }
     
     func getTodos(){
-        //        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("todos")
         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
             if let document = document, document.exists {
                 let data = document.data()
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 self.count = data?["count"] as? Int ?? 0
-                print("count: \(self.count)")
+                
                 for i in 1...self.count {
                     self.todos.append(data?["todo\(i)"] as! String)
                 }
@@ -264,15 +256,13 @@ class GraphViewController: UIViewController {
         plusGraphVC.userEmail = self.userEmail
         plusGraphVC.userSubject = self.userSubject
         plusGraphVC.userType = "student"
-//                plusGraphVC.userName = self.studentName
-//                plusGraphVC.userEmail = self.studentEmail
-//                plusGraphVC.userType = "student"
+        
         self.present(plusGraphVC, animated: true, completion: nil)
     }
     
     func getUserInfo() {
         var docRef = self.db.collection("teacher")
-        docRef.whereField("Uid", isEqualTo: Auth.auth().currentUser?.uid)
+        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser?.uid)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -280,7 +270,7 @@ class GraphViewController: UIViewController {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
                         
-                        let type = document.data()["Type"] as? String ?? ""
+                        let type = document.data()["type"] as? String ?? ""
                         if (type == "student") {
                             self.okButton.isHidden = true
                             self.todoTF.placeholder = "선생님만 추가 가능합니다."
@@ -292,24 +282,6 @@ class GraphViewController: UIViewController {
                     }
                 }
             }
-        
-//                docRef = self.db.collection("student")
-//                docRef.whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid)
-//                    .getDocuments() { (querySnapshot, err) in
-//                        if let err = err {
-//                            print("Error getting documents: \(err)")
-//                        } else {
-//                            for document in querySnapshot!.documents {
-//                                print("here :: \(document.documentID) => \(document.data())")
-//
-//                                let studentName = document.data()["Name"] as? String ?? ""
-//                                self.studentName = studentName
-//                                let studentEmail = document.data()["Email"] as? String ?? ""
-//                                self.studentEmail = studentEmail
-//                            }
-//                        }
-//                    }
-        
     }
     /*
      
@@ -340,6 +312,7 @@ class GraphViewController: UIViewController {
      print("Did tap skip")
      }
      */
+    
     @IBAction func goHome(_ sender: Any) {
         if let preVC = self.presentingViewController as? UIViewController {
             preVC.dismiss(animated: true, completion: nil)

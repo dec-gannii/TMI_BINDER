@@ -22,16 +22,6 @@ class MyClassVC: BaseVC{
     /// 학생 리스트
     @IBOutlet weak var studentTV: UITableView!
     
-    
-    //    @IBOutlet weak var manageClassBtn: UIButton!
-    
-    
-    //    @IBOutlet weak var addBtn: UIImageView!
-    
-    
-    //    @IBOutlet weak var addView: UIView!
-    
-    
     /// 수업 변수 배열
     var classItems: [ClassItem] = []
     var type = ""
@@ -57,7 +47,6 @@ class MyClassVC: BaseVC{
         if let resultVC = segue.destination as? AddStudentVC {
             resultVC.delegate = self
         }
-        
     }
     
     // MARK: - 기능
@@ -65,7 +54,7 @@ class MyClassVC: BaseVC{
     /// 유저 정보 가져오기
     func getUserInfo() {
         let db = Firestore.firestore()
-        db.collection("teacher").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
             } else {
@@ -74,7 +63,7 @@ class MyClassVC: BaseVC{
                 } else {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        let type = document.data()["Type"] as? String ?? ""
+                        let type = document.data()["type"] as? String ?? ""
                         self.type = type
                         
                         self.setTeacherInfo()
@@ -83,7 +72,7 @@ class MyClassVC: BaseVC{
             }
         }
         
-        db.collection("student").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
             } else {
@@ -92,7 +81,7 @@ class MyClassVC: BaseVC{
                 } else {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        let type = document.data()["Type"] as? String ?? ""
+                        let type = document.data()["type"] as? String ?? ""
                         self.type = type
                         
                         self.setStudentInfo()
@@ -109,8 +98,13 @@ class MyClassVC: BaseVC{
             self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
-            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-            //            let url = Auth.auth().currentUser?.photoURL
+            var url: URL
+            if let photoUrl = Auth.auth().currentUser?.photoURL {
+                url = photoUrl
+            } else {
+                url = URL(string: LoginRepository.shared.teacherItem!.profile)!
+            }
+            
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             
@@ -129,8 +123,13 @@ class MyClassVC: BaseVC{
             self.teacherName.text = "\(LoginRepository.shared.studentItem!.name) 학생"
             self.teacherEmail.text = LoginRepository.shared.studentItem!.email
             
-            let url = URL(string: LoginRepository.shared.studentItem!.profile)
-            //                        let url = Auth.auth().currentUser?.photoURL
+            var url: URL
+            if let photoUrl = Auth.auth().currentUser?.photoURL {
+                url = photoUrl
+            } else {
+                url = URL(string: LoginRepository.shared.studentItem!.profile)!
+            }
+            
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             
@@ -260,7 +259,6 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
             
             if (type == "teacher") {
-                print ("my type is \(type)")
                 cell.isHidden = false
             } else {
                 cell.isHidden = true

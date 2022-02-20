@@ -47,7 +47,6 @@ class ClassInfoVC: BaseVC {
         
         /// 둥근 테두리 주기
         classColor.makeCircle()
-        //classColor.randomColor()
         
         if let hex = Int(classColor1, radix: 16) {
             classColor.backgroundColor = UIColor.init(rgb: hex)
@@ -224,7 +223,7 @@ extension ClassInfoVC {
         var studentUid = ""
         let db = Firestore.firestore()
         
-        db.collection("student").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments {
+        db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments {
             (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
@@ -232,7 +231,7 @@ extension ClassInfoVC {
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
-                    db.collection("student").whereField("Email", isEqualTo: "\(self.studentItem.email)").getDocuments() { (querySnapshot, err) in
+                    db.collection("student").whereField("email", isEqualTo: "\(self.studentItem.email)").getDocuments() { (querySnapshot, err) in
                         if let err = err {
                             print(">>>>> document 에러 : \(err)")
                         } else {
@@ -243,7 +242,6 @@ extension ClassInfoVC {
                                     print("\(document.documentID) => \(document.data())")
                                     studentUid = document.data()["Uid"] as? String ?? ""
                                     
-                                    print ("student UID : \(studentUid)")
                                     db.collection("student").document(studentUid).collection("class").document("\(LoginRepository.shared.teacherItem!.name)(\(LoginRepository.shared.teacherItem!.email)) " + self.subjectTextField.text!).setData([
                                         "email" : "\(LoginRepository.shared.teacherItem!.email)",
                                         "name" : "\(LoginRepository.shared.teacherItem!.name)",

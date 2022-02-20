@@ -21,7 +21,7 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     @IBOutlet weak var studyLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     
-    let study = ["3월모고","1학기중간","6월모고","1학기기말","9월모고","2학기중간","11월모고","2학기기말"]
+    let study = ["3월 모의고사","1학기 중간고사","6월 모의고사","1학기 기말고사","9월 모의고사","2학기 중간고사","11월 모의고사","2학기 기말고사"]
     var todayStudy = "0"
     var todayScore = "0"
     
@@ -29,10 +29,6 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     var userEmail = ""
     var userSubject = ""
     var userType = ""
-    
-//    var userType = ""
-//    var studentName = ""
-//    var studentEmail = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,18 +162,14 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
                     graphVC.userEmail = self.userEmail
                     graphVC.userSubject = self.userSubject
                     graphVC.userType = "student"
-//                    graphVC.studentName = self.userName
-//                    graphVC.studentEmail = self.userEmail
+                    
                     self.present(graphVC, animated: true, completion: nil)
-                    //            if let preVC = self.presentingViewController as? UIViewController {
-                    //                preVC.dismiss(animated: true, completion: nil)
-                    //            }
-                }
                 }
             }
-            
-            
-            
+        }
+        
+        
+        
     }
     
     func getScore() {
@@ -200,7 +192,6 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
                 }
             }
         self.scoreTextField.text = ""
-        
     }
     
     @IBAction func goBack(_ sender: Any) {

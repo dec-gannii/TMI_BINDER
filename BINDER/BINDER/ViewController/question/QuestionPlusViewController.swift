@@ -142,7 +142,6 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
              }
         }
         
-        
         if studyMemo == "질문 내용을 작성해주세요."{
             textView.text = "질문 내용을 작성해주세요."
             

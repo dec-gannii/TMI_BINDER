@@ -293,15 +293,15 @@ class HomeViewController: UIViewController {
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                self.name = data?["Name"] as? String ?? ""
+                self.name = data?["name"] as? String ?? ""
                 self.stateLabel.text = self.name + " 선생님 환영합니다!"
-                if (Auth.auth().currentUser?.email == (data?["Email"] as! String)) {
+                if (Auth.auth().currentUser?.email == (data?["email"] as! String)) {
                     self.type = "teacher"
                 } else {
-                    self.type = data?["Type"] as? String ?? ""
+                    self.type = data?["type"] as? String ?? ""
                 }
-                self.id = data?["Email"] as? String ?? ""
-                self.pw = data?["Password"] as? String ?? ""
+                self.id = data?["email"] as? String ?? ""
+                self.pw = data?["password"] as? String ?? ""
                 self.HomeStudentScrollView.isHidden = false
             } else {
                 print("Document does not exist")
@@ -317,14 +317,14 @@ class HomeViewController: UIViewController {
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                self.name = data?["Name"] as? String ?? ""
+                self.name = data?["name"] as? String ?? ""
                 self.stateLabel.text = self.name + " 학생 환영합니다!"
-                self.id = data?["Email"] as? String ?? ""
-                self.pw = data?["Password"] as? String ?? ""
-                if (Auth.auth().currentUser?.email == (data?["Email"] as! String)) {
+                self.id = data?["email"] as? String ?? ""
+                self.pw = data?["password"] as? String ?? ""
+                if (Auth.auth().currentUser?.email == (data?["email"] as! String)) {
                     self.type = "student"
                 } else {
-                    self.type = data?["Type"] as? String ?? ""
+                    self.type = data?["type"] as? String ?? ""
                 }
                 self.HomeStudentScrollView.isHidden = true
             } else {
@@ -402,7 +402,7 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
                 print("Document data was empty.")
                 return
             }
-            print("Current data: \(data)")
+            
             scheduleListVC.count = data["count"] as! Int
         }
         // 날짜 데이터 변수에 저장

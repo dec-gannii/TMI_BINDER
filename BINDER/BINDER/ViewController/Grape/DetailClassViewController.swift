@@ -136,7 +136,7 @@ class DetailClassViewController: UIViewController {
     // 사용자의 정보를 가져오도록 하는 메소드
     func getUserInfo() {
         var docRef = self.db.collection("teacher") // 선생님이면
-        docRef.whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
+        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -197,7 +197,7 @@ class DetailClassViewController: UIViewController {
         // 학생이면
         docRef = self.db.collection("student")
         // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
-        docRef.whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid)
+        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -205,20 +205,20 @@ class DetailClassViewController: UIViewController {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
                         
-                        let studentName = document.data()["Name"] as? String ?? ""
-                        let studentEmail = document.data()["Email"] as? String ?? ""
+                        let studentName = document.data()["name"] as? String ?? ""
+                        let studentEmail = document.data()["email"] as? String ?? ""
                         
                         let teacherDocRef = self.db.collection("teacher")
                         
                         if let email = self.userEmail { // 사용자의 이메일이 nil이 아니라면
                             // 선생님들 정보의 경로 중 이메일이 일치하는 선생님 찾기
-                            teacherDocRef.whereField("Email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                            teacherDocRef.whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
                                 if let err = err {
                                     print("Error getting documents: \(err)")
                                 } else {
                                     for document in querySnapshot!.documents {
                                         print("\(document.documentID) => \(document.data())")
-                                        let teacherUid = document.data()["Uid"] as? String ?? ""
+                                        let teacherUid = document.data()["uid"] as? String ?? ""
                                         
                                         // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
                                         self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
@@ -266,14 +266,14 @@ class DetailClassViewController: UIViewController {
             }
             
             // 학생의 정보들 중 이메일이 동일한 정보 불러오기
-            studentDocRef.whereField("Email", isEqualTo: studentEmail).getDocuments() {
+            studentDocRef.whereField("email", isEqualTo: studentEmail).getDocuments() {
                 (QuerySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
                     for document in QuerySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        studentUid = document.data()["Uid"] as? String ?? "" // 학생의 uid 변수에 저장
+                        studentUid = document.data()["uid"] as? String ?? "" // 학생의 uid 변수에 저장
                     }
                 }
                 
@@ -336,12 +336,12 @@ class DetailClassViewController: UIViewController {
     @IBAction func OKButtonClicked(_ sender: Any) {
         // 경로는 각 학생의 class의 Evaluation
         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
-            "Progress": progressTextView.text!,
-            "TestScore": Int(testScoreTextField.text!) ?? 0,
-            "HomeworkCompletion": Int(homeworkScoreTextField.text!) ?? 0,
-            "ClassAttitude": Int(classScoreTextField.text!) ?? 0,
-            "EvaluationMemo": evaluationMemoTextView.text!,
-            "EvaluationDate": self.date ?? ""
+            "progress": progressTextView.text!,
+            "testScore": Int(testScoreTextField.text!) ?? 0,
+            "homeworkCompletion": Int(homeworkScoreTextField.text!) ?? 0,
+            "classAttitude": Int(classScoreTextField.text!) ?? 0,
+            "evaluationMemo": evaluationMemoTextView.text!,
+            "evaluationDate": self.date ?? ""
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
@@ -617,31 +617,31 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
-                    self.date = data?["EvaluationDate"] as? String ?? ""
+                    self.date = data?["evaluationDate"] as? String ?? ""
                     
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                     
-                    let homeworkCompletion = data?["HomeworkCompletion"] as? Int ?? 0
+                    let homeworkCompletion = data?["homeworkCompletion"] as? Int ?? 0
                     if (homeworkCompletion == 0) {
                         self.homeworkScoreTextField.text = ""
                     } else {
                         self.homeworkScoreTextField.text = "\(homeworkCompletion)"
                     }
                     
-                    let classAttitude = data?["ClassAttitude"] as? Int ?? 0
+                    let classAttitude = data?["classAttitude"] as? Int ?? 0
                     if (classAttitude == 0) {
                         self.classScoreTextField.text = ""
                     } else {
                         self.classScoreTextField.text = "\(classAttitude)"
                     }
                     
-                    let progressText = data?["Progress"] as? String ?? ""
+                    let progressText = data?["progress"] as? String ?? ""
                     self.progressTextView.text = progressText
                     
-                    let evaluationMemo = data?["EvaluationMemo"] as? String ?? ""
+                    let evaluationMemo = data?["evaluationMemo"] as? String ?? ""
                     self.evaluationMemoTextView.text = evaluationMemo
                     
-                    let testScore = data?["TestScore"] as? Int ?? 0
+                    let testScore = data?["testScore"] as? Int ?? 0
                     if (testScore == 0) {
                         self.testScoreTextField.text = ""
                     } else {
