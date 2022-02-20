@@ -509,7 +509,6 @@ class DetailClassViewController: UIViewController {
     }
     
     @IBAction func PlusScores(_ sender: Any) {
-        
         guard let plusGraphVC = self.storyboard?.instantiateViewController(withIdentifier: "PlusGraphViewController") as? PlusGraphViewController else { return }
         
         plusGraphVC.modalTransitionStyle = .crossDissolve

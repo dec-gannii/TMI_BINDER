@@ -49,6 +49,11 @@ class PortfolioEditViewController: UIViewController {
         }
     }
     
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
     @IBAction func editButton(_ sender: Any) {
         let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
         docRef.getDocument { (document, error) in
