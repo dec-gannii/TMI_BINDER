@@ -23,6 +23,7 @@ class QuestionViewController: BaseVC {
     // 값을 넘기기 위한 Delegate
     weak var delegate: QuestionListViewDelegate?
     
+    var type = ""
     var questionItems: [QuestionItem] = []
     
     override func viewDidLoad() {
@@ -31,7 +32,61 @@ class QuestionViewController: BaseVC {
     }
     
     func getUserInfo(){
+//        LoginRepository.shared.doLogin {
+//            self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
+//            self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
+//
+//            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
+//            //            let url = Auth.auth().currentUser?.photoURL
+//            self.teacherImage.kf.setImage(with: url)
+//            self.teacherImage.makeCircle()
+//
+//            self.setQuestionroom()
+//        } failure: { error in
+//            self.showDefaultAlert(msg: "")
+//        }
+        let db = Firestore.firestore()
+        db.collection("teacher").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                if let err = err {
+                    print("Error getting documents(inMyClassView): \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let type = document.data()["Type"] as? String ?? ""
+                        self.type = type
+                        
+                        self.setTeacherInfo()
+                    }
+                }
+            }
+        }
+        
+        db.collection("student").whereField("Uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                if let err = err {
+                    print("Error getting documents(inMyClassView): \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let type = document.data()["Type"] as? String ?? ""
+                        self.type = type
+                        
+                        self.setStudentInfo()
+                    }
+                }
+            }
+        }
+    }
+    
+    /// 선생님 셋팅
+    func setTeacherInfo() {
         LoginRepository.shared.doLogin {
+            /// 가져오는 시간 걸림
             self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
@@ -40,11 +95,34 @@ class QuestionViewController: BaseVC {
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             
+            /// 클래스 가져오기
             self.setQuestionroom()
         } failure: { error in
             self.showDefaultAlert(msg: "")
         }
+        /// 클로저, 리스너
     }
+    
+    /// 학생 셋팅
+    func setStudentInfo() {
+        LoginRepository.shared.doLogin {
+            /// 가져오는 시간 걸림
+            self.teacherName.text = "\(LoginRepository.shared.studentItem!.name) 학생"
+            self.teacherEmail.text = LoginRepository.shared.studentItem!.email
+            
+            let url = URL(string: LoginRepository.shared.studentItem!.profile)
+            //                        let url = Auth.auth().currentUser?.photoURL
+            self.teacherImage.kf.setImage(with: url)
+            self.teacherImage.makeCircle()
+            
+            /// 클래스 가져오기
+            self.setQuestionroom()
+        } failure: { error in
+            self.showDefaultAlert(msg: "")
+        }
+        /// 클로저, 리스너
+    }
+    
     
     /// 질문방 내용 세팅
     // 내 수업 가져오기
