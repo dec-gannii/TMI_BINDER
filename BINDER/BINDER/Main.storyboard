@@ -4475,36 +4475,6 @@ Cg
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Hnb-X5-QQC">
-                                <rect key="frame" x="20" y="60" width="374" height="40"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFN-TM-il1">
-                                        <rect key="frame" x="0.0" y="0.0" width="177" height="40"/>
-                                        <color key="backgroundColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="이미지 가져오기">
-                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="btnLoadImageFromLibrary:" destination="89q-lm-0rn" eventType="touchUpInside" id="Jzm-bB-KJt"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jvm-kC-0sV">
-                                        <rect key="frame" x="197" y="0.0" width="177" height="40"/>
-                                        <color key="backgroundColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="영상 가져오기">
-                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="btnLoadVideoFromLibrary:" destination="89q-lm-0rn" eventType="touchUpInside" id="G8s-IP-NqI"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="ytE-eh-sU3"/>
-                                </constraints>
-                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwL-RN-xz4">
                                 <rect key="frame" x="20" y="738" width="374" height="50"/>
                                 <color key="backgroundColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -4520,13 +4490,13 @@ Cg
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oCO-ZU-9EK">
-                                <rect key="frame" x="20" y="120" width="374" height="311.5"/>
+                                <rect key="frame" x="20" y="70" width="374" height="311.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="oCO-ZU-9EK" secondAttribute="height" multiplier="3:2.5" id="Ztp-N5-0PF"/>
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wPP-K1-0bO">
-                                <rect key="frame" x="20" y="441.5" width="374" height="250"/>
+                                <rect key="frame" x="20" y="391.5" width="374" height="250"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="dWI-Gw-RTc"/>
@@ -4535,22 +4505,32 @@ Cg
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFN-TM-il1">
+                                <rect key="frame" x="20" y="689" width="54" height="39"/>
+                                <color key="tintColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="doc.text.image.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="21" scale="large" weight="semibold"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="selectImage:" destination="89q-lm-0rn" eventType="touchUpInside" id="lMu-Vu-L3K"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tkn-hG-fdG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="wPP-K1-0bO" firstAttribute="leading" secondItem="tkn-hG-fdG" secondAttribute="leading" constant="20" id="1cj-6t-n75"/>
-                            <constraint firstItem="oCO-ZU-9EK" firstAttribute="top" secondItem="Hnb-X5-QQC" secondAttribute="bottom" constant="20" id="6jQ-Nx-WXo"/>
                             <constraint firstItem="oCO-ZU-9EK" firstAttribute="leading" secondItem="tkn-hG-fdG" secondAttribute="leading" constant="20" id="6wR-5k-vnU"/>
-                            <constraint firstItem="Hnb-X5-QQC" firstAttribute="top" secondItem="tkn-hG-fdG" secondAttribute="top" constant="60" id="Inr-Dk-qI5"/>
+                            <constraint firstItem="uwL-RN-xz4" firstAttribute="top" secondItem="xFN-TM-il1" secondAttribute="bottom" constant="10" id="79U-nc-nmY"/>
                             <constraint firstItem="uwL-RN-xz4" firstAttribute="leading" secondItem="tkn-hG-fdG" secondAttribute="leading" constant="20" id="UeL-3i-Yve"/>
+                            <constraint firstItem="xFN-TM-il1" firstAttribute="leading" secondItem="tkn-hG-fdG" secondAttribute="leading" constant="20" id="bO7-Aa-HxC"/>
                             <constraint firstItem="tkn-hG-fdG" firstAttribute="bottom" secondItem="uwL-RN-xz4" secondAttribute="bottom" constant="20" id="cG0-bh-7dY"/>
                             <constraint firstItem="tkn-hG-fdG" firstAttribute="trailing" secondItem="wPP-K1-0bO" secondAttribute="trailing" constant="20" id="e8e-gU-yoa"/>
-                            <constraint firstItem="tkn-hG-fdG" firstAttribute="trailing" secondItem="Hnb-X5-QQC" secondAttribute="trailing" constant="20" id="elp-Wf-Cto"/>
                             <constraint firstItem="wPP-K1-0bO" firstAttribute="top" secondItem="oCO-ZU-9EK" secondAttribute="bottom" constant="10" id="gs9-Mn-MzZ"/>
-                            <constraint firstItem="Hnb-X5-QQC" firstAttribute="leading" secondItem="tkn-hG-fdG" secondAttribute="leading" constant="20" id="kHS-G5-41u"/>
                             <constraint firstItem="tkn-hG-fdG" firstAttribute="trailing" secondItem="oCO-ZU-9EK" secondAttribute="trailing" constant="20" id="m4s-Rd-GGU"/>
                             <constraint firstItem="tkn-hG-fdG" firstAttribute="trailing" secondItem="uwL-RN-xz4" secondAttribute="trailing" constant="20" id="vbP-dW-JTT"/>
+                            <constraint firstItem="oCO-ZU-9EK" firstAttribute="top" secondItem="tkn-hG-fdG" secondAttribute="top" constant="70" id="x0r-aI-0IF"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="O3W-15-LJP"/>

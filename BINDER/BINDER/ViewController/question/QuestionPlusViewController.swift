@@ -26,6 +26,8 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var questionName: UITextField!
     
     var studyMemo = "0"
+    var file_name :String!
+    var name:String!
     
     override func viewDidLoad() {
         
@@ -68,7 +70,7 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         actionSheet.addAction(action_cancel)
         
         //카메라 버튼 추가
-        let action_camera = UIAlertAction(title: "카메라", style: .cancel) { (action) in
+        let action_camera = UIAlertAction(title: "카메라", style: .default) { (action) in
             self.openCamera()
         }
 
@@ -120,41 +122,48 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         }
             print("이미지 있음")
         
-        guard let name = questionName.text else {
-            let textalertVC = UIAlertController(title: "알림", message: "질문의 위치를 작성해주세요", preferredStyle: .alert)
+        name = questionName.text
+        
+        if name=="" || studyMemo == "질문 내용을 작성해주세요."{
+            
+            let textalertVC = UIAlertController(title: "알림", message: "질문의 위치 또는 질문 내용을 작성해주세요", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             textalertVC.addAction(okAction)
             self.present(textalertVC, animated: true, completion: nil)
             print("제목 없음")
-            return
-        }
-        print("제목 작성 완료")
-        studyMemo = textView.text!
-        
-        if let data = image.pngData(){
-            debugPrint(data)
-            db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document("\(name)").setData([
-                 "url":data
-             ]) { err in
-                 if let err = err {
-                     print("Error adding document: \(err)")
-                 }
-             }
         }
         
-        
-        if studyMemo == "질문 내용을 작성해주세요."{
-            textView.text = "질문 내용을 작성해주세요."
+        else {
+            print("제목 작성 완료")
+            studyMemo = textView.text!
             
-        } else {
-            // 데이터 저장
-            db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document("\(name)").updateData([
-                 "question": studyMemo
-             ]) { err in
-                 if let err = err {
-                     print("Error adding document: \(err)")
-                 }
-             }
+            
+            if let data = image.pngData(){
+                let urlRef = storageRef.child("image/\(file_name!).png")
+                
+                let metadata = StorageMetadata()
+                metadata.contentType = "image/png"
+                let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                        guard let metadata = metadata else {
+                            return
+                        }
+                
+                    urlRef.downloadURL { (url, error) in
+                        guard let downloadURL = url else {
+                            return
+                        }
+                        self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document("\(self.name)").setData([
+                             "imgurl":downloadURL,
+                             "title": self.name,
+                             "questionContent": self.studyMemo
+                         ]) { err in
+                             if let err = err {
+                                 print("Error adding document: \(err)")
+                             }
+                         }
+                    }
+                }
+            }
         }
     }
 }
@@ -184,6 +193,10 @@ extension QuestionPlusViewController: UIImagePickerControllerDelegate,UINavigati
         guard let selectedImage = info[.originalImage] as? UIImage else {
             return
         }
+        if let url = info[.imageURL] as? URL {
+            file_name = (url.lastPathComponent as NSString).deletingPathExtension
+        }
+        
         imageView.image = selectedImage
     }
 }

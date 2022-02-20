@@ -63,8 +63,55 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         }
     }
     
+    @IBAction func selectImage(_ sender: UIButton) {
+        print("select")
+        
+        let actionSheet = UIAlertController(title: "사진 또는 영상 선택", message: "사진의 위치를 선택해주세요.", preferredStyle: .actionSheet)
+        // 취소 버튼 추가
+        let action_cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        actionSheet.addAction(action_cancel)
+        
+        //영상 버튼 추가
+        let action_video = UIAlertAction(title: "영상", style: .default) { (action) in
+            self.showVideo()
+        }
+
+        // 갤러리 버튼 추가
+        let action_gallery = UIAlertAction(title: "사진 앨범", style: .default) { action in
+            print("push gallery button")
+            
+            switch PHPhotoLibrary.authorizationStatus() {
+            case .authorized:
+                print("접근 가능")
+                self.showGallery()
+            case .notDetermined:
+                print("권한 요청한 적 없음")
+                PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+                }
+                
+            default:
+                let alertVC = UIAlertController(title: "권한 필요", message: "사진첩 접근 권한이 필요합니다. 설정 화면에서 설정해주세요", preferredStyle: .alert)
+                
+                let action_settings = UIAlertAction(title: "Go Settings", style: .default){
+                    action in
+                    print("go settings")
+                    if let appSettings = URL(string: UIApplication.openSettingsURLString){
+                        UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
+                    }
+                }
+                
+                alertVC.addAction(action_settings)
+                alertVC.addAction(action_cancel)
+                self.present(alertVC, animated: true, completion: nil)
+            }
+        }
+        actionSheet.addAction(action_gallery)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
     // 사진 불러오기
-        @IBAction func btnLoadImageFromLibrary(_ sender: UIButton) {
+    func showGallery() {
             
             if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
                 flagImageSave = false
@@ -84,7 +131,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         }
     
     // 비디오 불러오기
-        @IBAction func btnLoadVideoFromLibrary(_ sender: UIButton) {
+        func showVideo() {
             
             if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
                 flagImageSave = false

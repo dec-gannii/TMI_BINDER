@@ -317,14 +317,14 @@ class HomeViewController: UIViewController {
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                self.name = data?["Name"] as? String ?? ""
+                self.name = data?["name"] as? String ?? ""
                 self.stateLabel.text = self.name + " 학생 환영합니다!"
-                self.id = data?["Email"] as? String ?? ""
-                self.pw = data?["Password"] as? String ?? ""
-                if (Auth.auth().currentUser?.email == (data?["Email"] as! String)) {
+                self.id = data?["email"] as? String ?? ""
+                self.pw = data?["password"] as? String ?? ""
+                if (Auth.auth().currentUser?.email == (data?["email"] as! String)) {
                     self.type = "student"
                 } else {
-                    self.type = data?["Type"] as? String ?? ""
+                    self.type = data?["type"] as? String ?? ""
                 }
                 self.HomeStudentScrollView.isHidden = true
             } else {
