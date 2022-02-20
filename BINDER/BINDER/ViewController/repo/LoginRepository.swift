@@ -42,7 +42,7 @@ class LoginRepository {
                             let name = studnentDt["name"] as? String ?? ""
                             let password = studnentDt["password"] as? String ?? ""
                             let phone = studnentDt["phone"] as? String ?? ""
-                            let profile = studnentDt["profile"] as? String ?? ""
+                            let profile = studnentDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                             let goal = studnentDt["goal"] as? String ?? ""
                             self.studentItem = StudentItem(age: age, email: email, goal: goal, name: name, password: password, phone: phone, profile: profile)
                             
@@ -60,7 +60,7 @@ class LoginRepository {
                 let name = teacherDt["name"] as? String ?? ""
                 let password = teacherDt["password"] as? String ?? ""
                 let phone = teacherDt["phone"] as? String ?? ""
-                let profile = teacherDt["profile"] as? String ?? ""
+                let profile = teacherDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                 self.teacherItem = TeacherItem(age: age, email: email, name: name, password: password, phone: phone, profile: profile)
                 
                 /// 성공 알림

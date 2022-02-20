@@ -55,7 +55,7 @@ class SignInViewController: UIViewController {
             "password": password,
             "type": type,
             "uid": Auth.auth().currentUser?.uid,
-            "profile": Auth.auth().currentUser?.photoURL?.absoluteString
+            "profile": Auth.auth().currentUser?.photoURL?.absoluteString ?? "https://ifh.cc/g/Lt9Ip8.png"
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
