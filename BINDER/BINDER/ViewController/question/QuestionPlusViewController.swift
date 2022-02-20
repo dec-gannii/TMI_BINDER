@@ -65,24 +65,6 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        // 미디어 종류 확인
-        let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! NSString
-       
-        // 미디어 종류가 사진(Image)일 경우
-        if mediaType.isEqual(to: kUTTypeImage as NSString as String){
-            
-            // 사진을 가져와 captureImage에 저장
-            captureImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-            
-            if flagImageSave { // flagImageSave가 true이면
-                // 사진을 포토 라이브러리에 저장
-                UIImageWriteToSavedPhotosAlbum(captureImage, self, nil, nil)
-            }
-            imageView.image = captureImage // 가져온 사진을 이미지 뷰에 출력
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
     
     @IBAction func selectImage(_ sender: UIButton) {
         print("select")
