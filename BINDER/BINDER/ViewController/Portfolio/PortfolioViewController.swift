@@ -44,7 +44,6 @@ class PortfolioViewController: UIViewController {
         
         if (isShowMode == true) {
             self.editBtn.isHidden = true
-            
         } else {
             self.editBtn.isHidden = false
         }
