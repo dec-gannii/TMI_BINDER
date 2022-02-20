@@ -241,7 +241,6 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
     
     /// didDelectRowAt: 셀 전체 클릭
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
     
     /// segue를 호출할 때, 데이터를 넘기고 싶은 경우에 사용
