@@ -78,14 +78,9 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                     self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
                     self.type = "teacher"
                     
-                    var url: URL
-                    if let photoUrl = Auth.auth().currentUser?.photoURL {
-                        url = photoUrl
-                    } else {
-                        url = URL(string: LoginRepository.shared.teacherItem!.profile)!
-                    }
-                    
+                    let url = URL(string: LoginRepository.shared.teacherItem!.profile)!
                     self.imageView.kf.setImage(with: url)
+                    
                     self.imageView.makeCircle()
                     
                 } failure: { error in
@@ -103,16 +98,10 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                         let profile =  data?["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                         self.type = "student"
                         
-                        var url: URL
-                        if let photoUrl = Auth.auth().currentUser?.photoURL {
-                            url = photoUrl
-                        } else {
-                            url = URL(string: profile)!
-                        }
-                        
+                        let url = URL(string: profile)!
                         self.imageView.kf.setImage(with: url)
+                        
                         self.imageView.makeCircle()
-                        //                        let url = Auth.auth().currentUser?.photoURL
                         
                         self.portfolioPageView.isHidden = true
                     } else {
@@ -227,10 +216,10 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
             let metadata = StorageMetadata()
             metadata.contentType = "image/png"
             let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-                    guard let metadata = metadata else {
-                        return
-                    }
-            
+                guard let metadata = metadata else {
+                    return
+                }
+                
                 urlRef.downloadURL { (url, error) in
                     guard let downloadURL = url else {
                         return
@@ -238,11 +227,11 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                     
                     self.db.collection(self.type).document(Auth.auth().currentUser!.uid).updateData([
                         "profile":"\(downloadURL)",
-                     ]) { err in
-                         if let err = err {
-                             print("Error adding document: \(err)")
-                         }
-                     }
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
                     if (self.type == "teacher") {
                         LoginRepository.shared.teacherItem?.profile = "\(downloadURL)"
                     } else if (self.type == "student") {
