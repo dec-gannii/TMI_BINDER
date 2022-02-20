@@ -39,6 +39,10 @@ class MyClassVC: BaseVC{
         getUserInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        getUserInfo()
+    }
+    
     /// segue를 호출할 때, 데이터를 넘기고 싶은 경우에 사용
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -65,6 +69,15 @@ class MyClassVC: BaseVC{
                         print("\(document.documentID) => \(document.data())")
                         let type = document.data()["type"] as? String ?? ""
                         self.type = type
+                        let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                        
+                        var url: URL
+                        if let photoUrl = Auth.auth().currentUser?.photoURL {
+                            url = photoUrl
+                        } else {
+                            url = URL(string: profile)!
+                        }
+                        self.teacherImage.kf.setImage(with: url)
                         
                         self.setTeacherInfo()
                     }
@@ -83,6 +96,16 @@ class MyClassVC: BaseVC{
                         print("\(document.documentID) => \(document.data())")
                         let type = document.data()["type"] as? String ?? ""
                         self.type = type
+                        
+                        let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                        
+                        var url: URL
+                        if let photoUrl = Auth.auth().currentUser?.photoURL {
+                            url = photoUrl
+                        } else {
+                            url = URL(string: profile)!
+                        }
+                        self.teacherImage.kf.setImage(with: url)
                         
                         self.setStudentInfo()
                     }

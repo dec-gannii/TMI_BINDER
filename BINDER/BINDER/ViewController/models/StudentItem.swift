@@ -12,7 +12,7 @@ struct StudentItem: Decodable {
     let name: String
     let password: String
     let phone: String
-    let profile: String
+    var profile: String
     
     init(age: Int, email: String, goal: String, name: String, password: String, phone: String, profile: String) {
         self.age = age

@@ -105,7 +105,6 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         editScheduleVC.type = self.type
         editScheduleVC.editingTitle = scheduleTitles[indexPath.row] // 선택된 셀의 일정 제목 데이터 전달
         editScheduleVC.modalPresentationStyle = .fullScreen
-        ScheduleListUpdate.shared.isEdited = true
         self.present(editScheduleVC, animated: true, completion: nil)
     }
     

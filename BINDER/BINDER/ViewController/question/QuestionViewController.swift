@@ -31,6 +31,10 @@ class QuestionViewController: BaseVC {
         getUserInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        getUserInfo()
+    }
+    
     func getUserInfo(){
         //        LoginRepository.shared.doLogin {
         //            self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"

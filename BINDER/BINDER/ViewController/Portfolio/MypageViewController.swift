@@ -100,7 +100,7 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                         self.nameLabel.text = "\(userName) 학생"
                         let userEmail = data?["email"] as? String ?? ""
                         self.teacherEmail.text = userEmail
-                        let profile =  data?["profile"] as? String ?? ""
+                        let profile =  data?["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                         self.type = "student"
                         
                         var url: URL
@@ -243,6 +243,12 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                              print("Error adding document: \(err)")
                          }
                      }
+                    if (self.type == "teacher") {
+                        LoginRepository.shared.teacherItem?.profile = "\(downloadURL)"
+                    } else if (self.type == "student") {
+                        LoginRepository.shared.studentItem?.profile = "\(downloadURL)"
+                    }
+                    
                 }
             }
         }
