@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import Kingfisher
 
 class PortfolioViewController: UIViewController {
     
@@ -88,6 +89,9 @@ class PortfolioViewController: UIViewController {
                         print("\(document.documentID) => \(document.data())")
                         self.teacherName.text = document.data()["name"] as? String ?? ""
                         self.teacherEmail.text = document.data()["email"] as? String ?? ""
+                        let profile = document.data()["profile"] as? String ?? ""
+                        
+                        self.teacherImage.kf.setImage(with: URL(string: profile)!)
                     }
                 }
             }
@@ -103,6 +107,10 @@ class PortfolioViewController: UIViewController {
                     
                     let email = data?["email"] as? String ?? ""
                     self.teacherEmail.text = email
+                    
+                    let profile = document.data()!["profile"] as? String ?? ""
+                    
+                    self.teacherImage.kf.setImage(with: URL(string: profile)!)
                     
                     print("Document data: \(dataDescription)")
                 } else {
