@@ -240,7 +240,7 @@ extension ClassInfoVC {
                             } else {
                                 for document in querySnapshot!.documents {
                                     print("\(document.documentID) => \(document.data())")
-                                    studentUid = document.data()["Uid"] as? String ?? ""
+                                    studentUid = document.data()["uid"] as? String ?? ""
                                     
                                     db.collection("student").document(studentUid).collection("class").document("\(LoginRepository.shared.teacherItem!.name)(\(LoginRepository.shared.teacherItem!.email)) " + self.subjectTextField.text!).setData([
                                         "email" : "\(LoginRepository.shared.teacherItem!.email)",
