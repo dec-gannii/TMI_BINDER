@@ -176,7 +176,8 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                 self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).setData([
                     "url":"",
                      "title":self.name,
-                     "question": self.studyMemo
+                     "question": self.studyMemo,
+                    "answerCheck": false
                  ]) { err in
                      if let err = err {
                          print("Error adding document: \(err)")
