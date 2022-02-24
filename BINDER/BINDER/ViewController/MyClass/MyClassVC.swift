@@ -261,11 +261,11 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == classItems.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
             
-            if (type == "teacher") {
-                cell.isHidden = false
-            } else {
-                cell.isHidden = true
-            }
+//            if (type == "teacher") {
+//                cell.isHidden = false
+//            } else {
+//                cell.isHidden = true
+//            }
             
             return cell
             

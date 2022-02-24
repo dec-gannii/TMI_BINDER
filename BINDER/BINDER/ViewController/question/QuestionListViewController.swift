@@ -59,9 +59,10 @@ class QuestionListViewController : BaseVC {
                 } else {
                     for document in querySnapshot!.documents { // 문서가 있다면
                         print("\(document.documentID) => \(document.data())")
-    
+                        
                         if let index = self.index { // userIndex가 nil이 아니라면
                             // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
+                            print ("index : \(index)")
                             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
                                 .getDocuments() { (querySnapshot, err) in
                                     if let err = err {
@@ -78,21 +79,19 @@ class QuestionListViewController : BaseVC {
                                                 self.userName = name
                                                 self.email = document.data()["email"] as? String ?? ""
                                                 self.subject = document.data()["subject"] as? String ?? ""
-                                                self.index = document.data()["index"] as? Int
                                                 
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
-                                                
-                                                }
+                                                print(self.userName + "1")
                                             }
                                         }
                                     }
                                 }
                         }
                     }
-
+                }
             }
         
-    
+        
         // 학생이면
         docRef = self.db.collection("student")
         // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
@@ -121,9 +120,8 @@ class QuestionListViewController : BaseVC {
                                         
                                         // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
                                         self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() {(document, error) in
-                                           
-                                            self.questionListTV.reloadData()
                                             
+                                            self.questionListTV.reloadData()
                                         }
                                     }
                                 }
@@ -132,15 +130,15 @@ class QuestionListViewController : BaseVC {
                     }
                 }
             }
-            }
-        
+    }
+    
     /// 질문방 내용 세팅
     // 질문 리스트 가져오기
     func setQuestionList() {
         let db = Firestore.firestore()
         // Auth.auth().currentUser!.uid
         //db.collection("student").getDocuments(){ (querySnapshot, err) in
-            
+        
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
@@ -178,9 +176,9 @@ class QuestionListViewController : BaseVC {
             }
         }
     }
-    }
-    
-    
+}
+
+
 
 
 // MARK: - 테이블 뷰 관련
@@ -199,7 +197,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         let item:QuestionListItem = questionListItems[indexPath.row]
         
         if item.imgURL == "" {     // 기본 셀일 경우
-
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
             cell.title.text = "\(item.title)"
             cell.questionContent.text = "\(item.questionContent)"
@@ -211,13 +209,13 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                 cell.answerCheck.text = "답변 완료"
                 cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
             }
-                
+            
             return cell
-
+            
         } else {       // 이미지 셀일 경우
-
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
-
+            
             cell.title.text = "\(item.title)"
             cell.questionContent.text = "\(item.questionContent)"
             
@@ -231,7 +229,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                 cell.answerCheck.text = "답변 완료"
                 cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
             }
-
+            
             return cell
         }
     }

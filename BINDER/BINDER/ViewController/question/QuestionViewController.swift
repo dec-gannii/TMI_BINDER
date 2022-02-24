@@ -283,6 +283,7 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         questionListVC.subject = self.subject
         questionListVC.userName = self.userName
         questionListVC.type = self.type
+        questionListVC.index = indexPath.row
         questionListVC.questionItems = self.questionItems
         
         self.present(questionListVC, animated: true, completion: nil)
