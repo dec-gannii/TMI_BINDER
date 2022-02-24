@@ -39,6 +39,10 @@ class MyClassVC: BaseVC{
         getUserInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        getUserInfo()
+    }
+    
     /// segue를 호출할 때, 데이터를 넘기고 싶은 경우에 사용
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -65,6 +69,10 @@ class MyClassVC: BaseVC{
                         print("\(document.documentID) => \(document.data())")
                         let type = document.data()["type"] as? String ?? ""
                         self.type = type
+                        let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                        
+                        let url = URL(string: profile)!
+                        self.teacherImage.kf.setImage(with: url)
                         
                         self.setTeacherInfo()
                     }
@@ -84,6 +92,10 @@ class MyClassVC: BaseVC{
                         let type = document.data()["type"] as? String ?? ""
                         self.type = type
                         
+                        let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                        let url = URL(string: profile)!
+                        self.teacherImage.kf.setImage(with: url)
+                        
                         self.setStudentInfo()
                     }
                 }
@@ -98,12 +110,8 @@ class MyClassVC: BaseVC{
             self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
-            var url: URL
-            if let photoUrl = Auth.auth().currentUser?.photoURL {
-                url = photoUrl
-            } else {
-                url = URL(string: LoginRepository.shared.teacherItem!.profile)!
-            }
+            
+            let url = URL(string: LoginRepository.shared.teacherItem!.profile)!
             
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
@@ -123,12 +131,7 @@ class MyClassVC: BaseVC{
             self.teacherName.text = "\(LoginRepository.shared.studentItem!.name) 학생"
             self.teacherEmail.text = LoginRepository.shared.studentItem!.email
             
-            var url: URL
-            if let photoUrl = Auth.auth().currentUser?.photoURL {
-                url = photoUrl
-            } else {
-                url = URL(string: LoginRepository.shared.studentItem!.profile)!
-            }
+            let url = URL(string: LoginRepository.shared.studentItem!.profile)!
             
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()

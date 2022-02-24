@@ -39,7 +39,7 @@ class AddStudentVC: BaseVC {
     func searchStudent(email: String) {
         let db = Firestore.firestore()
         /// 입력한 이메일과 갖고있는 이메일이 같은지 확인
-        db.collection("student").whereField("Email", isEqualTo: email)
+        db.collection("student").whereField("email", isEqualTo: email)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")

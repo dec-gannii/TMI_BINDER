@@ -18,6 +18,7 @@ class ScheduleListViewController: UIViewController {
     var scheduleMemos: [String] = []
     var count: Int = 0
     var selectedTitle: String = ""
+    var type: String = ""
     
     let db = Firestore.firestore()
     
@@ -33,10 +34,15 @@ class ScheduleListViewController: UIViewController {
         scheduleListTableView.reloadData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+            scheduleListTableView.reloadData()
+    }
+    
     // 일정 추가 버튼 (+) 클릭 시 사용되는 메소드
     @IBAction func AddButtonClicked(_ sender: Any) {
         guard let addScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
         addScheduleVC.date = self.date // 날짜 정보를 넘겨주기
+        addScheduleVC.type = self.type
         addScheduleVC.modalPresentationStyle = .fullScreen
         self.present(addScheduleVC, animated: true, completion: nil)
     }
@@ -51,8 +57,10 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         let scheduleCell = scheduleListTableView.dequeueReusableCell(withIdentifier: "ScheduleCell", for: indexPath) as! ScheduleCellTableViewCell
         
         // 데이터베이스에서 일정 리스트 가져오기
-        let docRef = self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date)
+        let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList")
+        //        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date)
         // Date field가 현재 날짜와 동일한 도큐먼트 모두 가져오기
+        print (self.date)
         docRef.whereField("date", isEqualTo: self.date).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -62,6 +70,8 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
                     // 사용할 것들 가져와서 지역 변수로 저장
                     let scheduleTitle = document.data()["title"] as? String ?? ""
                     let scheduleMemo = document.data()["memo"] as? String ?? ""
+                    
+                    print ("scheduleTitle : \(scheduleTitle), scheduleMemo : \(scheduleMemo)")
                     
                     if (!self.scheduleTitles.contains(scheduleTitle)) {
                         // 여러 개의 일정이 있을 수 있으므로 가져와서 배열에 저장
@@ -92,6 +102,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         // 셀이 선택되면 수정될 수 있도록 설정
         guard let editScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
         editScheduleVC.date = self.date // 선택된 날짜 데이터 전달
+        editScheduleVC.type = self.type
         editScheduleVC.editingTitle = scheduleTitles[indexPath.row] // 선택된 셀의 일정 제목 데이터 전달
         editScheduleVC.modalPresentationStyle = .fullScreen
         self.present(editScheduleVC, animated: true, completion: nil)
@@ -104,7 +115,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let selectedTitle = scheduleTitles[indexPath.row]
         if editingStyle == .delete {
-            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document(selectedTitle).delete() { err in
+            self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(selectedTitle).delete() { err in
                 if let err = err {
                     print("Error removing document: \(err)")
                 } else {
@@ -114,7 +125,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
                 }
             }
             
-            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).getDocuments()
+            self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").getDocuments()
             {
                 (querySnapshot, err) in
                 
@@ -131,14 +142,14 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
                     }
                     
                     if (count == 1) {
-                        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": 0])
+                        self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document("Count").setData(["count": 0])
                         { err in
                             if let err = err {
                                 print("Error adding document: \(err)")
                             }
                         }
                     } else {
-                        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count-1])
+                        self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document("Count").setData(["count": count-1])
                         { err in
                             if let err = err {
                                 print("Error adding document: \(err)")

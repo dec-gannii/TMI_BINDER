@@ -21,6 +21,8 @@ class AddScheduleViewController: UIViewController {
     var date: String!
     var editingTitle: String!
     var isEditMode: Bool = false
+    var savedTime: String = ""
+    var type: String = ""
     
     let db = Firestore.firestore()
     
@@ -36,7 +38,8 @@ class AddScheduleViewController: UIViewController {
             // 버튼의 타이틀을 일정 수정하기로 변경
             self.okBtn.setTitle("일정 수정하기", for: .normal)
             // 내용이 있다는 의미이므로 데이터베이스에서 다시 받아와서 textfield의 값으로 설정
-            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document(self.editingTitle).getDocument { (document, error) in
+            
+            self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(self.editingTitle).getDocument { (document, error) in
                 if let document = document, document.exists {
                     self.isEditMode = true
                     let data = document.data()
@@ -72,18 +75,20 @@ class AddScheduleViewController: UIViewController {
         let formatter_time = DateFormatter()
         formatter_time.dateFormat = "YYYY-MM-dd HH:mm"
         let current_time_string = formatter_time.string(from: Date())
+        self.savedTime = current_time_string
         
         // 수정 모드라면,
         if (isEditMode == true) {
             // 원래 데이터베이스에 저장되어 있던 일정은 삭제하고 새롭게 수정한 내용으로 추가 후 현재 modal dismiss
-            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document(editingTitle).delete() { err in
+            self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(self.editingTitle).delete() { err in
                 if let err = err {
                     print("Error removing document: \(err)")
                 } else {
                     print("Document successfully removed!")
                 }
             }
-            self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).document(scheduleTitle.text!).setData([
+            
+            self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(scheduleTitle.text!).setData([
                 "title": scheduleTitle.text!,
                 "place": schedulePlace.text!,
                 "date" : dateLabel.text!,
@@ -102,7 +107,7 @@ class AddScheduleViewController: UIViewController {
             if (scheduleTitle.text != "") {
                 if ((scheduleTitle.text?.trimmingCharacters(in: .whitespaces)) != "") {
                     // 데이터베이스에 입력된 내용 추가
-                    self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).document(scheduleTitle.text!).setData([
+                    self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(scheduleTitle.text!).setData([
                         "title": scheduleTitle.text!,
                         "place": schedulePlace.text!,
                         "date" : dateLabel.text!,
@@ -114,9 +119,8 @@ class AddScheduleViewController: UIViewController {
                             print("Error adding document: \(err)")
                         }
                     }
-                    
                     // 존재하는 도큐먼트의 수만큼 Count에 숫자 더해주기
-                    self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(date).getDocuments()
+                    self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").getDocuments()
                     {
                         (querySnapshot, err) in
                         
@@ -135,7 +139,7 @@ class AddScheduleViewController: UIViewController {
                             // 현재 존재하는 데이터가 하나면,
                             if (count == 1) {
                                 // 1으로 저장
-                                self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count])
+                                self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document("Count").setData(["count": count])
                                 { err in
                                     if let err = err {
                                         print("Error adding document: \(err)")
@@ -144,7 +148,7 @@ class AddScheduleViewController: UIViewController {
                             } else {
                                 // 현재 존재하는 데이터들이 여러 개면, Count 도큐먼트를 포함한 것이므로
                                 // 하나를 뺀 수로 지정해서 저장해줌
-                                self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date).document("Count").setData(["count": count-1])
+                                self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document("Count").setData(["count": count-1])
                                 { err in
                                     if let err = err {
                                         print("Error adding document: \(err)")
@@ -154,8 +158,8 @@ class AddScheduleViewController: UIViewController {
                         }
                     }
                 }
+                self.dismiss(animated: true, completion: nil)
             }
-            self.dismiss(animated: true, completion: nil)
         }
     }
 }

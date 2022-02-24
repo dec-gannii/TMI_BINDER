@@ -235,7 +235,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                             guard let downloadURL = url else {
                                 return
                             }
-                            self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).setData([
+                            self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                                 "url":"\(downloadURL)",
                                 "answer": self.answer
                              ]) { err in
@@ -247,7 +247,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     }
                 }
             } else {
-                self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).setData([
+                self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                     "url":"\(videoURL)",
                      "answer": answer
                  ]) { err in
