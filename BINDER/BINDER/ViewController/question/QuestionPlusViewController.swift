@@ -110,7 +110,7 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
             }
         }
         actionSheet.addAction(action_gallery)
-        actionSheet.addAction(action_camera)
+        //actionSheet.addAction(action_camera)
         
         present(actionSheet, animated: true, completion: nil)
     }
@@ -163,7 +163,8 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                         self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).setData([
                             "url":"\(downloadURL)",
                              "title":self.name,
-                             "question": self.studyMemo
+                             "question": self.studyMemo,
+                            "answerCheck": false
                          ]) { err in
                              if let err = err {
                                  print("Error adding document: \(err)")
