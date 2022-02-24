@@ -11,6 +11,8 @@ import Firebase
 
 class QuestionListViewController : BaseVC {
     
+    let db = Firestore.firestore()
+    
     // 네비게이션바
     @IBOutlet weak var navigationBar: UINavigationBar!
     
@@ -18,13 +20,14 @@ class QuestionListViewController : BaseVC {
     @IBOutlet var backbutton: UIView!
     
     @IBAction func clickBackbutton(_ sender: Any) {
-        if let preVC = self.presentingViewController as? UIViewController {
+        if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
     
     // 토글
     @IBOutlet weak var answeredToggle: UISwitch!
+    
     
     // 테이블 뷰 연결
     @IBOutlet weak var questionListTV: UITableView!
@@ -41,22 +44,95 @@ class QuestionListViewController : BaseVC {
     var questionListItems: [QuestionListItem] = []
     
     override func viewDidLoad() {
-        navigation()
         super.viewDidLoad()
+        answeredToggle.setOn(false, animated: true)
+        getUserInfo()
         setQuestionList()
     }
     
-    func navigation() {
-        
-        if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
-            if (self.type == "student") { // 사용자가 학생이면
-                self.navigationBar.topItem!.title = self.userName + " 선생님"
-            } else { // 사용자가 학생이 아니면(선생님이면)
-                self.navigationBar.topItem!.title = self.userName + " 학생"
-            }
-        }
-    }
+    func getUserInfo() {
+        var docRef = self.db.collection("teacher") // 선생님이면
+        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents { // 문서가 있다면
+                        print("\(document.documentID) => \(document.data())")
     
+                        if let index = self.index { // userIndex가 nil이 아니라면
+                            // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
+                                .getDocuments() { (querySnapshot, err) in
+                                    if let err = err {
+                                        print(">>>>> document 에러 : \(err)")
+                                    } else {
+                                        if let err = err {
+                                            print("Error getting documents: \(err)")
+                                        } else {
+                                            for document in querySnapshot!.documents {
+                                                print("\(document.documentID) => \(document.data())")
+                                                // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
+                                                // 네비게이션 바의 이름도 설정해주기
+                                                let name = document.data()["name"] as? String ?? ""
+                                                self.userName = name
+                                                self.email = document.data()["email"] as? String ?? ""
+                                                self.subject = document.data()["subject"] as? String ?? ""
+                                                
+                                                self.navigationBar.topItem!.title = self.userName + " 학생"
+                                                print(self.userName + "1")
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                        }
+                    }
+
+            }
+        
+    
+        // 학생이면
+        docRef = self.db.collection("student")
+        // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
+        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        
+                        let studentName = document.data()["name"] as? String ?? ""
+                        let studentEmail = document.data()["email"] as? String ?? ""
+                        
+                        let teacherDocRef = self.db.collection("teacher")
+                        
+                        if let email = self.email { // 사용자의 이메일이 nil이 아니라면
+                            // 선생님들 정보의 경로 중 이메일이 일치하는 선생님 찾기
+                            teacherDocRef.whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        print("\(document.documentID) => \(document.data())")
+                                        let teacherUid = document.data()["uid"] as? String ?? ""
+                                        
+                                        // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
+                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() {(document, error) in
+                                           
+                                            self.questionListTV.reloadData()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            }
+        
     /// 질문방 내용 세팅
     // 질문 리스트 가져오기
     func setQuestionList() {
@@ -101,8 +177,10 @@ class QuestionListViewController : BaseVC {
             }
         }
     }
+    }
     
-}
+    
+
 
 // MARK: - 테이블 뷰 관련
 
