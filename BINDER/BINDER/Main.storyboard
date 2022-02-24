@@ -4432,19 +4432,45 @@ Cg
             <point key="canvasLocation" x="3567" y="1207"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="GGL-Pb-GTc">
+        <scene sceneID="cjS-ee-Xco">
             <objects>
-                <viewController id="r1G-1p-0NK" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="I3M-mO-NLz">
+                <viewController id="dIV-tI-mph" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TGX-jj-Qqx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="cTo-ey-i3X"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aKC-f7-JCM">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="김현수 학생" id="Cgk-vB-czP"/>
+                                </items>
+                            </navigationBar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X3c-eu-MgF">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i74-Wp-Z1z">
+                                        <rect key="frame" x="8" y="0.0" width="448" height="338"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                </subviews>
+                                <viewLayoutGuide key="contentLayoutGuide" id="nug-cS-9xn"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="VGd-mb-irP"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="bAr-tn-r4f"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="X3c-eu-MgF" firstAttribute="leading" secondItem="bAr-tn-r4f" secondAttribute="leading" id="S6G-7t-u06"/>
+                            <constraint firstItem="X3c-eu-MgF" firstAttribute="top" secondItem="aKC-f7-JCM" secondAttribute="bottom" id="a70-3F-uSM"/>
+                            <constraint firstItem="X3c-eu-MgF" firstAttribute="bottom" secondItem="bAr-tn-r4f" secondAttribute="bottom" id="jM2-md-eau"/>
+                            <constraint firstItem="X3c-eu-MgF" firstAttribute="trailing" secondItem="bAr-tn-r4f" secondAttribute="trailing" id="kJs-1E-qzv"/>
+                        </constraints>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kaN-2r-bSz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ydB-Fu-4gW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4234" y="1228"/>
+            <point key="canvasLocation" x="4250.7246376811599" y="1206.6964285714284"/>
         </scene>
     </scenes>
     <resources>
