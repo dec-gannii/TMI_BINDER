@@ -3144,7 +3144,7 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DaZ-Ba-BQ4">
-                                <rect key="frame" x="0.0" y="62.5" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="62.5"/>
                                 <items>
                                     <navigationItem title="김현수 학생" id="re4-Ph-Pyh">
                                         <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.backward" catalog="system" id="zTj-xs-obu" userLabel="back">
@@ -3357,6 +3357,7 @@ Cg
                             <constraint firstItem="cFE-1q-Nq0" firstAttribute="top" secondItem="DaZ-Ba-BQ4" secondAttribute="bottom" constant="15" id="U5c-Wv-3Sj"/>
                             <constraint firstItem="Vmo-D6-hlg" firstAttribute="trailing" secondItem="ytb-MW-7qm" secondAttribute="trailing" constant="20" id="WyG-Tn-Le9"/>
                             <constraint firstItem="ytb-MW-7qm" firstAttribute="top" secondItem="XeN-Ml-q3D" secondAttribute="top" constant="116.5" id="aUR-bH-lWa"/>
+                            <constraint firstItem="DaZ-Ba-BQ4" firstAttribute="top" secondItem="Vmo-D6-hlg" secondAttribute="top" id="c6n-Vg-3WF"/>
                             <constraint firstAttribute="trailing" secondItem="oUG-60-iPh" secondAttribute="trailing" id="dgR-KS-xZN"/>
                             <constraint firstItem="Vmo-D6-hlg" firstAttribute="bottom" secondItem="oUG-60-iPh" secondAttribute="bottom" constant="67" id="rrT-aJ-T8f"/>
                             <constraint firstItem="ytb-MW-7qm" firstAttribute="top" secondItem="DaZ-Ba-BQ4" secondAttribute="bottom" constant="10" id="vGQ-oa-Dnu"/>
