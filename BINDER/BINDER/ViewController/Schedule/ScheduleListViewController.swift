@@ -35,7 +35,7 @@ class ScheduleListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            scheduleListTableView.reloadData()
+        scheduleListTableView.reloadData()
     }
     
     // 일정 추가 버튼 (+) 클릭 시 사용되는 메소드
@@ -58,9 +58,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         
         // 데이터베이스에서 일정 리스트 가져오기
         let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList")
-        //        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(self.date)
         // Date field가 현재 날짜와 동일한 도큐먼트 모두 가져오기
-        print (self.date)
         docRef.whereField("date", isEqualTo: self.date).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")

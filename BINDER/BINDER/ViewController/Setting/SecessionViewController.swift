@@ -4,11 +4,11 @@
 //
 //  Created by 김가은 on 2022/02/19.
 //
+// 서비스 탈퇴 화면
 
 import UIKit
 import Firebase
 
-// 서비스 탈퇴 화면
 class SecessionViewController: UIViewController {
     let db = Firestore.firestore()
     

@@ -124,8 +124,6 @@ class ClassInfoVC: BaseVC {
     }
 }
 
-
-
 // MARK: - 클릭 이벤트
 
 extension ClassInfoVC {

@@ -86,17 +86,6 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         return count
     }
     
-//    func countOfDigit(_ number: Int) -> Int {
-//        // 숫자의 자릿수를 세는 함수
-//        var num = number
-//        var count: Int = 0
-//        while num > 0 {
-//            num /= 10
-//            count += 1
-//        }
-//        return count
-//    }
-    
     //  숫자인지를 검사하는 메소드
     func isValidPw(_ pw: Int) -> Bool {
         //         공백 검사

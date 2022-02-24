@@ -4,11 +4,12 @@
 //
 //  Created by 김가은 on 2022/02/09.
 //
+// 정보 수정 화면
 
 import UIKit
 import Firebase
 
-// 정보 수정 화면
+
 class EditInfoViewController: UIViewController {
     
     var ref: DatabaseReference!
