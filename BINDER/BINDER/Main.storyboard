@@ -3368,7 +3368,7 @@ Cg
                     <connections>
                         <outlet property="answeredToggle" destination="ytb-MW-7qm" id="Q5y-QK-av1"/>
                         <outlet property="backbutton" destination="XeN-Ml-q3D" id="ZTI-kL-EH6"/>
-                        <outlet property="navigationBar" destination="DaZ-Ba-BQ4" id="RBa-t7-4K1"/>
+                        <outlet property="navigationBar" destination="DaZ-Ba-BQ4" id="Mh7-82-h1u"/>
                         <outlet property="questionListTV" destination="Snw-Y9-T67" id="qxO-VX-a9H"/>
                     </connections>
                 </viewController>

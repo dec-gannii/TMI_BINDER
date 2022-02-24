@@ -7,7 +7,7 @@
 		<key>AppAuth.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>50</integer>
+			<integer>49</integer>
 		</dict>
 		<key>BoringSSL-GRPC.xcscheme_^#shared#^_</key>
 		<dict>
@@ -17,7 +17,7 @@
 		<key>BulletinBoard.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>48</integer>
+			<integer>47</integer>
 		</dict>
 		<key>Charts.xcscheme_^#shared#^_</key>
 		<dict>
@@ -87,7 +87,7 @@
 		<key>FirebaseCore.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>49</integer>
+			<integer>48</integer>
 		</dict>
 		<key>FirebaseCoreDiagnostics.xcscheme_^#shared#^_</key>
 		<dict>
@@ -137,7 +137,7 @@
 		<key>FirebaseGoogleAuthUI-FirebaseGoogleAuthUI.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>51</integer>
+			<integer>50</integer>
 		</dict>
 		<key>FirebaseGoogleAuthUI.xcscheme_^#shared#^_</key>
 		<dict>
@@ -152,7 +152,7 @@
 		<key>FirebaseOAuthUI-FirebaseOAuthUI.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>46</integer>
+			<integer>45</integer>
 		</dict>
 		<key>FirebaseOAuthUI.xcscheme_^#shared#^_</key>
 		<dict>
@@ -177,7 +177,7 @@
 		<key>FirebaseStorageUI.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>52</integer>
+			<integer>51</integer>
 		</dict>
 		<key>FirebaseUI.xcscheme_^#shared#^_</key>
 		<dict>
@@ -192,7 +192,7 @@
 		<key>GTMSessionFetcher.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>47</integer>
+			<integer>46</integer>
 		</dict>
 		<key>GoogleAppMeasurement.xcscheme_^#shared#^_</key>
 		<dict>
@@ -222,7 +222,7 @@
 		<key>Pods-BINDER.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>45</integer>
+			<integer>44</integer>
 		</dict>
 		<key>PromisesObjC.xcscheme_^#shared#^_</key>
 		<dict>

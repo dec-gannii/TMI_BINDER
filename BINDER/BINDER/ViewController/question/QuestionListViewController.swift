@@ -78,10 +78,10 @@ class QuestionListViewController : BaseVC {
                                                 self.userName = name
                                                 self.email = document.data()["email"] as? String ?? ""
                                                 self.subject = document.data()["subject"] as? String ?? ""
+                                                self.index = document.data()["index"] as? Int
                                                 
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
-                                                print(self.userName + "1")
-
+                                                
                                                 }
                                             }
                                         }
@@ -123,6 +123,7 @@ class QuestionListViewController : BaseVC {
                                         self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() {(document, error) in
                                            
                                             self.questionListTV.reloadData()
+                                            
                                         }
                                     }
                                 }
