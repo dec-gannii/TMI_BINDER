@@ -24,6 +24,7 @@ class SignInViewController: UIViewController {
     var verified : Bool = false
     var type : String = ""
     var ref: DatabaseReference!
+    let db = Firestore.firestore()
     var isGoogleSignIn = false
     
     override func viewDidLoad() {
@@ -41,15 +42,15 @@ class SignInViewController: UIViewController {
             pwTextField.placeholder = "이메일로 전송된 링크에서 변경한 비밀번호를 입력해주세요."
             Auth.auth().sendPasswordReset(withEmail: (Auth.auth().currentUser?.email)!)
             emailTextField.isEnabled = false
-        } 
+        }
     }
     
     // 정보 저장하는 메소드
     func saveInfo(_ number: Int, _ name: String, _ email: String, _ password: String, _ type: String){
-        let db = Firestore.firestore()
+//        let db = Firestore.firestore()
         
         // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
-        db.collection("\(type)").document(Auth.auth().currentUser!.uid).setData([
+        self.db.collection("\(type)").document(Auth.auth().currentUser!.uid).setData([
             "name": name,
             "email": email,
             "password": password,
@@ -122,10 +123,58 @@ class SignInViewController: UIViewController {
             self.present(homeVC, animated: true, completion: nil)
             
         } else {
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
-            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-            self.present(loginVC!, animated: true, completion: nil)
+            let user = Auth.auth().currentUser // 사용자 정보 가져오기
+            
+            user?.delete { error in
+                if let error = error {
+                    // An error happened.
+                    print("delete user error : \(error)")
+                } else {
+                    // Account deleted.
+                    // 선생님 학생 학부모이냐에 관계 없이 DB에 저장된 정보 삭제
+                    var docRef = self.db.collection("teacher").document(user!.uid)
+                    
+                    docRef.delete() { err in
+                        if let err = err {
+                            print("Error removing document: \(err)")
+                        } else {
+                            print("Document successfully removed!")
+                        }
+                    }
+                    
+                    docRef = self.db.collection("student").document(user!.uid)
+                    
+                    docRef.delete() { err in
+                        if let err = err {
+                            print("Error removing document: \(err)")
+                        } else {
+                            print("Document successfully removed!")
+                        }
+                    }
+                    
+                    docRef = self.db.collection("parent").document(user!.uid)
+                    
+                    docRef.delete() { err in
+                        if let err = err {
+                            print("Error removing document: \(err)")
+                        } else {
+                            print("Document successfully removed!")
+                        }
+                    }
+                }
+                
+                print("delete success, go sign in page")
+                
+                // 로그인 화면(첫화면)으로 다시 이동
+                guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
+                loginVC.modalPresentationStyle = .fullScreen
+                loginVC.modalTransitionStyle = .crossDissolve
+                self.present(loginVC, animated: true, completion: nil)
+            }
+            //            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
+            //            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+            //            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+            //            self.present(loginVC!, animated: true, completion: nil)
         }
     }
     

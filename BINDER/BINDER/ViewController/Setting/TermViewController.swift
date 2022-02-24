@@ -4,6 +4,7 @@
 //
 //  Created by 김가은 on 2022/02/10.
 //
+// 이용 약관 화면
 
 import UIKit
 

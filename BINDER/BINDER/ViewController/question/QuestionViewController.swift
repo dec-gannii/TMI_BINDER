@@ -20,10 +20,14 @@ class QuestionViewController: BaseVC {
     // 테이블 뷰 연결
     @IBOutlet weak var questionTV: UITableView!
     
-    // 값을 넘기기 위한 Delegate
-    weak var delegate: QuestionListViewDelegate?
+    let db = Firestore.firestore()
+    var docRef : CollectionReference!
     
-    var type = ""
+    // 값을 넘겨주기 위한 변수들
+    var email : String!
+    var subject : String!
+    var userName : String!
+    var type = ""       // 유저의 타입
     var questionItems: [QuestionItem] = []
     
     override func viewDidLoad() {
@@ -31,60 +35,29 @@ class QuestionViewController: BaseVC {
         getUserInfo()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        getUserInfo()
-    }
-    
+    // 상단 유저 정보 가져오기
     func getUserInfo(){
-        //        LoginRepository.shared.doLogin {
-        //            self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
-        //            self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
-        //
-        //            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-        //            //            let url = Auth.auth().currentUser?.photoURL
-        //            self.teacherImage.kf.setImage(with: url)
-        //            self.teacherImage.makeCircle()
-        //
-        //            self.setQuestionroom()
-        //        } failure: { error in
-        //            self.showDefaultAlert(msg: "")
-        //        }
+
         let db = Firestore.firestore()
-        db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        let docRef = db.collection("teacher")
+        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
-                print(">>>>> document 에러 : \(err)")
+                print(">>>>> document 에러(inQuestionVC) : \(err)")
             } else {
                 if let err = err {
-                    print("Error getting documents(inMyClassView): \(err)")
+                    print("Error getting documents(inQuestionVC): \(err)")
                 } else {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        let type = document.data()["type"] as? String ?? ""
-                        self.type = type
-                        
+                        self.type = document.data()["type"] as? String ?? ""
+                        self.email = document.data()["email"] as? String ?? ""
+                        self.userName = document.data()["name"] as? String ?? ""
                         self.setTeacherInfo()
                     }
                 }
             }
         }
         
-        db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print(">>>>> document 에러 : \(err)")
-            } else {
-                if let err = err {
-                    print("Error getting documents(inMyClassView): \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        let type = document.data()["type"] as? String ?? ""
-                        self.type = type
-                        
-                        self.setStudentInfo()
-                    }
-                }
-            }
-        }
     }
     
     /// 선생님 셋팅
@@ -95,7 +68,7 @@ class QuestionViewController: BaseVC {
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
             let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-            
+            //            let url = Auth.auth().currentUser?.photoURL
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             
@@ -115,7 +88,7 @@ class QuestionViewController: BaseVC {
             self.teacherEmail.text = LoginRepository.shared.studentItem!.email
             
             let url = URL(string: LoginRepository.shared.studentItem!.profile)
-            
+            //                        let url = Auth.auth().currentUser?.photoURL
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             
@@ -139,7 +112,7 @@ class QuestionViewController: BaseVC {
                 /// nil이 아닌지 확인한다.
                 guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                     
-                    db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+                    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
                         if let err = err {
                             print(">>>>> document 에러 : \(err)")
                             self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
@@ -160,14 +133,16 @@ class QuestionViewController: BaseVC {
                                 /// document.data()를 통해서 값 받아옴, data는 dictionary
                                 let classDt = document.data()
                                 
-                                self.type = "student"
-                                /// nil값 처리
+                                // nil 값 처리
                                 let name = classDt["name"] as? String ?? ""
+                                self.userName = name
                                 let subject = classDt["subject"] as? String ?? ""
+                                self.subject = subject
                                 let classColor = classDt["circleColor"] as? String ?? "026700"
                                 let email = classDt["email"] as? String ?? ""
+                                self.email = email
                                 
-                                let item = QuestionItem(studentName : name, subjectName : subject, classColor: classColor, email: email)
+                                let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
                                 
                                 /// 모든 값을 더한다.
                                 self.questionItems.append(item)
@@ -193,10 +168,13 @@ class QuestionViewController: BaseVC {
                     
                     /// nil값 처리
                     let name = classDt["name"] as? String ?? ""
+                    self.userName = name
                     let subject = classDt["subject"] as? String ?? ""
+                    self.subject = subject
                     let classColor = classDt["circleColor"] as? String ?? "026700"
                     let email = classDt["email"] as? String ?? ""
-                    let item = QuestionItem(studentName : name, subjectName : subject, classColor: classColor, email: email)
+                    self.email = email
+                    let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
                     
                     /// 모든 값을 더한다.
                     self.questionItems.append(item)
@@ -225,13 +203,11 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "question")! as! QuestionTableViewCell
         
         let item:QuestionItem = questionItems[indexPath.row]
-        
         if (self.type == "teacher") {
-            cell.studentName.text = "\(item.studentName) 학생"
+            cell.studentName.text = "\(item.userName) 학생"
         } else {
-            cell.studentName.text = "\(item.studentName) 선생님"
+            cell.studentName.text = "\(item.userName) 선생님"
         }
-        
         cell.subjectName.text = item.subjectName
         //print(item.subjectName)
         cell.classColor.allRoundSmall()
@@ -244,20 +220,71 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
         
     }
-    
+
     /// didDelectRowAt: 셀 전체 클릭
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-    }
-    
-    /// segue를 호출할 때, 데이터를 넘기고 싶은 경우에 사용
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        
-        // delegate 전달
-        if let resultVC = segue.destination as? QuestionListViewController {
-            //resultVC.delegate = self
+        // 사용자 구별
+        if type == "teacher" {
+            docRef = db.collection("teacher")
+        } else {
+            docRef = db.collection("student")
         }
         
+        
+        var index: Int!
+        var name: String!
+        var email: String!
+        var subject: String!
+        var type: String!
+        
+        
+        docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: indexPath.row)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                        return
+                    }
+                    
+                    guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
+                    
+                    questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                    /// first : 여러개가 와도 첫번째 것만 봄.
+                    
+                    let questionDt = snapshot.documents.first!.data()
+                    
+                    index = questionDt["index"] as? Int ?? 0
+                    name = questionDt["name"] as? String ?? ""
+                    subject = questionDt["subject"] as? String ?? ""
+                    email = questionDt["email"] as? String ?? ""
+                    type = questionDt["type"] as? String ?? ""
+                    
+                    questionVC.index = index
+                    questionVC.email = email
+                    questionVC.userName = name
+                    questionVC.type = type
+                    questionVC.subject = subject
+                    
+                    self.present(questionVC, animated: true, completion: nil)
+                }
+            }
+        
+        print("클릭됨 : \(indexPath.row)")
+        
+        guard let questionListVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
+        
+        questionListVC.modalPresentationStyle = .fullScreen
+        questionListVC.modalTransitionStyle = .crossDissolve
+        
+        questionListVC.email = self.email
+        questionListVC.subject = self.subject
+        questionListVC.userName = self.userName
+        questionListVC.type = self.type
+        questionListVC.questionItems = self.questionItems
+        
+        self.present(questionListVC, animated: true, completion: nil)
     }
 }
