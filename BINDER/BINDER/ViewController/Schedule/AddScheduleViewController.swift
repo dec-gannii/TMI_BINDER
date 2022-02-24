@@ -4,11 +4,11 @@
 //
 //  Created by 김가은 on 2021/11/23.
 //
+// 일정 추가 화면
 
 import UIKit
 import Firebase
 
-// 일정 추가 시 사용되는 뷰 컨트롤러
 class AddScheduleViewController: UIViewController {
     
     @IBOutlet weak var dateLabel: UILabel!
@@ -37,8 +37,8 @@ class AddScheduleViewController: UIViewController {
         if (self.editingTitle != nil) {
             // 버튼의 타이틀을 일정 수정하기로 변경
             self.okBtn.setTitle("일정 수정하기", for: .normal)
-            // 내용이 있다는 의미이므로 데이터베이스에서 다시 받아와서 textfield의 값으로 설정
             
+            // 내용이 있다는 의미이므로 데이터베이스에서 다시 받아와서 textfield의 값으로 설정
             self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(self.editingTitle).getDocument { (document, error) in
                 if let document = document, document.exists {
                     self.isEditMode = true

@@ -86,17 +86,6 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         return count
     }
     
-//    func countOfDigit(_ number: Int) -> Int {
-//        // 숫자의 자릿수를 세는 함수
-//        var num = number
-//        var count: Int = 0
-//        while num > 0 {
-//            num /= 10
-//            count += 1
-//        }
-//        return count
-//    }
-    
     //  숫자인지를 검사하는 메소드
     func isValidPw(_ pw: Int) -> Bool {
         //         공백 검사
@@ -156,6 +145,61 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         ageShowPicker.resignFirstResponder()
     }
     
+    @IBAction func goSignInPage(_ sender: Any) {
+        let user = Auth.auth().currentUser // 사용자 정보 가져오기
+        
+        user?.delete { error in
+            if let error = error {
+                // An error happened.
+                print("delete user error : \(error)")
+            } else {
+                // Account deleted.
+                // 선생님 학생 학부모이냐에 관계 없이 DB에 저장된 정보 삭제
+                var docRef = self.db.collection("teacher").document(user!.uid)
+                
+                docRef.delete() { err in
+                    if let err = err {
+                        print("Error removing document: \(err)")
+                    } else {
+                        print("Document successfully removed!")
+                    }
+                }
+                
+                docRef = self.db.collection("student").document(user!.uid)
+                
+                docRef.delete() { err in
+                    if let err = err {
+                        print("Error removing document: \(err)")
+                    } else {
+                        print("Document successfully removed!")
+                    }
+                }
+                
+                docRef = self.db.collection("parent").document(user!.uid)
+                
+                docRef.delete() { err in
+                    if let err = err {
+                        print("Error removing document: \(err)")
+                    } else {
+                        print("Document successfully removed!")
+                    }
+                }
+            }
+            
+            print("delete success, go sign in page")
+            
+            // 로그인 화면(첫화면)으로 다시 이동
+            guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
+            loginVC.modalPresentationStyle = .fullScreen
+            loginVC.modalTransitionStyle = .crossDissolve
+            self.present(loginVC, animated: true, completion: nil)
+        }
+        
+//            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
+//            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+//            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+//            self.present(loginVC!, animated: true, completion: nil)
+    }
     
     @IBAction func goNext(_ sender: Any) {
         phonenum = phonenumTextField.text!
