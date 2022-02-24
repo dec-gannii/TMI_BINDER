@@ -432,6 +432,7 @@ class DetailClassViewController: UIViewController {
         plusGraphVC.modalTransitionStyle = .crossDissolve
         plusGraphVC.modalPresentationStyle = .fullScreen
         
+        // 값 보내주는 역할
         plusGraphVC.userName = self.userName
         plusGraphVC.userEmail = self.userEmail
         plusGraphVC.userSubject = self.userSubject

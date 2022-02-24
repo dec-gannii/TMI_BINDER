@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vQb-Mw-hEt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7Oi-nm-qsH">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -3256,7 +3256,7 @@ Cg
         <!--QuestionListViewController-->
         <scene sceneID="yli-SR-ShX">
             <objects>
-                <viewController storyboardIdentifier="QuestionListViewController" title="QuestionListViewController" id="vQb-Mw-hEt" customClass="QuestionListViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="QuestionListViewController" storyboardIdentifier="QuestionListViewController" title="QuestionListViewController" id="vQb-Mw-hEt" customClass="QuestionListViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XeN-Ml-q3D">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3265,10 +3265,10 @@ Cg
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
                                     <navigationItem title="김현수 학생" id="re4-Ph-Pyh">
-                                        <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.backward" catalog="system" id="zTj-xs-obu">
+                                        <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.backward" catalog="system" id="zTj-xs-obu" userLabel="back">
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
-                                                <action selector="BackButtonClicked:" destination="HC5-nV-Quc" id="DDN-sn-cJS"/>
+                                                <action selector="clickBackbutton:" destination="vQb-Mw-hEt" id="2UO-jZ-Erh"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -3478,6 +3478,7 @@ Cg
                     <navigationItem key="navigationItem" id="LAf-j2-oK9"/>
                     <connections>
                         <outlet property="answeredToggle" destination="ytb-MW-7qm" id="Q5y-QK-av1"/>
+                        <outlet property="backbutton" destination="XeN-Ml-q3D" id="ZTI-kL-EH6"/>
                         <outlet property="navigationBar" destination="DaZ-Ba-BQ4" id="RBa-t7-4K1"/>
                         <outlet property="questionListTV" destination="Snw-Y9-T67" id="qxO-VX-a9H"/>
                     </connections>

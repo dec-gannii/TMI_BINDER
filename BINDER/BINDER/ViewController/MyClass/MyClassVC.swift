@@ -272,11 +272,11 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             
             let item:ClassItem = classItems[indexPath.row]
             if (self.type == "teacher") {
-                cell.studentName.text = "\(item.name) 학생 "
+                cell.studentName.text = "\(item.name) 학생"
                 cell.manageBtn.titleLabel!.text = "수업 관리하기"
                 
             } else {
-                cell.studentName.text = "\(item.name) 선생님 "
+                cell.studentName.text = "\(item.name) 선생님"
                 cell.manageBtn.titleLabel!.text = "수업 확인하기"
             }
             cell.subjectName.text = item.subject

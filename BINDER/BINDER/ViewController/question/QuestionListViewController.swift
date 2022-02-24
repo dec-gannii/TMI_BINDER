@@ -14,6 +14,15 @@ class QuestionListViewController : BaseVC {
     // 네비게이션바
     @IBOutlet weak var navigationBar: UINavigationBar!
     
+    // 뒤로가기 버튼
+    @IBOutlet var backbutton: UIView!
+    
+    @IBAction func clickBackbutton(_ sender: Any) {
+        if let preVC = self.presentingViewController as? UIViewController {
+            preVC.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     // 토글
     @IBOutlet weak var answeredToggle: UISwitch!
     
@@ -22,12 +31,30 @@ class QuestionListViewController : BaseVC {
     
     weak var delegate: QuestionListViewDelegate?
     
+    // 값을 받아오기 위한 변수들
+    var userName : String!
+    var subject : String!
+    var email : String!
+    var type = ""
+    var index : Int!
+    var questionItems: [QuestionItem] = []
     var questionListItems: [QuestionListItem] = []
     
     override func viewDidLoad() {
+        navigation()
         super.viewDidLoad()
-        
         setQuestionList()
+    }
+    
+    func navigation() {
+        
+        if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
+            if (self.type == "student") { // 사용자가 학생이면
+                self.navigationBar.topItem!.title = self.userName + " 선생님"
+            } else { // 사용자가 학생이 아니면(선생님이면)
+                self.navigationBar.topItem!.title = self.userName + " 학생"
+            }
+        }
     }
     
     /// 질문방 내용 세팅
@@ -37,7 +64,7 @@ class QuestionListViewController : BaseVC {
         // Auth.auth().currentUser!.uid
         //db.collection("student").getDocuments(){ (querySnapshot, err) in
             
-        db.collection("student").document("nGGOu9nxtaPuwWF42ccC5eKwiun1").collection("questionList").getDocuments() { (querySnapshot, err) in
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
                 self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
@@ -62,7 +89,8 @@ class QuestionListViewController : BaseVC {
                     let questionContent = classDt["questionContent"] as? String ?? ""
                     let imgURL = classDt["imgURL"] as? String ?? ""
                     let email = classDt["email"] as? String ?? ""
-                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL as! String, questionContent: questionContent, email: email as! String)
+                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email as! String)
+                    
                     
                     /// 모든 값을 더한다.
                     self.questionListItems.append(item)
