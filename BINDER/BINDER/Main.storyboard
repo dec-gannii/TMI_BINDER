@@ -2082,6 +2082,32 @@ Cg
                                 <color key="textColor" red="0.93725490570000003" green="0.29803922770000002" blue="0.270588249" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P2b-dK-4KV">
+                                <rect key="frame" x="40" y="802" width="334" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ezi-gc-5IN"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="로그인">
+                                            <attributes>
+                                                <color key="NSBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="15" name="AppleSDGothicNeo-UltraLight"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="baseBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="goSignInPage:" destination="3Z6-5p-SBu" eventType="touchUpInside" id="Efq-zp-2AT"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EVY-eN-gWZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -2090,23 +2116,26 @@ Cg
                             <constraint firstItem="EVY-eN-gWZ" firstAttribute="trailing" secondItem="WLl-bN-4nU" secondAttribute="trailing" constant="30" id="1jV-WS-dRm"/>
                             <constraint firstItem="WLl-bN-4nU" firstAttribute="leading" secondItem="yJt-QU-dVe" secondAttribute="leading" constant="40" id="5Be-kP-oga"/>
                             <constraint firstItem="qIR-Wi-qZU" firstAttribute="leading" secondItem="EVY-eN-gWZ" secondAttribute="leading" constant="40" id="9Nl-bo-9b1"/>
+                            <constraint firstItem="P2b-dK-4KV" firstAttribute="leading" secondItem="EVY-eN-gWZ" secondAttribute="leading" constant="40" id="DJ6-VW-F7I"/>
                             <constraint firstItem="qIR-Wi-qZU" firstAttribute="top" secondItem="WLl-bN-4nU" secondAttribute="bottom" id="FZC-os-SGf"/>
                             <constraint firstItem="rm7-TV-Va3" firstAttribute="top" secondItem="IFd-nb-pYF" secondAttribute="bottom" id="HEF-Dk-LYg"/>
                             <constraint firstItem="XKk-O7-xCE" firstAttribute="top" secondItem="dgq-A8-tpf" secondAttribute="bottom" constant="100" id="I1x-ld-x54"/>
                             <constraint firstItem="EVY-eN-gWZ" firstAttribute="trailing" secondItem="798-jb-4Jo" secondAttribute="trailing" constant="40" id="IpD-mQ-bdO"/>
                             <constraint firstItem="rm7-TV-Va3" firstAttribute="leading" secondItem="EVY-eN-gWZ" secondAttribute="leading" constant="40" id="LKc-rc-sxf"/>
                             <constraint firstItem="EVY-eN-gWZ" firstAttribute="trailing" secondItem="L6d-Hr-pj6" secondAttribute="trailing" constant="40" id="OLT-BA-5bt"/>
+                            <constraint firstItem="EVY-eN-gWZ" firstAttribute="trailing" secondItem="P2b-dK-4KV" secondAttribute="trailing" constant="40" id="Oig-ef-5xG"/>
                             <constraint firstItem="XKk-O7-xCE" firstAttribute="leading" secondItem="EVY-eN-gWZ" secondAttribute="leading" constant="40" id="P89-ng-mMZ"/>
                             <constraint firstItem="WLl-bN-4nU" firstAttribute="top" secondItem="Gfo-ZB-A33" secondAttribute="bottom" constant="5" id="VCr-7p-T7L"/>
                             <constraint firstItem="K9d-As-eso" firstAttribute="leading" secondItem="EVY-eN-gWZ" secondAttribute="leading" constant="40" id="VJA-Ok-70j"/>
                             <constraint firstItem="Gfo-ZB-A33" firstAttribute="leading" secondItem="EVY-eN-gWZ" secondAttribute="leading" constant="40" id="WCM-Gf-wn7"/>
+                            <constraint firstItem="EVY-eN-gWZ" firstAttribute="bottom" secondItem="P2b-dK-4KV" secondAttribute="bottom" constant="10" id="ZE1-Xj-fKP"/>
                             <constraint firstItem="798-jb-4Jo" firstAttribute="leading" secondItem="EVY-eN-gWZ" secondAttribute="leading" constant="40" id="b9W-cE-aKi"/>
                             <constraint firstItem="sem-1l-Yme" firstAttribute="top" secondItem="qIR-Wi-qZU" secondAttribute="bottom" constant="5" id="bcB-0P-8BV"/>
                             <constraint firstItem="EVY-eN-gWZ" firstAttribute="trailing" secondItem="qIR-Wi-qZU" secondAttribute="trailing" constant="40" id="ca3-TQ-TJo"/>
                             <constraint firstItem="EVY-eN-gWZ" firstAttribute="trailing" secondItem="dgq-A8-tpf" secondAttribute="trailing" constant="40" id="fJB-2D-kJD"/>
                             <constraint firstItem="EVY-eN-gWZ" firstAttribute="trailing" secondItem="K9d-As-eso" secondAttribute="trailing" constant="30" id="gZL-H7-kuo"/>
                             <constraint firstItem="798-jb-4Jo" firstAttribute="top" secondItem="K9d-As-eso" secondAttribute="bottom" id="hFA-aO-Eh2"/>
-                            <constraint firstItem="EVY-eN-gWZ" firstAttribute="bottom" secondItem="L6d-Hr-pj6" secondAttribute="bottom" constant="70" id="hiF-fc-QDc"/>
+                            <constraint firstItem="P2b-dK-4KV" firstAttribute="top" secondItem="L6d-Hr-pj6" secondAttribute="bottom" constant="10" id="hiF-fc-QDc"/>
                             <constraint firstItem="K9d-As-eso" firstAttribute="top" secondItem="XKk-O7-xCE" secondAttribute="bottom" constant="5" id="iHz-Ee-11k"/>
                             <constraint firstItem="EVY-eN-gWZ" firstAttribute="trailing" secondItem="IFd-nb-pYF" secondAttribute="trailing" constant="30" id="lFX-u8-dzT"/>
                             <constraint firstItem="L6d-Hr-pj6" firstAttribute="leading" secondItem="EVY-eN-gWZ" secondAttribute="leading" constant="40" id="nt4-ZX-tc2"/>
