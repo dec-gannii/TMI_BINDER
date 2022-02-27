@@ -205,41 +205,6 @@ class MyClassVC: BaseVC{
                     }
                     return
                 }
-                
-                /// 조회하기 위해 원래 있던 것 들 다 지움
-                self.classItems.removeAll()
-                
-                
-                for document in snapshot.documents {
-                    print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
-                    
-                    /// document.data()를 통해서 값 받아옴, data는 dictionary
-                    let classDt = document.data()
-                    
-                    self.type = "teacher"
-                    /// nil값 처리
-                    let email = classDt["email"] as? String ?? ""
-                    let name = classDt["name"] as? String ?? ""
-                    let goal = classDt["goal"] as? String ?? ""
-                    let subject = classDt["subject"] as? String ?? ""
-                    let currentCnt = classDt["currentCnt"] as? Int ?? 0
-                    let totalCnt = classDt["totalCnt"] as? Int ?? 0
-                    let classColor = classDt["circleColor"] as? String ?? "026700"
-                    let recentDate = classDt["recentDate"] as? String ?? ""
-                    let payType = classDt["payType"] as? String ?? ""
-                    let payDate = classDt["payDate"] as? String ?? ""
-                    let payAmount = classDt["payAmount"] as? String ?? ""
-                    let schedule = classDt["schedule"] as? String ?? ""
-                    let repeatYN = classDt["repeatYN"] as? String ?? ""
-                    
-                    let item = ClassItem(email: email, name: name, goal: goal, subject: subject, recentDate: recentDate, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: classColor, payType: payType, payDate: payDate, payAmount: payAmount, schedule: schedule, repeatYN: repeatYN)
-                    
-                    /// 모든 값을 더한다.
-                    self.classItems.append(item)
-                }
-                
-                /// UITableView를 reload 하기
-                self.studentTV.reloadData()
             }
         }
     }

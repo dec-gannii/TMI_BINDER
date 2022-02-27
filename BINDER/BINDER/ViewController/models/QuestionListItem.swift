@@ -12,7 +12,7 @@ struct QuestionListItem : Decodable {
     // 변수 선언
     let title: String         // 질문 제목
     let answerCheck: Bool           // (true: 답변 완료, false: 답변 대기)
-    let imgURL: String              // 이미지 URL
+    let imgURL: String             // 이미지 URL
     let email : String              // 이메일
     let questionContent : String    // 질문 내용
     

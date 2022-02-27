@@ -28,11 +28,9 @@ class QuestionListViewController : BaseVC {
     // 토글
     @IBOutlet weak var answeredToggle: UISwitch!
     
-    
     // 테이블 뷰 연결
     @IBOutlet weak var questionListTV: UITableView!
     
-    weak var delegate: QuestionListViewDelegate?
     
     // 값을 받아오기 위한 변수들
     var userName : String!
@@ -40,14 +38,14 @@ class QuestionListViewController : BaseVC {
     var email : String!
     var type = ""
     var index : Int!
-    var questionItems: [QuestionItem] = []
-    var questionListItems: [QuestionListItem] = []
+    var questionListItems : [QuestionListItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         answeredToggle.setOn(false, animated: true)
         getUserInfo()
-        setQuestionList()
+        
+        
     }
     
     func getUserInfo() {
@@ -81,7 +79,9 @@ class QuestionListViewController : BaseVC {
                                                 self.subject = document.data()["subject"] as? String ?? ""
                                                 
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
-                                                print(self.userName + "1")
+                                                
+                                                self.setTeacherQuestion()
+                                                
                                             }
                                         }
                                     }
@@ -122,6 +122,8 @@ class QuestionListViewController : BaseVC {
                                         self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() {(document, error) in
                                             
                                             self.questionListTV.reloadData()
+                                            
+                                            self.setStudentQuestion()
                                         }
                                     }
                                 }
@@ -130,6 +132,27 @@ class QuestionListViewController : BaseVC {
                     }
                 }
             }
+    }
+    
+    // 나중에 갈라질 건데, 선생님일 경우에는 질문 답변하기 버튼 위에 나타내고, 학생일 경우에는 플러스 버튼으로 질문하기 나타내도록
+    func setTeacherQuestion() {
+        LoginRepository.shared.doLogin {
+            /// 클래스 가져오기
+            self.setQuestionList()
+        } failure: { error in
+            self.showDefaultAlert(msg: "")
+        }
+        /// 클로저, 리스너
+    }
+    
+    func setStudentQuestion() {
+        LoginRepository.shared.doLogin {
+            /// 클래스 가져오기
+            self.setQuestionList()
+        } failure: { error in
+            self.showDefaultAlert(msg: "")
+        }
+        /// 클로저, 리스너
     }
     
     /// 질문방 내용 세팅
@@ -148,33 +171,32 @@ class QuestionListViewController : BaseVC {
                 guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                     return
                 }
-                
-                /// 조회하기 위해 원래 있던 것 들 다 지움
-                self.questionListItems.removeAll()
-                
+
                 for document in snapshot.documents {
                     print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
                     
                     /// document.data()를 통해서 값 받아옴, data는 dictionary
-                    let classDt = document.data()
+                    let questionDt = document.data()
                     
                     /// nil값 처리
-                    let title = classDt["title"] as? String ?? ""
-                    let answerCheck = classDt["answerCheck"] as? Bool ?? false
-                    let questionContent = classDt["questionContent"] as? String ?? ""
-                    let imgURL = classDt["imgURL"] as? String ?? ""
-                    let email = classDt["email"] as? String ?? ""
+                    let index = questionDt["index"] as? String ?? ""
+                    let title = questionDt["title"] as? String ?? ""
+                    let answerCheck = questionDt["answerCheck"] as? Bool ?? false
+                    let questionContent = questionDt["questionContent"] as? String ?? ""
+                    let imgURL = questionDt["imgURL"] as? String ?? ""
+                    let email = questionDt["email"] as? String ?? ""
                     let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email as! String)
-                    
                     
                     /// 모든 값을 더한다.
                     self.questionListItems.append(item)
                 }
                 
+                print("!!!!!!!!!!!!")
                 /// UITableView를 reload 하기
                 self.questionListTV.reloadData()
             }
         }
+        return
     }
 }
 
@@ -187,19 +209,21 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
     
     /// 테이블 셀 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return questionListItems.count
+        return self.questionListItems.count
     }
     
+    // 셀 높이 조절하는 함수
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 250
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let item:QuestionListItem = questionListItems[indexPath.row]
+        let item:QuestionListItem = self.questionListItems[indexPath.row]
         
         if item.imgURL == "" {     // 기본 셀일 경우
-            
+            print("in imgURL!!!!!!!!!!")
             let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
-            cell.title.text = "\(item.title)"
+            cell.title.text = item.title
             cell.questionContent.text = "\(item.questionContent)"
             
             if item.answerCheck == false {

@@ -12,7 +12,7 @@ import AVFoundation
 
 class QuestionViewController: BaseVC {
     
-    // 요소 연결(테이블 뷰 관)
+    // 요소 연결(테이블 뷰 X)
     @IBOutlet weak var teacherName: UILabel!
     @IBOutlet weak var teacherEmail: UILabel!
     @IBOutlet weak var teacherImage: UIImageView!
@@ -27,6 +27,7 @@ class QuestionViewController: BaseVC {
     var email : String!
     var subject : String!
     var userName : String!
+    var classColor : String!
     var type = ""       // 유저의 타입
     var questionItems: [QuestionItem] = []
     
@@ -172,6 +173,7 @@ class QuestionViewController: BaseVC {
                     let subject = classDt["subject"] as? String ?? ""
                     self.subject = subject
                     let classColor = classDt["circleColor"] as? String ?? "026700"
+                    self.classColor = classColor
                     let email = classDt["email"] as? String ?? ""
                     self.email = email
                     let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
@@ -284,7 +286,6 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         questionListVC.userName = self.userName
         questionListVC.type = self.type
         questionListVC.index = indexPath.row
-        questionListVC.questionItems = self.questionItems
         
         self.present(questionListVC, animated: true, completion: nil)
     }

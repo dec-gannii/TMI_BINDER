@@ -31,6 +31,10 @@ class QuestionListTableViewCell: UITableViewCell {
         contentViewCell.clipsToBounds = true
         contentViewCell.layer.cornerRadius = 20
         
+        background.clipsToBounds = true
+        background.layer.cornerRadius = 5
+        
+        
         self.selectionStyle = .none
     }
     
