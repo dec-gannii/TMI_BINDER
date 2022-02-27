@@ -248,7 +248,8 @@ extension ClassInfoVC {
                                         "totalCnt" : 8,
                                         "circleColor" : self.classColor1,
                                         "recentDate" : "",
-                                        "datetime": Date().formatted() ])
+                                        "datetime": Date().formatted(),
+                                        "goal": self.studentItem.goal])
                                     { err in
                                         if let err = err {
                                             print(">>>>> document 에러 : \(err)")
