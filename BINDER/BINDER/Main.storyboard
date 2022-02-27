@@ -1695,19 +1695,19 @@ Cg
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="rWd-8R-fsf">
-                                        <rect key="frame" x="40" y="90" width="324" height="90"/>
+                                        <rect key="frame" x="40" y="105" width="334" height="90"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="d9P-WC-dpo">
-                                                <rect key="frame" x="0.0" y="13" width="224" height="64.5"/>
+                                                <rect key="frame" x="0.0" y="13" width="234" height="64.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dOU-lg-A8n">
-                                                        <rect key="frame" x="0.0" y="0.0" width="224" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="234" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="메일" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70b-5G-klQ">
-                                                        <rect key="frame" x="0.0" y="50" width="224" height="14.5"/>
+                                                        <rect key="frame" x="0.0" y="50" width="234" height="14.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -1715,7 +1715,7 @@ Cg
                                                 </subviews>
                                             </stackView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="teacher" translatesAutoresizingMaskIntoConstraints="NO" id="QXZ-nd-dmh">
-                                                <rect key="frame" x="244" y="5" width="80" height="80"/>
+                                                <rect key="frame" x="254" y="5" width="80" height="80"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="80" id="ZdL-hN-5Rk"/>
                                                     <constraint firstAttribute="width" secondItem="QXZ-nd-dmh" secondAttribute="height" multiplier="1:1" id="osT-lb-U0U"/>
@@ -1746,9 +1746,9 @@ Cg
                                 <constraints>
                                     <constraint firstItem="JsV-nH-BMm" firstAttribute="leading" secondItem="4eh-FL-VZu" secondAttribute="leading" constant="30" id="6Ig-yf-nJ7"/>
                                     <constraint firstItem="JsV-nH-BMm" firstAttribute="top" secondItem="4eh-FL-VZu" secondAttribute="top" constant="50" id="9Rf-vI-6Wa"/>
-                                    <constraint firstAttribute="trailing" secondItem="rWd-8R-fsf" secondAttribute="trailing" constant="50" id="Yz4-ow-gVI"/>
+                                    <constraint firstAttribute="trailing" secondItem="rWd-8R-fsf" secondAttribute="trailing" constant="40" id="Yz4-ow-gVI"/>
                                     <constraint firstAttribute="height" constant="210" id="fWn-T5-M0S"/>
-                                    <constraint firstItem="rWd-8R-fsf" firstAttribute="top" secondItem="4eh-FL-VZu" secondAttribute="top" constant="90" id="ihR-o2-6Rb"/>
+                                    <constraint firstItem="rWd-8R-fsf" firstAttribute="top" secondItem="4eh-FL-VZu" secondAttribute="top" constant="105" id="ihR-o2-6Rb"/>
                                     <constraint firstItem="9lk-ba-L47" firstAttribute="top" secondItem="4eh-FL-VZu" secondAttribute="top" constant="50" id="qMy-z3-yTP"/>
                                     <constraint firstAttribute="trailing" secondItem="9lk-ba-L47" secondAttribute="trailing" constant="40" id="y0D-9e-SXu"/>
                                     <constraint firstItem="rWd-8R-fsf" firstAttribute="leading" secondItem="4eh-FL-VZu" secondAttribute="leading" constant="40" id="zN0-Pa-9NY"/>

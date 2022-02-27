@@ -35,7 +35,6 @@ class HomeViewController: UIViewController {
     var verified : Bool = false
     var type : String = ""
     
-    var events = [Date]()
     var date : String!
     
     var ref: DatabaseReference!
@@ -72,16 +71,6 @@ class HomeViewController: UIViewController {
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
-    }
-    
-    // 이벤트 추가하기 (날짜를 events 배열에 추가)
-    func setUpEvents(_ eventDate: String) {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy-MM-dd EEEE"
-        let event = formatter.date(from: eventDate)
-        let sampledate = formatter.date(from: eventDate)
-        events = [event!, sampledate!]
     }
     
     override func viewDidLoad() {
@@ -393,7 +382,7 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         // 일정 리스트 뷰 보여주기
         guard let scheduleListVC = self.storyboard?.instantiateViewController(withIdentifier: "ScheduleListViewController") as? ScheduleListViewController else { return }
         // 데이터베이스의 Count document에서 count 정보를 받아서 전달
-//        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(dateFormatter.string(from: date))
+        //        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(dateFormatter.string(from: date))
         self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(dateFormatter.string(from: date)).collection("scheduleList").document("Count").addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
@@ -406,9 +395,6 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
             
             scheduleListVC.count = data["count"] as! Int
         }
-        // 날짜 데이터 변수에 저장
-        self.date = dateFormatter.string(from: date)
-        setUpEvents(dateFormatter.string(from: date))
         
         // 날짜 데이터 넘겨주기
         scheduleListVC.date = dateFormatter.string(from: date)
@@ -416,6 +402,7 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         scheduleListVC.modalPresentationStyle = .fullScreen
         self.present(scheduleListVC, animated: true, completion: nil)
     }
+    
 }
 extension HomeViewController: FSCalendarDataSource {
 }

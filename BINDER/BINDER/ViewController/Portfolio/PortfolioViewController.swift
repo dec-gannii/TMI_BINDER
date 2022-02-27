@@ -42,6 +42,8 @@ class PortfolioViewController: UIViewController {
         getUserInfo()
         getPortfoiloInfo()
         
+        self.teacherImage.makeCircle()
+        
         if (isShowMode == true) {
             self.editBtn.isHidden = true
         } else {
