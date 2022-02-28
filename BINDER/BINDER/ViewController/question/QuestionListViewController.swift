@@ -212,10 +212,10 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         return self.questionListItems.count
     }
     
-    // 셀 높이 조절하는 함수
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
-    }
+//    // 셀 높이 조절하는 함수
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 250
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item:QuestionListItem = self.questionListItems[indexPath.row]
@@ -244,7 +244,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
             cell.questionContent.text = "\(item.questionContent)"
             
             let url = URL(string: item.imgURL)
-            cell.questionImage.kf.setImage(with: url, placeholder: UIImage(systemName: "questionImage.fill"), options: nil, completionHandler: nil)
+            cell.questionImage.kf.setImage(with: url, placeholder: UIImage(systemName: "no image"), options: nil, completionHandler: nil)
             
             if item.answerCheck == false {
                 cell.answerCheck.text = "답변 대기"

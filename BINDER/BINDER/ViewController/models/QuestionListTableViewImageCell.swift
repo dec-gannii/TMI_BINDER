@@ -9,7 +9,7 @@ import UIKit
 
 class QuestionListTableViewImageCell: UITableViewCell {
     
-    @IBOutlet weak var contentViewCell: UILabel!    // 전체 배경
+    @IBOutlet weak var contentViewCell: UIView!
     @IBOutlet weak var title: UILabel!              // 질문 제목
     @IBOutlet weak var answerCheck: UILabel!        // 답변 완료 여부
     @IBOutlet weak var background: UIView!          // 답변 완료 여부 배경
@@ -23,7 +23,7 @@ class QuestionListTableViewImageCell: UITableViewCell {
         contentViewCell.layer.cornerRadius = 20
         
         background.clipsToBounds = true
-        background.layer.cornerRadius = 20
+        background.layer.cornerRadius = 8
         
         self.selectionStyle = .none
     }
