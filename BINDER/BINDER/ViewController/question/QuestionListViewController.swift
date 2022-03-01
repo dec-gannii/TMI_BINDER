@@ -184,7 +184,7 @@ class QuestionListViewController : BaseVC {
                 guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                     return
                 }
-
+                
                 for document in snapshot.documents {
                     print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
                     
@@ -199,14 +199,14 @@ class QuestionListViewController : BaseVC {
                     let imgURL = questionDt["imgURL"] as? String ?? ""
                     let email = questionDt["email"] as? String ?? ""
                     
-                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email )
+                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index )
                     
-                    let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email)
+                    let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
                     
                     /// 모든 값을 더한다.
                     /// 전체 경우
                     self.questionListItems.append(item)
-
+                    
                     
                     /// 답변 완료일 경우
                     if answerCheck == true {
@@ -240,69 +240,98 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         else {
             return self.questionListItems.count
         }
-            
+        
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item:QuestionListItem = self.questionListItems[indexPath.row]
-//        let answeredItem:QuestionAnsweredListItem = self.questionAnsweredItems[indexPath.row]
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
-        //let answeredCell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
-        
-        if item.imgURL == "" {     // 기본 셀일 경우
-            if item.answerCheck == true {
-                if (self.answeredToggle.isOn) {
-                    cell.title.text = self.questionAnsweredItems[indexPath.row].title
-                    cell.questionContent.text = "\(self.questionAnsweredItems[indexPath.row].questionContent)"
-                    cell.answerCheck.text = "답변 완료"
-                    cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
+        if self.answeredToggle.isOn {
+            let answeredItem:QuestionAnsweredListItem = self.questionAnsweredItems[indexPath.row]
+            let answeredCell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
+            
+            if answeredItem.imgURL == "" {     // 기본 셀일 경우
+                if answeredItem.answerCheck == true {
+                    if (self.answeredToggle.isOn) {
+                        answeredCell.title.text = self.questionAnsweredItems[indexPath.row].title
+                        answeredCell.questionContent.text = "\(self.questionAnsweredItems[indexPath.row].questionContent)"
+                        answeredCell.answerCheck.text = "답변 완료"
+                        answeredCell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
+                    } else {
+                        answeredCell.title.text = answeredItem.title
+                        answeredCell.questionContent.text = "\(answeredItem.questionContent)"
+                        answeredCell.answerCheck.text = "답변 완료"
+                        answeredCell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
+                    }
+                    
+                    return answeredCell
+                    
                 } else {
-                    cell.title.text = item.title
-                    cell.questionContent.text = "\(item.questionContent)"
-                    cell.answerCheck.text = "답변 완료"
-                    cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
+                    answeredCell.title.text = answeredItem.title
+                    answeredCell.questionContent.text = "\(answeredItem.questionContent)"
+                    answeredCell.answerCheck.text = "답변 대기"
+                    answeredCell.background.backgroundColor = UIColor.init(red: 19, green: 32, blue: 62, alpha: 1)
+                    
+                    return answeredCell
+                }
+            } else {
+                let item:QuestionListItem = self.questionListItems[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
+                
+                if item.imgURL == "" {     // 기본 셀일 경우
+                    if item.answerCheck == true {
+                        if (self.answeredToggle.isOn) {
+                            cell.title.text = item.title
+                            cell.questionContent.text = "\(item.questionContent)"
+                            cell.answerCheck.text = "답변 완료"
+                            cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
+                        } else {
+                            cell.title.text = item.title
+                            cell.questionContent.text = "\(item.questionContent)"
+                            cell.answerCheck.text = "답변 완료"
+                            cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
+                        }
+                        
+                        return cell
+                        
+                    } else {
+                        cell.title.text = item.title
+                        cell.questionContent.text = "\(item.questionContent)"
+                        cell.answerCheck.text = "답변 대기"
+                        cell.background.backgroundColor = UIColor.init(red: 19, green: 32, blue: 62, alpha: 1)
+                        
+                        return cell
+                    }
                 }
                 
-                return cell
                 
-            } else {
-                cell.title.text = item.title
-                cell.questionContent.text = "\(item.questionContent)"
-                cell.answerCheck.text = "답변 대기"
-                cell.background.backgroundColor = UIColor.init(red: 19, green: 32, blue: 62, alpha: 1)
                 
+                
+                else {       // 이미지 셀일 경우
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
+                    // let answeredCell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
+                    
+                    let url = URL(string: item.imgURL)
+                    cell.questionImage.kf.setImage(with: url, placeholder: UIImage(systemName: "no image"), options: nil, completionHandler: nil)
+                    
+                    if item.answerCheck == false {
+                        cell.title.text = "\(item.title)"
+                        cell.questionContent.text = "\(item.questionContent)"
+                        cell.answerCheck.text = "답변 대기"
+                        cell.background.backgroundColor = UIColor.init(red: 19, green: 32, blue: 62, alpha: 1)
+                        return cell
+                    } else {
+                        cell.title.text = "\(item.title)"
+                        cell.questionContent.text = "\(item.questionContent)"
+                        cell.answerCheck.text = "답변 완료"
+                        cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
+                        return cell
+                    }
+                    
+                    
+                }
                 return cell
             }
             
-            
-            
-        } else {       // 이미지 셀일 경우
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
-            // let answeredCell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
-            
-            let url = URL(string: item.imgURL)
-            cell.questionImage.kf.setImage(with: url, placeholder: UIImage(systemName: "no image"), options: nil, completionHandler: nil)
-            
-            if item.answerCheck == false {
-                cell.title.text = "\(item.title)"
-                cell.questionContent.text = "\(item.questionContent)"
-                cell.answerCheck.text = "답변 대기"
-                cell.background.backgroundColor = UIColor.init(red: 19, green: 32, blue: 62, alpha: 1)
-                return cell
-            } else {
-                cell.title.text = "\(item.title)"
-                cell.questionContent.text = "\(item.questionContent)"
-                cell.answerCheck.text = "답변 완료"
-                cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
-                return cell
-            }
-        
-
         }
-        return cell
-    }
-
-}
+        
