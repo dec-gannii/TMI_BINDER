@@ -199,9 +199,9 @@ class QuestionListViewController : BaseVC {
                     let imgURL = questionDt["imgURL"] as? String ?? ""
                     let email = questionDt["email"] as? String ?? ""
                     
-                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index)
+                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email )
                     
-                    let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
+                    let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email)
                     
                     /// 모든 값을 더한다.
                     /// 전체 경우
@@ -210,8 +210,8 @@ class QuestionListViewController : BaseVC {
                     
                     /// 답변 완료일 경우
                     if answerCheck == true {
-                        self.questionAnsweredItems.insert(answeredItem, at: Int(index)!)
-                        print(self.questionAnsweredItems)
+                        self.questionAnsweredItems.append(answeredItem)
+                        print("self.questionAnsweredItems : \(self.questionAnsweredItems)")
                     }
                 }
                 
@@ -246,19 +246,24 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item:QuestionListItem = self.questionListItems[indexPath.row]
-        let answeredItem:QuestionAnsweredListItem = self.questionAnsweredItems[indexPath.row]
+//        let answeredItem:QuestionAnsweredListItem = self.questionAnsweredItems[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
         //let answeredCell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
         
         if item.imgURL == "" {     // 기본 셀일 경우
-            
-            if item.answerCheck == true && answeredToggle.isOn {
-                
-                cell.title.text = answeredItem.title
-                cell.questionContent.text = "\(answeredItem.questionContent)"
-                cell.answerCheck.text = "답변 완료"
-                cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
+            if item.answerCheck == true {
+                if (self.answeredToggle.isOn) {
+                    cell.title.text = self.questionAnsweredItems[indexPath.row].title
+                    cell.questionContent.text = "\(self.questionAnsweredItems[indexPath.row].questionContent)"
+                    cell.answerCheck.text = "답변 완료"
+                    cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
+                } else {
+                    cell.title.text = item.title
+                    cell.questionContent.text = "\(item.questionContent)"
+                    cell.answerCheck.text = "답변 완료"
+                    cell.background.backgroundColor = UIColor.init(red: 148, green: 156, blue: 170, alpha: 1)
+                }
                 
                 return cell
                 
