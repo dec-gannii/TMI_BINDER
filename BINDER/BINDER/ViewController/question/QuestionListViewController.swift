@@ -199,9 +199,9 @@ class QuestionListViewController : BaseVC {
                     let imgURL = questionDt["imgURL"] as? String ?? ""
                     let email = questionDt["email"] as? String ?? ""
                     
-                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email )
+                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index)
                     
-                    let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email)
+                    let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
                     
                     /// 모든 값을 더한다.
                     /// 전체 경우
@@ -210,7 +210,7 @@ class QuestionListViewController : BaseVC {
                     
                     /// 답변 완료일 경우
                     if answerCheck == true {
-                        self.questionAnsweredItems.append(answeredItem)
+                        self.questionAnsweredItems.insert(answeredItem, at: Int(index)!)
                         print(self.questionAnsweredItems)
                     }
                 }

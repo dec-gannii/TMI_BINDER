@@ -15,14 +15,16 @@ struct QuestionAnsweredListItem : Decodable {
     let imgURL: String             // 이미지 URL
     let email : String              // 이메일
     let questionContent : String    // 질문 내용
+    let index : String
     
-    init(title : String, answerCheck : Bool, imgURL : String, questionContent: String, email : String)
+    init(title : String, answerCheck : Bool, imgURL : String, questionContent: String, email : String, index: String)
     {
         self.title = title
         self.answerCheck = answerCheck
         self.questionContent = questionContent
         self.imgURL = imgURL
         self.email = email
+        self.index = email
     }
 }
 
