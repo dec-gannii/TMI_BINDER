@@ -209,9 +209,9 @@ class QuestionListViewController : BaseVC {
                     let imgURL = questionDt["imgURL"] as? String ?? ""
                     let email = questionDt["email"] as? String ?? ""
                     
-                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email )
+                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index )
                     
-                    let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email)
+                    let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
                     
                     /// 모든 값을 더한다.
                     /// 전체 경우
