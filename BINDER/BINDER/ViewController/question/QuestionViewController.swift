@@ -24,6 +24,7 @@ class QuestionViewController: BaseVC {
     var docRef : CollectionReference!
     
     // 값을 넘겨주기 위한 변수들
+    var index : Int!
     var email : String!
     var subject : String!
     var userName : String!
@@ -255,6 +256,8 @@ class QuestionViewController: BaseVC {
                                 let classColor = classDt["circleColor"] as? String ?? "026700"
                                 let email = classDt["email"] as? String ?? ""
                                 self.email = email
+                                let index = classDt["index"] as? Int ?? 0
+                                self.index = index
                                 
                                 let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
                                 
