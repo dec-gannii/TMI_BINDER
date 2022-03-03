@@ -3145,6 +3145,9 @@ Cg
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ytb-MW-7qm" userLabel="answeredToggle">
                                 <rect key="frame" x="345" y="116.5" width="51" height="31"/>
                                 <color key="onTintColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="answeredToggleAction:" destination="vQb-Mw-hEt" eventType="valueChanged" id="tXw-Jf-86g"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="답변 완료만 보기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFE-1q-Nq0">
                                 <rect key="frame" x="230" y="121.5" width="105" height="21"/>
