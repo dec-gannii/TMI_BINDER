@@ -22,6 +22,13 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     var storageRef:StorageReference!
     var name:String!
     
+    // 값을 받아오기 위한 변수들
+    var userName : String!
+    var subject : String!
+    var email : String!
+    var type = ""
+    var index : Int!
+    
     @IBOutlet var imgView: UIImageView!
     @IBOutlet weak var textView: UITextView!
     
@@ -31,7 +38,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         var captureImage: UIImage!
         var videoURL: URL!
         var flagImageSave = false
-    var type:Int = 0
+        var imgtype:Int = 0
         var answer = "0"
 
     override func viewDidLoad() {
@@ -159,7 +166,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 
                 // 사진을 가져와 captureImage에 저장
                 captureImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-                type = 1
+                imgtype = 1
                 
                 if flagImageSave { // flagImageSave가 true이면
                     // 사진을 포토 라이브러리에 저장
@@ -173,7 +180,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 if flagImageSave { // flagImageSave가 true이면
                     // 촬영한 비디오를 옴
                     videoURL = (info[UIImagePickerController.InfoKey.mediaURL] as! URL)
-                    type = 2
+                    imgtype = 2
                     // 비디오를 포토 라이브러리에 저장
                     UISaveVideoAtPathToSavedPhotosAlbum(videoURL.relativePath, self, nil, nil)
                 }
@@ -220,7 +227,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
             self.present(textalertVC, animated: true, completion: nil)
             print("제목 없음")
         } else {
-            if type == 1 {
+            if imgtype == 1 {
                 if let data = image.pngData(){
                     let urlRef = storageRef.child("image/\(captureImage!).png")
                     

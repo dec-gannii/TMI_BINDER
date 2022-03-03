@@ -39,6 +39,21 @@ class QuestionDetailViewController: UIViewController {
         }
     }
     
+    @IBAction func clickanswerBtn(_ sender: Any) {
+        guard let answerVC = self.storyboard?.instantiateViewController(withIdentifier: "AnswerVC") as? AnswerViewController else { return }
+        
+        answerVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+        answerVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+        /// first : 여러개가 와도 첫번째 것만 봄.
+        
+        answerVC.index = index
+        answerVC.email = email
+        answerVC.userName = userName
+        answerVC.type = type
+        answerVC.subject = subject
+        
+        self.present(answerVC, animated: true, completion: nil)
+    }
     
     
     func getUserInfo() {

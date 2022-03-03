@@ -12,6 +12,7 @@ import Firebase
 class QuestionListViewController : BaseVC {
     
     let db = Firestore.firestore()
+    var docRef : CollectionReference!
     
     // 네비게이션바
     @IBOutlet weak var navigationBar: UINavigationBar!
@@ -19,6 +20,7 @@ class QuestionListViewController : BaseVC {
     
     // 뒤로가기 버튼
     @IBOutlet var backbutton: UIView!
+    @IBOutlet weak var plusbutton: UIBarButtonItem!
     
     @IBAction func clickBackbutton(_ sender: Any) {
         if let preVC = self.presentingViewController {
@@ -99,7 +101,7 @@ class QuestionListViewController : BaseVC {
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
                                                 
                                                 self.setTeacherQuestion()
-                                                
+                                                self.plusbutton.isEnabled = false
                                             }
                                         }
                                     }
@@ -235,6 +237,22 @@ class QuestionListViewController : BaseVC {
         
         return
     }
+    
+    @IBAction func clickPlusBtn(_ sender: Any) {
+           guard let plusVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionPlusVC") as? QuestionPlusViewController else { return }
+           
+           plusVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+           plusVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+           /// first : 여러개가 와도 첫번째 것만 봄.
+           
+           plusVC.index = index
+           plusVC.email = email
+           plusVC.userName = userName
+           plusVC.type = type
+           plusVC.subject = subject
+           
+           self.present(plusVC, animated: true, completion: nil)
+       }
 }
 
 
@@ -260,6 +278,87 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         
     }
     
+    // 테이블뷰 선택시
+       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+           tableView.deselectRow(at: indexPath, animated: true)
+           // 사용자 구별
+           if type == "teacher" {
+               docRef = db.collection("teacher")
+           } else {
+               docRef = db.collection("student")
+           }
+           
+           var index: Int!
+           var name: String!
+           var email: String!
+           var subject: String!
+           var type: String!
+           
+           docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: indexPath.row)
+               .getDocuments() { (querySnapshot, err) in
+                   if let err = err {
+                       print(">>>>> document 에러 : \(err)")
+                   } else {
+                       guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                           return
+                       }
+                      
+                           let item:QuestionListItem = self.questionListItems[indexPath.row]
+                           
+                           if item.answerCheck == true { //답변이 있는 경우
+                               guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
+                               
+                               qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                               qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                               /// first : 여러개가 와도 첫번째 것만 봄.
+                               
+                               let questionDt = snapshot.documents.first!.data()
+                               
+                               index = questionDt["index"] as? Int ?? 0
+                               name = questionDt["name"] as? String ?? ""
+                               subject = questionDt["subject"] as? String ?? ""
+                               email = questionDt["email"] as? String ?? ""
+                               type = questionDt["type"] as? String ?? ""
+                               
+                               qnaVC.index = index
+                               qnaVC.email = email
+                               qnaVC.userName = name
+                               qnaVC.type = type
+                               qnaVC.subject = subject
+                               
+                               self.present(qnaVC, animated: true, completion: nil)
+                           }
+                           else { // 답변이 없는 경우
+                               guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionDetailVC") as? QuestionDetailViewController else { return }
+                               
+                               questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                               questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                               /// first : 여러개가 와도 첫번째 것만 봄.
+                               
+                               let questionDt = snapshot.documents.first!.data()
+                               
+                               index = questionDt["index"] as? Int ?? 0
+                               name = questionDt["name"] as? String ?? ""
+                               subject = questionDt["subject"] as? String ?? ""
+                               email = questionDt["email"] as? String ?? ""
+                               type = questionDt["type"] as? String ?? ""
+                               
+                               questionVC.index = index
+                               questionVC.email = email
+                               questionVC.userName = name
+                               questionVC.type = type
+                               questionVC.subject = subject
+                               
+                               self.present(questionVC, animated: true, completion: nil)
+                           }
+                      
+                   }
+               }
+           
+           print("클릭됨 : \(indexPath.row)")
+           
+       }
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        let item:QuestionListItem = self.questionListItems[indexPath.row]

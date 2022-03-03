@@ -4635,6 +4635,9 @@ Cg
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="답변하기"/>
+                                        <connections>
+                                            <action selector="clickanswerBtn:" destination="buU-Ti-fUx" eventType="touchUpInside" id="IMb-qP-9pz"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
