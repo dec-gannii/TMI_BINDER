@@ -138,16 +138,16 @@ class QuestionListViewController : BaseVC {
                                         print("\(document.documentID) => \(document.data())")
                                         let teacherUid = document.data()["uid"] as? String ?? ""
                                         let teacherName = document.data()["name"] as? String ?? ""
+                                        self.userName = teacherName
                                         let index = document.data()["index"] as? Int
                                         
-                                        self.navigationBar.topItem!.title = teacherName + " 선생님"
+                                        self.navigationBar.topItem!.title = self.userName + " 선생님"
                                         
                                         // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
                                         self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() {(document, error) in
                                             
                                             self.questionListTV.reloadData()
                                             self.setStudentQuestion()
-                                            self.navigationBar.topItem!.title = teacherName + " 선생님"
                                         }
                                         
                                         
