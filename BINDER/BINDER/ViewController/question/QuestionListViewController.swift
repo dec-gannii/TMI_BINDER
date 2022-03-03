@@ -46,6 +46,7 @@ class QuestionListViewController : BaseVC {
     var answerCheck : Bool!
     var type = ""
     var index : Int!
+    var qnum: String!
     var questionListItems : [QuestionListItem] = []
     var questionAnsweredItems : [QuestionAnsweredListItem] = []
     var questionNotAnsweredItems : [QuestionAnsweredListItem] = []
@@ -102,6 +103,7 @@ class QuestionListViewController : BaseVC {
                                                 
                                                 self.setTeacherQuestion()
                                                 self.plusbutton.isEnabled = false
+                                                self.plusbutton.tintColor = UIColor.clear
                                             }
                                         }
                                     }
@@ -127,6 +129,7 @@ class QuestionListViewController : BaseVC {
                         let studentEmail = document.data()["email"] as? String ?? ""
                         
                         let teacherDocRef = self.db.collection("teacher")
+                        
                         
                         if let email = self.email { // 사용자의 이메일이 nil이 아니라면
                             // 선생님들 정보의 경로 중 이메일이 일치하는 선생님 찾기
@@ -210,16 +213,16 @@ class QuestionListViewController : BaseVC {
                     let questionDt = document.data()
                     
                     /// nil값 처리
-                    let index = questionDt["index"] as? String ?? ""
+                    let qnum = questionDt["number"] as? String ?? ""
                     let title = questionDt["title"] as? String ?? ""
                     let answerCheck = questionDt["answerCheck"] as? Bool ?? false
                     let questionContent = questionDt["questionContent"] as? String ?? ""
                     let imgURL = questionDt["imgURL"] as? String ?? ""
                     let email = questionDt["email"] as? String ?? ""
                     
-                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index )
+                    let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: qnum )
                     
-                    let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
+                    let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: qnum)
                     
                     /// 모든 값을 더한다.
                     /// 전체 경우
@@ -248,7 +251,7 @@ class QuestionListViewController : BaseVC {
            plusVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
            /// first : 여러개가 와도 첫번째 것만 봄.
            
-           plusVC.index = index
+           plusVC.qnum = qnum
            plusVC.email = email
            plusVC.userName = userName
            plusVC.type = type
