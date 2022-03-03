@@ -145,7 +145,10 @@ class QuestionListViewController : BaseVC {
                                             
                                             self.questionListTV.reloadData()
                                             self.setStudentQuestion()
+                                            self.navigationBar.topItem!.title = teacherName + " 선생님"
                                         }
+                                        
+                                        
                                     }
                                 }
                             }
