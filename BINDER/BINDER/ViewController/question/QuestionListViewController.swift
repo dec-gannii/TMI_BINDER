@@ -99,6 +99,7 @@ class QuestionListViewController : BaseVC {
                                                 
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
                                                 
+                                                self.questionListTV.reloadData()
                                                 self.setTeacherQuestion()
                                                 self.plusbutton.isEnabled = false
                                             }
@@ -232,7 +233,8 @@ class QuestionListViewController : BaseVC {
                 }
             }
         } else {
-            if let email = self.email {
+            if let email = self.email, let index = self.index {
+                print ("self.index : \(index), self.email : \(email)")
                 var studentName = ""
                 var studentEmail = ""
                 var teacherUid = ""
@@ -245,72 +247,89 @@ class QuestionListViewController : BaseVC {
                         guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                             return
                         }
-                        
                         for document in querySnapshot!.documents {
                             studentName = document.data()["name"] as? String ?? ""
                             studentEmail = document.data()["email"] as? String ?? ""
-                        }
-                        
-                        db.collection("teacher").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
-                            if let err = err {
-                                print(">>>>> document 에러 : \(err)")
-                                self.showDefaultAlert(msg: "질문을 찾는 중 에러가 발생했습니다.")
-                            } else {
-                                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                    return
-                                }
-                                
-                                for document in querySnapshot!.documents {
-                                    teacherUid = document.data()["uid"] as? String ?? ""
-                                    self.teacherUid = teacherUid
-                                }
-                                
-                                db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() { (querySnapshot, err) in
-                                    if let err = err {
-                                        print(">>>>> document 에러 : \(err)")
-                                        self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
-                                    } else {
-                                        /// nil이 아닌지 확인한다.
-                                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                            return
-                                        }
-                                        
-                                        /// 조회하기 위해 원래 있던 것 들 다 지움
-                                        self.questionListItems.removeAll()
-                                        self.questionAnsweredItems.removeAll()
-                                        self.questionNotAnsweredItems.removeAll()
-                                        
-                                        for document in snapshot.documents {
-                                            print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                            db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print(">>>>> document 에러 : \(err)")
+                                    self.showDefaultAlert(msg: "질문을 찾는 중 에러가 발생했습니다.")
+                                } else {
+                                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                        return
+                                    }
+                                    var teacherEmail = ""
+                                    for document in querySnapshot!.documents {
+                                        teacherEmail = document.data()["email"] as? String ?? ""
+                                    }
+                                    
+                                    db.collection("teacher").whereField("email", isEqualTo: teacherEmail).getDocuments() { (querySnapshot, err) in
+                                        if let err = err {
+                                            print(">>>>> document 에러 : \(err)")
+                                            self.showDefaultAlert(msg: "질문을 찾는 중 에러가 발생했습니다.")
+                                        } else {
+                                            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                                return
+                                            }
                                             
-                                            /// document.data()를 통해서 값 받아옴, data는 dictionary
-                                            let questionDt = document.data()
-                                            
-                                            /// nil값 처리
-                                            let index = questionDt["index"] as? String ?? ""
-                                            let title = questionDt["title"] as? String ?? ""
-                                            let answerCheck = questionDt["answerCheck"] as? Bool ?? false
-                                            let questionContent = questionDt["questionContent"] as? String ?? ""
-                                            let imgURL = questionDt["imgURL"] as? String ?? ""
-                                            let email = questionDt["email"] as? String ?? ""
-                                            
-                                            let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index )
-                                            
-                                            let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
-                                            
-                                            /// 모든 값을 더한다.
-                                            /// 전체 경우
-                                            self.questionListItems.append(item)
-                                            
-                                            /// 답변 완료일 경우
-                                            if answerCheck == true {
-                                                self.questionAnsweredItems.append(answeredItem)
-                                            } else if answerCheck == false {
-                                                self.questionNotAnsweredItems.append(answeredItem)
+                                            for document in querySnapshot!.documents {
+                                                teacherUid = document.data()["uid"] as? String ?? ""
+                                                self.teacherUid = teacherUid
+                                                print ("TeacherUID : \(teacherUid)")
+                                                
+                                                db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() { (querySnapshot, err) in
+                                                    if let err = err {
+                                                        print(">>>>> document 에러 : \(err)")
+                                                        self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
+                                                    } else {
+                                                        /// nil이 아닌지 확인한다.
+                                                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                                            return
+                                                        }
+                                                        
+                                                        /// 조회하기 위해 원래 있던 것 들 다 지움
+                                                        self.questionListItems.removeAll()
+                                                        self.questionAnsweredItems.removeAll()
+                                                        self.questionNotAnsweredItems.removeAll()
+                                                        
+                                                        for document in snapshot.documents {
+                                                            print("1: >>>>> document 정보 : \(document.documentID) => \(document.data())")
+                                                            
+                                                            /// document.data()를 통해서 값 받아옴, data는 dictionary
+                                                            let questionDt = document.data()
+                                                            
+                                                            /// nil값 처리
+                                                            let index = questionDt["index"] as? String ?? ""
+                                                            let title = questionDt["title"] as? String ?? ""
+                                                            let answerCheck = questionDt["answerCheck"] as? Bool ?? false
+                                                            let questionContent = questionDt["questionContent"] as? String ?? ""
+                                                            let imgURL = questionDt["imgURL"] as? String ?? ""
+                                                            let email = questionDt["email"] as? String ?? ""
+                                                            
+                                                            
+                                                            let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index )
+                                                            
+                                                            let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
+                                                            
+                                                            /// 모든 값을 더한다.
+                                                            /// 전체 경우
+                                                            self.questionListItems.append(item)
+                                                            print (self.questionListItems)
+                                                            /// 답변 완료일 경우
+                                                            if answerCheck == true {
+                                                                self.questionAnsweredItems.append(answeredItem)
+                                                                print (self.questionAnsweredItems)
+                                                            } else if answerCheck == false {
+                                                                self.questionNotAnsweredItems.append(answeredItem)
+                                                                print (self.questionNotAnsweredItems)
+                                                            }
+                                                        }
+                                                        /// UITableView를 reload 하기
+                                                        self.questionListTV.reloadData()
+                                                    }
+                                                }
                                             }
                                         }
-                                        /// UITableView를 reload 하기
-                                        self.questionListTV.reloadData()
                                     }
                                 }
                             }
@@ -352,16 +371,13 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         if (self.type == "teacher") {
             if (answeredToggle.isOn) {
                 return self.questionNotAnsweredItems.count
-            } else {
-                return self.questionListItems.count
             }
         } else {
             if (answeredToggle.isOn) {
                 return self.questionAnsweredItems.count
-            } else {
-                return self.questionListItems.count
             }
         }
+        return self.questionListItems.count
     }
     
     // 테이블뷰 선택시
@@ -491,7 +507,6 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
             if (self.type == "student") {
                 if (item.imgURL == "") {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
-                    cell.title.text = item.title
                     cell.questionContent.text = "\(item.questionContent)"
                     if (item.answerCheck == true) {
                         cell.answerCheck.text = "답변 완료"
