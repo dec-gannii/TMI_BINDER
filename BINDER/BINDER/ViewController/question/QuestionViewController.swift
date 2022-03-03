@@ -24,6 +24,7 @@ class QuestionViewController: BaseVC {
     var docRef : CollectionReference!
     
     // 값을 넘겨주기 위한 변수들
+    var index : Int!
     var email : String!
     var subject : String!
     var userName : String!
@@ -41,6 +42,7 @@ class QuestionViewController: BaseVC {
 
         let db = Firestore.firestore()
         let docRef = db.collection("teacher")
+        
         docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러(inQuestionVC) : \(err)")
@@ -54,6 +56,24 @@ class QuestionViewController: BaseVC {
                         self.email = document.data()["email"] as? String ?? ""
                         self.userName = document.data()["name"] as? String ?? ""
                         self.setTeacherInfo()
+                    }
+                }
+            }
+        }
+        
+        db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                if let err = err {
+                    print("Error getting documents(inMyClassView): \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let type = document.data()["type"] as? String ?? ""
+                        self.type = type
+                        let email = document.data()["email"] as? String ?? ""
+                        self.setStudentInfo()
                     }
                 }
             }
@@ -88,11 +108,6 @@ class QuestionViewController: BaseVC {
             self.teacherName.text = "\(LoginRepository.shared.studentItem!.name) 학생"
             self.teacherEmail.text = LoginRepository.shared.studentItem!.email
             
-            let url = URL(string: LoginRepository.shared.studentItem!.profile)
-            //                        let url = Auth.auth().currentUser?.photoURL
-            self.teacherImage.kf.setImage(with: url)
-            self.teacherImage.makeCircle()
-            
             /// 클래스 가져오기
             self.setQuestionroom()
         } failure: { error in
@@ -105,7 +120,10 @@ class QuestionViewController: BaseVC {
     // 내 수업 가져오기
     func setQuestionroom() {
         let db = Firestore.firestore()
-        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+        
+        // 선생님일 경우
+        var docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        docRef.collection("class").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
                 self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
@@ -134,6 +152,8 @@ class QuestionViewController: BaseVC {
                                 /// document.data()를 통해서 값 받아옴, data는 dictionary
                                 let classDt = document.data()
                                 
+                                
+                                // self.type = "teacher"
                                 // nil 값 처리
                                 let name = classDt["name"] as? String ?? ""
                                 self.userName = name
@@ -167,6 +187,9 @@ class QuestionViewController: BaseVC {
                     /// document.data()를 통해서 값 받아옴, data는 dictionary
                     let classDt = document.data()
                     
+                     
+                    //self.type = "student"
+                    
                     /// nil값 처리
                     let name = classDt["name"] as? String ?? ""
                     self.userName = name
@@ -185,8 +208,112 @@ class QuestionViewController: BaseVC {
                 /// UITableView를 reload 하기
                 self.questionTV.reloadData()
             }
+            
+            return
+            
+            
+        } /// db.collection("teacher") 끝
+    
+    
+        // 학생일 경우
+        docRef = db.collection("student").document(Auth.auth().currentUser!.uid)
+        docRef.collection("class").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+                self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
+            } else {
+                /// nil이 아닌지 확인한다.
+                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                    
+                    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print(">>>>> document 에러 : \(err)")
+                            self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
+                        } else {
+                            /// nil이 아닌지 확인한다.
+                            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                
+                                return
+                            }
+                            
+                            /// 조회하기 위해 원래 있던 것 들 다 지움
+                            self.questionItems.removeAll()
+                            
+                            
+                            for document in snapshot.documents {
+                                print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                                
+                                /// document.data()를 통해서 값 받아옴, data는 dictionary
+                                let classDt = document.data()
+                                
+                                
+                                // self.type = "teacher"
+                                // nil 값 처리
+                                let name = classDt["name"] as? String ?? ""
+                                self.userName = name
+                                let subject = classDt["subject"] as? String ?? ""
+                                self.subject = subject
+                                let classColor = classDt["circleColor"] as? String ?? "026700"
+                                let email = classDt["email"] as? String ?? ""
+                                self.email = email
+                                let index = classDt["index"] as? Int ?? 0
+                                self.index = index
+                                
+                                let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
+                                
+                                /// 모든 값을 더한다.
+                                self.questionItems.append(item)
+                            }
+                            
+                            /// UITableView를 reload 하기
+                            self.questionTV.reloadData()
+                        }
+                    }
+                    
+                    return
+                }
+                
+                /// 조회하기 위해 원래 있던 것 들 다 지움
+                self.questionItems.removeAll()
+                
+                
+                for document in snapshot.documents {
+                    print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                    
+                    /// document.data()를 통해서 값 받아옴, data는 dictionary
+                    let classDt = document.data()
+                    
+                     
+                    //self.type = "student"
+                    
+                    /// nil값 처리
+                    let name = classDt["name"] as? String ?? ""
+                    self.userName = name
+                    let subject = classDt["subject"] as? String ?? ""
+                    self.subject = subject
+                    let classColor = classDt["circleColor"] as? String ?? "026700"
+                    self.classColor = classColor
+                    let email = classDt["email"] as? String ?? ""
+                    self.email = email
+                    let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
+                    
+                    /// 모든 값을 더한다.
+                    self.questionItems.append(item)
+                }
+                
+                /// UITableView를 reload 하기
+                self.questionTV.reloadData()
+            }
+            
+            return
+            
+            
         }
+    
+    
+    
     }
+    
 }
 
 

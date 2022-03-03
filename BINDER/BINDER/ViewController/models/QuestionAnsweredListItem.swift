@@ -1,13 +1,13 @@
 //
-//  QuestionListItem.swift
+//  AnsweredQuestionListItem.swift
 //  BINDER
 //
-//  Created by 하유림 on 2022/02/09.
+//  Created by 하유림 on 2022/03/01.
 //
 
 import Foundation
 
-struct QuestionListItem : Decodable {
+struct QuestionAnsweredListItem : Decodable {
     
     // 변수 선언
     let title: String         // 질문 제목
@@ -17,19 +17,19 @@ struct QuestionListItem : Decodable {
     let questionContent : String    // 질문 내용
     let index : String
     
-    init(title : String, answerCheck : Bool, imgURL : String, questionContent: String, email : String, index : String)
+    init(title : String, answerCheck : Bool, imgURL : String, questionContent: String, email : String, index: String)
     {
         self.title = title
         self.answerCheck = answerCheck
         self.questionContent = questionContent
         self.imgURL = imgURL
         self.email = email
-        self.index = index
+        self.index = email
     }
 }
 
-extension QuestionListItem: Equatable {
-    static func == (lhs: QuestionListItem, rhs: QuestionListItem) -> Bool {
+extension QuestionAnsweredListItem: Equatable {
+    static func == (lhs: QuestionAnsweredListItem, rhs: QuestionAnsweredListItem) -> Bool {
         return lhs.email == rhs.email
     }
 }
