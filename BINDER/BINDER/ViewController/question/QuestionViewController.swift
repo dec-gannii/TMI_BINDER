@@ -39,7 +39,7 @@ class QuestionViewController: BaseVC {
     
     // 상단 유저 정보 가져오기
     func getUserInfo(){
-        
+
         let db = Firestore.firestore()
         let docRef = db.collection("teacher")
         
@@ -78,7 +78,6 @@ class QuestionViewController: BaseVC {
                 }
             }
         }
-        
         
     }
     
@@ -122,6 +121,7 @@ class QuestionViewController: BaseVC {
     func setQuestionroom() {
         let db = Firestore.firestore()
         
+        // 선생님일 경우
         var docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid)
         docRef.collection("class").getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -187,7 +187,7 @@ class QuestionViewController: BaseVC {
                     /// document.data()를 통해서 값 받아옴, data는 dictionary
                     let classDt = document.data()
                     
-                    
+                     
                     //self.type = "student"
                     
                     /// nil값 처리
@@ -213,8 +213,8 @@ class QuestionViewController: BaseVC {
             
             
         } /// db.collection("teacher") 끝
-        
-        
+    
+    
         // 학생일 경우
         docRef = db.collection("student").document(Auth.auth().currentUser!.uid)
         docRef.collection("class").getDocuments() { (querySnapshot, err) in
@@ -225,7 +225,7 @@ class QuestionViewController: BaseVC {
                 /// nil이 아닌지 확인한다.
                 guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                     
-                    db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+                    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
                         if let err = err {
                             print(">>>>> document 에러 : \(err)")
                             self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
@@ -273,12 +273,49 @@ class QuestionViewController: BaseVC {
                     return
                 }
                 
+                /// 조회하기 위해 원래 있던 것 들 다 지움
+                self.questionItems.removeAll()
+                
+                
+                for document in snapshot.documents {
+                    print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                    
+                    /// document.data()를 통해서 값 받아옴, data는 dictionary
+                    let classDt = document.data()
+                    
+                     
+                    //self.type = "student"
+                    
+                    /// nil값 처리
+                    let name = classDt["name"] as? String ?? ""
+                    self.userName = name
+                    let subject = classDt["subject"] as? String ?? ""
+                    self.subject = subject
+                    let classColor = classDt["circleColor"] as? String ?? "026700"
+                    self.classColor = classColor
+                    let email = classDt["email"] as? String ?? ""
+                    self.email = email
+                    let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
+                    
+                    /// 모든 값을 더한다.
+                    self.questionItems.append(item)
+                }
+                
+                /// UITableView를 reload 하기
+                self.questionTV.reloadData()
             }
             
+            return
+            
+            
         }
-        
+    
+    
+    
     }
+    
 }
+
 
 // MARK: - 테이블뷰 관련
 
@@ -312,16 +349,17 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
         
     }
-    
+
     /// didDelectRowAt: 셀 전체 클릭
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         // 사용자 구별
-        //            if type == "teacher" {
-        //                docRef = db.collection("teacher")
-        //            } else {
-        //                docRef = db.collection("student")
-        //            }
+        if type == "teacher" {
+            docRef = db.collection("teacher")
+        } else {
+            docRef = db.collection("student")
+        }
+        
         
         var index: Int!
         var name: String!
@@ -329,8 +367,7 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         var subject: String!
         var type: String!
         
-        /// 선생님이면
-        docRef = self.db.collection("teacher")
+        
         docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: indexPath.row)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
@@ -360,55 +397,9 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
                     questionVC.type = type
                     questionVC.subject = subject
                     
-                    
                     self.present(questionVC, animated: true, completion: nil)
-                    
                 }
             }
-        
-        
-        
-        // 학생이면
-        docRef = self.db.collection("student")
-        docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: indexPath.row)
-            .getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print(">>>>> document 에러 : \(err)")
-                } else {
-                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                        return
-                    }
-                    
-                    guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
-                    
-                    questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                    questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                    /// first : 여러개가 와도 첫번째 것만 봄.
-                    
-                    let questionDt = snapshot.documents.first!.data()
-                    
-                    index = questionDt["index"] as? Int ?? 0
-                    name = questionDt["name"] as? String ?? ""
-                    subject = questionDt["subject"] as? String ?? ""
-                    email = questionDt["email"] as? String ?? ""
-                    type = questionDt["type"] as? String ?? ""
-                    
-                    questionVC.index = index
-                    questionVC.email = email
-                    questionVC.userName = name
-                    questionVC.type = type
-                    questionVC.subject = subject
-                    
-                    
-                    self.present(questionVC, animated: true, completion: nil)
-                    
-                }
-            }
-        
-        
-        
-        
-        
         
         print("클릭됨 : \(indexPath.row)")
         
