@@ -72,7 +72,7 @@ class QnADetailViewController: UIViewController {
                                                 self.subject = document.data()["subject"] as? String ?? ""
                                                 
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
-                                                
+                                                print(self.userName)
                                                self.setQuestion()
                                                 self.setAnswer()
                                                 

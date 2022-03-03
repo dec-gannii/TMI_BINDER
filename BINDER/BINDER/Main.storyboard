@@ -3350,6 +3350,7 @@ Cg
                         <outlet property="navigationBar" destination="DaZ-Ba-BQ4" id="Mh7-82-h1u"/>
                         <outlet property="plusbutton" destination="RXK-2w-a3K" id="cfj-18-Q22"/>
                         <outlet property="questionListTV" destination="Snw-Y9-T67" id="qxO-VX-a9H"/>
+                        <outlet property="toggleLabel" destination="cFE-1q-Nq0" id="drZ-wl-Hfj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qID-yW-Djr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
