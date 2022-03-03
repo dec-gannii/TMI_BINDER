@@ -34,6 +34,7 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     var email : String!
     var type = ""
     var index : Int!
+    var qnum : String!
     
     var captureImage: UIImage!
     var videoURL: URL!
@@ -198,12 +199,12 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                                                                 return
                                                             }
                                                 // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
-                                                self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.index)).setData([
+                                                self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.qnum)).setData([
                                                     "imgURL":"\(downloadURL)",
                                                      "title":self.name,
                                                      "questionContent": self.studyMemo,
                                                     "answerCheck": false,
-                                                    "index": self.index
+                                                    "qnum": self.qnum
                                                  ]) { err in
                                                      if let err = err {
                                                          print("Error adding document: \(err)")
@@ -212,12 +213,12 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                                             }
                                         }
                                     } else {
-                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.index)).setData([
+                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.qnum)).setData([
                                             "imgURL":"",
                                              "title":self.name,
                                              "question": self.studyMemo,
                                             "answerCheck": false,
-                                            "index":self.index
+                                            "qnum":self.qnum
                                          ]) { err in
                                              if let err = err {
                                                  print("Error adding document: \(err)")

@@ -64,8 +64,6 @@ class QuestionListViewController : BaseVC {
                 self.toggleLabel.text = "답변 대기만 보기"
             }
         }
-        
-        
     }
     
     func getUserInfo() {
@@ -111,53 +109,93 @@ class QuestionListViewController : BaseVC {
                 }
             }
         
-        
-        // 학생이면
-        docRef = self.db.collection("student")
-        // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
-        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
+        docRef = self.db.collection("student") // 학생이면
+        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
-                    for document in querySnapshot!.documents {
+                    for document in querySnapshot!.documents { // 문서가 있다면
                         print("\(document.documentID) => \(document.data())")
                         
-                        let studentName = document.data()["name"] as? String ?? ""
-                        let studentEmail = document.data()["email"] as? String ?? ""
-                        
-                        let teacherDocRef = self.db.collection("teacher")
-                        
-                        if let email = self.email { // 사용자의 이메일이 nil이 아니라면
-                            // 선생님들 정보의 경로 중 이메일이 일치하는 선생님 찾기
-                            teacherDocRef.whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
-                                if let err = err {
-                                    print("Error getting documents: \(err)")
-                                } else {
-                                    for document in querySnapshot!.documents {
-                                        print("\(document.documentID) => \(document.data())")
-                                        let teacherUid = document.data()["uid"] as? String ?? ""
-                                        let teacherName = document.data()["name"] as? String ?? ""
-                                        self.userName = teacherName
-                                        let index = document.data()["index"] as? Int
-                                        
-                                        self.navigationBar.topItem!.title = self.userName + " 선생님"
-                                        
-                                        // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
-                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() {(document, error) in
-                                            
-                                            self.questionListTV.reloadData()
-                                            self.setStudentQuestion()
+                        if let index = self.index { // userIndex가 nil이 아니라면
+                            // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
+                            print ("index : \(index)")
+                            self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
+                                .getDocuments() { (querySnapshot, err) in
+                                    if let err = err {
+                                        print(">>>>> document 에러 : \(err)")
+                                    } else {
+                                        if let err = err {
+                                            print("Error getting documents: \(err)")
+                                        } else {
+                                            for document in querySnapshot!.documents {
+                                                print("\(document.documentID) => \(document.data())")
+                                                // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
+                                                // 네비게이션 바의 이름도 설정해주기
+                                                let name = document.data()["name"] as? String ?? ""
+                                                //                                                self.userName = name
+                                                let email = document.data()["email"] as? String ?? ""
+                                                let subject = document.data()["subject"] as? String ?? ""
+                                                
+                                                self.navigationBar.topItem!.title = name + " 선생님"
+                                                
+                                                self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("questionList").getDocuments() {(document, error) in
+                                                    self.questionListTV.reloadData()
+                                                    self.setStudentQuestion()
+                                                }
+                                            }
                                         }
-                                        
-                                        
                                     }
                                 }
-                            }
                         }
                     }
                 }
             }
+        //        // 학생이면
+        //        docRef = self.db.collection("student")
+        //        // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
+        //        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
+        //            .getDocuments() { (querySnapshot, err) in
+        //                if let err = err {
+        //                    print("Error getting documents: \(err)")
+        //                } else {
+        //                    for document in querySnapshot!.documents {
+        //                        print("\(document.documentID) => \(document.data())")
+        //
+        //                        let studentName = document.data()["name"] as? String ?? "" // 학생 이름
+        //                        let studentEmail = document.data()["email"] as? String ?? "" // 학생 이메일
+        //
+        //                        let teacherDocRef = self.db.collection("teacher") // 선생님 DB
+        //
+        //                        if let email = self.email { // 사용자의 이메일이 nil이 아니라면
+        //                            // 선생님들 정보의 경로 중 이메일이 일치하는 선생님 찾기
+        //                            print("email : \(self.email)")
+        //                            teacherDocRef.whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+        //                                if let err = err {
+        //                                    print("Error getting documents: \(err)")
+        //                                } else {
+        //                                    for document in querySnapshot!.documents {
+        //                                        print("\(document.documentID) => \(document.data())")
+        //                                        let teacherUid = document.data()["uid"] as? String ?? "" // 선생님 uid
+        //                                        let teacherName = document.data()["name"] as? String ?? "" // 선생님 이름
+        ////                                        let index = document.data()["index"] as? Int // 선생님 인덱스
+        //                                        print ("teacherName : \(teacherName)")
+        //                                        self.navigationBar.topItem!.title = teacherName + " 선생님"
+        //
+        //                                        // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
+        //                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() {(document, error) in
+        //
+        //                                            self.questionListTV.reloadData()
+        //                                            self.setStudentQuestion()
+        //                                        }
+        //                                    }
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
     }
     
     // 나중에 갈라질 건데, 선생님일 경우에는 질문 답변하기 버튼 위에 나타내고, 학생일 경우에는 플러스 버튼으로 질문하기 나타내도록
@@ -242,20 +280,20 @@ class QuestionListViewController : BaseVC {
     }
     
     @IBAction func clickPlusBtn(_ sender: Any) {
-           guard let plusVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionPlusVC") as? QuestionPlusViewController else { return }
-           
-           plusVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-           plusVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-           /// first : 여러개가 와도 첫번째 것만 봄.
-           
-           plusVC.index = index
-           plusVC.email = email
-           plusVC.userName = userName
-           plusVC.type = type
-           plusVC.subject = subject
-           
-           self.present(plusVC, animated: true, completion: nil)
-       }
+        guard let plusVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionPlusVC") as? QuestionPlusViewController else { return }
+        
+        plusVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+        plusVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+        /// first : 여러개가 와도 첫번째 것만 봄.
+        
+        plusVC.index = index
+        plusVC.email = email
+        plusVC.userName = userName
+        plusVC.type = type
+        plusVC.subject = subject
+        
+        self.present(plusVC, animated: true, completion: nil)
+    }
 }
 
 
@@ -282,89 +320,89 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     // 테이블뷰 선택시
-       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-           tableView.deselectRow(at: indexPath, animated: true)
-           // 사용자 구별
-           if type == "teacher" {
-               docRef = db.collection("teacher")
-           } else {
-               docRef = db.collection("student")
-           }
-           
-           var index: Int!
-           var name: String!
-           var email: String!
-           var subject: String!
-           var type: String!
-           
-           docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: indexPath.row)
-               .getDocuments() { (querySnapshot, err) in
-                   if let err = err {
-                       print(">>>>> document 에러 : \(err)")
-                   } else {
-                       guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                           return
-                       }
-                      
-                           let item:QuestionListItem = self.questionListItems[indexPath.row]
-                           
-                           if item.answerCheck == true { //답변이 있는 경우
-                               guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
-                               
-                               qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                               qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                               /// first : 여러개가 와도 첫번째 것만 봄.
-                               
-                               let questionDt = snapshot.documents.first!.data()
-                               
-                               index = questionDt["index"] as? Int ?? 0
-                               name = questionDt["name"] as? String ?? ""
-                               subject = questionDt["subject"] as? String ?? ""
-                               email = questionDt["email"] as? String ?? ""
-                               type = questionDt["type"] as? String ?? ""
-                               
-                               qnaVC.index = index
-                               qnaVC.email = email
-                               qnaVC.userName = name
-                               qnaVC.type = type
-                               qnaVC.subject = subject
-                               
-                               self.present(qnaVC, animated: true, completion: nil)
-                           }
-                           else { // 답변이 없는 경우
-                               guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionDetailVC") as? QuestionDetailViewController else { return }
-                               
-                               questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                               questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                               /// first : 여러개가 와도 첫번째 것만 봄.
-                               
-                               let questionDt = snapshot.documents.first!.data()
-                               
-                               index = questionDt["index"] as? Int ?? 0
-                               name = questionDt["name"] as? String ?? ""
-                               subject = questionDt["subject"] as? String ?? ""
-                               email = questionDt["email"] as? String ?? ""
-                               type = questionDt["type"] as? String ?? ""
-                               
-                               questionVC.index = index
-                               questionVC.email = email
-                               questionVC.userName = name
-                               questionVC.type = type
-                               questionVC.subject = subject
-                               
-                               self.present(questionVC, animated: true, completion: nil)
-                           }
-                      
-                   }
-               }
-           
-           print("클릭됨 : \(indexPath.row)")
-           
-       }
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        // 사용자 구별
+        if type == "teacher" {
+            docRef = db.collection("teacher")
+        } else {
+            docRef = db.collection("student")
+        }
+        
+        var index: Int!
+        var name: String!
+        var email: String!
+        var subject: String!
+        var type: String!
+        
+        docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: indexPath.row)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                        return
+                    }
+                    
+                    let item:QuestionListItem = self.questionListItems[indexPath.row]
+                    
+                    if item.answerCheck == true { //답변이 있는 경우
+                        guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
+                        
+                        qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                        qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                        /// first : 여러개가 와도 첫번째 것만 봄.
+                        
+                        let questionDt = snapshot.documents.first!.data()
+                        
+                        index = questionDt["index"] as? Int ?? 0
+                        name = questionDt["name"] as? String ?? ""
+                        subject = questionDt["subject"] as? String ?? ""
+                        email = questionDt["email"] as? String ?? ""
+                        type = questionDt["type"] as? String ?? ""
+                        
+                        qnaVC.index = index
+                        qnaVC.email = email
+                        qnaVC.userName = name
+                        qnaVC.type = type
+                        qnaVC.subject = subject
+                        
+                        self.present(qnaVC, animated: true, completion: nil)
+                    }
+                    else { // 답변이 없는 경우
+                        guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionDetailVC") as? QuestionDetailViewController else { return }
+                        
+                        questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                        questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                        /// first : 여러개가 와도 첫번째 것만 봄.
+                        
+                        let questionDt = snapshot.documents.first!.data()
+                        
+                        index = questionDt["index"] as? Int ?? 0
+                        name = questionDt["name"] as? String ?? ""
+                        subject = questionDt["subject"] as? String ?? ""
+                        email = questionDt["email"] as? String ?? ""
+                        type = questionDt["type"] as? String ?? ""
+                        
+                        questionVC.index = index
+                        questionVC.email = email
+                        questionVC.userName = name
+                        questionVC.type = type
+                        questionVC.subject = subject
+                        
+                        self.present(questionVC, animated: true, completion: nil)
+                    }
+                    
+                }
+            }
+        
+        print("클릭됨 : \(indexPath.row)")
+        
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let item:QuestionListItem = self.questionListItems[indexPath.row]
+        //        let item:QuestionListItem = self.questionListItems[indexPath.row]
         if (self.answeredToggle.isOn) {
             if (self.type == "student") {
                 let item = self.questionAnsweredItems[indexPath.row]
