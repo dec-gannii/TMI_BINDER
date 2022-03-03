@@ -29,6 +29,12 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     var file_name:String!
     var name:String!
     
+    var userName : String!
+    var subject : String!
+    var email : String!
+    var type = ""
+    var index : Int!
+    
     var captureImage: UIImage!
     var videoURL: URL!
     var flagImageSave = false
@@ -145,45 +151,81 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         else {
             
             print("제목 작성 완료")
-            
-            if let data = image!.pngData(){
-                let urlRef = storageRef.child("image/\(file_name!).png")
-                
-                let metadata = StorageMetadata()
-                metadata.contentType = "image/png"
-                let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-                        guard let metadata = metadata else {
-                            return
+                        
+                var docRef = self.db.collection("student")
+                // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
+                docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
+                    .getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                
+                                let studentName = document.data()["name"] as? String ?? ""
+                                let studentEmail = document.data()["email"] as? String ?? ""
+                                
+                                let teacherDocRef = self.db.collection("teacher")
+                                
+                                if let email = self.email { // 사용자의 이메일이 nil이 아니라면
+                                    // 선생님들 정보의 경로 중 이메일이 일치하는 선생님 찾기
+                                    teacherDocRef.whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                                        if let err = err {
+                                            print("Error getting documents: \(err)")
+                                        } else {
+                                            for document in querySnapshot!.documents {
+                                                print("\(document.documentID) => \(document.data())")
+                                                let teacherUid = document.data()["uid"] as? String ?? ""
+                                                
+                                                if let data = image!.pngData(){
+                                                    let urlRef = self.storageRef.child("image/\(self.file_name!).png")
+                                                    
+                                                    let metadata = StorageMetadata()
+                                                    metadata.contentType = "image/png"
+                                                    let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                                                            guard let metadata = metadata else {
+                                                                return
+                                                            }
+                                                    
+                                                        urlRef.downloadURL { (url, error) in
+                                                            guard let downloadURL = url else {
+                                                                return
+                                                            }
+                                                // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
+                                                self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.index)).setData([
+                                                    "imgURL":"\(downloadURL)",
+                                                     "title":self.name,
+                                                     "questionContent": self.studyMemo,
+                                                    "answerCheck": false,
+                                                    "index": self.index
+                                                 ]) { err in
+                                                     if let err = err {
+                                                         print("Error adding document: \(err)")
+                                                     }
+                                                 }
+                                            }
+                                        }
+                                    } else {
+                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.index)).setData([
+                                            "imgURL":"",
+                                             "title":self.name,
+                                             "question": self.studyMemo,
+                                            "answerCheck": false,
+                                            "index":self.index
+                                         ]) { err in
+                                             if let err = err {
+                                                 print("Error adding document: \(err)")
+                                             }
+                                         }
+                                    }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
-                
-                    urlRef.downloadURL { (url, error) in
-                        guard let downloadURL = url else {
-                            return
-                        }
-                        self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).setData([
-                            "url":"\(downloadURL)",
-                             "title":self.name,
-                             "question": self.studyMemo,
-                            "answerCheck": false
-                         ]) { err in
-                             if let err = err {
-                                 print("Error adding document: \(err)")
-                             }
-                         }
                     }
-                }
-            } else {
-                self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).setData([
-                    "url":"",
-                     "title":self.name,
-                     "question": self.studyMemo,
-                    "answerCheck": false
-                 ]) { err in
-                     if let err = err {
-                         print("Error adding document: \(err)")
-                     }
-                 }
-            }
+                        
             
             if let preVC = self.presentingViewController as? UIViewController {
                 preVC.dismiss(animated: true, completion: nil)

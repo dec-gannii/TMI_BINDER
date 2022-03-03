@@ -613,10 +613,13 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
         let todo = self.todos[indexPath.row]
+        let background = UIView()
         
         cell.TodoLabel.text = "\(todo)"
         
-        cell.selectionStyle = .none
+        background.backgroundColor = .clear
+        cell.selectedBackgroundView = background
+        // cell.selectionStyle = .none
         cell.CheckButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
         return cell
     }
