@@ -49,6 +49,12 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
 
     }
     
+    @IBAction func clickUndo(_ sender: Any) {
+        if let preVC = self.presentingViewController {
+            preVC.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     func placeholderSetting() {
         textView.delegate = self // txtvReview가 유저가 선언한 outlet
         textView.text = "질문 내용을 작성해주세요."
