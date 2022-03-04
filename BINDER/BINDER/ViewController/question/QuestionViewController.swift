@@ -61,7 +61,8 @@ class QuestionViewController: BaseVC {
             }
         }
         
-        db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        let docRef2 = db.collection("student")
+        docRef2.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
             } else {
