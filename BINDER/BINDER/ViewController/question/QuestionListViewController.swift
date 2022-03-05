@@ -99,7 +99,6 @@ class QuestionListViewController : BaseVC {
                                                 
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
                                                 
-                                                self.questionListTV.reloadData()
                                                 self.setTeacherQuestion()
                                                 self.plusbutton.isEnabled = false
                                             }
@@ -142,7 +141,7 @@ class QuestionListViewController : BaseVC {
                                                 self.navigationBar.topItem!.title = name + " 선생님"
                                                 
                                                 self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("questionList").getDocuments() {(document, error) in
-                                                    self.questionListTV.reloadData()
+                                                    //                                                    self.questionListTV.reloadData()
                                                     self.setStudentQuestion()
                                                 }
                                             }
@@ -233,6 +232,8 @@ class QuestionListViewController : BaseVC {
                 }
             }
         } else {
+            // 윤수미 선생님은 왜 안뜨는건지 모르겠음 (콘솔에는 출력 됨)
+            // 토글 온/오프할 때마다 제목이 과목 명으로 바뀌는데 그런 코드 없는데 왜 그러는지 의문
             if let email = self.email, let index = self.index {
                 print ("self.index : \(index), self.email : \(email)")
                 var studentName = ""
@@ -306,22 +307,24 @@ class QuestionListViewController : BaseVC {
                                                             let imgURL = questionDt["imgURL"] as? String ?? ""
                                                             let email = questionDt["email"] as? String ?? ""
                                                             
-                                                            
-                                                            let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index )
-                                                            
-                                                            let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
-                                                            
-                                                            /// 모든 값을 더한다.
-                                                            /// 전체 경우
-                                                            self.questionListItems.append(item)
-                                                            print (self.questionListItems)
-                                                            /// 답변 완료일 경우
-                                                            if answerCheck == true {
-                                                                self.questionAnsweredItems.append(answeredItem)
-                                                                print (self.questionAnsweredItems)
-                                                            } else if answerCheck == false {
-                                                                self.questionNotAnsweredItems.append(answeredItem)
-                                                                print (self.questionNotAnsweredItems)
+                                                            if (index != "" && title != "" && questionContent != ""){
+                                                                let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index )
+                                                                
+                                                                let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
+                                                                
+                                                                /// 모든 값을 더한다.
+                                                                /// 전체 경우
+                                                                self.questionListItems.append(item)
+                                                                print (self.questionListItems)
+                                                                /// 답변 완료일 경우
+                                                                if answerCheck == true {
+                                                                    self.questionAnsweredItems.append(answeredItem)
+                                                                    print (self.questionAnsweredItems)
+                                                                } else if answerCheck == false {
+                                                                    self.questionNotAnsweredItems.append(answeredItem)
+                                                                    print (self.questionNotAnsweredItems)
+                                                                }
+                                                                
                                                             }
                                                         }
                                                         /// UITableView를 reload 하기
@@ -371,13 +374,16 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         if (self.type == "teacher") {
             if (answeredToggle.isOn) {
                 return self.questionNotAnsweredItems.count
+            } else {
+                return self.questionListItems.count
             }
         } else {
             if (answeredToggle.isOn) {
                 return self.questionAnsweredItems.count
+            } else {
+                return self.questionListItems.count
             }
         }
-        return self.questionListItems.count
     }
     
     // 테이블뷰 선택시

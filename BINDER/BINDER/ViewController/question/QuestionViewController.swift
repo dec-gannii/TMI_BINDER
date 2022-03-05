@@ -404,17 +404,17 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         
         print("클릭됨 : \(indexPath.row)")
         
-        guard let questionListVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
-        
-        questionListVC.modalPresentationStyle = .fullScreen
-        questionListVC.modalTransitionStyle = .crossDissolve
-        
-        questionListVC.email = self.email
-        questionListVC.subject = self.subject
-        questionListVC.userName = self.userName
-        questionListVC.type = self.type
-        questionListVC.index = indexPath.row
-        
-        self.present(questionListVC, animated: true, completion: nil)
+//        guard let questionListVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
+//
+//        questionListVC.modalPresentationStyle = .fullScreen
+//        questionListVC.modalTransitionStyle = .crossDissolve
+//
+//        questionListVC.email = email
+//        questionListVC.subject = self.subject
+//        questionListVC.userName = self.userName
+//        questionListVC.type = self.type
+//        questionListVC.index = indexPath.row
+//
+//        self.present(questionListVC, animated: true, completion: nil)
     }
 }
