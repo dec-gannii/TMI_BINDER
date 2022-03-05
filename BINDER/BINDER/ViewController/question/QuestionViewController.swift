@@ -39,7 +39,7 @@ class QuestionViewController: BaseVC {
     
     // 상단 유저 정보 가져오기
     func getUserInfo(){
-
+        
         let db = Firestore.firestore()
         let docRef = db.collection("teacher")
         
@@ -61,7 +61,8 @@ class QuestionViewController: BaseVC {
             }
         }
         
-        db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        let docRef2 = db.collection("student")
+        docRef2.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
             } else {
@@ -187,7 +188,7 @@ class QuestionViewController: BaseVC {
                     /// document.data()를 통해서 값 받아옴, data는 dictionary
                     let classDt = document.data()
                     
-                     
+                    
                     //self.type = "student"
                     
                     /// nil값 처리
@@ -213,8 +214,8 @@ class QuestionViewController: BaseVC {
             
             
         } /// db.collection("teacher") 끝
-    
-    
+        
+        
         // 학생일 경우
         docRef = db.collection("student").document(Auth.auth().currentUser!.uid)
         docRef.collection("class").getDocuments() { (querySnapshot, err) in
@@ -283,7 +284,7 @@ class QuestionViewController: BaseVC {
                     /// document.data()를 통해서 값 받아옴, data는 dictionary
                     let classDt = document.data()
                     
-                     
+                    
                     //self.type = "student"
                     
                     /// nil값 처리
@@ -309,9 +310,9 @@ class QuestionViewController: BaseVC {
             
             
         }
-    
-    
-    
+        
+        
+        
     }
     
 }
@@ -349,7 +350,7 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
         
     }
-
+    
     /// didDelectRowAt: 셀 전체 클릭
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -400,20 +401,21 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
                     self.present(questionVC, animated: true, completion: nil)
                 }
             }
-        
-        print("클릭됨 : \(indexPath.row)")
-        
-        guard let questionListVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
-        
-        questionListVC.modalPresentationStyle = .fullScreen
-        questionListVC.modalTransitionStyle = .crossDissolve
-        
-        questionListVC.email = self.email
-        questionListVC.subject = self.subject
-        questionListVC.userName = self.userName
-        questionListVC.type = self.type
-        questionListVC.index = indexPath.row
-        
-        self.present(questionListVC, animated: true, completion: nil)
+        if (self.type == "teacher"){
+            print("클릭됨 : \(indexPath.row)")
+            
+            guard let questionListVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
+            
+            questionListVC.modalPresentationStyle = .fullScreen
+            questionListVC.modalTransitionStyle = .crossDissolve
+            
+            questionListVC.email = self.email
+            questionListVC.subject = self.subject
+            questionListVC.userName = self.userName
+            questionListVC.type = "teacher"
+            questionListVC.index = indexPath.row
+            
+            self.present(questionListVC, animated: true, completion: nil)
+        }
     }
 }
