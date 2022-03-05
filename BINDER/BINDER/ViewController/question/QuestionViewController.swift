@@ -412,7 +412,7 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
             questionListVC.email = self.email
             questionListVC.subject = self.subject
             questionListVC.userName = self.userName
-            questionListVC.type = self.type
+            questionListVC.type = "teacher"
             questionListVC.index = indexPath.row
             
             self.present(questionListVC, animated: true, completion: nil)

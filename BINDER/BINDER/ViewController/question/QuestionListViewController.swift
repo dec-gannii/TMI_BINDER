@@ -76,6 +76,8 @@ class QuestionListViewController : BaseVC {
                 } else {
                     for document in querySnapshot!.documents { // 문서가 있다면
                         print("\(document.documentID) => \(document.data())")
+                        self.type = "teacher"
+                        self.toggleLabel.text = "답변 대기만 보기"
                         
                         if let index = self.index { // userIndex가 nil이 아니라면
                             // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
@@ -121,6 +123,8 @@ class QuestionListViewController : BaseVC {
                         
                         if let index = self.index { // userIndex가 nil이 아니라면
                             // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
+                            self.type = "student"
+                            self.toggleLabel.text = "답변 완료만 보기"
                             print ("index : \(index)")
                             self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
                                 .getDocuments() { (querySnapshot, err) in
@@ -470,6 +474,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //        let item:QuestionListItem = self.questionListItems[indexPath.row]
+        print ("self.type : \(self.type)")
         if (self.answeredToggle.isOn) {
             if (self.type == "student") {
                 let item = self.questionAnsweredItems[indexPath.row]
