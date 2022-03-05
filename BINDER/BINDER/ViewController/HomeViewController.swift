@@ -83,12 +83,6 @@ class HomeViewController: UIViewController {
         getTeacherInfo()
         getStudentInfo()
         
-        //        if (self.type == "teacher") {
-        //            setTeacherMyClasses()
-        //        } else {
-        //            setStudentMyClasses()
-        //        }
-        
         self.calendarText()
         self.calendarColor()
         self.calendarEvent()

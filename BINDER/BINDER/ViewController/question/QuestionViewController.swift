@@ -55,6 +55,10 @@ class QuestionViewController: BaseVC {
                         self.type = document.data()["type"] as? String ?? ""
                         self.email = document.data()["email"] as? String ?? ""
                         self.userName = document.data()["name"] as? String ?? ""
+                        let userProfile = document.data()["profile"] as? String ?? ""
+                        let url = URL(string: userProfile)!
+                        self.teacherImage.kf.setImage(with: url)
+                        self.teacherImage.makeCircle()
                         self.setTeacherInfo()
                     }
                 }
@@ -74,6 +78,10 @@ class QuestionViewController: BaseVC {
                         let type = document.data()["type"] as? String ?? ""
                         self.type = type
                         let email = document.data()["email"] as? String ?? ""
+                        let userProfile = document.data()["profile"] as? String ?? ""
+                        let url = URL(string: userProfile)!
+                        self.teacherImage.kf.setImage(with: url)
+                        self.teacherImage.makeCircle()
                         self.setStudentInfo()
                     }
                 }
