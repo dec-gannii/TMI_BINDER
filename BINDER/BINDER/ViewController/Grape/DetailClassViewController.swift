@@ -406,8 +406,6 @@ class DetailClassViewController: UIViewController {
                             }
                         }
                     }
-                    
-                    
                 }
                 
                 if (currentCnt+1 >= 8) {
