@@ -2106,7 +2106,7 @@ Cg
                                                                     </constraints>
                                                                     <color key="tintColor" red="0.074487395580000004" green="0.12549456950000001" blue="0.24313172699999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <state key="normal" title="Button"/>
-                                                                    <buttonConfiguration key="configuration" style="filled" title="수업 관리하기">
+                                                                    <buttonConfiguration key="configuration" style="filled" title="수업 바로가기">
                                                                         <backgroundConfiguration key="background">
                                                                             <color key="backgroundColor" red="0.074487395580000004" green="0.12549456950000001" blue="0.24313172699999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         </backgroundConfiguration>
