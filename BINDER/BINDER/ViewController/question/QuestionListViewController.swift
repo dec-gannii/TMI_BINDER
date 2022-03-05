@@ -236,8 +236,6 @@ class QuestionListViewController : BaseVC {
                 }
             }
         } else {
-            // 윤수미 선생님은 왜 안뜨는건지 모르겠음 (콘솔에는 출력 됨)
-            // 토글 온/오프할 때마다 제목이 과목 명으로 바뀌는데 그런 코드 없는데 왜 그러는지 의문
             if let email = self.email, let index = self.index {
                 print ("self.index : \(index), self.email : \(email)")
                 var studentName = ""
@@ -474,7 +472,6 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //        let item:QuestionListItem = self.questionListItems[indexPath.row]
-        print ("self.type : \(self.type)")
         if (self.answeredToggle.isOn) {
             if (self.type == "student") {
                 let item = self.questionAnsweredItems[indexPath.row]
@@ -518,6 +515,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
             if (self.type == "student") {
                 if (item.imgURL == "") {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell")! as! QuestionListTableViewCell
+                    cell.title.text = item.title
                     cell.questionContent.text = "\(item.questionContent)"
                     if (item.answerCheck == true) {
                         cell.answerCheck.text = "답변 완료"
@@ -529,7 +527,7 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                     return cell
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
-                    cell.title.text = self.questionAnsweredItems[indexPath.row].title
+                    cell.title.text = item.title
                     cell.questionImage.kf.setImage(with: URL(string: item.imgURL), placeholder: UIImage(systemName: "no image"), options: nil, completionHandler: nil)
                     cell.questionContent.text = "\(item.questionContent)"
                     if (item.answerCheck == true) {
