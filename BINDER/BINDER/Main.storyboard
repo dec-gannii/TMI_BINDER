@@ -3163,15 +3163,15 @@ Cg
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="imageCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="imageCell" rowHeight="309" id="I1T-Ms-bMR" userLabel="imageCell" customClass="QuestionListTableViewImageCell" customModule="BINDER" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="44.5" width="414" height="309"/>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="imageCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="imageCell" rowHeight="330" id="I1T-Ms-bMR" userLabel="imageCell" customClass="QuestionListTableViewImageCell" customModule="BINDER" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="44.5" width="414" height="330"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="I1T-Ms-bMR" id="QN8-1g-6LK">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="309"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="330"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D23-I4-FUl">
-                                                            <rect key="frame" x="34" y="5" width="346" height="299"/>
+                                                            <rect key="frame" x="34" y="16" width="346" height="304"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수학" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P9l-Jn-zHE" userLabel="title">
                                                                     <rect key="frame" x="18" y="18" width="29.5" height="20.5"/>
@@ -3197,14 +3197,14 @@ Cg
                                                                         <constraint firstAttribute="height" constant="32" id="raf-F4-BPO"/>
                                                                     </constraints>
                                                                 </view>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="선생님 이 내용 잘 모르겠어요 저번 수업에서 알려주신 공식 그대로 적용했는데도 잘 안돼요ㅠㅠ 동영상으로 찍어주실 수 있나요?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUh-27-6ue" userLabel="questionContent">
-                                                                    <rect key="frame" x="18" y="59" width="310" height="40"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="선생님 이 내용 잘 모르겠어요 저번 수업에서 알려주신 공식 그대로 적용했는데도 잘 안돼요ㅠㅠ 동영상으로 찍어주실 수 있나요?" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUh-27-6ue" userLabel="questionContent">
+                                                                    <rect key="frame" x="18" y="59" width="310" height="45"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5g8-W4-QFB">
-                                                                    <rect key="frame" x="18" y="107" width="310" height="172"/>
+                                                                    <rect key="frame" x="18" y="112" width="310" height="174"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="5g8-W4-QFB" secondAttribute="height" multiplier="175:97" id="fLj-KX-PEx"/>
                                                                     </constraints>
@@ -3227,9 +3227,9 @@ Cg
                                                         </view>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="D23-I4-FUl" firstAttribute="top" secondItem="QN8-1g-6LK" secondAttribute="top" constant="5" id="3AX-z9-tsY"/>
+                                                        <constraint firstItem="D23-I4-FUl" firstAttribute="top" secondItem="QN8-1g-6LK" secondAttribute="top" constant="16" id="3AX-z9-tsY"/>
                                                         <constraint firstItem="D23-I4-FUl" firstAttribute="leading" secondItem="QN8-1g-6LK" secondAttribute="leading" constant="34" id="Fzn-Uf-ix2"/>
-                                                        <constraint firstAttribute="bottom" secondItem="D23-I4-FUl" secondAttribute="bottom" constant="5" id="J9N-4w-PZx"/>
+                                                        <constraint firstAttribute="bottom" secondItem="D23-I4-FUl" secondAttribute="bottom" constant="10" id="J9N-4w-PZx"/>
                                                         <constraint firstAttribute="trailing" secondItem="D23-I4-FUl" secondAttribute="trailing" constant="34" id="JOP-fq-ijx"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
@@ -3243,7 +3243,7 @@ Cg
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="defaultCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="defaultCell" id="Iou-eT-ur2" userLabel="defaultCell" customClass="QuestionListTableViewCell" customModule="BINDER" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="353.5" width="414" height="149"/>
+                                                <rect key="frame" x="0.0" y="374.5" width="414" height="149"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Iou-eT-ur2" id="X6g-0z-CrP">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="149"/>
