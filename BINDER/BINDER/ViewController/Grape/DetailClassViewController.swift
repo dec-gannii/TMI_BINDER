@@ -52,6 +52,7 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var classScoreTextField: UITextField!
     @IBOutlet weak var classNavigationBar: UINavigationBar!
     @IBOutlet weak var EvaluationTitleLabel: UILabel!
+    @IBOutlet weak var classTimeTextField: UITextField!
     
     override func viewDidLoad() {
         // 빈 배열 형성
@@ -161,6 +162,14 @@ class DetailClassViewController: UIViewController {
                                                 // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
                                                 // 네비게이션 바의 이름도 설정해주기
                                                 let name = document.data()["name"] as? String ?? ""
+                                                let payType = document.data()["payType"] as? String ?? ""
+                                                
+                                                if (payType == "T") {
+                                                    self.classTimeTextField.isEnabled = true
+                                                } else if (payType == "C") {
+                                                    self.classTimeTextField.isEnabled = false
+                                                }
+                                                
                                                 self.userName = name
                                                 self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
                                                 self.userEmail = document.data()["email"] as? String ?? ""
@@ -341,7 +350,8 @@ class DetailClassViewController: UIViewController {
             "homeworkCompletion": Int(homeworkScoreTextField.text!) ?? 0,
             "classAttitude": Int(classScoreTextField.text!) ?? 0,
             "evaluationMemo": evaluationMemoTextView.text!,
-            "evaluationDate": self.date ?? ""
+            "evaluationDate": self.date ?? "",
+            "todayClassTime": Int(self.classTimeTextField.text!) ?? 0
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
@@ -359,6 +369,51 @@ class DetailClassViewController: UIViewController {
                 let data = document.data()
                 var currentCnt = data?["currentCnt"] as? Int ?? 0
                 let subject = data?["subject"] as? String ?? "" // 과목
+                let payType = data?["payType"] as? String ?? ""
+                var count = 0
+                
+                if (payType == "T") {
+                    if (currentCnt+Int(self.classTimeTextField.text!)! >= 8) {
+                        print ("currentCnt+Int(self.classTimeTextField.text!)! : \(currentCnt+Int(self.classTimeTextField.text!)!)")
+                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            "currentCnt": (currentCnt + Int(self.classTimeTextField.text!)!) % 8
+                        ]) { err in
+                            if let err = err {
+                                print("Error adding document: \(err)")
+                            }
+                        }
+                    } else {
+                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
+                        ]) { err in
+                            if let err = err {
+                                print("Error adding document: \(err)")
+                            }
+                        }
+                    }
+                    count = currentCnt + Int(self.classTimeTextField.text!)!
+                } else if (payType == "C") {
+                    if (currentCnt+1 >= 8) {
+                        print ("currentCnt+Int(self.classTimeTextField.text!)! : \(currentCnt+Int(self.classTimeTextField.text!)!)")
+                        currentCnt = currentCnt % 8
+                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            "currentCnt": currentCnt + 1
+                        ]) { err in
+                            if let err = err {
+                                print("Error adding document: \(err)")
+                            }
+                        }
+                    } else {
+                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            "currentCnt": currentCnt + 1
+                        ]) { err in
+                            if let err = err {
+                                print("Error adding document: \(err)")
+                            }
+                        }
+                    }
+                    count = currentCnt + 1
+                }
                 
                 self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
                     if let document = document, document.exists {
@@ -379,13 +434,14 @@ class DetailClassViewController: UIViewController {
                                         if let document = document, document.exists {
                                             let data = document.data()
                                             var currentCnt = data?["currentCnt"] as? Int ?? 0
+                                            let payType = data?["payType"] as? String ?? ""
                                             
                                             print ("currentCnt : \(currentCnt)")
                                             
-                                            if (currentCnt+1 >= 8) {
-                                                currentCnt = currentCnt % 8
+                                            if (currentCnt >= 8) {
+                                                currentCnt = (currentCnt+Int(self.classTimeTextField.text!)!) % 8
                                                 self.db.collection("student").document(uid).collection("class").document(name + "(" + email + ") " + self.userSubject).updateData([
-                                                    "currentCnt": currentCnt + 1
+                                                    "currentCnt": count
                                                 ]) { err in
                                                     if let err = err {
                                                         print("Error adding document: \(err)")
@@ -393,7 +449,7 @@ class DetailClassViewController: UIViewController {
                                                 }
                                             } else {
                                                 self.db.collection("student").document(uid).collection("class").document(name + "(" + email + ") " + self.userSubject).updateData([
-                                                    "currentCnt": currentCnt + 1
+                                                    "currentCnt": count
                                                 ]) { err in
                                                     if let err = err {
                                                         print("Error adding document: \(err)")
@@ -404,25 +460,6 @@ class DetailClassViewController: UIViewController {
                                     }
                                 }
                             }
-                        }
-                    }
-                }
-                
-                if (currentCnt+1 >= 8) {
-                    currentCnt = currentCnt % 8
-                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
-                        "currentCnt": currentCnt + 1
-                    ]) { err in
-                        if let err = err {
-                            print("Error adding document: \(err)")
-                        }
-                    }
-                } else {
-                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
-                        "currentCnt": currentCnt + 1
-                    ]) { err in
-                        if let err = err {
-                            print("Error adding document: \(err)")
                         }
                     }
                 }
@@ -687,6 +724,13 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             evaluationView.isHidden = false
             evaluationOKBtn.isHidden = false
             
+            self.classTimeTextField.text = ""
+            self.testScoreTextField.text = ""
+            self.classScoreTextField.text = ""
+            self.homeworkScoreTextField.text = ""
+            self.evaluationMemoTextView.text = ""
+            self.progressTextView.text = ""
+            
             // 날짜 받아와서 변수에 저장
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
@@ -724,6 +768,14 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                     
                     let evaluationMemo = data?["evaluationMemo"] as? String ?? ""
                     self.evaluationMemoTextView.text = evaluationMemo
+                    
+                    let todayClassTime = data?["todayClassTime"] as? Int ?? 0
+//                    self.classTimeTextField.text = "\(todayClassTime)"
+                    if (todayClassTime == 0) {
+                        self.classTimeTextField.text = ""
+                    } else {
+                        self.classTimeTextField.text = "\(todayClassTime)"
+                    }
                     
                     let testScore = data?["testScore"] as? Int ?? 0
                     if (testScore == 0) {
