@@ -429,33 +429,14 @@ class DetailClassViewController: UIViewController {
                                     print("\(document.documentID) => \(document.data())")
                                     // 사용할 것들 가져와서 지역 변수로 저장
                                     let uid = document.data()["uid"] as? String ?? "" // 학생 uid
+                                    
                                     print ("uid : \(uid), name : \(name), email : \(email), subject : \(subject)")
-                                    self.db.collection("student").document(uid).collection("class").document(name + "(" + email + ") " + subject).getDocument { (document, error) in
-                                        if let document = document, document.exists {
-                                            let data = document.data()
-                                            var currentCnt = data?["currentCnt"] as? Int ?? 0
-                                            let payType = data?["payType"] as? String ?? ""
-                                            
-                                            print ("currentCnt : \(currentCnt)")
-                                            
-                                            if (currentCnt >= 8) {
-                                                currentCnt = (currentCnt+Int(self.classTimeTextField.text!)!) % 8
-                                                self.db.collection("student").document(uid).collection("class").document(name + "(" + email + ") " + self.userSubject).updateData([
-                                                    "currentCnt": count
-                                                ]) { err in
-                                                    if let err = err {
-                                                        print("Error adding document: \(err)")
-                                                    }
-                                                }
-                                            } else {
-                                                self.db.collection("student").document(uid).collection("class").document(name + "(" + email + ") " + self.userSubject).updateData([
-                                                    "currentCnt": count
-                                                ]) { err in
-                                                    if let err = err {
-                                                        print("Error adding document: \(err)")
-                                                    }
-                                                }
-                                            }
+                                    let path = name + "(" + email + ") " + subject
+                                    self.db.collection("student").document(uid).collection("class").document(path).updateData([
+                                        "currentCnt": count,
+                                    ]) { err in
+                                        if let err = err {
+                                            print("Error adding document: \(err)")
                                         }
                                     }
                                 }
@@ -770,7 +751,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                     self.evaluationMemoTextView.text = evaluationMemo
                     
                     let todayClassTime = data?["todayClassTime"] as? Int ?? 0
-//                    self.classTimeTextField.text = "\(todayClassTime)"
+                    //                    self.classTimeTextField.text = "\(todayClassTime)"
                     if (todayClassTime == 0) {
                         self.classTimeTextField.text = ""
                     } else {
