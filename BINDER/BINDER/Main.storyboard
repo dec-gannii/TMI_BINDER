@@ -655,15 +655,15 @@ Cg
                                                                     <rect key="frame" x="12" y="73" width="322" height="30"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="월말평가" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYy-Wh-k3a">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="222" height="30"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="242" height="30"/>
                                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="달 선택" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="m6e-hk-eaN">
-                                                                            <rect key="frame" x="242" y="0.0" width="80" height="30"/>
+                                                                            <rect key="frame" x="262" y="0.0" width="60" height="30"/>
                                                                             <constraints>
-                                                                                <constraint firstAttribute="width" constant="80" id="AbD-TP-Vu0"/>
+                                                                                <constraint firstAttribute="width" constant="60" id="AbD-TP-Vu0"/>
                                                                                 <constraint firstAttribute="height" constant="30" id="eWX-IG-j7c"/>
                                                                             </constraints>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
