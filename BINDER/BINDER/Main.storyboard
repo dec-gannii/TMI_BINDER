@@ -568,7 +568,7 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AJR-sY-Jbz" userLabel="InfoView">
-                                <rect key="frame" x="0.0" y="44" width="414" height="160"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="140"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="학부모님!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IrM-rO-qnc">
                                         <rect key="frame" x="30" y="64" width="114" height="36"/>
@@ -595,16 +595,16 @@ Cg
                                     <constraint firstItem="IrM-rO-qnc" firstAttribute="top" secondItem="c06-WJ-ROO" secondAttribute="bottom" constant="10" id="9EV-uu-y9q"/>
                                     <constraint firstItem="3d5-OV-Xzd" firstAttribute="top" secondItem="IrM-rO-qnc" secondAttribute="bottom" constant="5" id="AeH-3H-xKe"/>
                                     <constraint firstItem="c06-WJ-ROO" firstAttribute="top" secondItem="AJR-sY-Jbz" secondAttribute="top" constant="30" id="DUo-FP-BSE"/>
-                                    <constraint firstAttribute="height" constant="160" id="N6q-iq-fQs"/>
+                                    <constraint firstAttribute="height" constant="140" id="N6q-iq-fQs"/>
                                     <constraint firstItem="IrM-rO-qnc" firstAttribute="leading" secondItem="AJR-sY-Jbz" secondAttribute="leading" constant="30" id="Qag-fK-wxT"/>
                                     <constraint firstItem="3d5-OV-Xzd" firstAttribute="leading" secondItem="AJR-sY-Jbz" secondAttribute="leading" constant="30" id="dbj-f4-JdY"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vCa-ZG-i7u">
-                                <rect key="frame" x="0.0" y="204" width="414" height="609"/>
+                                <rect key="frame" x="0.0" y="184" width="414" height="629"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="xrx-wl-eD4">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="609"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="629"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="StudentEvaluationCell" rowHeight="249" id="BQA-FY-2gI" customClass="StudentEvaluationCell" customModule="BINDER" customModuleProvider="target">
@@ -671,7 +671,7 @@ Cg
                                                                     </subviews>
                                                                 </stackView>
                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="월말평가 내용입니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BAL-Ru-XyR">
-                                                                    <rect key="frame" x="8" y="118" width="330" height="60"/>
+                                                                    <rect key="frame" x="8" y="113" width="330" height="60"/>
                                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="60" id="O6p-YV-Zmo"/>
@@ -681,10 +681,10 @@ Cg
                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                 </textView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYT-gu-QO2">
-                                                                    <rect key="frame" x="0.0" y="189" width="346" height="40"/>
+                                                                    <rect key="frame" x="0.0" y="184" width="346" height="45"/>
                                                                     <color key="backgroundColor" red="0.047058823530000002" green="0.066666666669999999" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="40" id="V7u-zL-K3r"/>
+                                                                        <constraint firstAttribute="height" constant="45" id="V7u-zL-K3r"/>
                                                                     </constraints>
                                                                     <state key="normal" title="Button"/>
                                                                     <buttonConfiguration key="configuration" style="plain" title="더보기">
@@ -701,7 +701,7 @@ Cg
                                                                 <constraint firstItem="Qkt-7g-22E" firstAttribute="leading" secondItem="npY-uz-R8r" secondAttribute="leading" constant="12" id="CET-UG-CTn"/>
                                                                 <constraint firstAttribute="trailing" secondItem="BwY-ue-Tvf" secondAttribute="trailing" constant="12" id="D6S-GJ-n0n"/>
                                                                 <constraint firstItem="BAL-Ru-XyR" firstAttribute="leading" secondItem="npY-uz-R8r" secondAttribute="leading" constant="8" id="Hqr-lB-Roq"/>
-                                                                <constraint firstItem="BAL-Ru-XyR" firstAttribute="top" secondItem="Qkt-7g-22E" secondAttribute="bottom" constant="10" id="JVA-c3-BXt"/>
+                                                                <constraint firstItem="BAL-Ru-XyR" firstAttribute="top" secondItem="Qkt-7g-22E" secondAttribute="bottom" constant="5" id="JVA-c3-BXt"/>
                                                                 <constraint firstItem="qIE-S8-ySL" firstAttribute="top" secondItem="npY-uz-R8r" secondAttribute="top" constant="12" id="NPN-Vy-JXm"/>
                                                                 <constraint firstItem="BwY-ue-Tvf" firstAttribute="leading" secondItem="npY-uz-R8r" secondAttribute="leading" constant="12" id="NU7-nw-3Kg"/>
                                                                 <constraint firstAttribute="trailing" secondItem="zJB-Sw-gAs" secondAttribute="trailing" constant="20" id="Nws-Rj-Naw"/>

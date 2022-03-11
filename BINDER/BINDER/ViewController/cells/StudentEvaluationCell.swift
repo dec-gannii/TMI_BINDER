@@ -26,12 +26,9 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         super.awakeFromNib()
         
         cellBackgroundView.clipsToBounds = true
-        cellBackgroundView.layer.cornerRadius = 20
+        cellBackgroundView.layer.cornerRadius = 15
         
         classColorView.makeCircle()
-        
-        showMoreInfoButton.clipsToBounds = true
-        showMoreInfoButton.layer.cornerRadius = 8
         
         self.selectionStyle = .none
     }

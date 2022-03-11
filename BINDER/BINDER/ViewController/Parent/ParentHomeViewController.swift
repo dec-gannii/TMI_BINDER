@@ -19,6 +19,7 @@ class ParentHomeViewController: UIViewController {
 //        setEvaluation()
         progressListTableView.delegate = self
         progressListTableView.dataSource = self
+        progressListTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
     @IBOutlet weak var parentNameLabel: UILabel!
@@ -93,8 +94,6 @@ class ParentHomeViewController: UIViewController {
                                 }
                             }
                         }
-                        //                        }
-                        print("===8===")
                         /// UITableView를 reload 하기
                         self.progressListTableView.reloadData()
                     }
@@ -107,7 +106,7 @@ class ParentHomeViewController: UIViewController {
 extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return evaluationItem.count
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -124,7 +123,6 @@ extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.classColorView.backgroundColor = UIColor.red
         }
         
-//        cell.showMoreInfoButton.addTarget(self, action: #selector(onClickManageButton(_:)), for: .touchUpInside)
         cell.showMoreInfoButton.tag = indexPath.row
         
         return cell
