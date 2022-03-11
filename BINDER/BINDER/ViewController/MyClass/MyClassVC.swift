@@ -110,7 +110,6 @@ class MyClassVC: BaseVC{
             self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
-            
             let url = URL(string: LoginRepository.shared.teacherItem!.profile)!
             
             self.teacherImage.kf.setImage(with: url)
