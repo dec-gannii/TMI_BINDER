@@ -198,6 +198,30 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
     @IBAction func goNext(_ sender: Any) {
         phonenum = phonenumTextField.text!
         goal = goalTextField.text!
+        
+        var phoneNumberWithDash = ""
+        if (phoneNumberWithDash.contains("-")) {
+            phoneNumberWithDash = phonenum
+        } else {
+            var firstPart = ""
+            var secondPart = ""
+            var thirdPart = ""
+            var count = 0
+            
+            for char in phonenum{
+                if (count >= 0 && count <= 2) {
+                    firstPart += String(char)
+                } else if (count >= 3 && count <= 6){
+                    secondPart += String(char)
+                } else if (count >= 7 && count <= 11){
+                    thirdPart += String(char)
+                }
+                count = count + 1
+                
+            }
+            phoneNumberWithDash = firstPart + " - " + secondPart + " - " + thirdPart
+        }
+        
         let countOfDigit = countOfDigit()
         if (type == "teacher"){
             pw = Int(ageShowPicker.text!)!
@@ -209,7 +233,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                 ageAlertLabel.isHidden = true
                 db.collection("teacher").document(Auth.auth().currentUser!.uid).updateData([
                     "parentPW": ageShowPicker.text!,
-                    "childPhoneNumber": phoneLabel.text!
+                    "childPhoneNumber": phoneNumberWithDash
                 ]) { err in
                     if let err = err {
                         print("Error adding document: \(err)")
@@ -222,21 +246,29 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         } else if (type == "student") {
             if age == "0" {
                 ageAlertLabel.text = "하나를 선택해주세요"
+                ageAlertLabel.isHidden = false
             }
             else if phonenum == "" {
                 phoneAlertLabel.text = "전화번호를 작성해주세요"
+                phoneAlertLabel.isHidden = false
             }
             else if goal == "" {
                 goalAlertLabel.text = "목표를 작성해주세요"
+                goalAlertLabel.isHidden = false
+            }
+            else if ((phonenumTextField.text!.contains("-") && phonenumTextField.text!.count >= 15) || (phonenumTextField.text!.count >= 11 && !phonenumTextField.text!.contains("-"))) {
+                phoneAlertLabel.text = "잘못된 형식의 전화번호입니다."
+                phoneAlertLabel.isHidden = false
             }
             else {
                 goalAlertLabel.isHidden = true
                 phoneAlertLabel.isHidden = true
                 ageAlertLabel.isHidden = true
                 // 데이터 저장
+                
                 db.collection("student").document(Auth.auth().currentUser!.uid).updateData([
                     "age": age,
-                    "phonenum": phonenum,
+                    "phonenum": phoneNumberWithDash,
                     "goal": goal
                 ]) { err in
                     if let err = err {
@@ -248,9 +280,31 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                 self.present(tb, animated: true, completion: nil)
             }
         } else if (type == "parent") {
-            guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
-            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-            self.present(tb, animated: true, completion: nil)
+            if phonenum == "" {
+                phoneAlertLabel.text = "전화번호를 작성해주세요"
+                phoneAlertLabel.isHidden = false
+            }
+            else if ((phonenumTextField.text!.contains("-") && phonenumTextField.text!.count >= 15) || (phonenumTextField.text!.count >= 12 && !phonenumTextField.text!.contains("-"))) {
+                phoneAlertLabel.text = "잘못된 형식의 전화번호입니다."
+                phoneAlertLabel.isHidden = false
+            }
+            else {
+                goalAlertLabel.isHidden = true
+                phoneAlertLabel.isHidden = true
+                ageAlertLabel.isHidden = true
+                
+                // 데이터 저장
+                db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
+                    "childPhoneNumber": phoneNumberWithDash                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
+                
+                guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
+                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                self.present(tb, animated: true, completion: nil)
+            }
         }
     }
 }

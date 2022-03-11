@@ -266,7 +266,6 @@ class SignInViewController: UIViewController {
                 SignInViewController.number = SignInViewController.number + 1
                 
                 // 추가 정보를 입력하는 뷰로 이동
-                //                let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfo")
                 guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
                     //아니면 종료
                     return
