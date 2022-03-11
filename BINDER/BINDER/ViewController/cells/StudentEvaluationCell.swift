@@ -39,6 +39,8 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         monthPickerView.textAlignment = .right
         monthPickerView.clipsToBounds = true
         monthPickerView.layer.cornerRadius = 10
+        monthPickerView.rightView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 5.0, height: 0.0))
+        monthPickerView.rightViewMode = .always
         
         self.selectionStyle = .none
     }
@@ -88,7 +90,7 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     }
     
     @objc func donePicker() {
-        monthPickerView.text = "\(selectedMonth)"
+        monthPickerView.text = "\(self.selectedMonth)"
         self.monthPickerView.resignFirstResponder()
         
     }
