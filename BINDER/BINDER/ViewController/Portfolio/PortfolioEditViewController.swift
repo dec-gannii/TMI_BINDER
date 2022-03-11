@@ -25,7 +25,6 @@ class PortfolioEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         self.extraExpTF.layer.borderWidth = 1.0
         self.extraExpTF.layer.borderColor = UIColor.systemGray6.cgColor
         

@@ -22,6 +22,8 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var todoTF: UITextField!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var editBtn: UIButton!
+    
     
     // 넘겨주기 위한 변수들
     var userEmail: String!
@@ -246,6 +248,9 @@ class DetailClassViewController: UIViewController {
                         self.plusButton.isHidden = false
                         self.EvaluationTitleLabel.isHidden = true
                         self.calendarView.isHidden = true
+                        
+                        // 학생이면 수업 수정 버튼 보이지 않도록 설정
+                        self.editBtn.isHidden = true
                     }
                 }
             }
@@ -331,6 +336,22 @@ class DetailClassViewController: UIViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
+    
+    @IBAction func editBtnAction(_ sender: Any) {
+        guard let editClassVC = self.storyboard?.instantiateViewController(withIdentifier: "editClassViewController") as? EditClassVC else { return }
+        
+        editClassVC.modalTransitionStyle = .crossDissolve
+        editClassVC.modalPresentationStyle = .fullScreen
+        
+        // 값 보내주는 역할
+//        editClassVC.userName = self.userName
+//        editClassVC.userEmail = self.userEmail
+//        editClassVC.userSubject = self.userSubject
+        
+        self.present(editClassVC, animated: true, completion: nil)
+        
+    }
+    
     
     // 평가 저장하기 버튼 클릭 시 실행되는 메소드
     @IBAction func OKButtonClicked(_ sender: Any) {
