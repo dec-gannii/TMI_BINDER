@@ -24,6 +24,11 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var editBtn: UIButton!
     
+    @IBOutlet weak var progressLabel: UILabel!
+    @IBOutlet weak var homeworkLabel: UILabel!
+    @IBOutlet weak var evaluationLabel: UILabel!
+    @IBOutlet weak var testLabel: UILabel!
+    
     
     // 넘겨주기 위한 변수들
     var userEmail: String!
@@ -92,6 +97,12 @@ class DetailClassViewController: UIViewController {
         if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
             if (self.userType == "student") { // 사용자가 학생이면
                 self.classNavigationBar.topItem!.title = self.userName + " 선생님"
+                self.questionLabel.text = "오늘 " + self.userName + " 선생님의 수업은 어땠나요?"
+                self.classTimeTextField.isEnabled = false
+                self.progressLabel.text = "오늘 내용 요약"
+                self.homeworkLabel.text = "수업 준비 점수"
+                self.evaluationLabel.text = "수업 만족도 점수"
+                self.testLabel.text = "수업 난이도 점수"
             } else { // 사용자가 학생이 아니면(선생님이면)
                 self.classNavigationBar.topItem!.title = self.userName + " 학생"
                 self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
@@ -239,6 +250,11 @@ class DetailClassViewController: UIViewController {
                                                 let data = document.data()
                                                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                                                 self.count = data?["count"] as? Int ?? 0
+                                                //                                                let name = data?["name"] as? String ?? ""
+                                                
+                                                //                                                self.userName = name
+                                                self.questionLabel.text = "오늘 " + self.userName + " 선생님의 수업은 어땠나요?"
+                                                
                                                 // todolist 배열에 요소 추가
                                                 for i in 1...self.count {
                                                     self.todos.append(data?["todo\(i)"] as! String)
@@ -257,8 +273,6 @@ class DetailClassViewController: UIViewController {
                         self.okButton.isHidden = true
                         self.todoTF.isHidden = true
                         self.plusButton.isHidden = false
-                        self.EvaluationTitleLabel.isHidden = true
-                        self.calendarView.isHidden = true
                         
                         // 학생이면 수업 수정 버튼 보이지 않도록 설정
                         self.editBtn.isHidden = true
@@ -355,9 +369,9 @@ class DetailClassViewController: UIViewController {
         editClassVC.modalPresentationStyle = .fullScreen
         
         // 값 보내주는 역할
-//        editClassVC.userName = self.userName
-//        editClassVC.userEmail = self.userEmail
-//        editClassVC.userSubject = self.userSubject
+        //        editClassVC.userName = self.userName
+        //        editClassVC.userEmail = self.userEmail
+        //        editClassVC.userSubject = self.userSubject
         
         self.present(editClassVC, animated: true, completion: nil)
         
@@ -367,116 +381,133 @@ class DetailClassViewController: UIViewController {
     // 평가 저장하기 버튼 클릭 시 실행되는 메소드
     @IBAction func OKButtonClicked(_ sender: Any) {
         // 경로는 각 학생의 class의 Evaluation
-        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
-            "progress": progressTextView.text!,
-            "testScore": Int(testScoreTextField.text!) ?? 0,
-            "homeworkCompletion": Int(homeworkScoreTextField.text!) ?? 0,
-            "classAttitude": Int(classScoreTextField.text!) ?? 0,
-            "evaluationMemo": evaluationMemoTextView.text!,
-            "evaluationDate": self.date ?? "",
-            "todayClassTime": Int(self.classTimeTextField.text!) ?? 0
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            }
-            // 저장 이후에는 다시 안 보이도록 함
-            self.evaluationView.isHidden = true
-            self.evaluationOKBtn.isHidden = true
-            self.progressTextView.text = ""
-            self.testScoreTextField.text = ""
-            self.evaluationMemoTextView.text = ""
-        }
-        
-        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                var currentCnt = data?["currentCnt"] as? Int ?? 0
-                let subject = data?["subject"] as? String ?? "" // 과목
-                let payType = data?["payType"] as? String ?? ""
-                var count = 0
-                
-                if (payType == "T") {
-                    if (currentCnt+Int(self.classTimeTextField.text!)! >= 8) {
-                        print ("currentCnt+Int(self.classTimeTextField.text!)! : \(currentCnt+Int(self.classTimeTextField.text!)!)")
-                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
-                            "currentCnt": (currentCnt + Int(self.classTimeTextField.text!)!) % 8
-                        ]) { err in
-                            if let err = err {
-                                print("Error adding document: \(err)")
-                            }
-                        }
-                    } else {
-                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
-                            "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
-                        ]) { err in
-                            if let err = err {
-                                print("Error adding document: \(err)")
-                            }
-                        }
-                    }
-                    count = currentCnt + Int(self.classTimeTextField.text!)!
-                } else if (payType == "C") {
-                    if (currentCnt+1 >= 8) {
-                        print ("currentCnt+Int(self.classTimeTextField.text!)! : \(currentCnt+Int(self.classTimeTextField.text!)!)")
-                        currentCnt = currentCnt % 8
-                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
-                            "currentCnt": currentCnt + 1
-                        ]) { err in
-                            if let err = err {
-                                print("Error adding document: \(err)")
-                            }
-                        }
-                    } else {
-                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
-                            "currentCnt": currentCnt + 1
-                        ]) { err in
-                            if let err = err {
-                                print("Error adding document: \(err)")
-                            }
-                        }
-                    }
-                    count = currentCnt + 1
+        if(self.userType == "teacher") {
+            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
+                "progress": progressTextView.text!,
+                "testScore": Int(testScoreTextField.text!) ?? 0,
+                "homeworkCompletion": Int(homeworkScoreTextField.text!) ?? 0,
+                "classAttitude": Int(classScoreTextField.text!) ?? 0,
+                "evaluationMemo": evaluationMemoTextView.text!,
+                "evaluationDate": self.date ?? "",
+                "todayClassTime": Int(self.classTimeTextField.text!) ?? 0
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
                 }
-                
-                self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        let data = document.data()
-                        let name =  data?["name"] as? String ?? "" // 선생님 이름
-                        let email = data?["email"] as? String ?? "" // 선생님 이메일
-                        
-                        self.db.collection("student").whereField("email", isEqualTo: self.userEmail!).getDocuments() { (querySnapshot, err) in
-                            if let err = err { // 학생 이메일이랑 같으면
-                                print("Error getting documents: \(err)")
-                            } else {
-                                for document in querySnapshot!.documents {
-                                    print("\(document.documentID) => \(document.data())")
-                                    // 사용할 것들 가져와서 지역 변수로 저장
-                                    let uid = document.data()["uid"] as? String ?? "" // 학생 uid
-                                    
-                                    print ("uid : \(uid), name : \(name), email : \(email), subject : \(subject)")
-                                    let path = name + "(" + email + ") " + subject
-                                    self.db.collection("student").document(uid).collection("class").document(path).updateData([
-                                        "currentCnt": count,
-                                    ]) { err in
-                                        if let err = err {
-                                            print("Error adding document: \(err)")
+                // 저장 이후에는 다시 안 보이도록 함
+                self.evaluationView.isHidden = true
+                self.evaluationOKBtn.isHidden = true
+                self.progressTextView.text = ""
+                self.testScoreTextField.text = ""
+                self.evaluationMemoTextView.text = ""
+            }
+            
+            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    var currentCnt = data?["currentCnt"] as? Int ?? 0
+                    let subject = data?["subject"] as? String ?? "" // 과목
+                    let payType = data?["payType"] as? String ?? ""
+                    var count = 0
+                    
+                    if (payType == "T") {
+                        if (currentCnt+Int(self.classTimeTextField.text!)! >= 8) {
+                            print ("currentCnt+Int(self.classTimeTextField.text!)! : \(currentCnt+Int(self.classTimeTextField.text!)!)")
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                                "currentCnt": (currentCnt + Int(self.classTimeTextField.text!)!) % 8
+                            ]) { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                }
+                            }
+                        } else {
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                                "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
+                            ]) { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                }
+                            }
+                        }
+                        count = currentCnt + Int(self.classTimeTextField.text!)!
+                    } else if (payType == "C") {
+                        if (currentCnt+1 >= 8) {
+                            print ("currentCnt+Int(self.classTimeTextField.text!)! : \(currentCnt+Int(self.classTimeTextField.text!)!)")
+                            currentCnt = currentCnt % 8
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                                "currentCnt": currentCnt + 1
+                            ]) { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                }
+                            }
+                        } else {
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                                "currentCnt": currentCnt + 1
+                            ]) { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                }
+                            }
+                        }
+                        count = currentCnt + 1
+                    }
+                    
+                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            let data = document.data()
+                            let name =  data?["name"] as? String ?? "" // 선생님 이름
+                            let email = data?["email"] as? String ?? "" // 선생님 이메일
+                            
+                            self.db.collection("student").whereField("email", isEqualTo: self.userEmail!).getDocuments() { (querySnapshot, err) in
+                                if let err = err { // 학생 이메일이랑 같으면
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        print("\(document.documentID) => \(document.data())")
+                                        // 사용할 것들 가져와서 지역 변수로 저장
+                                        let uid = document.data()["uid"] as? String ?? "" // 학생 uid
+                                        
+                                        print ("uid : \(uid), name : \(name), email : \(email), subject : \(subject)")
+                                        let path = name + "(" + email + ") " + subject
+                                        self.db.collection("student").document(uid).collection("class").document(path).updateData([
+                                            "currentCnt": count,
+                                        ]) { err in
+                                            if let err = err {
+                                                print("Error adding document: \(err)")
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                } else {
+                    print("Document does not exist")
                 }
-                
-                
-                
-            } else {
-                print("Document does not exist")
+            }
+            self.evaluationView.isHidden = true
+            evaluationOKBtn.isHidden = true
+        } else if (self.userType == "student") {
+            self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
+                "summary": progressTextView.text!,
+                "prepare": Int(testScoreTextField.text!) ?? 0,
+                "satisfy": Int(homeworkScoreTextField.text!) ?? 0,
+                "level": Int(classScoreTextField.text!) ?? 0,
+                "evaluationMemo": evaluationMemoTextView.text!,
+                "evaluationDate": self.date ?? ""
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                }
+                // 저장 이후에는 다시 안 보이도록 함
+                self.evaluationView.isHidden = true
+                self.evaluationOKBtn.isHidden = true
+                self.progressTextView.text = ""
+                self.testScoreTextField.text = ""
+                self.evaluationMemoTextView.text = ""
             }
         }
-        
-        self.evaluationView.isHidden = true
-        evaluationOKBtn.isHidden = true
     }
     
     func allRound() {
@@ -708,7 +739,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             checkTime = false
             //체크 내용 업데이트
             
-            
             print("button normal")
             sender.setImage(UIImage(systemName: "circle"), for: .normal)
             
@@ -753,65 +783,118 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             self.date = dateStr
             
             // 데이터베이스 경로
-            let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)")
-            
-            // 데이터를 받아와서 각각의 값에 따라 textfield 값 설정 (만약 없다면 공백 설정, 있다면 그 값 불러옴)
-            docRef.getDocument { (document, error) in
-                if let document = document, document.exists {
-                    let data = document.data()
-                    self.date = data?["evaluationDate"] as? String ?? ""
-                    
-                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                    
-                    let homeworkCompletion = data?["homeworkCompletion"] as? Int ?? 0
-                    if (homeworkCompletion == 0) {
-                        self.homeworkScoreTextField.text = ""
+            if (self.userType == "teacher") {
+                let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)")
+                
+                // 데이터를 받아와서 각각의 값에 따라 textfield 값 설정 (만약 없다면 공백 설정, 있다면 그 값 불러옴)
+                docRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        self.date = data?["evaluationDate"] as? String ?? ""
+                        
+                        let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                        
+                        let homeworkCompletion = data?["homeworkCompletion"] as? Int ?? 0
+                        if (homeworkCompletion == 0) {
+                            self.homeworkScoreTextField.text = ""
+                        } else {
+                            self.homeworkScoreTextField.text = "\(homeworkCompletion)"
+                        }
+                        
+                        let classAttitude = data?["classAttitude"] as? Int ?? 0
+                        if (classAttitude == 0) {
+                            self.classScoreTextField.text = ""
+                        } else {
+                            self.classScoreTextField.text = "\(classAttitude)"
+                        }
+                        
+                        let progressText = data?["progress"] as? String ?? ""
+                        self.progressTextView.text = progressText
+                        
+                        let evaluationMemo = data?["evaluationMemo"] as? String ?? ""
+                        self.evaluationMemoTextView.text = evaluationMemo
+                        
+                        let todayClassTime = data?["todayClassTime"] as? Int ?? 0
+                        if (todayClassTime == 0) {
+                            self.classTimeTextField.text = ""
+                        } else {
+                            self.classTimeTextField.text = "\(todayClassTime)"
+                        }
+                        
+                        let testScore = data?["testScore"] as? Int ?? 0
+                        if (testScore == 0) {
+                            self.testScoreTextField.text = ""
+                        } else {
+                            self.testScoreTextField.text = "\(testScore)"
+                        }
+                        print("Document data: \(dataDescription)")
                     } else {
-                        self.homeworkScoreTextField.text = "\(homeworkCompletion)"
-                    }
-                    
-                    let classAttitude = data?["classAttitude"] as? Int ?? 0
-                    if (classAttitude == 0) {
-                        self.classScoreTextField.text = ""
-                    } else {
-                        self.classScoreTextField.text = "\(classAttitude)"
-                    }
-                    
-                    let progressText = data?["progress"] as? String ?? ""
-                    self.progressTextView.text = progressText
-                    
-                    let evaluationMemo = data?["evaluationMemo"] as? String ?? ""
-                    self.evaluationMemoTextView.text = evaluationMemo
-                    
-                    let todayClassTime = data?["todayClassTime"] as? Int ?? 0
-                    //                    self.classTimeTextField.text = "\(todayClassTime)"
-                    if (todayClassTime == 0) {
-                        self.classTimeTextField.text = ""
-                    } else {
-                        self.classTimeTextField.text = "\(todayClassTime)"
-                    }
-                    
-                    let testScore = data?["testScore"] as? Int ?? 0
-                    if (testScore == 0) {
+                        print("Document does not exist")
+                        // 값 다시 공백 설정
+                        self.progressTextView.text = ""
                         self.testScoreTextField.text = ""
-                    } else {
-                        self.testScoreTextField.text = "\(testScore)"
+                        self.evaluationMemoTextView.text = ""
+                        self.homeworkScoreTextField.text = ""
+                        self.classScoreTextField.text = ""
                     }
-                    print("Document data: \(dataDescription)")
-                } else {
-                    print("Document does not exist")
-                    // 값 다시 공백 설정
-                    self.progressTextView.text = ""
-                    self.testScoreTextField.text = ""
-                    self.evaluationMemoTextView.text = ""
-                    self.homeworkScoreTextField.text = ""
-                    self.classScoreTextField.text = ""
                 }
+            } else if (self.userType == "student") {
+                let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)")
+                
+                // 데이터를 받아와서 각각의 값에 따라 textfield 값 설정 (만약 없다면 공백 설정, 있다면 그 값 불러옴)
+                docRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        self.date = data?["evaluationDate"] as? String ?? ""
+                        
+                        let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                        
+                        let prepare = data?["prepare"] as? Int ?? 0
+                        if (prepare == 0) {
+                            self.homeworkScoreTextField.text = ""
+                        } else {
+                            self.homeworkScoreTextField.text = "\(prepare)"
+                        }
+                        
+                        let summary = data?["summary"] as? Int ?? 0
+                        if (summary == 0) {
+                            self.progressTextView.text = ""
+                        } else {
+                            self.progressTextView.text = "\(summary)"
+                        }
+                        
+                        let satisfy = data?["satisfy"] as? Int ?? 0
+                        if (summary == 0) {
+                            self.classScoreTextField.text = ""
+                        } else {
+                            self.classScoreTextField.text = "\(satisfy)"
+                        }
+                        
+                        let evaluationMemo = data?["evaluationMemo"] as? String ?? ""
+                        self.evaluationMemoTextView.text = evaluationMemo
+                        
+                        let level = data?["level"] as? Int ?? 0
+                        if (level == 0) {
+                            self.testScoreTextField.text = ""
+                        } else {
+                            self.testScoreTextField.text = "\(level)"
+                        }
+                        print("Document data: \(dataDescription)")
+                    } else {
+                        print("Document does not exist")
+                        // 값 다시 공백 설정
+                        self.progressTextView.text = ""
+                        self.testScoreTextField.text = ""
+                        self.evaluationMemoTextView.text = ""
+                        self.homeworkScoreTextField.text = ""
+                        self.classScoreTextField.text = ""
+                    }
+                }
+            } else {
+                // 그대로 숨김 유지
+                evaluationView.isHidden = true
+                evaluationOKBtn.isHidden = true
             }
-        } else {
-            // 그대로 숨김 유지
-            evaluationView.isHidden = true
-            evaluationOKBtn.isHidden = true
         }
     }
 }

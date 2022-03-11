@@ -4586,15 +4586,19 @@ Cg
                         <outlet property="classScoreTextField" destination="aqa-A9-inG" id="zPD-Zh-DZC"/>
                         <outlet property="classTimeTextField" destination="oju-sc-dPn" id="rAQ-1A-ppf"/>
                         <outlet property="editBtn" destination="DMV-VB-L9h" id="xci-nI-rdC"/>
+                        <outlet property="evaluationLabel" destination="Dkc-sW-sAW" id="O7w-FR-vDG"/>
                         <outlet property="evaluationMemoTextView" destination="qfb-TF-yUd" id="8MV-kO-tVu"/>
                         <outlet property="evaluationOKBtn" destination="fP5-MV-W3l" id="323-PR-Zn3"/>
                         <outlet property="evaluationView" destination="clt-Bc-vmj" id="Cd8-4w-RqL"/>
+                        <outlet property="homeworkLabel" destination="pGW-PG-7Hl" id="efj-nV-BkQ"/>
                         <outlet property="homeworkScoreTextField" destination="EaP-ji-SUw" id="PlR-ca-aD3"/>
                         <outlet property="okButton" destination="OBp-dd-ib0" id="tLl-8q-GoO"/>
                         <outlet property="plusButton" destination="1wg-0Q-TuX" id="xfa-TS-9OX"/>
+                        <outlet property="progressLabel" destination="Pmc-iV-lON" id="Vps-ts-NgO"/>
                         <outlet property="progressTextView" destination="lDg-gq-3Kh" id="uzO-gh-0mB"/>
                         <outlet property="questionLabel" destination="ZDv-C8-t5e" id="svB-hM-BKG"/>
                         <outlet property="tableView" destination="IE6-pY-gei" id="igP-Nf-qwV"/>
+                        <outlet property="testLabel" destination="cLm-Fh-tVX" id="end-5a-oID"/>
                         <outlet property="testScoreTextField" destination="mPP-Kh-kdy" id="ByI-QK-pYK"/>
                         <outlet property="todoTF" destination="T0w-QR-mi3" id="S1V-FM-YPn"/>
                     </connections>
