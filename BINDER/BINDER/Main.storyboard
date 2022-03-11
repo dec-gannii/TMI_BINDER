@@ -652,26 +652,27 @@ Cg
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Qkt-7g-22E">
-                                                                    <rect key="frame" x="12" y="73" width="332" height="35"/>
+                                                                    <rect key="frame" x="12" y="73" width="322" height="30"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="월말평가" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYy-Wh-k3a">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="232" height="35"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="222" height="30"/>
                                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="klu-QJ-wy3">
-                                                                            <rect key="frame" x="252" y="0.0" width="80" height="35"/>
-                                                                            <color key="tintColor" red="0.047058823530000002" green="0.066666666669999999" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="달 선택" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="m6e-hk-eaN">
+                                                                            <rect key="frame" x="242" y="0.0" width="80" height="30"/>
                                                                             <constraints>
-                                                                                <constraint firstAttribute="height" constant="35" id="Fde-e5-u6A"/>
-                                                                                <constraint firstAttribute="width" constant="80" id="qNw-PD-nXS"/>
+                                                                                <constraint firstAttribute="width" constant="80" id="AbD-TP-Vu0"/>
+                                                                                <constraint firstAttribute="height" constant="30" id="eWX-IG-j7c"/>
                                                                             </constraints>
-                                                                        </pickerView>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                            <textInputTraits key="textInputTraits"/>
+                                                                        </textField>
                                                                     </subviews>
                                                                 </stackView>
                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="월말평가 내용입니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BAL-Ru-XyR">
-                                                                    <rect key="frame" x="8" y="113" width="330" height="60"/>
+                                                                    <rect key="frame" x="8" y="108" width="330" height="60"/>
                                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="60" id="O6p-YV-Zmo"/>
@@ -710,7 +711,7 @@ Cg
                                                                 <constraint firstAttribute="bottom" secondItem="vYT-gu-QO2" secondAttribute="bottom" id="Veo-PO-EgP"/>
                                                                 <constraint firstItem="qIE-S8-ySL" firstAttribute="bottom" secondItem="zJB-Sw-gAs" secondAttribute="bottom" id="WTz-qs-Wvc"/>
                                                                 <constraint firstItem="vYT-gu-QO2" firstAttribute="leading" secondItem="npY-uz-R8r" secondAttribute="leading" id="XtX-TC-b3x"/>
-                                                                <constraint firstAttribute="trailing" secondItem="Qkt-7g-22E" secondAttribute="trailing" constant="2" id="cEP-Rw-FXt"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Qkt-7g-22E" secondAttribute="trailing" constant="12" id="cEP-Rw-FXt"/>
                                                                 <constraint firstItem="Qkt-7g-22E" firstAttribute="top" secondItem="BwY-ue-Tvf" secondAttribute="bottom" constant="12" id="lbb-mn-aDv"/>
                                                                 <constraint firstAttribute="height" constant="230" id="poO-oF-Sy3"/>
                                                                 <constraint firstItem="BwY-ue-Tvf" firstAttribute="top" secondItem="qIE-S8-ySL" secondAttribute="bottom" constant="12" id="qcV-dd-1Tf"/>
@@ -730,7 +731,7 @@ Cg
                                                 <connections>
                                                     <outlet property="cellBackgroundView" destination="npY-uz-R8r" id="Vvh-ET-yjO"/>
                                                     <outlet property="classColorView" destination="qIE-S8-ySL" id="Fj3-Id-fjZ"/>
-                                                    <outlet property="monthPickerView" destination="klu-QJ-wy3" id="cka-Jh-Bqj"/>
+                                                    <outlet property="monthPickerView" destination="m6e-hk-eaN" id="Cvr-dA-3qf"/>
                                                     <outlet property="monthlyEvaluationTextView" destination="BAL-Ru-XyR" id="R0c-E4-oKs"/>
                                                     <outlet property="progressLabel" destination="YYp-rQ-lPg" id="cgL-bh-dQr"/>
                                                     <outlet property="showMoreInfoButton" destination="vYT-gu-QO2" id="lhl-Bq-iAK"/>
