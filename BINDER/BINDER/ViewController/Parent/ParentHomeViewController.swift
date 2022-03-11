@@ -16,6 +16,7 @@ class ParentHomeViewController: UIViewController {
     }
     
     @IBOutlet weak var parentNameLabel: UILabel!
+    @IBOutlet weak var progressListTableView: UITableView!
     
     func getUserInfo() {
         let db = Firestore.firestore()
@@ -35,4 +36,17 @@ class ParentHomeViewController: UIViewController {
             }
         }
     }
+}
+
+extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "progress")! as! StudentEvaluationCell
+        return cell
+    }
+    
+    
 }

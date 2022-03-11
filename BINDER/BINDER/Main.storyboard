@@ -729,6 +729,7 @@ Cg
                     </tabBarItem>
                     <connections>
                         <outlet property="parentNameLabel" destination="Qb5-vp-cqv" id="Ih4-OB-Q0F"/>
+                        <outlet property="progressListTableView" destination="pbI-T5-bms" id="qiF-H8-xRi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y20-VE-MsS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

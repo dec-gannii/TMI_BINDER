@@ -62,6 +62,16 @@ class ParentMyPageViewController: UIViewController {
         self.present(settingVC, animated: true, completion: nil)
     }
     
+    func viewDecorating(){
+        childInfoBackgroundView.layer.cornerRadius = 30
+        
+        childInfoBackgroundView.layer.shadowColor = UIColor.black.cgColor
+        childInfoBackgroundView.layer.masksToBounds = false
+        childInfoBackgroundView.layer.shadowOffset = CGSize(width: 2, height: 3)
+        childInfoBackgroundView.layer.shadowRadius = 5
+        childInfoBackgroundView.layer.shadowOpacity = 0.3
+    }
+    
     func getUserInfo() {
         let db = Firestore.firestore()
         db.collection("parent").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
@@ -75,6 +85,34 @@ class ParentMyPageViewController: UIViewController {
                         print("\(document.documentID) => \(document.data())")
                         let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                         let name = document.data()["name"] as? String ?? ""
+                        let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? ""
+                        
+                        var childPhoneNumberWithDash = ""
+                        
+                        if (childPhoneNumber.contains("-")) {
+                            childPhoneNumberWithDash = childPhoneNumber
+                        } else {
+                            var firstPart = ""
+                            var secondPart = ""
+                            var thirdPart = ""
+                            var count = 0
+                            
+                            for char in childPhoneNumber{
+                                if (count >= 0 && count <= 2) {
+                                    firstPart += String(char)
+                                } else if (count >= 3 && count <= 6){
+                                    secondPart += String(char)
+                                } else if (count >= 7 && count <= 11){
+                                    thirdPart += String(char)
+                                }
+                                count = count + 1
+                                
+                            }
+                            
+                            childPhoneNumberWithDash = firstPart + " - " + secondPart + " - " + thirdPart
+                        }
+                        
+                        self.childPhoneNumberLabel.text = childPhoneNumberWithDash
                         self.nameLabel.text = name
                         let url = URL(string: profile)!
                         self.profileImageView.kf.setImage(with: url)
@@ -85,3 +123,4 @@ class ParentMyPageViewController: UIViewController {
     }
     
 }
+

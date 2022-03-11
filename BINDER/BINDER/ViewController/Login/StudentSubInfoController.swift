@@ -208,7 +208,8 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                 // 데이터 저장
                 ageAlertLabel.isHidden = true
                 db.collection("teacher").document(Auth.auth().currentUser!.uid).updateData([
-                    "parentPW": ageShowPicker.text!
+                    "parentPW": ageShowPicker.text!,
+                    "childPhoneNumber": phoneLabel.text!
                 ]) { err in
                     if let err = err {
                         print("Error adding document: \(err)")
