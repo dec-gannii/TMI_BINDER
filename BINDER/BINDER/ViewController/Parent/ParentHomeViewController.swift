@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import Firebase
 
 class ParentHomeViewController: UIViewController {
     override func viewDidLoad() {
@@ -13,14 +15,5 @@ class ParentHomeViewController: UIViewController {
     }
     
     @IBOutlet weak var parentNameLabel: UILabel!
-    @IBOutlet weak var classColorView: UIView!
-    @IBOutlet weak var backgroundView: UIView!
-    @IBOutlet weak var subjectLabel: UILabel!
-    @IBOutlet weak var progressLabel: UILabel!
-    @IBOutlet weak var monthPickerView: UIPickerView!
-    @IBOutlet weak var monthlyEvaluationTextView: UITextView!
-    
-    @IBAction func ShowMoreInfoBtnClicked(_ sender: Any) {
-    }
     
 }

@@ -587,7 +587,7 @@ Cg
                                 <rect key="frame" x="0.0" y="200" width="414" height="613"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="progress" rowHeight="207" id="ZYp-p4-oSX">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="progress" rowHeight="207" id="ZYp-p4-oSX" customClass="StudentEvaluationCell" customModule="BINDER" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="207"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZYp-p4-oSX" id="QxY-DJ-HyE">
@@ -660,7 +660,7 @@ Cg
                                                                 <color key="baseForegroundColor" red="0.94929772619999997" green="0.96051102880000006" blue="0.97255116699999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             </buttonConfiguration>
                                                             <connections>
-                                                                <action selector="ShowMoreInfoBtnClicked:" destination="GLq-4K-YEf" eventType="touchUpInside" id="lsE-WX-uYY"/>
+                                                                <action selector="ShowMoreInfoBtnClicked:" destination="ZYp-p4-oSX" eventType="touchUpInside" id="RRd-OI-GuN"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -693,6 +693,15 @@ Cg
                                                 <constraint firstAttribute="trailing" secondItem="VWe-qo-cEU" secondAttribute="trailing" constant="30" id="v9P-g8-SEg"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="cellBackgroundView" destination="VWe-qo-cEU" id="FGq-bl-Km4"/>
+                                            <outlet property="classColorView" destination="SyM-nb-Tvg" id="Vcm-yv-so0"/>
+                                            <outlet property="monthPickerView" destination="Y15-w5-U5h" id="fPU-Hl-9ju"/>
+                                            <outlet property="monthlyEvaluationTextView" destination="ul3-aa-bZR" id="kWF-Gm-3RL"/>
+                                            <outlet property="progressLabel" destination="I50-Wk-3xZ" id="zsV-qI-cdA"/>
+                                            <outlet property="showMoreInfoButton" destination="ag9-6e-4Dt" id="muU-AB-pFV"/>
+                                            <outlet property="subjectLabel" destination="IZZ-MD-ngo" id="VUl-fT-1ct"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -719,13 +728,7 @@ Cg
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <connections>
-                        <outlet property="backgroundView" destination="VWe-qo-cEU" id="4HP-aL-SxX"/>
-                        <outlet property="classColorView" destination="SyM-nb-Tvg" id="TAt-mb-RWg"/>
-                        <outlet property="monthPickerView" destination="Y15-w5-U5h" id="yVb-Pm-Qd6"/>
-                        <outlet property="monthlyEvaluationTextView" destination="ul3-aa-bZR" id="6dz-ie-MZ5"/>
                         <outlet property="parentNameLabel" destination="Qb5-vp-cqv" id="Ih4-OB-Q0F"/>
-                        <outlet property="progressLabel" destination="I50-Wk-3xZ" id="nrA-oJ-Aru"/>
-                        <outlet property="subjectLabel" destination="IZZ-MD-ngo" id="dmL-Xx-bui"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y20-VE-MsS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -735,7 +738,7 @@ Cg
         <!--Tab Bar Controller-->
         <scene sceneID="6eo-vU-BxV">
             <objects>
-                <tabBarController id="PLs-6U-9xl" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="ParentTabBarController" id="PLs-6U-9xl" customClass="TabBarController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Hd5-2q-38y">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1541,7 +1544,7 @@ Cg
         <!--Tab Bar Controller-->
         <scene sceneID="thc-lf-fiF">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="kKO-JD-h6L" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" automaticallyAdjustsScrollViewInsets="NO" id="kKO-JD-h6L" customClass="TabBarController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="gX6-7t-KdD"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="DwH-1V-k6W">
@@ -1555,8 +1558,8 @@ Cg
                     <connections>
                         <segue destination="H0V-Ou-VbF" kind="relationship" relationship="viewControllers" id="JPL-3h-psO"/>
                         <segue destination="16n-DI-0qO" kind="relationship" relationship="viewControllers" id="kgP-I7-OCH"/>
-                        <segue destination="E9D-63-hKX" kind="relationship" relationship="viewControllers" id="kMk-zb-aUY"/>
                         <segue destination="Pit-0a-P63" kind="relationship" relationship="viewControllers" id="Wdu-Ao-yEz"/>
+                        <segue destination="E9D-63-hKX" kind="relationship" relationship="viewControllers" id="kMk-zb-aUY"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Bt-DS-sBd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3438,7 +3441,7 @@ Cg
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="swp-1z-mb5" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1508.6956521739132" y="1206.6964285714284"/>
+            <point key="canvasLocation" x="1509" y="1207"/>
         </scene>
         <!--QuestionListViewController-->
         <scene sceneID="yli-SR-ShX">

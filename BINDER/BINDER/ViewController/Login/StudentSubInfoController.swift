@@ -214,26 +214,8 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                         print("Error adding document: \(err)")
                     }
                 }
-                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                    //아니면 종료
-                    return
-                }
-                
-                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
-                    return
-                }
-                
-                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
-                    return
-                }
-                
-                guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                    return
-                }
-                
-                let tb = UITabBarController()
+                guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else { return }
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
                 self.present(tb, animated: true, completion: nil)
             }
         } else if (type == "student") {
@@ -260,28 +242,14 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                         print("Error adding document: \(err)")
                     }
                 }
-                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                    //아니면 종료
-                    return
-                }
-                
-                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
-                    return
-                }
-                
-                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
-                    return
-                }
-                
-                guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                    return
-                }
-                
-                let tb = UITabBarController()
+                guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else { return }
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
                 self.present(tb, animated: true, completion: nil)
             }
+        } else if (type == "parent") {
+            guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
+            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+            self.present(tb, animated: true, completion: nil)
         }
     }
 }
