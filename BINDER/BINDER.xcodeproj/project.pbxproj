@@ -54,6 +54,11 @@
 		7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D159274941ED00745522 /* HomeViewController.swift */; };
 		7F16D16127496FC800745522 /* TypeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D16027496FC800745522 /* TypeSelectViewController.swift */; };
 		7F17FB83275BB45500834B4D /* ScheduleCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */; };
+		7F2E9E9B27DB1BDD008991EB /* ParentHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9E9A27DB1BDD008991EB /* ParentHomeViewController.swift */; };
+		7F2E9E9D27DB1DBD008991EB /* ParentMyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9E9C27DB1DBD008991EB /* ParentMyPageViewController.swift */; };
+		7F2E9E9F27DB2217008991EB /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9E9E27DB2217008991EB /* TabBarController.swift */; };
+		7F2E9EA127DB23D1008991EB /* StudentEvaluationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */; };
+		7F2E9EA327DB482B008991EB /* EvaluationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9EA227DB482A008991EB /* EvaluationItem.swift */; };
 		7F4285312765034500BA0310 /* ShowPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */; };
 		7F63AB6F27B4E3620081ED49 /* TermViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63AB6E27B4E3620081ED49 /* TermViewController.swift */; };
 		7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6E5E4A27B2C00000292601 /* SettingViewController.swift */; };
@@ -120,6 +125,11 @@
 		7F16D159274941ED00745522 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		7F16D16027496FC800745522 /* TypeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeSelectViewController.swift; sourceTree = "<group>"; };
 		7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellTableViewCell.swift; sourceTree = "<group>"; };
+		7F2E9E9A27DB1BDD008991EB /* ParentHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentHomeViewController.swift; sourceTree = "<group>"; };
+		7F2E9E9C27DB1DBD008991EB /* ParentMyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentMyPageViewController.swift; sourceTree = "<group>"; };
+		7F2E9E9E27DB2217008991EB /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentEvaluationCell.swift; sourceTree = "<group>"; };
+		7F2E9EA227DB482A008991EB /* EvaluationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationItem.swift; sourceTree = "<group>"; };
 		7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPortfolioViewController.swift; sourceTree = "<group>"; };
 		7F63AB6E27B4E3620081ED49 /* TermViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermViewController.swift; sourceTree = "<group>"; };
 		7F6E5E4A27B2C00000292601 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -214,6 +224,7 @@
 				6FF28C092766135000D3BDE9 /* QuestionTableViewCell.swift */,
 				6FB9139827B3A1C2000154FF /* QuestionListTableViewImageCell.swift */,
 				6FB9139A27B3A499000154FF /* QuestionListTableViewCell.swift */,
+				7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -237,6 +248,7 @@
 				6FA406F32764D63900ED847F /* QuestionItem.swift */,
 				6F86FBD327B37FDC00670928 /* QuestionListItem.swift */,
 				6FFDECC827CDF9380028B652 /* QuestionAnsweredListItem.swift */,
+				7F2E9EA227DB482A008991EB /* EvaluationItem.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -317,6 +329,7 @@
 		7F16D15B2749467000745522 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				7F2E9E9927DB1BC7008991EB /* Parent */,
 				7FAC9E5327C21414005BDFB2 /* Setting */,
 				7FAC9E5227C213D1005BDFB2 /* Schedule */,
 				6922197B27C13CCE00A03788 /* question */,
@@ -335,6 +348,16 @@
 				7F16D159274941ED00745522 /* HomeViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		7F2E9E9927DB1BC7008991EB /* Parent */ = {
+			isa = PBXGroup;
+			children = (
+				7F2E9E9A27DB1BDD008991EB /* ParentHomeViewController.swift */,
+				7F2E9E9C27DB1DBD008991EB /* ParentMyPageViewController.swift */,
+				7F2E9E9E27DB2217008991EB /* TabBarController.swift */,
+			);
+			path = Parent;
 			sourceTree = "<group>";
 		};
 		7FAC9E5227C213D1005BDFB2 /* Schedule */ = {
@@ -516,6 +539,7 @@
 				6965DE85275DEF670072C16A /* BaseVC.swift in Sources */,
 				6FFDBAE727D88004006B0622 /* EditClassVC.swift in Sources */,
 				7F7818E827B3AE2600241655 /* EditInfoViewController.swift in Sources */,
+				7F2E9EA127DB23D1008991EB /* StudentEvaluationCell.swift in Sources */,
 				6FA406F42764D63900ED847F /* QuestionItem.swift in Sources */,
 				7F63AB6F27B4E3620081ED49 /* TermViewController.swift in Sources */,
 				7FA6B7D627C0C67100BFEBDA /* SecessionViewController.swift in Sources */,
@@ -523,6 +547,7 @@
 				7F716942276498B0001FD4F4 /* LogInViewController.swift in Sources */,
 				6965DE70275DEF290072C16A /* UIView.swift in Sources */,
 				7F16D16127496FC800745522 /* TypeSelectViewController.swift in Sources */,
+				7F2E9E9B27DB1BDD008991EB /* ParentHomeViewController.swift in Sources */,
 				6FB9139B27B3A499000154FF /* QuestionListTableViewCell.swift in Sources */,
 				6965DE83275DEF670072C16A /* AddStudentVC.swift in Sources */,
 				69E5F6902764C762003D7DD1 /* QuestionViewController.swift in Sources */,
@@ -536,6 +561,7 @@
 				7F8CC8FA275BB29E00BE195D /* ScheduleListViewController.swift in Sources */,
 				6965DE76275DEF330072C16A /* PlusTableViewCell.swift in Sources */,
 				7F4285312765034500BA0310 /* ShowPortfolioViewController.swift in Sources */,
+				7F2E9EA327DB482B008991EB /* EvaluationItem.swift in Sources */,
 				6922197F27C1511000A03788 /* AnswerViewController.swift in Sources */,
 				7F16D1482749390300745522 /* SignInViewController.swift in Sources */,
 				69EE72B2275D11C2007F6F7C /* MypageViewController.swift in Sources */,
@@ -546,6 +572,7 @@
 				6F2ED45027B3444800DD7CB7 /* QuestionListViewController.swift in Sources */,
 				7F16D1442749390300745522 /* AppDelegate.swift in Sources */,
 				69EE72AF275D0662007F6F7C /* PlusGraphViewController.swift in Sources */,
+				7F2E9E9F27DB2217008991EB /* TabBarController.swift in Sources */,
 				6965DE78275DEF3B0072C16A /* LoginRepository.swift in Sources */,
 				7F16D1462749390300745522 /* SceneDelegate.swift in Sources */,
 				7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */,
@@ -559,6 +586,7 @@
 				6FFDECC927CDF9380028B652 /* QuestionAnsweredListItem.swift in Sources */,
 				6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */,
 				6FB9139927B3A1C2000154FF /* QuestionListTableViewImageCell.swift in Sources */,
+				7F2E9E9D27DB1DBD008991EB /* ParentMyPageViewController.swift in Sources */,
 				6993502A27CDECA100EA6C6F /* QuestionDetailViewController.swift in Sources */,
 				6965DE6B275DEF1C0072C16A /* ClassItem.swift in Sources */,
 				6993502C27CDECCE00EA6C6F /* QnADetailViewController.swift in Sources */,

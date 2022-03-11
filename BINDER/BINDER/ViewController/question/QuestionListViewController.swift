@@ -46,6 +46,8 @@ class QuestionListViewController : BaseVC {
     var answerCheck : Bool!
     var type = ""
     var index : Int!
+    var qnum: Int!
+    var maxnum: Int!
     var teacherUid: String!
     var questionListItems : [QuestionListItem] = []
     var questionAnsweredItems : [QuestionAnsweredListItem] = []
@@ -208,16 +210,22 @@ class QuestionListViewController : BaseVC {
                         let questionDt = document.data()
                         
                         /// nil값 처리
-                        let index = questionDt["index"] as? String ?? ""
+                        let qnumber = questionDt["num"] as? String ?? ""
                         let title = questionDt["title"] as? String ?? ""
                         let answerCheck = questionDt["answerCheck"] as? Bool ?? false
                         let questionContent = questionDt["questionContent"] as? String ?? ""
                         let imgURL = questionDt["imgURL"] as? String ?? ""
                         let email = questionDt["email"] as? String ?? ""
                         
-                        let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index )
+                        self.maxnum = 0
+                        if Int(qnumber)! > self.maxnum {
+                            self.maxnum = Int(qnumber)!
+                        }
+                        print("가장 큰 값 : \(self.maxnum)")
                         
-                        let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
+                        let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: qnumber )
+                        
+                        let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: qnumber)
                         
                         /// 모든 값을 더한다.
                         /// 전체 경우
@@ -302,17 +310,23 @@ class QuestionListViewController : BaseVC {
                                                             let questionDt = document.data()
                                                             
                                                             /// nil값 처리
-                                                            let index = questionDt["index"] as? String ?? ""
+                                                            let qnumber = questionDt["num"] as? String ?? ""
                                                             let title = questionDt["title"] as? String ?? ""
                                                             let answerCheck = questionDt["answerCheck"] as? Bool ?? false
                                                             let questionContent = questionDt["questionContent"] as? String ?? ""
                                                             let imgURL = questionDt["imgURL"] as? String ?? ""
                                                             let email = questionDt["email"] as? String ?? ""
                                                             
-                                                            if (index != "" && title != "" && questionContent != ""){
-                                                                let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: index )
+                                                            self.maxnum = 0
+                                                            if Int(qnumber)! > self.maxnum {
+                                                                self.maxnum = Int(qnumber)!
+                                                            }
+                                                            print("가장 큰 값 : \(self.maxnum)")
+                                                            
+                                                            if (qnumber != "" && title != "" && questionContent != ""){
+                                                                let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: qnumber )
                                                                 
-                                                                let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: index)
+                                                                let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: qnumber)
                                                                 
                                                                 /// 모든 값을 더한다.
                                                                 /// 전체 경우
@@ -353,6 +367,7 @@ class QuestionListViewController : BaseVC {
         plusVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
         /// first : 여러개가 와도 첫번째 것만 봄.
         
+        plusVC.qnum = maxnum + 1
         plusVC.index = index
         plusVC.email = email
         plusVC.userName = userName
@@ -398,13 +413,13 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
             docRef = db.collection("student")
         }
         
-        var index: Int!
+        var qindex: Int!
         var name: String!
         var email: String!
         var subject: String!
         var type: String!
         
-        docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: indexPath.row)
+        docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: self.index!)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")
@@ -424,17 +439,18 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                         
                         let questionDt = snapshot.documents.first!.data()
                         
-                        index = questionDt["index"] as? Int ?? 0
+                        qindex = questionDt["index"] as? Int ?? 0
                         name = questionDt["name"] as? String ?? ""
                         subject = questionDt["subject"] as? String ?? ""
                         email = questionDt["email"] as? String ?? ""
                         type = questionDt["type"] as? String ?? ""
                         
-                        qnaVC.index = index
+                        qnaVC.index = qindex
                         qnaVC.email = email
                         qnaVC.userName = name
                         qnaVC.type = type
                         qnaVC.subject = subject
+                        qnaVC.qnum = Int(item.index)
                         
                         self.present(qnaVC, animated: true, completion: nil)
                     }
@@ -446,18 +462,20 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                         /// first : 여러개가 와도 첫번째 것만 봄.
                         
                         let questionDt = snapshot.documents.first!.data()
+                        print(">>>>> 넘기는 정보 : \(questionDt)")
                         
-                        index = questionDt["index"] as? Int ?? 0
+                        qindex = questionDt["index"] as? Int ?? 0
                         name = questionDt["name"] as? String ?? ""
                         subject = questionDt["subject"] as? String ?? ""
                         email = questionDt["email"] as? String ?? ""
                         type = questionDt["type"] as? String ?? ""
                         
-                        questionVC.index = index
+                        questionVC.index = qindex
                         questionVC.email = email
                         questionVC.userName = name
                         questionVC.type = type
                         questionVC.subject = subject
+                        questionVC.qnum = Int(item.index)
                         
                         self.present(questionVC, animated: true, completion: nil)
                     }

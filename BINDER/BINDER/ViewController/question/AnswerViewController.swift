@@ -28,6 +28,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     var email : String!
     var type = ""
     var index : Int!
+    var qnum : Int!
     
     @IBOutlet var imgView: UIImageView!
     @IBOutlet weak var textView: UITextView!

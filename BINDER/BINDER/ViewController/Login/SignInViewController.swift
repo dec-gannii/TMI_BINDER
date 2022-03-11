@@ -47,8 +47,6 @@ class SignInViewController: UIViewController {
     
     // 정보 저장하는 메소드
     func saveInfo(_ number: Int, _ name: String, _ email: String, _ password: String, _ type: String){
-//        let db = Firestore.firestore()
-        
         // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
         self.db.collection("\(type)").document(Auth.auth().currentUser!.uid).setData([
             "name": name,
@@ -171,10 +169,6 @@ class SignInViewController: UIViewController {
                 loginVC.modalTransitionStyle = .crossDissolve
                 self.present(loginVC, animated: true, completion: nil)
             }
-            //            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
-            //            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-            //            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-            //            self.present(loginVC!, animated: true, completion: nil)
         }
     }
     
@@ -184,12 +178,10 @@ class SignInViewController: UIViewController {
         guard let name = self.nameTextField.text?.trimmingCharacters(in: .whitespaces) else { return }
         guard let id = self.emailTextField.text else { return }
         guard let pw = self.pwTextField.text else { return }
-        //        guard let age = Int(self.ageTextField.text!.trimmingCharacters(in: .whitespaces)) else { return }
         
         self.emailAlertLabel.isHidden = true
         self.pwAlertLabel.isHidden = true
         self.nameAlertLabel.isHidden = true
-        //        self.ageAlertLabel.isHidden = true
         
         // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면, && self.isValidAge(age)
         
@@ -274,7 +266,6 @@ class SignInViewController: UIViewController {
                 SignInViewController.number = SignInViewController.number + 1
                 
                 // 추가 정보를 입력하는 뷰로 이동
-                //                let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfo")
                 guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
                     //아니면 종료
                     return

@@ -20,6 +20,10 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var googleLogInBtn: GIDSignInButton!
     
     var isLogouted = true
+//    var type = ""
+    
+    let db = Firestore.firestore()
+    var ref: DatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,36 +80,54 @@ class LogInViewController: UIViewController {
                 }
             } else {
                 // 별 오류 없으면 로그인 되어서 홈 뷰 컨트롤러 띄우기
-                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                    //아니면 종료
-                    return
-                }
-                
-                // 아이디와 비밀번호 정보 넘겨주기
-                homeVC.pw = password
-                homeVC.id = email
-                if (Auth.auth().currentUser?.isEmailVerified == true){
-                    homeVC.verified = true
-                } else { homeVC.verified = false }
-                
-                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
-                    //아니면 종료
-                    return
-                }
-                
-                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
-                    return
-                }
-                guard let myPageVC =
-                        self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                print("No Error Exists")
+                self.db.collection("parent").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            // 사용할 것들 가져와서 지역 변수로 저장
+                            let type = document.data()["type"] as? String ?? ""
+                            if (type == "parent") {
+                                print ("No Error Exists 2")
+                                guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
+                                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                                self.present(tb, animated: true, completion: nil)
+                            }
+                        }
+                        guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                            //아니면 종료
                             return
                         }
-                
-                // tab bar 설정
-                let tb = UITabBarController()
-                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
-                self.present(tb, animated: true, completion: nil)
+                        
+                        // 아이디와 비밀번호 정보 넘겨주기
+                        homeVC.pw = password
+                        homeVC.id = email
+                        if (Auth.auth().currentUser?.isEmailVerified == true){
+                            homeVC.verified = true
+                        } else { homeVC.verified = false }
+                        
+                        guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
+                            //아니면 종료
+                            return
+                        }
+                        
+                        guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
+                            return
+                        }
+                        guard let myPageVC =
+                                self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                                    return
+                                }
+                        
+                        // tab bar 설정
+                        let tb = UITabBarController()
+                        tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                        tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
+                        self.present(tb, animated: true, completion: nil)
+                    }
+                }
             }
         }
     }
