@@ -349,7 +349,7 @@ class DetailClassViewController: UIViewController {
     }
     
     @IBAction func editBtnAction(_ sender: Any) {
-        guard let editClassVC = self.storyboard?.instantiateViewController(withIdentifier: "editClassViewController") as? EditClassVC else { return }
+        guard let editClassVC = self.storyboard?.instantiateViewController(withIdentifier: "EditClassViewController") as? EditClassVC else { return }
         
         editClassVC.modalTransitionStyle = .crossDissolve
         editClassVC.modalPresentationStyle = .fullScreen
