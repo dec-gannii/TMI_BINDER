@@ -53,7 +53,6 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             ageAlertLabel.text = "잘못된 입력입니다."
             ageAlertLabel.isHidden = true
             ageShowPicker.placeholder = "학부모 인증 비밀번호를 입력해주세요."
-//            phoneLabel.isHidden = true
             phoneLabel.text = "자녀 휴대폰 번호"
             phoneAlertLabel.isHidden = true
             phonenumTextField.placeholder = "자녀의 휴대폰 번호를 입력해주세요."
@@ -194,11 +193,6 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             loginVC.modalTransitionStyle = .crossDissolve
             self.present(loginVC, animated: true, completion: nil)
         }
-        
-//            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController")
-//            loginVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-//            loginVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-//            self.present(loginVC!, animated: true, completion: nil)
     }
     
     @IBAction func goNext(_ sender: Any) {
