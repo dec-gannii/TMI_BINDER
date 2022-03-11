@@ -57,6 +57,7 @@
 		7F2E9E9D27DB1DBD008991EB /* ParentMyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9E9C27DB1DBD008991EB /* ParentMyPageViewController.swift */; };
 		7F2E9E9F27DB2217008991EB /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9E9E27DB2217008991EB /* TabBarController.swift */; };
 		7F2E9EA127DB23D1008991EB /* StudentEvaluationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */; };
+		7F2E9EA327DB482B008991EB /* EvaluationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9EA227DB482A008991EB /* EvaluationItem.swift */; };
 		7F4285312765034500BA0310 /* ShowPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */; };
 		7F63AB6F27B4E3620081ED49 /* TermViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63AB6E27B4E3620081ED49 /* TermViewController.swift */; };
 		7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6E5E4A27B2C00000292601 /* SettingViewController.swift */; };
@@ -126,6 +127,7 @@
 		7F2E9E9C27DB1DBD008991EB /* ParentMyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentMyPageViewController.swift; sourceTree = "<group>"; };
 		7F2E9E9E27DB2217008991EB /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentEvaluationCell.swift; sourceTree = "<group>"; };
+		7F2E9EA227DB482A008991EB /* EvaluationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationItem.swift; sourceTree = "<group>"; };
 		7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPortfolioViewController.swift; sourceTree = "<group>"; };
 		7F63AB6E27B4E3620081ED49 /* TermViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermViewController.swift; sourceTree = "<group>"; };
 		7F6E5E4A27B2C00000292601 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				6FA406F32764D63900ED847F /* QuestionItem.swift */,
 				6F86FBD327B37FDC00670928 /* QuestionListItem.swift */,
 				6FFDECC827CDF9380028B652 /* QuestionAnsweredListItem.swift */,
+				7F2E9EA227DB482A008991EB /* EvaluationItem.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 				7F8CC8FA275BB29E00BE195D /* ScheduleListViewController.swift in Sources */,
 				6965DE76275DEF330072C16A /* PlusTableViewCell.swift in Sources */,
 				7F4285312765034500BA0310 /* ShowPortfolioViewController.swift in Sources */,
+				7F2E9EA327DB482B008991EB /* EvaluationItem.swift in Sources */,
 				6922197F27C1511000A03788 /* AnswerViewController.swift in Sources */,
 				7F16D1482749390300745522 /* SignInViewController.swift in Sources */,
 				69EE72B2275D11C2007F6F7C /* MypageViewController.swift in Sources */,
