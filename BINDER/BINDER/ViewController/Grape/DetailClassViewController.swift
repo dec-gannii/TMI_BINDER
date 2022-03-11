@@ -41,6 +41,8 @@ class DetailClassViewController: UIViewController {
     var userIndex: Int!
     var keyHeight: CGFloat?
     
+    var checkTime: Bool = false
+    
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var evaluationView: UIView!
     @IBOutlet weak var progressTextView: UITextView!
@@ -531,6 +533,7 @@ class DetailClassViewController: UIViewController {
             if (count == 1) {
                 docRef.setData([
                     "count": count,
+                    "check": checkTime,
                     "todo\(count)":todoTF.text ?? ""
                 ]) { err in
                     if let err = err {
@@ -540,6 +543,7 @@ class DetailClassViewController: UIViewController {
             } else {
                 docRef.updateData([
                     "count": count,
+                    "check":checkTime,
                     "todo\(count)":todoTF.text ?? ""
                 ]) { err in
                     if let err = err {
@@ -624,47 +628,55 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     
     // 데이터 삭제
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if editingStyle == .delete {
-            
-            todos.remove(at: indexPath.row)
-            
-            count = count - 1
-            
-            let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
-            
-            docRef.updateData([
-                "count": count
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                }
-            }
-            for i in 1...self.count {
+        if self.userType == "teacher" {
+            if editingStyle == .delete {
+                
+                todos.remove(at: indexPath.row)
+                
+                count = count - 1
+                
+                let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
+                
                 docRef.updateData([
-                    "todo\(i)":todos[i]
+                    "count": count
                 ]) { err in
                     if let err = err {
                         print("Error adding document: \(err)")
                     }
                 }
+                for i in 1...self.count {
+                    docRef.updateData([
+                        "todo\(i)":todos[i]
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                }
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                
+            } else if editingStyle == .insert {
+                
             }
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            
-        } else if editingStyle == .insert {
-            
         }
     }
     
+    // 투두리스트 선택에 따라
     @objc func checkMarkButtonClicked(sender: UIButton){
         
         if sender.isSelected{
             sender.isSelected = false
+            checkTime = false
+            //체크 내용 업데이트
+            
+            
             print("button normal")
             sender.setImage(UIImage(systemName: "circle"), for: .normal)
             
         } else {
             sender.isSelected = true
+            checkTime = true
+            // 체크 내용 업데이트
             print("button selected")
             sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
         }

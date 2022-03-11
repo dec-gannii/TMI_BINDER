@@ -4350,7 +4350,7 @@ Cg
                     </view>
                     <navigationItem key="navigationItem" id="OiK-i6-HXh"/>
                     <connections>
-                        <outlet property="imageView" destination="Afn-6m-zuc" id="2rx-Pv-4tz"/>
+                        <outlet property="imageView" destination="Afn-6m-zuc" id="Ctx-ZW-3hy"/>
                         <outlet property="questionName" destination="R1w-rH-24X" id="wot-OG-aOE"/>
                         <outlet property="textView" destination="IIQ-oz-2dz" id="CUg-es-WN5"/>
                     </connections>
