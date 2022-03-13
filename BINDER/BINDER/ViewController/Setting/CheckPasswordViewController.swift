@@ -42,7 +42,16 @@ class CheckPasswordViewController: UIViewController {
                         // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
                         self.currentPW = data?["password"] as? String ?? ""
                     } else {
-                        print("Document does not exist")
+                        docRef = self.db.collection("parent").document(Auth.auth().currentUser!.uid)
+                        docRef.getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                let data = document.data()
+                                // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
+                                self.currentPW = data?["password"] as? String ?? ""
+                            } else {
+                                print("Document does not exist")
+                            }
+                        }
                     }
                 }
             }

@@ -83,7 +83,23 @@ class EditInfoViewController: UIViewController {
                         self.parentPassword.isHidden = true
                         self.parentPasswordLabel.isHidden = true
                     } else {
-                        print("Document does not exist")
+                        docRef = self.db.collection("parent").document(Auth.auth().currentUser!.uid)
+                        
+                        docRef.getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                let data = document.data()
+                                let userName = data?["name"] as? String ?? ""
+                                self.nameTextField.text = userName
+                                let userEmail = data?["email"] as? String ?? ""
+                                self.emailLabel.text = userEmail
+                                self.type = data?["type"] as? String ?? ""
+                                self.currentPW = data?["password"] as? String ?? ""
+                                self.parentPassword.isHidden = true
+                                self.parentPasswordLabel.isHidden = true
+                            } else {
+                                print("Document does not exist")
+                            }
+                        }
                     }
                 }
             }
