@@ -5478,6 +5478,7 @@ Cg
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="goPlus:" destination="12l-oW-UIy" eventType="touchUpInside" id="QzZ-Iv-joc"/>
+                                            <action selector="okBtnAction:" destination="uBJ-HP-jw7" eventType="touchUpInside" id="P24-8F-j3c"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -5503,6 +5504,7 @@ Cg
                         <outlet property="payAmountTF" destination="jrY-CU-Y2r" id="fUO-Zc-bat"/>
                         <outlet property="payDateTF" destination="O4i-LI-0aG" id="GS8-x1-wzf"/>
                         <outlet property="payTypeBtn" destination="VTE-JL-III" id="0zl-Su-20X"/>
+                        <outlet property="payTypeLb" destination="fLF-yV-H1t" id="ONg-en-Sob"/>
                         <outlet property="repeatYNToggle" destination="Hyr-ED-MOo" id="GdO-hs-3qS"/>
                         <outlet property="subjectTF" destination="Y7d-5t-7hO" id="LZb-EU-muE"/>
                         <outletCollection property="daysBtn" destination="V8S-n4-XfC" collectionClass="NSMutableArray" id="QYi-Pd-HOv"/>
