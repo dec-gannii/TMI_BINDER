@@ -61,9 +61,12 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         monthPickerView.layer.cornerRadius = 10
         monthPickerView.rightView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 5.0, height: 0.0))
         monthPickerView.rightViewMode = .always
+        monthlyEvaluationTextView.textContainer.maximumNumberOfLines = 3
+        monthlyEvaluationTextView.isScrollEnabled = false
+        monthlyEvaluationTextView.textContainer.lineBreakMode = .byTruncatingTail
         
-        self.monthlyEvaluationTextView.text = "1월"
-        self.selectedMonth = months[0]
+//        self.monthlyEvaluationTextView.text = "1월"
+//        self.selectedMonth = months[0]
         
         self.selectionStyle = .none
     }

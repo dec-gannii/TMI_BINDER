@@ -672,10 +672,10 @@ Cg
                                                                     </subviews>
                                                                 </stackView>
                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="월말평가 내용입니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BAL-Ru-XyR">
-                                                                    <rect key="frame" x="8" y="108" width="330" height="60"/>
+                                                                    <rect key="frame" x="8" y="108" width="330" height="70"/>
                                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="60" id="O6p-YV-Zmo"/>
+                                                                        <constraint firstAttribute="height" constant="70" id="O6p-YV-Zmo"/>
                                                                     </constraints>
                                                                     <color key="textColor" systemColor="labelColor"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -713,7 +713,7 @@ Cg
                                                                 <constraint firstItem="vYT-gu-QO2" firstAttribute="leading" secondItem="npY-uz-R8r" secondAttribute="leading" id="XtX-TC-b3x"/>
                                                                 <constraint firstAttribute="trailing" secondItem="Qkt-7g-22E" secondAttribute="trailing" constant="12" id="cEP-Rw-FXt"/>
                                                                 <constraint firstItem="Qkt-7g-22E" firstAttribute="top" secondItem="BwY-ue-Tvf" secondAttribute="bottom" constant="12" id="lbb-mn-aDv"/>
-                                                                <constraint firstAttribute="height" constant="230" id="poO-oF-Sy3"/>
+                                                                <constraint firstAttribute="height" constant="250" id="poO-oF-Sy3"/>
                                                                 <constraint firstItem="BwY-ue-Tvf" firstAttribute="top" secondItem="qIE-S8-ySL" secondAttribute="bottom" constant="12" id="qcV-dd-1Tf"/>
                                                                 <constraint firstItem="zJB-Sw-gAs" firstAttribute="leading" secondItem="qIE-S8-ySL" secondAttribute="trailing" constant="8" symbolic="YES" id="qsm-YW-weF"/>
                                                                 <constraint firstItem="qIE-S8-ySL" firstAttribute="leading" secondItem="npY-uz-R8r" secondAttribute="leading" constant="12" id="tCY-bv-uaj"/>
