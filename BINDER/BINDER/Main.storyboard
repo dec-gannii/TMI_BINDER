@@ -4040,7 +4040,7 @@ Cg
                         <outlet property="newPassword" destination="VY9-Zn-DPh" id="5ed-ve-NHb"/>
                         <outlet property="newPasswordCheck" destination="YSe-8T-hwz" id="LVu-W3-BGm"/>
                         <outlet property="parentPassword" destination="2dO-9S-wwg" id="UKd-s9-tCa"/>
-                        <outlet property="parentPasswordLabel" destination="CPp-E4-UNf" id="QyN-pl-DP6"/>
+                        <outlet property="parentPasswordLabel" destination="CPp-E4-UNf" id="A5p-h0-IFT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fgn-d6-ZlB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

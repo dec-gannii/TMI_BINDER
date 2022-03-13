@@ -18,7 +18,6 @@ class EditClassVC : UIViewController {
     @IBOutlet weak var repeatYNToggle: UISwitch!
     @IBOutlet var daysBtn: [UIButton]!
     
-    
     @IBOutlet weak var cancelBtn: UIButton!
     @IBAction func cancelBtnAction(_ sender: Any) {
         if let preVC = self.presentingViewController as? UIViewController {
@@ -30,6 +29,11 @@ class EditClassVC : UIViewController {
     
     let db = Firestore.firestore()
     var ref: DatabaseReference!
+    
+    // 이 부분 주석 처리 해제해야 1 코드 적용 했을 때 정상 작동
+//    var userName = ""
+//    var userEmail = ""
+//    var userSubject = ""
     
     var subject = ""
     var payType = ""
@@ -44,42 +48,46 @@ class EditClassVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.studentItem.name + "(" + self.studentItem.email + ") " + self.subjectTF.text!).getDocument { [self] (document, error) in
-//            if let document = document, document.exists {
-//                let data = document.data()
-//                
-//                let subject = data?["subject"] as? String ?? ""
-//                self.subjectTF.text = subject
-//                
-//                let payType = data?["payType"] as? String ?? ""
-//                if (payType == "C") {
-//                    self.payTypeBtn.setTitle("회차별", for: .normal)
-//                } else {
-//                    self.payTypeBtn.setTitle("시간별", for: .normal)
-//                }
-//                
-//                let payAmount = data?["payAmount"] as? String ?? ""
-//                self.payAmountTF.text = payAmount
-//                
-//                let repeatYN = data?["repeatYN"] as? Bool ?? true
-//                if (repeatYN == true) {
-//                    self.repeatYNToggle.setOn(true, animated: true)
-//                } else {
-//                    self.repeatYNToggle.setOn(false, animated: true)
-//                }
-//                
-//                let schedule = data?["schedule"] as? String ?? ""
-////                 저장된 스케줄을 " " 단위로 갈라내어 배열로 저장함
-//                schedule.components(separatedBy: " ")
-//                print(schedule[schedule.startIndex])
-//
-//                
-//                
-//                
-//            } else {
-//                print("Document does not exist")
-//            }
-       // }
+        // self.userName + "(" + self.userEmail + ") " + self.userSubject - 1
+        // 에러 뜨는 위치 path에 위에 주석처리한 것처럼 하면 작동 되긴 함
+        // 대신 DetailClassViewController에서 정보 넘기는 코드랑 위에 userName, userEmail, userSubject 변수 주석 처리 해제해야 함
+        
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.studentItem.name + "(" + self.studentItem.email + ") " + self.subjectTF.text!).getDocument { [self] (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                
+                let subject = data?["subject"] as? String ?? ""
+                self.subjectTF.text = subject
+                
+                let payType = data?["payType"] as? String ?? ""
+                if (payType == "C") {
+                    self.payTypeBtn.setTitle("회차별", for: .normal)
+                } else {
+                    self.payTypeBtn.setTitle("시간별", for: .normal)
+                }
+                
+                let payAmount = data?["payAmount"] as? String ?? ""
+                self.payAmountTF.text = payAmount
+                
+                let repeatYN = data?["repeatYN"] as? Bool ?? true
+                if (repeatYN == true) {
+                    self.repeatYNToggle.setOn(true, animated: true)
+                } else {
+                    self.repeatYNToggle.setOn(false, animated: true)
+                }
+                
+                let schedule = data?["schedule"] as? String ?? ""
+//                 저장된 스케줄을 " " 단위로 갈라내어 배열로 저장함
+                schedule.components(separatedBy: " ")
+                print(schedule[schedule.startIndex])
+
+                
+                
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
         
         
         
