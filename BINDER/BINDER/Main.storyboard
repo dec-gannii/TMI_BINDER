@@ -5505,6 +5505,13 @@ Cg
                         <outlet property="payTypeBtn" destination="VTE-JL-III" id="0zl-Su-20X"/>
                         <outlet property="repeatYNToggle" destination="Hyr-ED-MOo" id="GdO-hs-3qS"/>
                         <outlet property="subjectTF" destination="Y7d-5t-7hO" id="LZb-EU-muE"/>
+                        <outletCollection property="daysBtn" destination="V8S-n4-XfC" collectionClass="NSMutableArray" id="QYi-Pd-HOv"/>
+                        <outletCollection property="daysBtn" destination="7XB-Wg-Reg" collectionClass="NSMutableArray" id="nG5-4p-yjr"/>
+                        <outletCollection property="daysBtn" destination="3OH-fh-szG" collectionClass="NSMutableArray" id="FC2-hn-HXa"/>
+                        <outletCollection property="daysBtn" destination="zvh-zM-x2M" collectionClass="NSMutableArray" id="i6L-WQ-3DK"/>
+                        <outletCollection property="daysBtn" destination="7Sj-Cn-dzx" collectionClass="NSMutableArray" id="rxx-xk-B7K"/>
+                        <outletCollection property="daysBtn" destination="TLU-TK-x4M" collectionClass="NSMutableArray" id="psc-58-vkE"/>
+                        <outletCollection property="daysBtn" destination="gGo-vz-tb9" collectionClass="NSMutableArray" id="dfi-TA-aeY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cBl-gZ-Enw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
