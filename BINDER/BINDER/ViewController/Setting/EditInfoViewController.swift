@@ -94,8 +94,11 @@ class EditInfoViewController: UIViewController {
                                 self.emailLabel.text = userEmail
                                 self.type = data?["type"] as? String ?? ""
                                 self.currentPW = data?["password"] as? String ?? ""
-                                self.parentPassword.isHidden = true
-                                self.parentPasswordLabel.isHidden = true
+                                self.parentPasswordLabel.text = "자녀 휴대전화 번호"
+                                let childPhoneNumber = data?["childPhoneNumber"] as? String ?? ""
+                                self.parentPassword.text = childPhoneNumber
+                                //                                self.parentPassword.isHidden = true
+                                //                                self.parentPasswordLabel.isHidden = true
                             } else {
                                 print("Document does not exist")
                             }
@@ -130,6 +133,22 @@ class EditInfoViewController: UIViewController {
         db.collection("\(self.type)").document(Auth.auth().currentUser!.uid).updateData([
             "name": name,
             "password": password
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            }
+        }
+    }
+    
+    // 학부모 정보 저장하는 메소드
+    func saveParentInfo(_ name: String, _ password: String, _ childPhoneNumber: String){
+        let db = Firestore.firestore()
+        
+        // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
+        db.collection("\(self.type)").document(Auth.auth().currentUser!.uid).updateData([
+            "name": name,
+            "password": password,
+            "childPhoneNumber": childPhoneNumber
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
@@ -211,6 +230,8 @@ class EditInfoViewController: UIViewController {
                     saveInfo(name, newPW, parentPW)
                 } else if (self.type == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
                     saveStudentInfo(name, newPW)
+                } else if (self.type == "parent") {
+                    saveParentInfo(name, newPW, parentPW)
                 }
                 
                 // 새로운 비밀번호로 지정
@@ -232,32 +253,41 @@ class EditInfoViewController: UIViewController {
                         saveInfo(name, newPW, parentPW)
                     } else if (self.type == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
                         saveStudentInfo(name, newPW)
+                    } else if (self.type == "parent") {
+                        saveParentInfo(name, newPW, parentPW)
                     }
                     
-                    guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                        //아니면 종료
-                        return
+                    if (self.type == "parent") {
+                        guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
+                        tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                        self.present(tb, animated: true, completion: nil)
+                    } else {
+                        
+                        guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                            //아니면 종료
+                            return
+                        }
+                        
+                        guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
+                            return
+                        }
+                        
+                        guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
+                            return
+                        }
+                        
+                        guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                            return
+                        }
+                        
+                        // tab bar 추가하기
+                        let tb = UITabBarController()
+                        tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                        tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
+                        tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
+                        tb.selectedIndex = 3 // 설정 화면으로 이동
+                        self.present(tb, animated: true, completion: nil)
                     }
-                    
-                    guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
-                        return
-                    }
-                    
-                    guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
-                        return
-                    }
-                    
-                    guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                        return
-                    }
-                    
-                    // tab bar 추가하기
-                    let tb = UITabBarController()
-                    tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                    tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
-                    tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
-                    tb.selectedIndex = 3 // 설정 화면으로 이동
-                    self.present(tb, animated: true, completion: nil)
                 }
             }
         } else {

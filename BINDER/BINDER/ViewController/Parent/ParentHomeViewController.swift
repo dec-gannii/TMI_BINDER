@@ -16,7 +16,7 @@ class ParentHomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getUserInfo()
-//        setEvaluation()
+        //        setEvaluation()
         progressListTableView.delegate = self
         progressListTableView.dataSource = self
         progressListTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
@@ -28,6 +28,7 @@ class ParentHomeViewController: UIViewController {
     
     @IBOutlet weak var parentNameLabel: UILabel!
     @IBOutlet weak var progressListTableView: UITableView!
+    //    @IBOutlet weak var monthPickerView: UITextField!
     
     func getUserInfo() {
         let db = Firestore.firestore()
@@ -88,8 +89,19 @@ class ParentHomeViewController: UIViewController {
                                             let subject = evaluationData["subject"] as? String ?? "" // 과목
                                             let currentCnt = evaluationData["currentCnt"] as? Int ?? 0 // 현재 횟수
                                             let totalCnt = evaluationData["totalCnt"] as? Int ?? 8 // 총 횟수
-                                            let evaluation = evaluationData["evaluation"] as? String ?? "평가 기본 항목입니다." // 평가 내용
+                                            var evaluation = evaluationData["evaluation"] as? String ?? "평가 기본 항목입니다." // 평가 내용
                                             let circleColor = evaluationData["circleColor"] as? String ?? "026700" // 원 색상
+                                            
+//                                            db.collection("student").document(studentUid).collection("class").document(name + "(" + email + ") " + subject).collection("Evaluation").whereField("month", isEqualTo: "1월").getDocuments() { (querySnapshot, err) in
+//                                                if let err = err {
+//                                                    print(">>>>> document 에러 : \(err)")
+//                                                } else {
+//                                                    for document in querySnapshot!.documents {
+//                                                        evaluation = document.data()["evaluation"] as? String ??  "평가 기본 항목입니다."
+//                                                    }
+//                                                }
+//                                            }
+                                            
                                             let item = EvaluationItem(email: email, name: name, evaluation: evaluation, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: circleColor, subject: subject)
                                             self.evaluationItem.append(item)
                                             print ("evaluationItem => \(self.evaluationItem)")
@@ -117,8 +129,8 @@ extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         let item:EvaluationItem = evaluationItem[indexPath.row]
         
-        cell.subjectLabel.text = item.subject
-        cell.progressLabel.text = String(item.currentCnt / item.totalCnt) + "%"
+        cell.subjectLabel.text = item.subject + " - " + item.name + " 선생님"
+        cell.progressLabel.text = "\(item.currentCnt) / \(item.totalCnt)"
         cell.monthlyEvaluationTextView.text = item.evaluation
         cell.classColorView.makeCircle()
         if let hex = Int(item.circleColor, radix: 16) {
