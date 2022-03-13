@@ -369,9 +369,9 @@ class DetailClassViewController: UIViewController {
         editClassVC.modalPresentationStyle = .fullScreen
         
         // 값 보내주는 역할
-//                editClassVC.userName = self.userName
-//                editClassVC.userEmail = self.userEmail
-//                editClassVC.userSubject = self.userSubject
+                editClassVC.userName = self.userName
+                editClassVC.userEmail = self.userEmail
+                editClassVC.userSubject = self.userSubject
         
         self.present(editClassVC, animated: true, completion: nil)
         
