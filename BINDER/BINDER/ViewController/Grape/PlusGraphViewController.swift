@@ -56,12 +56,12 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        todayStudy = study[row]
         return study[row]
     }
     
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.todayStudy = study[row]
         studyShowPicker.text = study[row]
     }
     

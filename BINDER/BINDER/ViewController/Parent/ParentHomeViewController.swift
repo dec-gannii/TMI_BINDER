@@ -12,6 +12,7 @@ import FirebaseFirestore
 
 class ParentHomeViewController: UIViewController {
     var evaluationItem: [EvaluationItem] = []
+    var studentUid: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +73,7 @@ class ParentHomeViewController: UIViewController {
                                 print("\(document.documentID) => \(document.data())")
                                 let studentUid = document.data()["uid"] as? String ?? ""
                                 let studentName = document.data()["name"] as? String ?? ""
-                                
+                                self.studentUid = studentUid
                                 // path가 문제있음
                                 db.collection("student").document(studentUid).collection("class").whereField("totalCnt", isEqualTo: 8).getDocuments() { (querySnapshot, err) in
                                     if let err = err {
@@ -89,7 +90,7 @@ class ParentHomeViewController: UIViewController {
                                             let subject = evaluationData["subject"] as? String ?? "" // 과목
                                             let currentCnt = evaluationData["currentCnt"] as? Int ?? 0 // 현재 횟수
                                             let totalCnt = evaluationData["totalCnt"] as? Int ?? 8 // 총 횟수
-                                            var evaluation = evaluationData["evaluation"] as? String ?? "평가 기본 항목입니다." // 평가 내용
+                                            var evaluation = evaluationData["evaluation"] as? String ?? "선택된 달이 없습니다." // 평가 내용
                                             let circleColor = evaluationData["circleColor"] as? String ?? "026700" // 원 색상
                                             
 //                                            db.collection("student").document(studentUid).collection("class").document(name + "(" + email + ") " + subject).collection("Evaluation").whereField("month", isEqualTo: "1월").getDocuments() { (querySnapshot, err) in
@@ -126,8 +127,11 @@ extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StudentEvaluationCell", for: indexPath) as! StudentEvaluationCell
+        cell.studentUid = self.studentUid
         
         let item:EvaluationItem = evaluationItem[indexPath.row]
+        
+        cell.setTeacherInfo(item.name, item.email, item.subject)
         
         cell.subjectLabel.text = item.subject + " - " + item.name + " 선생님"
         cell.progressLabel.text = "\(item.currentCnt) / \(item.totalCnt)"
@@ -143,5 +147,4 @@ extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
-    
 }
