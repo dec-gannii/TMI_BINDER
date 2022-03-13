@@ -12,7 +12,7 @@ import FirebaseFirestore
 
 class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     let months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
-    var evaluations: [String] = []
+//    var evaluations: [String] = []
     
     @IBOutlet weak var classColorView: UIView!
     @IBOutlet weak var cellBackgroundView: UIView!
@@ -64,9 +64,6 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         monthlyEvaluationTextView.textContainer.maximumNumberOfLines = 3
         monthlyEvaluationTextView.isScrollEnabled = false
         monthlyEvaluationTextView.textContainer.lineBreakMode = .byTruncatingTail
-        
-//        self.monthlyEvaluationTextView.text = "1월"
-//        self.selectedMonth = months[0]
         
         self.selectionStyle = .none
     }
