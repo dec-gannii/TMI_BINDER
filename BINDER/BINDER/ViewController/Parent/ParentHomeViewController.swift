@@ -22,6 +22,10 @@ class ParentHomeViewController: UIViewController {
         progressListTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        progressListTableView.reloadData()
+    }
+    
     @IBOutlet weak var parentNameLabel: UILabel!
     @IBOutlet weak var progressListTableView: UITableView!
     
@@ -42,6 +46,7 @@ class ParentHomeViewController: UIViewController {
                 }
             }
         }
+        setEvaluation()
     }
     
     func setEvaluation() {
@@ -67,16 +72,15 @@ class ParentHomeViewController: UIViewController {
                                 let studentUid = document.data()["uid"] as? String ?? ""
                                 let studentName = document.data()["name"] as? String ?? ""
                                 
-                                print ("studentName : \(studentName), studentUid : \(studentUid)")
-                                
                                 // path가 문제있음
-                                db.document("student").collection(studentUid).whereField("totalCnt", isEqualTo: 8).getDocuments() { (querySnapshot, err) in
+                                db.collection("student").document(studentUid).collection("class").whereField("totalCnt", isEqualTo: 8).getDocuments() { (querySnapshot, err) in
                                     if let err = err {
                                         print(">>>>> document 에러 : \(err)")
                                     } else {
-                                        print("===6===")
+                                        /// 조회하기 위해 원래 있던 것 들 다 지움
+                                        self.evaluationItem.removeAll()
+                                        
                                         for document in querySnapshot!.documents {
-                                            print("===7===")
                                             let evaluationData = document.data()
                                             
                                             let name = evaluationData["name"] as? String ?? "" // 선생님 이름
@@ -105,19 +109,19 @@ class ParentHomeViewController: UIViewController {
 
 extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return evaluationItem.count
-        return 3
+        return evaluationItem.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StudentEvaluationCell", for: indexPath) as! StudentEvaluationCell
-
-        // 하드코딩
-        cell.subjectLabel.text = "국어"
-        cell.progressLabel.text = "40%"
-        cell.monthlyEvaluationTextView.text = "이번 한 달 간 현수가 열심히 따라와주어서 국어 성적이 조금이나마 오른 것 같습니다~~~"
+        
+        let item:EvaluationItem = evaluationItem[indexPath.row]
+        
+        cell.subjectLabel.text = item.subject
+        cell.progressLabel.text = String(item.currentCnt / item.totalCnt) + "%"
+        cell.monthlyEvaluationTextView.text = item.evaluation
         cell.classColorView.makeCircle()
-        if let hex = Int("026700", radix: 16) {
+        if let hex = Int(item.circleColor, radix: 16) {
             cell.classColorView.backgroundColor = UIColor.init(rgb: hex)
         } else {
             cell.classColorView.backgroundColor = UIColor.red
