@@ -26,12 +26,33 @@ class EditClassVC : UIViewController {
         }
     }
     
+    @IBAction func payTypeAction(_ sender: Any) {
+        
+        /// 한번 눌렀을 때 바로 구별할 수 있는 액션시트 나올 수 있게끔 설정
+        let alert = UIAlertController(title: "과외비 타입 선택", message: "과외비 정산방식을 선택해 주세요.", preferredStyle: .actionSheet)
+        let count = UIAlertAction(title: "회차별", style: .default, handler: { action in
+            self.payType = PayType.countly
+            
+        })
+        let time = UIAlertAction(title: "시간별", style: .default, handler: { action in
+            self.payType = PayType.timly
+        })
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: { action in
+        })
+        alert.addAction(count)
+        alert.addAction(time)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: {
+        })
+        
+    }
     @IBOutlet weak var okBtn: UIButton!
     
     var payType: PayType = .countly {
         didSet {
             changeUI()
         }
+        
     }
     
     func changeUI() {
@@ -39,9 +60,11 @@ class EditClassVC : UIViewController {
         case .countly:
             payTypeLb.text = "회당"
             payTypeBtn.setTitle("회차별", for: .normal)
+                        
         case .timly:
             payTypeLb.text = "시간당"
             payTypeBtn.setTitle("시간별", for: .normal)
+            
         }
     }
     
@@ -49,7 +72,7 @@ class EditClassVC : UIViewController {
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
             "subject": subjectTF.text ?? "None",
-            // "payType": payTypeBtn.text ?? "None",
+            "payType": self.payType == .timly ? "T" : "C",
             "payAmount": payAmountTF.text ?? "None",
             "payDate": payDateTF.text ?? "None",
             "repeatYN": repeatYN ?? true

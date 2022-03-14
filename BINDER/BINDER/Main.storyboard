@@ -5203,6 +5203,7 @@ Cg
                                                 </state>
                                                 <connections>
                                                     <action selector="onClickPay" destination="UaZ-vF-EMR" eventType="touchUpInside" id="JUv-j5-gqb"/>
+                                                    <action selector="payTypeAction:" destination="uBJ-HP-jw7" eventType="touchUpInside" id="K7X-za-vyw"/>
                                                 </connections>
                                             </button>
                                         </subviews>
