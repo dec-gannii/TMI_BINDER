@@ -47,12 +47,12 @@ class EditClassVC : UIViewController {
     
     @IBAction func okBtnAction(_ sender: Any) {
         
-        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).setData([
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
             "subject": subjectTF.text ?? "None",
             // "payType": payTypeBtn.text ?? "None",
             "payAmount": payAmountTF.text ?? "None",
             "payDate": payDateTF.text ?? "None",
-            //"repeatYN": repeatYNToggle.
+            "repeatYN": repeatYN ?? true
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
@@ -78,8 +78,10 @@ class EditClassVC : UIViewController {
     // var payType_local = ""
     var payAmount = ""
     var payDate = ""
-    var repeatYN = ""
-    var days = ""
+    var repeatYN :Bool {
+        return repeatYNToggle.isOn
+    }
+    var days : [String] = []
     
     // var teacherItem: TeacherItem!
     var studentItem: StudentItem!
@@ -119,10 +121,17 @@ class EditClassVC : UIViewController {
                 }
                 
                 let schedule = data?["schedule"] as? String ?? ""
-//                 저장된 스케줄을 " " 단위로 갈라내어 배열로 저장함
-                schedule.components(separatedBy: " ")
-                print(schedule[schedule.startIndex])
+//              저장된 스케줄을 " " 단위로 갈라내어 배열로 저장함
+                days = schedule.components(separatedBy: " ")
+                print(days)
+                
+                if days.contains("월") {
+                    
+                }
+                    
 
+
+                
             } else {
                 print("Document does not exist")
             }

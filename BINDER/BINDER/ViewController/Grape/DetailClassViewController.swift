@@ -372,6 +372,7 @@ class DetailClassViewController: UIViewController {
                 editClassVC.userName = self.userName
                 editClassVC.userEmail = self.userEmail
                 editClassVC.userSubject = self.userSubject
+                
         
         self.present(editClassVC, animated: true, completion: nil)
         

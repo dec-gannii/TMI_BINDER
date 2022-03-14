@@ -5314,9 +5314,6 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="월"/>
-                                                <connections>
-                                                    <action selector="onClickDay:" destination="UaZ-vF-EMR" eventType="touchUpInside" id="Eh9-jd-znS"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7XB-Wg-Reg" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="47" y="0.0" width="32.5" height="33"/>
@@ -5327,9 +5324,6 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="화"/>
-                                                <connections>
-                                                    <action selector="onClickDay:" destination="UaZ-vF-EMR" eventType="touchUpInside" id="YjI-ck-w1R"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3OH-fh-szG" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="93.5" y="0.0" width="33" height="33"/>
@@ -5340,9 +5334,6 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="수"/>
-                                                <connections>
-                                                    <action selector="onClickDay:" destination="UaZ-vF-EMR" eventType="touchUpInside" id="CDy-te-1cR"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zvh-zM-x2M" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="140.5" y="0.0" width="33" height="33"/>
@@ -5353,9 +5344,6 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="목"/>
-                                                <connections>
-                                                    <action selector="onClickDay:" destination="UaZ-vF-EMR" eventType="touchUpInside" id="zR8-Nj-kkE"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Sj-Cn-dzx" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="187.5" y="0.0" width="33" height="33"/>
@@ -5366,9 +5354,6 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="금"/>
-                                                <connections>
-                                                    <action selector="onClickDay:" destination="UaZ-vF-EMR" eventType="touchUpInside" id="6RE-vQ-f8H"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLU-TK-x4M" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="234.5" y="0.0" width="32.5" height="33"/>
@@ -5379,9 +5364,6 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="토"/>
-                                                <connections>
-                                                    <action selector="onClickDay:" destination="UaZ-vF-EMR" eventType="touchUpInside" id="NND-26-qpR"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gGo-vz-tb9" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="281" y="0.0" width="33" height="33"/>
@@ -5392,9 +5374,6 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="일"/>
-                                                <connections>
-                                                    <action selector="onClickDay:" destination="UaZ-vF-EMR" eventType="touchUpInside" id="aj4-yF-UKh"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
