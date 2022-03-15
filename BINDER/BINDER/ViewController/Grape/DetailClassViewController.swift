@@ -111,6 +111,7 @@ class DetailClassViewController: UIViewController {
                 self.evaluationLabel.text = "수업 만족도 점수"
                 self.testLabel.text = "수업 난이도 점수"
             } else { // 사용자가 학생이 아니면(선생님이면)
+                self.monthlyEvaluationBackgroundView.isHidden = true
                 self.classNavigationBar.topItem!.title = self.userName + " 학생"
                 self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
             }
@@ -194,11 +195,6 @@ class DetailClassViewController: UIViewController {
                                                 
                                                 let currentCnt = document.data()["currentCnt"] as? Int ?? 0
                                                 self.currentCnt = currentCnt
-//                                                if (currentCnt % 8 == 0 && (currentCnt == 0 || currentCnt == 8)) {
-//                                                    self.monthlyEvaluationBackgroundView.isHidden = false
-//                                                } else {
-//                                                    self.monthlyEvaluationBackgroundView.isHidden = true
-//                                                }
                                                 
                                                 self.userName = name
                                                 self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
@@ -809,9 +805,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
         monthlyEvaluationTextView.delegate = self // txtvReview가 유저가 선언한 outlet
         monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
         monthlyEvaluationTextView.textColor = UIColor.lightGray
-        
     }
-    
     
     // TextView Place Holder
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -819,8 +813,8 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             monthlyEvaluationTextView.text = nil
             monthlyEvaluationTextView.textColor = UIColor.black
         }
-        
     }
+    
     // TextView Place Holder
     func textViewDidEndEditing(_ textView: UITextView) {
         if monthlyEvaluationTextView.text.isEmpty {
@@ -834,9 +828,12 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
         placeholderSetting()
         textViewDidBeginEditing(self.monthlyEvaluationTextView)
         textViewDidEndEditing(self.monthlyEvaluationTextView)
-        
-        if (self.currentCnt % 8 == 0 && (self.currentCnt == 0 || self.currentCnt == 8)) {
-            self.monthlyEvaluationBackgroundView.isHidden = false
+        if (self.userType == "teacher") {
+            if (self.currentCnt % 8 == 0 && (self.currentCnt == 0 || self.currentCnt == 8)) {
+                self.monthlyEvaluationBackgroundView.isHidden = false
+            } else {
+                self.monthlyEvaluationBackgroundView.isHidden = true
+            }
         } else {
             self.monthlyEvaluationBackgroundView.isHidden = true
         }
