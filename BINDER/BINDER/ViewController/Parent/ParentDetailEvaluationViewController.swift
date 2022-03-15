@@ -60,6 +60,9 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        monthlyEvaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10);
+        
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM"
         self.month = dateFormatter.string(from: self.nowDate) + "월"
@@ -74,6 +77,16 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         
         monthlyEvaluationTitleBackgroundView.clipsToBounds = true
         monthlyEvaluationTitleBackgroundView.layer.cornerRadius = 15
+        
+        monthlyEvaluationTextView.clipsToBounds = true
+        monthlyEvaluationTextView.layer.cornerRadius = 15
+        
+        monthlyEvaluationTitleBackgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.addSubview(monthlyEvaluationTitleBackgroundView)
+        
+        
+        monthlyEvaluationTextView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        view.addSubview(monthlyEvaluationTextView)
         
         db.collection("parent").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
