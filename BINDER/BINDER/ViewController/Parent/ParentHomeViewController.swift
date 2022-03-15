@@ -18,10 +18,16 @@ class ParentHomeViewController: UIViewController {
     var subject = ""
     var selectedMonth = ""
     
+    let nowDate = Date()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getUserInfo()
-        //        setEvaluation()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM"
+        self.selectedMonth = dateFormatter.string(from: self.nowDate) + "월"
+        
         progressListTableView.delegate = self
         progressListTableView.dataSource = self
         progressListTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
@@ -154,6 +160,7 @@ extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
             //아니면 종료
             return
         }
+        
         detailEvaluationVC.modalTransitionStyle = .crossDissolve
         detailEvaluationVC.modalPresentationStyle = .fullScreen
 

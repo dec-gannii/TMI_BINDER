@@ -13,6 +13,9 @@ import FSCalendar
 class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSource {
     
     @IBOutlet weak var calendarView: FSCalendar!
+    @IBOutlet weak var monthlyEvaluationTextView: UITextView!
+    @IBOutlet weak var monthlyEvaluationTitle: UILabel!
+    @IBOutlet weak var monthlyEvaluationTitleBackgroundView: UIView!
     
     let db = Firestore.firestore()
     
@@ -23,6 +26,9 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     var subject: String = ""
     var index: Int = 0
     var month: String = ""
+    var studentName: String = ""
+    
+    let nowDate = Date()
     
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
@@ -54,10 +60,20 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM"
+        self.month = dateFormatter.string(from: self.nowDate) + "월"
+        
+        self.monthlyEvaluationTextView.isEditable = false
+        
+        getUserInfo()
         
         self.calendarText()
         self.calendarColor()
         self.calendarEvent()
+        
+        monthlyEvaluationTitleBackgroundView.clipsToBounds = true
+        monthlyEvaluationTitleBackgroundView.layer.cornerRadius = 15
         
         db.collection("parent").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -78,7 +94,9 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                             for document in querySnapshot!.documents {
                                 print("\(document.documentID) => \(document.data())")
                                 let studentName = document.data()["name"] as? String ?? ""
-                                self.navigationBarTitle.title = studentName + " 학생 " + self.subject + " 월말평가"
+                                self.studentName = studentName
+                                
+                                self.monthlyEvaluationTitle.text = "이번 달 " + studentName + " 학생은..."
                             }
                         }
                     }
@@ -86,6 +104,58 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
             }
         }
         
+    }
+    
+    func getUserInfo() {
+        self.db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let childPhoneNumber = data!["childPhoneNumber"] as? String ?? ""
+                self.db.collection("student").whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                    } else {
+                        self.monthlyEvaluationTextView.text = "아직 이번 달 월말 평가가 등록되지 않았습니다."
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            let studentUid = document.data()["uid"] as? String ?? ""
+                            
+                            self.db.collection("student").document(studentUid).collection("class").whereField("index", isEqualTo: self.index).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print(">>>>> document 에러 : \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        print("\(document.documentID) => \(document.data())")
+                                        let name = document.data()["name"] as? String ?? ""
+                                        self.teacherName = name
+                                        let email = document.data()["email"] as? String ?? ""
+                                        self.teacherEmail = email
+                                        let subject = document.data()["subject"] as? String ?? ""
+                                        self.subject = subject
+                                        self.navigationBarTitle.title = self.studentName + " 학생 " + self.subject + " 월말평가"
+                                        
+                                        self.db.collection("student").document(studentUid).collection("class").document(name + "(" + email + ") " + self.subject).collection("Evaluation").whereField("month", isEqualTo: self.month).getDocuments() { (querySnapshot, err) in
+                                            if let err = err {
+                                                print(">>>>> document 에러 : \(err)")
+                                            } else {
+                                                for document in querySnapshot!.documents {
+                                                    let evaluationData = document.data()
+                                                    
+                                                    let evaluation = evaluationData["evaluation"] as? String ?? "아직 이번 달 월말 평가가 등록되지 않았습니다."
+                                                    self.monthlyEvaluationTextView.text = evaluation
+                                                    self.monthlyEvaluationTextView.isEditable = false
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func BackButtonClicked(_ sender: Any) {
@@ -107,6 +177,7 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         dateFormatter.dateFormat = "MM"
         dateFormatter.locale = Locale(identifier: "ko_KR")
         let selectedMonth = dateFormatter.string(from: date) + "월"
+        self.month = selectedMonth
         
         teacherEvaluationVC.modalTransitionStyle = .coverVertical
         teacherEvaluationVC.modalPresentationStyle = .pageSheet
@@ -117,5 +188,18 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         teacherEvaluationVC.month = selectedMonth
         
         self.present(teacherEvaluationVC, animated: true)
+    }
+    
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        let currentPageDate = calendar.currentPage
+        
+        let month = Calendar.current.component(.month, from: currentPageDate)
+        if (month < 10) {
+            self.month = "0\(month)월"
+        } else {
+            self.month = "\(month)월"
+        }
+        print ("self.month : \(self.month)")
+        getUserInfo()
     }
 }

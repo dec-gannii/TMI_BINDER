@@ -14,6 +14,8 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     let months = ["01월", "02월", "03월", "04월", "05월", "06월", "07월", "08월", "09월", "10월", "11월", "12월"]
 //    var evaluations: [String] = []
     
+    let nowDate = Date()
+    
     @IBOutlet weak var classColorView: UIView!
     @IBOutlet weak var cellBackgroundView: UIView!
     @IBOutlet weak var subjectLabel: UILabel!
@@ -60,6 +62,11 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM"
+        self.selectedMonth = dateFormatter.string(from: self.nowDate) + "월"
+        self.monthPickerView.text = self.selectedMonth
         
         cellBackgroundView.clipsToBounds = true
         cellBackgroundView.layer.cornerRadius = 15
