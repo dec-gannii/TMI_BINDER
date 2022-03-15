@@ -128,7 +128,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                     if let err = err {
                         print(">>>>> document 에러 : \(err)")
                     } else {
-                        self.monthlyEvaluationTextView.text = "아직 이번 달 월말 평가가 등록되지 않았습니다."
+                        self.monthlyEvaluationTextView.text = "\(self.month)달 월말 평가가 등록되지 않았습니다."
                         for document in querySnapshot!.documents {
                             print("\(document.documentID) => \(document.data())")
                             let studentUid = document.data()["uid"] as? String ?? ""
