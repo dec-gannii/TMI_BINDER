@@ -173,12 +173,7 @@ class EditClassVC : UIViewController {
                 print("Document does not exist")
             }
         }
-        
-    
-        
-        
     }
-    
 }
 
 extension String {

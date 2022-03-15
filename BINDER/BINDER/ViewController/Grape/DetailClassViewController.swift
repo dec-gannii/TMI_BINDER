@@ -29,12 +29,16 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var evaluationLabel: UILabel!
     @IBOutlet weak var testLabel: UILabel!
     
+    @IBOutlet weak var monthlyEvaluationBackgroundView: UIView!
+    @IBOutlet weak var monthlyEvaluationQuestionLabel: UILabel!
+    @IBOutlet weak var monthlyEvaluationTextView: UITextView!
     
     // 넘겨주기 위한 변수들
     var userEmail: String!
     var userSubject: String!
     var userName: String!
     var userType: String!
+    var currentCnt: Int = 0
     
     var days: [String]!
     var scores: [Double]!
@@ -45,6 +49,7 @@ class DetailClassViewController: UIViewController {
     var bRec:Bool = false
     
     var date: String!
+    var selectedMonth: String!
     var userIndex: Int!
     var keyHeight: CGFloat?
     
@@ -67,6 +72,8 @@ class DetailClassViewController: UIViewController {
         // 빈 배열 형성
         days = []
         scores = []
+        
+        self.monthlyEvaluationBackgroundView.isHidden = true
         
         getScores()
         getUserInfo()
@@ -185,11 +192,19 @@ class DetailClassViewController: UIViewController {
                                                     self.classTimeTextField.isEnabled = false
                                                 }
                                                 
+                                                let currentCnt = document.data()["currentCnt"] as? Int ?? 0
+                                                self.currentCnt = currentCnt
+//                                                if (currentCnt % 8 == 0 && (currentCnt == 0 || currentCnt == 8)) {
+//                                                    self.monthlyEvaluationBackgroundView.isHidden = false
+//                                                } else {
+//                                                    self.monthlyEvaluationBackgroundView.isHidden = true
+//                                                }
+                                                
                                                 self.userName = name
                                                 self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
                                                 self.userEmail = document.data()["email"] as? String ?? ""
                                                 self.userSubject = document.data()["subject"] as? String ?? ""
-                                                
+                                                self.monthlyEvaluationQuestionLabel.text = "이번 달 " + self.userName + " 학생은 전반적으로 어땠나요?"
                                                 self.classNavigationBar.topItem!.title = self.userName + " 학생"
                                                 
                                                 // todolist도 가져오기
@@ -360,6 +375,41 @@ class DetailClassViewController: UIViewController {
         if let preVC = self.presentingViewController as? UIViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    @IBAction func SaveMonthlyEvaluation(_ sender: Any) {
+        let date = self.selectedMonth + "월"
+        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument {(document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let teacherName = data!["name"] as? String ?? ""
+                let teacherEmail = data!["email"] as? String ?? ""
+                
+                if let email = self.userEmail {
+                    self.db.collection("student").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                let uid = document.data()["uid"] as? String ?? ""
+                                
+                                self.db.collection("student").document(uid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(date).setData([
+                                    "month": date,
+                                    "isMonthlyEvaluation": true,
+                                    "evaluation": self.monthlyEvaluationTextView.text
+                                ]) { err in
+                                    if let err = err {
+                                        print("Error adding document: \(err)")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        self.monthlyEvaluationBackgroundView.isHidden = true
     }
     
     @IBAction func editBtnAction(_ sender: Any) {
@@ -753,10 +803,44 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
+extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate, UITextViewDelegate {
     // 날짜를 하나 선택 하면 실행되는 메소드
+    func placeholderSetting() {
+        monthlyEvaluationTextView.delegate = self // txtvReview가 유저가 선언한 outlet
+        monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
+        monthlyEvaluationTextView.textColor = UIColor.lightGray
+        
+    }
+    
+    
+    // TextView Place Holder
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if monthlyEvaluationTextView.textColor == UIColor.lightGray {
+            monthlyEvaluationTextView.text = nil
+            monthlyEvaluationTextView.textColor = UIColor.black
+        }
+        
+    }
+    // TextView Place Holder
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if monthlyEvaluationTextView.text.isEmpty {
+            monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
+            monthlyEvaluationTextView.textColor = UIColor.lightGray
+        }
+    }
+    
     internal func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
+        placeholderSetting()
+        textViewDidBeginEditing(self.monthlyEvaluationTextView)
+        textViewDidEndEditing(self.monthlyEvaluationTextView)
+        
+        if (self.currentCnt % 8 == 0 && (self.currentCnt == 0 || self.currentCnt == 8)) {
+            self.monthlyEvaluationBackgroundView.isHidden = false
+        } else {
+            self.monthlyEvaluationBackgroundView.isHidden = true
+        }
+        
         let selectedDate = date
         let nowDate = Date()
         
@@ -782,6 +866,10 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             dateFormatter.locale = Locale(identifier: "ko_KR")
             let dateStr = dateFormatter.string(from: selectedDate)
             self.date = dateStr
+            
+            dateFormatter.dateFormat = "MM"
+            let monthStr = dateFormatter.string(from: selectedDate)
+            self.selectedMonth = monthStr
             
             // 데이터베이스 경로
             if (self.userType == "teacher") {
@@ -839,6 +927,39 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                         self.classScoreTextField.text = ""
                     }
                 }
+                
+                self.db.collection("student").whereField("email", isEqualTo: self.userEmail).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents { // 문서가 있다면
+                            print("\(document.documentID) => \(document.data())")
+                            let studentUid = document.data()["uid"] as? String ?? ""
+                            
+                            self.db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents { // 문서가 있다면
+                                        print("\(document.documentID) => \(document.data())")
+                                        let teacherName = document.data()["name"] as? String ?? ""
+                                        let teacherEmail = document.data()["email"] as? String ?? ""
+                                        
+                                        self.db.collection("student").document(studentUid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(self.selectedMonth + "월").getDocument(){ (document, error) in
+                                            if let document = document, document.exists {
+                                                let data = document.data()
+                                                let evaluation = data!["evaluation"] as? String ?? ""
+                                                self.monthlyEvaluationTextView.text = evaluation
+                                                self.monthlyEvaluationTextView.textColor = .black
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
             } else if (self.userType == "student") {
                 let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)")
                 

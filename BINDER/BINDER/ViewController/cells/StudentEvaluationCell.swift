@@ -11,7 +11,7 @@ import FirebaseDatabase
 import FirebaseFirestore
 
 class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    let months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+    let months = ["01월", "02월", "03월", "04월", "05월", "06월", "07월", "08월", "09월", "10월", "11월", "12월"]
 //    var evaluations: [String] = []
     
     @IBOutlet weak var classColorView: UIView!
