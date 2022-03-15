@@ -40,8 +40,23 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         getEvaluation()
     }
     
-    @IBAction func ShowMoreInfoBtnClicked(_ sender: Any) {
-    }
+//    @IBAction func ShowMoreInfoBtnClicked(_ sender: Any) {
+//        let storyboard: UIStoryboard? = UIStoryboard(name: "Main", bundle: Bundle.main)
+//
+//        guard let detailEvaluationVC = storyboard?.instantiateViewController(withIdentifier: "ParentDetailEvaluationViewController") as? ParentDetailEvaluationViewController else {
+//            //아니면 종료
+//            return
+//        }
+//        detailEvaluationVC.modalTransitionStyle = .crossDissolve
+//        detailEvaluationVC.modalPresentationStyle = .fullScreen
+//
+//        detailEvaluationVC.teacherName = self.teacherName
+//        detailEvaluationVC.teacherEmail = self.teacherEmail
+//        detailEvaluationVC.subject = self.subject
+//
+//        self.present(detailEvaluationVC, animated: true)
+//        self.present(ParentDetailEvaluationViewController(), animated: true)
+//    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

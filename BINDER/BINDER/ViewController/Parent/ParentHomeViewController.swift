@@ -13,6 +13,10 @@ import FirebaseFirestore
 class ParentHomeViewController: UIViewController {
     var evaluationItem: [EvaluationItem] = []
     var studentUid: String = ""
+    var teacherName = ""
+    var teacherEmail = ""
+    var subject = ""
+    var selectedMonth = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,22 +90,15 @@ class ParentHomeViewController: UIViewController {
                                             let evaluationData = document.data()
                                             
                                             let name = evaluationData["name"] as? String ?? "" // 선생님 이름
+                                            self.teacherName = name
                                             let email = evaluationData["email"] as? String ?? "" // 선생님 이메일
+                                            self.teacherEmail = email
                                             let subject = evaluationData["subject"] as? String ?? "" // 과목
+                                            self.subject = subject
                                             let currentCnt = evaluationData["currentCnt"] as? Int ?? 0 // 현재 횟수
                                             let totalCnt = evaluationData["totalCnt"] as? Int ?? 8 // 총 횟수
                                             var evaluation = evaluationData["evaluation"] as? String ?? "선택된 달이 없습니다." // 평가 내용
                                             let circleColor = evaluationData["circleColor"] as? String ?? "026700" // 원 색상
-                                            
-//                                            db.collection("student").document(studentUid).collection("class").document(name + "(" + email + ") " + subject).collection("Evaluation").whereField("month", isEqualTo: "1월").getDocuments() { (querySnapshot, err) in
-//                                                if let err = err {
-//                                                    print(">>>>> document 에러 : \(err)")
-//                                                } else {
-//                                                    for document in querySnapshot!.documents {
-//                                                        evaluation = document.data()["evaluation"] as? String ??  "평가 기본 항목입니다."
-//                                                    }
-//                                                }
-//                                            }
                                             
                                             let item = EvaluationItem(email: email, name: name, evaluation: evaluation, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: circleColor, subject: subject)
                                             self.evaluationItem.append(item)
@@ -143,8 +140,30 @@ extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.classColorView.backgroundColor = UIColor.red
         }
         
+        cell.showMoreInfoButton.addTarget(self, action: #selector(onClickShowDetailButton(_:)), for: .touchUpInside)
         cell.showMoreInfoButton.tag = indexPath.row
         
+        self.selectedMonth = cell.selectedMonth
+    
         return cell
+    }
+    
+    @IBAction func onClickShowDetailButton(_ sender: UIButton) {
+
+        guard let detailEvaluationVC = self.storyboard?.instantiateViewController(withIdentifier: "ParentDetailEvaluationViewController") as? ParentDetailEvaluationViewController else {
+            //아니면 종료
+            return
+        }
+        detailEvaluationVC.modalTransitionStyle = .crossDissolve
+        detailEvaluationVC.modalPresentationStyle = .fullScreen
+
+        detailEvaluationVC.teacherName = self.teacherName
+        detailEvaluationVC.teacherEmail = self.teacherEmail
+        detailEvaluationVC.subject = self.subject
+        detailEvaluationVC.index = sender.tag
+        detailEvaluationVC.month = self.selectedMonth
+
+        self.present(detailEvaluationVC, animated: true)
+        print("클릭됨 : \(sender.tag)")
     }
 }
