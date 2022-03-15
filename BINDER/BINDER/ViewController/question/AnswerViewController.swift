@@ -67,7 +67,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     // TextView Place Holders
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "질문 내용을 작성해주세요."
+            textView.text = "답변 내용을 작성해주세요."
             textView.textColor = UIColor.lightGray
         }
     }
@@ -221,7 +221,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         
         answer = textView.text
         
-        if answer == "질문 내용을 작성해주세요." {
+        if answer == "답변 내용을 작성해주세요." {
             let textalertVC = UIAlertController(title: "알림", message: "질문의 위치 또는 질문 내용을 작성해주세요", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             textalertVC.addAction(okAction)
