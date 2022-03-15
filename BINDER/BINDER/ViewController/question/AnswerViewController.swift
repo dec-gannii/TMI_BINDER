@@ -51,7 +51,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     
     func placeholderSetting() {
         textView.delegate = self // txtvReview가 유저가 선언한 outlet
-        textView.text = "질문 내용을 작성해주세요."
+        textView.text = "답변 내용을 작성해주세요."
         textView.textColor = UIColor.lightGray
     }
         
