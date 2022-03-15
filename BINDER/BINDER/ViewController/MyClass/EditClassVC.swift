@@ -149,12 +149,26 @@ class EditClassVC : UIViewController {
                 print(days)
                 
                 if days.contains("월") {
-                    
+                    self.daysBtn[0].isSelected = true
                 }
-                    
-
-
-                
+                if days.contains("화") {
+                    self.daysBtn[1].isSelected = true
+                }
+                if days.contains("수") {
+                    self.daysBtn[2].isSelected = true
+                }
+                if days.contains("목") {
+                    self.daysBtn[3].isSelected = true
+                }
+                if days.contains("금") {
+                    self.daysBtn[4].isSelected = true
+                }
+                if days.contains("토") {
+                    self.daysBtn[5].isSelected = true
+                }
+                if days.contains("일") {
+                    self.daysBtn[6].isSelected = true
+                }
             } else {
                 print("Document does not exist")
             }
