@@ -1037,45 +1037,65 @@ Cg
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ScheduleCell" rowHeight="89" id="Tu6-hx-eo6" customClass="ScheduleCellTableViewCell" customModule="BINDER" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="89"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ScheduleCell" rowHeight="102" id="Tu6-hx-eo6" customClass="ScheduleCellTableViewCell" customModule="BINDER" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="102"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tu6-hx-eo6" id="cHB-4z-aST">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="89"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="102"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="K0W-29-K5M">
-                                                    <rect key="frame" x="20" y="10" width="394" height="69"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xbE-nY-b3i">
+                                                    <rect key="frame" x="10" y="8" width="394" height="86"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 제목" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Zu-qv-8MA">
-                                                            <rect key="frame" x="0.0" y="0.0" width="394" height="19.5"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 날짜" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVk-xb-8vh">
-                                                            <rect key="frame" x="0.0" y="24.5" width="394" height="20"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 설명(메모)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5P-kb-mtr">
-                                                            <rect key="frame" x="0.0" y="49.5" width="394" height="19.5"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Schedule_BG_Image" translatesAutoresizingMaskIntoConstraints="NO" id="Pxd-cX-HFm">
+                                                            <rect key="frame" x="0.0" y="0.0" width="394" height="86"/>
+                                                        </imageView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="K0W-29-K5M">
+                                                            <rect key="frame" x="10" y="8" width="374" height="70"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 제목" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Zu-qv-8MA">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="20"/>
+                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 날짜" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVk-xb-8vh">
+                                                                    <rect key="frame" x="0.0" y="25" width="374" height="20"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 설명(메모)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5P-kb-mtr">
+                                                                    <rect key="frame" x="0.0" y="50" width="374" height="20"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
                                                     </subviews>
-                                                </stackView>
+                                                    <color key="backgroundColor" red="0.94901960780000005" green="0.96078431369999995" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <constraints>
+                                                        <constraint firstItem="K0W-29-K5M" firstAttribute="top" secondItem="xbE-nY-b3i" secondAttribute="top" constant="8" id="D8R-pW-8gc"/>
+                                                        <constraint firstAttribute="bottom" secondItem="K0W-29-K5M" secondAttribute="bottom" constant="8" id="KZL-6u-7mL"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Pxd-cX-HFm" secondAttribute="bottom" id="Kqd-nK-qCq"/>
+                                                        <constraint firstAttribute="trailing" secondItem="K0W-29-K5M" secondAttribute="trailing" constant="10" id="Ngr-J1-Bou"/>
+                                                        <constraint firstItem="Pxd-cX-HFm" firstAttribute="top" secondItem="xbE-nY-b3i" secondAttribute="top" id="OJD-Jv-mpT"/>
+                                                        <constraint firstItem="K0W-29-K5M" firstAttribute="leading" secondItem="xbE-nY-b3i" secondAttribute="leading" constant="10" id="TWq-YW-z8k"/>
+                                                        <constraint firstItem="Pxd-cX-HFm" firstAttribute="leading" secondItem="xbE-nY-b3i" secondAttribute="leading" id="fIh-zh-YvK"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Pxd-cX-HFm" secondAttribute="trailing" id="g3M-hZ-fDc"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="K0W-29-K5M" secondAttribute="bottom" constant="10" id="5cB-oZ-bh9"/>
-                                                <constraint firstAttribute="trailing" secondItem="K0W-29-K5M" secondAttribute="trailing" id="EYz-8v-2Xc"/>
-                                                <constraint firstItem="K0W-29-K5M" firstAttribute="leading" secondItem="cHB-4z-aST" secondAttribute="leading" constant="20" id="jyt-KO-4iS"/>
-                                                <constraint firstItem="K0W-29-K5M" firstAttribute="top" secondItem="cHB-4z-aST" secondAttribute="top" constant="10" id="xgO-4r-DWy"/>
+                                                <constraint firstAttribute="trailing" secondItem="xbE-nY-b3i" secondAttribute="trailing" constant="10" id="DFV-6U-ECW"/>
+                                                <constraint firstItem="xbE-nY-b3i" firstAttribute="leading" secondItem="cHB-4z-aST" secondAttribute="leading" constant="10" id="Ixu-eK-4Vo"/>
+                                                <constraint firstItem="xbE-nY-b3i" firstAttribute="top" secondItem="cHB-4z-aST" secondAttribute="top" constant="8" id="SB5-64-01b"/>
+                                                <constraint firstAttribute="bottom" secondItem="xbE-nY-b3i" secondAttribute="bottom" constant="8" id="z9R-A2-LZB"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="scheduleBackgroundView" destination="xbE-nY-b3i" id="99f-Yo-ML0"/>
                                             <outlet property="scheduleDate" destination="aVk-xb-8vh" id="cCM-fc-GPr"/>
                                             <outlet property="scheduleMemo" destination="n5P-kb-mtr" id="HAt-7P-j4Q"/>
                                             <outlet property="scheduleTitle" destination="7Zu-qv-8MA" id="KPT-Zu-GIk"/>
@@ -1102,7 +1122,7 @@ Cg
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H70-rK-rnK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2803" y="-139"/>
+            <point key="canvasLocation" x="2802.898550724638" y="-139.28571428571428"/>
         </scene>
         <!--Add Schedule View Controller-->
         <scene sceneID="q6C-Fk-bkh">
@@ -5574,6 +5594,7 @@ Cg
         <image name="Parent_BG_Image" width="286" height="286"/>
         <image name="Question_Color" width="55" height="41"/>
         <image name="Question_Gray" width="25" height="25"/>
+        <image name="Schedule_BG_Image" width="460" height="90"/>
         <image name="StudentLinkBtn" width="632" height="898"/>
         <image name="arrowtriangle.down.fill" catalog="system" width="128" height="124"/>
         <image name="background" width="390" height="844"/>

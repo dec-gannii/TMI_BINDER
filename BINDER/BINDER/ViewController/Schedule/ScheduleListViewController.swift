@@ -27,6 +27,8 @@ class ScheduleListViewController: UIViewController {
         
         scheduleListTableView.delegate = self
         scheduleListTableView.dataSource = self
+        
+        self.scheduleListTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
     override func viewDidAppear(_ animated: Bool) {
