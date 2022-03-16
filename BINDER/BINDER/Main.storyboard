@@ -4771,11 +4771,11 @@ Cg
             <objects>
                 <viewController restorationIdentifier="AnswerVC" storyboardIdentifier="AnswerVC" id="89q-lm-0rn" customClass="AnswerViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bmH-WN-3gw">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwL-RN-xz4">
-                                <rect key="frame" x="20" y="738" width="374" height="50"/>
+                                <rect key="frame" x="20" y="792" width="374" height="50"/>
                                 <color key="backgroundColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="ohI-e5-QHz"/>
@@ -4789,7 +4789,7 @@ Cg
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wPP-K1-0bO">
-                                <rect key="frame" x="20" y="40" width="374" height="200"/>
+                                <rect key="frame" x="20" y="109" width="374" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="dWI-Gw-RTc"/>
@@ -4799,7 +4799,7 @@ Cg
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFN-TM-il1">
-                                <rect key="frame" x="20" y="689" width="54" height="39"/>
+                                <rect key="frame" x="20" y="743" width="54" height="39"/>
                                 <color key="tintColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="doc.text.image.fill" catalog="system">
@@ -4810,24 +4810,43 @@ Cg
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oCO-ZU-9EK">
-                                <rect key="frame" x="20" y="260" width="374" height="311.5"/>
+                                <rect key="frame" x="20" y="329" width="374" height="311.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="oCO-ZU-9EK" secondAttribute="height" multiplier="3:2.5" id="Ztp-N5-0PF"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aeA-hU-CaA">
+                                <rect key="frame" x="20" y="49" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="aeA-hU-CaA" secondAttribute="height" multiplier="1:1" id="QtI-Un-2uv"/>
+                                </constraints>
+                                <color key="tintColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="">
+                                    <imageReference key="image" image="chevron.backward.circle.fill" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="17" scale="large"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="clickUndo:" destination="w0f-eu-NcI" eventType="touchUpInside" id="pSp-uJ-qpO"/>
+                                    <action selector="undoBtn:" destination="89q-lm-0rn" eventType="touchUpInside" id="0w6-sl-ioy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tkn-hG-fdG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="wPP-K1-0bO" firstAttribute="leading" secondItem="tkn-hG-fdG" secondAttribute="leading" constant="20" id="1cj-6t-n75"/>
+                            <constraint firstItem="aeA-hU-CaA" firstAttribute="width" secondItem="aeA-hU-CaA" secondAttribute="height" multiplier="1:1" id="2z1-rj-vHD"/>
                             <constraint firstItem="oCO-ZU-9EK" firstAttribute="leading" secondItem="tkn-hG-fdG" secondAttribute="leading" constant="20" id="6wR-5k-vnU"/>
                             <constraint firstItem="uwL-RN-xz4" firstAttribute="top" secondItem="xFN-TM-il1" secondAttribute="bottom" constant="10" id="79U-nc-nmY"/>
                             <constraint firstItem="tkn-hG-fdG" firstAttribute="trailing" secondItem="oCO-ZU-9EK" secondAttribute="trailing" constant="20" id="9BX-ep-LOX"/>
+                            <constraint firstItem="aeA-hU-CaA" firstAttribute="top" secondItem="tkn-hG-fdG" secondAttribute="top" constant="5" id="MEK-MB-epQ"/>
                             <constraint firstItem="uwL-RN-xz4" firstAttribute="leading" secondItem="tkn-hG-fdG" secondAttribute="leading" constant="20" id="UeL-3i-Yve"/>
                             <constraint firstItem="xFN-TM-il1" firstAttribute="leading" secondItem="tkn-hG-fdG" secondAttribute="leading" constant="20" id="bO7-Aa-HxC"/>
                             <constraint firstItem="tkn-hG-fdG" firstAttribute="bottom" secondItem="uwL-RN-xz4" secondAttribute="bottom" constant="20" id="cG0-bh-7dY"/>
                             <constraint firstItem="tkn-hG-fdG" firstAttribute="trailing" secondItem="wPP-K1-0bO" secondAttribute="trailing" constant="20" id="e8e-gU-yoa"/>
-                            <constraint firstItem="wPP-K1-0bO" firstAttribute="top" secondItem="bmH-WN-3gw" secondAttribute="top" constant="40" id="tu2-Ld-Eh6"/>
+                            <constraint firstItem="aeA-hU-CaA" firstAttribute="leading" secondItem="bmH-WN-3gw" secondAttribute="leading" constant="20" id="qDP-bR-YZe"/>
+                            <constraint firstItem="wPP-K1-0bO" firstAttribute="top" secondItem="aeA-hU-CaA" secondAttribute="bottom" constant="10" id="tu2-Ld-Eh6"/>
                             <constraint firstItem="oCO-ZU-9EK" firstAttribute="top" secondItem="wPP-K1-0bO" secondAttribute="bottom" constant="20" id="vCW-4d-Huk"/>
                             <constraint firstItem="tkn-hG-fdG" firstAttribute="trailing" secondItem="uwL-RN-xz4" secondAttribute="trailing" constant="20" id="vbP-dW-JTT"/>
                         </constraints>
@@ -4995,12 +5014,12 @@ Cg
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="answerContent" destination="BoL-MF-uzN" id="UFh-RW-yCQ"/>
-                        <outlet property="answerImgView" destination="ug1-eJ-2IK" id="W0T-WL-ipB"/>
+                        <outlet property="answerContent" destination="BoL-MF-uzN" id="XTJ-4X-8bW"/>
+                        <outlet property="answerImgView" destination="ug1-eJ-2IK" id="taE-Wb-Is2"/>
                         <outlet property="navigationBar" destination="aKC-f7-JCM" id="jFj-gR-EZa"/>
                         <outlet property="questionContent" destination="iF7-gJ-97c" id="cEN-EY-0QO"/>
                         <outlet property="questionImgView" destination="2dL-Xx-gfh" id="wbc-qh-Kct"/>
-                        <outlet property="subjectName" destination="Bgf-sO-UCQ" id="rrW-3c-2es"/>
+                        <outlet property="subjectName" destination="Bgf-sO-UCQ" id="Ym9-er-Yxv"/>
                         <outlet property="titleName" destination="f4d-bV-dQP" id="Ttk-fD-SX6"/>
                     </connections>
                 </viewController>
@@ -5065,7 +5084,6 @@ Cg
                                         <buttonConfiguration key="configuration" style="plain" title="답변하기"/>
                                         <connections>
                                             <action selector="clickanswerBtn:" destination="buU-Ti-fUx" eventType="touchUpInside" id="IMb-qP-9pz"/>
-                                            <segue destination="89q-lm-0rn" kind="presentation" id="Gqd-By-2FQ"/>
                                         </connections>
                                     </button>
                                 </subviews>

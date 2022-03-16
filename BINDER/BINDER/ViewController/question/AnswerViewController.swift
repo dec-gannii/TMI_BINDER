@@ -44,14 +44,19 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         storageRef = storage.reference()
         placeholderSetting()
     }
     
+    @IBAction func undoBtn(_ sender: Any) {
+        if let preVC = self.presentingViewController {
+            preVC.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     func placeholderSetting() {
         textView.delegate = self // txtvReview가 유저가 선언한 outlet
-        textView.text = "질문 내용을 작성해주세요."
+        textView.text = "답변 내용을 작성해주세요."
         textView.textColor = UIColor.lightGray
     }
         
@@ -67,7 +72,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     // TextView Place Holders
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "질문 내용을 작성해주세요."
+            textView.text = "답변 내용을 작성해주세요."
             textView.textColor = UIColor.lightGray
         }
     }
@@ -209,19 +214,10 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     
     @IBAction func btnAnswer(_ sender: Any) {
         print("upload")
-        guard let image = imgView.image else {
-            let alertVC = UIAlertController(title: "알림", message: "이미지 또는 영상을 선택하고 업로드 기능을 실행하세요", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertVC.addAction(okAction)
-            self.present(alertVC, animated: true, completion: nil)
-            print("이미지 없음")
-            return
-        }
-            print("이미지 있음")
-        
+       
         answer = textView.text
         
-        if answer == "질문 내용을 작성해주세요." {
+        if answer == "질문 내용을 작성해주세요." || answer == "" {
             let textalertVC = UIAlertController(title: "알림", message: "질문의 위치 또는 질문 내용을 작성해주세요", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             textalertVC.addAction(okAction)
@@ -229,6 +225,27 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
             print("제목 없음")
         } else {
             if imgtype == 1 {
+                
+                guard let image = imgView.image else {
+                    //let alertVC = UIAlertController(title: "알림", message: "이미지 또는 영상을 선택하고 업로드 기능을 실행하세요", preferredStyle: .alert)
+                   // let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                   // alertVC.addAction(okAction)
+                    //self.present(alertVC, animated: true, completion: nil)
+                    
+                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
+                        "url":"",
+                        "answerContent": self.answer
+                     ]) { err in
+                         if let err = err {
+                             print("Error adding document: \(err)")
+                         }
+                     }
+                    print("이미지 없음")
+                    
+                    return
+                }
+                    print("이미지 있음")
+                
                 if let data = image.pngData(){
                     let urlRef = storageRef.child("image/\(captureImage!).png")
                     
@@ -243,9 +260,9 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                             guard let downloadURL = url else {
                                 return
                             }
-                            self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).collection("answer").document(Auth.auth().currentUser!.uid).setData([
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                                 "url":"\(downloadURL)",
-                                "answer": self.answer
+                                "answerContent": self.answer
                              ]) { err in
                                  if let err = err {
                                      print("Error adding document: \(err)")
@@ -255,9 +272,9 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     }
                 }
             } else {
-                self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("questionList").document(self.name).collection("answer").document(Auth.auth().currentUser!.uid).setData([
+                self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                     "url":"\(videoURL)",
-                     "answer": answer
+                    "answerContent": self.answer
                  ]) { err in
                      if let err = err {
                          print("Error adding document: \(err)")
@@ -265,5 +282,16 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                  }
             }
         }
+        
+        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
+            "answerCheck": true
+         ]) { err in
+             if let err = err {
+                 print("Error adding document: \(err)")
+             }
+         }
+        
+        guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
+        self.present(questionVC, animated: true, completion: nil)
     }
 }

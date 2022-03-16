@@ -73,12 +73,10 @@ class QnADetailViewController: UIViewController {
                                                 self.userName = name
                                                 self.email = document.data()["email"] as? String ?? ""
                                                 self.subject = document.data()["subject"] as? String ?? ""
-                                                self.subjectName.text = self.subject
-                                                
+                                                self.subjectName.text = subject
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
                                                 
-                                                self.setQuestion()
-                                                self.setAnswer()
+                                                self.setQnA()
                                             }
                                         }
                                     }
@@ -116,13 +114,12 @@ class QnADetailViewController: UIViewController {
                                                 let name = document.data()["name"] as? String ?? ""
                                                 let email = document.data()["email"] as? String ?? ""
                                                 let subject = document.data()["subject"] as? String ?? ""
-                                                self.subjectName.text = self.subject
+                                                self.subjectName.text = subject
                                                 self.navigationBar.topItem!.title = name + " 선생님"
                                                 
                                                 self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("questionList").getDocuments() {(document, error) in
                                                     //                                                    self.questionListTV.reloadData()
-                                                    self.setQuestion()
-                                                    self.setAnswer()
+                                                    self.setQnA()
                                                 }
                                             }
                                         }
@@ -137,49 +134,83 @@ class QnADetailViewController: UIViewController {
     
     /// 질문방 내용 세팅
     // 질문 리스트 가져오기
-    func setQuestion() {
+    func setQnA() {
         let db = Firestore.firestore()
         // Auth.auth().currentUser!.uid
         //db.collection("student").getDocuments(){ (querySnapshot, err) in
         if (self.type == "teacher") {
-            if let qnum = self.qnum {
-            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(qnum)).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print(">>>>> document 에러 : \(err)")
-                    
-                } else {
-                    /// nil이 아닌지 확인한다.
-                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                        return
-                    }
-                    
-                    for document in snapshot.documents {
-                        print(">>>>> 자세한 document 정보 : \(document.documentID) => \(document.data())")
+                if let qnum = self.qnum {
+                    //질문 내용
+                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(qnum)).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
                         
-                        /// document.data()를 통해서 값 받아옴, data는 dictionary
-                        let questionDt = document.data()
+                    } else {
+                        /// nil이 아닌지 확인한다.
+                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                            return
+                        }
                         
-                        /// nil값 처리
-                        let title = questionDt["title"] as? String ?? ""
-                        let questionContent = questionDt["questionContent"] as? String ?? ""
-                        let imgURL = questionDt["imgURL"] as? String ?? ""
-                        
-                        self.titleName.text = title
-                        self.questionContent.text = questionContent
-                        if imgURL != "" {
-                            let url = URL(string: imgURL)
-                            DispatchQueue.global().async {
-                                let data = try? Data(contentsOf: url!)
-                                DispatchQueue.main.async {
-                                    self.questionImgView.image = UIImage(data: data!)
-                                }
-                            }
+                        for document in snapshot.documents {
+                            print(">>>>> 질문 document 정보 : \(document.documentID) => \(document.data())")
                             
-                            }
-                    }
+                            /// document.data()를 통해서 값 받아옴, data는 dictionary
+                            let questionDt = document.data()
+                            
+                            /// nil값 처리
+                            let title = questionDt["title"] as? String ?? ""
+                            let questionContent = questionDt["questionContent"] as? String ?? ""
+                            let imgURL = questionDt["imgURL"] as? String ?? ""
+                            
+                            self.titleName.text = title
+                            self.questionContent.text = questionContent
+                            if imgURL != "" {
+                                let url = URL(string: imgURL)
+                                DispatchQueue.global().async {
+                                    let data = try? Data(contentsOf: url!)
+                                    DispatchQueue.main.async {
+                                        self.questionImgView.image = UIImage(data: data!)
+                                        }
+                                    }
+                                }
+                            
+                            //답변 내용
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").document("\(self.qnum)").collection("answer").getDocuments() { (querySnapshot, err) in
+                               if let err = err {
+                                   print(">>>>> document 에러 : \(err)")
+                               } else {
+                                   /// nil이 아닌지 확인한다.
+                                   guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                       return
+                                   }
+                                   
+                                   for document in snapshot.documents {
+                                       print("답변: >>>>> document 정보 : \(document.documentID) => \(document.data())")
+                                       
+                                       /// document.data()를 통해서 값 받아옴, data는 dictionary
+                                       let questionDt = document.data()
+                                       
+                                       let answer = questionDt["answerContent"] as? String ?? ""
+                                       let url = questionDt["url"] as? String ?? ""
+                                       
+                                          self.answerContent.text = answer
+                                           if url != "" || url != "nil" {
+                                               let url = URL(string: imgURL)
+                                               DispatchQueue.global().async {
+                                                   let data = try? Data(contentsOf: url!)
+                                                   DispatchQueue.main.async {
+                                                       self.questionImgView.image = UIImage(data: data!)
+                                                   }
+                                               }
+                                       }
+                                   }
+                               }
+                           }
+                        }
                     }
                 }
             }
+            
         } else {
             if let email = self.email, let index = self.index {
                 print ("self.index : \(index), self.email : \(email)")
@@ -225,6 +256,7 @@ class QnADetailViewController: UIViewController {
                                                 self.teacherUid = teacherUid
                                                 print ("TeacherUID : \(teacherUid)")
                                                 
+                                                //질문 내용
                                                 db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(self.qnum)).getDocuments() { (querySnapshot, err) in
                                                     if let err = err {
                                                         print(">>>>> document 에러 : \(err)")
@@ -261,8 +293,41 @@ class QnADetailViewController: UIViewController {
                                                         }
                                                         }
                                                     }
-                                                }
                                             }
+                                                
+                                                //답변 내용
+                                            self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document("\(self.qnum)").collection("answer").getDocuments() { (querySnapshot, err) in
+                                                    if let err = err {
+                                                        print(">>>>> document 에러 : \(err)")
+                                                    } else {
+                                                        /// nil이 아닌지 확인한다.
+                                                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                                            return
+                                                        }
+                                                        
+                                                        for document in snapshot.documents {
+                                                            print("1: >>>>> document 정보 : \(document.documentID) => \(document.data())")
+                                                            
+                                                            /// document.data()를 통해서 값 받아옴, data는 dictionary
+                                                            let questionDt = document.data()
+                                                            
+                                                            let answer = questionDt["answerContent"] as? String ?? ""
+                                                            let url = questionDt["url"] as? String ?? ""
+                                                            
+                                                               self.answerContent.text = answer
+                                                                if url != "" || url != "nil" {
+                                                                    let url = URL(string: url)
+                                                                    DispatchQueue.global().async {
+                                                                        let data = try? Data(contentsOf: url!)
+                                                                        DispatchQueue.main.async {
+                                                                            self.questionImgView.image = UIImage(data: data!)
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                         }
                                     }
                                 }
@@ -273,9 +338,4 @@ class QnADetailViewController: UIViewController {
             }
             return
         }
-    
-    func setAnswer(){
-        
-    }
-    
 }
