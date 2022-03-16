@@ -192,18 +192,18 @@ class QnADetailViewController: UIViewController {
                                         let questionDt = document.data()
                                         
                                         let answer = questionDt["answerContent"] as? String ?? ""
-                                        let url = questionDt["url"] as? String ?? ""
+                                        let imgurl = questionDt["url"] as? String ?? ""
                                         
                                         self.answerContent.text = answer
-//                                        if url != "" || url != "nil" {
-//                                            let url = URL(string: imgURL)
-//                                            DispatchQueue.global().async {
-//                                                let data = try? Data(contentsOf: url!)
-//                                                DispatchQueue.main.async {
-//                                                    self.questionImgView.image = UIImage(data: data!)
-//                                                }
-//                                            }
-//                                        }
+                                        if imgurl != "" || imgurl != "nil" {
+                                           let url = URL(string: imgurl)
+                                            DispatchQueue.global().async {
+                                                let data = try? Data(contentsOf: url!)
+                                                DispatchQueue.main.async {
+                                                    self.answerImgView.image = UIImage(data: data!)
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -327,15 +327,15 @@ class QnADetailViewController: UIViewController {
                                                         let questionDt = document.data()
                                                         
                                                         let answer = questionDt["answerContent"] as? String ?? ""
-                                                        let url = questionDt["url"] as? String ?? ""
+                                                        let imgurl = questionDt["url"] as? String ?? ""
                                                         
                                                         self.answerContent.text = answer
-                                                        if url != "" || url != "nil" {
-                                                            let url = URL(string: url)
+                                                        if imgurl != "" || imgurl != "nil" {
+                                                            let url = URL(string: imgurl)
                                                             DispatchQueue.global().async {
                                                                 let data = try? Data(contentsOf: url!)
                                                                 DispatchQueue.main.async {
-                                                                    self.questionImgView.image = UIImage(data: data!)
+                                                                    self.answerImgView.image = UIImage(data: data!)
                                                                 }
                                                             }
                                                         }

@@ -294,6 +294,9 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
          }
         
         guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
+        
+        questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+        questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
         self.present(questionVC, animated: true, completion: nil)
     }
 }
