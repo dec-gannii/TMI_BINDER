@@ -5315,6 +5315,9 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="월"/>
+                                                <connections>
+                                                    <action selector="mondayBtn:" destination="uBJ-HP-jw7" eventType="touchUpInside" id="z4c-gu-IJ5"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7XB-Wg-Reg" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="47" y="0.0" width="32.5" height="33"/>
@@ -5325,6 +5328,9 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="화"/>
+                                                <connections>
+                                                    <action selector="tuesdayBtn:" destination="uBJ-HP-jw7" eventType="touchUpInside" id="f80-bD-qI9"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3OH-fh-szG" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="93.5" y="0.0" width="33" height="33"/>
@@ -5335,6 +5341,9 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="수"/>
+                                                <connections>
+                                                    <action selector="wednesdayBtn:" destination="uBJ-HP-jw7" eventType="touchUpInside" id="6wM-1y-lxR"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zvh-zM-x2M" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="140.5" y="0.0" width="33" height="33"/>
@@ -5345,6 +5354,9 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="목"/>
+                                                <connections>
+                                                    <action selector="thursdayBtn:" destination="uBJ-HP-jw7" eventType="touchUpInside" id="1eg-gs-TOG"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Sj-Cn-dzx" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="187.5" y="0.0" width="33" height="33"/>
@@ -5355,6 +5367,9 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="금"/>
+                                                <connections>
+                                                    <action selector="fridayBtn:" destination="uBJ-HP-jw7" eventType="touchUpInside" id="JNI-hC-XlZ"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLU-TK-x4M" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="234.5" y="0.0" width="32.5" height="33"/>
@@ -5365,6 +5380,9 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="토"/>
+                                                <connections>
+                                                    <action selector="saturdayBtn:" destination="uBJ-HP-jw7" eventType="touchUpInside" id="5CX-vj-u6Y"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gGo-vz-tb9" customClass="CircleButton" customModule="BINDER" customModuleProvider="target">
                                                 <rect key="frame" x="281" y="0.0" width="33" height="33"/>
@@ -5375,6 +5393,9 @@ Cg
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="일"/>
+                                                <connections>
+                                                    <action selector="sundayBtn:" destination="uBJ-HP-jw7" eventType="touchUpInside" id="wuT-sd-zzC"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -5479,6 +5500,7 @@ Cg
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="box" destination="HQK-Pq-UOo" id="tbD-W4-2AI"/>
                         <outlet property="cancelBtn" destination="0Kz-Ky-B2W" id="Ob2-0k-Ffa"/>
                         <outlet property="okBtn" destination="9wg-PM-I92" id="Jg2-lE-zWW"/>
                         <outlet property="payAmountTF" destination="jrY-CU-Y2r" id="fUO-Zc-bat"/>
