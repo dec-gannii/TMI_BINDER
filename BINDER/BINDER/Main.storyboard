@@ -5298,19 +5298,19 @@ Cg
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x4x-9O-VYz">
-                                        <rect key="frame" x="0.0" y="0.0" width="406" height="1300"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="406" height="1250"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UAS-gf-eqi">
-                                                <rect key="frame" x="0.0" y="0.0" width="406" height="600"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="406" height="550"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="질문 위치" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f4d-bV-dQP">
-                                                        <rect key="frame" x="20" y="40" width="366" height="24"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="질문 제목" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f4d-bV-dQP">
+                                                        <rect key="frame" x="20" y="20" width="366" height="24"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="질문 내용" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iF7-gJ-97c">
-                                                        <rect key="frame" x="20" y="79" width="366" height="150"/>
+                                                        <rect key="frame" x="20" y="59" width="366" height="150"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="150" id="zhi-bv-78k"/>
@@ -5320,7 +5320,7 @@ Cg
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     </textView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2dL-Xx-gfh">
-                                                        <rect key="frame" x="20" y="239" width="366" height="305"/>
+                                                        <rect key="frame" x="20" y="219" width="366" height="305"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="2dL-Xx-gfh" secondAttribute="height" multiplier="6:5" id="Kre-Bx-H4S"/>
                                                         </constraints>
@@ -5333,15 +5333,15 @@ Cg
                                                     <constraint firstItem="2dL-Xx-gfh" firstAttribute="leading" secondItem="UAS-gf-eqi" secondAttribute="leading" constant="20" id="K7Y-fe-hCp"/>
                                                     <constraint firstAttribute="trailing" secondItem="f4d-bV-dQP" secondAttribute="trailing" constant="20" id="X3g-vf-uIY"/>
                                                     <constraint firstItem="iF7-gJ-97c" firstAttribute="leading" secondItem="UAS-gf-eqi" secondAttribute="leading" constant="20" id="dZ8-MD-Syw"/>
-                                                    <constraint firstItem="f4d-bV-dQP" firstAttribute="top" secondItem="UAS-gf-eqi" secondAttribute="top" constant="40" id="eRi-B8-wjF"/>
+                                                    <constraint firstItem="f4d-bV-dQP" firstAttribute="top" secondItem="UAS-gf-eqi" secondAttribute="top" constant="20" id="eRi-B8-wjF"/>
                                                     <constraint firstAttribute="trailing" secondItem="2dL-Xx-gfh" secondAttribute="trailing" constant="20" id="jwn-GR-AZQ"/>
                                                     <constraint firstItem="iF7-gJ-97c" firstAttribute="top" secondItem="f4d-bV-dQP" secondAttribute="bottom" constant="15" id="klC-qo-G4d"/>
                                                     <constraint firstAttribute="trailing" secondItem="iF7-gJ-97c" secondAttribute="trailing" constant="20" id="urs-IR-fAa"/>
-                                                    <constraint firstAttribute="height" constant="600" id="xh3-oU-AYp"/>
+                                                    <constraint firstAttribute="height" constant="550" id="xh3-oU-AYp"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XLk-9I-73Q">
-                                                <rect key="frame" x="0.0" y="600" width="406" height="700"/>
+                                                <rect key="frame" x="0.0" y="550" width="406" height="700"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="과목 이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bgf-sO-UCQ">
                                                         <rect key="frame" x="20" y="30" width="366" height="24"/>
@@ -5463,13 +5463,13 @@ Cg
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="질문 위치" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ywn-iF-cT5">
-                                        <rect key="frame" x="20" y="40" width="374" height="24"/>
+                                        <rect key="frame" x="20" y="20" width="374" height="24"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="질문 내용" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vs2-Y3-gFb">
-                                        <rect key="frame" x="20" y="79" width="374" height="150"/>
+                                        <rect key="frame" x="20" y="59" width="374" height="150"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="150" id="dyX-ZX-TwN"/>
@@ -5479,7 +5479,7 @@ Cg
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YOX-mO-wMS">
-                                        <rect key="frame" x="20" y="239" width="374" height="374"/>
+                                        <rect key="frame" x="20" y="219" width="374" height="374"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="YOX-mO-wMS" secondAttribute="height" multiplier="1:1" id="cNS-Qe-AW5"/>
                                         </constraints>
@@ -5500,7 +5500,7 @@ Cg
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="Ywn-iF-cT5" firstAttribute="top" secondItem="o7r-ya-Gxf" secondAttribute="top" constant="40" id="1wT-fz-kGa"/>
+                                    <constraint firstItem="Ywn-iF-cT5" firstAttribute="top" secondItem="o7r-ya-Gxf" secondAttribute="top" constant="20" id="1wT-fz-kGa"/>
                                     <constraint firstAttribute="trailing" secondItem="vs2-Y3-gFb" secondAttribute="trailing" constant="20" id="9kU-kP-O0X"/>
                                     <constraint firstItem="vs2-Y3-gFb" firstAttribute="leading" secondItem="o7r-ya-Gxf" secondAttribute="leading" constant="20" id="Ibj-SD-1j2"/>
                                     <constraint firstAttribute="trailing" secondItem="Ywn-iF-cT5" secondAttribute="trailing" constant="20" id="IqC-dG-flQ"/>
