@@ -332,7 +332,9 @@ class QnADetailViewController: UIViewController {
                                                         let imgurl = questionDt["url"] as? String ?? ""
                                                         
                                                         self.answerContent.text = answer
-                                                        if imgurl != "" || imgurl != "nil" {
+                                                        if (imgurl == "" || imgurl == "nil") {
+                                                            self.answerImgView.image = .none
+                                                        } else {
                                                             let url = URL(string: imgurl)
                                                             DispatchQueue.global().async {
                                                                 let data = try? Data(contentsOf: url!)
