@@ -13,10 +13,12 @@ class ScheduleCellTableViewCell: UITableViewCell {
     @IBOutlet weak var scheduleDate: UILabel!
     @IBOutlet weak var scheduleTitle: UILabel!
     @IBOutlet weak var scheduleMemo: UILabel!
-    
+    @IBOutlet weak var scheduleBackgroundView: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        scheduleBackgroundView.clipsToBounds = true
+        scheduleBackgroundView.layer.cornerRadius = 15
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

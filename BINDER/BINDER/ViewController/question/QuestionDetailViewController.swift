@@ -136,6 +136,7 @@ class QuestionDetailViewController: UIViewController {
                                                     //                                                    self.questionListTV.reloadData()
                                                     self.setQuestion()
                                                     self.answerBtn.isEnabled = false
+                                                    self.answerBtn.backgroundColor = .white
                                                 }
                                             }
                                         }

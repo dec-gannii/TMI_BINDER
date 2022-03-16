@@ -47,7 +47,7 @@ class QuestionListViewController : BaseVC {
     var type = ""
     var index : Int!
     var qnum: Int!
-    var maxnum: Int!
+    var maxnum = 0
     var teacherUid: String!
     var questionListItems : [QuestionListItem] = []
     var questionAnsweredItems : [QuestionAnsweredListItem] = []
@@ -57,7 +57,7 @@ class QuestionListViewController : BaseVC {
         super.viewDidLoad()
         answeredToggle.setOn(false, animated: true)
         getUserInfo()
-        
+        self.questionListTV.reloadData()
         if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
             if (self.type == "student") { // 사용자가 학생이면
                 self.navigationBar.topItem!.title = self.userName + " 선생님"
@@ -217,7 +217,7 @@ class QuestionListViewController : BaseVC {
                         let imgURL = questionDt["imgURL"] as? String ?? ""
                         let email = questionDt["email"] as? String ?? ""
                         
-                        self.maxnum = 0
+                        
                         if Int(qnumber)! > self.maxnum {
                             self.maxnum = Int(qnumber)!
                         }
@@ -317,9 +317,10 @@ class QuestionListViewController : BaseVC {
                                                             let imgURL = questionDt["imgURL"] as? String ?? ""
                                                             let email = questionDt["email"] as? String ?? ""
                                                             
+                                                            let qnum = Int(qnumber)!
                                                             self.maxnum = 0
-                                                            if Int(qnumber)! > self.maxnum {
-                                                                self.maxnum = Int(qnumber)!
+                                                            if qnum > self.maxnum {
+                                                                self.maxnum = qnum
                                                             }
                                                             print("가장 큰 값 : \(self.maxnum)")
                                                             

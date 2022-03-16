@@ -11,8 +11,10 @@ import FirebaseDatabase
 import FirebaseFirestore
 
 class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    let months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+    let months = ["01월", "02월", "03월", "04월", "05월", "06월", "07월", "08월", "09월", "10월", "11월", "12월"]
 //    var evaluations: [String] = []
+    
+    let nowDate = Date()
     
     @IBOutlet weak var classColorView: UIView!
     @IBOutlet weak var cellBackgroundView: UIView!
@@ -40,11 +42,31 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         getEvaluation()
     }
     
-    @IBAction func ShowMoreInfoBtnClicked(_ sender: Any) {
-    }
+//    @IBAction func ShowMoreInfoBtnClicked(_ sender: Any) {
+//        let storyboard: UIStoryboard? = UIStoryboard(name: "Main", bundle: Bundle.main)
+//
+//        guard let detailEvaluationVC = storyboard?.instantiateViewController(withIdentifier: "ParentDetailEvaluationViewController") as? ParentDetailEvaluationViewController else {
+//            //아니면 종료
+//            return
+//        }
+//        detailEvaluationVC.modalTransitionStyle = .crossDissolve
+//        detailEvaluationVC.modalPresentationStyle = .fullScreen
+//
+//        detailEvaluationVC.teacherName = self.teacherName
+//        detailEvaluationVC.teacherEmail = self.teacherEmail
+//        detailEvaluationVC.subject = self.subject
+//
+//        self.present(detailEvaluationVC, animated: true)
+//        self.present(ParentDetailEvaluationViewController(), animated: true)
+//    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM"
+        self.selectedMonth = dateFormatter.string(from: self.nowDate) + "월"
+        self.monthPickerView.text = self.selectedMonth
         
         cellBackgroundView.clipsToBounds = true
         cellBackgroundView.layer.cornerRadius = 15

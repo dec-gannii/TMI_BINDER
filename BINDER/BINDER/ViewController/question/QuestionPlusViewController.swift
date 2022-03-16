@@ -205,15 +205,6 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     
     func setQuestionDocument() {
         
-        guard let image = imageView.image else {
-                   let alertVC = UIAlertController(title: "알림", message: "이미지를 선택하고 업로드 기능을 실행하세요", preferredStyle: .alert)
-                   let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                   alertVC.addAction(okAction)
-                   self.present(alertVC, animated: true, completion: nil)
-                   print("이미지 없음")
-                   return
-               }
-        
             if let email = self.email, let index = self.index {
                 print ("self.index : \(index), self.email : \(email)")
                 var studentName = ""
@@ -255,6 +246,27 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                                                 self.teacherUid = teacherUid
                                                 print ("TeacherUID : \(teacherUid)")
                                                 
+                                                guard let image = self.imageView.image else {
+                                                          // let alertVC = UIAlertController(title: "알림", message: "이미지를 선택하고 업로드 기능을 실행하세요", preferredStyle: .alert)
+                                                          // let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                                                          // alertVC.addAction(okAction)
+                                                         //  self.present(alertVC, animated: true, completion: nil)
+                                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.qnum)).setData([
+                                                            "imgURL":"",
+                                                             "title":self.name!,
+                                                            "questionContent": self.studyMemo,
+                                                            "answerCheck": false,
+                                                            "num":String(self.qnum)
+                                                         ]) { err in
+                                                             if let err = err {
+                                                                 print("Error adding document: \(err)")
+                                                             }
+                                                         }
+                                                          print("이미지 없음")
+                                                           
+                                                           return
+                                                       }
+                                                
                                                 if let data = image.pngData(){
                                                     let urlRef = self.storageRef.child("image/\(self.file_name!).png")
                                                     let metadata = StorageMetadata()
@@ -280,18 +292,6 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                                                  }
                                             }
                                         }
-                                    } else {
-                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.qnum)).setData([
-                                            "imgURL":"",
-                                             "title":self.name!,
-                                             "question": self.studyMemo,
-                                            "answerCheck": false,
-                                            "num":String(self.qnum)
-                                         ]) { err in
-                                             if let err = err {
-                                                 print("Error adding document: \(err)")
-                                             }
-                                         }
                                     }
                                 }
                             }
