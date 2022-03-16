@@ -165,7 +165,7 @@ class QnADetailViewController: UIViewController {
                             
                             self.titleName.text = title
                             self.questionContent.text = questionContent
-                            if imgURL != "" || imgURL != nil {
+                            if imgURL != "" {
                                 let url = URL(string: imgURL)
                                 DispatchQueue.global().async {
                                     let data = try? Data(contentsOf: url!)
@@ -195,8 +195,10 @@ class QnADetailViewController: UIViewController {
                                         let imgurl = questionDt["url"] as? String ?? ""
                                         
                                         self.answerContent.text = answer
-                                        if imgurl != "" || imgurl != nil {
-                                           let url = URL(string: imgurl)
+                                        if (imgurl == "" || imgurl == "nil") {
+                                            self.answerImgView.image = .none
+                                        } else {
+                                            let url = URL(string: imgurl)
                                             DispatchQueue.global().async {
                                                 let data = try? Data(contentsOf: url!)
                                                 DispatchQueue.main.async {
@@ -295,7 +297,7 @@ class QnADetailViewController: UIViewController {
                                                             
                                                             self.titleName.text = title
                                                             self.questionContent.text = questionContent
-                                                            if imgURL != "" || imgURL != nil {
+                                                            if imgURL != "" {
                                                                 let url = URL(string: imgURL)
                                                                 DispatchQueue.global().async {
                                                                     let data = try? Data(contentsOf: url!)
