@@ -262,7 +262,8 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                             }
                             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                                 "url":"\(downloadURL)",
-                                "answerContent": self.answer
+                                "answerContent": self.answer,
+                                "isAnswer": true
                              ]) { err in
                                  if let err = err {
                                      print("Error adding document: \(err)")
@@ -274,7 +275,8 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
             } else {
                 self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                     "url":"\(videoURL)",
-                    "answerContent": self.answer
+                    "answerContent": self.answer,
+                    "isAnswer": true
                  ]) { err in
                      if let err = err {
                          print("Error adding document: \(err)")
