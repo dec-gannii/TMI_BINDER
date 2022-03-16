@@ -34,6 +34,7 @@ class QnADetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getUserInfo()
+        self.answerContent.isEditable = false
     }
     
     
