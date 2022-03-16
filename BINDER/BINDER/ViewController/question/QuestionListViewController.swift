@@ -57,7 +57,7 @@ class QuestionListViewController : BaseVC {
         super.viewDidLoad()
         answeredToggle.setOn(false, animated: true)
         getUserInfo()
-        
+        self.questionListTV.reloadData()
         if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
             if (self.type == "student") { // 사용자가 학생이면
                 self.navigationBar.topItem!.title = self.userName + " 선생님"

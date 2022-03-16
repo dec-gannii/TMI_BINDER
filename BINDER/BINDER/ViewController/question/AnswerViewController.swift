@@ -271,6 +271,9 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                              }
                         }
                     }
+                    if let preVC = self.presentingViewController as? UIViewController {
+                        preVC.dismiss(animated: true, completion: nil)
+                    }
                 }
             } else {
                 self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
@@ -282,6 +285,9 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                          print("Error adding document: \(err)")
                      }
                  }
+                if let preVC = self.presentingViewController as? UIViewController {
+                    preVC.dismiss(animated: true, completion: nil)
+                }
             }
         }
         
@@ -293,10 +299,8 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
              }
          }
         
-        guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
-        
-        questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-        questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-        self.present(questionVC, animated: true, completion: nil)
+        if let preVC = self.presentingViewController as? UIViewController {
+            preVC.dismiss(animated: true, completion: nil)
+        }
     }
 }
