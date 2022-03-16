@@ -21,6 +21,8 @@ class EditClassVC : UIViewController {
     @IBOutlet weak var repeatYNToggle: UISwitch!
     @IBOutlet var daysBtn: [UIButton]!
     
+    var schedule = ""
+    
     @IBOutlet weak var cancelBtn: UIButton!
     @IBAction func cancelBtnAction(_ sender: Any) {
         if let preVC = self.presentingViewController as? UIViewController {
@@ -54,54 +56,74 @@ class EditClassVC : UIViewController {
     @IBAction func mondayBtn(_ sender: Any) {
         if daysBtn[0].isSelected {
             let monday = "월 "
-            schedule + monday
+//            schedule = schedule + monday
+            daysBtn[0].isSelected = false
+        } else {
+            daysBtn[0].isSelected = true
         }
     }
+    
     @IBAction func tuesdayBtn(_ sender: Any) {
         if daysBtn[1].isSelected {
             let tuesday = "화 "
-            schedule + tuesday
+//            schedule = schedule + tuesday
+            daysBtn[1].isSelected = false
+        } else {
+            daysBtn[1].isSelected = true
         }
     }
     
     @IBAction func wednesdayBtn(_ sender: Any) {
         if daysBtn[2].isSelected {
             let wednesday = "수 "
-            schedule + wednesday
-            // return schedule
+//            schedule = schedule + wednesday
+            daysBtn[2].isSelected = false
+        } else {
+            daysBtn[2].isSelected = true
         }
     }
     
     @IBAction func thursdayBtn(_ sender: Any) {
         if daysBtn[3].isSelected {
             let thursday = "목 "
-            schedule + thursday
+//            schedule = schedule + thursday
+            daysBtn[3].isSelected = false
+        } else {
+            daysBtn[3].isSelected = true
         }
     }
     
     @IBAction func fridayBtn(_ sender: Any) {
         if daysBtn[4].isSelected {
             let friday = "금 "
-            schedule + friday
+//            schedule =  schedule + friday
+            daysBtn[4].isSelected = false
+        } else {
+            daysBtn[4].isSelected = true
         }
     }
     
     @IBAction func saturdayBtn(_ sender: Any) {
         if daysBtn[5].isSelected {
             let saturday = "토 "
-            schedule + saturday
+//            schedule = schedule + saturday
+            daysBtn[5].isSelected = false
+        } else {
+            daysBtn[5].isSelected = true
         }
     }
+    
     @IBAction func sundayBtn(_ sender: Any) {
         
         if daysBtn[6].isSelected {
             let sunday = "일 "
-            schedule + sunday
+//            schedule = schedule + sunday
+            daysBtn[6].isSelected = false
+        } else {
+            daysBtn[6].isSelected = true
         }
         
     }
-
-    
     
     var payType: PayType = .countly {
         didSet {
@@ -125,8 +147,11 @@ class EditClassVC : UIViewController {
     
     
     @IBAction func okBtnAction(_ sender: Any) {
-        
-
+        for index in 0...daysBtn.count-1 {
+            if daysBtn[index].isSelected == true {
+                schedule += "\((daysBtn[index].titleLabel?.text)!) "
+            }
+        }
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
             "subject": subjectTF.text ?? "None",
@@ -164,7 +189,6 @@ class EditClassVC : UIViewController {
         return repeatYNToggle.isOn
     }
     var days : [String] = []
-    var schedule = ""
     
     // var teacherItem: TeacherItem!
     var studentItem: StudentItem!
