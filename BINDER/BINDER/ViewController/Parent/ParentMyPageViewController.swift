@@ -35,6 +35,24 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
     @IBOutlet weak var childNameLabel: UILabel!
     
     @IBAction func DeleteChildInfoBtnClicked(_ sender: Any) {
+        self.db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                
+                    self.db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
+                    "childPhoneNumber": ""
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
+                print("Document data: \(dataDescription)")
+            } else {
+                print("Document does not exist")
+            }
+        }
+        self.childInfoBackgroundView.isHidden = true
     }
     
     @IBAction func LogoutBtnClicked(_ sender: Any) {
@@ -99,6 +117,12 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
                         let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                         let name = document.data()["name"] as? String ?? ""
                         let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? ""
+                        
+                        if (childPhoneNumber == "") {
+                            self.childInfoBackgroundView.isHidden = true
+                        } else {
+                            self.childInfoBackgroundView.isHidden = false
+                        }
                         
                         var childPhoneNumberWithDash = ""
                         
