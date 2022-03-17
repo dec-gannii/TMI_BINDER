@@ -152,7 +152,7 @@ class DetailClassViewController: UIViewController {
     
     // 캘린더 텍스트 스타일 설정을 위한 메소드
     func calendarText() {
-        calendarView.headerHeight = 50
+        calendarView.headerHeight = 40
         calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 15)
         calendarView.appearance.headerMinimumDissolvedAlpha = 0.0
         calendarView.appearance.headerDateFormat = "YYYY년 M월"

@@ -260,14 +260,14 @@
 			path = models;
 			sourceTree = "<group>";
 		};
-		69EE72A9275D05B0007F6F7C /* Grape */ = {
+		69EE72A9275D05B0007F6F7C /* Graph */ = {
 			isa = PBXGroup;
 			children = (
 				7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */,
 				69EE72AA275D05C2007F6F7C /* GraphViewController.swift */,
 				69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */,
 			);
-			path = Grape;
+			path = Graph;
 			sourceTree = "<group>";
 		};
 		69EE72B0275D119C007F6F7C /* Portfolio */ = {
@@ -351,7 +351,7 @@
 				69425987275DE8D9003E0997 /* MyClass */,
 				69EE72B7275D1458007F6F7C /* Login */,
 				69EE72B0275D119C007F6F7C /* Portfolio */,
-				69EE72A9275D05B0007F6F7C /* Grape */,
+				69EE72A9275D05B0007F6F7C /* Graph */,
 				7F16D159274941ED00745522 /* HomeViewController.swift */,
 			);
 			path = ViewController;
