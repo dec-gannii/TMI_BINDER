@@ -296,10 +296,10 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                 // 데이터 저장
                 db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
                     "childPhoneNumber": phoneNumberWithDash                ]) { err in
-                    if let err = err {
-                        print("Error adding document: \(err)")
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
                     }
-                }
                 
                 guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정

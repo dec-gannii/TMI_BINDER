@@ -23,12 +23,10 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var todoTF: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var editBtn: UIButton!
-    
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var homeworkLabel: UILabel!
     @IBOutlet weak var evaluationLabel: UILabel!
     @IBOutlet weak var testLabel: UILabel!
-    
     @IBOutlet weak var monthlyEvaluationBackgroundView: UIView!
     @IBOutlet weak var monthlyEvaluationQuestionLabel: UILabel!
     @IBOutlet weak var monthlyEvaluationTextView: UITextView!
@@ -39,7 +37,6 @@ class DetailClassViewController: UIViewController {
     var userName: String!
     var userType: String!
     var currentCnt: Int = 0
-    
     var days: [String]!
     var scores: [Double]!
     let floatValue: [CGFloat] = [5,5]
@@ -47,12 +44,10 @@ class DetailClassViewController: UIViewController {
     var count = 0
     var todos = Array<String>()
     var bRec:Bool = false
-    
     var date: String!
     var selectedMonth: String!
     var userIndex: Int!
     var keyHeight: CGFloat?
-    
     var checkTime: Bool = false
     
     @IBOutlet weak var calendarView: FSCalendar!
@@ -97,7 +92,6 @@ class DetailClassViewController: UIViewController {
         
         self.progressTextView.layer.borderWidth = 1.0
         self.progressTextView.layer.borderColor = UIColor.systemGray6.cgColor
-        
         self.evaluationMemoTextView.layer.borderWidth = 1.0
         self.evaluationMemoTextView.layer.borderColor = UIColor.systemGray6.cgColor
         
@@ -122,11 +116,9 @@ class DetailClassViewController: UIViewController {
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
         calendarView.scope = .week
-        
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .systemGray
         calendarView.appearance.headerTitleColor = .black
-        
         calendarView.appearance.eventDefaultColor = .systemPink
         calendarView.appearance.selectionColor = .systemGray3
         calendarView.appearance.titleSelectionColor = .black
@@ -143,7 +135,6 @@ class DetailClassViewController: UIViewController {
         calendarView.appearance.headerDateFormat = "YYYY년 M월"
         calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 13)
         calendarView.appearance.weekdayFont = UIFont.systemFont(ofSize: 13)
-        
         calendarView.locale = Locale(identifier: "ko_KR")
     }
     
@@ -195,7 +186,6 @@ class DetailClassViewController: UIViewController {
                                                 
                                                 let currentCnt = document.data()["currentCnt"] as? Int ?? 0
                                                 self.currentCnt = currentCnt
-                                                
                                                 self.userName = name
                                                 self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
                                                 self.userEmail = document.data()["email"] as? String ?? ""
@@ -242,7 +232,6 @@ class DetailClassViewController: UIViewController {
                         
                         let studentName = document.data()["name"] as? String ?? ""
                         let studentEmail = document.data()["email"] as? String ?? ""
-                        
                         let teacherDocRef = self.db.collection("teacher")
                         
                         if let email = self.userEmail { // 사용자의 이메일이 nil이 아니라면
@@ -261,9 +250,6 @@ class DetailClassViewController: UIViewController {
                                                 let data = document.data()
                                                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                                                 self.count = data?["count"] as? Int ?? 0
-                                                //                                                let name = data?["name"] as? String ?? ""
-                                                
-                                                //                                                self.userName = name
                                                 self.questionLabel.text = "오늘 " + self.userName + " 선생님의 수업은 어땠나요?"
                                                 
                                                 // todolist 배열에 요소 추가
@@ -332,10 +318,8 @@ class DetailClassViewController: UIViewController {
                                 } else {
                                     for document in querySnapshot!.documents {
                                         print("\(document.documentID) => \(document.data())")
-                                        
                                         let type = document.data()["type"] as? String ?? ""
                                         let score = Double(document.data()["score"] as? String ?? "0.0")
-                                        
                                         if (countOfScores > 0) {
                                             if (countOfScores == 1) {
                                                 self.days.insert(type, at: 0)
@@ -393,7 +377,7 @@ class DetailClassViewController: UIViewController {
                                 self.db.collection("student").document(uid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(date).setData([
                                     "month": date,
                                     "isMonthlyEvaluation": true,
-                                    "evaluation": self.monthlyEvaluationTextView.text
+                                    "evaluation": self.monthlyEvaluationTextView.text!
                                 ]) { err in
                                     if let err = err {
                                         print("Error adding document: \(err)")
@@ -415,10 +399,10 @@ class DetailClassViewController: UIViewController {
         editClassVC.modalPresentationStyle = .fullScreen
         
         // 값 보내주는 역할
-                editClassVC.userName = self.userName
-                editClassVC.userEmail = self.userEmail
-                editClassVC.userSubject = self.userSubject
-                
+        editClassVC.userName = self.userName
+        editClassVC.userEmail = self.userEmail
+        editClassVC.userSubject = self.userSubject
+        
         
         self.present(editClassVC, animated: true, completion: nil)
         
@@ -514,8 +498,6 @@ class DetailClassViewController: UIViewController {
                                         print("\(document.documentID) => \(document.data())")
                                         // 사용할 것들 가져와서 지역 변수로 저장
                                         let uid = document.data()["uid"] as? String ?? "" // 학생 uid
-                                        
-                                        print ("uid : \(uid), name : \(name), email : \(email), subject : \(subject)")
                                         let path = name + "(" + email + ") " + subject
                                         self.db.collection("student").document(uid).collection("class").document(path).updateData([
                                             "currentCnt": count,
@@ -560,7 +542,6 @@ class DetailClassViewController: UIViewController {
     func allRound() {
         okButton.clipsToBounds = true
         okButton.layer.cornerRadius = 10
-        
         plusButton.clipsToBounds = true
         plusButton.layer.cornerRadius = 10
     }
@@ -574,7 +555,6 @@ class DetailClassViewController: UIViewController {
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
-        
         // 데이터 생성
         var dataEntries: [BarChartDataEntry] = []
         for i in 0..<dataPoints.count {
@@ -620,9 +600,6 @@ class DetailClassViewController: UIViewController {
         
         // 기본 애니메이션
         barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-        // 옵션 애니메이션
-        //barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
-        
     }
     
     @IBAction func PlusScores(_ sender: Any) {
@@ -672,52 +649,6 @@ class DetailClassViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
-    
-    /*
-     // 그래프를 보여주도록 하는 메소드
-     @IBAction func ShowGraph(_ sender: Any) {
-     self.evaluationView.isHidden = true
-     guard let graphVC = self.storyboard?.instantiateViewController(withIdentifier: "GraphViewController") as? GraphViewController else { return }
-     
-     graphVC.modalPresentationStyle = .fullScreen
-     graphVC.modalTransitionStyle = .crossDissolve
-     // 학생의 이름 데이터 넘겨주기
-     graphVC.userName = self.userName
-     graphVC.userSubject = self.userSubject
-     graphVC.userEmail = self.userEmail
-     
-     self.present(graphVC, animated: true, completion: nil)
-     }
-     
-     // 사용자의 정보를 가져오도록 하는 메소드
-     func getUserInfo() {
-     // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
-     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: self.userIndex)
-     .getDocuments() { (querySnapshot, err) in
-     if let err = err {
-     print(">>>>> document 에러 : \(err)")
-     } else {
-     if let err = err {
-     print("Error getting documents: \(err)")
-     } else {
-     for document in querySnapshot!.documents {
-     print("\(document.documentID) => \(document.data())")
-     
-     // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
-     // 네비게이션 바의 이름도 설정해주기
-     let name = document.data()["name"] as? String ?? ""
-     self.userName = name
-     self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
-     self.userEmail = document.data()["email"] as? String ?? ""
-     self.userSubject = document.data()["subject"] as? String ?? ""
-     
-     self.classNavigationBar.topItem!.title = self.userName + " 학생"
-     }
-     }
-     }
-     }
-     }
-     */
 }
 
 extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
@@ -735,10 +666,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         let background = UIView()
         
         cell.TodoLabel.text = "\(todo)"
-        
-        background.backgroundColor = .clear
-        cell.selectedBackgroundView = background
-        // cell.selectionStyle = .none
         cell.CheckButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
         return cell
     }
@@ -749,7 +676,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             if editingStyle == .delete {
                 
                 todos.remove(at: indexPath.row)
-                
                 count = count - 1
                 
                 let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
@@ -785,7 +711,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             sender.isSelected = false
             checkTime = false
             //체크 내용 업데이트
-            
             print("button normal")
             sender.setImage(UIImage(systemName: "circle"), for: .normal)
             

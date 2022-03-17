@@ -15,13 +15,10 @@ import Photos
 class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     @IBOutlet weak var pageView: UIView!
     @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var teacherEmail: UILabel!
-    
     @IBOutlet weak var portfoiolBtn: UIButton!
     @IBOutlet weak var openPortfolioSwitch: UISwitch!
-    
     @IBOutlet weak var portfolioPageView: UIView!
     
     let imagePicker: UIImagePickerController! = UIImagePickerController()
@@ -77,12 +74,9 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                     self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
                     self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
                     self.type = "teacher"
-                    
                     let url = URL(string: LoginRepository.shared.teacherItem!.profile)!
                     self.imageView.kf.setImage(with: url)
-                    
                     self.imageView.makeCircle()
-                    
                 } failure: { error in
                     self.showDefaultAlert(msg: "")
                 }
@@ -97,12 +91,9 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                         self.teacherEmail.text = userEmail
                         let profile =  data?["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                         self.type = "student"
-                        
                         let url = URL(string: profile)!
                         self.imageView.kf.setImage(with: url)
-                        
                         self.imageView.makeCircle()
-                        
                         self.portfolioPageView.isHidden = true
                     } else {
                         print("Document does not exist")
@@ -185,7 +176,6 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
     func viewDecorating(){
         portfoiolBtn.layer.cornerRadius = 20
         pageView.layer.cornerRadius = 30
-        
         pageView.layer.shadowColor = UIColor.black.cgColor
         pageView.layer.masksToBounds = false
         pageView.layer.shadowOffset = CGSize(width: 2, height: 3)
@@ -237,7 +227,6 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                     } else if (self.type == "student") {
                         LoginRepository.shared.studentItem?.profile = "\(downloadURL)"
                     }
-                    
                 }
             }
         }

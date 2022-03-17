@@ -10,7 +10,6 @@ import Firebase
 
 // 선생님, 학생, 학부모 타입 선택 뷰 컨트롤러
 class TypeSelectViewController: UIViewController {
-    
     var isGoogleSignIn = false
     
     override func viewDidLoad() {
@@ -61,8 +60,6 @@ class TypeSelectViewController: UIViewController {
         //화면전환
         self.present(signinVC, animated: true)
     }
-    
-
 }
 
 

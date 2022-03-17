@@ -55,8 +55,6 @@ class EditClassVC : UIViewController {
     
     @IBAction func mondayBtn(_ sender: Any) {
         if daysBtn[0].isSelected {
-            let monday = "월 "
-//            schedule = schedule + monday
             daysBtn[0].isSelected = false
         } else {
             daysBtn[0].isSelected = true
@@ -65,8 +63,6 @@ class EditClassVC : UIViewController {
     
     @IBAction func tuesdayBtn(_ sender: Any) {
         if daysBtn[1].isSelected {
-            let tuesday = "화 "
-//            schedule = schedule + tuesday
             daysBtn[1].isSelected = false
         } else {
             daysBtn[1].isSelected = true
@@ -75,8 +71,6 @@ class EditClassVC : UIViewController {
     
     @IBAction func wednesdayBtn(_ sender: Any) {
         if daysBtn[2].isSelected {
-            let wednesday = "수 "
-//            schedule = schedule + wednesday
             daysBtn[2].isSelected = false
         } else {
             daysBtn[2].isSelected = true
@@ -85,8 +79,6 @@ class EditClassVC : UIViewController {
     
     @IBAction func thursdayBtn(_ sender: Any) {
         if daysBtn[3].isSelected {
-            let thursday = "목 "
-//            schedule = schedule + thursday
             daysBtn[3].isSelected = false
         } else {
             daysBtn[3].isSelected = true
@@ -95,8 +87,6 @@ class EditClassVC : UIViewController {
     
     @IBAction func fridayBtn(_ sender: Any) {
         if daysBtn[4].isSelected {
-            let friday = "금 "
-//            schedule =  schedule + friday
             daysBtn[4].isSelected = false
         } else {
             daysBtn[4].isSelected = true
@@ -105,8 +95,6 @@ class EditClassVC : UIViewController {
     
     @IBAction func saturdayBtn(_ sender: Any) {
         if daysBtn[5].isSelected {
-            let saturday = "토 "
-//            schedule = schedule + saturday
             daysBtn[5].isSelected = false
         } else {
             daysBtn[5].isSelected = true
@@ -114,22 +102,17 @@ class EditClassVC : UIViewController {
     }
     
     @IBAction func sundayBtn(_ sender: Any) {
-        
         if daysBtn[6].isSelected {
-            let sunday = "일 "
-//            schedule = schedule + sunday
             daysBtn[6].isSelected = false
         } else {
             daysBtn[6].isSelected = true
         }
-        
     }
     
     var payType: PayType = .countly {
         didSet {
             changeUI()
         }
-        
     }
     
     func changeUI() {
@@ -137,14 +120,13 @@ class EditClassVC : UIViewController {
         case .countly:
             payTypeLb.text = "회당"
             payTypeBtn.setTitle("회차별", for: .normal)
-                        
+            
         case .timly:
             payTypeLb.text = "시간당"
             payTypeBtn.setTitle("시간별", for: .normal)
             
         }
     }
-    
     
     @IBAction func okBtnAction(_ sender: Any) {
         for index in 0...daysBtn.count-1 {
@@ -168,7 +150,7 @@ class EditClassVC : UIViewController {
         if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
-
+        
         
     }
     
@@ -182,7 +164,6 @@ class EditClassVC : UIViewController {
     var userSubject = ""
     
     var subject = ""
-    // var payType_local = ""
     var payAmount = ""
     var payDate = ""
     var repeatYN :Bool {
@@ -196,10 +177,6 @@ class EditClassVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         box.allRound()
-        // self.userName + "(" + self.userEmail + ") " + self.userSubject - 1
-        // 에러 뜨는 위치 path에 위에 주석처리한 것처럼 하면 작동 되긴 함
-        // 대신 DetailClassViewController에서 정보 넘기는 코드랑 위에 userName, userEmail, userSubject 변수 주석 처리 해제해야 함
-        
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { [self] (document, error) in
             if let document = document, document.exists {
@@ -229,7 +206,7 @@ class EditClassVC : UIViewController {
                 }
                 
                 let schedule = data?["schedule"] as? String ?? ""
-//              저장된 스케줄을 " " 단위로 갈라내어 배열로 저장함
+                // 저장된 스케줄을 " " 단위로 갈라내어 배열로 저장함
                 days = schedule.components(separatedBy: " ")
                 print(days)
                 

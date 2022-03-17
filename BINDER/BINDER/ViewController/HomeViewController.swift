@@ -550,7 +550,6 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         // 일정 리스트 뷰 보여주기
         guard let scheduleListVC = self.storyboard?.instantiateViewController(withIdentifier: "ScheduleListViewController") as? ScheduleListViewController else { return }
         // 데이터베이스의 Count document에서 count 정보를 받아서 전달
-        //        self.db.collection("Schedule").document(Auth.auth().currentUser!.uid).collection(dateFormatter.string(from: date))
         self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(dateFormatter.string(from: date)).collection("scheduleList").document("Count").addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")

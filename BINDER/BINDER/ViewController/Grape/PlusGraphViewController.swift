@@ -24,7 +24,6 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     let study = ["3월 모의고사","1학기 중간고사","6월 모의고사","1학기 기말고사","9월 모의고사","2학기 중간고사","11월 모의고사","2학기 기말고사"]
     var todayStudy = "0"
     var todayScore = "0"
-    
     var userName = ""
     var userEmail = ""
     var userSubject = ""
@@ -70,7 +69,6 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
         pickerView.delegate = self
         pickerView.dataSource = self
         studyShowPicker.tintColor = .clear
-        
         studyShowPicker.inputView = pickerView
     }
     
@@ -91,7 +89,6 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
         studyShowPicker.text = "\(todayStudy)"
         self.studyShowPicker.resignFirstResponder()
         getScore()
-        
     }
     
     @objc func cancelPicker() {
@@ -167,9 +164,6 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
                 }
             }
         }
-        
-        
-        
     }
     
     func getScore() {

@@ -15,7 +15,6 @@ class GraphViewController: UIViewController {
     let db = Firestore.firestore()
     var ref: DatabaseReference!
     
-    //@IBOutlet var plusButton: UIButton!
     @IBOutlet var barChartView: BarChartView!
     
     @IBOutlet weak var okButton: UIButton!
@@ -30,8 +29,6 @@ class GraphViewController: UIViewController {
     var userSubject: String!
     var userName: String!
     var userType: String!
-    //    var days: [String]!
-    //    var scores: [Double]!
     var days: [String] = []
     var scores: [Double] = []
     let floatValue: [CGFloat] = [5,5]
@@ -40,35 +37,9 @@ class GraphViewController: UIViewController {
     var todos = Array<String>()
     var bRec:Bool = false
     
-    //        var studentName = ""
-    //        var studentEmail = ""
-    
-    /* private lazy var boardManager: BLTNItemManager = {
-     
-     let item = BLTNPageItem(title: "Push")
-     item.actionButtonTitle = "추가하기"
-     item.alternativeButtonTitle = "취소하기"
-     item.descriptionText = "성적 타입과 성적을 입력하세요"
-     
-     item.actionHandler = { _ in
-     GrapeViewController.didTapBoardContinue()
-     }
-     item.alternativeHandler = { _ in
-     GrapeViewController.didTapBoardSkip()
-     }
-     item.appearance.actionButtonColor = .systemGreen
-     item.appearance.alternativeButtonTitleColor = .gray
-     
-     return BLTNItemManager(rootItem: item)
-     }()
-     
-     */
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //plusButton.backgroundColor = .link
-        //plusButton.setTitleColor(.white, for: .normal)
         getUserInfo()
         
         if (self.userType != "student") {
@@ -222,10 +193,6 @@ class GraphViewController: UIViewController {
         
         // 기본 애니메이션
         barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-        // 옵션 애니메이션
-        //barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
-        
-        
     }
     
     func getTodos(){
@@ -283,35 +250,6 @@ class GraphViewController: UIViewController {
                 }
             }
     }
-    /*
-     
-     let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("todolist").document("Count")
-     
-     docRef.getDocument { (document, error) in
-     if let document = document, document.exists {
-     let data = document.data()
-     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-     
-     self.count = data?["count"] as? Int ?? 0
-     print("Document data: \(dataDescription)")
-     print("count: \(self.count)")
-     } else {
-     print("Document does not exist")
-     }
-     }
-     
-     @IBAction func didTapButton(){
-     boardManager.showBulletin(above: self)
-     }
-     
-     static func didTapBoardContinue(){
-     print("Did tap continue")
-     }
-     
-     static func didTapBoardSkip(){
-     print("Did tap skip")
-     }
-     */
     
     @IBAction func goHome(_ sender: Any) {
         if let preVC = self.presentingViewController as? UIViewController {
@@ -369,12 +307,10 @@ extension GraphViewController:UITableViewDataSource, UITableViewDelegate {
         
         if sender.isSelected{
             sender.isSelected = false
-            print("button normal")
             sender.setImage(UIImage(systemName: "circle"), for: .normal)
             
         } else {
             sender.isSelected = true
-            print("button selected")
             sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
         }
     }
