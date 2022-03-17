@@ -13,6 +13,7 @@ import FSCalendar
 // Parent 버전의 더보기 버튼 클릭 시 나타나는 평가 상세보기 화면
 class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSource {
     @IBOutlet weak var calendarView: FSCalendar! // 월간 캘린더
+    @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var monthlyEvaluationTextView: UITextView! // 월간 평가가 나타나는 textview
     @IBOutlet weak var monthlyEvaluationTitle: UILabel! // 평가 제목 Label
     @IBOutlet weak var monthlyEvaluationTitleBackgroundView: UIView! // 평가가 나타나는 위치의 배경 view
@@ -29,6 +30,39 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     var studentName: String = "" // 학생 이름
     let nowDate = Date() // 오늘 날짜
     
+    @IBAction func prevBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: true) }
+    
+    @IBAction func nextBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: false) }
+
+    private var currentPage: Date?
+    
+    private lazy var today: Date = { return Date() }()
+    
+    private lazy var dateFormatter: DateFormatter = { let df = DateFormatter()
+        df.locale = Locale(identifier: "ko_KR")
+        df.dateFormat = "yyyy년 MM월"
+        return df
+    }()
+    
+    override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated)
+        setCalendar()
+    }
+    
+    func setCalendar() {
+        calendarView.delegate = self
+        calendarView.headerHeight = 0
+        calendarView.scope = .month
+        monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
+    }
+    
+    private func scrollCurrentPage(isPrev: Bool) {
+        let cal = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.month = isPrev ? -1 : 1
+        self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
+        self.calendarView.setCurrentPage(self.currentPage!, animated: true)
+    }
+    
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
         calendarView.appearance.weekdayTextColor = .systemGray
@@ -44,12 +78,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     
     // 캘린더 텍스트 스타일 설정을 위한 메소드
     func calendarText() {
-        calendarView.headerHeight = 50
-        calendarView.appearance.headerMinimumDissolvedAlpha = 0.0
-        calendarView.appearance.headerDateFormat = "YYYY년 M월"
-        calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 25, weight: .bold)
-        calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 15)
-        calendarView.locale = Locale(identifier: "ko_KR")
+        calendarView.headerHeight = 0
     }
     
     func calendarEvent() {
@@ -217,7 +246,10 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
     
     /// 캘린더의 현재 페이지가 달라진 경우 실행되는 메소드
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        
         let currentPageDate = calendar.currentPage // 현재 페이지 정보
+        
+        self.monthLabel.text = self.dateFormatter.string(from: calendar.currentPage)
         
         let month = Calendar.current.component(.month, from: currentPageDate) // 현재 페이지의 날짜에서 '월' 정보
         if (month < 10) { // 월이 1-9월 사이면

@@ -13,7 +13,7 @@ import FSCalendar
 
 // 홈 뷰 컨트롤러
 class HomeViewController: UIViewController {
-    
+    @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var emailVerificationCheckBtn: UIButton!
     @IBOutlet weak var calendarView: FSCalendar!
@@ -40,6 +40,43 @@ class HomeViewController: UIViewController {
     var ref: DatabaseReference!
     let db = Firestore.firestore()
     
+    @IBAction func prevBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: true) }
+    
+    @IBAction func nextBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: false) }
+
+    private var currentPage: Date?
+    
+    private lazy var today: Date = { return Date() }()
+    
+    private lazy var dateFormatter: DateFormatter = { let df = DateFormatter()
+        df.locale = Locale(identifier: "ko_KR")
+        df.dateFormat = "yyyy년 MM월"
+        return df
+    }()
+    
+    override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated)
+        setCalendar()
+    }
+    
+    func setCalendar() {
+        calendarView.delegate = self
+        calendarView.headerHeight = 0
+        calendarView.scope = .month
+        monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
+    }
+    
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        self.monthLabel.text = self.dateFormatter.string(from: calendar.currentPage)
+    }
+    
+    private func scrollCurrentPage(isPrev: Bool) {
+        let cal = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.month = isPrev ? -1 : 1
+        self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
+        self.calendarView.setCurrentPage(self.currentPage!, animated: true)
+    }
+
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
         calendarView.appearance.weekdayTextColor = .systemGray
@@ -55,12 +92,7 @@ class HomeViewController: UIViewController {
     
     // 캘린더 텍스트 스타일 설정을 위한 메소드
     func calendarText() {
-        calendarView.headerHeight = 50
-        calendarView.appearance.headerMinimumDissolvedAlpha = 0.0
-        calendarView.appearance.headerDateFormat = "YYYY년 M월"
-        calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 25, weight: .bold)
-        calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 15)
-        calendarView.locale = Locale(identifier: "ko_KR")
+        calendarView.headerHeight = 0
     }
     
     func calendarEvent() {
