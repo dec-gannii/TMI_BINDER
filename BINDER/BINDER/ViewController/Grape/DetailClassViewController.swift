@@ -62,6 +62,7 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var classNavigationBar: UINavigationBar!
     @IBOutlet weak var EvaluationTitleLabel: UILabel!
     @IBOutlet weak var classTimeTextField: UITextField!
+    @IBOutlet weak var monthlyEvaluationOKBtn: UIButton!
     
     override func viewDidLoad() {
         // 빈 배열 형성
@@ -82,6 +83,12 @@ class DetailClassViewController: UIViewController {
         barColorSetting()
         
         evaluationView.layer.cornerRadius = 10
+        monthlyEvaluationBackgroundView.layer.cornerRadius = 10
+        monthlyEvaluationTextView.layer.cornerRadius = 10
+        progressTextView.layer.cornerRadius = 10
+        evaluationMemoTextView.layer.cornerRadius = 10
+        okButton.layer.cornerRadius = 10
+        monthlyEvaluationOKBtn.layer.cornerRadius = 10
         
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
@@ -94,6 +101,8 @@ class DetailClassViewController: UIViewController {
         self.progressTextView.layer.borderColor = UIColor.systemGray6.cgColor
         self.evaluationMemoTextView.layer.borderWidth = 1.0
         self.evaluationMemoTextView.layer.borderColor = UIColor.systemGray6.cgColor
+        self.monthlyEvaluationTextView.layer.borderWidth = 1.0
+        self.monthlyEvaluationTextView.layer.borderColor = UIColor.systemGray6.cgColor
         
         if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
             if (self.userType == "student") { // 사용자가 학생이면
