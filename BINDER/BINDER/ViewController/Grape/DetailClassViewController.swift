@@ -87,7 +87,7 @@ class DetailClassViewController: UIViewController {
         monthlyEvaluationTextView.layer.cornerRadius = 10
         progressTextView.layer.cornerRadius = 10
         evaluationMemoTextView.layer.cornerRadius = 10
-        okButton.layer.cornerRadius = 10
+        evaluationOKBtn.layer.cornerRadius = 10
         monthlyEvaluationOKBtn.layer.cornerRadius = 10
         
         evaluationView.isHidden = true
