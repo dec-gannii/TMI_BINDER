@@ -70,7 +70,6 @@ class EditInfoViewController: UIViewController {
             } else {
                 // 현재 사용자에 해당하는 선생님 문서가 없으면 학생 문서로 다시 검색
                 docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
-                
                 docRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
@@ -84,7 +83,6 @@ class EditInfoViewController: UIViewController {
                         self.parentPasswordLabel.isHidden = true
                     } else {
                         docRef = self.db.collection("parent").document(Auth.auth().currentUser!.uid)
-                        
                         docRef.getDocument { (document, error) in
                             if let document = document, document.exists {
                                 let data = document.data()
@@ -97,8 +95,6 @@ class EditInfoViewController: UIViewController {
                                 self.parentPasswordLabel.text = "자녀 휴대전화 번호"
                                 let childPhoneNumber = data?["childPhoneNumber"] as? String ?? ""
                                 self.parentPassword.text = childPhoneNumber
-                                //                                self.parentPassword.isHidden = true
-                                //                                self.parentPasswordLabel.isHidden = true
                             } else {
                                 print("Document does not exist")
                             }
@@ -332,8 +328,6 @@ class EditInfoViewController: UIViewController {
                 present(alert, animated: false, completion: nil)
             }
         }
-        
-        
     }
 }
 

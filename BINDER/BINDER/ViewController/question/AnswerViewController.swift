@@ -34,14 +34,14 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     @IBOutlet weak var textView: UITextView!
     
     // UIImagePickerController의 인스턴스 변수 생성
-        let imagePicker: UIImagePickerController! = UIImagePickerController()
-
-        var captureImage: UIImage!
-        var videoURL: URL!
-        var flagImageSave = false
-        var imgtype:Int = 0
-        var answer = "0"
-
+    let imagePicker: UIImagePickerController! = UIImagePickerController()
+    
+    var captureImage: UIImage!
+    var videoURL: URL!
+    var flagImageSave = false
+    var imgtype:Int = 0
+    var answer = "0"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         storageRef = storage.reference()
@@ -59,14 +59,14 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         textView.text = "답변 내용을 작성해주세요."
         textView.textColor = UIColor.lightGray
     }
-        
+    
     // TextView Place Holder
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
         }
-            
+        
     }
     
     // TextView Place Holders
@@ -89,7 +89,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         let action_video = UIAlertAction(title: "영상", style: .default) { (action) in
             self.showVideo()
         }
-
+        
         // 갤러리 버튼 추가
         let action_gallery = UIAlertAction(title: "사진 앨범", style: .default) { action in
             print("push gallery button")
@@ -127,94 +127,94 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     
     // 사진 불러오기
     func showGallery() {
+        
+        if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
+            flagImageSave = false
             
-            if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
-                flagImageSave = false
-                
-                imagePicker.delegate = self
-                // 이미지 피커의 소스 타입을 PhotoLibrary로 설정
-                imagePicker.sourceType = .photoLibrary
-                
-                imagePicker.mediaTypes = [kUTTypeImage as String]
-                // 편집을 허용
-                imagePicker.allowsEditing = true
-                
-                present(imagePicker, animated: true, completion: nil)
-            } else {
-                myAlert("Photo album inaccessable", message: "Application cannot access the photo album.")
-            }
+            imagePicker.delegate = self
+            // 이미지 피커의 소스 타입을 PhotoLibrary로 설정
+            imagePicker.sourceType = .photoLibrary
+            
+            imagePicker.mediaTypes = [kUTTypeImage as String]
+            // 편집을 허용
+            imagePicker.allowsEditing = true
+            
+            present(imagePicker, animated: true, completion: nil)
+        } else {
+            myAlert("Photo album inaccessable", message: "Application cannot access the photo album.")
         }
+    }
     
     // 비디오 불러오기
-        func showVideo() {
+    func showVideo() {
+        
+        if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
+            flagImageSave = false
             
-            if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
-                flagImageSave = false
-                
-                imagePicker.delegate = self
-                imagePicker.sourceType = .photoLibrary
-                imagePicker.mediaTypes = [kUTTypeMovie as String]
-                imagePicker.allowsEditing = false
-                
-                present(imagePicker, animated: true, completion: nil)
-            } else {
-                myAlert("Photo album inaccessable", message: "Application cannot access the photo album")
-            }
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.mediaTypes = [kUTTypeMovie as String]
+            imagePicker.allowsEditing = false
+            
+            present(imagePicker, animated: true, completion: nil)
+        } else {
+            myAlert("Photo album inaccessable", message: "Application cannot access the photo album")
         }
+    }
     
     // 사진, 비디오 촬영이나 선택이 끝났을 때 호출되는 델리게이트 메서드
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            // 미디어 종류 확인
-            let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! NSString
-           
-            // 미디어 종류가 사진(Image)일 경우
-            if mediaType.isEqual(to: kUTTypeImage as NSString as String){
-                
-                // 사진을 가져와 captureImage에 저장
-                captureImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-                imgtype = 1
-                
-                if flagImageSave { // flagImageSave가 true이면
-                    // 사진을 포토 라이브러리에 저장
-                    UIImageWriteToSavedPhotosAlbum(captureImage, self, nil, nil)
-                }
-                imgView.image = captureImage // 가져온 사진을 이미지 뷰에 출력
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // 미디어 종류 확인
+        let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! NSString
+        
+        // 미디어 종류가 사진(Image)일 경우
+        if mediaType.isEqual(to: kUTTypeImage as NSString as String){
+            
+            // 사진을 가져와 captureImage에 저장
+            captureImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+            imgtype = 1
+            
+            if flagImageSave { // flagImageSave가 true이면
+                // 사진을 포토 라이브러리에 저장
+                UIImageWriteToSavedPhotosAlbum(captureImage, self, nil, nil)
+            }
+            imgView.image = captureImage // 가져온 사진을 이미지 뷰에 출력
             
             // 미디어 종류가 비디오(Movie)일 경우
-            } else if mediaType.isEqual(to: kUTTypeMovie as NSString as String) {
-                 
-                if flagImageSave { // flagImageSave가 true이면
-                    // 촬영한 비디오를 옴
-                    videoURL = (info[UIImagePickerController.InfoKey.mediaURL] as! URL)
-                    imgtype = 2
-                    // 비디오를 포토 라이브러리에 저장
-                    UISaveVideoAtPathToSavedPhotosAlbum(videoURL.relativePath, self, nil, nil)
-                }
+        } else if mediaType.isEqual(to: kUTTypeMovie as NSString as String) {
+            
+            if flagImageSave { // flagImageSave가 true이면
+                // 촬영한 비디오를 옴
+                videoURL = (info[UIImagePickerController.InfoKey.mediaURL] as! URL)
+                imgtype = 2
+                // 비디오를 포토 라이브러리에 저장
+                UISaveVideoAtPathToSavedPhotosAlbum(videoURL.relativePath, self, nil, nil)
             }
-            
-            
-            // 현재의 뷰 컨트롤러를 제거. 즉, 뷰에서 이미지 피커 화면을 제거하여 초기 뷰를 보여줌
-            self.dismiss(animated: true, completion: nil)
         }
         
-        // 사진, 비디오 촬영이나 선택을 취소했을 때 호출되는 델리게이트 메서드
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            // 현재의 뷰(이미지 피커) 제거
-            self.dismiss(animated: true, completion: nil)
-        }
         
-        // 경고 창 출력 함수
-        func myAlert(_ title: String, message: String) {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-            let action = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default , handler: nil)
-            alert.addAction(action)
-            self.present(alert, animated: true, completion: nil)
-        }
+        // 현재의 뷰 컨트롤러를 제거. 즉, 뷰에서 이미지 피커 화면을 제거하여 초기 뷰를 보여줌
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    // 사진, 비디오 촬영이나 선택을 취소했을 때 호출되는 델리게이트 메서드
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        // 현재의 뷰(이미지 피커) 제거
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    // 경고 창 출력 함수
+    func myAlert(_ title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        let action = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default , handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
     
     
     @IBAction func btnAnswer(_ sender: Any) {
         print("upload")
-       
+        
         answer = textView.text
         
         if answer == "질문 내용을 작성해주세요." || answer == "" {
@@ -227,24 +227,19 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
             if imgtype == 1 {
                 
                 guard let image = imgView.image else {
-                    //let alertVC = UIAlertController(title: "알림", message: "이미지 또는 영상을 선택하고 업로드 기능을 실행하세요", preferredStyle: .alert)
-                   // let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                   // alertVC.addAction(okAction)
-                    //self.present(alertVC, animated: true, completion: nil)
-                    
                     self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                         "url":"",
                         "answerContent": self.answer
-                     ]) { err in
-                         if let err = err {
-                             print("Error adding document: \(err)")
-                         }
-                     }
-                    print("이미지 없음")
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                    print("image not exists")
                     
                     return
                 }
-                    print("이미지 있음")
+                print("image exists")
                 
                 if let data = image.pngData(){
                     let urlRef = storageRef.child("image/\(captureImage!).png")
@@ -252,10 +247,10 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     let metadata = StorageMetadata()
                     metadata.contentType = "image/png"
                     let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-                            guard let metadata = metadata else {
-                                return
-                            }
-                    
+                        guard let metadata = metadata else {
+                            return
+                        }
+                        
                         urlRef.downloadURL { (url, error) in
                             guard let downloadURL = url else {
                                 return
@@ -264,11 +259,11 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                                 "url":"\(downloadURL)",
                                 "answerContent": self.answer,
                                 "isAnswer": true
-                             ]) { err in
-                                 if let err = err {
-                                     print("Error adding document: \(err)")
-                                 }
-                             }
+                            ]) { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                }
+                            }
                         }
                     }
                     if let preVC = self.presentingViewController as? UIViewController {
@@ -280,11 +275,11 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     "url":"\(videoURL)",
                     "answerContent": self.answer,
                     "isAnswer": true
-                 ]) { err in
-                     if let err = err {
-                         print("Error adding document: \(err)")
-                     }
-                 }
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
                 if let preVC = self.presentingViewController as? UIViewController {
                     preVC.dismiss(animated: true, completion: nil)
                 }
@@ -293,11 +288,11 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         
         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
             "answerCheck": true
-         ]) { err in
-             if let err = err {
-                 print("Error adding document: \(err)")
-             }
-         }
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            }
+        }
         
         if let preVC = self.presentingViewController as? UIViewController {
             preVC.dismiss(animated: true, completion: nil)

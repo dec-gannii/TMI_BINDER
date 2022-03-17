@@ -77,7 +77,6 @@ class QuestionViewController: BaseVC {
                         print("\(document.documentID) => \(document.data())")
                         let type = document.data()["type"] as? String ?? ""
                         self.type = type
-                        let email = document.data()["email"] as? String ?? ""
                         let userProfile = document.data()["profile"] as? String ?? ""
                         let url = URL(string: userProfile)!
                         self.teacherImage.kf.setImage(with: url)
@@ -98,7 +97,6 @@ class QuestionViewController: BaseVC {
             self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
             
             let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-            //            let url = Auth.auth().currentUser?.photoURL
             self.teacherImage.kf.setImage(with: url)
             self.teacherImage.makeCircle()
             
@@ -160,10 +158,6 @@ class QuestionViewController: BaseVC {
                                 
                                 /// document.data()를 통해서 값 받아옴, data는 dictionary
                                 let classDt = document.data()
-                                
-                                
-                                // self.type = "teacher"
-                                // nil 값 처리
                                 let name = classDt["name"] as? String ?? ""
                                 self.userName = name
                                 let subject = classDt["subject"] as? String ?? ""
@@ -182,7 +176,6 @@ class QuestionViewController: BaseVC {
                             self.questionTV.reloadData()
                         }
                     }
-                    
                     return
                 }
                 
@@ -195,10 +188,6 @@ class QuestionViewController: BaseVC {
                     
                     /// document.data()를 통해서 값 받아옴, data는 dictionary
                     let classDt = document.data()
-                    
-                    
-                    //self.type = "student"
-                    
                     /// nil값 처리
                     let name = classDt["name"] as? String ?? ""
                     self.userName = name
@@ -217,12 +206,8 @@ class QuestionViewController: BaseVC {
                 /// UITableView를 reload 하기
                 self.questionTV.reloadData()
             }
-            
             return
-            
-            
-        } /// db.collection("teacher") 끝
-        
+        }
         
         // 학생일 경우
         docRef = db.collection("student").document(Auth.auth().currentUser!.uid)
@@ -248,15 +233,11 @@ class QuestionViewController: BaseVC {
                             /// 조회하기 위해 원래 있던 것 들 다 지움
                             self.questionItems.removeAll()
                             
-                            
                             for document in snapshot.documents {
                                 print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
                                 
                                 /// document.data()를 통해서 값 받아옴, data는 dictionary
                                 let classDt = document.data()
-                                
-                                
-                                // self.type = "teacher"
                                 // nil 값 처리
                                 let name = classDt["name"] as? String ?? ""
                                 self.userName = name
@@ -278,23 +259,17 @@ class QuestionViewController: BaseVC {
                             self.questionTV.reloadData()
                         }
                     }
-                    
                     return
                 }
                 
                 /// 조회하기 위해 원래 있던 것 들 다 지움
                 self.questionItems.removeAll()
                 
-                
                 for document in snapshot.documents {
                     print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
                     
                     /// document.data()를 통해서 값 받아옴, data는 dictionary
                     let classDt = document.data()
-                    
-                    
-                    //self.type = "student"
-                    
                     /// nil값 처리
                     let name = classDt["name"] as? String ?? ""
                     self.userName = name
@@ -313,16 +288,9 @@ class QuestionViewController: BaseVC {
                 /// UITableView를 reload 하기
                 self.questionTV.reloadData()
             }
-            
             return
-            
-            
         }
-        
-        
-        
     }
-    
 }
 
 
@@ -336,18 +304,17 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "question")! as! QuestionTableViewCell
         
         let item:QuestionItem = questionItems[indexPath.row]
+        
         if (self.type == "teacher") {
             cell.studentName.text = "\(item.userName) 학생"
         } else {
             cell.studentName.text = "\(item.userName) 선생님"
         }
+        
         cell.subjectName.text = item.subjectName
-        //print(item.subjectName)
         cell.classColor.allRoundSmall()
         if let hex = Int(item.classColor, radix: 16) {
             cell.classColor.backgroundColor = UIColor.init(rgb: hex)
@@ -369,13 +336,11 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
             docRef = db.collection("student")
         }
         
-        
         var index: Int!
         var name: String!
         var email: String!
         var subject: String!
         var type: String!
-        
         
         docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: indexPath.row)
             .getDocuments() { (querySnapshot, err) in

@@ -72,5 +72,4 @@ class SecessionViewController: UIViewController {
             self.present(loginVC, animated: true, completion: nil)
         }
     }
-    
 }

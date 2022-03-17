@@ -12,8 +12,6 @@ import FirebaseFirestore
 
 class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     let months = ["01월", "02월", "03월", "04월", "05월", "06월", "07월", "08월", "09월", "10월", "11월", "12월"]
-//    var evaluations: [String] = []
-    
     let nowDate = Date()
     
     @IBOutlet weak var classColorView: UIView!
@@ -41,24 +39,6 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         self.subject = subject
         getEvaluation()
     }
-    
-//    @IBAction func ShowMoreInfoBtnClicked(_ sender: Any) {
-//        let storyboard: UIStoryboard? = UIStoryboard(name: "Main", bundle: Bundle.main)
-//
-//        guard let detailEvaluationVC = storyboard?.instantiateViewController(withIdentifier: "ParentDetailEvaluationViewController") as? ParentDetailEvaluationViewController else {
-//            //아니면 종료
-//            return
-//        }
-//        detailEvaluationVC.modalTransitionStyle = .crossDissolve
-//        detailEvaluationVC.modalPresentationStyle = .fullScreen
-//
-//        detailEvaluationVC.teacherName = self.teacherName
-//        detailEvaluationVC.teacherEmail = self.teacherEmail
-//        detailEvaluationVC.subject = self.subject
-//
-//        self.present(detailEvaluationVC, animated: true)
-//        self.present(ParentDetailEvaluationViewController(), animated: true)
-//    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -136,9 +116,6 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
                             for document in querySnapshot!.documents {
                                 print("\(document.documentID) => \(document.data())")
                                 let studentUid = document.data()["uid"] as? String ?? ""
-                                
-                                print ("path : \(self.teacherName + "(" + self.teacherEmail + ") " + self.subject), self.selectedMonth : \(self.selectedMonth)")
-                                
                                 db.collection("student").document(studentUid).collection("class").document(self.teacherName + "(" + self.teacherEmail + ") " + self.subject).collection("Evaluation").whereField("month", isEqualTo: self.selectedMonth).getDocuments() { (querySnapshot, err) in
                                     if let err = err {
                                         print(">>>>> document 에러 : \(err)")
@@ -147,7 +124,6 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
                                         self.monthPickerView.text = "\(self.selectedMonth)"
                                         for document in querySnapshot!.documents {
                                             let evaluation = document.data()["evaluation"] as? String ??  "등록된 평가가 없습니다."
-                                            print ("NO ERROR IN HERE : evaluation : \(evaluation)")
                                             self.setTextView(evaluation)
                                             self.monthPickerView.text = "\(self.selectedMonth)"
                                         }

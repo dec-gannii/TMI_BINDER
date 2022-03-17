@@ -26,7 +26,6 @@ class SettingViewController: UIViewController, UITableViewDelegate {
     @IBAction func BackBtnClicked(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    
 }
 
 // tableview로 표현하기 위한 extension

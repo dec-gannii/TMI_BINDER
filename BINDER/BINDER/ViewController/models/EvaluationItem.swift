@@ -25,7 +25,6 @@ struct EvaluationItem: Decodable {
         self.totalCnt = totalCnt
         self.circleColor = circleColor
     }
-    
 }
 
 extension EvaluationItem: Equatable {
