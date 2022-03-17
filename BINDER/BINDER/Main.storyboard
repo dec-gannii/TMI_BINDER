@@ -5428,6 +5428,7 @@ Cg
                         <outlet property="answerContent" destination="BoL-MF-uzN" id="XTJ-4X-8bW"/>
                         <outlet property="answerImgView" destination="ug1-eJ-2IK" id="taE-Wb-Is2"/>
                         <outlet property="navigationBar" destination="aKC-f7-JCM" id="jFj-gR-EZa"/>
+                        <outlet property="questionBackgroundView" destination="UAS-gf-eqi" id="JCP-yk-d5G"/>
                         <outlet property="questionContent" destination="iF7-gJ-97c" id="cEN-EY-0QO"/>
                         <outlet property="questionImgView" destination="2dL-Xx-gfh" id="wbc-qh-Kct"/>
                         <outlet property="subjectName" destination="Bgf-sO-UCQ" id="Ym9-er-Yxv"/>
