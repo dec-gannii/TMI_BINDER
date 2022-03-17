@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 
 class AddScheduleViewController: UIViewController {
-    
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var scheduleTitle: UITextField!
     @IBOutlet weak var schedulePlace: UITextField!
@@ -76,6 +75,19 @@ class AddScheduleViewController: UIViewController {
         formatter_time.dateFormat = "YYYY-MM-dd HH:mm"
         let current_time_string = formatter_time.string(from: Date())
         self.savedTime = current_time_string
+//
+//        let dateWithoutDays = self.date.components(separatedBy: " ")
+//        formatter_time.dateFormat = "YYYY-MM-dd"
+//        var date = formatter_time.date(from: dateWithoutDays[0])!
+//        date = date.addingTimeInterval(+86400)
+//        print ("date : \(date)")
+        
+        let dateWithoutDays = self.date.components(separatedBy: " ")
+        formatter_time.dateFormat = "YYYY-MM-dd"
+        let date = formatter_time.date(from: dateWithoutDays[0])!
+        let datestr = formatter_time.string(from: date)
+        print ("date : \(date)")
+        
         
         // 수정 모드라면,
         if (isEditMode == true) {
@@ -91,7 +103,7 @@ class AddScheduleViewController: UIViewController {
             self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(scheduleTitle.text!).setData([
                 "title": scheduleTitle.text!,
                 "place": schedulePlace.text!,
-                "date" : dateLabel.text!,
+                "date" : datestr,
                 "time": scheduleTime.text!,
                 "memo": scheduleMemo.text!,
                 "savedTime": current_time_string ])
@@ -110,7 +122,7 @@ class AddScheduleViewController: UIViewController {
                     self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(scheduleTitle.text!).setData([
                         "title": scheduleTitle.text!,
                         "place": schedulePlace.text!,
-                        "date" : dateLabel.text!,
+                        "date" : datestr,
                         "time": scheduleTime.text!,
                         "memo": scheduleMemo.text!,
                         "savedTime": current_time_string ])
@@ -158,7 +170,7 @@ class AddScheduleViewController: UIViewController {
                         }
                     }
                 }
-                self.dismiss(animated: true, completion: nil)
+                dismiss(animated: true, completion: nil)
             }
         }
     }

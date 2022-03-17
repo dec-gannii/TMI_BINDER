@@ -58,10 +58,19 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let scheduleCell = scheduleListTableView.dequeueReusableCell(withIdentifier: "ScheduleCell", for: indexPath) as! ScheduleCellTableViewCell
         
+        let formatter = DateFormatter()
+        
+        let dateWithoutDays = self.date.components(separatedBy: " ")
+        formatter.dateFormat = "YYYY-MM-dd"
+        let date = formatter.date(from: dateWithoutDays[0])!
+        let datestr = formatter.string(from: date)
+        print ("date2 : \(date)")
+        
+        
         // 데이터베이스에서 일정 리스트 가져오기
         let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList")
         // Date field가 현재 날짜와 동일한 도큐먼트 모두 가져오기
-        docRef.whereField("date", isEqualTo: self.date).getDocuments() { (querySnapshot, err) in
+        docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -113,6 +122,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
     
     // 일정 삭제를 위한 메소드 - 2
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
         let selectedTitle = scheduleTitles[indexPath.row]
         if editingStyle == .delete {
             self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(selectedTitle).delete() { err in

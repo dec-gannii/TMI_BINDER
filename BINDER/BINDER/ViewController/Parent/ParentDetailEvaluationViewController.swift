@@ -68,10 +68,12 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
         calendarView.appearance.headerTitleColor =  UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
-        calendarView.appearance.eventDefaultColor = .systemPink
+        calendarView.appearance.eventDefaultColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
+        calendarView.appearance.eventSelectionColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
         calendarView.appearance.selectionColor = .none
         calendarView.appearance.titleSelectionColor = .black
-        calendarView.appearance.todayColor = .systemOrange
+        calendarView.appearance.todayColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 0.3)
+        calendarView.appearance.titleTodayColor = .black
         calendarView.appearance.todaySelectionColor = .systemOrange
         calendarView.appearance.borderSelectionColor = .systemOrange
     }

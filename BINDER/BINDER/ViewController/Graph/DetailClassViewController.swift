@@ -140,14 +140,16 @@ class DetailClassViewController: UIViewController {
     func calendarColor() {
         calendarView.scope = .week
         calendarView.appearance.weekdayTextColor = .systemGray
-        calendarView.appearance.titleWeekendColor = .systemGray
-        calendarView.appearance.headerTitleColor = .black
-        calendarView.appearance.eventDefaultColor = .systemPink
-        calendarView.appearance.selectionColor = .systemGray3
+        calendarView.appearance.titleWeekendColor = .black
+        calendarView.appearance.headerTitleColor =  UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
+        calendarView.appearance.eventDefaultColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
+        calendarView.appearance.eventSelectionColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
+        calendarView.appearance.selectionColor = .none
         calendarView.appearance.titleSelectionColor = .black
-        calendarView.appearance.todayColor = .systemOrange
+        calendarView.appearance.todayColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 0.3)
         calendarView.appearance.titleTodayColor = .black
         calendarView.appearance.todaySelectionColor = .systemOrange
+        calendarView.appearance.borderSelectionColor = .systemOrange
     }
     
     // 캘린더 텍스트 스타일 설정을 위한 메소드

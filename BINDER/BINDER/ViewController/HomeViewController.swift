@@ -25,6 +25,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var secondLinkBtn: UIButton!
     @IBOutlet weak var thirdLinkBtn: UIButton!
     
+    var events: [Date] = []
+    var days: [Date] = []
     /// 수업 변수 배열
     var classItems: [String] = []
     
@@ -48,14 +50,17 @@ class HomeViewController: UIViewController {
     
     private lazy var today: Date = { return Date() }()
     
-    private lazy var dateFormatter: DateFormatter = { let df = DateFormatter()
+    private lazy var dateFormatter: DateFormatter = {
+        let df = DateFormatter()
         df.locale = Locale(identifier: "ko_KR")
         df.dateFormat = "yyyy년 MM월"
         return df
     }()
     
-    override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated)
-        setCalendar()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getTeacherInfo()
+        getStudentInfo()
     }
     
     func setCalendar() {
@@ -82,10 +87,12 @@ class HomeViewController: UIViewController {
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
         calendarView.appearance.headerTitleColor =  UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
-        calendarView.appearance.eventDefaultColor = .systemPink
+        calendarView.appearance.eventDefaultColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
+        calendarView.appearance.eventSelectionColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
         calendarView.appearance.selectionColor = .none
         calendarView.appearance.titleSelectionColor = .black
-        calendarView.appearance.todayColor = .systemOrange
+        calendarView.appearance.todayColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 0.3)
+        calendarView.appearance.titleTodayColor = .black
         calendarView.appearance.todaySelectionColor = .systemOrange
         calendarView.appearance.borderSelectionColor = .systemOrange
     }
@@ -109,6 +116,10 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         ref = Database.database().reference()
+        
+        setUpDays()
+        setUpEvents()
+        
         calendarView.delegate = self
         verifiedCheck() // 인증된 이메일인지 체크하는 메소드
         
@@ -117,7 +128,6 @@ class HomeViewController: UIViewController {
         
         self.calendarText()
         self.calendarColor()
-        self.calendarEvent()
         
         // 인증되지 않은 계정이라면
         if (!verified) {
@@ -137,6 +147,69 @@ class HomeViewController: UIViewController {
                 }
             }
         }
+        self.calendarEvent()
+    }
+    
+    func setUpDays() {
+        let nowDate = Date() // 오늘 날짜
+        let formatter = DateFormatter()
+
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.timeZone = TimeZone(abbreviation: "KST")
+
+        formatter.dateFormat = "M"
+        let currentDate = formatter.string(from: nowDate)
+
+        formatter.dateFormat = "yyyy"
+        let currentYear = formatter.string(from: nowDate)
+
+        formatter.dateFormat = "MM"
+        let currentMonth = formatter.string(from: nowDate)
+        
+        var days: Int = 0
+
+        switch currentDate {
+        case "1", "3", "5", "7", "8", "10", "12":
+            days = 31
+            break
+        case "2":
+            if (Int(currentYear)! % 400 == 0 || (Int(currentYear)! % 100 != 0 && Int(currentYear)! % 4 == 0)) {
+                days = 29
+                break
+            } else {
+                days = 28
+                break
+            }
+        default:
+            days = 30
+            break
+        }
+
+        for index in 1...days {
+            var day = ""
+
+            if (index < 10) {
+                day = "0\(index)"
+            } else {
+                day = "\(index)"
+            }
+
+            let dayOfMonth = "\(currentYear)-\(currentMonth)-\(day)"
+
+            formatter.dateFormat = "yyyy-MM-dd"
+            var searchDate = formatter.date(from: dayOfMonth)
+            searchDate = searchDate!.addingTimeInterval(+86400)
+            self.days.append(searchDate!)
+        }
+    }
+    
+    func setUpEvents() {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "yyyy-MM-dd"
+        let xmas = formatter.date(from: "2022-03-19")
+        let sampledate = formatter.date(from: "2022-03-18")
+        events = [xmas!, sampledate!]
     }
     
     // 내 수업 가져오기 : 선생님
@@ -487,6 +560,48 @@ class HomeViewController: UIViewController {
                 }
                 self.id = data?["email"] as? String ?? ""
                 self.pw = data?["password"] as? String ?? ""
+//
+//                let formatter = DateFormatter()
+//
+//                formatter.locale = Locale(identifier: "ko_KR")
+//                formatter.timeZone = TimeZone(abbreviation: "KST")
+//
+//                self.events.removeAll()
+//
+//                for index in 1...self.days.count-1 {
+//
+//                        let tempDay = "\(self.days[index])"
+//                        let dateWithoutDays = tempDay.components(separatedBy: " ")
+//                        formatter.dateFormat = "YYYY-MM-dd"
+//                        let date = formatter.date(from: dateWithoutDays[0])!
+//                        let datestr = formatter.string(from: date)
+//                        print ("date : \(date)")
+//
+//                        let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
+//
+//                        docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
+//                            if let err = err {
+//                                print("Error getting documents: \(err)")
+//                            } else {
+//                                for document in querySnapshot!.documents {
+//                                    print("\(document.documentID) => \(document.data())")
+//                                    // 사용할 것들 가져와서 지역 변수로 저장
+//                                    var date = document.data()["date"] as? String ?? ""
+//                                    print ("date : \(date)")
+//
+//                                    formatter.dateFormat = "YYYY-MM-dd"
+//                                    var date_d = formatter.date(from: date)!
+//                                    date_d = date_d.addingTimeInterval(+86400)
+//                                    print ("date _d : \(date_d)")
+//
+//                                    self.events.append(date_d)
+//                                    print ("=== events[date] : \(self.events) ===")
+//                                    self.setCalendar()
+//                                }
+//                            }
+//                        }
+//                }
+                
                 self.HomeStudentScrollView.isHidden = false
             } else {
                 print("Document does not exist")
@@ -513,6 +628,51 @@ class HomeViewController: UIViewController {
                 } else {
                     self.type = data?["type"] as? String ?? ""
                 }
+                
+//                let formatter = DateFormatter()
+//
+//                formatter.locale = Locale(identifier: "ko_KR")
+//                formatter.timeZone = TimeZone(abbreviation: "KST")
+//
+//                self.events.removeAll()
+//
+//                for index in 1...self.days.count-1 {
+//
+//                    let tempDay = "\(self.days[index])"
+//                    let dateWithoutDays = tempDay.components(separatedBy: " ")
+//                    formatter.dateFormat = "YYYY-MM-dd"
+//                    let date = formatter.date(from: dateWithoutDays[0])!
+//                    let datestr = formatter.string(from: date)
+//                    print ("date : \(date)")
+//
+//                    let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
+//
+//                    docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
+//                        if let err = err {
+//                            print("Error getting documents: \(err)")
+//                        } else {
+//                            print ("st - index : \(index)")
+//                            print("st - NO ERROR BUT NOT EXISTS")
+//                            print ("st - self.days[index] : \(self.days[index])")
+////                            self.events.append(self.days[index])
+//                            for document in querySnapshot!.documents {
+//                                print("\(document.documentID) => \(document.data())")
+//                                // 사용할 것들 가져와서 지역 변수로 저장
+//                                print("st - EXISTS!!")
+//                                print ("st - index2 : \(index)")
+//                                var date = document.data()["date"] as? String ?? ""
+//
+//                                formatter.dateFormat = "YYYY-MM-dd"
+//                                let date_d = formatter.date(from: date)!
+//                                print ("date : \(date_d)")
+//
+//                                self.events.append(date_d)
+//                                self.setCalendar()
+//                            }
+//                        }
+//                    }
+//                }
+                
                 self.HomeStudentScrollView.isHidden = false
             } else {
                 print("Document does not exist")
@@ -539,6 +699,7 @@ class HomeViewController: UIViewController {
             }
         }
     }
+    
     // 인증 확인 버튼 클릭시 실행되는 메소드
     @IBAction func CheckVerification(_ sender: Any) {
         verifiedCheck() // 이메일 인증 여부 확인 메소드 실행
@@ -576,7 +737,7 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = Locale(identifier: "ko_KR")
         
         // 일정 리스트 뷰 보여주기
@@ -602,6 +763,15 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         self.present(scheduleListVC, animated: true, completion: nil)
     }
     
+    //이벤트 표시 개수
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        if self.events.contains(date) {
+            return 1
+        } else {
+            return 0
+        }
+    }
 }
+
 extension HomeViewController: FSCalendarDataSource {
 }
