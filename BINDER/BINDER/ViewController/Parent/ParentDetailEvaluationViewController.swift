@@ -60,7 +60,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
-        monthlyEvaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10);
+        monthlyEvaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM" // 날짜가 표시될 타임 설정
