@@ -59,7 +59,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("viewDidAppear - calendarEvent")
         self.calendarView.reloadData()
     }
     
@@ -71,8 +70,16 @@ class HomeViewController: UIViewController {
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        self.days.removeAll()
+        self.events.removeAll()
+        
         self.monthLabel.text = self.dateFormatter.string(from: calendar.currentPage)
-        self.calendarView.reloadData()
+        let date = self.dateFormatter.date(from: self.monthLabel.text!)
+        
+        self.setUpDays(date!)
+        
+        getTeacherEvents()
+        getStudentEvents()
     }
     
     private func scrollCurrentPage(isPrev: Bool) {
@@ -113,7 +120,7 @@ class HomeViewController: UIViewController {
         
         ref = Database.database().reference()
         
-        setUpDays()
+        setUpDays(self.today)
         
         calendarView.delegate = self
         verifiedCheck() // 인증된 이메일인지 체크하는 메소드
@@ -146,8 +153,8 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func setUpDays() {
-        let nowDate = Date() // 오늘 날짜
+    func setUpDays(_ date: Date) {
+        let nowDate = date // 오늘 날짜
         let formatter = DateFormatter()
 
         formatter.locale = Locale(identifier: "ko_KR")
@@ -194,7 +201,6 @@ class HomeViewController: UIViewController {
 
             formatter.dateFormat = "yyyy-MM-dd"
             var searchDate = formatter.date(from: dayOfMonth)
-//            searchDate = searchDate!.addingTimeInterval(+86400)
             self.days.append(searchDate!)
         }
     }
@@ -530,6 +536,57 @@ class HomeViewController: UIViewController {
         
     }
     
+    func getTeacherEvents(){
+        // 데이터베이스 경로
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        
+        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let type = data?["type"] as? String ?? ""
+                
+                let formatter = DateFormatter()
+                
+                formatter.locale = Locale(identifier: "ko_KR")
+                formatter.timeZone = TimeZone(abbreviation: "KST")
+                
+                self.events.removeAll()
+                
+                for index in 1...self.days.count-1 {
+                    print("self.days[\(index)] : \(self.days[index])")
+                    let tempDay = "\(self.days[index])"
+                    let dateWithoutDays = tempDay.components(separatedBy: " ")
+                    formatter.dateFormat = "YYYY-MM-dd"
+                    let date = formatter.date(from: dateWithoutDays[0])!
+                    let datestr = formatter.string(from: date)
+                    
+                    let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
+                    
+                    docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                // 사용할 것들 가져와서 지역 변수로 저장
+                                var date = document.data()["date"] as? String ?? ""
+                                
+                                formatter.dateFormat = "YYYY-MM-dd"
+                                var date_d = formatter.date(from: date)!
+                                print("date_d : \(date_d)")
+                                self.events.append(date_d)
+                                self.calendarView.reloadData()
+                            }
+                        }
+                    }
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
     func getTeacherInfo(){
         // 데이터베이스 경로
         let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
@@ -590,6 +647,57 @@ class HomeViewController: UIViewController {
         }
         
         setTeacherMyClasses()
+    }
+    
+    func getStudentEvents(){
+        // 데이터베이스 경로
+        let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
+        
+        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let type = data?["type"] as? String ?? ""
+                
+                let formatter = DateFormatter()
+                
+                formatter.locale = Locale(identifier: "ko_KR")
+                formatter.timeZone = TimeZone(abbreviation: "KST")
+                
+                self.events.removeAll()
+                
+                for index in 1...self.days.count-1 {
+                    print("self.days[\(index)] : \(self.days[index])")
+                    let tempDay = "\(self.days[index])"
+                    let dateWithoutDays = tempDay.components(separatedBy: " ")
+                    formatter.dateFormat = "YYYY-MM-dd"
+                    let date = formatter.date(from: dateWithoutDays[0])!
+                    let datestr = formatter.string(from: date)
+                    
+                    let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
+                    
+                    docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                // 사용할 것들 가져와서 지역 변수로 저장
+                                var date = document.data()["date"] as? String ?? ""
+                                
+                                formatter.dateFormat = "YYYY-MM-dd"
+                                var date_d = formatter.date(from: date)!
+                                print("date_d : \(date_d)")
+                                self.events.append(date_d)
+                                self.calendarView.reloadData()
+                            }
+                        }
+                    }
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     func getStudentInfo(){
