@@ -67,15 +67,15 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     func calendarColor() {
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
-        calendarView.appearance.eventDefaultColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
-        calendarView.appearance.eventSelectionColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 1.0)
+        calendarView.appearance.headerTitleColor =  UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
+        calendarView.appearance.eventDefaultColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
+        calendarView.appearance.eventSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
         calendarView.appearance.selectionColor = .none
-        calendarView.appearance.titleSelectionColor = .black
-        calendarView.appearance.todayColor = UIColor.init(red: 1.0, green: 0.5, blue: 0.0, alpha: 0.3)
+        calendarView.appearance.titleSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
+        calendarView.appearance.todayColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 0.3)
         calendarView.appearance.titleTodayColor = .black
-        calendarView.appearance.todaySelectionColor = .systemOrange
-        calendarView.appearance.borderSelectionColor = .systemOrange
+        calendarView.appearance.todaySelectionColor = .white
+        calendarView.appearance.borderSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
     }
     
     // 캘린더 텍스트 스타일 설정을 위한 메소드
