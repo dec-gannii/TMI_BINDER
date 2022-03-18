@@ -12,7 +12,6 @@ import Firebase
 class ScheduleListViewController: UIViewController {
     
     @IBOutlet weak var scheduleListTableView: UITableView!
-    
     var date: String = ""
     var scheduleTitles: [String] = []
     var scheduleMemos: [String] = []
@@ -64,7 +63,6 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         formatter.dateFormat = "YYYY-MM-dd"
         let date = formatter.date(from: dateWithoutDays[0])!
         let datestr = formatter.string(from: date)
-        print ("date2 : \(date)")
         
         
         // 데이터베이스에서 일정 리스트 가져오기
@@ -79,8 +77,6 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
                     // 사용할 것들 가져와서 지역 변수로 저장
                     let scheduleTitle = document.data()["title"] as? String ?? ""
                     let scheduleMemo = document.data()["memo"] as? String ?? ""
-                    
-                    print ("scheduleTitle : \(scheduleTitle), scheduleMemo : \(scheduleMemo)")
                     
                     if (!self.scheduleTitles.contains(scheduleTitle)) {
                         // 여러 개의 일정이 있을 수 있으므로 가져와서 배열에 저장

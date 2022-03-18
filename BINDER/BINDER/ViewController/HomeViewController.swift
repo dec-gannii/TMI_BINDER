@@ -13,6 +13,7 @@ import FSCalendar
 
 // 홈 뷰 컨트롤러
 class HomeViewController: UIViewController {
+    
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var emailVerificationCheckBtn: UIButton!
@@ -36,7 +37,6 @@ class HomeViewController: UIViewController {
     var number : Int = 1
     var verified : Bool = false
     var type : String = ""
-    
     var date : String!
     
     var ref: DatabaseReference!
@@ -60,6 +60,12 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.calendarView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.getTeacherEvents()
+        self.getStudentEvents()
     }
     
     func setCalendar() {
