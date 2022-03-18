@@ -45,7 +45,7 @@ class HomeViewController: UIViewController {
     @IBAction func prevBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: true) }
     
     @IBAction func nextBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: false) }
-
+    
     private var currentPage: Date?
     
     private lazy var today: Date = { return Date() }()
@@ -89,7 +89,7 @@ class HomeViewController: UIViewController {
         self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
     }
-
+    
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
         calendarView.appearance.weekdayTextColor = .systemGray
@@ -156,21 +156,21 @@ class HomeViewController: UIViewController {
     func setUpDays(_ date: Date) {
         let nowDate = date // 오늘 날짜
         let formatter = DateFormatter()
-
+        
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.timeZone = TimeZone(abbreviation: "KST")
-
+        
         formatter.dateFormat = "M"
         let currentDate = formatter.string(from: nowDate)
-
+        
         formatter.dateFormat = "yyyy"
         let currentYear = formatter.string(from: nowDate)
-
+        
         formatter.dateFormat = "MM"
         let currentMonth = formatter.string(from: nowDate)
         
         var days: Int = 0
-
+        
         switch currentDate {
         case "1", "3", "5", "7", "8", "10", "12":
             days = 31
@@ -187,20 +187,20 @@ class HomeViewController: UIViewController {
             days = 30
             break
         }
-
+        
         for index in 1...days {
             var day = ""
-
+            
             if (index < 10) {
                 day = "0\(index)"
             } else {
                 day = "\(index)"
             }
-
+            
             let dayOfMonth = "\(currentYear)-\(currentMonth)-\(day)"
-
+            
             formatter.dateFormat = "yyyy-MM-dd"
-            var searchDate = formatter.date(from: dayOfMonth)
+            let searchDate = formatter.date(from: dayOfMonth)
             self.days.append(searchDate!)
         }
     }
@@ -354,7 +354,7 @@ class HomeViewController: UIViewController {
         if (self.type == "teacher") {
             
             type = "teacher"
-            var docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
+            let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
             
             guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
             
@@ -444,7 +444,7 @@ class HomeViewController: UIViewController {
         } else {
             
             type = "student"
-            var docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
+            let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
             
             guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
             
@@ -570,10 +570,10 @@ class HomeViewController: UIViewController {
                             for document in querySnapshot!.documents {
                                 print("\(document.documentID) => \(document.data())")
                                 // 사용할 것들 가져와서 지역 변수로 저장
-                                var date = document.data()["date"] as? String ?? ""
+                                let date = document.data()["date"] as? String ?? ""
                                 
                                 formatter.dateFormat = "YYYY-MM-dd"
-                                var date_d = formatter.date(from: date)!
+                                let date_d = formatter.date(from: date)!
                                 print("date_d : \(date_d)")
                                 self.events.append(date_d)
                                 self.calendarView.reloadData()
@@ -604,40 +604,40 @@ class HomeViewController: UIViewController {
                 }
                 self.id = data?["email"] as? String ?? ""
                 self.pw = data?["password"] as? String ?? ""
-
+                
                 let formatter = DateFormatter()
-
+                
                 formatter.locale = Locale(identifier: "ko_KR")
                 formatter.timeZone = TimeZone(abbreviation: "KST")
-
+                
                 self.events.removeAll()
-
+                
                 for index in 1...self.days.count-1 {
-
-                        let tempDay = "\(self.days[index])"
-                        let dateWithoutDays = tempDay.components(separatedBy: " ")
-                        formatter.dateFormat = "YYYY-MM-dd"
-                        let date = formatter.date(from: dateWithoutDays[0])!
-                        let datestr = formatter.string(from: date)
-
-                        let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
-
-                        docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
-                            if let err = err {
-                                print("Error getting documents: \(err)")
-                            } else {
-                                for document in querySnapshot!.documents {
-                                    print("\(document.documentID) => \(document.data())")
-                                    // 사용할 것들 가져와서 지역 변수로 저장
-                                    var date = document.data()["date"] as? String ?? ""
-
-                                    formatter.dateFormat = "YYYY-MM-dd"
-                                    var date_d = formatter.date(from: date)!
-
-                                    self.events.append(date_d)
-                                }
+                    
+                    let tempDay = "\(self.days[index])"
+                    let dateWithoutDays = tempDay.components(separatedBy: " ")
+                    formatter.dateFormat = "YYYY-MM-dd"
+                    let date = formatter.date(from: dateWithoutDays[0])!
+                    let datestr = formatter.string(from: date)
+                    
+                    let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
+                    
+                    docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                // 사용할 것들 가져와서 지역 변수로 저장
+                                let date = document.data()["date"] as? String ?? ""
+                                
+                                formatter.dateFormat = "YYYY-MM-dd"
+                                let date_d = formatter.date(from: date)!
+                                
+                                self.events.append(date_d)
                             }
                         }
+                    }
                 }
                 
                 self.HomeStudentScrollView.isHidden = false
@@ -683,10 +683,10 @@ class HomeViewController: UIViewController {
                             for document in querySnapshot!.documents {
                                 print("\(document.documentID) => \(document.data())")
                                 // 사용할 것들 가져와서 지역 변수로 저장
-                                var date = document.data()["date"] as? String ?? ""
+                                let date = document.data()["date"] as? String ?? ""
                                 
                                 formatter.dateFormat = "YYYY-MM-dd"
-                                var date_d = formatter.date(from: date)!
+                                let date_d = formatter.date(from: date)!
                                 print("date_d : \(date_d)")
                                 self.events.append(date_d)
                                 self.calendarView.reloadData()
@@ -719,22 +719,22 @@ class HomeViewController: UIViewController {
                 }
                 
                 let formatter = DateFormatter()
-
+                
                 formatter.locale = Locale(identifier: "ko_KR")
                 formatter.timeZone = TimeZone(abbreviation: "KST")
-
+                
                 self.events.removeAll()
-
+                
                 for index in 1...self.days.count-1 {
-
+                    
                     let tempDay = "\(self.days[index])"
                     let dateWithoutDays = tempDay.components(separatedBy: " ")
                     formatter.dateFormat = "YYYY-MM-dd"
                     let date = formatter.date(from: dateWithoutDays[0])!
                     let datestr = formatter.string(from: date)
-
+                    
                     let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
-
+                    
                     docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
                         if let err = err {
                             print("Error getting documents: \(err)")
@@ -742,11 +742,11 @@ class HomeViewController: UIViewController {
                             for document in querySnapshot!.documents {
                                 print("\(document.documentID) => \(document.data())")
                                 // 사용할 것들 가져와서 지역 변수로 저장
-                                var date = document.data()["date"] as? String ?? ""
-
+                                let date = document.data()["date"] as? String ?? ""
+                                
                                 formatter.dateFormat = "YYYY-MM-dd"
-                                var date_d = formatter.date(from: date)!
-
+                                let date_d = formatter.date(from: date)!
+                                
                                 self.events.append(date_d)
                             }
                         }
