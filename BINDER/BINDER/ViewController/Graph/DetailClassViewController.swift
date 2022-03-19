@@ -49,6 +49,8 @@ class DetailClassViewController: UIViewController {
     var keyHeight: CGFloat?
     var checkTime: Bool = false
     
+    @IBOutlet weak var calendarHeight: NSLayoutConstraint!
+    
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var evaluationView: UIView!
     @IBOutlet weak var progressTextView: UITextView!
@@ -150,17 +152,19 @@ class DetailClassViewController: UIViewController {
         calendarView.appearance.titleTodayColor = .black
         calendarView.appearance.todaySelectionColor = .white
         calendarView.appearance.borderSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
+        calendarView.scope = .week
     }
     
     // 캘린더 텍스트 스타일 설정을 위한 메소드
     func calendarText() {
-        calendarView.headerHeight = 40
-        calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 15)
+        calendarView.headerHeight = 16
+        calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 12)
         calendarView.appearance.headerMinimumDissolvedAlpha = 0.0
         calendarView.appearance.headerDateFormat = "YYYY년 M월"
         calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 13)
-        calendarView.appearance.weekdayFont = UIFont.systemFont(ofSize: 13)
+        calendarView.appearance.weekdayFont = UIFont.systemFont(ofSize: 12)
         calendarView.locale = Locale(identifier: "ko_KR")
+        calendarView.weekdayHeight = 14
     }
     
     func calendarEvent() {
@@ -759,7 +763,11 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             evaluationMemoTextView.textColor = UIColor.lightGray
         }
         if (progressTextView.text == "오늘 진도 사항을 입력해주세요.") {
-            progressTextView.text = "오늘 진도 사항을 입력해주세요."
+            if (self.userType == "student") {
+                progressTextView.text = "오늘 배운 내용을 입력해주세요."
+            } else {
+                progressTextView.text = "오늘 진도 사항을 입력해주세요."
+            }
             progressTextView.textColor = UIColor.lightGray
         }
         
@@ -791,7 +799,11 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             }
         } else if (textView == self.progressTextView || progressTextView.text == nil){
             if progressTextView.text.isEmpty {
-                progressTextView.text = "오늘 진도 사항을 입력해주세요."
+                if (self.userType == "teacher") {
+                    progressTextView.text = "오늘 진도 사항을 입력해주세요."
+                } else {
+                    progressTextView.text = "오늘 배운 내용을 입력해주세요."
+                }
                 progressTextView.textColor = UIColor.lightGray
             }
         }
@@ -1015,6 +1027,11 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                 evaluationOKBtn.isHidden = true
             }
         }
+    }
+    
+    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool){
+        calendarHeight.constant = bounds.height + 20
+        self.view.layoutIfNeeded ()
     }
 }
 
