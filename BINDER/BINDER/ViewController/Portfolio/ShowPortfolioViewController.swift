@@ -17,6 +17,7 @@ class ShowPortfolioViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
     // 포트폴리오 조회 버튼 클릭 시 실행되는 메소드
     @IBAction func ShowProtfolioBtn(_ sender: Any) {
         // 입력된 이메일과 동일한 값을 가지는 이메일 필드가 있다면 수행
@@ -52,6 +53,4 @@ class ShowPortfolioViewController: UIViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
-    
-    
 }

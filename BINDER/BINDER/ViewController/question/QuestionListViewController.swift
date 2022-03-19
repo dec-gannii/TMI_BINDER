@@ -17,10 +17,13 @@ class QuestionListViewController : BaseVC {
     // 네비게이션바
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var toggleLabel: UILabel!
-    
     // 뒤로가기 버튼
     @IBOutlet var backbutton: UIView!
     @IBOutlet weak var plusbutton: UIBarButtonItem!
+    // 토글
+    @IBOutlet weak var answeredToggle: UISwitch!
+    // 테이블 뷰 연결
+    @IBOutlet weak var questionListTV: UITableView!
     
     @IBAction func clickBackbutton(_ sender: Any) {
         if let preVC = self.presentingViewController {
@@ -28,16 +31,10 @@ class QuestionListViewController : BaseVC {
         }
     }
     
-    // 토글
-    @IBOutlet weak var answeredToggle: UISwitch!
-    
     @IBAction func answeredToggleAction(_ sender: Any) {
         setQuestionList()
         questionListTV.reloadData()
     }
-    // 테이블 뷰 연결
-    @IBOutlet weak var questionListTV: UITableView!
-    
     
     // 값을 받아오기 위한 변수들
     var userName : String!
@@ -100,9 +97,7 @@ class QuestionListViewController : BaseVC {
                                                 self.userName = name
                                                 self.email = document.data()["email"] as? String ?? ""
                                                 self.subject = document.data()["subject"] as? String ?? ""
-                                                
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
-                                                
                                                 self.setTeacherQuestion()
                                                 self.plusbutton.isEnabled = false
                                             }
@@ -143,11 +138,8 @@ class QuestionListViewController : BaseVC {
                                                 let name = document.data()["name"] as? String ?? ""
                                                 let email = document.data()["email"] as? String ?? ""
                                                 let subject = document.data()["subject"] as? String ?? ""
-                                                
                                                 self.navigationBar.topItem!.title = name + " 선생님"
-                                                
                                                 self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("questionList").getDocuments() {(document, error) in
-                                                    //                                                    self.questionListTV.reloadData()
                                                     self.setStudentQuestion()
                                                 }
                                             }
@@ -160,7 +152,6 @@ class QuestionListViewController : BaseVC {
             }
     }
     
-    // 나중에 갈라질 건데, 선생님일 경우에는 질문 답변하기 버튼 위에 나타내고, 학생일 경우에는 플러스 버튼으로 질문하기 나타내도록
     func setTeacherQuestion() {
         LoginRepository.shared.doLogin {
             /// 클래스 가져오기
@@ -185,8 +176,6 @@ class QuestionListViewController : BaseVC {
     // 질문 리스트 가져오기
     func setQuestionList() {
         let db = Firestore.firestore()
-        // Auth.auth().currentUser!.uid
-        //db.collection("student").getDocuments(){ (querySnapshot, err) in
         if (self.type == "teacher") {
             db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").getDocuments() { (querySnapshot, err) in
                 if let err = err {
@@ -221,6 +210,7 @@ class QuestionListViewController : BaseVC {
                         if Int(qnumber)! > self.maxnum {
                             self.maxnum = Int(qnumber)!
                         }
+                        
                         print("가장 큰 값 : \(self.maxnum)")
                         
                         let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: qnumber )
@@ -490,7 +480,6 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //        let item:QuestionListItem = self.questionListItems[indexPath.row]
         if (self.answeredToggle.isOn) {
             if (self.type == "student") {
                 let item = self.questionAnsweredItems[indexPath.row]

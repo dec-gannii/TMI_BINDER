@@ -37,7 +37,6 @@ class QnADetailViewController: UIViewController {
         self.answerContent.isEditable = false
     }
     
-    
     @IBAction func undoBtn(_ sender: Any) {
         if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
@@ -76,7 +75,6 @@ class QnADetailViewController: UIViewController {
                                                 self.subject = document.data()["subject"] as? String ?? ""
                                                 self.subjectName.text = self.subject
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
-                                                
                                                 self.setQnA()
                                             }
                                         }
@@ -119,7 +117,6 @@ class QnADetailViewController: UIViewController {
                                                 self.navigationBar.topItem!.title = name + " 선생님"
                                                 
                                                 self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("questionList").getDocuments() {(document, error) in
-                                                    //                                                    self.questionListTV.reloadData()
                                                     self.setQnA()
                                                 }
                                             }
@@ -213,7 +210,6 @@ class QnADetailViewController: UIViewController {
                     }
                 }
             }
-            
         } else {
             if let email = self.email, let index = self.index {
                 print ("self.index : \(index), self.email : \(email)")

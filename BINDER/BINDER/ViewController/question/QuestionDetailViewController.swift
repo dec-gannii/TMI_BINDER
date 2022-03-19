@@ -34,7 +34,6 @@ class QuestionDetailViewController: UIViewController {
         getUserInfo()
     }
     
-    
     @IBAction func undoBtn(_ sender: Any) {
         if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
@@ -133,7 +132,6 @@ class QuestionDetailViewController: UIViewController {
                                                 self.navigationBar.topItem!.title = name + " 선생님"
                                                 
                                                 self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("questionList").getDocuments() {(document, error) in
-                                                    //                                                    self.questionListTV.reloadData()
                                                     self.setQuestion()
                                                     self.answerBtn.isEnabled = false
                                                     self.answerBtn.backgroundColor = .white
@@ -151,127 +149,121 @@ class QuestionDetailViewController: UIViewController {
     
     // 질문 리스트 가져오기
     func setQuestion() {
-    let db = Firestore.firestore()
-    // Auth.auth().currentUser!.uid
-    //db.collection("student").getDocuments(){ (querySnapshot, err) in
-    if (self.type == "teacher") {
-        if let qnum = self.qnum {
-        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(qnum)).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print(">>>>> document 에러 : \(err)")
-                
-            } else {
-                /// nil이 아닌지 확인한다.
-                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                    return
-                }
-                
-                for document in snapshot.documents {
-                    print(">>>>> 자세한 document 정보 : \(document.documentID) => \(document.data())")
-                    
-                    /// document.data()를 통해서 값 받아옴, data는 dictionary
-                    let questionDt = document.data()
-                    
-                    /// nil값 처리
-                    let title = questionDt["title"] as? String ?? ""
-                    let questionContent = questionDt["questionContent"] as? String ?? ""
-                    let imgURL = questionDt["imgURL"] as? String ?? ""
-                    
-                    self.titleName.text = title
-                    self.questionContent.text = questionContent
-                    if imgURL != "" {
-                        let url = URL(string: imgURL)
-                        DispatchQueue.global().async {
-                            let data = try? Data(contentsOf: url!)
-                            DispatchQueue.main.async {
-                                self.imgView.image = UIImage(data: data!)
-                            }
+        let db = Firestore.firestore()
+        if (self.type == "teacher") {
+            if let qnum = self.qnum {
+                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(qnum)).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                        
+                    } else {
+                        /// nil이 아닌지 확인한다.
+                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                            return
                         }
                         
+                        for document in snapshot.documents {
+                            print(">>>>> 자세한 document 정보 : \(document.documentID) => \(document.data())")
+                            
+                            /// document.data()를 통해서 값 받아옴, data는 dictionary
+                            let questionDt = document.data()
+                            /// nil값 처리
+                            let title = questionDt["title"] as? String ?? ""
+                            let questionContent = questionDt["questionContent"] as? String ?? ""
+                            let imgURL = questionDt["imgURL"] as? String ?? ""
+                            
+                            self.titleName.text = title
+                            self.questionContent.text = questionContent
+                            if imgURL != "" {
+                                let url = URL(string: imgURL)
+                                DispatchQueue.global().async {
+                                    let data = try? Data(contentsOf: url!)
+                                    DispatchQueue.main.async {
+                                        self.imgView.image = UIImage(data: data!)
+                                    }
+                                }
+                            }
                         }
-                }
+                    }
                 }
             }
-        }
-    } else {
-        if let email = self.email, let index = self.index {
-            print ("self.index : \(index), self.email : \(email)")
-            var studentName = ""
-            var studentEmail = ""
-            var teacherUid = ""
-            
-            db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print(">>>>> document 에러 : \(err)")
-                    
-                } else {
-                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                        return
-                    }
-                    for document in querySnapshot!.documents {
-                        studentName = document.data()["name"] as? String ?? ""
-                        studentEmail = document.data()["email"] as? String ?? ""
-                        db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index).getDocuments() { (querySnapshot, err) in
-                            if let err = err {
-                                print(">>>>> document 에러 : \(err)")
-                                
-                            } else {
-                                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                    return
-                                }
-                                var teacherEmail = ""
-                                for document in querySnapshot!.documents {
-                                    teacherEmail = document.data()["email"] as? String ?? ""
-                                }
-                                
-                                db.collection("teacher").whereField("email", isEqualTo: teacherEmail).getDocuments() { (querySnapshot, err) in
-                                    if let err = err {
-                                        print(">>>>> document 에러 : \(err)")
-                                        
-                                    } else {
-                                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                            return
-                                        }
-                                        
-                                        for document in querySnapshot!.documents {
-                                            teacherUid = document.data()["uid"] as? String ?? ""
-                                            self.teacherUid = teacherUid
-                                            print ("TeacherUID : \(teacherUid)")
+        } else {
+            if let email = self.email, let index = self.index {
+                print ("self.index : \(index), self.email : \(email)")
+                var studentName = ""
+                var studentEmail = ""
+                var teacherUid = ""
+                
+                db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                        
+                    } else {
+                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                            return
+                        }
+                        for document in querySnapshot!.documents {
+                            studentName = document.data()["name"] as? String ?? ""
+                            studentEmail = document.data()["email"] as? String ?? ""
+                            db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print(">>>>> document 에러 : \(err)")
+                                    
+                                } else {
+                                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                        return
+                                    }
+                                    var teacherEmail = ""
+                                    for document in querySnapshot!.documents {
+                                        teacherEmail = document.data()["email"] as? String ?? ""
+                                    }
+                                    
+                                    db.collection("teacher").whereField("email", isEqualTo: teacherEmail).getDocuments() { (querySnapshot, err) in
+                                        if let err = err {
+                                            print(">>>>> document 에러 : \(err)")
                                             
-                                            db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(self.qnum)).getDocuments() { (querySnapshot, err) in
-                                                if let err = err {
-                                                    print(">>>>> document 에러 : \(err)")
-                                                } else {
-                                                    /// nil이 아닌지 확인한다.
-                                                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                                        return
-                                                    }
-                                                    
-                                                    
-                                                    for document in snapshot.documents {
-                                                        print(">>>>> 자세한 document 정보 : \(document.documentID) => \(document.data())")
+                                        } else {
+                                            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                                return
+                                            }
+                                            
+                                            for document in querySnapshot!.documents {
+                                                teacherUid = document.data()["uid"] as? String ?? ""
+                                                self.teacherUid = teacherUid
+                                                print ("TeacherUID : \(teacherUid)")
+                                                
+                                                db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(self.qnum)).getDocuments() { (querySnapshot, err) in
+                                                    if let err = err {
+                                                        print(">>>>> document 에러 : \(err)")
+                                                    } else {
+                                                        /// nil이 아닌지 확인한다.
+                                                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                                            return
+                                                        }
                                                         
-                                                        /// document.data()를 통해서 값 받아옴, data는 dictionary
-                                                        let questionDt = document.data()
-                                                        
-                                                        /// nil값 처리
-                                                        let title = questionDt["title"] as? String ?? ""
-                                                        let questionContent = questionDt["questionContent"] as? String ?? ""
-                                                        let imgURL = questionDt["imgURL"] as? String ?? ""
-                                                        
-                                                        self.titleName.text = title
-                                                        self.questionContent.text = questionContent
-                                                        if imgURL != "" {
-                                                            let url = URL(string: imgURL)
-                                                            DispatchQueue.global().async {
-                                                                let data = try? Data(contentsOf: url!)
-                                                                DispatchQueue.main.async {
-                                                                    self.imgView.image = UIImage(data: data!)
-                                                                }
-                                                            }
+                                                        for document in snapshot.documents {
+                                                            print(">>>>> 자세한 document 정보 : \(document.documentID) => \(document.data())")
                                                             
+                                                            /// document.data()를 통해서 값 받아옴, data는 dictionary
+                                                            let questionDt = document.data()
+                                                            /// nil값 처리
+                                                            let title = questionDt["title"] as? String ?? ""
+                                                            let questionContent = questionDt["questionContent"] as? String ?? ""
+                                                            let imgURL = questionDt["imgURL"] as? String ?? ""
+                                                            
+                                                            self.titleName.text = title
+                                                            self.questionContent.text = questionContent
+                                                            if imgURL != "" {
+                                                                let url = URL(string: imgURL)
+                                                                DispatchQueue.global().async {
+                                                                    let data = try? Data(contentsOf: url!)
+                                                                    DispatchQueue.main.async {
+                                                                        self.imgView.image = UIImage(data: data!)
+                                                                    }
+                                                                }
+                                                                
                                                             }
-                                                    }
+                                                        }
                                                     }
                                                 }
                                             }

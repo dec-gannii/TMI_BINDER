@@ -20,7 +20,6 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var googleLogInBtn: GIDSignInButton!
     
     var isLogouted = true
-//    var type = ""
     
     let db = Firestore.firestore()
     var ref: DatabaseReference!
@@ -173,7 +172,6 @@ extension LogInViewController: GIDSignInDelegate {
                 }
                 
                 //화면전환
-                
                 if ((Auth.auth().currentUser) != nil) {
                     // 홈 화면으로 바로 이동
                     guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {

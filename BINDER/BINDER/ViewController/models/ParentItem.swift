@@ -6,7 +6,6 @@
 //
 
 struct ParentItem: Decodable {
-    
     let name: String
     let email: String
     let childPhoneNumber: String
@@ -20,7 +19,6 @@ struct ParentItem: Decodable {
         self.password = password
         self.profile = profile
     }
-    
 }
 
 extension ParentItem: Equatable {

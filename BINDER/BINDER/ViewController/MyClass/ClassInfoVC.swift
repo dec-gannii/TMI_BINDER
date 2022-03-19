@@ -117,7 +117,7 @@ class ClassInfoVC: BaseVC {
         var res: String = ""
         for button in days {
             if let label = button.titleLabel, let title = label.text, button.isSelected, !title.isEmpty {
-                res.append(title)
+                res.append("\(title) ")
             }
         }
         return res

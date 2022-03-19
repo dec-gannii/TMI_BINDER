@@ -13,7 +13,7 @@ import FirebaseStorage
 import Photos
 
 class QuestionPlusViewController: UIViewController, UITextViewDelegate {
-
+    
     let db = Firestore.firestore()
     var ref: DatabaseReference!
     
@@ -44,11 +44,10 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         storageRef = storage.reference()
         placeholderSetting()
         print("qnum : \(qnum)")
-
+        
     }
     
     @IBAction func clickUndo(_ sender: Any) {
@@ -62,14 +61,14 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         textView.text = "질문 내용을 작성해주세요."
         textView.textColor = UIColor.lightGray
     }
-        
+    
     // TextView Place Holder
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
         }
-            
+        
     }
     
     // TextView Place Holder
@@ -93,7 +92,7 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         let action_camera = UIAlertAction(title: "카메라", style: .cancel) { (action) in
             self.openCamera()
         }
-
+        
         // 갤러리 버튼 추가
         let action_gallery = UIAlertAction(title: "사진 앨범", style: .default) { action in
             print("push gallery button")
@@ -128,21 +127,11 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         
         present(actionSheet, animated: true, completion: nil)
     }
-
     
-
+    
+    
     @IBAction func uploadImage(_ sender: Any) {
         print("upload")
-        /*
-        guard let image = imageView.image else {
-            let alertVC = UIAlertController(title: "알림", message: "이미지를 선택하고 업로드 기능을 실행하세요", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertVC.addAction(okAction)
-            self.present(alertVC, animated: true, completion: nil)
-            print("이미지 없음")
-            return
-        }
-         */
         name = questionName.text
         studyMemo = textView.text!
         
@@ -187,8 +176,7 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                                                     let subject = document.data()["subject"] as? String ?? ""
                                                     
                                                     self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("questionList").getDocuments() {(document, error) in
-                                                        //                                                    self.questionListTV.reloadData()
-                                                       self.setQuestionDocument()
+                                                        self.setQuestionDocument()
                                                     }
                                                 }
                                             }
@@ -197,99 +185,93 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                             }
                         }
                     }
-            
                 }
         }
-        
     }
     
     func setQuestionDocument() {
-        
-            if let email = self.email, let index = self.index {
-                print ("self.index : \(index), self.email : \(email)")
-                var studentName = ""
-                var studentEmail = ""
-                var teacherUid = ""
-                
-                db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
-                    if let err = err {
-                        print(">>>>> document 에러 : \(err)")
-                    } else {
-                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                            return
-                        }
-                        for document in querySnapshot!.documents {
-                            studentName = document.data()["name"] as? String ?? ""
-                            studentEmail = document.data()["email"] as? String ?? ""
-                            self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index).getDocuments() { (querySnapshot, err) in
-                                if let err = err {
-                                    print(">>>>> document 에러 : \(err)")
-                                } else {
-                                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                        return
-                                    }
-                                    var teacherEmail = ""
-                                    for document in querySnapshot!.documents {
-                                        teacherEmail = document.data()["email"] as? String ?? ""
-                                    }
-                                    
-                                    self.db.collection("teacher").whereField("email", isEqualTo: teacherEmail).getDocuments() { (querySnapshot, err) in
-                                        if let err = err {
-                                            print(">>>>> document 에러 : \(err)")
-                                        } else {
-                                            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+        if let email = self.email, let index = self.index {
+            print ("self.index : \(index), self.email : \(email)")
+            var studentName = ""
+            var studentEmail = ""
+            var teacherUid = ""
+            
+            db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                        return
+                    }
+                    for document in querySnapshot!.documents {
+                        studentName = document.data()["name"] as? String ?? ""
+                        studentEmail = document.data()["email"] as? String ?? ""
+                        self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index).getDocuments() { (querySnapshot, err) in
+                            if let err = err {
+                                print(">>>>> document 에러 : \(err)")
+                            } else {
+                                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                    return
+                                }
+                                var teacherEmail = ""
+                                for document in querySnapshot!.documents {
+                                    teacherEmail = document.data()["email"] as? String ?? ""
+                                }
+                                
+                                self.db.collection("teacher").whereField("email", isEqualTo: teacherEmail).getDocuments() { (querySnapshot, err) in
+                                    if let err = err {
+                                        print(">>>>> document 에러 : \(err)")
+                                    } else {
+                                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                            return
+                                        }
+                                        
+                                        for document in querySnapshot!.documents {
+                                            teacherUid = document.data()["uid"] as? String ?? ""
+                                            self.teacherUid = teacherUid
+                                            print ("TeacherUID : \(teacherUid)")
+                                            
+                                            guard let image = self.imageView.image else {
+                                                self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.qnum)).setData([
+                                                    "imgURL":"",
+                                                    "title":self.name!,
+                                                    "questionContent": self.studyMemo,
+                                                    "answerCheck": false,
+                                                    "num":String(self.qnum)
+                                                ]) { err in
+                                                    if let err = err {
+                                                        print("Error adding document: \(err)")
+                                                    }
+                                                }
+                                                print("이미지 없음")
+                                                
                                                 return
                                             }
                                             
-                                            for document in querySnapshot!.documents {
-                                                teacherUid = document.data()["uid"] as? String ?? ""
-                                                self.teacherUid = teacherUid
-                                                print ("TeacherUID : \(teacherUid)")
-                                                
-                                                guard let image = self.imageView.image else {
-                                                          // let alertVC = UIAlertController(title: "알림", message: "이미지를 선택하고 업로드 기능을 실행하세요", preferredStyle: .alert)
-                                                          // let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                                                          // alertVC.addAction(okAction)
-                                                         //  self.present(alertVC, animated: true, completion: nil)
+                                            if let data = image.pngData(){
+                                                let urlRef = self.storageRef.child("image/\(self.file_name!).png")
+                                                let metadata = StorageMetadata()
+                                                metadata.contentType = "image/png"
+                                                let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                                                    guard let metadata = metadata else {
+                                                        return}
+                                                    urlRef.downloadURL { (url, error) in
+                                                        guard let downloadURL = url else {
+                                                            return}
+                                                        
                                                         self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.qnum)).setData([
-                                                            "imgURL":"",
-                                                             "title":self.name!,
+                                                            "imgURL":"\(downloadURL)",
+                                                            "title":self.name!,
                                                             "questionContent": self.studyMemo,
                                                             "answerCheck": false,
-                                                            "num":String(self.qnum)
-                                                         ]) { err in
-                                                             if let err = err {
-                                                                 print("Error adding document: \(err)")
-                                                             }
-                                                         }
-                                                          print("이미지 없음")
-                                                           
-                                                           return
-                                                       }
-                                                
-                                                if let data = image.pngData(){
-                                                    let urlRef = self.storageRef.child("image/\(self.file_name!).png")
-                                                    let metadata = StorageMetadata()
-                                                    metadata.contentType = "image/png"
-                                                    let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-                                                            guard let metadata = metadata else {
-                                                                return}
-                                                    urlRef.downloadURL { (url, error) in
-                                                            guard let downloadURL = url else {
-                                                                return}
-
-                                                
-                                                self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.qnum)).setData([
-                                                    "imgURL":"\(downloadURL)",
-                                                     "title":self.name!,
-                                                     "questionContent": self.studyMemo,
-                                                    "answerCheck": false,
-                                                    "num": String(self.qnum)
-                                                 ]) { err in
-                                                     if let err = err {
-                                                         print("Error adding document: \(err)")
-                                                     }
-                                                 }
+                                                            "num": String(self.qnum)
+                                                        ]) { err in
+                                                            if let err = err {
+                                                                print("Error adding document: \(err)")
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -297,19 +279,17 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                             }
                         }
                     }
+                    if let preVC = self.presentingViewController as? UIViewController {
+                        preVC.dismiss(animated: true, completion: nil)
+                    }
                 }
-            }
-            if let preVC = self.presentingViewController as? UIViewController {
-                preVC.dismiss(animated: true, completion: nil)
             }
         }
-                }
-            }
     }
 }
 
 extension QuestionPlusViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate{
-   
+    
     func showGallery(){
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -320,11 +300,11 @@ extension QuestionPlusViewController: UIImagePickerControllerDelegate,UINavigati
     func openCamera(){
         if(UIImagePickerController .isSourceTypeAvailable(.camera)){
             imagePicker.sourceType = .camera
-                    present(imagePicker, animated: false, completion: nil)
-                }
-                else{
-                    print("Camera not available")
-                }
+            present(imagePicker, animated: false, completion: nil)
+        }
+        else{
+            print("Camera not available")
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

@@ -86,6 +86,7 @@ class PortfolioEditViewController: UIViewController {
                 print("Error adding document: \(err)")
             }
         }
+        
         if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }

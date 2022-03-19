@@ -184,7 +184,6 @@ class SignInViewController: UIViewController {
         self.nameAlertLabel.isHidden = true
         
         // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면, && self.isValidAge(age)
-        
         if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) ) {
             // 사용자를 생성
             Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
@@ -209,7 +208,6 @@ class SignInViewController: UIViewController {
             // 타입이 학생이라면,
             if(type == "student" || type == "teacher" || type == "parent"){
                 // 추가 정보를 입력하는 뷰로 이동
-                //                let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfo")
                 guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
                     //아니면 종료
                     return

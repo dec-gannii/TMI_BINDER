@@ -19,10 +19,12 @@ class ScheduleCellTableViewCell: UITableViewCell {
         // Initialization code
         scheduleBackgroundView.clipsToBounds = true
         scheduleBackgroundView.layer.cornerRadius = 15
+        
+        scheduleBackgroundView.layer.borderWidth = 1.0
+        scheduleBackgroundView.layer.borderColor = UIColor.systemGray6.cgColor
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
     }
 }
