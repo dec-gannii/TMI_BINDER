@@ -751,7 +751,7 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
                 todos.remove(at: indexPath.row)
                 
                 count = count - 1
-                
+                print("\(count)")
                 let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
                 
                 docRef.updateData([
@@ -762,6 +762,7 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
                     }
                 }
                 for i in 1...self.count {
+                    print("\(todos[i])")
                     docRef.updateData([
                         "todo\(i)":todos[i]
                     ]) { err in
@@ -780,22 +781,50 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     
     // 투두리스트 선택에 따라
     @objc func checkMarkButtonClicked(sender: UIButton){
-        
-        if sender.isSelected{
-            sender.isSelected = false
-            checkTime = false
-            //체크 내용 업데이트
+        /*
+            if let qnum = self.qnum {
+                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos").whereField("num", isEqualTo: String(qnum)).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                    
+                } else {
+                    /// nil이 아닌지 확인한다.
+                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                        return
+                    }
+                    
+                    for document in snapshot.documents {
+                        print(">>>>> 자세한 document 정보 : \(document.documentID) => \(document.data())")
+                        
+                        /// document.data()를 통해서 값 받아옴, data는 dictionary
+                        let questionDt = document.data()
+                        
+                     
             
-            print("button normal")
-            sender.setImage(UIImage(systemName: "circle"), for: .normal)
-            
-        } else {
-            sender.isSelected = true
-            checkTime = true
-            // 체크 내용 업데이트
-            print("button selected")
-            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
-        }
+                            }
+                    }
+                    }
+                }
+            }
+         */
+            /// nil값 처리
+            if sender.isSelected{
+                sender.isSelected = false
+                checkTime = false
+                //체크 내용 업데이트
+                
+                
+                
+                print("button normal")
+                sender.setImage(UIImage(systemName: "circle"), for: .normal)
+                
+            } else {
+                sender.isSelected = true
+                checkTime = true
+                // 체크 내용 업데이트
+                print("button selected")
+                sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+            }
     }
 }
 
