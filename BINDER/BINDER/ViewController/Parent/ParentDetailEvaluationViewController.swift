@@ -385,6 +385,10 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         let selectedMonth = dateFormatter.string(from: date) + "월"
         self.month = selectedMonth // 선택된 달로 self.month에 할당
         
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let selectedDate = dateFormatter.string(from: date)
+        
         // 아래에서 위로 뜨는 modal로 설정
         teacherEvaluationVC.modalTransitionStyle = .coverVertical
         teacherEvaluationVC.modalPresentationStyle = .pageSheet
@@ -394,6 +398,7 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         teacherEvaluationVC.teacherEmail = self.teacherEmail
         teacherEvaluationVC.subject = self.subject
         teacherEvaluationVC.month = selectedMonth
+        teacherEvaluationVC.date = selectedDate
         
         // 선생님 평가 view controller present
         self.present(teacherEvaluationVC, animated: true)
