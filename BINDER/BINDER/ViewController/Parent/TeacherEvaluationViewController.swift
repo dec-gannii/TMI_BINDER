@@ -31,7 +31,7 @@ class TeacherEvaluationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
-        monthlyEvaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        evaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         getUserInfo() // 사용자 정보 가져오기
         getEvaluation()
         self.TeacherTitle.text = self.teacherName + " 선생님의 " + self.date + " 수업은..." // 선생님 평가 title 설정
