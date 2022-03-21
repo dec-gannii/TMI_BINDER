@@ -34,7 +34,7 @@ class TeacherEvaluationViewController: UIViewController {
         evaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         getUserInfo() // 사용자 정보 가져오기
         getEvaluation()
-        self.TeacherTitle.text = self.teacherName + " 선생님의 " + self.date + " 수업은..." // 선생님 평가 title 설정
+        self.TeacherTitle.text = self.teacherName + " 선생님의 " + self.month + " 수업은..." // 선생님 평가 title 설정
     }
     
     /// 사용자 정보 가져오기
