@@ -13,6 +13,8 @@ import FirebaseFirestore
 // 학부모 버전 Home 화면
 class ParentHomeViewController: UIViewController {
     var evaluationItem: [EvaluationItem] = [] // 평가 항목 저장할 EvaluationItem 배열
+    var teacherEmails: [String] = []
+    var teacherNames: [String] = []
     
     var studentUid: String = "" // db 접근을 위해 필요한 학생 uid 정보
     var teacherName = "" // 선생님 이름
@@ -73,8 +75,10 @@ class ParentHomeViewController: UIViewController {
     
     // 평가 불러오기
     func setEvaluation() {
-        let db = Firestore.firestore()
+        self.teacherEmails.removeAll()
+        self.teacherNames.removeAll()
         
+        let db = Firestore.firestore()
         // parent collection에서 현재 로그인한 uid와 같은 uid 정보를 가지는 문서 찾기
         db.collection("parent").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -114,8 +118,10 @@ class ParentHomeViewController: UIViewController {
                                             
                                             let name = evaluationData["name"] as? String ?? "" // 선생님 이름
                                             self.teacherName = name
+                                            self.teacherNames.append(name)
                                             let email = evaluationData["email"] as? String ?? "" // 선생님 이메일
                                             self.teacherEmail = email
+                                            self.teacherEmails.append(email)
                                             let subject = evaluationData["subject"] as? String ?? "" // 과목
                                             self.subject = subject
                                             let currentCnt = evaluationData["currentCnt"] as? Int ?? 0 // 현재 횟수
@@ -187,8 +193,8 @@ extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
         detailEvaluationVC.modalPresentationStyle = .fullScreen
         
         // detailEvaluationViewController에서 사용할 정보들 넘겨주기
-        detailEvaluationVC.teacherName = self.teacherName
-        detailEvaluationVC.teacherEmail = self.teacherEmail
+        detailEvaluationVC.teacherEmail = self.teacherEmails[sender.tag]
+        detailEvaluationVC.teacherName = self.teacherNames[sender.tag]
         detailEvaluationVC.subject = self.subject
         detailEvaluationVC.index = sender.tag
         detailEvaluationVC.month = self.selectedMonth

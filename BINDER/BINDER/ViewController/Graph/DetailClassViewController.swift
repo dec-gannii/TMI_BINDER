@@ -752,9 +752,7 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    // 날짜를 하나 선택 하면 실행되는 메소드
     func placeholderSetting() {
-        
         evaluationMemoTextView.delegate = self // txtvReview가 유저가 선언한 outlet
         progressTextView.delegate = self // txtvReview가 유저가 선언한 outlet
         monthlyEvaluationTextView.delegate = self // txtvReview가 유저가 선언한 outlet
@@ -846,10 +844,16 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             
             // 날짜 받아와서 변수에 저장
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
+            dateFormatter.dateFormat = "yyyy-MM-dd"
             dateFormatter.locale = Locale(identifier: "ko_KR")
             let dateStr = dateFormatter.string(from: selectedDate)
             self.date = dateStr
+            
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
+//            dateFormatter.locale = Locale(identifier: "ko_KR")
+//            let dateStr = dateFormatter.string(from: selectedDate)
+//            self.date = dateStr
             
             dateFormatter.dateFormat = "MM"
             let monthStr = dateFormatter.string(from: selectedDate)
