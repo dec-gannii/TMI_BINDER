@@ -26,10 +26,14 @@ class TeacherEvaluationViewController: UIViewController {
     var teacherEmail: String = ""
     var subject: String = ""
     var month: String = ""
+    var date: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
+        evaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         getUserInfo() // 사용자 정보 가져오기
+        getEvaluation()
         self.TeacherTitle.text = self.teacherName + " 선생님의 " + self.month + " 수업은..." // 선생님 평가 title 설정
     }
     
@@ -59,28 +63,89 @@ class TeacherEvaluationViewController: UIViewController {
                         /// 문서 있으면
                         for document in querySnapshot!.documents {
                             print("\(document.documentID) => \(document.data())")
-                            let studentUid = document.data()["uid"] as? String ?? "" // 학생 uid
                             let studentName = document.data()["name"] as? String ?? "" // 학생 이름
-                            self.studentTitle.text = studentName + " 학생의 " + self.month + " 수업은..." // 학생 평가 title text 설정
+                            self.studentTitle.text = studentName + " 학생의 " + self.date + " 수업은..." // 학생 평가 title text 설정
                             
+                            self.evaluationTextView.isEditable = false // 평가 textview 수정 못하도록 설정
                             /// student collection / studentUid / class / 선생님이름(선생님이메일) 과목 / Evaluation collection 경로에 month가 현재 설정된 달과 같은 문서 찾기
-                            self.db.collection("student").document(studentUid).collection("class").document(self.teacherName + "(" + self.teacherEmail + ") " + self.subject).collection("Evaluation").whereField("month", isEqualTo: self.month).getDocuments() { (querySnapshot, err) in
-                                if let err = err {
-                                    print(">>>>> document 에러 : \(err)")
-                                } else {
-                                    for document in querySnapshot!.documents {
-                                        let evaluationData = document.data()
-                                        let evaluation = evaluationData["evaluation"] as? String ?? "" // 평가 내용
-                                        self.evaluationTextView.text = evaluation // 평가 textview text를 설정
-                                        self.evaluationTextView.isEditable = false // 평가 textview 수정 못하도록 설정
+//                            self.db.collection("student").document(studentUid).collection("class").document(self.teacherName + "(" + self.teacherEmail + ") " + self.subject).collection("Evaluation").whereField("month", isEqualTo: self.month).getDocuments() { (querySnapshot, err) in
+//                                if let err = err {
+//                                    print(">>>>> document 에러 : \(err)")
+//                                } else {
+//                                    for document in querySnapshot!.documents {
+//                                    }
+//                                }
+//                            }
+                        }
+                    }
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func getEvaluation(){
+        // 데이터베이스 경로
+        self.db.collection("teacher").whereField("email", isEqualTo: self.teacherEmail).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    let teacherUid = document.data()["uid"] as? String ?? "" // 선생님 uid
+                    
+                    let parentDocRef = self.db.collection("parent")
+                    parentDocRef.whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print(">>>>> document 에러 : \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? ""
+                                
+                                let docRef = self.db.collection("student")
+                                docRef.whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
+                                    if let err = err {
+                                        print(">>>>> document 에러 : \(err)")
+                                    } else {
+                                        for document in querySnapshot!.documents {
+                                            print("\(document.documentID) => \(document.data())")
+                                            let studentEmail = document.data()["email"] as? String ?? "" // 학생 이메일
+                                            let studentName = document.data()["name"] as? String ?? "" // 학생 이메일
+                                            
+                                            self.db.collection("teacher").document(teacherUid).collection("class").whereField("email", isEqualTo: studentEmail).getDocuments() { (querySnapshot, err) in
+                                                if let err = err {
+                                                    print(">>>>> document 에러 : \(err)")
+                                                } else {
+                                                    for document in querySnapshot!.documents {
+                                                        print("\(document.documentID) => \(document.data())")
+                                                        let subject = document.data()["subject"] as? String ?? ""
+                                                        
+                                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + subject).collection("Evaluation").whereField("evaluationDate", isEqualTo: self.date).getDocuments() { (querySnapshot, err) in
+                                                            if let err = err {
+                                                                print("Error getting documents: \(err)")
+                                                            } else {
+                                                                for document in querySnapshot!.documents {
+                                                                    print ("=== evlauationExists...")
+                                                                    print("\(document.documentID) => \(document.data())")
+                                                                    // 사용할 것들 가져와서 지역 변수로 저장
+                                                                    let evaluationMemo = document.data()["evaluationMemo"] as? String ?? "선택된 날짜에는 수업이 없었습니다."
+                                                                    print ("evaluationMemo Exists!")
+                                                                    self.evaluationTextView.text = evaluationMemo
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            } else {
-                print("Document does not exist")
             }
         }
     }
