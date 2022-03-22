@@ -310,10 +310,8 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
         var docRef: CollectionReference
         if (self.type == "teacher") {
             docRef = db.collection("teacher")
-            sender.titleLabel?.text = "수업 관리하기"
         } else {
             docRef = db.collection("student")
-            sender.titleLabel?.text = "수업 확인하기"
         }
         
         docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: sender.tag)

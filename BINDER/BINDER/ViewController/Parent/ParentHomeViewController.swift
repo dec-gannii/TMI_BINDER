@@ -27,8 +27,6 @@ class ParentHomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getUserInfo() // 사용자 정보 받아오기
-        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM" // MM월의 형태로 설정
         self.selectedMonth = dateFormatter.string(from: self.nowDate) + "월" // MM월의 형태로 선택된 달 변수에 저장
@@ -43,6 +41,10 @@ class ParentHomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         progressListTableView.reloadData() // 평가가 나타나는 tableview 그리기
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getUserInfo() // 사용자 정보 받아오기
     }
     
     @IBOutlet weak var parentNameLabel: UILabel! // 학부모 이름 Label

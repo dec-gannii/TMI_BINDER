@@ -27,6 +27,10 @@ class EditInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        getInfo()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         getInfo() // 사용자 정보 가져오기
     }
     

@@ -101,7 +101,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getUserInfo() // 사용자 정보 가져오기
+//        getUserInfo() // 사용자 정보 가져오기
         setUpDays(self.today)
         
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
@@ -163,7 +163,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                 }
             }
         }
-        getEvaluationEvents()
+//        getEvaluationEvents()
     }
     
     func setUpDays(_ date: Date) {

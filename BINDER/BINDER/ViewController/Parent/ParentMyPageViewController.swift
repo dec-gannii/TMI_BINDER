@@ -22,12 +22,15 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getUserInfo() // 사용자 정보 가져오기
-        viewDecorating() // 학생 전화번호 배경 view 커스터마이징
         
         storageRef = storage.reference()
         imageChange() // 이미지 변경
         self.profileImageView.makeCircle() // 프로필 이미지 동그랗게 보이도록 설정
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getUserInfo() // 사용자 정보 가져오기
+        viewDecorating() // 학생 전화번호 배경 view 커스터마이징
     }
     
     @IBOutlet weak var profileImageView: UIImageView! // 프로필 이미지 띄우는 imageView

@@ -65,6 +65,19 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var classTimeTextField: UITextField!
     @IBOutlet weak var monthlyEvaluationOKBtn: UIButton!
     
+    override func viewWillAppear(_ animated: Bool) {
+        getScores()
+        getUserInfo()
+        
+        self.calendarText()
+        self.calendarColor()
+        self.calendarEvent()
+        
+        allRound()
+        barColorSetting()
+//        placeholderSetting()
+    }
+    
     override func viewDidLoad() {
         // 빈 배열 형성
         days = []
@@ -74,29 +87,22 @@ class DetailClassViewController: UIViewController {
         evaluationMemoTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         progressTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
-        placeholderSetting()
-        
-        textViewDidBeginEditing(self.monthlyEvaluationTextView)
-        textViewDidEndEditing(self.monthlyEvaluationTextView)
-        
-        textViewDidBeginEditing(self.evaluationMemoTextView)
-        textViewDidEndEditing(self.evaluationMemoTextView)
-        
-        textViewDidBeginEditing(self.progressTextView)
-        textViewDidEndEditing(self.progressTextView)
+//        textViewDidBeginEditing(self.monthlyEvaluationTextView)
+//        textViewDidEndEditing(self.monthlyEvaluationTextView)
+//
+//        textViewDidBeginEditing(self.evaluationMemoTextView)
+//        textViewDidEndEditing(self.evaluationMemoTextView)
+//
+//        textViewDidBeginEditing(self.progressTextView)
+//        textViewDidEndEditing(self.progressTextView)
         
         self.monthlyEvaluationBackgroundView.isHidden = true
-        
-        getScores()
-        getUserInfo()
         
         // 데이터 없을 때 나올 텍스트 설정
         barChartView.noDataText = "데이터가 없습니다."
         barChartView.noDataFont = .systemFont(ofSize: 20)
         barChartView.noDataTextColor = .lightGray
         
-        allRound()
-        barColorSetting()
         
         evaluationView.layer.cornerRadius = 10
         monthlyEvaluationBackgroundView.layer.cornerRadius = 10
@@ -108,10 +114,6 @@ class DetailClassViewController: UIViewController {
         
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
-        
-        self.calendarText()
-        self.calendarColor()
-        self.calendarEvent()
         
         self.progressTextView.layer.borderWidth = 1.0
         self.progressTextView.layer.borderColor = UIColor.systemGray6.cgColor
@@ -752,65 +754,63 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func placeholderSetting() {
-        evaluationMemoTextView.delegate = self // txtvReview가 유저가 선언한 outlet
-        progressTextView.delegate = self // txtvReview가 유저가 선언한 outlet
-        monthlyEvaluationTextView.delegate = self // txtvReview가 유저가 선언한 outlet
-        if (evaluationMemoTextView.text == "오늘 수업 관련 메모사항을 입력해주세요.") {
-            evaluationMemoTextView.text = "오늘 수업 관련 메모사항을 입력해주세요."
-            evaluationMemoTextView.textColor = UIColor.lightGray
-        }
-        if (progressTextView.text == "오늘 진도 사항을 입력해주세요.") {
-            if (self.userType == "student") {
-                progressTextView.text = "오늘 배운 내용을 입력해주세요."
-            } else {
-                progressTextView.text = "오늘 진도 사항을 입력해주세요."
-            }
-            progressTextView.textColor = UIColor.lightGray
-        }
-        
-        if (monthlyEvaluationTextView.text == "이번 달 총평을 입력해주세요.") {
-            monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
-            monthlyEvaluationTextView.textColor = UIColor.lightGray
-        }
-    }
+    //    func placeholderSetting() {
+    //        evaluationMemoTextView.delegate = self // txtvReview가 유저가 선언한 outlet
+    //        progressTextView.delegate = self // txtvReview가 유저가 선언한 outlet
+    //        monthlyEvaluationTextView.delegate = self // txtvReview가 유저가 선언한 outlet
+    //        if (evaluationMemoTextView.text == "오늘 수업 관련 메모사항을 입력해주세요.") {
+    //            evaluationMemoTextView.text = "오늘 수업 관련 메모사항을 입력해주세요."
+    //            evaluationMemoTextView.textColor = UIColor.lightGray
+    //        }
+    //        if (progressTextView.text == "오늘 진도 사항을 입력해주세요.") {
+    //            if (self.userType == "student") {
+    //                progressTextView.text = "오늘 배운 내용을 입력해주세요."
+    //            } else {
+    //                progressTextView.text = "오늘 진도 사항을 입력해주세요."
+    //            }
+    //            progressTextView.textColor = UIColor.lightGray
+    //        }
+    //
+    //        if (monthlyEvaluationTextView.text == "이번 달 총평을 입력해주세요.") {
+    //            monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
+    //            monthlyEvaluationTextView.textColor = UIColor.lightGray
+    //        }
+    //    }
     
     // TextView Place Holder
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
-            textView.text = nil
-            textView.textColor = UIColor.black
-        }
-    }
+    //    func textViewDidBeginEditing(_ textView: UITextView) {
+    //        if textView.textColor == UIColor.lightGray {
+    //            textView.text = ""
+    //            textView.textColor = UIColor.black
+    //        }
+    //    }
     
     // TextView Place Holder
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if (textView == self.monthlyEvaluationTextView){
-            if monthlyEvaluationTextView.text.isEmpty || monthlyEvaluationTextView.text == nil {
-                monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
-                monthlyEvaluationTextView.textColor = UIColor.lightGray
-            }
-        } else if (textView == self.evaluationMemoTextView || evaluationMemoTextView.text == nil) {
-            if evaluationMemoTextView.text.isEmpty {
-                evaluationMemoTextView.text = "오늘 수업 관련 메모사항을 입력해주세요."
-                evaluationMemoTextView.textColor = UIColor.lightGray
-            }
-        } else if (textView == self.progressTextView || progressTextView.text == nil){
-            if progressTextView.text.isEmpty {
-                if (self.userType == "teacher") {
-                    progressTextView.text = "오늘 진도 사항을 입력해주세요."
-                } else {
-                    progressTextView.text = "오늘 배운 내용을 입력해주세요."
-                }
-                progressTextView.textColor = UIColor.lightGray
-            }
-        }
-    }
+    //    func textViewDidEndEditing(_ textView: UITextView) {
+    //        if (textView == self.monthlyEvaluationTextView){
+    //            if monthlyEvaluationTextView.text == "" {
+    //                monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
+    //                monthlyEvaluationTextView.textColor = UIColor.lightGray
+    //            }
+    //        } else if (textView == self.evaluationMemoTextView) {
+    //            if evaluationMemoTextView.text == "" {
+    //                evaluationMemoTextView.text = "오늘 수업 관련 메모사항을 입력해주세요."
+    //                evaluationMemoTextView.textColor = UIColor.lightGray
+    //            }
+    //        } else if (textView == self.progressTextView) {
+    //            if progressTextView.text == "" {
+    //                if (self.userType == "teacher") {
+    //                    progressTextView.text = "오늘 진도 사항을 입력해주세요."
+    //                } else {
+    //                    progressTextView.text = "오늘 배운 내용을 입력해주세요."
+    //                }
+    //                progressTextView.textColor = UIColor.lightGray
+    //            }
+    //        }
+    //    }
 }
 
 extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate, UITextViewDelegate {
-    
-    
     internal func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
         if (self.userType == "teacher") {
@@ -844,16 +844,11 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             
             // 날짜 받아와서 변수에 저장
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
             dateFormatter.locale = Locale(identifier: "ko_KR")
             let dateStr = dateFormatter.string(from: selectedDate)
             self.date = dateStr
-            
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
-//            dateFormatter.locale = Locale(identifier: "ko_KR")
-//            let dateStr = dateFormatter.string(from: selectedDate)
-//            self.date = dateStr
             
             dateFormatter.dateFormat = "MM"
             let monthStr = dateFormatter.string(from: selectedDate)
@@ -861,7 +856,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             
             // 데이터베이스 경로
             if (self.userType == "teacher") {
-                let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)")
+                let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document(dateStr)
                 
                 // 데이터를 받아와서 각각의 값에 따라 textfield 값 설정 (만약 없다면 공백 설정, 있다면 그 값 불러옴)
                 docRef.getDocument { (document, error) in
@@ -886,21 +881,15 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                         }
                         
                         let progressText = data?["progress"] as? String ?? ""
-                        self.progressTextView.text = progressText
                         self.progressTextView.textColor = .black
-                        if (progressText == "") {
-                            self.placeholderSetting()
-                            self.textViewDidBeginEditing(self.progressTextView)
-                            self.textViewDidEndEditing(self.progressTextView)
+                        if (progressText != "") {
+                            self.progressTextView.text = progressText
                         }
                         
                         let evaluationMemo = data?["evaluationMemo"] as? String ?? ""
-                        self.evaluationMemoTextView.text = evaluationMemo
                         self.evaluationMemoTextView.textColor = .black
-                        if (evaluationMemo == "") {
-                            self.placeholderSetting()
-                            self.textViewDidBeginEditing(self.evaluationMemoTextView)
-                            self.textViewDidEndEditing(self.evaluationMemoTextView)
+                        if (evaluationMemo != "") {
+                            self.evaluationMemoTextView.text = evaluationMemo
                         }
                         
                         let todayClassTime = data?["todayClassTime"] as? Int ?? 0
@@ -920,16 +909,9 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                     } else {
                         print("Document does not exist")
                         // 값 다시 공백 설정
-                        self.progressTextView.text = ""
                         self.testScoreTextField.text = ""
-                        self.evaluationMemoTextView.text = ""
                         self.homeworkScoreTextField.text = ""
                         self.classScoreTextField.text = ""
-                        self.placeholderSetting()
-                        self.textViewDidBeginEditing(self.evaluationMemoTextView)
-                        self.textViewDidEndEditing(self.evaluationMemoTextView)
-                        self.textViewDidBeginEditing(self.progressTextView)
-                        self.textViewDidEndEditing(self.progressTextView)
                     }
                 }
                 
@@ -986,11 +968,9 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                         let summary = data?["summary"] as? Int ?? 0
                         if (summary == 0) {
                             self.progressTextView.text = ""
-                            self.placeholderSetting()
                         } else {
                             self.progressTextView.text = "\(summary)"
                         }
-                        self.progressTextView.textColor = .black
                         
                         let satisfy = data?["satisfy"] as? Int ?? 0
                         if (summary == 0) {
@@ -1018,11 +998,6 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                         self.evaluationMemoTextView.text = ""
                         self.homeworkScoreTextField.text = ""
                         self.classScoreTextField.text = ""
-                        self.placeholderSetting()
-                        self.textViewDidBeginEditing(self.evaluationMemoTextView)
-                        self.textViewDidEndEditing(self.evaluationMemoTextView)
-                        self.textViewDidBeginEditing(self.progressTextView)
-                        self.textViewDidEndEditing(self.progressTextView)
                     }
                 }
             } else {
