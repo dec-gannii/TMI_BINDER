@@ -48,6 +48,10 @@ class SignInViewController: UIViewController {
     // 정보 저장하는 메소드
     func saveInfo(_ number: Int, _ name: String, _ email: String, _ password: String, _ type: String){
         // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
+        print("\(name)")
+        print("\(email)")
+        print("\(password)")
+        print("\(type)")
         self.db.collection("\(type)").document(Auth.auth().currentUser!.uid).setData([
             "name": name,
             "email": email,

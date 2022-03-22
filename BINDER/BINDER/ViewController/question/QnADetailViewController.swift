@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 import Kingfisher
 import Firebase
 
@@ -21,6 +22,7 @@ class QnADetailViewController: UIViewController {
     var qnum : Int!
     var index: Int!
     var teacherUid: String!
+    var videourl: String!
     
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var titleName: UILabel!
@@ -35,7 +37,36 @@ class QnADetailViewController: UIViewController {
         super.viewDidLoad()
         getUserInfo()
         self.answerContent.isEditable = false
+        answerImgView.isUserInteractionEnabled = false
+        imageViewClick()
     }
+    
+    func imageViewClick(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(btnPlayExternalMovie))
+        answerImgView.addGestureRecognizer(tapGesture)
+        answerImgView.isUserInteractionEnabled = true
+    }
+    
+    @objc func btnPlayExternalMovie(sender: UITapGestureRecognizer){
+        // 외부에 링크된 주소를 NSURL 형식으로 변경
+            let url = NSURL(string: videourl)!
+            playVideo(url: url) // 앞에서 얻은 url을 사용하여 비디오를 재생
+    }
+    
+    private func playVideo(url: NSURL){
+           
+           // AVPlayerController의 인스턴스 생성
+           let playerController = AVPlayerViewController()
+           // 비디오 URL로 초기화된 AVPlayer의 인스턴스 생성
+           let player = AVPlayer(url: url as URL)
+           // AVPlayerViewController의 player 속성에 위에서 생성한 AVPlayer 인스턴스를 할당
+           playerController.player = player
+
+           self.present(playerController, animated: true){
+               player.play() // 비디오 재생
+           }
+           
+       }
     
     @IBAction func undoBtn(_ sender: Any) {
         if let preVC = self.presentingViewController {
@@ -159,16 +190,25 @@ class QnADetailViewController: UIViewController {
                             let title = questionDt["title"] as? String ?? ""
                             let questionContent = questionDt["questionContent"] as? String ?? ""
                             let imgURL = questionDt["imgURL"] as? String ?? ""
+                            let imgType = questionDt["type"] as? String ?? ""
                             
                             self.titleName.text = title
                             self.questionContent.text = questionContent
                             if imgURL != "" {
-                                let url = URL(string: imgURL)
-                                DispatchQueue.global().async {
-                                    let data = try? Data(contentsOf: url!)
-                                    DispatchQueue.main.async {
-                                        self.questionImgView.image = UIImage(data: data!)
+                                if imgType == "image"{
+                                    let url = URL(string: imgURL)
+                                    DispatchQueue.global().async {
+                                        let data = try? Data(contentsOf: url!)
+                                        DispatchQueue.main.async {
+                                            self.questionImgView.image = UIImage(data: data!)
+                                        }
                                     }
+                                }
+                                else {
+                                    self.videourl = "https://firebasestorage.googleapis.com/v0/b/tmi-binder-39173.appspot.com/o/video%2FPencil%20-%208256.mp4?alt=media&token=b44c0bf7-d39c-4c5a-908c-31a7d9823b57"
+                                   // self.imageViewClick()
+                                    // 영상 띄우기
+                                    
                                 }
                             }
                             

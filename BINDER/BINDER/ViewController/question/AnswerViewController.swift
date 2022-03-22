@@ -190,6 +190,15 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 // 비디오를 포토 라이브러리에 저장
                 UISaveVideoAtPathToSavedPhotosAlbum(videoURL.relativePath, self, nil, nil)
             }
+            //url에 정확한 이미지 url 주소를 넣는다.
+            var image : UIImage?
+            //DispatchQueue를 쓰는 이유 -> 이미지가 클 경우 이미지를 다운로드 받기 까지 잠깐의 멈춤이 생길수 있다. (이유 : 싱글 쓰레드로 작동되기때문에) //DispatchQueue를 쓰면 멀티 쓰레드로 이미지가 클경우에도 멈춤이 생기지 않는다.
+           // DispatchQueue.global().async {
+             //   let data = try? Data(contentsOf: self.videoURL!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+             //   DispatchQueue.main.async {
+             //       image = UIImage(data: data!) }
+              //  self.imgView.image = image
+          //  }
         }
         
         
@@ -258,7 +267,8 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                                 "url":"\(downloadURL)",
                                 "answerContent": self.answer,
-                                "isAnswer": true
+                                "isAnswer": true,
+                                "type":"image"
                             ]) { err in
                                 if let err = err {
                                     print("Error adding document: \(err)")
@@ -270,22 +280,54 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                         preVC.dismiss(animated: true, completion: nil)
                     }
                 }
-            } else {
-                self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
-                    "url":"\(videoURL)",
-                    "answerContent": self.answer,
-                    "isAnswer": true
-                ]) { err in
-                    if let err = err {
-                        print("Error adding document: \(err)")
+            } else { //비디오의 경우
+                guard let image = imgView.image else {
+                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
+                        "url":"",
+                        "answerContent": self.answer
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
                     }
+                    print("video not exists")
+                    
+                    return
                 }
+                print("video exists")
+                
+                if let data = image.pngData(){
+                    let urlRef = storageRef.child("video/\(captureImage!).mp4")
+                    
+                    let metadata = StorageMetadata()
+                    metadata.contentType = "video/mp4"
+                    let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                        guard let metadata = metadata else {
+                            return
+                        }
+                        
+                        urlRef.downloadURL { [self] (url, error) in
+                            guard let videoURL = url else {
+                                return
+                            }
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + self.email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
+                                "url":"\(videoURL)",
+                                "answerContent": self.answer,
+                                "isAnswer": true,
+                                "type":"video"
+                            ]) { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                }
+                            }
+                        }
+                    }
                 if let preVC = self.presentingViewController as? UIViewController {
                     preVC.dismiss(animated: true, completion: nil)
                 }
             }
         }
-        
+            }
         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
             "answerCheck": true
         ]) { err in
