@@ -266,6 +266,8 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                                     let evaluation = evaluationData["evaluation"] as? String ?? "아직 이번 달 월말 평가가 등록되지 않았습니다." // 평가 내용 정보
                                                     self.monthlyEvaluationTextView.text = evaluation // 평가 내용 text로 설정
                                                     self.monthlyEvaluationTextView.isEditable = false // 수정 불가능하도록 설정
+                                                    self.monthlyEvaluationTextView.translatesAutoresizingMaskIntoConstraints = true
+                                                    self.monthlyEvaluationTextView.sizeToFit()
                                                 }
                                             }
                                         }

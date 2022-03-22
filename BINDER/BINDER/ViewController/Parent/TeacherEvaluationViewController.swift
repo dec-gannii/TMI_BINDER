@@ -67,15 +67,6 @@ class TeacherEvaluationViewController: UIViewController {
                             self.studentTitle.text = studentName + " 학생의 " + self.date + " 수업은..." // 학생 평가 title text 설정
                             
                             self.evaluationTextView.isEditable = false // 평가 textview 수정 못하도록 설정
-                            /// student collection / studentUid / class / 선생님이름(선생님이메일) 과목 / Evaluation collection 경로에 month가 현재 설정된 달과 같은 문서 찾기
-//                            self.db.collection("student").document(studentUid).collection("class").document(self.teacherName + "(" + self.teacherEmail + ") " + self.subject).collection("Evaluation").whereField("month", isEqualTo: self.month).getDocuments() { (querySnapshot, err) in
-//                                if let err = err {
-//                                    print(">>>>> document 에러 : \(err)")
-//                                } else {
-//                                    for document in querySnapshot!.documents {
-//                                    }
-//                                }
-//                            }
                         }
                     }
                 }
@@ -127,11 +118,9 @@ class TeacherEvaluationViewController: UIViewController {
                                                                 print("Error getting documents: \(err)")
                                                             } else {
                                                                 for document in querySnapshot!.documents {
-                                                                    print ("=== evlauationExists...")
                                                                     print("\(document.documentID) => \(document.data())")
                                                                     // 사용할 것들 가져와서 지역 변수로 저장
                                                                     let evaluationMemo = document.data()["evaluationMemo"] as? String ?? "선택된 날짜에는 수업이 없었습니다."
-                                                                    print ("evaluationMemo Exists!")
                                                                     self.evaluationTextView.text = evaluationMemo
                                                                 }
                                                             }
