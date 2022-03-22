@@ -49,7 +49,7 @@ class QnADetailViewController: UIViewController {
     
     @objc func btnPlayExternalMovie(sender: UITapGestureRecognizer){
         // 외부에 링크된 주소를 NSURL 형식으로 변경
-            let url = NSURL(string: videourl)!
+            let url = NSURL(string: "https://firebasestorage.googleapis.com/v0/b/tmi-binder-39173.appspot.com/o/video%2FPencil%20-%208256.mp4?alt=media&token=b44c0bf7-d39c-4c5a-908c-31a7d9823b57")!
             playVideo(url: url) // 앞에서 얻은 url을 사용하여 비디오를 재생
     }
     
@@ -190,12 +190,10 @@ class QnADetailViewController: UIViewController {
                             let title = questionDt["title"] as? String ?? ""
                             let questionContent = questionDt["questionContent"] as? String ?? ""
                             let imgURL = questionDt["imgURL"] as? String ?? ""
-                            let imgType = questionDt["type"] as? String ?? ""
                             
                             self.titleName.text = title
                             self.questionContent.text = questionContent
                             if imgURL != "" {
-                                if imgType == "image"{
                                     let url = URL(string: imgURL)
                                     DispatchQueue.global().async {
                                         let data = try? Data(contentsOf: url!)
@@ -203,12 +201,6 @@ class QnADetailViewController: UIViewController {
                                             self.questionImgView.image = UIImage(data: data!)
                                         }
                                     }
-                                }
-                                else {
-                                    self.videourl = "https://firebasestorage.googleapis.com/v0/b/tmi-binder-39173.appspot.com/o/video%2FPencil%20-%208256.mp4?alt=media&token=b44c0bf7-d39c-4c5a-908c-31a7d9823b57"
-                                   // self.imageViewClick()
-                                    // 영상 띄우기
-                                    
                                 }
                             }
                             
@@ -230,11 +222,13 @@ class QnADetailViewController: UIViewController {
                                         
                                         let answer = questionDt["answerContent"] as? String ?? ""
                                         let imgurl = questionDt["url"] as? String ?? ""
+                                        let imgType = questionDt["type"] as? String ?? ""
                                         
                                         self.answerContent.text = answer
                                         if (imgurl == "" || imgurl == "nil") {
                                             self.answerImgView.image = .none
                                         } else {
+                                            if imgType == "image"{
                                             let url = URL(string: imgurl)
                                             DispatchQueue.global().async {
                                                 let data = try? Data(contentsOf: url!)
@@ -242,6 +236,10 @@ class QnADetailViewController: UIViewController {
                                                     self.answerImgView.image = UIImage(data: data!)
                                                 }
                                             }
+                                        } else {
+                                                //self.videourl = "https://firebasestorage.googleapis.com/v0/b/tmi-binder-39173.appspot.com/o/video%2FPencil%20-%208256.mp4?alt=media&token=b44c0bf7-d39c-4c5a-908c-31a7d9823b57"
+                                               // self.imageViewClick()
+                                                // 영상 띄우기
                                         }
                                     }
                                 }
