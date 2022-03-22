@@ -35,7 +35,7 @@ class ShowPortfolioViewController: UIViewController {
                 }
                 
                 // 포트폴리오를 보여주는 화면 present
-                guard let portfolioVC = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioViewController") as? PortfolioViewController else { return }
+                guard let portfolioVC = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioTableViewController") as? PortfolioTableViewController else { return }
                 portfolioVC.isShowMode = true
                 portfolioVC.showModeEmail = self.teacherEmailTextField.text!
                 self.present(portfolioVC, animated: true, completion: nil)

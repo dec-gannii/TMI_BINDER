@@ -71,6 +71,11 @@
 		7F9B8AF127E0CA11008B705B /* ParentDetailEvaluationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9B8AF027E0CA11008B705B /* ParentDetailEvaluationViewController.swift */; };
 		7F9B8AF327E0D31A008B705B /* TeacherEvaluationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9B8AF227E0D31A008B705B /* TeacherEvaluationViewController.swift */; };
 		7FA6B7D627C0C67100BFEBDA /* SecessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA6B7D527C0C67100BFEBDA /* SecessionViewController.swift */; };
+		7FBC6B1227EA05720067BAD5 /* PlusPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1127EA05720067BAD5 /* PlusPortfolioCell.swift */; };
+		7FBC6B1427EA05930067BAD5 /* PortfolioDefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1327EA05930067BAD5 /* PortfolioDefaultCell.swift */; };
+		7FBC6B1627EA06690067BAD5 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1527EA06690067BAD5 /* PortfolioTableViewController.swift */; };
+		7FBC6B1827EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1727EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift */; };
+		7FBC6B1A27EA16130067BAD5 /* AddPortfolioItemDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1927EA16130067BAD5 /* AddPortfolioItemDelegate.swift */; };
 		7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */; };
 		7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */; };
 		9454EBA32409A1CC3B2E881A /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8194590D892163E6369F0B86 /* Pods_BINDER.framework */; };
@@ -145,6 +150,11 @@
 		7F9B8AF027E0CA11008B705B /* ParentDetailEvaluationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentDetailEvaluationViewController.swift; sourceTree = "<group>"; };
 		7F9B8AF227E0D31A008B705B /* TeacherEvaluationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherEvaluationViewController.swift; sourceTree = "<group>"; };
 		7FA6B7D527C0C67100BFEBDA /* SecessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecessionViewController.swift; sourceTree = "<group>"; };
+		7FBC6B1127EA05720067BAD5 /* PlusPortfolioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPortfolioCell.swift; sourceTree = "<group>"; };
+		7FBC6B1327EA05930067BAD5 /* PortfolioDefaultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDefaultCell.swift; sourceTree = "<group>"; };
+		7FBC6B1527EA06690067BAD5 /* PortfolioTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewController.swift; sourceTree = "<group>"; };
+		7FBC6B1727EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPortfolioItemViewController.swift; sourceTree = "<group>"; };
+		7FBC6B1927EA16130067BAD5 /* AddPortfolioItemDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPortfolioItemDelegate.swift; sourceTree = "<group>"; };
 		7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailClassViewController.swift; sourceTree = "<group>"; };
 		8194590D892163E6369F0B86 /* Pods_BINDER.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BINDER.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +202,7 @@
 			children = (
 				6965DE7D275DEF5D0072C16A /* AddStudentDelegate.swift */,
 				6FBF7BBB27B5E49300ED0144 /* QuestionListViewDelegate.swift */,
+				7FBC6B1927EA16130067BAD5 /* AddPortfolioItemDelegate.swift */,
 			);
 			path = protocol;
 			sourceTree = "<group>";
@@ -231,6 +242,8 @@
 				6FB9139827B3A1C2000154FF /* QuestionListTableViewImageCell.swift */,
 				6FB9139A27B3A499000154FF /* QuestionListTableViewCell.swift */,
 				7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */,
+				7FBC6B1127EA05720067BAD5 /* PlusPortfolioCell.swift */,
+				7FBC6B1327EA05930067BAD5 /* PortfolioDefaultCell.swift */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -277,6 +290,8 @@
 				69EE72B1275D11C2007F6F7C /* MypageViewController.swift */,
 				69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */,
 				6912805E276398EB00712739 /* PortfolioEditViewController.swift */,
+				7FBC6B1527EA06690067BAD5 /* PortfolioTableViewController.swift */,
+				7FBC6B1727EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -589,15 +604,20 @@
 				7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */,
 				691A7BA2276460C6003DCB05 /* Todocell.swift in Sources */,
 				6965DE6A275DEF1C0072C16A /* StudentItem.swift in Sources */,
+				7FBC6B1827EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift in Sources */,
 				6965DE72275DEF290072C16A /* Date.swift in Sources */,
 				69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */,
+				7FBC6B1627EA06690067BAD5 /* PortfolioTableViewController.swift in Sources */,
 				7F9373DC27DE152700C2CCA4 /* ParentItem.swift in Sources */,
 				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
 				7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */,
 				69EE72B4275D11D5007F6F7C /* PortfolioViewController.swift in Sources */,
 				6FFDECC927CDF9380028B652 /* QuestionAnsweredListItem.swift in Sources */,
 				6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */,
+				7FBC6B1427EA05930067BAD5 /* PortfolioDefaultCell.swift in Sources */,
+				7FBC6B1A27EA16130067BAD5 /* AddPortfolioItemDelegate.swift in Sources */,
 				6FB9139927B3A1C2000154FF /* QuestionListTableViewImageCell.swift in Sources */,
+				7FBC6B1227EA05720067BAD5 /* PlusPortfolioCell.swift in Sources */,
 				7F2E9E9D27DB1DBD008991EB /* ParentMyPageViewController.swift in Sources */,
 				6993502A27CDECA100EA6C6F /* QuestionDetailViewController.swift in Sources */,
 				6965DE6B275DEF1C0072C16A /* ClassItem.swift in Sources */,
