@@ -36,6 +36,42 @@ class ScheduleListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.scheduleTitles.removeAll()
+        self.scheduleMemos.removeAll()
+        
+        let formatter = DateFormatter()
+        
+        let dateWithoutDays = self.date.components(separatedBy: " ")
+        formatter.dateFormat = "YYYY-MM-dd"
+        let date = formatter.date(from: dateWithoutDays[0])!
+        let datestr = formatter.string(from: date)
+        
+        
+        // 데이터베이스에서 일정 리스트 가져오기
+        let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList")
+        // Date field가 현재 날짜와 동일한 도큐먼트 모두 가져오기
+        docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    // 사용할 것들 가져와서 지역 변수로 저장
+                    let scheduleTitle = document.data()["title"] as? String ?? ""
+                    let scheduleMemo = document.data()["memo"] as? String ?? ""
+                    
+                    if (!self.scheduleTitles.contains(scheduleTitle)) {
+                        // 여러 개의 일정이 있을 수 있으므로 가져와서 배열에 저장
+                        self.scheduleTitles.append(scheduleTitle)
+                        print(scheduleTitle)
+                        self.scheduleMemos.append(scheduleMemo)
+                    }
+                    
+                    // 일정의 제목은 필수 항목이므로 일정 제목 개수만큼을 개수로 지정
+                    self.count = self.scheduleTitles.count
+                }
+            }
+        }
         scheduleListTableView.reloadData()
     }
     
