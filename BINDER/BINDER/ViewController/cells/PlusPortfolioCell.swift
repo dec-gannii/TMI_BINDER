@@ -15,6 +15,7 @@ class PlusPortfolioCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        // cornerRadius 지정
         contentViewCell.clipsToBounds = true
         contentViewCell.layer.cornerRadius = 10
         

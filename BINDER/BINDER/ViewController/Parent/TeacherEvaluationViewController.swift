@@ -37,7 +37,7 @@ class TeacherEvaluationViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         getUserInfo() // 사용자 정보 가져오기
-        getEvaluation()
+        getEvaluation() // 학생에 대한 평가 정보 가져오기
     }
     
     /// 사용자 정보 가져오기

@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import Kingfisher
 
+// 포트폴리오 정보 뷰 컨트롤러 (tableview 활용)
 class PortfolioTableViewController: UIViewController {
     @IBOutlet weak var teacherName: UILabel!
     @IBOutlet weak var teacherImage: UIImageView!
@@ -37,20 +38,21 @@ class PortfolioTableViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getUserInfo()
+        getUserInfo() // 유저 정보 가져오기
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.portfolioTableView.reloadData()
+        self.portfolioTableView.reloadData() // tableview 다시 그려주기
     }
     
     @IBAction func BackButtonClicked(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil) // 이전 화면 보이도록 하기
     }
     
+    // 유저 정보 가져오기
     func getUserInfo(){
-        if (isShowMode == true) {
-            self.editBtn.isHidden = true
+        if (isShowMode == true) { /// 포트폴리오 조회인 경우
+            self.editBtn.isHidden = true // 수정 버튼 숨기기
             self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")
@@ -63,7 +65,8 @@ class PortfolioTableViewController: UIViewController {
                         let uid = document.data()["uid"] as? String ?? ""
                         self.teacherUid = uid
                         
-                        self.infos.removeAll()
+                        self.infos.removeAll() // 원래 있는 제목 정보들 모두 지우기
+                        
                         let docRef = self.db.collection("teacher").document(uid).collection("Portfolio").document("portfolio")
                         
                         docRef.getDocument { (document, error) in
@@ -71,12 +74,12 @@ class PortfolioTableViewController: UIViewController {
                                 let data = document.data()
                                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                                 
-                                let eduText = data?["eduHistory"] as? String ?? ""
-                                let classText = data?["classMethod"] as? String ?? ""
-                                let extraText = data?["extraExprience"] as? String ?? ""
-                                let time = data?["time"] as? String ?? ""
-                                let contact = data?["contact"] as? String ?? ""
-                                let manage = data?["manage"] as? String ?? ""
+                                let eduText = data?["eduHistory"] as? String ?? "" // 학력 정보
+                                let classText = data?["classMethod"] as? String ?? "" // 수업 방식
+                                let extraText = data?["extraExprience"] as? String ?? "" // 과외 경력
+                                let time = data?["time"] as? String ?? "" // 과외 시간
+                                let contact = data?["contact"] as? String ?? "" // 연락 수단
+                                let manage = data?["manage"] as? String ?? "" // 학생 관리 방법
                                 
                                 if (eduText != "") {
                                     self.infos.append("학력사항")
@@ -170,16 +173,16 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (indexPath.row == infos.count) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PlusPortfolioCell")! as! PlusPortfolioCell
-            if (indexPath.row == 7 || self.isShowMode == true) {
-                cell.isHidden = true
+            if (indexPath.row == 7 || self.isShowMode == true) { // 총 7개의 정보가 모두 차거나 포트폴리오 조회인 경우
+                cell.isHidden = true // 정보 추가 셀 숨기기
             } else {
                 cell.isHidden = false
             }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PortfolioDefaultCell")! as! PortfolioDefaultCell
-            if Auth.auth().currentUser?.uid != nil {
-                self.teacherUid = Auth.auth().currentUser!.uid
+            if Auth.auth().currentUser?.uid != nil { // 현재 사용자의 uid가 nil이 아니면
+                self.teacherUid = Auth.auth().currentUser!.uid // self.teacherUid 를 설정
             }
             
             let docRef = db.collection("teacher").document(self.teacherUid).collection("Portfolio").document("portfolio")

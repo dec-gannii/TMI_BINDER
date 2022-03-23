@@ -16,6 +16,7 @@ class PortfolioDefaultCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        // cornerRadius 지정
         content.clipsToBounds = true
         content.layer.cornerRadius = 10
         

@@ -27,12 +27,15 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
         // 키보드 띄우기
         titleTextField.becomeFirstResponder()
         
+        // textview 테두리 설정
         self.contentTextView.layer.borderColor = UIColor.lightGray.cgColor
         self.contentTextView.layer.borderWidth = 0.3
         
+        // cornerRadius 지정
         contentTextView.clipsToBounds = true
         contentTextView.layer.cornerRadius = 10
         
+        // placeholder 설정
         placeholderSetting()
         textViewDidBeginEditing(self.contentTextView)
         textViewDidEndEditing(self.contentTextView)
@@ -42,7 +45,6 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
         contentTextView.delegate = self // txtvReview가 유저가 선언한 outlet
         contentTextView.text = "추가할 내용을 입력해주세요."
         contentTextView.textColor = UIColor.lightGray
-        
     }
     
     // TextView Place Holder
@@ -51,7 +53,6 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
             textView.text = nil
             textView.textColor = UIColor.black
         }
-        
     }
     
     // TextView Place Holder
@@ -67,6 +68,7 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func OkButtonClicked(_ sender: Any) {
+        // 설정된 title 내용에 따라서 저장할 db 경로 이름 설정
         if let data = titleTextField.text, let content = contentTextView.text {
             var title = ""
             if (data == contactBtn.titleLabel!.text) {
@@ -91,11 +93,12 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func TitleButtonClicked(_ sender: Any) {
-        if ((sender as AnyObject).tag == 0) {
+        // 버튼의 태그를 사용
+        if ((sender as AnyObject).tag == 0) { // 태그가 0인 경우 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
             self.titleTextField.text = (sender as AnyObject).titleLabel?.text
-        } else if ((sender as AnyObject).tag == 1) {
+        } else if ((sender as AnyObject).tag == 1) { // 태그가 1인 경우 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
             self.titleTextField.text = (sender as AnyObject).titleLabel?.text
-        } else if ((sender as AnyObject).tag == 2) {
+        } else if ((sender as AnyObject).tag == 2) { // 태그가 2인 경우 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
             self.titleTextField.text = (sender as AnyObject).titleLabel?.text
         }
     }
