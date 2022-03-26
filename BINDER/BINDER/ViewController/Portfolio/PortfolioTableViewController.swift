@@ -198,21 +198,40 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                     let time = data?["time"] as? String ?? ""
                     let contact = data?["contact"] as? String ?? ""
                     let manage = data?["manage"] as? String ?? ""
-                    
-                    if self.infos[indexPath.row] == "연락 수단" {
-                        cell.content.text = contact
-                    } else if self.infos[indexPath.row] == "학력사항" {
-                        cell.content.text = eduText
-                    } else if self.infos[indexPath.row] == "수업 방식" {
-                        cell.content.text = classText
-                    } else if self.infos[indexPath.row] == "과외 경력" {
-                        cell.content.text = extraText
-                    } else if self.infos[indexPath.row] == "선생님 평가" {
-                        cell.content.text = "등록된 선생님 평가가 없습니다." // 연결 필요
-                    } else if self.infos[indexPath.row] == "과외 시간" {
-                        cell.content.text = time
-                    } else if self.infos[indexPath.row] == "학생 관리 방법" {
-                        cell.content.text = manage
+                    let portfolioShow = data?["portfolioShow"] as? String ?? ""
+                    if (portfolioShow == "On" || self.isShowMode == false) {
+                        if self.infos[indexPath.row] == "연락 수단" {
+                            cell.content.text = contact
+                        } else if self.infos[indexPath.row] == "학력사항" {
+                            cell.content.text = eduText
+                        } else if self.infos[indexPath.row] == "수업 방식" {
+                            cell.content.text = classText
+                        } else if self.infos[indexPath.row] == "과외 경력" {
+                            cell.content.text = extraText
+                        } else if self.infos[indexPath.row] == "선생님 평가" {
+                            cell.content.text = "등록된 선생님 평가가 없습니다." // 연결 필요
+                        } else if self.infos[indexPath.row] == "과외 시간" {
+                            cell.content.text = time
+                        } else if self.infos[indexPath.row] == "학생 관리 방법" {
+                            cell.content.text = manage
+                        }
+                    } else if (portfolioShow == "Off" && self.isShowMode == true) {
+                        let message = "비공개 설정 되어있습니다."
+                        if self.infos[indexPath.row] == "연락 수단" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "학력사항" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "수업 방식" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "과외 경력" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "선생님 평가" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "과외 시간" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "학생 관리 방법" {
+                            cell.content.text = message
+                        }
                     }
                     cell.title.text = self.infos[indexPath.row]
                     
