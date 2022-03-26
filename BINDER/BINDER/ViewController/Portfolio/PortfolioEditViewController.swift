@@ -10,9 +10,13 @@ import Firebase
 
 class PortfolioEditViewController: UIViewController {
     
-    @IBOutlet weak var eduHistoryTF: UITextField!
-    @IBOutlet weak var classMetTF: UITextField!
-    @IBOutlet weak var extraExpTF: UITextView!
+    @IBOutlet weak var eduHistoryTV: UITextView!
+    @IBOutlet weak var classMetTV: UITextView!
+    @IBOutlet weak var extraExpTV: UITextView!
+    @IBOutlet weak var timeTV: UITextView!
+    @IBOutlet weak var contactTV: UITextView!
+    @IBOutlet weak var manageTV: UITextView!
+    @IBOutlet weak var evaluationTV: UITextView!
     
     let db = Firestore.firestore()
     var ref: DatabaseReference!
@@ -22,21 +26,70 @@ class PortfolioEditViewController: UIViewController {
     var extra = ""
     var showPortfolio = "On"
     
+    func setTextViewUI() {
+        // Border setting
+        self.eduHistoryTV.layer.borderWidth = 1.0
+        self.eduHistoryTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.classMetTV.layer.borderWidth = 1.0
+        self.classMetTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.extraExpTV.layer.borderWidth = 1.0
+        self.extraExpTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.timeTV.layer.borderWidth = 1.0
+        self.timeTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.contactTV.layer.borderWidth = 1.0
+        self.contactTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.manageTV.layer.borderWidth = 1.0
+        self.manageTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.evaluationTV.layer.borderWidth = 1.0
+        self.evaluationTV.layer.borderColor = UIColor.systemGray6.cgColor
+        
+        // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
+        self.eduHistoryTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        self.classMetTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        self.extraExpTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        self.timeTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        self.manageTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        self.contactTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        self.evaluationTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
+        // cornerRadius 지정
+        self.eduHistoryTV.clipsToBounds = true
+        self.eduHistoryTV.layer.cornerRadius = 15
+        self.classMetTV.clipsToBounds = true
+        self.classMetTV.layer.cornerRadius = 15
+        self.extraExpTV.clipsToBounds = true
+        self.extraExpTV.layer.cornerRadius = 15
+        self.timeTV.clipsToBounds = true
+        self.timeTV.layer.cornerRadius = 15
+        self.manageTV.clipsToBounds = true
+        self.manageTV.layer.cornerRadius = 15
+        self.contactTV.clipsToBounds = true
+        self.contactTV.layer.cornerRadius = 15
+        self.evaluationTV.clipsToBounds = true
+        self.evaluationTV.layer.cornerRadius = 15
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.extraExpTF.layer.borderWidth = 1.0
-        self.extraExpTF.layer.borderColor = UIColor.systemGray6.cgColor
+        self.setTextViewUI()
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
                 let eduHistory = data?["eduHistory"] as? String ?? ""
-                self.eduHistoryTF.text = eduHistory
+                self.eduHistoryTV.text = eduHistory
                 let classMethod = data?["classMethod"] as? String ?? ""
-                self.classMetTF.text = classMethod
+                self.classMetTV.text = classMethod
                 let extraExprience = data?["extraExprience"] as? String ?? ""
-                self.extraExpTF.text = extraExprience
+                self.extraExpTV.text = extraExprience
+                let manage = data?["manage"] as? String ?? ""
+                self.manageTV.text = manage
+                let contact = data?["contact"] as? String ?? ""
+                self.contactTV.text = contact
+                let time = data?["time"] as? String ?? ""
+                self.timeTV.text = time
+                self.evaluationTV.text = "NOT CONNECTED"
+                
                 let showPortfolio = data?["portfolioShow"] as? String ?? ""
                 if (showPortfolio == "Off") {
                     self.showPortfolio = "Off"
@@ -77,10 +130,13 @@ class PortfolioEditViewController: UIViewController {
         }
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").setData([
-            "eduHistory": eduHistoryTF.text ?? "None",
-            "classMethod": classMetTF.text ?? "None",
-            "extraExprience": extraExpTF.text ?? "None",
-            "portfolioShow": self.showPortfolio
+            "eduHistory": eduHistoryTV.text ?? "",
+            "classMethod": classMetTV.text ?? "",
+            "extraExprience": extraExpTV.text ?? "",
+            "portfolioShow": self.showPortfolio,
+            "time": timeTV.text ?? "",
+            "manage": manageTV.text ?? "",
+            "contact": contactTV.text ?? ""
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
