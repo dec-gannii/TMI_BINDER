@@ -34,14 +34,17 @@ class ShowPortfolioViewController: UIViewController {
                     return
                 }
                 
-                // 포트폴리오를 보여주는 화면 present
-                guard let portfolioVC = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioTableViewController") as? PortfolioTableViewController else { return }
-                portfolioVC.isShowMode = true
-                portfolioVC.showModeEmail = self.teacherEmailTextField.text!
-                self.present(portfolioVC, animated: true, completion: nil)
                 
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    let email = document.data()["email"] as? String ?? ""
+                    // 포트폴리오를 보여주는 화면 present
+                    guard let portfolioVC = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioTableViewController") as? PortfolioTableViewController else { return }
+                    portfolioVC.isShowMode = true
+                    portfolioVC.showModeEmail = email
+                    self.present(portfolioVC, animated: true, completion: nil)
+                }
             }
-            
             /// 변수 다시 공백으로 바꾸기
             self.teacherEmailTextField.text = ""
         }
