@@ -87,15 +87,6 @@ class DetailClassViewController: UIViewController {
         evaluationMemoTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         progressTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
-//        textViewDidBeginEditing(self.monthlyEvaluationTextView)
-//        textViewDidEndEditing(self.monthlyEvaluationTextView)
-//
-//        textViewDidBeginEditing(self.evaluationMemoTextView)
-//        textViewDidEndEditing(self.evaluationMemoTextView)
-//
-//        textViewDidBeginEditing(self.progressTextView)
-//        textViewDidEndEditing(self.progressTextView)
-        
         self.monthlyEvaluationBackgroundView.isHidden = true
         
         // 데이터 없을 때 나올 텍스트 설정
@@ -312,6 +303,9 @@ class DetailClassViewController: UIViewController {
     // 학생이 입력해둔 성적 수치를 가져오기 위한 메소드
     func getScores() {
         var studentUid = "" // 학생의 uid 변수
+        // 빈 배열 형성
+        days = []
+        scores = []
         
         // 받은 이메일이 nil이 아니라면
         if let email = self.userEmail {
@@ -424,19 +418,61 @@ class DetailClassViewController: UIViewController {
     }
     
     @IBAction func editBtnAction(_ sender: Any) {
-        guard let editClassVC = self.storyboard?.instantiateViewController(withIdentifier: "EditClassViewController") as? EditClassVC else { return }
+        let optionMenu = UIAlertController(title: "수정 및 삭제", message: nil, preferredStyle: .actionSheet)
         
-        editClassVC.modalTransitionStyle = .crossDissolve
-        editClassVC.modalPresentationStyle = .fullScreen
+        let editAction = UIAlertAction(title: "수정", style: .default, handler: { action in
+            guard let editClassVC = self.storyboard?.instantiateViewController(withIdentifier: "EditClassViewController") as? EditClassVC else { return }
+            
+            editClassVC.modalTransitionStyle = .crossDissolve
+            editClassVC.modalPresentationStyle = .fullScreen
+            
+            // 값 보내주는 역할
+            editClassVC.userName = self.userName
+            editClassVC.userEmail = self.userEmail
+            editClassVC.userSubject = self.userSubject
+            
+            self.present(editClassVC, animated: true, completion: nil)
+            
+        })
         
-        // 값 보내주는 역할
-        editClassVC.userName = self.userName
-        editClassVC.userEmail = self.userEmail
-        editClassVC.userSubject = self.userSubject
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
+            let path  =  self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject)
+            
+            path.delete()
+            
+            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument {(document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    let teacherName = data!["name"] as? String ?? ""
+                    let teacherEmail = data!["email"] as? String ?? ""
+                    if let email = self.userEmail {
+                        let studentPath = self.db.collection("student").whereField("email", isEqualTo: email)
+                        studentPath.getDocuments() {
+                            (QuerySnapshot, err) in
+                            if let err = err {
+                                print("Error getting documents: \(err)")
+                            } else {
+                                for document in QuerySnapshot!.documents {
+                                    print("\(document.documentID) => \(document.data())")
+                                    let studentUid = document.data()["uid"] as? String ?? "" // 학생의 uid 변수에 저장
+                                    let studentClassPath = self.db.collection("student").document(studentUid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject)
+                                    studentClassPath.delete()
+                                    self.dismiss(animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
-        self.present(editClassVC, animated: true, completion: nil)
+        optionMenu.addAction(editAction)
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(cancelAction)
         
+        self.present(optionMenu, animated: true, completion: nil)
     }
     
     
