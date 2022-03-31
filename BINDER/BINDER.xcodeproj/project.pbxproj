@@ -69,7 +69,6 @@
 		7F716946276499CA001FD4F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F716945276499CA001FD4F4 /* Main.storyboard */; };
 		7F7818E827B3AE2600241655 /* EditInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7818E727B3AE2600241655 /* EditInfoViewController.swift */; };
 		7F8CC8FA275BB29E00BE195D /* ScheduleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8CC8F9275BB29E00BE195D /* ScheduleListViewController.swift */; };
-		7F9373DC27DE152700C2CCA4 /* ParentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9373DB27DE152700C2CCA4 /* ParentItem.swift */; };
 		7F9B8AF127E0CA11008B705B /* ParentDetailEvaluationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9B8AF027E0CA11008B705B /* ParentDetailEvaluationViewController.swift */; };
 		7F9B8AF327E0D31A008B705B /* TeacherEvaluationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9B8AF227E0D31A008B705B /* TeacherEvaluationViewController.swift */; };
 		7FA6B7D627C0C67100BFEBDA /* SecessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA6B7D527C0C67100BFEBDA /* SecessionViewController.swift */; };
@@ -149,7 +148,6 @@
 		7F716945276499CA001FD4F4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		7F7818E727B3AE2600241655 /* EditInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInfoViewController.swift; sourceTree = "<group>"; };
 		7F8CC8F9275BB29E00BE195D /* ScheduleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleListViewController.swift; sourceTree = "<group>"; };
-		7F9373DB27DE152700C2CCA4 /* ParentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentItem.swift; sourceTree = "<group>"; };
 		7F9B8AF027E0CA11008B705B /* ParentDetailEvaluationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentDetailEvaluationViewController.swift; sourceTree = "<group>"; };
 		7F9B8AF227E0D31A008B705B /* TeacherEvaluationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherEvaluationViewController.swift; sourceTree = "<group>"; };
 		7FA6B7D527C0C67100BFEBDA /* SecessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecessionViewController.swift; sourceTree = "<group>"; };
@@ -269,7 +267,6 @@
 				6F86FBD327B37FDC00670928 /* QuestionListItem.swift */,
 				6FFDECC827CDF9380028B652 /* QuestionAnsweredListItem.swift */,
 				7F2E9EA227DB482A008991EB /* EvaluationItem.swift */,
-				7F9373DB27DE152700C2CCA4 /* ParentItem.swift */,
 				7F2EC1FF27F5AD07005A9214 /* LoadingIndicator.swift */,
 				7F2EC22527F5CC8F005A9214 /* LoadingHUD.swift */,
 			);
@@ -612,7 +609,6 @@
 				6965DE72275DEF290072C16A /* Date.swift in Sources */,
 				69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */,
 				7FBC6B1627EA06690067BAD5 /* PortfolioTableViewController.swift in Sources */,
-				7F9373DC27DE152700C2CCA4 /* ParentItem.swift in Sources */,
 				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
 				7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */,
 				69EE72B4275D11D5007F6F7C /* PortfolioViewController.swift in Sources */,

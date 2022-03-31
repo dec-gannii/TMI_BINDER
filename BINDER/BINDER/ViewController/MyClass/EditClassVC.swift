@@ -151,7 +151,6 @@ class EditClassVC : UIViewController {
         if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
-        
     }
     
     

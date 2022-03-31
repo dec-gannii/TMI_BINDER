@@ -77,14 +77,27 @@ class DetailClassViewController: UIViewController {
         barColorSetting()
     }
     
+    func setBorder() {
+        let color = UIColor.systemGray6.cgColor
+        self.progressTextView.layer.borderWidth = 1.0
+        self.progressTextView.layer.borderColor = color
+        self.evaluationMemoTextView.layer.borderWidth = 1.0
+        self.evaluationMemoTextView.layer.borderColor = color
+        self.monthlyEvaluationTextView.layer.borderWidth = 1.0
+        self.monthlyEvaluationTextView.layer.borderColor = color
+        
+    }
+    
     override func viewDidLoad() {
         // 빈 배열 형성
         days = []
         scores = []
         
-        monthlyEvaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        evaluationMemoTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        progressTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        let EdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
+        monthlyEvaluationTextView.textContainerInset = EdgeInsets
+        evaluationMemoTextView.textContainerInset = EdgeInsets
+        progressTextView.textContainerInset = EdgeInsets
         
         self.monthlyEvaluationBackgroundView.isHidden = true
         
@@ -93,24 +106,10 @@ class DetailClassViewController: UIViewController {
         barChartView.noDataFont = .systemFont(ofSize: 20)
         barChartView.noDataTextColor = .lightGray
         
-        
-        evaluationView.layer.cornerRadius = 10
-        monthlyEvaluationBackgroundView.layer.cornerRadius = 10
-        monthlyEvaluationTextView.layer.cornerRadius = 10
-        progressTextView.layer.cornerRadius = 10
-        evaluationMemoTextView.layer.cornerRadius = 10
-        evaluationOKBtn.layer.cornerRadius = 10
-        monthlyEvaluationOKBtn.layer.cornerRadius = 10
+        setBorder()
         
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
-        
-        self.progressTextView.layer.borderWidth = 1.0
-        self.progressTextView.layer.borderColor = UIColor.systemGray6.cgColor
-        self.evaluationMemoTextView.layer.borderWidth = 1.0
-        self.evaluationMemoTextView.layer.borderColor = UIColor.systemGray6.cgColor
-        self.monthlyEvaluationTextView.layer.borderWidth = 1.0
-        self.monthlyEvaluationTextView.layer.borderColor = UIColor.systemGray6.cgColor
         
         if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
             if (self.userType == "student") { // 사용자가 학생이면
@@ -132,19 +131,19 @@ class DetailClassViewController: UIViewController {
     
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
+        let color = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
         calendarView.scope = .week
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.appearance.eventDefaultColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.appearance.eventSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.appearance.selectionColor = .none
-        calendarView.appearance.titleSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
+        calendarView.appearance.headerTitleColor =  color
+        calendarView.appearance.eventDefaultColor = color
+        calendarView.appearance.eventSelectionColor = color
+        calendarView.appearance.titleSelectionColor = color
+        calendarView.appearance.borderSelectionColor = color
         calendarView.appearance.todayColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 0.3)
         calendarView.appearance.titleTodayColor = .black
         calendarView.appearance.todaySelectionColor = .white
-        calendarView.appearance.borderSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.scope = .week
+        calendarView.appearance.selectionColor = .none
     }
     
     // 캘린더 텍스트 스타일 설정을 위한 메소드
@@ -509,7 +508,6 @@ class DetailClassViewController: UIViewController {
                     
                     if (payType == "T") {
                         if (currentCnt+Int(self.classTimeTextField.text!)! >= 8) {
-                            print ("currentCnt+Int(self.classTimeTextField.text!)! : \(currentCnt+Int(self.classTimeTextField.text!)!)")
                             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": (currentCnt + Int(self.classTimeTextField.text!)!) % 8
                             ]) { err in
@@ -529,7 +527,6 @@ class DetailClassViewController: UIViewController {
                         count = currentCnt + Int(self.classTimeTextField.text!)!
                     } else if (payType == "C") {
                         if (currentCnt+1 >= 8) {
-                            print ("currentCnt+Int(self.classTimeTextField.text!)! : \(currentCnt+Int(self.classTimeTextField.text!)!)")
                             currentCnt = currentCnt % 8
                             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": currentCnt + 1
@@ -610,6 +607,13 @@ class DetailClassViewController: UIViewController {
         okButton.layer.cornerRadius = 10
         plusButton.clipsToBounds = true
         plusButton.layer.cornerRadius = 10
+        evaluationView.layer.cornerRadius = 10
+        monthlyEvaluationBackgroundView.layer.cornerRadius = 10
+        monthlyEvaluationTextView.layer.cornerRadius = 10
+        progressTextView.layer.cornerRadius = 10
+        evaluationMemoTextView.layer.cornerRadius = 10
+        evaluationOKBtn.layer.cornerRadius = 10
+        monthlyEvaluationOKBtn.layer.cornerRadius = 10
     }
     
     func barColorSetting(){

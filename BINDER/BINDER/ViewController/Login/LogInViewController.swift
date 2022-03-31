@@ -57,7 +57,7 @@ class LogInViewController: UIViewController {
                 case .userDisabled:
                     // Error: The user account has been disabled by an administrator.
                     let alert = UIAlertController(title: "로그인 실패", message: "사용할 수 없는 사용자 계정입니다.", preferredStyle: UIAlertController.Style.alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
+                    let okAction = UIAlertAction(title: "확인", style: .default) { (action) in }
                     alert.addAction(okAction)
                     self.present(alert, animated: false, completion: nil)
                     break
@@ -72,14 +72,13 @@ class LogInViewController: UIViewController {
                     break
                 default:
                     let alert = UIAlertController(title: "로그인 실패", message: "로그인에 실패하였습니다. 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
+                    let okAction = UIAlertAction(title: "확인", style: .default) { (action) in }
                     alert.addAction(okAction)
                     self.present(alert, animated: false, completion: nil)
                     break
                 }
             } else {
                 // 별 오류 없으면 로그인 되어서 홈 뷰 컨트롤러 띄우기
-                print("No Error Exists")
                 self.db.collection("parent").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
                     if let err = err {
                         print("Error getting documents: \(err)")
@@ -89,7 +88,6 @@ class LogInViewController: UIViewController {
                             // 사용할 것들 가져와서 지역 변수로 저장
                             let type = document.data()["type"] as? String ?? ""
                             if (type == "parent") {
-                                print ("No Error Exists 2")
                                 guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
                                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                                 self.present(tb, animated: true, completion: nil)

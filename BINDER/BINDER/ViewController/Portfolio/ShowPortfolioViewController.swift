@@ -28,12 +28,11 @@ class ShowPortfolioViewController: UIViewController {
                 // 도큐먼트 존재 안 하면 유효하지 않은 선생님 이메일이라고 alert 발생
                 guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                     let alert = UIAlertController(title: "탐색 오류", message: "유효하지 않은 선생님의 이메일입니다!", preferredStyle: UIAlertController.Style.alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
+                    let okAction = UIAlertAction(title: "확인", style: .default) { (action) in }
                     alert.addAction(okAction)
                     self.present(alert, animated: false, completion: nil)
                     return
                 }
-                
                 
                 for document in querySnapshot!.documents {
                     print("\(document.documentID) => \(document.data())")

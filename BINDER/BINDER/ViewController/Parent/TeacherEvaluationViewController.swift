@@ -68,7 +68,6 @@ class TeacherEvaluationViewController: UIViewController {
                             print("\(document.documentID) => \(document.data())")
                             let studentName = document.data()["name"] as? String ?? "" // 학생 이름
                             self.studentTitle.text = studentName + " 학생의 " + self.date + " 수업은..." // 학생 평가 title text 설정
-                            
                             self.evaluationTextView.isEditable = false // 평가 textview 수정 못하도록 설정
                         }
                     }

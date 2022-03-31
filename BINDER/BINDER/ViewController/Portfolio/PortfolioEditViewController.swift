@@ -27,30 +27,33 @@ class PortfolioEditViewController: UIViewController {
     var showPortfolio = "On"
     
     func setTextViewUI() {
+        let color = UIColor.systemGray6.cgColor
         // Border setting
         self.eduHistoryTV.layer.borderWidth = 1.0
-        self.eduHistoryTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.eduHistoryTV.layer.borderColor = color
         self.classMetTV.layer.borderWidth = 1.0
-        self.classMetTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.classMetTV.layer.borderColor = color
         self.extraExpTV.layer.borderWidth = 1.0
-        self.extraExpTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.extraExpTV.layer.borderColor = color
         self.timeTV.layer.borderWidth = 1.0
-        self.timeTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.timeTV.layer.borderColor = color
         self.contactTV.layer.borderWidth = 1.0
-        self.contactTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.contactTV.layer.borderColor = color
         self.manageTV.layer.borderWidth = 1.0
-        self.manageTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.manageTV.layer.borderColor = color
         self.evaluationTV.layer.borderWidth = 1.0
-        self.evaluationTV.layer.borderColor = UIColor.systemGray6.cgColor
+        self.evaluationTV.layer.borderColor = color
+        
+        let edgeInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
-        self.eduHistoryTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        self.classMetTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        self.extraExpTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        self.timeTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        self.manageTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        self.contactTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        self.evaluationTV.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        self.eduHistoryTV.textContainerInset = edgeInset
+        self.classMetTV.textContainerInset = edgeInset
+        self.extraExpTV.textContainerInset = edgeInset
+        self.timeTV.textContainerInset = edgeInset
+        self.manageTV.textContainerInset = edgeInset
+        self.contactTV.textContainerInset = edgeInset
+        self.evaluationTV.textContainerInset = edgeInset
         
         // cornerRadius 지정
         self.eduHistoryTV.clipsToBounds = true

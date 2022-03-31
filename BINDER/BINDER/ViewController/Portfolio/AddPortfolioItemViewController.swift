@@ -93,13 +93,7 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func TitleButtonClicked(_ sender: Any) {
-        // 버튼의 태그를 사용
-        if ((sender as AnyObject).tag == 0) { // 태그가 0인 경우 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
-            self.titleTextField.text = (sender as AnyObject).titleLabel?.text
-        } else if ((sender as AnyObject).tag == 1) { // 태그가 1인 경우 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
-            self.titleTextField.text = (sender as AnyObject).titleLabel?.text
-        } else if ((sender as AnyObject).tag == 2) { // 태그가 2인 경우 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
-            self.titleTextField.text = (sender as AnyObject).titleLabel?.text
-        }
+        // 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
+        self.titleTextField.text = (sender as AnyObject).titleLabel?.text
     }
 }
