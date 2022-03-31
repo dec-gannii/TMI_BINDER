@@ -152,7 +152,7 @@ class PortfolioEditViewController: UIViewController {
     }
     
     @IBAction func cancelButton(_ sender: Any) {
-        if let preVC = self.presentingViewController as? UIViewController {
+        if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }

@@ -25,8 +25,6 @@ class LoginRepository {
             } else {
                 guard let doc = document, doc.exists else {
                     print(">>>>> 해당하는 선생님 존재하지 않음")
-                    //                    failure(err)
-                    //                    return
                     db.collection("student").document(Auth.auth().currentUser!.uid).getDocument { (document, err) in
                         if let err = err {
                             print(">>>>> document 에러 : \(err)")
@@ -65,7 +63,7 @@ class LoginRepository {
                             let name = studentDt["name"] as? String ?? ""
                             let password = studentDt["password"] as? String ?? ""
                             let phone = studentDt["phone"] as? String ?? ""
-                            var profile = studentDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                            let profile = studentDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                             let goal = studentDt["goal"] as? String ?? ""
                             self.studentItem = StudentItem(age: age, email: email, goal: goal, name: name, password: password, phone: phone, profile: profile)
                             
@@ -83,7 +81,7 @@ class LoginRepository {
                 let name = teacherDt["name"] as? String ?? ""
                 let password = teacherDt["password"] as? String ?? ""
                 let phone = teacherDt["phone"] as? String ?? ""
-                var profile = teacherDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                let profile = teacherDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                 self.teacherItem = TeacherItem(age: age, email: email, name: name, password: password, phone: phone, profile: profile)
                 
                 /// 성공 알림

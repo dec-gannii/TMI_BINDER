@@ -191,7 +191,6 @@ class SignInViewController: UIViewController {
         if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) ) {
             // 사용자를 생성
             Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
-                print(error?.localizedDescription)
                 Auth.auth().currentUser?.sendEmailVerification(completion: {(error) in
                     print("sended to " + id)
                     if let error = error {

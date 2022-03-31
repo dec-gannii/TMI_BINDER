@@ -182,7 +182,7 @@ class PortfolioViewController: UIViewController {
         if (isShowMode == true){
             self.dismiss(animated: true, completion: nil)
         } else {
-            if let preVC = self.presentingViewController as? UIViewController {
+            if let preVC = self.presentingViewController {
                 preVC.dismiss(animated: true, completion: nil)
             }
             self.dismiss(animated: true, completion: nil)

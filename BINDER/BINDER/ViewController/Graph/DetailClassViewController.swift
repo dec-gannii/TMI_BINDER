@@ -375,7 +375,7 @@ class DetailClassViewController: UIViewController {
     
     // 뒤로가기 버튼 클릭 시 실행되는 메소드
     @IBAction func goBack(_ sender: Any) {
-        if let preVC = self.presentingViewController as? UIViewController {
+        if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
@@ -733,7 +733,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
         let todo = self.todos[indexPath.row]
-        let background = UIView()
         
         cell.TodoLabel.text = "\(todo)"
         cell.CheckButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)

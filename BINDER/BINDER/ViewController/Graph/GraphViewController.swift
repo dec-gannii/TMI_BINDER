@@ -228,7 +228,7 @@ class GraphViewController: UIViewController {
     }
     
     func getUserInfo() {
-        var docRef = self.db.collection("teacher")
+        let docRef = self.db.collection("teacher")
         docRef.whereField("uid", isEqualTo: Auth.auth().currentUser?.uid)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
@@ -252,7 +252,7 @@ class GraphViewController: UIViewController {
     }
     
     @IBAction func goHome(_ sender: Any) {
-        if let preVC = self.presentingViewController as? UIViewController {
+        if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }

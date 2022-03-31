@@ -79,7 +79,6 @@ class PortfolioTableViewController: UIViewController {
                         docRef.getDocument { (document, error) in
                             if let document = document, document.exists {
                                 let data = document.data()
-                                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                                 
                                 let eduText = data?["eduHistory"] as? String ?? "" // 학력 정보
                                 let classText = data?["classMethod"] as? String ?? "" // 수업 방식
@@ -122,7 +121,6 @@ class PortfolioTableViewController: UIViewController {
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
-                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                     
                     let eduText = data?["eduHistory"] as? String ?? ""
                     let classText = data?["classMethod"] as? String ?? ""
