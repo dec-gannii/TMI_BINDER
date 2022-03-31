@@ -29,6 +29,7 @@ class PortfolioTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // TableView 관련 delegate, dataSource 처리
         portfolioTableView.delegate = self
         portfolioTableView.dataSource = self
@@ -42,6 +43,12 @@ class PortfolioTableViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        LoadingHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            LoadingHUD.hide()
+        }
+        
         self.portfolioTableView.reloadData() // tableview 다시 그려주기
     }
     
