@@ -28,6 +28,7 @@ class HomeViewController: UIViewController {
     
     var events: [Date] = []
     var days: [Date] = []
+
     /// 수업 변수 배열
     var classItems: [String] = []
     
@@ -816,6 +817,7 @@ class HomeViewController: UIViewController {
         }
     }
 }
+
 
 extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
     // 날짜 선택 시 실행되는 메소드

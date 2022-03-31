@@ -93,6 +93,10 @@ class QuestionListViewController : BaseVC {
                                                 print("\(document.documentID) => \(document.data())")
                                                 // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
                                                 // 네비게이션 바의 이름도 설정해주기
+                                                LoadingIndicator.showLoading()
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                                    LoadingIndicator.hideLoading()
+                                                }
                                                 let name = document.data()["name"] as? String ?? ""
                                                 self.userName = name
                                                 self.email = document.data()["email"] as? String ?? ""

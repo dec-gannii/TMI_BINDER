@@ -68,6 +68,7 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
         do {
             /// 로그아웃 실행
             try Auth.auth().signOut()
+            LoadingIndicator.isLoaded = false
         } catch {
             print("Sign out error")
         }
@@ -130,6 +131,14 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
                     /// 문서 존재하면
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
+                        if (LoadingIndicator.isLoaded == false) {
+                            LoadingIndicator.showLoading()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                LoadingIndicator.isLoaded = true
+                                LoadingIndicator.hideLoading()
+                            }
+                        }
+                        
                         let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png" // 학부모 프로필 이미지 링크 가져오기
                         let name = document.data()["name"] as? String ?? "" // 학부모 이름
                         let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? "" // 자녀 휴대폰 번호

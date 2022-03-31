@@ -75,7 +75,6 @@ class DetailClassViewController: UIViewController {
         
         allRound()
         barColorSetting()
-//        placeholderSetting()
     }
     
     override func viewDidLoad() {
@@ -789,61 +788,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
         }
     }
-    
-    //    func placeholderSetting() {
-    //        evaluationMemoTextView.delegate = self // txtvReview가 유저가 선언한 outlet
-    //        progressTextView.delegate = self // txtvReview가 유저가 선언한 outlet
-    //        monthlyEvaluationTextView.delegate = self // txtvReview가 유저가 선언한 outlet
-    //        if (evaluationMemoTextView.text == "오늘 수업 관련 메모사항을 입력해주세요.") {
-    //            evaluationMemoTextView.text = "오늘 수업 관련 메모사항을 입력해주세요."
-    //            evaluationMemoTextView.textColor = UIColor.lightGray
-    //        }
-    //        if (progressTextView.text == "오늘 진도 사항을 입력해주세요.") {
-    //            if (self.userType == "student") {
-    //                progressTextView.text = "오늘 배운 내용을 입력해주세요."
-    //            } else {
-    //                progressTextView.text = "오늘 진도 사항을 입력해주세요."
-    //            }
-    //            progressTextView.textColor = UIColor.lightGray
-    //        }
-    //
-    //        if (monthlyEvaluationTextView.text == "이번 달 총평을 입력해주세요.") {
-    //            monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
-    //            monthlyEvaluationTextView.textColor = UIColor.lightGray
-    //        }
-    //    }
-    
-    // TextView Place Holder
-    //    func textViewDidBeginEditing(_ textView: UITextView) {
-    //        if textView.textColor == UIColor.lightGray {
-    //            textView.text = ""
-    //            textView.textColor = UIColor.black
-    //        }
-    //    }
-    
-    // TextView Place Holder
-    //    func textViewDidEndEditing(_ textView: UITextView) {
-    //        if (textView == self.monthlyEvaluationTextView){
-    //            if monthlyEvaluationTextView.text == "" {
-    //                monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
-    //                monthlyEvaluationTextView.textColor = UIColor.lightGray
-    //            }
-    //        } else if (textView == self.evaluationMemoTextView) {
-    //            if evaluationMemoTextView.text == "" {
-    //                evaluationMemoTextView.text = "오늘 수업 관련 메모사항을 입력해주세요."
-    //                evaluationMemoTextView.textColor = UIColor.lightGray
-    //            }
-    //        } else if (textView == self.progressTextView) {
-    //            if progressTextView.text == "" {
-    //                if (self.userType == "teacher") {
-    //                    progressTextView.text = "오늘 진도 사항을 입력해주세요."
-    //                } else {
-    //                    progressTextView.text = "오늘 배운 내용을 입력해주세요."
-    //                }
-    //                progressTextView.textColor = UIColor.lightGray
-    //            }
-    //        }
-    //    }
 }
 
 extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate, UITextViewDelegate {

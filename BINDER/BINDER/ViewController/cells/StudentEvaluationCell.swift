@@ -106,6 +106,11 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
                     return
                 }
                 for document in snapshot.documents {
+                    LoadingIndicator.showLoading()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        LoadingIndicator.hideLoading()
+                    }
+                    
                     print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
                     /// nil값 처리
                     let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? ""

@@ -34,7 +34,6 @@ class PortfolioViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         viewRound()
         getUserInfo()
         getPortfoiloInfo()
@@ -147,6 +146,7 @@ class PortfolioViewController: UIViewController {
                         self.db.collection("teacher").document(teacherUid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
                             if let document = document, document.exists {
                                 let data = document.data()
+                                
                                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                                 let portfolioAccess = data?["portfolioShow"] as? String ?? ""
                                 if (portfolioAccess == "On") {
