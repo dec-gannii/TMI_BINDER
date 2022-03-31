@@ -12,7 +12,6 @@ class LoginRepository {
     
     var teacherItem: TeacherItem?
     var studentItem: StudentItem?
-    var parentItem: ParentItem?
     
     init() {
     }
@@ -51,7 +50,6 @@ class LoginRepository {
                                         let password = parentDt["password"] as? String ?? ""
                                         let childPhoneNumber = parentDt["childPhoneNumber"] as? String ?? ""
                                         var profile = parentDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
-                                        self.parentItem = ParentItem(email: email, childPhoneNumber: childPhoneNumber, name: name, password: password, profile: profile)
                                         
                                         /// 성공 알림
                                         completion()
