@@ -74,12 +74,16 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
         LoadingIndicator.isLoaded = false
         
-        if (LoadingIndicator.isLoaded == false) {
-            LoadingIndicator.showLoading()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                LoadingIndicator.isLoaded = true
-                LoadingIndicator.hideLoading()
-            }
+//        if (LoadingIndicator.isLoaded == false) {
+//            LoadingIndicator.showLoading()
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                LoadingIndicator.isLoaded = true
+//                LoadingIndicator.hideLoading()
+//            }
+//        }
+        LoadingHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            LoadingHUD.hide()
         }
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
     }

@@ -131,12 +131,17 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
                     /// 문서 존재하면
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        if (LoadingIndicator.isLoaded == false) {
-                            LoadingIndicator.showLoading()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                LoadingIndicator.isLoaded = true
-                                LoadingIndicator.hideLoading()
-                            }
+//                        if (LoadingIndicator.isLoaded == false) {
+//                            LoadingIndicator.showLoading()
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                                LoadingIndicator.isLoaded = true
+//                                LoadingIndicator.hideLoading()
+//                            }
+//                        }
+                        
+                        LoadingHUD.show()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            LoadingHUD.hide()
                         }
                         
                         let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png" // 학부모 프로필 이미지 링크 가져오기

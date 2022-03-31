@@ -75,10 +75,15 @@ class MyClassVC: BaseVC{
                         self.teacherImage.kf.setImage(with: url)
                         
                         self.setTeacherInfo()
+
+//                        LoadingIndicator.showLoading()
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                            LoadingIndicator.hideLoading()
+//                        }
                         
-                        LoadingIndicator.showLoading()
+                        LoadingHUD.show()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            LoadingIndicator.hideLoading()
+                            LoadingHUD.hide()
                         }
                     }
                 }
@@ -103,9 +108,14 @@ class MyClassVC: BaseVC{
                         
                         self.setStudentInfo()
                         
-                        LoadingIndicator.showLoading()
+//                        LoadingIndicator.showLoading()
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                            LoadingIndicator.hideLoading()
+//                        }
+                        
+                        LoadingHUD.show()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            LoadingIndicator.hideLoading()
+                            LoadingHUD.hide()
                         }
                     }
                 }

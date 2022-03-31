@@ -106,9 +106,14 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
                     return
                 }
                 for document in snapshot.documents {
-                    LoadingIndicator.showLoading()
+//                    LoadingIndicator.showLoading()
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                        LoadingIndicator.hideLoading()
+//                    }
+                    
+                    LoadingHUD.show()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        LoadingIndicator.hideLoading()
+                        LoadingHUD.hide()
                     }
                     
                     print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
