@@ -45,7 +45,7 @@ class PortfolioTableViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             LoadingHUD.hide()
         }
         

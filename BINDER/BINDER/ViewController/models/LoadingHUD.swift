@@ -10,11 +10,13 @@ import UIKit
 class LoadingHUD: NSObject {
     private static let sharedInstance = LoadingHUD()
     private var popupView: UIImageView?
+    static var isLoaded = false
     
     class func show() {
-        let popupView = UIImageView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width/2.5, height: UIScreen.main.bounds.size.height/2.5))
-//        popupView.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.4)
-        popupView.backgroundColor = .none
+        let popupView = UIImageView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+//        print("width: \(UIScreen.main.bounds.size.width), height: \(UIScreen.main.bounds.size.height)")
+        popupView.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.4)
+//        popupView.backgroundColor = .none
         popupView.animationImages = LoadingHUD.getAnimationImageArray()    // 애니메이션 이미지
         popupView.animationDuration = 4.0
         popupView.animationRepeatCount = 0    // 0일 경우 무한반복

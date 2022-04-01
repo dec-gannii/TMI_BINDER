@@ -138,10 +138,13 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
 //                                LoadingIndicator.hideLoading()
 //                            }
 //                        }
-                        
-                        LoadingHUD.show()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            LoadingHUD.hide()
+//
+                        if LoadingHUD.isLoaded == false {
+                            LoadingHUD.show()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                LoadingHUD.isLoaded = true
+                                LoadingHUD.hide()
+                            }
                         }
                         
                         let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png" // 학부모 프로필 이미지 링크 가져오기

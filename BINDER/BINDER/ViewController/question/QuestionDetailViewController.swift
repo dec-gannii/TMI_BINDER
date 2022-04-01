@@ -189,7 +189,6 @@ class QuestionDetailViewController: UIViewController {
             }
         } else {
             if let email = self.email, let index = self.index {
-                print ("self.index : \(index), self.email : \(email)")
                 var studentName = ""
                 var studentEmail = ""
                 var teacherUid = ""
