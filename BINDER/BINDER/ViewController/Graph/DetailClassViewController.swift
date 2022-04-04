@@ -219,6 +219,7 @@ class DetailClassViewController: UIViewController {
                                                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                                                         self.count = data?["count"] as? Int ?? 0
                                                         
+                                                        self.todos.removeAll()
                                                         for i in 1...self.count {
                                                             // 순서대로 todolist를 담는 배열에 추가해주기
                                                             self.todos.append(data?["todo\(i)"] as! String)
@@ -271,6 +272,7 @@ class DetailClassViewController: UIViewController {
                                                 self.count = data?["count"] as? Int ?? 0
                                                 self.questionLabel.text = "오늘 " + self.userName + " 선생님의 수업은 어땠나요?"
                                                 
+                                                self.todos.removeAll()
                                                 // todolist 배열에 요소 추가
                                                 for i in 1...self.count {
                                                     self.todos.append(data?["todo\(i)"] as! String)
@@ -287,8 +289,10 @@ class DetailClassViewController: UIViewController {
                         }
                         // 학생이면 투두리스트 추가를 하지 못하도록 설정
                         self.plusButton.isHidden = false
-                        self.okButton.removeFromSuperview()
-                        self.todoTF.removeFromSuperview()
+//                        self.okButton.removeFromSuperview()
+                        self.okButton.isHidden = true
+//                        self.todoTF.removeFromSuperview()
+                        self.todoTF.isHidden = true
                         
                         // 학생이면 수업 수정 버튼 보이지 않도록 설정
                         self.editBtn.removeFromSuperview()
