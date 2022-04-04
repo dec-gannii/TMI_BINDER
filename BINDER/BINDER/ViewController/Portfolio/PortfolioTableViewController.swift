@@ -18,6 +18,8 @@ class PortfolioTableViewController: UIViewController {
     @IBOutlet weak var editBtn: UIButton!
     
     var infos: [String] = []
+    var teacherAttitudeArray: [Int] = []
+    var teacherManagingSatisfyScoreArray: [Int] = []
     var isShowMode: Bool = false
     var showModeEmail: String = ""
     var isShowOK: Bool = false
@@ -58,6 +60,10 @@ class PortfolioTableViewController: UIViewController {
     
     // 유저 정보 가져오기
     func getUserInfo(){
+        self.teacherAttitudeArray.removeAll()
+        self.teacherManagingSatisfyScoreArray.removeAll()
+        
+        
         if (isShowMode == true) { /// 포트폴리오 조회인 경우
             self.editBtn.isHidden = true // 수정 버튼 숨기기
             self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
@@ -71,6 +77,22 @@ class PortfolioTableViewController: UIViewController {
                         let profile = document.data()["profile"] as? String ?? ""
                         let uid = document.data()["uid"] as? String ?? ""
                         self.teacherUid = uid
+                        
+                        
+                        self.db.collection("teacherEvaluation").document(uid).collection("evaluation").whereField("teacherUid", isEqualTo: uid).getDocuments() {
+                            (querySnapshot, err) in
+                            if let err = err {
+                                print(">>>>> document 에러 : \(err)")
+                            } else {
+                                for document in querySnapshot!.documents {
+                                    print("\(document.documentID) => \(document.data())")
+                                    let teacherAttitude = document.data()["teacherAttitude"] as? String ?? ""
+                                    self.teacherAttitudeArray.append(Int(teacherAttitude)!)
+                                    let teacherManagingSatisfyScore = document.data()["teacherManagingSatisfyScore"] as? String ?? ""
+                                    self.teacherManagingSatisfyScoreArray.append(Int(teacherManagingSatisfyScore)!)
+                                }
+                            }
+                        }
                         
                         self.infos.removeAll() // 원래 있는 제목 정보들 모두 지우기
                         
@@ -162,6 +184,7 @@ class PortfolioTableViewController: UIViewController {
                     self.teacherEmail.text = email
                     let profile = document.data()!["profile"] as? String ?? ""
                     self.teacherImage.kf.setImage(with: URL(string: profile)!)
+                    self.teacherImage.makeCircle()
                     print("Document data: \(dataDescription)")
                 } else {
                     print("Document does not exist")
@@ -192,6 +215,21 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                 self.teacherUid = Auth.auth().currentUser!.uid // self.teacherUid 를 설정
             }
             
+            
+            var teacherAttitudeScoreAvg = 0
+            var teacherAttitudeScoreSum = 0
+            for score in self.teacherAttitudeArray {
+                teacherAttitudeScoreSum += score
+                teacherAttitudeScoreAvg = teacherAttitudeScoreSum / self.teacherAttitudeArray.count
+            }
+            
+            var teacherManagingSatisfyScoreAvg = 0
+            var teacherManagingSatisfyScoreSum = 0
+            for score in self.teacherManagingSatisfyScoreArray {
+                teacherManagingSatisfyScoreSum += score
+                teacherManagingSatisfyScoreAvg = teacherManagingSatisfyScoreSum / self.teacherManagingSatisfyScoreArray.count
+            }
+            
             let docRef = db.collection("teacher").document(self.teacherUid).collection("Portfolio").document("portfolio")
             
             docRef.getDocument { (document, error) in
@@ -216,7 +254,7 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                     } else if self.infos[indexPath.row] == "과외 경력" {
                         cell.content.text = extraText
                     } else if self.infos[indexPath.row] == "선생님 평가" {
-                        cell.content.text = "등록된 선생님 평가가 없습니다." // 연결 필요
+                        cell.content.text = "\(String(describing: self.teacherName.text!)) 선생님의 수업 태도는 평균적으로 \(teacherAttitudeScoreAvg)점이고, 학부모님들의 학생 관리 만족도는 평균적으로 \(teacherManagingSatisfyScoreAvg)점입니다." // 연결 필요
                     } else if self.infos[indexPath.row] == "과외 시간" {
                         cell.content.text = time
                     } else if self.infos[indexPath.row] == "학생 관리 방법" {
