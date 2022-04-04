@@ -17,7 +17,6 @@ class QuestionDetailViewController: UIViewController {
     @IBOutlet weak var titleName: UILabel!
     @IBOutlet weak var questionContent: UITextView!
     @IBOutlet weak var imgView: UIImageView!
-    
     @IBOutlet weak var answerBtn: UIButton!
     
     // 값을 받아오기 위한 변수들
@@ -183,7 +182,12 @@ class QuestionDetailViewController: UIViewController {
                                         self.imgView.image = UIImage(data: data!)
                                     }
                                 }
+                            } else if (imgURL == "") {
+                                self.imgView.removeFromSuperview()
                             }
+                            self.questionContent.translatesAutoresizingMaskIntoConstraints = true
+                            self.questionContent.sizeToFit()
+                            self.questionContent.isScrollEnabled = false
                         }
                     }
                 }
@@ -261,8 +265,13 @@ class QuestionDetailViewController: UIViewController {
                                                                         self.imgView.image = UIImage(data: data!)
                                                                     }
                                                                 }
-                                                                
+                                                            } else if (imgURL == "") {
+                                                                self.imgView.removeFromSuperview()
                                                             }
+                                                            
+                                                            self.questionContent.translatesAutoresizingMaskIntoConstraints = true
+                                                            self.questionContent.sizeToFit()
+                                                            self.questionContent.isScrollEnabled = false
                                                         }
                                                     }
                                                 }
