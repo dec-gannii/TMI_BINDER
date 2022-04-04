@@ -178,7 +178,7 @@ class DetailClassViewController: UIViewController {
                 } else {
                     for document in querySnapshot!.documents { // 문서가 있다면
                         print("\(document.documentID) => \(document.data())")
-                        // 선생님이므로 성적 추가하는 버튼은 보이지 않도록 isHidden을 true로 변경
+                        // 선생님이므로 성적 추가하는 버튼은 보이지 않도록 superview에서 삭제
                         self.plusButton.isHidden = true
                         
                         if let index = self.userIndex { // userIndex가 nil이 아니라면
@@ -287,12 +287,15 @@ class DetailClassViewController: UIViewController {
                             }
                         }
                         // 학생이면 투두리스트 추가를 하지 못하도록 설정
-                        self.okButton.isHidden = true
-                        self.todoTF.isHidden = true
+//                        self.okButton.isHidden = true
+//                        self.todoTF.isHidden = true
                         self.plusButton.isHidden = false
+                        self.okButton.removeFromSuperview()
+                        self.todoTF.removeFromSuperview()
                         
                         // 학생이면 수업 수정 버튼 보이지 않도록 설정
-                        self.editBtn.isHidden = true
+//                        self.editBtn.isHidden = true
+                        self.editBtn.removeFromSuperview()
                     }
                 }
             }
@@ -413,6 +416,7 @@ class DetailClassViewController: UIViewController {
             }
         }
         self.monthlyEvaluationBackgroundView.isHidden = true
+        self.monthlyEvaluationBackgroundView.removeFromSuperview()
     }
     
     @IBAction func editBtnAction(_ sender: Any) {
@@ -491,8 +495,11 @@ class DetailClassViewController: UIViewController {
                     print("Error adding document: \(err)")
                 }
                 // 저장 이후에는 다시 안 보이도록 함
-                self.evaluationView.isHidden = true
-                self.evaluationOKBtn.isHidden = true
+//                self.evaluationView.isHidden = true
+//                self.evaluationOKBtn.isHidden = true
+                self.evaluationView.removeFromSuperview()
+                self.evaluationOKBtn.removeFromSuperview()
+                
                 self.progressTextView.text = ""
                 self.testScoreTextField.text = ""
                 self.evaluationMemoTextView.text = ""
@@ -593,8 +600,11 @@ class DetailClassViewController: UIViewController {
                     print("Error adding document: \(err)")
                 }
                 // 저장 이후에는 다시 안 보이도록 함
-                self.evaluationView.isHidden = true
-                self.evaluationOKBtn.isHidden = true
+//                self.evaluationView.isHidden = true
+//                self.evaluationOKBtn.isHidden = true
+                self.evaluationView.removeFromSuperview()
+                self.evaluationOKBtn.removeFromSuperview()
+                
                 self.progressTextView.text = ""
                 self.testScoreTextField.text = ""
                 self.evaluationMemoTextView.text = ""
@@ -801,9 +811,11 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                 self.monthlyEvaluationBackgroundView.isHidden = false
             } else {
                 self.monthlyEvaluationBackgroundView.isHidden = true
+//                self.monthlyEvaluationBackgroundView.removeFromSuperview()
             }
         } else {
             self.monthlyEvaluationBackgroundView.isHidden = true
+//            self.monthlyEvaluationBackgroundView.removeFromSuperview()
         }
         
         let selectedDate = date
@@ -985,8 +997,10 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                 }
             } else {
                 // 그대로 숨김 유지
-                evaluationView.isHidden = true
-                evaluationOKBtn.isHidden = true
+//                evaluationView.isHidden = true
+//                evaluationOKBtn.isHidden = true
+                self.evaluationView.removeFromSuperview()
+                self.evaluationOKBtn.removeFromSuperview()
             }
         }
     }

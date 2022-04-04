@@ -65,7 +65,8 @@ class PortfolioTableViewController: UIViewController {
         
         
         if (isShowMode == true) { /// 포트폴리오 조회인 경우
-            self.editBtn.isHidden = true // 수정 버튼 숨기기
+//            self.editBtn.isHidden = true // 수정 버튼 숨기기
+            self.editBtn.removeFromSuperview()
             self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")

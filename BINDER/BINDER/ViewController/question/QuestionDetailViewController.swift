@@ -133,7 +133,8 @@ class QuestionDetailViewController: UIViewController {
                                                 
                                                 self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("questionList").getDocuments() {(document, error) in
                                                     self.setQuestion()
-                                                    self.answerBtn.isEnabled = false
+//                                                    self.answerBtn.isEnabled = false
+                                                    self.answerBtn.removeFromSuperview()
                                                     self.answerBtn.backgroundColor = .white
                                                 }
                                             }

@@ -16,6 +16,7 @@ class QuestionListViewController : BaseVC {
     
     // 네비게이션바
     @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var navigationBarItem: UINavigationItem!
     @IBOutlet weak var toggleLabel: UILabel!
     // 뒤로가기 버튼
     @IBOutlet var backbutton: UIView!
@@ -91,12 +92,6 @@ class QuestionListViewController : BaseVC {
                                         } else {
                                             for document in querySnapshot!.documents {
                                                 print("\(document.documentID) => \(document.data())")
-                                                // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
-                                                // 네비게이션 바의 이름도 설정해주기
-//                                                LoadingIndicator.showLoading()
-//                                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                                    LoadingIndicator.hideLoading()
-//                                                }
                                                 
                                                 LoadingHUD.show()
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -109,7 +104,7 @@ class QuestionListViewController : BaseVC {
                                                 self.subject = document.data()["subject"] as? String ?? ""
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
                                                 self.setTeacherQuestion()
-                                                self.plusbutton.isEnabled = false
+                                                self.navigationBarItem.rightBarButtonItems?.removeAll()
                                             }
                                         }
                                     }
@@ -245,7 +240,6 @@ class QuestionListViewController : BaseVC {
             }
         } else {
             if let email = self.email, let index = self.index {
-                print ("self.index : \(index), self.email : \(email)")
                 var studentName = ""
                 var studentEmail = ""
                 var teacherUid = ""
