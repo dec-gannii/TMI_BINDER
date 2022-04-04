@@ -82,8 +82,9 @@ class EditInfoViewController: UIViewController {
                         self.emailLabel.text = userEmail
                         self.type = data?["type"] as? String ?? ""
                         self.currentPW = data?["password"] as? String ?? ""
-                        self.parentPassword.isHidden = true
-                        self.parentPasswordLabel.isHidden = true
+                        let goal = data?["goal"] as? String ?? ""
+                        self.parentPasswordLabel.text = "목표"
+                        self.parentPassword.text = goal
                     } else {
                         docRef = self.db.collection("parent").document(Auth.auth().currentUser!.uid)
                         docRef.getDocument { (document, error) in
@@ -131,7 +132,8 @@ class EditInfoViewController: UIViewController {
         // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
         db.collection("\(self.type)").document(Auth.auth().currentUser!.uid).updateData([
             "name": name,
-            "password": password
+            "password": password,
+            "goal": self.parentPassword.text
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")

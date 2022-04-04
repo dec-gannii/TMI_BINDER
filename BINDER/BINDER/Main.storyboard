@@ -2302,6 +2302,8 @@ Cg
                         <outlet property="nameLabel" destination="hEi-Rx-R6J" id="9Co-W8-S51"/>
                         <outlet property="openPortfolioSwitch" destination="gWu-8F-IAr" id="FZd-ce-DcA"/>
                         <outlet property="pageView" destination="d0Q-Cz-Dn4" id="Rot-kk-gA1"/>
+                        <outlet property="pageViewContentLabel" destination="X7h-3m-vQh" id="xqn-0m-S0H"/>
+                        <outlet property="pageViewTitleLabel" destination="QfQ-Zk-z6b" id="GvO-51-DGw"/>
                         <outlet property="portfoiolBtn" destination="aAA-2t-GlQ" id="hSa-Hy-anZ"/>
                         <outlet property="portfolioPageView" destination="d0Q-Cz-Dn4" id="EU0-Ho-hSI"/>
                         <outlet property="teacherEmail" destination="epm-og-qms" id="6FT-VJ-ye4"/>
