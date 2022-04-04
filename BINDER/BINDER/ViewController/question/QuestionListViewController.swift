@@ -68,6 +68,12 @@ class QuestionListViewController : BaseVC {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        LoadingHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            LoadingHUD.hide()
+        }
+        
+        setQuestionList()
         self.questionListTV.reloadData()
     }
     

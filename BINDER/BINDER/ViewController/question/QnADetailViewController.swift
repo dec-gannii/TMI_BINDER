@@ -204,13 +204,13 @@ class QnADetailViewController: UIViewController {
                                     DispatchQueue.main.async {
                                         self.questionImgView.image = UIImage(data: data!)
                                         self.questionView.heightAnchor.constraint(equalToConstant: self.questionContent.frame.height + self.questionImgView.frame.height + 50)
-                                                    .isActive = true
+                                            .isActive = true
                                     }
                                 }
                             } else if (imgURL == "") {
                                 self.answerImgView.removeFromSuperview()
                                 self.questionView.heightAnchor.constraint(equalToConstant: self.questionContent.frame.height + 50)
-                                            .isActive = true
+                                    .isActive = true
                             }
                         }
                         
@@ -244,7 +244,7 @@ class QnADetailViewController: UIViewController {
                                             self.answerImgView.image = .none
                                             self.answerImgView.removeFromSuperview()
                                             self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + 50)
-                                                        .isActive = true
+                                                .isActive = true
                                         }
                                     } else {
                                         if imgType == "image"{
@@ -255,7 +255,7 @@ class QnADetailViewController: UIViewController {
                                                     if (self.answerImgView != nil) {
                                                         self.answerImgView.image = UIImage(data: data!)
                                                         self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + self.answerImgView.frame.height + 50)
-                                                                    .isActive = true
+                                                            .isActive = true
                                                     }
                                                 }
                                             }
@@ -350,7 +350,7 @@ class QnADetailViewController: UIViewController {
                                                                     DispatchQueue.main.async {
                                                                         self.questionImgView.image = UIImage(data: data!)
                                                                         self.questionView.heightAnchor.constraint(equalToConstant: self.questionContent.frame.height + self.questionImgView.frame.height + 50)
-                                                                                    .isActive = true
+                                                                            .isActive = true
                                                                         
                                                                     }
                                                                 }
@@ -393,7 +393,7 @@ class QnADetailViewController: UIViewController {
                                                                 self.answerImgView.image = .none
                                                                 self.answerImgView.removeFromSuperview()
                                                                 self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + 50)
-                                                                            .isActive = true
+                                                                    .isActive = true
                                                             }
                                                         } else {
                                                             let url = URL(string: imgurl)
@@ -403,7 +403,7 @@ class QnADetailViewController: UIViewController {
                                                                     if (self.answerImgView != nil) {
                                                                         self.answerImgView.image = UIImage(data: data!)
                                                                         self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + self.answerImgView.frame.height + 50)
-                                                                                    .isActive = true
+                                                                            .isActive = true
                                                                     }
                                                                 }
                                                             }

@@ -40,6 +40,8 @@ class QuestionDetailViewController: UIViewController {
     }
     
     @IBAction func clickanswerBtn(_ sender: Any) {
+        guard let pvc = self.presentingViewController else { return }
+
         guard let answerVC = self.storyboard?.instantiateViewController(withIdentifier: "AnswerVC") as? AnswerViewController else { return }
         
         answerVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
@@ -53,7 +55,11 @@ class QuestionDetailViewController: UIViewController {
         answerVC.type = type
         answerVC.subject = subject
         
-        self.present(answerVC, animated: true, completion: nil)
+        self.dismiss(animated: true) {
+            pvc.present(answerVC, animated: true, completion: nil)
+        }
+        
+//        self.present(answerVC, animated: true, completion: nil)
     }
     
     func getUserInfo() {
