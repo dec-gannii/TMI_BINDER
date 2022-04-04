@@ -631,6 +631,12 @@ class DetailClassViewController: UIViewController {
             dataEntries.append(dataEntry)
         }
         
+        if (dataEntries.count < 4) {
+            for i in dataPoints.count...3 {
+                dataEntries.append(BarChartDataEntry(x: Double(i), y: 0))
+            }
+        }
+        
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: "성적 그래프")
         
         // 차트 컬러
@@ -640,7 +646,7 @@ class DetailClassViewController: UIViewController {
         let chartData = BarChartData(dataSet: chartDataSet)
         barChartView.data = chartData
         barChartView.drawValueAboveBarEnabled = true
-        
+        chartData.barWidth = Double(0.4)
         // 선택 안되게
         chartDataSet.highlightEnabled = false
         

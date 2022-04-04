@@ -150,17 +150,17 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
                             }
                         }
                     }
-                    guard let graphVC = self.storyboard?.instantiateViewController(withIdentifier: "GraphViewController") as? GraphViewController else { return }
+                    guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
                     
-                    graphVC.modalTransitionStyle = .crossDissolve
-                    graphVC.modalPresentationStyle = .fullScreen
+                    detailClassVC.modalTransitionStyle = .crossDissolve
+                    detailClassVC.modalPresentationStyle = .fullScreen
                     
-                    graphVC.userName = self.userName
-                    graphVC.userEmail = self.userEmail
-                    graphVC.userSubject = self.userSubject
-                    graphVC.userType = "student"
+                    detailClassVC.userName = self.userName
+                    detailClassVC.userEmail = self.userEmail
+                    detailClassVC.userSubject = self.userSubject
+                    detailClassVC.userType = "student"
                     
-                    self.present(graphVC, animated: true, completion: nil)
+                    self.present(detailClassVC, animated: true, completion: nil)
                 }
             }
         }
