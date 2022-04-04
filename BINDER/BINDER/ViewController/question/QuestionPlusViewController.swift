@@ -146,7 +146,7 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
             
             print("제목 작성 완료")
             
-            var docRef = self.db.collection("student") // 학생이면
+            let docRef = self.db.collection("student") // 학생이면
             docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
                 .getDocuments() { (querySnapshot, err) in
                     if let err = err {

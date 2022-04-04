@@ -323,7 +323,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                         for document in querySnapshot!.documents {
                                             print("\(document.documentID) => \(document.data())")
                                             let studentEmail = document.data()["email"] as? String ?? "" // 학생 이메일
-                                            let name = document.data()["name"] as? String ?? "" // 학생 이메일
                                             
                                             self.db.collection("teacher").document(teacherUid).collection("class").whereField("email", isEqualTo: self.studentEmail).getDocuments() { (querySnapshot, err) in
                                                 if let err = err {

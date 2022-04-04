@@ -193,8 +193,6 @@ class PortfolioTableViewController: UIViewController {
             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
-                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                    
                     let name = data?["name"] as? String ?? ""
                     self.teacherName.text = name
                     let email = data?["email"] as? String ?? ""

@@ -3639,21 +3639,16 @@ Cg
                                             <constraint firstAttribute="width" constant="70" id="ysD-Aj-b69"/>
                                         </constraints>
                                     </imageView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nyf-BJ-yhq">
-                                        <rect key="frame" x="222.5" y="60" width="48.5" height="31"/>
-                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="01g-Zq-lpg" firstAttribute="top" secondItem="9bg-OM-8rw" secondAttribute="top" constant="60" id="0Ar-aP-pHi"/>
-                                    <constraint firstItem="nyf-BJ-yhq" firstAttribute="leading" secondItem="01g-Zq-lpg" secondAttribute="trailing" constant="10" id="2RJ-i1-iKn"/>
                                     <constraint firstItem="e6F-Gx-Ej5" firstAttribute="top" secondItem="01g-Zq-lpg" secondAttribute="bottom" constant="15" id="63j-K4-NLc"/>
                                     <constraint firstItem="e6F-Gx-Ej5" firstAttribute="leading" secondItem="01g-Zq-lpg" secondAttribute="leading" id="AWL-r2-Nyr"/>
                                     <constraint firstAttribute="trailing" secondItem="gbW-b5-rHu" secondAttribute="trailing" constant="34" id="MYC-eh-6Z6"/>
                                     <constraint firstAttribute="bottom" secondItem="e6F-Gx-Ej5" secondAttribute="bottom" constant="30" id="MaP-q6-Gal"/>
                                     <constraint firstAttribute="bottom" secondItem="gbW-b5-rHu" secondAttribute="bottom" constant="32" id="Y2E-om-pCc"/>
                                     <constraint firstItem="01g-Zq-lpg" firstAttribute="leading" secondItem="9bg-OM-8rw" secondAttribute="leading" constant="34" id="gcl-Vu-2cA"/>
-                                    <constraint firstItem="nyf-BJ-yhq" firstAttribute="top" secondItem="9bg-OM-8rw" secondAttribute="top" constant="60" id="rlt-od-19V"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="txe-Gp-cpL" userLabel="테이블">

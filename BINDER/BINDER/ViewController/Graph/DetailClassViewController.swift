@@ -897,7 +897,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                     }
                 }
                 
-                self.db.collection("student").whereField("email", isEqualTo: self.userEmail).getDocuments() { (querySnapshot, err) in
+                self.db.collection("student").whereField("email", isEqualTo: self.userEmail!).getDocuments() { (querySnapshot, err) in
                     if let err = err {
                         print("Error getting documents: \(err)")
                     } else {

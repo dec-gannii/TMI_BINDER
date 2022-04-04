@@ -133,7 +133,7 @@ class EditInfoViewController: UIViewController {
         db.collection("\(self.type)").document(Auth.auth().currentUser!.uid).updateData([
             "name": name,
             "password": password,
-            "goal": self.parentPassword.text
+            "goal": self.parentPassword.text ?? ""
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")

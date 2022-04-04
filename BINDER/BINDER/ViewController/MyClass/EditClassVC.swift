@@ -25,7 +25,7 @@ class EditClassVC : UIViewController {
     
     @IBOutlet weak var cancelBtn: UIButton!
     @IBAction func cancelBtnAction(_ sender: Any) {
-        if let preVC = self.presentingViewController as? UIViewController {
+        if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
@@ -105,8 +105,8 @@ class EditClassVC : UIViewController {
             "payType": self.payType == .timly ? "T" : "C",
             "payAmount": payAmountTF.text ?? "None",
             "payDate": payDateTF.text ?? "None",
-            "repeatYN": repeatYN ?? true,
-            "schedule": schedule ?? "None"
+            "repeatYN": repeatYN ,
+            "schedule": schedule
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")

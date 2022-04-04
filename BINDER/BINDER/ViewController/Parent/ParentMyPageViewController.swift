@@ -43,7 +43,6 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
         /// parent/현재 유저의 uid에서 문서를 가져와서 문서가 있다면
         self.db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
             if let document = document, document.exists {
-                let data = document.data()
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 /// parent의 childPhoneNumber 를 없애주기 (공백으로 갱신)
                 self.db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
