@@ -189,7 +189,7 @@ class QuestionDetailViewController: UIViewController {
                 }
             }
         } else {
-            if let email = self.email, let index = self.index {
+            if let index = self.index {
                 var studentName = ""
                 var studentEmail = ""
                 var teacherUid = ""

@@ -34,7 +34,6 @@ class QuestionListViewController : BaseVC {
     
     @IBAction func answeredToggleAction(_ sender: Any) {
         setQuestionList()
-        questionListTV.reloadData()
     }
     
     // 값을 받아오기 위한 변수들
@@ -42,6 +41,7 @@ class QuestionListViewController : BaseVC {
     var subject : String!
     var email : String!
     var answerCheck : Bool!
+    var sname: String!
     var type = ""
     var index : Int!
     var qnum: Int!
@@ -65,6 +65,10 @@ class QuestionListViewController : BaseVC {
                 self.toggleLabel.text = "답변 대기만 보기"
             }
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.questionListTV.reloadData()
     }
     
     func getUserInfo() {
@@ -91,7 +95,6 @@ class QuestionListViewController : BaseVC {
                                             print("Error getting documents: \(err)")
                                         } else {
                                             for document in querySnapshot!.documents {
-                                                print("\(document.documentID) => \(document.data())")
                                                 
                                                 LoadingHUD.show()
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -137,7 +140,6 @@ class QuestionListViewController : BaseVC {
                                             print("Error getting documents: \(err)")
                                         } else {
                                             for document in querySnapshot!.documents {
-                                                print("\(document.documentID) => \(document.data())")
                                                 // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
                                                 // 네비게이션 바의 이름도 설정해주기
                                                 let name = document.data()["name"] as? String ?? ""
@@ -198,8 +200,6 @@ class QuestionListViewController : BaseVC {
                     self.questionNotAnsweredItems.removeAll()
                     
                     for document in snapshot.documents {
-                        print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
-                        
                         /// document.data()를 통해서 값 받아옴, data는 dictionary
                         let questionDt = document.data()
                         
@@ -254,6 +254,7 @@ class QuestionListViewController : BaseVC {
                         }
                         for document in querySnapshot!.documents {
                             studentName = document.data()["name"] as? String ?? ""
+                            self.sname = studentName
                             studentEmail = document.data()["email"] as? String ?? ""
                             db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index).getDocuments() { (querySnapshot, err) in
                                 if let err = err {
@@ -297,8 +298,6 @@ class QuestionListViewController : BaseVC {
                                                         self.questionNotAnsweredItems.removeAll()
                                                         
                                                         for document in snapshot.documents {
-                                                            print("1: >>>>> document 정보 : \(document.documentID) => \(document.data())")
-                                                            
                                                             /// document.data()를 통해서 값 받아옴, data는 dictionary
                                                             let questionDt = document.data()
                                                             
@@ -351,6 +350,7 @@ class QuestionListViewController : BaseVC {
                 }
             }
         }
+        questionListTV.reloadData()
         return
     }
     
@@ -407,79 +407,84 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
             docRef = db.collection("student")
         }
         
-        var qindex: Int!
-        var name: String!
-        var email: String!
-        var subject: String!
-        var type: String!
+        var qemail: String!
         
-        docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: self.index!)
-            .getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print(">>>>> document 에러 : \(err)")
-                } else {
-                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                        return
+        if (self.answeredToggle.isOn){
+            if type == "teacher" {
+                    // 답변 대기가 뜸
+                let item = self.questionNotAnsweredItems[indexPath.row]
+                
+                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionDetailVC") as? QuestionDetailViewController else { return }
+                
+                questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                /// first : 여러개가 와도 첫번째 것만 봄.
+                
+                questionVC.qnum = Int(item.index)
+                questionVC.email = qemail
+                questionVC.type = self.type
+                questionVC.subject = self.subject
+                questionVC.index = self.index
+                
+                self.present(questionVC, animated: true, completion: nil)
+            } else {
+                // 답변 완료가 뜸
+                    let item = self.questionAnsweredItems[indexPath.row]
+                            
+                    guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
+                                
+                    qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                                /// first : 여러개가 와도 첫번째 것만 봄.
+                                
+                    qnaVC.qnum = Int(item.index)
+                    qnaVC.email = qemail
+                    qnaVC.type = self.type
+                    qnaVC.subject = self.subject
+                    qnaVC.index = self.index
+                                
+                    self.present(qnaVC, animated: true, completion: nil)
+                 
                     }
-                    
-                    let item:QuestionListItem = self.questionListItems[indexPath.row]
-                    
-                    if item.answerCheck == true { //답변이 있는 경우
-                        guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
+                 
+        } else {
                         
-                        qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                        qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                        /// first : 여러개가 와도 첫번째 것만 봄.
-                        
-                        let questionDt = snapshot.documents.first!.data()
-                        
-                        qindex = questionDt["index"] as? Int ?? 0
-                        name = questionDt["name"] as? String ?? ""
-                        subject = questionDt["subject"] as? String ?? ""
-                        email = questionDt["email"] as? String ?? ""
-                        type = questionDt["type"] as? String ?? ""
-                        
-                        qnaVC.index = qindex
-                        qnaVC.email = email
-                        qnaVC.userName = name
-                        qnaVC.type = type
-                        qnaVC.subject = subject
-                        qnaVC.qnum = Int(item.index)
-                        
-                        self.present(qnaVC, animated: true, completion: nil)
+                let item:QuestionListItem = self.questionListItems[indexPath.row]
+            
+                if item.answerCheck == true { //답변이 있는 경우
+                    guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
+                            
+                    qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                            /// first : 여러개가 와도 첫번째 것만 봄.
+            
+                    qnaVC.qnum = Int(item.index)
+                    qnaVC.email = qemail
+                    qnaVC.type = self.type
+                    qnaVC.subject = self.subject
+                    qnaVC.index = self.index
+                            
+                    self.present(qnaVC, animated: true, completion: nil)
+                }else { // 답변이 없는 경우
+                    guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionDetailVC") as? QuestionDetailViewController else { return }
+                            
+                    questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                            /// first : 여러개가 와도 첫번째 것만 봄.
+                            
+                    questionVC.qnum = Int(item.index)
+                    questionVC.email = qemail
+                    questionVC.type = self.type
+                    questionVC.subject = self.subject
+                    questionVC.index = self.index
+                            
+                    self.present(questionVC, animated: true, completion: nil)
+                        }
                     }
-                    else { // 답변이 없는 경우
-                        guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionDetailVC") as? QuestionDetailViewController else { return }
-                        
-                        questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                        questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                        /// first : 여러개가 와도 첫번째 것만 봄.
-                        
-                        let questionDt = snapshot.documents.first!.data()
-                        print(">>>>> 넘기는 정보 : \(questionDt)")
-                        
-                        qindex = questionDt["index"] as? Int ?? 0
-                        name = questionDt["name"] as? String ?? ""
-                        subject = questionDt["subject"] as? String ?? ""
-                        email = questionDt["email"] as? String ?? ""
-                        type = questionDt["type"] as? String ?? ""
-                        
-                        questionVC.index = qindex
-                        questionVC.email = email
-                        questionVC.userName = name
-                        questionVC.type = type
-                        questionVC.subject = subject
-                        questionVC.qnum = Int(item.index)
-                        
-                        self.present(questionVC, animated: true, completion: nil)
-                    }
-                    
                 }
-            }
-        
-        print("클릭됨 : \(indexPath.row)")
-        
-    }
+           // print("클릭됨 : \(indexPath.row)")
+           // }
+        //}
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

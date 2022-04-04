@@ -173,13 +173,11 @@ class QnADetailViewController: UIViewController {
                 db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(qnum)).getDocuments() { (querySnapshot, err) in
                     if let err = err {
                         print(">>>>> document 에러 : \(err)")
-                        
                     } else {
                         /// nil이 아닌지 확인한다.
                         guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                             return
                         }
-                        
                         for document in snapshot.documents {
                             print(">>>>> 질문 document 정보 : \(document.documentID) => \(document.data())")
                             
@@ -248,9 +246,9 @@ class QnADetailViewController: UIViewController {
                     }
                 }
             }
-        } else {
-            if let email = self.email, let index = self.index {
-                print ("self.index : \(index), self.email : \(email)")
+        } else { //학생이면
+            if let index = self.index {
+                print ("self.index : \(index)")
                 var studentName = ""
                 var studentEmail = ""
                 var teacherUid = ""
@@ -292,9 +290,9 @@ class QnADetailViewController: UIViewController {
                                                 teacherUid = document.data()["uid"] as? String ?? ""
                                                 self.teacherUid = teacherUid
                                                 print ("TeacherUID : \(teacherUid)")
-                                                
+                                                print("qnum : \(self.qnum)")
                                                 //질문 내용
-                                                db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(self.qnum)).getDocuments() { (querySnapshot, err) in
+                                                db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(self.qnum!)).getDocuments() { (querySnapshot, err) in
                                                     if let err = err {
                                                         print(">>>>> document 에러 : \(err)")
                                                     } else {
@@ -302,21 +300,6 @@ class QnADetailViewController: UIViewController {
                                                         guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                                                             return
                                                         }
-                                                        let num = document.data()["num"] as? String ?? ""
-                                                        
-                                                        db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(num).collection("answer").whereField("isAnswer", isEqualTo: true).getDocuments() { (querySnapshot, err) in
-                                                            if let err = err {
-                                                                print(">>>>> document 에러 : \(err)")
-                                                            } else {
-                                                                /// nil이 아닌지 확인한다.
-                                                                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                                                    return
-                                                                }
-                                                                let answerContent = document.data()["answerContent"] as? String ?? ""
-                                                                self.answerContent.text = answerContent
-                                                            }
-                                                        }
-                                                        
                                                         
                                                         for document in snapshot.documents {
                                                             print(">>>>> 자세한 document 정보 : \(document.documentID) => \(document.data())")
@@ -347,7 +330,7 @@ class QnADetailViewController: UIViewController {
                                             }
                                             
                                             //답변 내용
-                                            self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document("\(self.qnum)").collection("answer").getDocuments() { (querySnapshot, err) in
+                                            self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").document(String(self.qnum!)).collection("answer").whereField("isAnswer", isEqualTo: true).getDocuments() { (querySnapshot, err) in
                                                 if let err = err {
                                                     print(">>>>> document 에러 : \(err)")
                                                 } else {

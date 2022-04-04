@@ -24,7 +24,7 @@ struct QuestionAnsweredListItem : Decodable {
         self.questionContent = questionContent
         self.imgURL = imgURL
         self.email = email
-        self.index = email
+        self.index = index
     }
 }
 
