@@ -21,11 +21,15 @@ class ParentHomeViewController: UIViewController {
     var teacherEmail = "" // 선생님 이메일
     var subject = "" // 과목
     var selectedMonth = "" // 선택된 달
-    
     let nowDate = Date() // 오늘 날짜
     
+    @IBOutlet weak var parentNameLabel: UILabel! // 학부모 이름 Label
+    @IBOutlet weak var progressListTableView: UITableView! // TableView
+            
     override func viewDidLoad() {
         super.viewDidLoad()
+        getUserInfo() // 사용자 정보 받아오기
+        setEvaluation() // 평가 불러오기
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM" // MM월의 형태로 설정
@@ -43,13 +47,6 @@ class ParentHomeViewController: UIViewController {
         progressListTableView.reloadData() // 평가가 나타나는 tableview 그리기
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        getUserInfo() // 사용자 정보 받아오기
-    }
-    
-    @IBOutlet weak var parentNameLabel: UILabel! // 학부모 이름 Label
-    @IBOutlet weak var progressListTableView: UITableView! // TableView
-    
     // DB에서 사용자 정보 가져오기
     func getUserInfo() {
         let db = Firestore.firestore()
@@ -65,14 +62,13 @@ class ParentHomeViewController: UIViewController {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
                         // 이름 받아서 학부모 이름 label의 text를 'OOO 학부모님'으로 지정
+                        
                         let name = document.data()["name"] as? String ?? ""
                         self.parentNameLabel.text = name + " 학부모님"
                     }
                 }
             }
         }
-        // 평가 불러오기
-        setEvaluation()
     }
     
     // 평가 불러오기

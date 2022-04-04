@@ -16,6 +16,7 @@ class QuestionListViewController : BaseVC {
     
     // 네비게이션바
     @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var navigationBarItem: UINavigationItem!
     @IBOutlet weak var toggleLabel: UILabel!
     // 뒤로가기 버튼
     @IBOutlet var backbutton: UIView!
@@ -95,15 +96,19 @@ class QuestionListViewController : BaseVC {
                                         } else {
                                             for document in querySnapshot!.documents {
                                                 print("\(document.documentID) => \(document.data())")
-                                                // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
-                                                // 네비게이션 바의 이름도 설정해주기
+                                                
+                                                LoadingHUD.show()
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                                    LoadingHUD.hide()
+                                                }
+                                                
                                                 let name = document.data()["name"] as? String ?? ""
                                                 self.userName = name
                                                 self.email = document.data()["email"] as? String ?? ""
                                                 self.subject = document.data()["subject"] as? String ?? ""
                                                 self.navigationBar.topItem!.title = self.userName + " 학생"
                                                 self.setTeacherQuestion()
-                                                self.plusbutton.isEnabled = false
+                                                self.navigationBarItem.rightBarButtonItems?.removeAll()
                                             }
                                         }
                                     }
@@ -239,7 +244,6 @@ class QuestionListViewController : BaseVC {
             }
         } else {
             if let email = self.email, let index = self.index {
-                print ("self.index : \(index), self.email : \(email)")
                 var studentName = ""
                 var studentEmail = ""
                 var teacherUid = ""
@@ -281,7 +285,6 @@ class QuestionListViewController : BaseVC {
                                             for document in querySnapshot!.documents {
                                                 teacherUid = document.data()["uid"] as? String ?? ""
                                                 self.teacherUid = teacherUid
-                                                print ("TeacherUID : \(teacherUid)")
                                                 
                                                 db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() { (querySnapshot, err) in
                                                     if let err = err {

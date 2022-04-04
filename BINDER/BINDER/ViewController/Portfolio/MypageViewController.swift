@@ -20,6 +20,8 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
     @IBOutlet weak var portfoiolBtn: UIButton!
     @IBOutlet weak var openPortfolioSwitch: UISwitch!
     @IBOutlet weak var portfolioPageView: UIView!
+    @IBOutlet weak var pageViewTitleLabel: UILabel!
+    @IBOutlet weak var pageViewContentLabel: UILabel!
     
     let imagePicker: UIImagePickerController! = UIImagePickerController()
     let storage = Storage.storage()
@@ -55,13 +57,13 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
             present(imagePicker, animated: true, completion: nil)
             
         } else {
-            myAlert("Photo album inaccessable", message: "Application cannot access the photo album.")
+            myAlert("갤러리 접근 불가", message: "어플리케이션이 갤러리에 접근 불가능합니다!")
         }
     }
     
     func myAlert(_ title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        let action = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default , handler: nil)
+        let action = UIAlertAction(title: "확인", style: UIAlertAction.Style.default , handler: nil)
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
     }
@@ -90,11 +92,25 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                         let userEmail = data?["email"] as? String ?? ""
                         self.teacherEmail.text = userEmail
                         let profile =  data?["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                        let goal = data?["goal"] as? String ?? "목표를 작성하지 않았습니다."
                         self.type = "student"
                         let url = URL(string: profile)!
                         self.imageView.kf.setImage(with: url)
                         self.imageView.makeCircle()
-                        self.portfolioPageView.isHidden = true
+                        self.viewDecorating()
+                        self.openPortfolioSwitch.removeFromSuperview()
+                        self.portfoiolBtn.removeFromSuperview()
+                        self.pageViewTitleLabel.text = "목표"
+                        self.pageViewContentLabel.text = goal
+                        self.pageViewContentLabel.numberOfLines = 2
+                        
+                        self.pageViewContentLabel.rightAnchor.constraint(equalTo: self.pageView.rightAnchor
+                                    , constant: -20).isActive = true
+                        self.pageViewTitleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
+                        self.pageViewTitleLabel.topAnchor.constraint(equalTo: self.pageView.topAnchor
+                                    , constant: 20).isActive = true
+                        self.pageView.heightAnchor.constraint(equalToConstant: 120)
+                                    .isActive = true
                     } else {
                         print("Document does not exist")
                     }

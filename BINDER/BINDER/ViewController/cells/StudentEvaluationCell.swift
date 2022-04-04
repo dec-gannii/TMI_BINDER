@@ -42,6 +42,7 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        LoadingHUD.isLoaded = false
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM"
@@ -91,7 +92,6 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         pickerView.delegate = self
         pickerView.dataSource = self
         monthPickerView.tintColor = .clear
-        
         monthPickerView.inputView = pickerView
     }
     
@@ -106,6 +106,13 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
                     return
                 }
                 for document in snapshot.documents {
+                    if (LoadingHUD.isLoaded == false) {
+                        LoadingHUD.show()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                            LoadingHUD.isLoaded = true
+                            LoadingHUD.hide()
+                        }
+                    }
                     print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
                     /// nil값 처리
                     let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? ""
@@ -126,6 +133,7 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
                                             let evaluation = document.data()["evaluation"] as? String ??  "등록된 평가가 없습니다."
                                             self.setTextView(evaluation)
                                             self.monthPickerView.text = "\(self.selectedMonth)"
+                                            LoadingHUD.isLoaded = true
                                         }
                                         self.monthPickerView.resignFirstResponder()
                                     }

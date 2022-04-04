@@ -190,22 +190,23 @@ class SignInViewController: UIViewController {
         // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면, && self.isValidAge(age)
         if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) ) {
             // 사용자를 생성
-            Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
-                print(error?.localizedDescription)
-                Auth.auth().currentUser?.sendEmailVerification(completion: {(error) in
-                    print("sended to " + id)
-                    if let error = error {
-                        print(error.localizedDescription)
-                    } else {
-                        
+            if (self.type != "parent"){
+                Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
+                    Auth.auth().currentUser?.sendEmailVerification(completion: {(error) in
+                        print("sended to " + id)
+                        if let error = error {
+                            print(error.localizedDescription)
+                        } else {
+                            
+                        }
+                    })
+                    
+                    // 정보 저장 , age
+                    self.saveInfo(SignInViewController.number, name, id, pw, self.type)
+                    SignInViewController.number = SignInViewController.number + 1
+                    guard let user = authResult?.user else {
+                        return
                     }
-                })
-                
-                // 정보 저장 , age
-                self.saveInfo(SignInViewController.number, name, id, pw, self.type)
-                SignInViewController.number = SignInViewController.number + 1
-                guard let user = authResult?.user else {
-                    return
                 }
             }
             

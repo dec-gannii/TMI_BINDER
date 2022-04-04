@@ -75,7 +75,16 @@ class DetailClassViewController: UIViewController {
         
         allRound()
         barColorSetting()
-//        placeholderSetting()
+    }
+    
+    func setBorder() {
+        let color = UIColor.systemGray6.cgColor
+        self.progressTextView.layer.borderWidth = 1.0
+        self.progressTextView.layer.borderColor = color
+        self.evaluationMemoTextView.layer.borderWidth = 1.0
+        self.evaluationMemoTextView.layer.borderColor = color
+        self.monthlyEvaluationTextView.layer.borderWidth = 1.0
+        self.monthlyEvaluationTextView.layer.borderColor = color
     }
     
     override func viewDidLoad() {
@@ -83,18 +92,11 @@ class DetailClassViewController: UIViewController {
         days = []
         scores = []
         
-        monthlyEvaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        evaluationMemoTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        progressTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        let EdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
-//        textViewDidBeginEditing(self.monthlyEvaluationTextView)
-//        textViewDidEndEditing(self.monthlyEvaluationTextView)
-//
-//        textViewDidBeginEditing(self.evaluationMemoTextView)
-//        textViewDidEndEditing(self.evaluationMemoTextView)
-//
-//        textViewDidBeginEditing(self.progressTextView)
-//        textViewDidEndEditing(self.progressTextView)
+        monthlyEvaluationTextView.textContainerInset = EdgeInsets
+        evaluationMemoTextView.textContainerInset = EdgeInsets
+        progressTextView.textContainerInset = EdgeInsets
         
         self.monthlyEvaluationBackgroundView.isHidden = true
         
@@ -103,24 +105,10 @@ class DetailClassViewController: UIViewController {
         barChartView.noDataFont = .systemFont(ofSize: 20)
         barChartView.noDataTextColor = .lightGray
         
-        
-        evaluationView.layer.cornerRadius = 10
-        monthlyEvaluationBackgroundView.layer.cornerRadius = 10
-        monthlyEvaluationTextView.layer.cornerRadius = 10
-        progressTextView.layer.cornerRadius = 10
-        evaluationMemoTextView.layer.cornerRadius = 10
-        evaluationOKBtn.layer.cornerRadius = 10
-        monthlyEvaluationOKBtn.layer.cornerRadius = 10
+        setBorder()
         
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
-        
-        self.progressTextView.layer.borderWidth = 1.0
-        self.progressTextView.layer.borderColor = UIColor.systemGray6.cgColor
-        self.evaluationMemoTextView.layer.borderWidth = 1.0
-        self.evaluationMemoTextView.layer.borderColor = UIColor.systemGray6.cgColor
-        self.monthlyEvaluationTextView.layer.borderWidth = 1.0
-        self.monthlyEvaluationTextView.layer.borderColor = UIColor.systemGray6.cgColor
         
         if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
             if (self.userType == "student") { // 사용자가 학생이면
@@ -142,19 +130,19 @@ class DetailClassViewController: UIViewController {
     
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
+        let color = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
         calendarView.scope = .week
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.appearance.eventDefaultColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.appearance.eventSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.appearance.selectionColor = .none
-        calendarView.appearance.titleSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
+        calendarView.appearance.headerTitleColor =  color
+        calendarView.appearance.eventDefaultColor = color
+        calendarView.appearance.eventSelectionColor = color
+        calendarView.appearance.titleSelectionColor = color
+        calendarView.appearance.borderSelectionColor = color
         calendarView.appearance.todayColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 0.3)
         calendarView.appearance.titleTodayColor = .black
         calendarView.appearance.todaySelectionColor = .white
-        calendarView.appearance.borderSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.scope = .week
+        calendarView.appearance.selectionColor = .none
     }
     
     // 캘린더 텍스트 스타일 설정을 위한 메소드
@@ -189,7 +177,7 @@ class DetailClassViewController: UIViewController {
                 } else {
                     for document in querySnapshot!.documents { // 문서가 있다면
                         print("\(document.documentID) => \(document.data())")
-                        // 선생님이므로 성적 추가하는 버튼은 보이지 않도록 isHidden을 true로 변경
+                        // 선생님이므로 성적 추가하는 버튼은 보이지 않도록 superview에서 삭제
                         self.plusButton.isHidden = true
                         
                         if let index = self.userIndex { // userIndex가 nil이 아니라면
@@ -298,12 +286,12 @@ class DetailClassViewController: UIViewController {
                             }
                         }
                         // 학생이면 투두리스트 추가를 하지 못하도록 설정
-                        self.okButton.isHidden = true
-                        self.todoTF.isHidden = true
                         self.plusButton.isHidden = false
+                        self.okButton.removeFromSuperview()
+                        self.todoTF.removeFromSuperview()
                         
                         // 학생이면 수업 수정 버튼 보이지 않도록 설정
-                        self.editBtn.isHidden = true
+                        self.editBtn.removeFromSuperview()
                     }
                 }
             }
@@ -312,6 +300,9 @@ class DetailClassViewController: UIViewController {
     // 학생이 입력해둔 성적 수치를 가져오기 위한 메소드
     func getScores() {
         var studentUid = "" // 학생의 uid 변수
+        // 빈 배열 형성
+        days = []
+        scores = []
         
         // 받은 이메일이 nil이 아니라면
         if let email = self.userEmail {
@@ -383,7 +374,7 @@ class DetailClassViewController: UIViewController {
     
     // 뒤로가기 버튼 클릭 시 실행되는 메소드
     @IBAction func goBack(_ sender: Any) {
-        if let preVC = self.presentingViewController as? UIViewController {
+        if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
@@ -424,19 +415,60 @@ class DetailClassViewController: UIViewController {
     }
     
     @IBAction func editBtnAction(_ sender: Any) {
-        guard let editClassVC = self.storyboard?.instantiateViewController(withIdentifier: "EditClassViewController") as? EditClassVC else { return }
+        let optionMenu = UIAlertController(title: "수정 및 삭제", message: nil, preferredStyle: .actionSheet)
         
-        editClassVC.modalTransitionStyle = .crossDissolve
-        editClassVC.modalPresentationStyle = .fullScreen
+        let editAction = UIAlertAction(title: "수정", style: .default, handler: { action in
+            guard let editClassVC = self.storyboard?.instantiateViewController(withIdentifier: "EditClassViewController") as? EditClassVC else { return }
+            
+            editClassVC.modalTransitionStyle = .crossDissolve
+            editClassVC.modalPresentationStyle = .fullScreen
+            
+            // 값 보내주는 역할
+            editClassVC.userName = self.userName
+            editClassVC.userEmail = self.userEmail
+            editClassVC.userSubject = self.userSubject
+            
+            self.present(editClassVC, animated: true, completion: nil)
+        })
         
-        // 값 보내주는 역할
-        editClassVC.userName = self.userName
-        editClassVC.userEmail = self.userEmail
-        editClassVC.userSubject = self.userSubject
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
+            let path  =  self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject)
+            
+            path.delete()
+            
+            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument {(document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    let teacherName = data!["name"] as? String ?? ""
+                    let teacherEmail = data!["email"] as? String ?? ""
+                    if let email = self.userEmail {
+                        let studentPath = self.db.collection("student").whereField("email", isEqualTo: email)
+                        studentPath.getDocuments() {
+                            (QuerySnapshot, err) in
+                            if let err = err {
+                                print("Error getting documents: \(err)")
+                            } else {
+                                for document in QuerySnapshot!.documents {
+                                    print("\(document.documentID) => \(document.data())")
+                                    let studentUid = document.data()["uid"] as? String ?? "" // 학생의 uid 변수에 저장
+                                    let studentClassPath = self.db.collection("student").document(studentUid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject)
+                                    studentClassPath.delete()
+                                    self.dismiss(animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
-        self.present(editClassVC, animated: true, completion: nil)
+        optionMenu.addAction(editAction)
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(cancelAction)
         
+        self.present(optionMenu, animated: true, completion: nil)
     }
     
     
@@ -457,8 +489,9 @@ class DetailClassViewController: UIViewController {
                     print("Error adding document: \(err)")
                 }
                 // 저장 이후에는 다시 안 보이도록 함
-                self.evaluationView.isHidden = true
-                self.evaluationOKBtn.isHidden = true
+                self.evaluationView.removeFromSuperview()
+                self.evaluationOKBtn.removeFromSuperview()
+                
                 self.progressTextView.text = ""
                 self.testScoreTextField.text = ""
                 self.evaluationMemoTextView.text = ""
@@ -474,7 +507,6 @@ class DetailClassViewController: UIViewController {
                     
                     if (payType == "T") {
                         if (currentCnt+Int(self.classTimeTextField.text!)! >= 8) {
-                            print ("currentCnt+Int(self.classTimeTextField.text!)! : \(currentCnt+Int(self.classTimeTextField.text!)!)")
                             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": (currentCnt + Int(self.classTimeTextField.text!)!) % 8
                             ]) { err in
@@ -494,7 +526,6 @@ class DetailClassViewController: UIViewController {
                         count = currentCnt + Int(self.classTimeTextField.text!)!
                     } else if (payType == "C") {
                         if (currentCnt+1 >= 8) {
-                            print ("currentCnt+Int(self.classTimeTextField.text!)! : \(currentCnt+Int(self.classTimeTextField.text!)!)")
                             currentCnt = currentCnt % 8
                             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": currentCnt + 1
@@ -561,8 +592,8 @@ class DetailClassViewController: UIViewController {
                     print("Error adding document: \(err)")
                 }
                 // 저장 이후에는 다시 안 보이도록 함
-                self.evaluationView.isHidden = true
-                self.evaluationOKBtn.isHidden = true
+                self.evaluationView.removeFromSuperview()
+                self.evaluationOKBtn.removeFromSuperview()
                 self.progressTextView.text = ""
                 self.testScoreTextField.text = ""
                 self.evaluationMemoTextView.text = ""
@@ -575,6 +606,13 @@ class DetailClassViewController: UIViewController {
         okButton.layer.cornerRadius = 10
         plusButton.clipsToBounds = true
         plusButton.layer.cornerRadius = 10
+        evaluationView.layer.cornerRadius = 10
+        monthlyEvaluationBackgroundView.layer.cornerRadius = 10
+        monthlyEvaluationTextView.layer.cornerRadius = 10
+        progressTextView.layer.cornerRadius = 10
+        evaluationMemoTextView.layer.cornerRadius = 10
+        evaluationOKBtn.layer.cornerRadius = 10
+        monthlyEvaluationOKBtn.layer.cornerRadius = 10
     }
     
     func barColorSetting(){
@@ -694,7 +732,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
         let todo = self.todos[indexPath.row]
-        let background = UIView()
         
         cell.TodoLabel.text = "\(todo)"
         cell.CheckButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
@@ -753,61 +790,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
         }
     }
-    
-    //    func placeholderSetting() {
-    //        evaluationMemoTextView.delegate = self // txtvReview가 유저가 선언한 outlet
-    //        progressTextView.delegate = self // txtvReview가 유저가 선언한 outlet
-    //        monthlyEvaluationTextView.delegate = self // txtvReview가 유저가 선언한 outlet
-    //        if (evaluationMemoTextView.text == "오늘 수업 관련 메모사항을 입력해주세요.") {
-    //            evaluationMemoTextView.text = "오늘 수업 관련 메모사항을 입력해주세요."
-    //            evaluationMemoTextView.textColor = UIColor.lightGray
-    //        }
-    //        if (progressTextView.text == "오늘 진도 사항을 입력해주세요.") {
-    //            if (self.userType == "student") {
-    //                progressTextView.text = "오늘 배운 내용을 입력해주세요."
-    //            } else {
-    //                progressTextView.text = "오늘 진도 사항을 입력해주세요."
-    //            }
-    //            progressTextView.textColor = UIColor.lightGray
-    //        }
-    //
-    //        if (monthlyEvaluationTextView.text == "이번 달 총평을 입력해주세요.") {
-    //            monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
-    //            monthlyEvaluationTextView.textColor = UIColor.lightGray
-    //        }
-    //    }
-    
-    // TextView Place Holder
-    //    func textViewDidBeginEditing(_ textView: UITextView) {
-    //        if textView.textColor == UIColor.lightGray {
-    //            textView.text = ""
-    //            textView.textColor = UIColor.black
-    //        }
-    //    }
-    
-    // TextView Place Holder
-    //    func textViewDidEndEditing(_ textView: UITextView) {
-    //        if (textView == self.monthlyEvaluationTextView){
-    //            if monthlyEvaluationTextView.text == "" {
-    //                monthlyEvaluationTextView.text = "이번 달 총평을 입력해주세요."
-    //                monthlyEvaluationTextView.textColor = UIColor.lightGray
-    //            }
-    //        } else if (textView == self.evaluationMemoTextView) {
-    //            if evaluationMemoTextView.text == "" {
-    //                evaluationMemoTextView.text = "오늘 수업 관련 메모사항을 입력해주세요."
-    //                evaluationMemoTextView.textColor = UIColor.lightGray
-    //            }
-    //        } else if (textView == self.progressTextView) {
-    //            if progressTextView.text == "" {
-    //                if (self.userType == "teacher") {
-    //                    progressTextView.text = "오늘 진도 사항을 입력해주세요."
-    //                } else {
-    //                    progressTextView.text = "오늘 배운 내용을 입력해주세요."
-    //                }
-    //                progressTextView.textColor = UIColor.lightGray
-    //            }
-    //        }
-    //    }
 }
 
 extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate, UITextViewDelegate {
@@ -915,7 +897,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                     }
                 }
                 
-                self.db.collection("student").whereField("email", isEqualTo: self.userEmail).getDocuments() { (querySnapshot, err) in
+                self.db.collection("student").whereField("email", isEqualTo: self.userEmail!).getDocuments() { (querySnapshot, err) in
                     if let err = err {
                         print("Error getting documents: \(err)")
                     } else {
@@ -1002,8 +984,8 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                 }
             } else {
                 // 그대로 숨김 유지
-                evaluationView.isHidden = true
-                evaluationOKBtn.isHidden = true
+                self.evaluationView.removeFromSuperview()
+                self.evaluationOKBtn.removeFromSuperview()
             }
         }
     }

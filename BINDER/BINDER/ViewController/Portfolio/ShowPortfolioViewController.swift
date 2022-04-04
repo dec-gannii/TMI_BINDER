@@ -13,9 +13,15 @@ class ShowPortfolioViewController: UIViewController {
     
     let db = Firestore.firestore()
     @IBOutlet weak var teacherEmailTextField: UITextField!
+    @IBOutlet weak var showBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /// 키보드 띄우기
+        teacherEmailTextField.becomeFirstResponder()
+        
+        showBtn.clipsToBounds = true
+        showBtn.layer.cornerRadius = 10
     }
     
     // 포트폴리오 조회 버튼 클릭 시 실행되는 메소드
@@ -28,20 +34,22 @@ class ShowPortfolioViewController: UIViewController {
                 // 도큐먼트 존재 안 하면 유효하지 않은 선생님 이메일이라고 alert 발생
                 guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                     let alert = UIAlertController(title: "탐색 오류", message: "유효하지 않은 선생님의 이메일입니다!", preferredStyle: UIAlertController.Style.alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
+                    let okAction = UIAlertAction(title: "확인", style: .default) { (action) in }
                     alert.addAction(okAction)
                     self.present(alert, animated: false, completion: nil)
                     return
                 }
                 
-                // 포트폴리오를 보여주는 화면 present
-                guard let portfolioVC = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioTableViewController") as? PortfolioTableViewController else { return }
-                portfolioVC.isShowMode = true
-                portfolioVC.showModeEmail = self.teacherEmailTextField.text!
-                self.present(portfolioVC, animated: true, completion: nil)
-                
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    let email = document.data()["email"] as? String ?? ""
+                    // 포트폴리오를 보여주는 화면 present
+                    guard let portfolioVC = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioTableViewController") as? PortfolioTableViewController else { return }
+                    portfolioVC.isShowMode = true
+                    portfolioVC.showModeEmail = email
+                    self.present(portfolioVC, animated: true, completion: nil)
+                }
             }
-            
             /// 변수 다시 공백으로 바꾸기
             self.teacherEmailTextField.text = ""
         }

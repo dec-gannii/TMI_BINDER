@@ -71,22 +71,27 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         var dateComponents = DateComponents()
         dateComponents.month = isPrev ? -1 : 1
         self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
+        LoadingHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            LoadingHUD.hide()
+        }
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
     }
     
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
+        let color = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.appearance.eventDefaultColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.appearance.eventSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        calendarView.appearance.selectionColor = .none
-        calendarView.appearance.titleSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
+        calendarView.appearance.headerTitleColor =  color
+        calendarView.appearance.eventDefaultColor = color
+        calendarView.appearance.eventSelectionColor = color
+        calendarView.appearance.titleSelectionColor = color
+        calendarView.appearance.borderSelectionColor = color
         calendarView.appearance.todayColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 0.3)
         calendarView.appearance.titleTodayColor = .black
         calendarView.appearance.todaySelectionColor = .white
-        calendarView.appearance.borderSelectionColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
+        calendarView.appearance.selectionColor = .none
     }
     
     // 캘린더 텍스트 스타일 설정을 위한 메소드
@@ -99,9 +104,25 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         calendarView.delegate = self
     }
     
+    func setCornerRadius() {
+        /// cornerRadius 지정을 위해 사용
+        monthlyEvaluationTitleBackgroundView.clipsToBounds = true
+        monthlyEvaluationTitleBackgroundView.layer.cornerRadius = 15
+        monthlyEvaluationTextView.clipsToBounds = true
+        monthlyEvaluationTextView.layer.cornerRadius = 15
+        
+        /// 위쪽 코너에만 cornerRadius 주기 위해 사용
+        monthlyEvaluationTitleBackgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.addSubview(monthlyEvaluationTitleBackgroundView)
+        
+        /// 이래쪽 코너에만 cornerRadius 주기 위해 사용
+        monthlyEvaluationTextView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        view.addSubview(monthlyEvaluationTextView)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        getUserInfo() // 사용자 정보 가져오기
         setUpDays(self.today)
         
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
@@ -116,20 +137,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         self.calendarText()
         self.calendarColor()
         self.calendarEvent()
-        
-        /// cornerRadius 지정을 위해 사용
-        monthlyEvaluationTitleBackgroundView.clipsToBounds = true
-        monthlyEvaluationTitleBackgroundView.layer.cornerRadius = 15
-        monthlyEvaluationTextView.clipsToBounds = true
-        monthlyEvaluationTextView.layer.cornerRadius = 15
-        
-        /// 위쪽 코너에만 cornerRadius 주기 위해 사용
-        monthlyEvaluationTitleBackgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.addSubview(monthlyEvaluationTitleBackgroundView)
-        
-        /// 이래쪽 코너에만 cornerRadius 주기 위해 사용
-        monthlyEvaluationTextView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        view.addSubview(monthlyEvaluationTextView)
+        self.setCornerRadius()
         
         /// parent collection에서 현재 사용자의 uid와 동일한 값의 uid를 가지는 문서 찾기
         db.collection("parent").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
@@ -152,8 +160,14 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                         } else {
                             for document in querySnapshot!.documents {
                                 print("\(document.documentID) => \(document.data())")
+                                
+                                LoadingHUD.show()
+                                DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                                    LoadingHUD.hide()
+                                }
+                                
                                 let studentName = document.data()["name"] as? String ?? "" // 학생 이름
-                                self.studentName = studentName // self.studentName에 저자
+                                self.studentName = studentName // self.studentName에 저장
                                 self.monthlyEvaluationTitle.text = "이번 달 " + studentName + " 학생은..." // 이번 달 평가 제목에 사용
                                 let studentEmail = document.data()["email"] as? String ?? "" // 학생 이메일
                                 self.studentEmail = studentEmail
@@ -163,7 +177,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                 }
             }
         }
-//        getEvaluationEvents()
     }
     
     func setUpDays(_ date: Date) {
@@ -221,6 +234,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     
     /// 사용자 정보 가져오기
     func getUserInfo() {
+        
         /// parent collection / 현재 사용자 uid의 경로에서 정보를 가져오기
         self.db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
             if let document = document, document.exists {
@@ -250,7 +264,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                         self.teacherName = name // 선생님 이름으로 설정
                                         let email = document.data()["email"] as? String ?? "" // 선생님 이메일
                                         self.teacherEmail = email // 선생님 이메일로 설정
-                                        print("teacherEmail01 ===> \(email)")
                                         let subject = document.data()["subject"] as? String ?? "" // 과목
                                         self.subject = subject // 과목으로 설정
                                         
@@ -266,8 +279,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                                     let evaluation = evaluationData["evaluation"] as? String ?? "아직 이번 달 월말 평가가 등록되지 않았습니다." // 평가 내용 정보
                                                     self.monthlyEvaluationTextView.text = evaluation // 평가 내용 text로 설정
                                                     self.monthlyEvaluationTextView.isEditable = false // 수정 불가능하도록 설정
-                                                    self.monthlyEvaluationTextView.translatesAutoresizingMaskIntoConstraints = true
-                                                    self.monthlyEvaluationTextView.sizeToFit()
                                                 }
                                             }
                                         }
@@ -286,7 +297,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         let formatter = DateFormatter()
         
         self.events.removeAll()
-        print ("self.teacherEmail: \(self.teacherEmail)")
         
         self.db.collection("teacher").whereField("email", isEqualTo: self.teacherEmail).getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -313,19 +323,16 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                         for document in querySnapshot!.documents {
                                             print("\(document.documentID) => \(document.data())")
                                             let studentEmail = document.data()["email"] as? String ?? "" // 학생 이메일
-                                            let name = document.data()["name"] as? String ?? "" // 학생 이메일
                                             
                                             self.db.collection("teacher").document(teacherUid).collection("class").whereField("email", isEqualTo: self.studentEmail).getDocuments() { (querySnapshot, err) in
                                                 if let err = err {
                                                     print(">>>>> document 에러 : \(err)")
                                                 } else {
                                                     for document in querySnapshot!.documents {
-                                                        print ("=== classInfoGet...")
                                                         print("\(document.documentID) => \(document.data())")
                                                         let subject = document.data()["subject"] as? String ?? ""
                                                         
                                                         for index in 1...self.days.count-1 {
-                                                            print("self.days[\(index)] : \(self.days[index])")
                                                             let tempDay = "\(self.days[index])"
                                                             let dateWithoutDays = tempDay.components(separatedBy: " ")
                                                             formatter.dateFormat = "YYYY-MM-dd"
@@ -337,14 +344,12 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                                                     print("Error getting documents: \(err)")
                                                                 } else {
                                                                     for document in querySnapshot!.documents {
-                                                                        print ("=== evlauationExists...")
                                                                         print("\(document.documentID) => \(document.data())")
                                                                         // 사용할 것들 가져와서 지역 변수로 저장
                                                                         let date = document.data()["evaluationDate"] as? String ?? ""
                                                                         
                                                                         formatter.dateFormat = "YYYY-MM-dd"
                                                                         let date_d = formatter.date(from: date)!
-                                                                        print("date_d : \(date_d)")
                                                                         self.events.append(date_d)
                                                                         self.calendarView.reloadData()
                                                                     }
@@ -408,6 +413,10 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
     
     /// 캘린더의 현재 페이지가 달라진 경우 실행되는 메소드
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        LoadingHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            LoadingHUD.hide()
+        }
         
         let currentPageDate = calendar.currentPage // 현재 페이지 정보
         

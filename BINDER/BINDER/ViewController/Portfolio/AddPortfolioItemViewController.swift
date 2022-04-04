@@ -18,14 +18,16 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     
     let db = Firestore.firestore()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    func setUI() {
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
         contentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
-        // 키보드 띄우기
-        titleTextField.becomeFirstResponder()
+        contactBtn.clipsToBounds = true
+        contactBtn.layer.cornerRadius = 10
+        timeBtn.clipsToBounds = true
+        timeBtn.layer.cornerRadius = 10
+        manageBtn.clipsToBounds = true
+        manageBtn.layer.cornerRadius = 10
         
         // textview 테두리 설정
         self.contentTextView.layer.borderColor = UIColor.lightGray.cgColor
@@ -41,8 +43,15 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
         textViewDidEndEditing(self.contentTextView)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.setUI()
+        // 키보드 띄우기
+        titleTextField.becomeFirstResponder()
+    }
+    
     func placeholderSetting() {
-        contentTextView.delegate = self // txtvReview가 유저가 선언한 outlet
+        contentTextView.delegate = self // 유저가 선언한 outlet
         contentTextView.text = "추가할 내용을 입력해주세요."
         contentTextView.textColor = UIColor.lightGray
     }
@@ -93,13 +102,7 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func TitleButtonClicked(_ sender: Any) {
-        // 버튼의 태그를 사용
-        if ((sender as AnyObject).tag == 0) { // 태그가 0인 경우 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
-            self.titleTextField.text = (sender as AnyObject).titleLabel?.text
-        } else if ((sender as AnyObject).tag == 1) { // 태그가 1인 경우 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
-            self.titleTextField.text = (sender as AnyObject).titleLabel?.text
-        } else if ((sender as AnyObject).tag == 2) { // 태그가 2인 경우 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
-            self.titleTextField.text = (sender as AnyObject).titleLabel?.text
-        }
+        // 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
+        self.titleTextField.text = (sender as AnyObject).titleLabel?.text
     }
 }

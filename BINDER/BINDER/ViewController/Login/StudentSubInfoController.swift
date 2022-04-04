@@ -245,15 +245,15 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             }
         } else if (type == "student") {
             if age == "0" {
-                ageAlertLabel.text = "하나를 선택해주세요"
+                ageAlertLabel.text = "나이대가 어떻게 되는지 선택해주세요."
                 ageAlertLabel.isHidden = false
             }
             else if phonenum == "" {
-                phoneAlertLabel.text = "전화번호를 작성해주세요"
+                phoneAlertLabel.text = "전화번호를 입력해주세요."
                 phoneAlertLabel.isHidden = false
             }
             else if goal == "" {
-                goalAlertLabel.text = "목표를 작성해주세요"
+                goalAlertLabel.text = "목표를 작성해주세요."
                 goalAlertLabel.isHidden = false
             }
             else if ((phonenumTextField.text!.contains("-") && phonenumTextField.text!.count >= 15) || (phonenumTextField.text!.count >= 11 && !phonenumTextField.text!.contains("-"))) {
@@ -281,7 +281,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             }
         } else if (type == "parent") {
             if phonenum == "" {
-                phoneAlertLabel.text = "전화번호를 작성해주세요"
+                phoneAlertLabel.text = "전화번호를 작성해주세요."
                 phoneAlertLabel.isHidden = false
             }
             else if ((phonenumTextField.text!.contains("-") && phonenumTextField.text!.count >= 15) || (phonenumTextField.text!.count >= 12 && !phonenumTextField.text!.contains("-"))) {

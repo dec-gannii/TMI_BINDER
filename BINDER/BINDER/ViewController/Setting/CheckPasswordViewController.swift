@@ -16,11 +16,14 @@ class CheckPasswordViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var pwTextField: UITextField!
+    @IBOutlet weak var okBtn: UIButton!
     var currentPW = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getPW() // 현재 비밀번호가 맞는지 확인하기 위해 호출
+        okBtn.clipsToBounds = true
+        okBtn.layer.cornerRadius = 10
     }
     
     // 비밀번호가 맞는지 확인하기 위해 비밀번호를 확인하는 메소드
