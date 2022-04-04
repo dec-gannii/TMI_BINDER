@@ -54,58 +54,23 @@ class EditClassVC : UIViewController {
     
     
     @IBAction func mondayBtn(_ sender: Any) {
-        if daysBtn[0].isSelected {
-            daysBtn[0].isSelected = false
-        } else {
-            daysBtn[0].isSelected = true
-        }
-    }
-    
-    @IBAction func tuesdayBtn(_ sender: Any) {
-        if daysBtn[1].isSelected {
-            daysBtn[1].isSelected = false
-        } else {
-            daysBtn[1].isSelected = true
-        }
-    }
-    
-    @IBAction func wednesdayBtn(_ sender: Any) {
-        if daysBtn[2].isSelected {
-            daysBtn[2].isSelected = false
-        } else {
-            daysBtn[2].isSelected = true
-        }
-    }
-    
-    @IBAction func thursdayBtn(_ sender: Any) {
-        if daysBtn[3].isSelected {
-            daysBtn[3].isSelected = false
-        } else {
-            daysBtn[3].isSelected = true
-        }
-    }
-    
-    @IBAction func fridayBtn(_ sender: Any) {
-        if daysBtn[4].isSelected {
-            daysBtn[4].isSelected = false
-        } else {
-            daysBtn[4].isSelected = true
-        }
-    }
-    
-    @IBAction func saturdayBtn(_ sender: Any) {
-        if daysBtn[5].isSelected {
-            daysBtn[5].isSelected = false
-        } else {
-            daysBtn[5].isSelected = true
-        }
-    }
-    
-    @IBAction func sundayBtn(_ sender: Any) {
-        if daysBtn[6].isSelected {
-            daysBtn[6].isSelected = false
-        } else {
-            daysBtn[6].isSelected = true
+        let index = (sender as AnyObject).tag!
+        
+        switch index {
+        case 0...6 :
+            if daysBtn[index].isSelected {
+                daysBtn[index].isSelected = false
+            } else {
+                daysBtn[index].isSelected = true
+            }
+            break
+        default:
+            let alert = UIAlertController(title: "오류", message: "일정이 선택되지 않았습니다!", preferredStyle: UIAlertController.Style.alert)
+            let okAction = UIAlertAction(title: "확인", style: .default) { (action) in }
+            alert.addAction(okAction)
+            self.present(alert, animated: false, completion: nil)
+            break
+            
         }
     }
     
@@ -152,7 +117,6 @@ class EditClassVC : UIViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
-    
     
     let db = Firestore.firestore()
     var ref: DatabaseReference!
