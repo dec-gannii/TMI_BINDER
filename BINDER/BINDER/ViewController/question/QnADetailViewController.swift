@@ -193,6 +193,10 @@ class QnADetailViewController: UIViewController {
                             
                             self.titleName.text = title
                             self.questionContent.text = questionContent
+                            self.questionContent.translatesAutoresizingMaskIntoConstraints = true
+                            self.questionContent.sizeToFit()
+                            self.questionContent.isScrollEnabled = false
+                            
                             if imgURL != "" {
                                 let url = URL(string: imgURL)
                                 DispatchQueue.global().async {
@@ -209,9 +213,6 @@ class QnADetailViewController: UIViewController {
                                             .isActive = true
                             }
                         }
-                        self.questionContent.translatesAutoresizingMaskIntoConstraints = true
-                        self.questionContent.sizeToFit()
-                        self.questionContent.isScrollEnabled = false
                         
                         //답변 내용
                         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").document(String(qnum)).collection("answer").whereField("isAnswer", isEqualTo: true).getDocuments() { (querySnapshot, err) in
@@ -357,10 +358,7 @@ class QnADetailViewController: UIViewController {
                                                                 self.answerImgView.removeFromSuperview()
                                                                 self.questionView.heightAnchor.constraint(equalToConstant: self.questionContent.frame.height + 50)
                                                                     .isActive = true
-                                                        
                                                             }
-                                                            
-                                                            
                                                         }
                                                     }
                                                 }
@@ -389,8 +387,6 @@ class QnADetailViewController: UIViewController {
                                                         self.answerContent.translatesAutoresizingMaskIntoConstraints = true
                                                         self.answerContent.sizeToFit()
                                                         self.answerContent.isScrollEnabled = false
-                                                        self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + 50)
-                                                                    .isActive = true
                                                         
                                                         if (imgurl == "" || imgurl == "nil") {
                                                             if (self.answerImgView != nil) {
