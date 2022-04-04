@@ -24,6 +24,13 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
         contentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
+        contactBtn.clipsToBounds = true
+        contactBtn.layer.cornerRadius = 10
+        timeBtn.clipsToBounds = true
+        timeBtn.layer.cornerRadius = 10
+        manageBtn.clipsToBounds = true
+        manageBtn.layer.cornerRadius = 10
+        
         // 키보드 띄우기
         titleTextField.becomeFirstResponder()
         

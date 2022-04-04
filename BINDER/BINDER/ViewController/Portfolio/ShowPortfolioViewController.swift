@@ -13,9 +13,14 @@ class ShowPortfolioViewController: UIViewController {
     
     let db = Firestore.firestore()
     @IBOutlet weak var teacherEmailTextField: UITextField!
+    @IBOutlet weak var showBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /// 키보드 띄우기
+        teacherEmailTextField.becomeFirstResponder()
+        showBtn.clipsToBounds = true
+        showBtn.layer.cornerRadius = 10
     }
     
     // 포트폴리오 조회 버튼 클릭 시 실행되는 메소드

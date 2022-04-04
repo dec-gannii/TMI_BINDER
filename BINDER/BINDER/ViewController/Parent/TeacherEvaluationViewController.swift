@@ -21,6 +21,7 @@ class TeacherEvaluationViewController: UIViewController {
     @IBOutlet var evaluationTextView: UITextView!
     @IBOutlet var teacherAttitude: UITextField!
     @IBOutlet var teacherManagingSatisfyScore: UITextField!
+    @IBOutlet weak var okBtn: UIButton!
     
     var teacherName: String = ""
     var teacherEmail: String = ""
@@ -35,6 +36,11 @@ class TeacherEvaluationViewController: UIViewController {
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
         evaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         self.TeacherTitle.text = self.teacherName + " 선생님의 " + self.month + " 수업은..." // 선생님 평가 title 설정
+        
+        evaluationTextView.clipsToBounds = true
+        evaluationTextView.layer.cornerRadius = 10
+        okBtn.clipsToBounds = true
+        okBtn.layer.cornerRadius = 10
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -73,14 +73,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         dateComponents.month = isPrev ? -1 : 1
         self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
         LoadingIndicator.isLoaded = false
-        
-//        if (LoadingIndicator.isLoaded == false) {
-//            LoadingIndicator.showLoading()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                LoadingIndicator.isLoaded = true
-//                LoadingIndicator.hideLoading()
-//            }
-//        }
         LoadingHUD.show()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             LoadingHUD.hide()
@@ -171,14 +163,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                         } else {
                             for document in querySnapshot!.documents {
                                 print("\(document.documentID) => \(document.data())")
-                                
-//                                if (LoadingIndicator.isLoaded == false) {
-//                                    LoadingIndicator.showLoading()
-//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                                        LoadingIndicator.isLoaded = true
-//                                        LoadingIndicator.hideLoading()
-//                                    }
-//                                }
                                 
                                 LoadingHUD.show()
                                 DispatchQueue.main.asyncAfter(deadline: .now()+1) {
@@ -298,8 +282,8 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                                     let evaluation = evaluationData["evaluation"] as? String ?? "아직 이번 달 월말 평가가 등록되지 않았습니다." // 평가 내용 정보
                                                     self.monthlyEvaluationTextView.text = evaluation // 평가 내용 text로 설정
                                                     self.monthlyEvaluationTextView.isEditable = false // 수정 불가능하도록 설정
-                                                    self.monthlyEvaluationTextView.translatesAutoresizingMaskIntoConstraints = true
-                                                    self.monthlyEvaluationTextView.sizeToFit()
+//                                                    self.monthlyEvaluationTextView.translatesAutoresizingMaskIntoConstraints = true
+//                                                    self.monthlyEvaluationTextView.sizeToFit()
                                                 }
                                             }
                                         }
@@ -436,14 +420,6 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
     
     /// 캘린더의 현재 페이지가 달라진 경우 실행되는 메소드
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-//        LoadingIndicator.isLoaded = false
-//        if (LoadingIndicator.isLoaded == false) {
-//            LoadingIndicator.showLoading()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                LoadingIndicator.isLoaded = true
-//                LoadingIndicator.hideLoading()
-//            }
-//        }
         LoadingHUD.show()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             LoadingHUD.hide()

@@ -132,6 +132,13 @@ class LogInViewController: UIViewController {
     @IBAction func googleLogInBtnClicked(_ sender: Any) {
     }
     
+    @IBAction func ResetPasswordBtnClicked(_ sender: Any) {
+        guard let resetpwVC = self.storyboard?.instantiateViewController(withIdentifier: "ResetPasswordViewController") as? ResetPasswordViewController else { return }
+        resetpwVC.modalPresentationStyle = .pageSheet
+        resetpwVC.modalTransitionStyle = .coverVertical
+        self.present(resetpwVC, animated: true, completion: nil)
+    }
+    
     // 회원가입 버튼 클릭 시 실행되는 메소드
     @IBAction func SignInBtnClicked(_ sender: Any) {
         let typeSelectVC = self.storyboard?.instantiateViewController(withIdentifier: "TypeSelectViewController")
