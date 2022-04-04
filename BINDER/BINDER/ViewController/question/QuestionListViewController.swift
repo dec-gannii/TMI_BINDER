@@ -95,7 +95,6 @@ class QuestionListViewController : BaseVC {
                                             print("Error getting documents: \(err)")
                                         } else {
                                             for document in querySnapshot!.documents {
-                                                print("\(document.documentID) => \(document.data())")
                                                 
                                                 LoadingHUD.show()
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -141,7 +140,6 @@ class QuestionListViewController : BaseVC {
                                             print("Error getting documents: \(err)")
                                         } else {
                                             for document in querySnapshot!.documents {
-                                                print("\(document.documentID) => \(document.data())")
                                                 // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
                                                 // 네비게이션 바의 이름도 설정해주기
                                                 let name = document.data()["name"] as? String ?? ""
@@ -202,8 +200,6 @@ class QuestionListViewController : BaseVC {
                     self.questionNotAnsweredItems.removeAll()
                     
                     for document in snapshot.documents {
-                        print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
-                        
                         /// document.data()를 통해서 값 받아옴, data는 dictionary
                         let questionDt = document.data()
                         
@@ -302,8 +298,6 @@ class QuestionListViewController : BaseVC {
                                                         self.questionNotAnsweredItems.removeAll()
                                                         
                                                         for document in snapshot.documents {
-                                                            print("1: >>>>> document 정보 : \(document.documentID) => \(document.data())")
-                                                            
                                                             /// document.data()를 통해서 값 받아옴, data는 dictionary
                                                             let questionDt = document.data()
                                                             
@@ -418,9 +412,6 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         if (self.answeredToggle.isOn){
             if type == "teacher" {
                     // 답변 대기가 뜸
-                
-                print("questionNotAnswered Items :\(questionNotAnsweredItems)")
-                
                 let item = self.questionNotAnsweredItems[indexPath.row]
                 
                 guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionDetailVC") as? QuestionDetailViewController else { return }
@@ -438,9 +429,6 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                 self.present(questionVC, animated: true, completion: nil)
             } else {
                 // 답변 완료가 뜸
-                
-                    print("questionList Items : \(questionAnsweredItems)")
-                    
                     let item = self.questionAnsweredItems[indexPath.row]
                             
                     guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
@@ -462,7 +450,6 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
         } else {
                         
                 let item:QuestionListItem = self.questionListItems[indexPath.row]
-                print("questionItems : \(questionListItems[indexPath.row])")
             
                 if item.answerCheck == true { //답변이 있는 경우
                     guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
