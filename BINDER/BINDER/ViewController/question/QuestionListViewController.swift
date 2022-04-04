@@ -280,7 +280,6 @@ class QuestionListViewController : BaseVC {
                                             for document in querySnapshot!.documents {
                                                 teacherUid = document.data()["uid"] as? String ?? ""
                                                 self.teacherUid = teacherUid
-                                                print ("TeacherUID : \(teacherUid)")
                                                 
                                                 db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").getDocuments() { (querySnapshot, err) in
                                                     if let err = err {

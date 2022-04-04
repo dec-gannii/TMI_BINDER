@@ -92,7 +92,6 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         pickerView.delegate = self
         pickerView.dataSource = self
         monthPickerView.tintColor = .clear
-        
         monthPickerView.inputView = pickerView
     }
     
@@ -107,10 +106,6 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
                     return
                 }
                 for document in snapshot.documents {
-//                    LoadingIndicator.showLoading()
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                        LoadingIndicator.hideLoading()
-//                    }
                     if (LoadingHUD.isLoaded == false) {
                         LoadingHUD.show()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {

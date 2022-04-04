@@ -13,12 +13,4 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         self.delegate = self
     }
-    
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-            let tabBarIndex = tabBarController.selectedIndex
-            if tabBarIndex == 0 {
-                //do your stuff
-                LoadingHUD.isLoaded = false
-            }
-       }
 }

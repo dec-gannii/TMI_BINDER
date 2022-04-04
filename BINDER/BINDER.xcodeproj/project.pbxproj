@@ -33,7 +33,6 @@
 		69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72AA275D05C2007F6F7C /* GraphViewController.swift */; };
 		69EE72AF275D0662007F6F7C /* PlusGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */; };
 		69EE72B2275D11C2007F6F7C /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B1275D11C2007F6F7C /* MypageViewController.swift */; };
-		69EE72B4275D11D5007F6F7C /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */; };
 		69EE72B6275D1451007F6F7C /* StudentSubInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72B5275D1451007F6F7C /* StudentSubInfoController.swift */; };
 		6F2ED45027B3444800DD7CB7 /* QuestionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2ED44F27B3444800DD7CB7 /* QuestionListViewController.swift */; };
 		6F86FBD427B37FDC00670928 /* QuestionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F86FBD327B37FDC00670928 /* QuestionListItem.swift */; };
@@ -59,7 +58,6 @@
 		7F2E9E9F27DB2217008991EB /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9E9E27DB2217008991EB /* TabBarController.swift */; };
 		7F2E9EA127DB23D1008991EB /* StudentEvaluationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */; };
 		7F2E9EA327DB482B008991EB /* EvaluationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9EA227DB482A008991EB /* EvaluationItem.swift */; };
-		7F2EC20027F5AD07005A9214 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2EC1FF27F5AD07005A9214 /* LoadingIndicator.swift */; };
 		7F2EC22627F5CC8F005A9214 /* LoadingHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2EC22527F5CC8F005A9214 /* LoadingHUD.swift */; };
 		7F4285312765034500BA0310 /* ShowPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */; };
 		7F63AB6F27B4E3620081ED49 /* TermViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63AB6E27B4E3620081ED49 /* TermViewController.swift */; };
@@ -111,7 +109,6 @@
 		69EE72AA275D05C2007F6F7C /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusGraphViewController.swift; sourceTree = "<group>"; };
 		69EE72B1275D11C2007F6F7C /* MypageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewController.swift; sourceTree = "<group>"; };
-		69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		69EE72B5275D1451007F6F7C /* StudentSubInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSubInfoController.swift; sourceTree = "<group>"; };
 		6F2ED44F27B3444800DD7CB7 /* QuestionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionListViewController.swift; sourceTree = "<group>"; };
 		6F86FBD327B37FDC00670928 /* QuestionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionListItem.swift; sourceTree = "<group>"; };
@@ -139,7 +136,6 @@
 		7F2E9E9E27DB2217008991EB /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentEvaluationCell.swift; sourceTree = "<group>"; };
 		7F2E9EA227DB482A008991EB /* EvaluationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationItem.swift; sourceTree = "<group>"; };
-		7F2EC1FF27F5AD07005A9214 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		7F2EC22527F5CC8F005A9214 /* LoadingHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHUD.swift; sourceTree = "<group>"; };
 		7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPortfolioViewController.swift; sourceTree = "<group>"; };
 		7F63AB6E27B4E3620081ED49 /* TermViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermViewController.swift; sourceTree = "<group>"; };
@@ -269,7 +265,6 @@
 				6F86FBD327B37FDC00670928 /* QuestionListItem.swift */,
 				6FFDECC827CDF9380028B652 /* QuestionAnsweredListItem.swift */,
 				7F2E9EA227DB482A008991EB /* EvaluationItem.swift */,
-				7F2EC1FF27F5AD07005A9214 /* LoadingIndicator.swift */,
 				7F2EC22527F5CC8F005A9214 /* LoadingHUD.swift */,
 			);
 			path = models;
@@ -290,7 +285,6 @@
 			children = (
 				7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */,
 				69EE72B1275D11C2007F6F7C /* MypageViewController.swift */,
-				69EE72B3275D11D5007F6F7C /* PortfolioViewController.swift */,
 				6912805E276398EB00712739 /* PortfolioEditViewController.swift */,
 				7FBC6B1527EA06690067BAD5 /* PortfolioTableViewController.swift */,
 				7FBC6B1727EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift */,
@@ -615,13 +609,11 @@
 				7FBC6B1627EA06690067BAD5 /* PortfolioTableViewController.swift in Sources */,
 				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
 				7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */,
-				69EE72B4275D11D5007F6F7C /* PortfolioViewController.swift in Sources */,
 				6FFDECC927CDF9380028B652 /* QuestionAnsweredListItem.swift in Sources */,
 				6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */,
 				7FBC6B1427EA05930067BAD5 /* PortfolioDefaultCell.swift in Sources */,
 				6FB9139927B3A1C2000154FF /* QuestionListTableViewImageCell.swift in Sources */,
 				7FBC6B1227EA05720067BAD5 /* PlusPortfolioCell.swift in Sources */,
-				7F2EC20027F5AD07005A9214 /* LoadingIndicator.swift in Sources */,
 				7F2E9E9D27DB1DBD008991EB /* ParentMyPageViewController.swift in Sources */,
 				6993502A27CDECA100EA6C6F /* QuestionDetailViewController.swift in Sources */,
 				6965DE6B275DEF1C0072C16A /* ClassItem.swift in Sources */,

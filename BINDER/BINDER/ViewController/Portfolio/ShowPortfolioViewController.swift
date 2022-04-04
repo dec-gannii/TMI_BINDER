@@ -19,6 +19,7 @@ class ShowPortfolioViewController: UIViewController {
         super.viewDidLoad()
         /// 키보드 띄우기
         teacherEmailTextField.becomeFirstResponder()
+        
         showBtn.clipsToBounds = true
         showBtn.layer.cornerRadius = 10
     }

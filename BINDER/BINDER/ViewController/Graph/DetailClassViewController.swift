@@ -85,7 +85,6 @@ class DetailClassViewController: UIViewController {
         self.evaluationMemoTextView.layer.borderColor = color
         self.monthlyEvaluationTextView.layer.borderWidth = 1.0
         self.monthlyEvaluationTextView.layer.borderColor = color
-        
     }
     
     override func viewDidLoad() {
@@ -287,14 +286,11 @@ class DetailClassViewController: UIViewController {
                             }
                         }
                         // 학생이면 투두리스트 추가를 하지 못하도록 설정
-//                        self.okButton.isHidden = true
-//                        self.todoTF.isHidden = true
                         self.plusButton.isHidden = false
                         self.okButton.removeFromSuperview()
                         self.todoTF.removeFromSuperview()
                         
                         // 학생이면 수업 수정 버튼 보이지 않도록 설정
-//                        self.editBtn.isHidden = true
                         self.editBtn.removeFromSuperview()
                     }
                 }
@@ -416,7 +412,6 @@ class DetailClassViewController: UIViewController {
             }
         }
         self.monthlyEvaluationBackgroundView.isHidden = true
-        self.monthlyEvaluationBackgroundView.removeFromSuperview()
     }
     
     @IBAction func editBtnAction(_ sender: Any) {
@@ -434,7 +429,6 @@ class DetailClassViewController: UIViewController {
             editClassVC.userSubject = self.userSubject
             
             self.present(editClassVC, animated: true, completion: nil)
-            
         })
         
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
@@ -495,8 +489,6 @@ class DetailClassViewController: UIViewController {
                     print("Error adding document: \(err)")
                 }
                 // 저장 이후에는 다시 안 보이도록 함
-//                self.evaluationView.isHidden = true
-//                self.evaluationOKBtn.isHidden = true
                 self.evaluationView.removeFromSuperview()
                 self.evaluationOKBtn.removeFromSuperview()
                 
@@ -600,11 +592,8 @@ class DetailClassViewController: UIViewController {
                     print("Error adding document: \(err)")
                 }
                 // 저장 이후에는 다시 안 보이도록 함
-//                self.evaluationView.isHidden = true
-//                self.evaluationOKBtn.isHidden = true
                 self.evaluationView.removeFromSuperview()
                 self.evaluationOKBtn.removeFromSuperview()
-                
                 self.progressTextView.text = ""
                 self.testScoreTextField.text = ""
                 self.evaluationMemoTextView.text = ""
@@ -811,11 +800,9 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                 self.monthlyEvaluationBackgroundView.isHidden = false
             } else {
                 self.monthlyEvaluationBackgroundView.isHidden = true
-//                self.monthlyEvaluationBackgroundView.removeFromSuperview()
             }
         } else {
             self.monthlyEvaluationBackgroundView.isHidden = true
-//            self.monthlyEvaluationBackgroundView.removeFromSuperview()
         }
         
         let selectedDate = date
@@ -997,8 +984,6 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                 }
             } else {
                 // 그대로 숨김 유지
-//                evaluationView.isHidden = true
-//                evaluationOKBtn.isHidden = true
                 self.evaluationView.removeFromSuperview()
                 self.evaluationOKBtn.removeFromSuperview()
             }

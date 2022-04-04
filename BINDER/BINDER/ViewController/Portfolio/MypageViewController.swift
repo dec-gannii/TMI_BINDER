@@ -103,6 +103,7 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                         self.pageViewTitleLabel.text = "목표"
                         self.pageViewContentLabel.text = goal
                         self.pageViewContentLabel.numberOfLines = 2
+                        
                         self.pageViewContentLabel.rightAnchor.constraint(equalTo: self.pageView.rightAnchor
                                     , constant: -20).isActive = true
                         self.pageViewTitleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)

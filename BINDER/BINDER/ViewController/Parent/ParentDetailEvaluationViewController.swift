@@ -51,7 +51,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated)
         setCalendar()
         getUserInfo()
-        LoadingIndicator.isLoaded = false
         getEvaluationEvents()
     }
     
@@ -72,7 +71,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         var dateComponents = DateComponents()
         dateComponents.month = isPrev ? -1 : 1
         self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
-        LoadingIndicator.isLoaded = false
         LoadingHUD.show()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             LoadingHUD.hide()
@@ -139,7 +137,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         self.calendarText()
         self.calendarColor()
         self.calendarEvent()
-        
         self.setCornerRadius()
         
         /// parent collection에서 현재 사용자의 uid와 동일한 값의 uid를 가지는 문서 찾기
@@ -282,8 +279,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                                     let evaluation = evaluationData["evaluation"] as? String ?? "아직 이번 달 월말 평가가 등록되지 않았습니다." // 평가 내용 정보
                                                     self.monthlyEvaluationTextView.text = evaluation // 평가 내용 text로 설정
                                                     self.monthlyEvaluationTextView.isEditable = false // 수정 불가능하도록 설정
-//                                                    self.monthlyEvaluationTextView.translatesAutoresizingMaskIntoConstraints = true
-//                                                    self.monthlyEvaluationTextView.sizeToFit()
                                                 }
                                             }
                                         }
@@ -298,7 +293,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     }
     
     func getEvaluationEvents(){
-        
         // 데이터베이스 경로
         let formatter = DateFormatter()
         

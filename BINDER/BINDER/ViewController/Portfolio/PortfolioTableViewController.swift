@@ -65,7 +65,6 @@ class PortfolioTableViewController: UIViewController {
         
         
         if (isShowMode == true) { /// 포트폴리오 조회인 경우
-//            self.editBtn.isHidden = true // 수정 버튼 숨기기
             self.editBtn.removeFromSuperview()
             self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
                 if let err = err {
@@ -78,7 +77,6 @@ class PortfolioTableViewController: UIViewController {
                         let profile = document.data()["profile"] as? String ?? ""
                         let uid = document.data()["uid"] as? String ?? ""
                         self.teacherUid = uid
-                        
                         
                         self.db.collection("teacherEvaluation").document(uid).collection("evaluation").whereField("teacherUid", isEqualTo: uid).getDocuments() {
                             (querySnapshot, err) in
@@ -204,7 +202,6 @@ class PortfolioTableViewController: UIViewController {
                     let profile = document.data()!["profile"] as? String ?? ""
                     self.teacherImage.kf.setImage(with: URL(string: profile)!)
                     self.teacherImage.makeCircle()
-                    print("Document data: \(dataDescription)")
                 } else {
                     print("Document does not exist")
                 }
@@ -234,6 +231,7 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                 self.teacherUid = Auth.auth().currentUser!.uid // self.teacherUid 를 설정
             }
             
+            // 선생님 태도 평가 점수 평균 계산
             var teacherAttitudeScoreAvg = 0
             var teacherAttitudeScoreSum = 0
             for score in self.teacherAttitudeArray {
@@ -241,6 +239,7 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                 teacherAttitudeScoreAvg = teacherAttitudeScoreSum / self.teacherAttitudeArray.count
             }
             
+            // 선생님 학생 관리 만족도 점수 평균 계산
             var teacherManagingSatisfyScoreAvg = 0
             var teacherManagingSatisfyScoreSum = 0
             for score in self.teacherManagingSatisfyScoreArray {

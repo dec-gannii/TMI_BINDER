@@ -78,7 +78,6 @@ class TeacherEvaluationViewController: UIViewController {
                                     self.db.collection("teacherEvaluation").document(teacherUid).collection("evaluation").document(studentName + " " + self.month).getDocument { (document, error) in
                                         if let document = document, document.exists {
                                             let data = document.data()
-                                            print("====> document Exists!")
                                             let teacherAttitude = data!["teacherAttitude"] as? String ?? "" // 선생님 태도 점수
                                             let teacherManagingSatisfyScore = data!["teacherManagingSatisfyScore"] as? String ?? "" // 학생 관리 만족도 점수
                                             self.teacherAttitude.text = teacherAttitude // 선생님 태도 점수 text 지정

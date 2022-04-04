@@ -21,15 +21,15 @@ class ParentHomeViewController: UIViewController {
     var teacherEmail = "" // 선생님 이메일
     var subject = "" // 과목
     var selectedMonth = "" // 선택된 달
-    
     let nowDate = Date() // 오늘 날짜
+    
+    @IBOutlet weak var parentNameLabel: UILabel! // 학부모 이름 Label
+    @IBOutlet weak var progressListTableView: UITableView! // TableView
             
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         getUserInfo() // 사용자 정보 받아오기
-        // 평가 불러오기
-        setEvaluation()
+        setEvaluation() // 평가 불러오기
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM" // MM월의 형태로 설정
@@ -46,9 +46,6 @@ class ParentHomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         progressListTableView.reloadData() // 평가가 나타나는 tableview 그리기
     }
-    
-    @IBOutlet weak var parentNameLabel: UILabel! // 학부모 이름 Label
-    @IBOutlet weak var progressListTableView: UITableView! // TableView
     
     // DB에서 사용자 정보 가져오기
     func getUserInfo() {
@@ -150,7 +147,6 @@ class ParentHomeViewController: UIViewController {
 extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // tableview에 표시될 cell 개수 반환
-        
         return evaluationItem.count
     }
     

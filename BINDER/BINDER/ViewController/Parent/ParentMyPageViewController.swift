@@ -22,15 +22,9 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         storageRef = storage.reference()
         imageChange() // 이미지 변경
         self.profileImageView.makeCircle() // 프로필 이미지 동그랗게 보이도록 설정
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        getUserInfo() // 사용자 정보 가져오기
-        viewDecorating() // 학생 전화번호 배경 view 커스터마이징
     }
     
     @IBOutlet weak var profileImageView: UIImageView! // 프로필 이미지 띄우는 imageView
@@ -38,6 +32,11 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
     @IBOutlet weak var childInfoBackgroundView: UIView! // 학생 전화번호 정보 배경 view
     @IBOutlet weak var childPhoneNumberLabel: UILabel! // 학생 전화번호 Label
     @IBOutlet weak var childNameLabel: UILabel! // 학생 이름 Label
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getUserInfo() // 사용자 정보 가져오기
+        viewDecorating() // 학생 전화번호 배경 view 커스터마이징
+    }
     
     /// 학생 전화번호 삭제 버튼 클릭 시 실행
     @IBAction func DeleteChildInfoBtnClicked(_ sender: Any) {
@@ -68,7 +67,6 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
         do {
             /// 로그아웃 실행
             try Auth.auth().signOut()
-            LoadingIndicator.isLoaded = false
         } catch {
             print("Sign out error")
         }
@@ -131,14 +129,7 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
                     /// 문서 존재하면
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-//                        if (LoadingIndicator.isLoaded == false) {
-//                            LoadingIndicator.showLoading()
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                                LoadingIndicator.isLoaded = true
-//                                LoadingIndicator.hideLoading()
-//                            }
-//                        }
-//
+                        
                         if LoadingHUD.isLoaded == false {
                             LoadingHUD.show()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -160,7 +151,6 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
                         }
                         
                         var childPhoneNumberWithDash = "" // '-'가 들어간 번호로 다시 만들어 주기 위해 사용
-                        
                         if (childPhoneNumber.contains("-")) { /// '-'가 있는 휴대폰 번호의 경우
                             childPhoneNumberWithDash = childPhoneNumber // '-'가 들어간 번호 변수에 그대로 사용
                         } else {  /// '-'가 없는 휴대폰 번호의 경우
@@ -184,6 +174,7 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
                             // '-'가 들어간 번호 변수에 010 파트와 중간 번호 하트, 끝 번호 파트를 '-'로 연결해서 저장
                             childPhoneNumberWithDash = firstPart + " - " + secondPart + " - " + thirdPart
                         }
+                        
                         // student collection에서 학생의 휴대전화번호가 '-'가 들어간 번호 변수의 값과 같다면
                         db.collection("student").whereField("phonenum", isEqualTo: childPhoneNumberWithDash).getDocuments { (querySnapshot, err) in
                             if let err = err {
@@ -234,7 +225,7 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
     
     func myAlert(_ title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        let action = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default , handler: nil)
+        let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default , handler: nil)
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
     }

@@ -73,13 +73,7 @@ class MyClassVC: BaseVC{
                         
                         let url = URL(string: profile)!
                         self.teacherImage.kf.setImage(with: url)
-                        
                         self.setTeacherInfo()
-
-//                        LoadingIndicator.showLoading()
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                            LoadingIndicator.hideLoading()
-//                        }
                         
                         LoadingHUD.show()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -107,11 +101,6 @@ class MyClassVC: BaseVC{
                         self.teacherImage.kf.setImage(with: url)
                         
                         self.setStudentInfo()
-                        
-//                        LoadingIndicator.showLoading()
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                            LoadingIndicator.hideLoading()
-//                        }
                         
                         LoadingHUD.show()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
