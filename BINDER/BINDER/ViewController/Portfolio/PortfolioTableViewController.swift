@@ -138,6 +138,24 @@ class PortfolioTableViewController: UIViewController {
             }
         } else {
             self.infos.removeAll()
+            self.teacherAttitudeArray.removeAll()
+            self.teacherManagingSatisfyScoreArray.removeAll()
+            
+            self.db.collection("teacherEvaluation").document(Auth.auth().currentUser!.uid).collection("evaluation").whereField("teacherUid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() {
+                (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let teacherAttitude = document.data()["teacherAttitude"] as? String ?? ""
+                        self.teacherAttitudeArray.append(Int(teacherAttitude)!)
+                        let teacherManagingSatisfyScore = document.data()["teacherManagingSatisfyScore"] as? String ?? ""
+                        self.teacherManagingSatisfyScoreArray.append(Int(teacherManagingSatisfyScore)!)
+                    }
+                }
+            }
+            
             let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio")
             
             docRef.getDocument { (document, error) in
@@ -214,7 +232,6 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
             if Auth.auth().currentUser?.uid != nil { // 현재 사용자의 uid가 nil이 아니면
                 self.teacherUid = Auth.auth().currentUser!.uid // self.teacherUid 를 설정
             }
-            
             
             var teacherAttitudeScoreAvg = 0
             var teacherAttitudeScoreSum = 0
