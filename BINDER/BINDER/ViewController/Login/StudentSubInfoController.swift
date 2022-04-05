@@ -192,15 +192,12 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                     }
                 }
             }
-            
-            print("delete success, go sign in page")
-            
-            // 로그인 화면(첫화면)으로 다시 이동
-            guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
-            loginVC.modalPresentationStyle = .fullScreen
-            loginVC.modalTransitionStyle = .crossDissolve
-            self.present(loginVC, animated: true, completion: nil)
         }
+        // 로그인 화면(첫화면)으로 다시 이동
+        guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
+        loginVC.modalPresentationStyle = .fullScreen
+        loginVC.modalTransitionStyle = .crossDissolve
+        self.present(loginVC, animated: true, completion: nil)
     }
     
     @IBAction func goNext(_ sender: Any) {
@@ -240,8 +237,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                 // 데이터 저장
                 ageAlertLabel.isHidden = true
                 db.collection("teacher").document(Auth.auth().currentUser!.uid).updateData([
-                    "parentPW": ageShowPicker.text!,
-                    "childPhoneNumber": phoneNumberWithDash
+                    "parentPW": ageShowPicker.text!
                 ]) { err in
                     if let err = err {
                         print("Error adding document: \(err)")
@@ -264,7 +260,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                 goalAlertLabel.text = "목표를 작성해주세요."
                 goalAlertLabel.isHidden = false
             }
-            else if ((phonenumTextField.text!.contains("-") && phonenumTextField.text!.count >= 15) || (phonenumTextField.text!.count >= 11 && !phonenumTextField.text!.contains("-"))) {
+            else if ((phonenumTextField.text!.contains("-") && phonenumTextField.text!.count >= 15) || (phonenumTextField.text!.count >= 11 && phonenumTextField.text!.contains("-"))) {
                 phoneAlertLabel.text = "잘못된 형식의 전화번호입니다."
                 phoneAlertLabel.isHidden = false
             }
@@ -292,73 +288,73 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             
             if(isValidEmail(goal)){
                 db.collection("teacher").whereField("email", isEqualTo: goal).getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print(">>>>> document 에러 : \(err)")
-                        } else {
-                            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                return
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                    } else {
+                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                            return
+                        }
+                        for document in querySnapshot!.documents {
+                            // 선생님 비밀번호
+                            self.tpassword = document.data()["parentPW"] as? String ?? ""
+                            print("안쪽 선생님 비밀번호 : \(self.tpassword)")
+                            
+                            if self.phonenum == "" {
+                                self.phoneAlertLabel.text = "전화번호를 작성해주세요."
+                                self.phoneAlertLabel.isHidden = false
                             }
-                            for document in querySnapshot!.documents {
-                                // 선생님 비밀번호
-                                self.tpassword = document.data()["parentPW"] as? String ?? ""
-                                print("안쪽 선생님 비밀번호 : \(self.tpassword)")
+                            else if ((self.phonenumTextField.text!.contains("-") && self.phonenumTextField.text!.count >= 15) || (self.phonenumTextField.text!.count >= 12 && !self.phonenumTextField.text!.contains("-"))) {
+                                self.phoneAlertLabel.text = "잘못된 형식의 전화번호입니다."
+                                self.phoneAlertLabel.isHidden = false
+                            }
+                            else if self.tpassword != self.ageShowPicker.text! {
+                                print("선생님 비번 : \(self.tpassword), 나온 비번 : \(self.ageShowPicker.text)")
+                                self.ageAlertLabel.text = "선생님 이메일과 비밀번호가 일치하지 않습니다."
+                                self.ageAlertLabel.isHidden = false
+                            }
+                            else {
+                                self.goalAlertLabel.isHidden = true
+                                self.phoneAlertLabel.isHidden = true
+                                self.ageAlertLabel.isHidden = true
                                 
-                                if self.phonenum == "" {
-                                    self.phoneAlertLabel.text = "전화번호를 작성해주세요."
-                                    self.phoneAlertLabel.isHidden = false
-                                }
-                                else if ((self.phonenumTextField.text!.contains("-") && self.phonenumTextField.text!.count >= 15) || (self.phonenumTextField.text!.count >= 12 && !self.phonenumTextField.text!.contains("-"))) {
-                                    self.phoneAlertLabel.text = "잘못된 형식의 전화번호입니다."
-                                    self.phoneAlertLabel.isHidden = false
-                                }
-                                else if self.tpassword != self.ageShowPicker.text! {
-                                    print("선생님 비번 : \(self.tpassword), 나온 비번 : \(self.ageShowPicker.text)")
-                                    self.ageAlertLabel.text = "선생님 이메일과 비밀번호가 일치하지 않습니다."
-                                    self.ageAlertLabel.isHidden = false
-                                }
-                                else {
-                                    self.goalAlertLabel.isHidden = true
-                                    self.phoneAlertLabel.isHidden = true
-                                    self.ageAlertLabel.isHidden = true
-                                    
-                                    if phoneNumberWithDash != ""{
-                                        // 데이터 저장
-                                        self.db.collection("student").whereField("phonenum", isEqualTo: phoneNumberWithDash).getDocuments() { (querySnapshot, err) in
-                                            if let err = err {
-                                                print(">>>>> document 에러 : \(err)")
-                                                self.phoneAlertLabel.text = "올바른 전화번호가 아닙니다."
-                                                self.phoneAlertLabel.isHidden = false
-                                            } else {
-                                                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                                    return
-                                                }
-                                                for document in querySnapshot!.documents {
-                                                    var sphonenum = document.data()["phonenum"] as? String ?? ""
+                                if phoneNumberWithDash != ""{
+                                    // 데이터 저장
+                                    self.db.collection("student").whereField("phonenum", isEqualTo: phoneNumberWithDash).getDocuments() { (querySnapshot, err) in
+                                        if let err = err {
+                                            print(">>>>> document 에러 : \(err)")
+                                            self.phoneAlertLabel.text = "올바른 전화번호가 아닙니다."
+                                            self.phoneAlertLabel.isHidden = false
+                                        } else {
+                                            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                                                return
+                                            }
+                                            for document in querySnapshot!.documents {
+                                                var sphonenum = document.data()["phonenum"] as? String ?? ""
+                                                
+                                                if sphonenum == phoneNumberWithDash {
+                                                    self.db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
+                                                        "teacherEmail": self.goal,
+                                                        "childPhoneNumber": phoneNumberWithDash                ]) { err in
+                                                            if let err = err {
+                                                                print("Error adding document: \(err)")
+                                                            }
+                                                        }
                                                     
-                                                    if sphonenum == phoneNumberWithDash {
-                                                            self.db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
-                                                                "teacherEmail": self.goal,
-                                                                "childPhoneNumber": phoneNumberWithDash                ]) { err in
-                                                                    if let err = err {
-                                                                        print("Error adding document: \(err)")
-                                                                    }
-                                                                }
-                                                        
-                                                            guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
-                                                            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                                                            self.present(tb, animated: true, completion: nil)
-                                                        } else {
-                                                        self.phoneAlertLabel.text = "올바른 전화번호가 아닙니다."
-                                                        self.phoneAlertLabel.isHidden = false
-                                                    }
+                                                    guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
+                                                    tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                                                    self.present(tb, animated: true, completion: nil)
+                                                } else {
+                                                    self.phoneAlertLabel.text = "올바른 전화번호가 아닙니다."
+                                                    self.phoneAlertLabel.isHidden = false
                                                 }
                                             }
                                         }
                                     }
-                                    else {
-                                        self.phoneAlertLabel.text = "올바른 전화번호가 아닙니다."
-                                        self.phoneAlertLabel.isHidden = false
-                                    }
+                                }
+                                else {
+                                    self.phoneAlertLabel.text = "올바른 전화번호가 아닙니다."
+                                    self.phoneAlertLabel.isHidden = false
+                                }
                             }
                         }
                     }

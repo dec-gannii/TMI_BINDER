@@ -60,6 +60,11 @@ class TypeSelectViewController: UIViewController {
         //화면전환
         self.present(signinVC, animated: true)
     }
+    
+    @IBAction func GoBackBtnClicked(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+    
 }
 
 

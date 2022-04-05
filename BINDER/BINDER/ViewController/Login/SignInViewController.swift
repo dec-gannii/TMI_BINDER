@@ -123,7 +123,6 @@ class SignInViewController: UIViewController {
             tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
             self.present(tb, animated: true, completion: nil)
             self.present(homeVC, animated: true, completion: nil)
-            
         } else {
             let user = Auth.auth().currentUser // 사용자 정보 가져오기
             
@@ -164,15 +163,14 @@ class SignInViewController: UIViewController {
                         }
                     }
                 }
-                
-                print("delete success, go sign in page")
-                
-                // 로그인 화면(첫화면)으로 다시 이동
-                guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
-                loginVC.modalPresentationStyle = .fullScreen
-                loginVC.modalTransitionStyle = .crossDissolve
-                self.present(loginVC, animated: true, completion: nil)
             }
+            
+            // 로그인 화면(첫화면)으로 다시 이동
+            guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
+            loginVC.modalPresentationStyle = .fullScreen
+            loginVC.modalTransitionStyle = .crossDissolve
+            
+            self.present(loginVC, animated: true, completion: nil)
         }
     }
     
@@ -187,106 +185,87 @@ class SignInViewController: UIViewController {
         self.pwAlertLabel.isHidden = true
         self.nameAlertLabel.isHidden = true
         
-        // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면, && self.isValidAge(age)
-        if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) ) {
-            // 사용자를 생성
-            Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
-                if (self.type != "parent"){
-                    Auth.auth().currentUser?.sendEmailVerification(completion: {(error) in
-                        print("sended to " + id)
-                        if let error = error {
-                            print(error.localizedDescription)
+        switch self.type {
+        case "teacher", "student", "parent":
+            self.db.collection(self.type).whereField("email", isEqualTo: id).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        self.emailAlertLabel.text = "이미 사용중인 이메일입니다."
+                        self.emailAlertLabel.isHidden = false
+                    }
+                    
+                    if self.emailAlertLabel.isHidden == true {
+                        // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면, && self.isValidAge(age)
+                        if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) ) {
+                            // 사용자를 생성
+                            Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
+                                if (self.type != "parent"){
+                                    Auth.auth().currentUser?.sendEmailVerification(completion: {(error) in
+                                        print("sended to " + id)
+                                        if let error = error {
+                                            print(error.localizedDescription)
+                                        } else {
+                                            
+                                        }
+                                    })
+                                }
+                                
+                                // 정보 저장 , age
+                                self.saveInfo(SignInViewController.number, name, id, pw, self.type)
+                                SignInViewController.number = SignInViewController.number + 1
+                                guard let user = authResult?.user else {
+                                    return
+                                }
+                                
+                                guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
+                                    //아니면 종료
+                                    return
+                                }
+                                subInfoVC.type = self.type
+                                subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                                subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                                self.present(subInfoVC, animated: true, completion: nil)
+                            }
                         } else {
-                            
+                            if (self.isGoogleSignIn == false) {
+                                // 유효하지 않다면, 에러가 난 부분 label로 알려주기 위해 error label 숨김 해제
+                                if (!self.isValidEmail(id)){
+                                    self.emailAlertLabel.isHidden = false
+                                    self.emailAlertLabel.text = "이메일 형식이 올바르지 않습니다!"
+                                }
+                                if (!self.isValidPassword(pw)) {
+                                    self.pwAlertLabel.isHidden = false
+                                    self.pwAlertLabel.text = "비밀번호 형식이 올바르지 않습니다!"
+                                }
+                            } else {
+                                // 정보 저장 , age
+                                self.saveInfo(SignInViewController.number, name, id, pw, self.type)
+                                SignInViewController.number = SignInViewController.number + 1
+                                
+                                // 추가 정보를 입력하는 뷰로 이동
+                                guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
+                                    //아니면 종료
+                                    return
+                                }
+                                subInfoVC.type = self.type
+                                subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                                subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                                self.present(subInfoVC, animated: true, completion: nil)
+                            }
+                            if (!self.isValidName(name)) {
+                                self.nameAlertLabel.isHidden = false
+                                self.nameAlertLabel.text = "이름 형식이 올바르지 않습니다!"
+                            }
                         }
-                    })
-                }
-                
-                // 정보 저장 , age
-                self.saveInfo(SignInViewController.number, name, id, pw, self.type)
-                SignInViewController.number = SignInViewController.number + 1
-                guard let user = authResult?.user else {
-                    return
+                    }
                 }
             }
-            
-            
-            // 타입이 학생이라면,
-            if(type == "student" || type == "teacher" || type == "parent"){
-                // 추가 정보를 입력하는 뷰로 이동
-                guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
-                    //아니면 종료
-                    return
-                }
-                subInfoVC.type = self.type
-                subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                self.present(subInfoVC, animated: true, completion: nil)
-            } else{
-                // 아니라면 바로 홈으로 이동
-                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                    //아니면 종료
-                    return
-                }
-                // 데이터 넘겨주기
-                homeVC.id = self.emailTextField.text!
-                homeVC.pw = self.pwTextField.text!
-                homeVC.number = SignInViewController.number
-                homeVC.name = self.nameTextField.text!
-                homeVC.type = self.type
-                
-                guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
-                    return
-                }
-                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
-                    return
-                }
-                
-                guard let myPageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                    return
-                }
-                
-                // tab bar 추가하기
-                let tb = UITabBarController()
-                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
-                tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
-                self.present(tb, animated: true, completion: nil)
-            }
-        } else {
-            if (isGoogleSignIn == false) {
-                // 유효하지 않다면, 에러가 난 부분 label로 알려주기 위해 error label 숨김 해제
-                if (!self.isValidEmail(id)){
-                    emailAlertLabel.isHidden = false
-                    emailAlertLabel.text = "이메일 형식이 올바르지 않습니다!"
-                }
-                if (!self.isValidPassword(pw)) {
-                    pwAlertLabel.isHidden = false
-                    pwAlertLabel.text = "비밀번호 형식이 올바르지 않습니다!"
-                }
-            } else {
-                // 정보 저장 , age
-                self.saveInfo(SignInViewController.number, name, id, pw, self.type)
-                SignInViewController.number = SignInViewController.number + 1
-                
-                // 추가 정보를 입력하는 뷰로 이동
-                guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
-                    //아니면 종료
-                    return
-                }
-                subInfoVC.type = self.type
-                subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                self.present(subInfoVC, animated: true, completion: nil)
-            }
-            if (!self.isValidName(name)) {
-                nameAlertLabel.isHidden = false
-                nameAlertLabel.text = "이름 형식이 올바르지 않습니다!"
-            }
+            break
+        default:
+            break
         }
     }
 }
-
-
-
-
