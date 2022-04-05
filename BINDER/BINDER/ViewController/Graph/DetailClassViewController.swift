@@ -182,7 +182,7 @@ class DetailClassViewController: UIViewController {
                         
                         if let index = self.userIndex { // userIndex가 nil이 아니라면
                             // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
-                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
+                            docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
                                 .getDocuments() { (querySnapshot, err) in
                                     if let err = err {
                                         print(">>>>> document 에러 : \(err)")
@@ -213,7 +213,7 @@ class DetailClassViewController: UIViewController {
                                                 self.classNavigationBar.topItem!.title = self.userName + " 학생"
                                                 
                                                 // todolist도 가져오기
-                                                self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
+                                                docRef.document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
                                                     if let document = document, document.exists {
                                                         let data = document.data()
                                                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -265,7 +265,7 @@ class DetailClassViewController: UIViewController {
                                         let teacherUid = document.data()["uid"] as? String ?? ""
                                         
                                         // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
-                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
+                                        teacherDocRef.document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
                                             if let document = document, document.exists {
                                                 let data = document.data()
                                                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -289,11 +289,8 @@ class DetailClassViewController: UIViewController {
                         }
                         // 학생이면 투두리스트 추가를 하지 못하도록 설정
                         self.plusButton.isHidden = false
-//                        self.okButton.removeFromSuperview()
                         self.okButton.isHidden = true
-//                        self.todoTF.removeFromSuperview()
                         self.todoTF.isHidden = true
-                        
                         // 학생이면 수업 수정 버튼 보이지 않도록 설정
                         self.editBtn.removeFromSuperview()
                     }
@@ -331,7 +328,7 @@ class DetailClassViewController: UIViewController {
                 }
                 
                 // 그래프 정보 저장 경로
-                let docRef = self.db.collection("student").document(studentUid).collection("Graph")
+                let docRef = studentDocRef.document(studentUid).collection("Graph")
                 docRef.document("Count").getDocument {(document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
@@ -385,14 +382,16 @@ class DetailClassViewController: UIViewController {
     
     @IBAction func SaveMonthlyEvaluation(_ sender: Any) {
         let date = self.selectedMonth + "월"
-        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument {(document, error) in
+        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        let studentDocRef = self.db.collection("student")
+        docRef.getDocument {(document, error) in
             if let document = document, document.exists {
                 let data = document.data()
                 let teacherName = data!["name"] as? String ?? ""
                 let teacherEmail = data!["email"] as? String ?? ""
                 
                 if let email = self.userEmail {
-                    self.db.collection("student").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                    studentDocRef.whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
                         if let err = err {
                             print("Error getting documents: \(err)")
                         } else {
@@ -400,7 +399,7 @@ class DetailClassViewController: UIViewController {
                                 print("\(document.documentID) => \(document.data())")
                                 let uid = document.data()["uid"] as? String ?? ""
                                 
-                                self.db.collection("student").document(uid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(date).setData([
+                                studentDocRef.document(uid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(date).setData([
                                     "month": date,
                                     "isMonthlyEvaluation": true,
                                     "evaluation": self.monthlyEvaluationTextView.text!
@@ -478,9 +477,10 @@ class DetailClassViewController: UIViewController {
     
     // 평가 저장하기 버튼 클릭 시 실행되는 메소드
     @IBAction func OKButtonClicked(_ sender: Any) {
+        let teacherDocRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
         // 경로는 각 학생의 class의 Evaluation
         if(self.userType == "teacher") {
-            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
+            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
                 "progress": progressTextView.text!,
                 "testScore": Int(testScoreTextField.text!) ?? 0,
                 "homeworkCompletion": Int(homeworkScoreTextField.text!) ?? 0,
@@ -501,7 +501,7 @@ class DetailClassViewController: UIViewController {
                 self.evaluationMemoTextView.text = ""
             }
             
-            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { (document, error) in
+            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
                     var currentCnt = data?["currentCnt"] as? Int ?? 0
@@ -511,7 +511,7 @@ class DetailClassViewController: UIViewController {
                     
                     if (payType == "T") {
                         if (currentCnt+Int(self.classTimeTextField.text!)! >= 8) {
-                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": (currentCnt + Int(self.classTimeTextField.text!)!) % 8
                             ]) { err in
                                 if let err = err {
@@ -519,7 +519,7 @@ class DetailClassViewController: UIViewController {
                                 }
                             }
                         } else {
-                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
                             ]) { err in
                                 if let err = err {
@@ -531,7 +531,7 @@ class DetailClassViewController: UIViewController {
                     } else if (payType == "C") {
                         if (currentCnt+1 >= 8) {
                             currentCnt = currentCnt % 8
-                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": currentCnt + 1
                             ]) { err in
                                 if let err = err {
@@ -539,7 +539,7 @@ class DetailClassViewController: UIViewController {
                                 }
                             }
                         } else {
-                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": currentCnt + 1
                             ]) { err in
                                 if let err = err {

@@ -80,7 +80,7 @@ class CheckPasswordViewController: UIViewController {
             errorLabel.isHidden = true
         } else {
             // 만약 현재 저장되어 있는 비밀번호와 입력한 비밀번호가 동일하지 않으면 오류 발생 Label 숨김 해제
-            errorLabel.text = "현재 비밀번호가 올바르지 않습니다!"
+            errorLabel.text = StringUtils.wrongPassword.rawValue
             errorLabel.isHidden = false
         }
     }

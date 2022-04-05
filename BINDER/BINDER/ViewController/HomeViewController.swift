@@ -48,9 +48,7 @@ class HomeViewController: UIViewController {
     @IBAction func nextBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: false) }
     
     private var currentPage: Date?
-    
     private lazy var today: Date = { return Date() }()
-    
     private lazy var dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.locale = Locale(identifier: "ko_KR")
@@ -132,19 +130,18 @@ class HomeViewController: UIViewController {
         setUpDays(self.today)
         
         calendarView.delegate = self
-        verifiedCheck() // 인증된 이메일인지 체크하는 메소드
         
+        verifiedCheck() // 인증된 이메일인지 체크하는 메소드
         getTeacherInfo()
         getStudentInfo()
         
         self.calendarColor()
         self.calendarEvent()
-        
         self.setCalendar()
         
         // 인증되지 않은 계정이라면
         if (!verified) {
-            stateLabel.text = "작성한 이메일로 인증을 진행해주세요."
+            stateLabel.text = "가입한 이메일로 인증을 진행해주세요."
             emailVerificationCheckBtn.isHidden = false
         } else {
             // 인증되었고,
@@ -441,9 +438,7 @@ class HomeViewController: UIViewController {
                     self.present(detailClassVC, animated: true, completion: nil)
                 }
             }
-            
         }
-        
     }
     
     func getTeacherEvents(){
@@ -464,7 +459,6 @@ class HomeViewController: UIViewController {
                 self.events.removeAll()
                 
                 for index in 1...self.days.count-1 {
-                    print("self.days[\(index)] : \(self.days[index])")
                     let tempDay = "\(self.days[index])"
                     let dateWithoutDays = tempDay.components(separatedBy: " ")
                     formatter.dateFormat = "YYYY-MM-dd"
@@ -484,7 +478,6 @@ class HomeViewController: UIViewController {
                                 
                                 formatter.dateFormat = "YYYY-MM-dd"
                                 let date_d = formatter.date(from: date)!
-                                print("date_d : \(date_d)")
                                 self.events.append(date_d)
                                 self.calendarView.reloadData()
                             }
@@ -516,14 +509,12 @@ class HomeViewController: UIViewController {
                 self.pw = data?["password"] as? String ?? ""
                 
                 let formatter = DateFormatter()
-                
                 formatter.locale = Locale(identifier: "ko_KR")
                 formatter.timeZone = TimeZone(abbreviation: "KST")
                 
                 self.events.removeAll()
                 
                 for index in 1...self.days.count-1 {
-                    
                     let tempDay = "\(self.days[index])"
                     let dateWithoutDays = tempDay.components(separatedBy: " ")
                     formatter.dateFormat = "YYYY-MM-dd"
@@ -568,7 +559,6 @@ class HomeViewController: UIViewController {
                 let type = data?["type"] as? String ?? ""
                 
                 let formatter = DateFormatter()
-                
                 formatter.locale = Locale(identifier: "ko_KR")
                 formatter.timeZone = TimeZone(abbreviation: "KST")
                 
@@ -625,7 +615,6 @@ class HomeViewController: UIViewController {
                 }
                 
                 let formatter = DateFormatter()
-                
                 formatter.locale = Locale(identifier: "ko_KR")
                 formatter.timeZone = TimeZone(abbreviation: "KST")
                 
@@ -649,7 +638,6 @@ class HomeViewController: UIViewController {
                                 print("\(document.documentID) => \(document.data())")
                                 // 사용할 것들 가져와서 지역 변수로 저장
                                 let date = document.data()["date"] as? String ?? ""
-                                
                                 formatter.dateFormat = "YYYY-MM-dd"
                                 let date_d = formatter.date(from: date)!
                                 
@@ -737,7 +725,6 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
                 print("Document data was empty.")
                 return
             }
-            
             scheduleListVC.count = data["count"] as! Int
         }
         

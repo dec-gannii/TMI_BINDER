@@ -238,13 +238,45 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 guard let image = imgView.image else {
                     self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                         "url":"",
-                        "answerContent": self.answer
+                        "answerContent": self.answer,
+                        "isAnswer": true
                     ]) { err in
                         if let err = err {
                             print("Error adding document: \(err)")
                         }
                     }
                     print("image not exists")
+                    
+                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
+                        "answerCheck": true
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                    
+                    guard let pvc = self.presentingViewController else { return }
+
+                    guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
+                    
+                    qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                    
+                    qnaVC.index = index
+                    qnaVC.qnum = qnum
+                    qnaVC.email = email
+                    qnaVC.userName = userName
+                    qnaVC.type = type
+                    qnaVC.subject = subject
+                    
+                    self.dismiss(animated: true) {
+                        LoadingHUD.show()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            LoadingHUD.hide()
+                        }
+                        
+                        pvc.present(qnaVC, animated: true, completion: nil)
+                    }
                     
                     return
                 }
@@ -284,13 +316,46 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 guard let image = imgView.image else {
                     self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                         "url":"",
-                        "answerContent": self.answer
+                        "answerContent": self.answer,
+                        "isAnswer": true
                     ]) { err in
                         if let err = err {
                             print("Error adding document: \(err)")
                         }
                     }
                     print("video not exists")
+                    
+                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
+                        "answerCheck": true
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                    
+                    guard let pvc = self.presentingViewController else { return }
+
+                    guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
+                    
+                    qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                    
+                    qnaVC.index = index
+                    qnaVC.qnum = qnum
+                    qnaVC.email = email
+                    qnaVC.userName = userName
+                    qnaVC.type = type
+                    qnaVC.subject = subject
+                    
+                    self.dismiss(animated: true) {
+                        
+                        LoadingHUD.show()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            LoadingHUD.hide()
+                        }
+                        
+                        pvc.present(qnaVC, animated: true, completion: nil)
+                    }
                     
                     return
                 }

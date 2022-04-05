@@ -72,7 +72,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         dateComponents.month = isPrev ? -1 : 1
         self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
         LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             LoadingHUD.hide()
         }
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
@@ -162,7 +162,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                 print("\(document.documentID) => \(document.data())")
                                 
                                 LoadingHUD.show()
-                                DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                     LoadingHUD.hide()
                                 }
                                 
@@ -414,7 +414,7 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
     /// 캘린더의 현재 페이지가 달라진 경우 실행되는 메소드
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             LoadingHUD.hide()
         }
         

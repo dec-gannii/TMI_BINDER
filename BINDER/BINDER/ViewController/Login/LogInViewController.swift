@@ -55,23 +55,21 @@ class LogInViewController: UIViewController {
             if let error = error as? NSError {
                 switch AuthErrorCode(rawValue: error.code) {
                 case .userDisabled:
-                    // Error: The user account has been disabled by an administrator.
-                    let alert = UIAlertController(title: "로그인 실패", message: "사용할 수 없는 사용자 계정입니다.", preferredStyle: UIAlertController.Style.alert)
+                    let alert = UIAlertController(title: "로그인 실패", message: StringUtils.emailValidationAlert.rawValue, preferredStyle: UIAlertController.Style.alert)
                     let okAction = UIAlertAction(title: "확인", style: .default) { (action) in }
                     alert.addAction(okAction)
                     self.present(alert, animated: false, completion: nil)
                     break
                 case .wrongPassword:
-                    // Error: The password is invalid or the user does not have a password.
                     self.emailAlertLabel.isHidden = true
                     self.pwAlertLabel.isHidden = false
-                    self.pwAlertLabel.text = "비밀번호가 틀렸습니다!"
+                    self.pwAlertLabel.text = StringUtils.wrongPassword.rawValue
                     break
                 case .emailAlreadyInUse:
                     Auth.auth().signIn(withEmail: email, password: password)
                     break
                 default:
-                    let alert = UIAlertController(title: "로그인 실패", message: "로그인에 실패하였습니다. 다시 시도해주세요.", preferredStyle: UIAlertController.Style.alert)
+                    let alert = UIAlertController(title: "로그인 실패", message: StringUtils.loginFail.rawValue, preferredStyle: UIAlertController.Style.alert)
                     let okAction = UIAlertAction(title: "확인", style: .default) { (action) in }
                     alert.addAction(okAction)
                     self.present(alert, animated: false, completion: nil)
@@ -115,8 +113,8 @@ class LogInViewController: UIViewController {
                         }
                         guard let myPageVC =
                                 self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                                    return
-                                }
+                            return
+                        }
                         
                         // tab bar 설정
                         let tb = UITabBarController()
@@ -170,7 +168,6 @@ extension LogInViewController: GIDSignInDelegate {
                 print("Firebase sign in error: \(error)")
                 return
             } else {
-                print("User is signed with Firebase&Google")
                 guard let TypeSelectVC = self.storyboard?.instantiateViewController(withIdentifier: "TypeSelectViewController") as? TypeSelectViewController else {
                     //아니면 종료
                     return
@@ -199,8 +196,8 @@ extension LogInViewController: GIDSignInDelegate {
                     }
                     guard let myPageVC =
                             self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                                return
-                            }
+                        return
+                    }
                     
                     // tab bar 설정
                     let tb = UITabBarController()
