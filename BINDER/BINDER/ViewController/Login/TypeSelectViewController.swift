@@ -11,9 +11,13 @@ import Firebase
 // 선생님, 학생, 학부모 타입 선택 뷰 컨트롤러
 class TypeSelectViewController: UIViewController {
     var isGoogleSignIn = false
+    var name:String = ""
+    var email: String = ""
+    var isAppleLogIn: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("isAppleLogIn : \(isAppleLogIn)")
     }
     
     // 선생님 타입 선택 시 실행되는 메소드
@@ -27,6 +31,7 @@ class TypeSelectViewController: UIViewController {
         signinVC.isGoogleSignIn = self.isGoogleSignIn
         signinVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
         signinVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+        signinVC.isAppleSignIn = self.isAppleLogIn
         //화면전환
         self.present(signinVC, animated: true)
     }
@@ -42,6 +47,7 @@ class TypeSelectViewController: UIViewController {
         signinVC.isGoogleSignIn = self.isGoogleSignIn
         signinVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
         signinVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+        signinVC.isAppleSignIn = self.isAppleLogIn
         //화면전환
         self.present(signinVC, animated: true)
     }
@@ -57,6 +63,7 @@ class TypeSelectViewController: UIViewController {
         signinVC.isGoogleSignIn = self.isGoogleSignIn
         signinVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
         signinVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+        signinVC.isAppleSignIn = self.isAppleLogIn
         //화면전환
         self.present(signinVC, animated: true)
     }
