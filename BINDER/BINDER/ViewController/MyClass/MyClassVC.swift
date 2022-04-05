@@ -76,7 +76,7 @@ class MyClassVC: BaseVC{
                         self.setTeacherInfo()
                         
                         LoadingHUD.show()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             LoadingHUD.hide()
                         }
                     }
@@ -103,7 +103,7 @@ class MyClassVC: BaseVC{
                         self.setStudentInfo()
                         
                         LoadingHUD.show()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             LoadingHUD.hide()
                         }
                     }

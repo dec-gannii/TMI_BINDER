@@ -133,7 +133,6 @@ class GraphViewController: UIViewController {
     func allRound() {
         okButton.clipsToBounds = true
         okButton.layer.cornerRadius = 10
-        
         plusButton.clipsToBounds = true
         plusButton.layer.cornerRadius = 10
     }

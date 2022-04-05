@@ -69,7 +69,7 @@ class QuestionListViewController : BaseVC {
     
     override func viewDidAppear(_ animated: Bool) {
         LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             LoadingHUD.hide()
         }
         
@@ -102,10 +102,10 @@ class QuestionListViewController : BaseVC {
                                         } else {
                                             for document in querySnapshot!.documents {
                                                 
-                                                LoadingHUD.show()
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                                                    LoadingHUD.hide()
-                                                }
+//                                                LoadingHUD.show()
+//                                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                                                    LoadingHUD.hide()
+//                                                }
                                                 
                                                 let name = document.data()["name"] as? String ?? ""
                                                 self.userName = name

@@ -33,8 +33,16 @@ class LoadingHUD: NSObject {
 
     private class func getAnimationImageArray() -> [UIImage] {
         var animationArray: [UIImage] = []
-        for index in 1...65 {
-            animationArray.append(UIImage(named: "LoadingGif-\(index)")!)
+        for index in 1...166 {
+            var i = ""
+            if (index < 10) {
+                i = "0000\(index)"
+            } else if (10 <= index && index < 100) {
+                i = "000\(index)"
+            } else {
+                i = "00\(index)"
+            }
+            animationArray.append(UIImage(named: "\(i)")!)
         }
 
         return animationArray

@@ -4,11 +4,9 @@
 //
 //  Created by 김가은 on 2022/03/22.
 //
-
 import UIKit
 import Firebase
 import Kingfisher
-
 // 포트폴리오 정보 뷰 컨트롤러 (tableview 활용)
 class PortfolioTableViewController: UIViewController {
     @IBOutlet weak var teacherName: UILabel!
@@ -45,8 +43,9 @@ class PortfolioTableViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             LoadingHUD.hide()
         }
         
@@ -62,8 +61,9 @@ class PortfolioTableViewController: UIViewController {
         self.teacherAttitudeArray.removeAll()
         self.teacherManagingSatisfyScoreArray.removeAll()
         
+        
         if (isShowMode == true) { /// 포트폴리오 조회인 경우
-            self.editBtn.isHidden = true
+            self.editBtn.isHidden = true // 수정 버튼 숨기기
             self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")
@@ -75,6 +75,22 @@ class PortfolioTableViewController: UIViewController {
                         let profile = document.data()["profile"] as? String ?? ""
                         let uid = document.data()["uid"] as? String ?? ""
                         self.teacherUid = uid
+                        
+                        
+                        self.db.collection("teacherEvaluation").document(uid).collection("evaluation").whereField("teacherUid", isEqualTo: uid).getDocuments() {
+                            (querySnapshot, err) in
+                            if let err = err {
+                                print(">>>>> document 에러 : \(err)")
+                            } else {
+                                for document in querySnapshot!.documents {
+                                    print("\(document.documentID) => \(document.data())")
+                                    let teacherAttitude = document.data()["teacherAttitude"] as? String ?? ""
+                                    self.teacherAttitudeArray.append(Int(teacherAttitude)!)
+                                    let teacherManagingSatisfyScore = document.data()["teacherManagingSatisfyScore"] as? String ?? ""
+                                    self.teacherManagingSatisfyScoreArray.append(Int(teacherManagingSatisfyScore)!)
+                                }
+                            }
+                        }
                         
                         self.infos.removeAll() // 원래 있는 제목 정보들 모두 지우기
                         
@@ -115,22 +131,6 @@ class PortfolioTableViewController: UIViewController {
                         
                         self.teacherImage.kf.setImage(with: URL(string: profile)!)
                         self.teacherImage.makeCircle()
-                        
-                        self.db.collection("teacherEvaluation").document(uid).collection("evaluation").whereField("teacherUid", isEqualTo: uid).getDocuments() {
-                            (querySnapshot, err) in
-                            if let err = err {
-                                print(">>>>> document 에러 : \(err)")
-                            } else {
-                                for document in querySnapshot!.documents {
-                                    print("\(document.documentID) => \(document.data())")
-                                    let teacherAttitude = document.data()["teacherAttitude"] as? String ?? ""
-                                    self.teacherAttitudeArray.append(Int(teacherAttitude)!)
-                                    let teacherManagingSatisfyScore = document.data()["teacherManagingSatisfyScore"] as? String ?? ""
-                                    self.teacherManagingSatisfyScoreArray.append(Int(teacherManagingSatisfyScore)!)
-                                }
-                            }
-                        }
-                        
                     }
                 }
             }
@@ -138,7 +138,7 @@ class PortfolioTableViewController: UIViewController {
             self.infos.removeAll()
             self.teacherAttitudeArray.removeAll()
             self.teacherManagingSatisfyScoreArray.removeAll()
-            
+
             self.db.collection("teacherEvaluation").document(Auth.auth().currentUser!.uid).collection("evaluation").whereField("teacherUid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() {
                 (querySnapshot, err) in
                 if let err = err {
@@ -153,9 +153,9 @@ class PortfolioTableViewController: UIViewController {
                     }
                 }
             }
-            
+
             let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio")
-            
+
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
@@ -192,6 +192,8 @@ class PortfolioTableViewController: UIViewController {
             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
+                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                    
                     let name = data?["name"] as? String ?? ""
                     self.teacherName.text = name
                     let email = data?["email"] as? String ?? ""
@@ -199,6 +201,7 @@ class PortfolioTableViewController: UIViewController {
                     let profile = document.data()!["profile"] as? String ?? ""
                     self.teacherImage.kf.setImage(with: URL(string: profile)!)
                     self.teacherImage.makeCircle()
+                    print("Document data: \(dataDescription)")
                 } else {
                     print("Document does not exist")
                 }
@@ -206,7 +209,6 @@ class PortfolioTableViewController: UIViewController {
         }
     }
 }
-
 extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSource {
     /// 테이블 셀 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -224,11 +226,11 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PortfolioDefaultCell")! as! PortfolioDefaultCell
-            
             if Auth.auth().currentUser?.uid != nil { // 현재 사용자의 uid가 nil이 아니면
                 self.teacherUid = Auth.auth().currentUser!.uid // self.teacherUid 를 설정
             }
-            // 선생님 태도 평가 점수 평균 계산
+
+
             var teacherAttitudeScoreAvg = 0
             var teacherAttitudeScoreSum = 0
             for score in self.teacherAttitudeArray {
@@ -236,7 +238,6 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                 teacherAttitudeScoreAvg = teacherAttitudeScoreSum / self.teacherAttitudeArray.count
             }
             
-            // 선생님 학생 관리 만족도 점수 평균 계산
             var teacherManagingSatisfyScoreAvg = 0
             var teacherManagingSatisfyScoreSum = 0
             for score in self.teacherManagingSatisfyScoreArray {
@@ -244,73 +245,63 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                 teacherManagingSatisfyScoreAvg = teacherManagingSatisfyScoreSum / self.teacherManagingSatisfyScoreArray.count
             }
             
-            self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print(">>>>> document 에러 : \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        let teacherUid = document.data()["uid"] as? String ?? ""
-                        
-                        let docRef = self.db.collection("teacher").document(teacherUid).collection("Portfolio").document("portfolio")
-                        
-                        docRef.getDocument { (document, error) in
-                            if let document = document, document.exists {
-                                let data = document.data()
-                                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                                
-                                let eduText = data?["eduHistory"] as? String ?? ""
-                                let classText = data?["classMethod"] as? String ?? ""
-                                let extraText = data?["extraExprience"] as? String ?? ""
-                                let time = data?["time"] as? String ?? ""
-                                let contact = data?["contact"] as? String ?? ""
-                                let manage = data?["manage"] as? String ?? ""
-                                let portfolioShow = data?["portfolioShow"] as? String ?? ""
-                                
-                                if self.infos[indexPath.row] == "연락 수단" {
-                                    cell.content.text = contact
-                                } else if self.infos[indexPath.row] == "학력사항" {
-                                    cell.content.text = eduText
-                                } else if self.infos[indexPath.row] == "수업 방식" {
-                                    cell.content.text = classText
-                                } else if self.infos[indexPath.row] == "과외 경력" {
-                                    cell.content.text = extraText
-                                } else if self.infos[indexPath.row] == "선생님 평가" {
-                                    cell.content.text = "\(String(describing: self.teacherName.text!)) 선생님의 수업 태도는 평균적으로 \(teacherAttitudeScoreAvg)점이고, 학부모님들의 학생 관리 만족도는 평균적으로 \(teacherManagingSatisfyScoreAvg)점입니다." // 연결 필요
-                                } else if self.infos[indexPath.row] == "과외 시간" {
-                                    cell.content.text = time
-                                } else if self.infos[indexPath.row] == "학생 관리 방법" {
-                                    cell.content.text = manage
-                                }
-                                
-                                if (portfolioShow == "Off" && self.isShowMode == true) {
-                                    let message = "비공개 설정 되어있습니다."
-                                    if self.infos[indexPath.row] == "연락 수단" {
-                                        cell.content.text = message
-                                    } else if self.infos[indexPath.row] == "학력사항" {
-                                        cell.content.text = message
-                                    } else if self.infos[indexPath.row] == "수업 방식" {
-                                        cell.content.text = message
-                                    } else if self.infos[indexPath.row] == "과외 경력" {
-                                        cell.content.text = message
-                                    } else if self.infos[indexPath.row] == "선생님 평가" {
-                                        cell.content.text = message
-                                    } else if self.infos[indexPath.row] == "과외 시간" {
-                                        cell.content.text = message
-                                    } else if self.infos[indexPath.row] == "학생 관리 방법" {
-                                        cell.content.text = message
-                                    }
-                                }
-                                cell.title.text = self.infos[indexPath.row]
-                                
-                                print("Document data: \(dataDescription)")
-                            } else {
-                                print("Document does not exist")
-                            }
+            let docRef = db.collection("teacher").document(self.teacherUid).collection("Portfolio").document("portfolio")
+            
+            docRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                    
+                    let eduText = data?["eduHistory"] as? String ?? ""
+                    let classText = data?["classMethod"] as? String ?? ""
+                    let extraText = data?["extraExprience"] as? String ?? ""
+                    let time = data?["time"] as? String ?? ""
+                    let contact = data?["contact"] as? String ?? ""
+                    let manage = data?["manage"] as? String ?? ""
+                    let portfolioShow = data?["portfolioShow"] as? String ?? ""
+                    
+                    if self.infos[indexPath.row] == "연락 수단" {
+                        cell.content.text = contact
+                    } else if self.infos[indexPath.row] == "학력사항" {
+                        cell.content.text = eduText
+                    } else if self.infos[indexPath.row] == "수업 방식" {
+                        cell.content.text = classText
+                    } else if self.infos[indexPath.row] == "과외 경력" {
+                        cell.content.text = extraText
+                    } else if self.infos[indexPath.row] == "선생님 평가" {
+                        cell.content.text = "\(String(describing: self.teacherName.text!)) 선생님의 수업 태도는 평균적으로 \(teacherAttitudeScoreAvg)점이고, 학부모님들의 학생 관리 만족도는 평균적으로 \(teacherManagingSatisfyScoreAvg)점입니다." // 연결 필요
+                    } else if self.infos[indexPath.row] == "과외 시간" {
+                        cell.content.text = time
+                    } else if self.infos[indexPath.row] == "학생 관리 방법" {
+                        cell.content.text = manage
+                    }
+                    
+                    if (portfolioShow == "Off" && self.isShowMode == true) {
+                        let message = "비공개 설정 되어있습니다."
+                        if self.infos[indexPath.row] == "연락 수단" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "학력사항" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "수업 방식" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "과외 경력" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "선생님 평가" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "과외 시간" {
+                            cell.content.text = message
+                        } else if self.infos[indexPath.row] == "학생 관리 방법" {
+                            cell.content.text = message
                         }
                     }
+                    cell.title.text = self.infos[indexPath.row]
+                    
+                    print("Document data: \(dataDescription)")
+                } else {
+                    print("Document does not exist")
                 }
             }
+            
             return cell
         }
     }

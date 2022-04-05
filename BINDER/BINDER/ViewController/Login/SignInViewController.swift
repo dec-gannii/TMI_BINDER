@@ -118,7 +118,7 @@ class SignInViewController: UIViewController {
             
             // tab bar 추가하기
             let tb = UITabBarController()
-            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+            tb.modalPresentationStyle = .fullScreen // 전체화면으로 보이게 설정
             tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
             tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
             self.present(tb, animated: true, completion: nil)
@@ -213,7 +213,7 @@ class SignInViewController: UIViewController {
                                     })
                                 }
                                 
-                                // 정보 저장 , age
+                                // 정보 저장
                                 self.saveInfo(SignInViewController.number, name, id, pw, self.type)
                                 SignInViewController.number = SignInViewController.number + 1
                                 guard let user = authResult?.user else {
@@ -241,7 +241,7 @@ class SignInViewController: UIViewController {
                                     self.pwAlertLabel.text = StringUtils.passwordValidationAlert.rawValue
                                 }
                             } else {
-                                // 정보 저장 , age
+                                // 정보 저장
                                 self.saveInfo(SignInViewController.number, name, id, pw, self.type)
                                 SignInViewController.number = SignInViewController.number + 1
                                 
