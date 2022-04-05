@@ -234,7 +234,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     
     /// 사용자 정보 가져오기
     func getUserInfo() {
-        
         /// parent collection / 현재 사용자 uid의 경로에서 정보를 가져오기
         self.db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
             if let document = document, document.exists {
@@ -248,10 +247,12 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                     } else {
                         // 현재로 설정된 달의 월말 평가가 등록되지 않은 경우
                         self.monthlyEvaluationTextView.text = "\(self.month)달 월말 평가가 등록되지 않았습니다."
+                        print ("====== 1 =====")
                         
                         for document in querySnapshot!.documents {
                             print("\(document.documentID) => \(document.data())")
                             let studentUid = document.data()["uid"] as? String ?? "" // 학생 uid
+                            print ("===== 2 =====")
                             
                             /// student collection / studentUid / class collection에서 index필드의 값이 self.index와 동일한 문서를 찾기
                             self.db.collection("student").document(studentUid).collection("class").whereField("index", isEqualTo: self.index).getDocuments() { (querySnapshot, err) in
@@ -259,6 +260,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                     print(">>>>> document 에러 : \(err)")
                                 } else {
                                     for document in querySnapshot!.documents {
+                                        print ("===== 3 =====")
                                         print("\(document.documentID) => \(document.data())")
                                         let name = document.data()["name"] as? String ?? "" // 선생님 이름
                                         self.teacherName = name // 선생님 이름으로 설정
@@ -295,7 +297,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     func getEvaluationEvents(){
         // 데이터베이스 경로
         let formatter = DateFormatter()
-        
         self.events.removeAll()
         
         self.db.collection("teacher").whereField("email", isEqualTo: self.teacherEmail).getDocuments() { (querySnapshot, err) in
@@ -315,8 +316,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
                                 print("\(document.documentID) => \(document.data())")
                                 let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? ""
                                 
-                                let docRef = self.db.collection("student")
-                                docRef.whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
+                                self.db.collection("student").whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
                                     if let err = err {
                                         print(">>>>> document 에러 : \(err)")
                                     } else {

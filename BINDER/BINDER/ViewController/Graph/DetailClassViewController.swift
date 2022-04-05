@@ -48,6 +48,7 @@ class DetailClassViewController: UIViewController {
     var userIndex: Int!
     var keyHeight: CGFloat?
     var checkTime: Bool = false
+    var dateStrWithoutDays: String = ""
     
     @IBOutlet weak var calendarHeight: NSLayoutConstraint!
     
@@ -104,6 +105,10 @@ class DetailClassViewController: UIViewController {
         barChartView.noDataText = "데이터가 없습니다."
         barChartView.noDataFont = .systemFont(ofSize: 20)
         barChartView.noDataTextColor = .lightGray
+        
+        self.progressTextView.textColor = .black
+        self.evaluationMemoTextView.textColor = .black
+        
         
         setBorder()
         
@@ -292,7 +297,7 @@ class DetailClassViewController: UIViewController {
                         self.okButton.isHidden = true
                         self.todoTF.isHidden = true
                         // 학생이면 수업 수정 버튼 보이지 않도록 설정
-                        self.editBtn.removeFromSuperview()
+                        self.editBtn.isHidden = true
                     }
                 }
             }
@@ -486,15 +491,16 @@ class DetailClassViewController: UIViewController {
                 "homeworkCompletion": Int(homeworkScoreTextField.text!) ?? 0,
                 "classAttitude": Int(classScoreTextField.text!) ?? 0,
                 "evaluationMemo": evaluationMemoTextView.text!,
-                "evaluationDate": self.date ?? "",
+                "evaluationDate": self.dateStrWithoutDays ?? "",
                 "todayClassTime": Int(self.classTimeTextField.text!) ?? 0
             ]) { err in
                 if let err = err {
                     print("Error adding document: \(err)")
                 }
                 // 저장 이후에는 다시 안 보이도록 함
-                self.evaluationView.removeFromSuperview()
-                self.evaluationOKBtn.removeFromSuperview()
+                self.monthlyEvaluationBackgroundView.isHidden = true
+                self.evaluationOKBtn.isHidden = true
+                self.evaluationView.isHidden = true
                 
                 self.progressTextView.text = ""
                 self.testScoreTextField.text = ""
@@ -590,14 +596,15 @@ class DetailClassViewController: UIViewController {
                 "satisfy": Int(homeworkScoreTextField.text!) ?? 0,
                 "level": Int(classScoreTextField.text!) ?? 0,
                 "evaluationMemo": evaluationMemoTextView.text!,
-                "evaluationDate": self.date ?? ""
+                "evaluationDate": self.dateStrWithoutDays ?? ""
             ]) { err in
                 if let err = err {
                     print("Error adding document: \(err)")
                 }
                 // 저장 이후에는 다시 안 보이도록 함
-                self.evaluationView.removeFromSuperview()
-                self.evaluationOKBtn.removeFromSuperview()
+                self.evaluationOKBtn.isHidden = true
+                self.evaluationView.isHidden = true
+                
                 self.progressTextView.text = ""
                 self.testScoreTextField.text = ""
                 self.evaluationMemoTextView.text = ""
@@ -842,6 +849,11 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             let dateStr = dateFormatter.string(from: selectedDate)
             self.date = dateStr
             
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.locale = Locale(identifier: "ko_KR")
+            let dateStrWithoutDays = dateFormatter.string(from: selectedDate)
+            self.dateStrWithoutDays = dateStrWithoutDays
+            
             dateFormatter.dateFormat = "MM"
             let monthStr = dateFormatter.string(from: selectedDate)
             self.selectedMonth = monthStr
@@ -854,7 +866,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                 docRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
-                        self.date = data?["evaluationDate"] as? String ?? ""
+                        let dateStrWithoutDays = data?["evaluationDate"] as? String ?? ""
                         
                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                         
@@ -873,13 +885,11 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                         }
                         
                         let progressText = data?["progress"] as? String ?? ""
-                        self.progressTextView.textColor = .black
                         if (progressText != "") {
                             self.progressTextView.text = progressText
                         }
                         
                         let evaluationMemo = data?["evaluationMemo"] as? String ?? ""
-                        self.evaluationMemoTextView.textColor = .black
                         if (evaluationMemo != "") {
                             self.evaluationMemoTextView.text = evaluationMemo
                         }
@@ -946,7 +956,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                 docRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
-                        self.date = data?["evaluationDate"] as? String ?? ""
+                        let date = data?["evaluationDate"] as? String ?? ""
                         
                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                         
@@ -994,8 +1004,8 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                 }
             } else {
                 // 그대로 숨김 유지
-                self.evaluationView.removeFromSuperview()
-                self.evaluationOKBtn.removeFromSuperview()
+                self.evaluationOKBtn.isHidden = true
+                self.evaluationView.isHidden = true
             }
         }
     }
