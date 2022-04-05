@@ -79,17 +79,17 @@ class PortfolioEditViewController: UIViewController {
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                let eduHistory = data?["eduHistory"] as? String ?? "등록된 내용이 없습니다."
+                let eduHistory = data?["eduHistory"] as? String ?? StringUtils.contentNotExist.rawValue
                 self.eduHistoryTV.text = eduHistory
-                let classMethod = data?["classMethod"] as? String ?? "등록된 내용이 없습니다."
+                let classMethod = data?["classMethod"] as? String ?? StringUtils.contentNotExist.rawValue
                 self.classMetTV.text = classMethod
-                let extraExprience = data?["extraExprience"] as? String ?? "등록된 내용이 없습니다."
+                let extraExprience = data?["extraExprience"] as? String ?? StringUtils.contentNotExist.rawValue
                 self.extraExpTV.text = extraExprience
-                let manage = data?["manage"] as? String ?? "등록된 내용이 없습니다."
+                let manage = data?["manage"] as? String ?? StringUtils.contentNotExist.rawValue
                 self.manageTV.text = manage
-                let contact = data?["contact"] as? String ?? "등록된 내용이 없습니다."
+                let contact = data?["contact"] as? String ?? StringUtils.contentNotExist.rawValue
                 self.contactTV.text = contact
-                let time = data?["time"] as? String ?? "등록된 내용이 없습니다."
+                let time = data?["time"] as? String ?? StringUtils.contentNotExist.rawValue
                 self.timeTV.text = time
                 self.evaluationTV.text = "선생님이 수정할 수 없습니다."
                 self.evaluationTV.isEditable = false

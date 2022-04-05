@@ -59,6 +59,7 @@
 		7F2E9EA127DB23D1008991EB /* StudentEvaluationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */; };
 		7F2E9EA327DB482B008991EB /* EvaluationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9EA227DB482A008991EB /* EvaluationItem.swift */; };
 		7F2EC22627F5CC8F005A9214 /* LoadingHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2EC22527F5CC8F005A9214 /* LoadingHUD.swift */; };
+		7F33791227FBDECC00E1FC1C /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33791127FBDECC00E1FC1C /* StringUtils.swift */; };
 		7F4285312765034500BA0310 /* ShowPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */; };
 		7F63AB6F27B4E3620081ED49 /* TermViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63AB6E27B4E3620081ED49 /* TermViewController.swift */; };
 		7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6E5E4A27B2C00000292601 /* SettingViewController.swift */; };
@@ -137,6 +138,7 @@
 		7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentEvaluationCell.swift; sourceTree = "<group>"; };
 		7F2E9EA227DB482A008991EB /* EvaluationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationItem.swift; sourceTree = "<group>"; };
 		7F2EC22527F5CC8F005A9214 /* LoadingHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHUD.swift; sourceTree = "<group>"; };
+		7F33791127FBDECC00E1FC1C /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPortfolioViewController.swift; sourceTree = "<group>"; };
 		7F63AB6E27B4E3620081ED49 /* TermViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermViewController.swift; sourceTree = "<group>"; };
 		7F6E5E4A27B2C00000292601 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				6FA5E4CF2767843400C879AF /* ColorUtils.swift */,
+				7F33791127FBDECC00E1FC1C /* StringUtils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				69E5F6902764C762003D7DD1 /* QuestionViewController.swift in Sources */,
 				6965DE7C275DEF490072C16A /* PayType.swift in Sources */,
 				7F6E5E4D27B2C3ED00292601 /* CheckPasswordViewController.swift in Sources */,
+				7F33791227FBDECC00E1FC1C /* StringUtils.swift in Sources */,
 				6965DE75275DEF330072C16A /* CardTableViewCell.swift in Sources */,
 				7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */,
 				7F9B8AF327E0D31A008B705B /* TeacherEvaluationViewController.swift in Sources */,

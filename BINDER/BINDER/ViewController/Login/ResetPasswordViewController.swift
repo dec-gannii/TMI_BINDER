@@ -43,7 +43,7 @@ class ResetPasswordViewController: UIViewController {
             alertLabel.text = "입력하신 이메일 주소로\n비밀번호 재설정 메일이 전송되었습니다!"
             alertLabel.isHidden = false
         } else {
-            alertLabel.text = "올바른 형식의 이메일이 아닙니다!"
+            alertLabel.text = StringUtils.emailValidationAlert.rawValue
             alertLabel.isHidden = false
         }
     }

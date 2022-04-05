@@ -40,7 +40,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         
         if (type == "teacher") {
             ageLabel.text = "학부모 인증 비밀번호"
-            ageAlertLabel.text = "잘못된 입력입니다."
+            ageAlertLabel.text = StringUtils.ageValidationAlert.rawValue
             ageAlertLabel.isHidden = true
             ageShowPicker.placeholder = "학부모 인증에 사용될 비밀번호를 입력해주세요."
             phoneLabel.isHidden = true
@@ -51,14 +51,14 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             goalTextField.isHidden = true
         } else if (type == "parent") {
             ageLabel.text = "학부모 인증 비밀번호"
-            ageAlertLabel.text = "잘못된 입력입니다."
+            ageAlertLabel.text = StringUtils.ageValidationAlert.rawValue
             ageAlertLabel.isHidden = true
             ageShowPicker.placeholder = "학부모 인증 비밀번호를 입력해주세요."
             phoneLabel.text = "자녀 휴대폰 번호"
             phoneAlertLabel.isHidden = true
             phonenumTextField.placeholder = "자녀의 휴대폰 번호를 입력해주세요."
             goalLabel.text = "선생님 이메일"
-            goalAlertLabel.text = "해당하는 선생님이 존재하지 않습니다!"
+            goalAlertLabel.text = StringUtils.tEmailNotExist.rawValue
             goalAlertLabel.isHidden = true
             goalTextField.placeholder = "선생님의 이메일 주소를 입력해주세요."
         }
@@ -231,7 +231,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         if (type == "teacher"){
             pw = Int(ageShowPicker.text!)!
             if (!isValidPw(pw) || countOfDigit > 6) {
-                ageAlertLabel.text = "올바른 형식의 비밀번호가 아닙니다."
+                ageAlertLabel.text = StringUtils.passwordValidationAlert.rawValue
                 ageAlertLabel.isHidden = false
             } else {
                 // 데이터 저장
@@ -261,7 +261,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                 goalAlertLabel.isHidden = false
             }
             else if ((phonenumTextField.text!.contains("-") && phonenumTextField.text!.count >= 15) || (phonenumTextField.text!.count >= 11 && phonenumTextField.text!.contains("-"))) {
-                phoneAlertLabel.text = "잘못된 형식의 전화번호입니다."
+                phoneAlertLabel.text = StringUtils.phoneNumAlert.rawValue
                 phoneAlertLabel.isHidden = false
             }
             else {
@@ -304,12 +304,12 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                                 self.phoneAlertLabel.isHidden = false
                             }
                             else if ((self.phonenumTextField.text!.contains("-") && self.phonenumTextField.text!.count >= 15) || (self.phonenumTextField.text!.count >= 12 && !self.phonenumTextField.text!.contains("-"))) {
-                                self.phoneAlertLabel.text = "잘못된 형식의 전화번호입니다."
+                                self.phoneAlertLabel.text = StringUtils.phoneNumAlert.rawValue
                                 self.phoneAlertLabel.isHidden = false
                             }
                             else if self.tpassword != self.ageShowPicker.text! {
                                 print("선생님 비번 : \(self.tpassword), 나온 비번 : \(self.ageShowPicker.text)")
-                                self.ageAlertLabel.text = "선생님 이메일과 비밀번호가 일치하지 않습니다."
+                                self.ageAlertLabel.text = StringUtils.tEmailNotMatch.rawValue
                                 self.ageAlertLabel.isHidden = false
                             }
                             else {
@@ -322,7 +322,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                                     self.db.collection("student").whereField("phonenum", isEqualTo: phoneNumberWithDash).getDocuments() { (querySnapshot, err) in
                                         if let err = err {
                                             print(">>>>> document 에러 : \(err)")
-                                            self.phoneAlertLabel.text = "올바른 전화번호가 아닙니다."
+                                            self.phoneAlertLabel.text = StringUtils.phoneNumAlert.rawValue
                                             self.phoneAlertLabel.isHidden = false
                                         } else {
                                             guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
@@ -344,7 +344,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                                                     tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                                                     self.present(tb, animated: true, completion: nil)
                                                 } else {
-                                                    self.phoneAlertLabel.text = "올바른 전화번호가 아닙니다."
+                                                    self.phoneAlertLabel.text = StringUtils.phoneNumAlert.rawValue
                                                     self.phoneAlertLabel.isHidden = false
                                                 }
                                             }
@@ -352,7 +352,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                                     }
                                 }
                                 else {
-                                    self.phoneAlertLabel.text = "올바른 전화번호가 아닙니다."
+                                    self.phoneAlertLabel.text = StringUtils.phoneNumAlert.rawValue
                                     self.phoneAlertLabel.isHidden = false
                                 }
                             }
@@ -360,7 +360,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                     }
                 }
             } else {
-                goalAlertLabel.text = "올바른 이메일 형식이 아닙니다."
+                goalAlertLabel.text = StringUtils.emailValidationAlert.rawValue
                 ageAlertLabel.isHidden = false
             }
         }

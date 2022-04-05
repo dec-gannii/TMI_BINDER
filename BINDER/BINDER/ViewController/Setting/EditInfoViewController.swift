@@ -294,7 +294,7 @@ class EditInfoViewController: UIViewController {
         } else {
             // 상황에 맞는 오류 메시지 띄우기
             if (!self.CheckPW()) {
-                let alert = UIAlertController(title: "오류", message: "비밀번호가 올바르지 않습니다!", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: "오류", message:  StringUtils.wrongPassword.rawValue, preferredStyle: UIAlertController.Style.alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) {
                     (action) in
                     self.newPassword.text = ""
@@ -303,7 +303,7 @@ class EditInfoViewController: UIViewController {
                 alert.addAction(okAction)
                 present(alert, animated: false, completion: nil)
             } else if (!self.CheckName()) {
-                let alert = UIAlertController(title: "오류", message: "이름이 올바르지 않습니다!", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: "오류", message:  StringUtils.nameValidationAlert.rawValue, preferredStyle: UIAlertController.Style.alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) {
                     (action) in
                     self.nameTextField.text = ""
@@ -311,7 +311,7 @@ class EditInfoViewController: UIViewController {
                 alert.addAction(okAction)
                 present(alert, animated: false, completion: nil)
             } else if (!self.CheckParentPW()) {
-                let alert = UIAlertController(title: "오류", message: "학부모 비밀번호가 올바르지 않습니다!", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: "오류", message: StringUtils.wrongpPasswrod.rawValue, preferredStyle: UIAlertController.Style.alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) {
                     (action) in
                     self.parentPassword.text = ""

@@ -65,7 +65,7 @@ class LogInViewController: UIViewController {
                     // Error: The password is invalid or the user does not have a password.
                     self.emailAlertLabel.isHidden = true
                     self.pwAlertLabel.isHidden = false
-                    self.pwAlertLabel.text = "비밀번호가 틀렸습니다!"
+                    self.pwAlertLabel.text = StringUtils.passwordValidationAlert.rawValue
                     break
                 case .emailAlreadyInUse:
                     Auth.auth().signIn(withEmail: email, password: password)

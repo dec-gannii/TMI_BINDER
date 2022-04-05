@@ -193,7 +193,7 @@ class SignInViewController: UIViewController {
                 } else {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
-                        self.emailAlertLabel.text = "이미 사용중인 이메일입니다."
+                        self.emailAlertLabel.text = StringUtils.emailExistAlert.rawValue
                         self.emailAlertLabel.isHidden = false
                     }
                     
@@ -234,11 +234,11 @@ class SignInViewController: UIViewController {
                                 // 유효하지 않다면, 에러가 난 부분 label로 알려주기 위해 error label 숨김 해제
                                 if (!self.isValidEmail(id)){
                                     self.emailAlertLabel.isHidden = false
-                                    self.emailAlertLabel.text = "이메일 형식이 올바르지 않습니다!"
+                                    self.emailAlertLabel.text = StringUtils.emailValidationAlert.rawValue
                                 }
                                 if (!self.isValidPassword(pw)) {
                                     self.pwAlertLabel.isHidden = false
-                                    self.pwAlertLabel.text = "비밀번호 형식이 올바르지 않습니다!"
+                                    self.pwAlertLabel.text = StringUtils.passwordValidationAlert.rawValue
                                 }
                             } else {
                                 // 정보 저장 , age
@@ -257,7 +257,7 @@ class SignInViewController: UIViewController {
                             }
                             if (!self.isValidName(name)) {
                                 self.nameAlertLabel.isHidden = false
-                                self.nameAlertLabel.text = "이름 형식이 올바르지 않습니다!"
+                                self.nameAlertLabel.text = StringUtils.nameValidationAlert.rawValue
                             }
                         }
                     }

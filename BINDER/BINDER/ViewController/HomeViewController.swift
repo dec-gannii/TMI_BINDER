@@ -464,7 +464,6 @@ class HomeViewController: UIViewController {
                 self.events.removeAll()
                 
                 for index in 1...self.days.count-1 {
-                    print("self.days[\(index)] : \(self.days[index])")
                     let tempDay = "\(self.days[index])"
                     let dateWithoutDays = tempDay.components(separatedBy: " ")
                     formatter.dateFormat = "YYYY-MM-dd"
@@ -484,7 +483,6 @@ class HomeViewController: UIViewController {
                                 
                                 formatter.dateFormat = "YYYY-MM-dd"
                                 let date_d = formatter.date(from: date)!
-                                print("date_d : \(date_d)")
                                 self.events.append(date_d)
                                 self.calendarView.reloadData()
                             }
