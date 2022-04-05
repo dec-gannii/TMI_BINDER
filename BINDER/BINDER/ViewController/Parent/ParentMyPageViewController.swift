@@ -131,7 +131,7 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
                         
                         if LoadingHUD.isLoaded == false {
                             LoadingHUD.show()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 LoadingHUD.isLoaded = true
                                 LoadingHUD.hide()
                             }
