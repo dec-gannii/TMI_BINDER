@@ -108,7 +108,7 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
                 for document in snapshot.documents {
                     if (LoadingHUD.isLoaded == false) {
                         LoadingHUD.show()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             LoadingHUD.isLoaded = true
                             LoadingHUD.hide()
                         }
