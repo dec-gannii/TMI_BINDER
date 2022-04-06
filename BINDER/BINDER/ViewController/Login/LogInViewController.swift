@@ -35,8 +35,29 @@ class LogInViewController: UIViewController {
         startSignInWithAppleFlow()
     }
     
+    func setLineStyle() {
+        emailTextField.borderStyle = .none
+        let emailBorder = CALayer()
+        emailBorder.frame = CGRect(x: 0, y: emailTextField.frame.size.height-1, width: emailTextField.frame.width-25, height: 1)
+        emailBorder.backgroundColor = UIColor.black.cgColor
+        emailTextField.layer.addSublayer((emailBorder))
+        emailTextField.textAlignment = .left
+        emailTextField.textColor = UIColor.black
+        
+        pwTextField.borderStyle = .none
+        let pwBorder = CALayer()
+        pwBorder.frame = CGRect(x: 0, y: pwTextField.frame.size.height-1, width: pwTextField.frame.width-25, height: 1)
+        pwBorder.backgroundColor = UIColor.black.cgColor
+        pwTextField.layer.addSublayer((pwBorder))
+        pwTextField.textAlignment = .left
+        pwTextField.textColor = UIColor.black
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setLineStyle()
+        
         authorizationAppleIDButton.addTarget(self, action: #selector(handleAuthorizationAppleIDButton(_:)), for: .touchUpInside)
         
         view.addSubview(authorizationAppleIDButton)
