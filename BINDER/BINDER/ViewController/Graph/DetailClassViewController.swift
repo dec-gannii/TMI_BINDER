@@ -174,8 +174,8 @@ class DetailClassViewController: UIViewController {
     
     // 사용자의 정보를 가져오도록 하는 메소드
     func getUserInfo() {
-        var docRef = self.db.collection("teacher") // 선생님이면
-        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
+        // 선생님이면
+        self.db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -187,7 +187,7 @@ class DetailClassViewController: UIViewController {
                         
                         if let index = self.userIndex { // userIndex가 nil이 아니라면
                             // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
-                            docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
                                 .getDocuments() { (querySnapshot, err) in
                                     if let err = err {
                                         print(">>>>> document 에러 : \(err)")
@@ -218,7 +218,7 @@ class DetailClassViewController: UIViewController {
                                                 self.classNavigationBar.topItem!.title = self.userName + " 학생"
                                                 
                                                 // todolist도 가져오기
-                                                docRef.document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
+                                                self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
                                                     if let document = document, document.exists {
                                                         let data = document.data()
                                                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -245,9 +245,8 @@ class DetailClassViewController: UIViewController {
             }
         
         // 학생이면
-        docRef = self.db.collection("student")
         // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
-        docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
+        self.db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -261,7 +260,7 @@ class DetailClassViewController: UIViewController {
                         
                         if let email = self.userEmail { // 사용자의 이메일이 nil이 아니라면
                             // 선생님들 정보의 경로 중 이메일이 일치하는 선생님 찾기
-                            teacherDocRef.whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                            self.db.collection("teacher").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
                                 if let err = err {
                                     print("Error getting documents: \(err)")
                                 } else {
@@ -270,7 +269,7 @@ class DetailClassViewController: UIViewController {
                                         let teacherUid = document.data()["uid"] as? String ?? ""
                                         
                                         // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
-                                        teacherDocRef.document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
+                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
                                             if let document = document, document.exists {
                                                 let data = document.data()
                                                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -312,7 +311,6 @@ class DetailClassViewController: UIViewController {
         
         // 받은 이메일이 nil이 아니라면
         if let email = self.userEmail {
-            let studentDocRef = self.db.collection("student")
             var studentEmail = ""
             if (self.userType == "student") { // 현재 로그인한 사용자가 학생이라면 현재 사용자의 이메일 받아오기
                 studentEmail = (Auth.auth().currentUser?.email)!
@@ -321,7 +319,7 @@ class DetailClassViewController: UIViewController {
             }
             
             // 학생의 정보들 중 이메일이 동일한 정보 불러오기
-            studentDocRef.whereField("email", isEqualTo: studentEmail).getDocuments() {
+            self.db.collection("student").whereField("email", isEqualTo: studentEmail).getDocuments() {
                 (QuerySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -333,13 +331,12 @@ class DetailClassViewController: UIViewController {
                 }
                 
                 // 그래프 정보 저장 경로
-                let docRef = studentDocRef.document(studentUid).collection("Graph")
-                docRef.document("Count").getDocument {(document, error) in
+                self.db.collection("student").document(studentUid).collection("Graph").document("Count").getDocument {(document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                         let countOfScores = data?["count"] as? Int ?? 0
-                        docRef.whereField("isScore", isEqualTo: "true")
+                        self.db.collection("student").document(studentUid).collection("Graph").whereField("isScore", isEqualTo: "true")
                             .getDocuments() { (querySnapshot, err) in
                                 if let err = err {
                                     print("Error getting documents: \(err)")
@@ -387,16 +384,14 @@ class DetailClassViewController: UIViewController {
     
     @IBAction func SaveMonthlyEvaluation(_ sender: Any) {
         let date = self.selectedMonth + "월"
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
-        let studentDocRef = self.db.collection("student")
-        docRef.getDocument {(document, error) in
+        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument {(document, error) in
             if let document = document, document.exists {
                 let data = document.data()
                 let teacherName = data!["name"] as? String ?? ""
                 let teacherEmail = data!["email"] as? String ?? ""
                 
                 if let email = self.userEmail {
-                    studentDocRef.whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                    self.db.collection("student").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
                         if let err = err {
                             print("Error getting documents: \(err)")
                         } else {
@@ -404,7 +399,7 @@ class DetailClassViewController: UIViewController {
                                 print("\(document.documentID) => \(document.data())")
                                 let uid = document.data()["uid"] as? String ?? ""
                                 
-                                studentDocRef.document(uid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(date).setData([
+                                self.db.collection("student").document(uid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(date).setData([
                                     "month": date,
                                     "isMonthlyEvaluation": true,
                                     "evaluation": self.monthlyEvaluationTextView.text!
@@ -469,7 +464,6 @@ class DetailClassViewController: UIViewController {
                 }
             }
         })
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         optionMenu.addAction(editAction)
@@ -482,10 +476,9 @@ class DetailClassViewController: UIViewController {
     
     // 평가 저장하기 버튼 클릭 시 실행되는 메소드
     @IBAction func OKButtonClicked(_ sender: Any) {
-        let teacherDocRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
         // 경로는 각 학생의 class의 Evaluation
         if(self.userType == "teacher") {
-            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
+            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
                 "progress": progressTextView.text!,
                 "testScore": Int(testScoreTextField.text!) ?? 0,
                 "homeworkCompletion": Int(homeworkScoreTextField.text!) ?? 0,
@@ -507,7 +500,7 @@ class DetailClassViewController: UIViewController {
                 self.evaluationMemoTextView.text = ""
             }
             
-            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { (document, error) in
+            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
                     var currentCnt = data?["currentCnt"] as? Int ?? 0
@@ -517,7 +510,7 @@ class DetailClassViewController: UIViewController {
                     
                     if (payType == "T") {
                         if (currentCnt+Int(self.classTimeTextField.text!)! >= 8) {
-                            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": (currentCnt + Int(self.classTimeTextField.text!)!) % 8
                             ]) { err in
                                 if let err = err {
@@ -525,7 +518,7 @@ class DetailClassViewController: UIViewController {
                                 }
                             }
                         } else {
-                            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
                             ]) { err in
                                 if let err = err {
@@ -537,7 +530,7 @@ class DetailClassViewController: UIViewController {
                     } else if (payType == "C") {
                         if (currentCnt+1 >= 8) {
                             currentCnt = currentCnt % 8
-                            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": currentCnt + 1
                             ]) { err in
                                 if let err = err {
@@ -545,7 +538,7 @@ class DetailClassViewController: UIViewController {
                                 }
                             }
                         } else {
-                            teacherDocRef.document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                                 "currentCnt": currentCnt + 1
                             ]) { err in
                                 if let err = err {
@@ -647,7 +640,6 @@ class DetailClassViewController: UIViewController {
                 dataEntries.append(BarChartDataEntry(x: Double(i), y: 0))
             }
         }
-        
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: "성적 그래프")
         
         // 차트 컬러
@@ -746,7 +738,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     
     // 데이터 나타내기
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
         let todo = self.todos[indexPath.row]
         

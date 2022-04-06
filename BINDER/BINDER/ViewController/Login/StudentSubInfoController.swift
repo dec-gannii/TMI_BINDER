@@ -15,6 +15,11 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
     let db = Firestore.firestore()
     var ref: DatabaseReference!
     
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
     @IBOutlet weak var ageShowPicker: UITextField!
     @IBOutlet weak var phonenumTextField: UITextField!
     @IBOutlet weak var goalTextField: UITextField!

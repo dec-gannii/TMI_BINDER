@@ -61,7 +61,6 @@ class PortfolioTableViewController: UIViewController {
         self.teacherAttitudeArray.removeAll()
         self.teacherManagingSatisfyScoreArray.removeAll()
         
-        
         if (isShowMode == true) { /// 포트폴리오 조회인 경우
             self.editBtn.isHidden = true // 수정 버튼 숨기기
             self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
@@ -94,9 +93,7 @@ class PortfolioTableViewController: UIViewController {
                         
                         self.infos.removeAll() // 원래 있는 제목 정보들 모두 지우기
                         
-                        let docRef = self.db.collection("teacher").document(uid).collection("Portfolio").document("portfolio")
-                        
-                        docRef.getDocument { (document, error) in
+                        self.db.collection("teacher").document(uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
                             if let document = document, document.exists {
                                 let data = document.data()
                                 
@@ -154,9 +151,7 @@ class PortfolioTableViewController: UIViewController {
                 }
             }
 
-            let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio")
-
-            docRef.getDocument { (document, error) in
+            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
                     
@@ -230,7 +225,6 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                 self.teacherUid = Auth.auth().currentUser!.uid // self.teacherUid 를 설정
             }
 
-
             var teacherAttitudeScoreAvg = 0
             var teacherAttitudeScoreSum = 0
             for score in self.teacherAttitudeArray {
@@ -245,9 +239,7 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                 teacherManagingSatisfyScoreAvg = teacherManagingSatisfyScoreSum / self.teacherManagingSatisfyScoreArray.count
             }
             
-            let docRef = db.collection("teacher").document(self.teacherUid).collection("Portfolio").document("portfolio")
-            
-            docRef.getDocument { (document, error) in
+            db.collection("teacher").document(self.teacherUid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"

@@ -25,18 +25,28 @@ class SignInViewController: UIViewController {
     var type : String = ""
     var ref: DatabaseReference!
     let db = Firestore.firestore()
-    var isGoogleSignIn = false
+    var isGoogleSignIn : Bool = false
+    var isAppleSignIn : Bool = false
+    
+    var name: String = ""
+    var email: String = ""
+    
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
+        print("isAppleSignIn : \(isAppleSignIn)")
         
         // 오류 발생 시 나타날 label들 우선 숨겨두기
         nameAlertLabel.isHidden = true
         pwAlertLabel.isHidden = true
         emailAlertLabel.isHidden = true
         
-        if (isGoogleSignIn == true && self.type != "parent") {
+        if (isGoogleSignIn == true || isAppleSignIn == true) {
             emailTextField.text = Auth.auth().currentUser?.email
             nameTextField.text = Auth.auth().currentUser?.displayName
             pwTextField.placeholder = "이메일로 전송된 링크에서 변경한 비밀번호를 입력해주세요."
