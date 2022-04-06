@@ -174,7 +174,7 @@ class DetailClassViewController: UIViewController {
     
     // 사용자의 정보를 가져오도록 하는 메소드
     func getUserInfo() {
-        var docRef = self.db.collection("teacher") // 선생님이면
+        // 선생님이면
         self.db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
@@ -245,7 +245,6 @@ class DetailClassViewController: UIViewController {
             }
         
         // 학생이면
-        docRef = self.db.collection("student")
         // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
         self.db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
             .getDocuments() { (querySnapshot, err) in
@@ -312,7 +311,6 @@ class DetailClassViewController: UIViewController {
         
         // 받은 이메일이 nil이 아니라면
         if let email = self.userEmail {
-            let studentDocRef = self.db.collection("student")
             var studentEmail = ""
             if (self.userType == "student") { // 현재 로그인한 사용자가 학생이라면 현재 사용자의 이메일 받아오기
                 studentEmail = (Auth.auth().currentUser?.email)!
@@ -333,7 +331,6 @@ class DetailClassViewController: UIViewController {
                 }
                 
                 // 그래프 정보 저장 경로
-                let docRef = self.db.collection("student").document(studentUid).collection("Graph")
                 self.db.collection("student").document(studentUid).collection("Graph").document("Count").getDocument {(document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
@@ -387,8 +384,6 @@ class DetailClassViewController: UIViewController {
     
     @IBAction func SaveMonthlyEvaluation(_ sender: Any) {
         let date = self.selectedMonth + "월"
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
-        let studentDocRef = self.db.collection("student")
         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument {(document, error) in
             if let document = document, document.exists {
                 let data = document.data()
@@ -469,7 +464,6 @@ class DetailClassViewController: UIViewController {
                 }
             }
         })
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         optionMenu.addAction(editAction)
@@ -482,7 +476,6 @@ class DetailClassViewController: UIViewController {
     
     // 평가 저장하기 버튼 클릭 시 실행되는 메소드
     @IBAction func OKButtonClicked(_ sender: Any) {
-        let teacherDocRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
         // 경로는 각 학생의 class의 Evaluation
         if(self.userType == "teacher") {
             self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
@@ -647,7 +640,6 @@ class DetailClassViewController: UIViewController {
                 dataEntries.append(BarChartDataEntry(x: Double(i), y: 0))
             }
         }
-        
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: "성적 그래프")
         
         // 차트 컬러
@@ -746,7 +738,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     
     // 데이터 나타내기
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
         let todo = self.todos[indexPath.row]
         
