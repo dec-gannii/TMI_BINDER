@@ -308,7 +308,6 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                                 self.phoneAlertLabel.isHidden = false
                             }
                             else if self.tpassword != self.ageShowPicker.text! {
-                                print("선생님 비번 : \(self.tpassword), 나온 비번 : \(self.ageShowPicker.text)")
                                 self.ageAlertLabel.text = StringUtils.tEmailNotMatch.rawValue
                                 self.ageAlertLabel.isHidden = false
                             }
@@ -318,7 +317,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                                 self.ageAlertLabel.isHidden = true
                                 
                                 if phoneNumberWithDash != ""{
-                                    // 데이터 저장
+                                    // 학생 번호가 선생님과 연결된것이 맞다면 데이터 저장
                                     self.db.collection("student").whereField("phonenum", isEqualTo: phoneNumberWithDash).getDocuments() { (querySnapshot, err) in
                                         if let err = err {
                                             print(">>>>> document 에러 : \(err)")
