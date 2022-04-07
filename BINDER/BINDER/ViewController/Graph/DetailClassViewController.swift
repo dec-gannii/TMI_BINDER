@@ -291,6 +291,8 @@ class DetailClassViewController: UIViewController {
                                         print("\(document.documentID) => \(document.data())")
                                         let teacherUid = document.data()["uid"] as? String ?? ""
                                         
+                                        self.userName = studentName
+                                        self.userEmail = studentEmail
                                         // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
                                         self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
                                             if let snapshot = snapshot {
@@ -741,6 +743,7 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         let todo = self.todos[indexPath.row]
         
         cell.todoLabel.text = "\(todo)"
+        cell.checkButton.tag = indexPath.row
         cell.checkButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
         return cell
     }
@@ -775,15 +778,27 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             sender.isSelected = false
             checkTime = false
             //체크 내용 업데이트
-            print("button normal")
+            
+            print("button normal \(sender.tag)")
             sender.setImage(UIImage(systemName: "circle"), for: .normal)
             
         } else {
             sender.isSelected = true
             checkTime = true
             // 체크 내용 업데이트
-            print("button selected")
+            print("button selected \(sender.tag)")
             sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+        }
+        
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(todoDoc[sender.tag]).updateData([
+            "check": checkTime
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+            
         }
     }
 }
