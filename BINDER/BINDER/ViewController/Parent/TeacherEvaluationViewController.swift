@@ -33,6 +33,9 @@ class TeacherEvaluationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getEvaluation() // 학생에 대한 평가 정보 가져오기
+        getUserInfo() // 사용자 정보 가져오기
+        
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
         evaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         self.TeacherTitle.text = self.teacherName + " 선생님의 " + self.month + " 수업은..." // 선생님 평가 title 설정
@@ -144,6 +147,10 @@ class TeacherEvaluationViewController: UIViewController {
                                                                     print("\(document.documentID) => \(document.data())")
                                                                     // 사용할 것들 가져와서 지역 변수로 저장
                                                                     let evaluationMemo = document.data()["evaluationMemo"] as? String ?? "선택된 날짜에는 수업이 없었습니다."
+//                                                                    let homeworkCompletion = document.data()["homeworkCompletion"] as? Int ?? 0
+//                                                                    let classAttitude = document.data()["classAttitude"] as? Int ?? 0
+                                                                    let testScore = document.data()["testScore"] as? Int ?? 0
+                                                                    self.averageTestScore.text = "\(testScore) 점"
                                                                     self.evaluationTextView.text = evaluationMemo
                                                                 }
                                                             }

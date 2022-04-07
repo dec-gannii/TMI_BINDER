@@ -14,9 +14,7 @@ class LoadingHUD: NSObject {
     
     class func show() {
         let popupView = UIImageView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-//        print("width: \(UIScreen.main.bounds.size.width), height: \(UIScreen.main.bounds.size.height)")
         popupView.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.4)
-//        popupView.backgroundColor = .none
         popupView.animationImages = LoadingHUD.getAnimationImageArray()    // 애니메이션 이미지
         popupView.animationDuration = 4.0
         popupView.animationRepeatCount = 0    // 0일 경우 무한반복
@@ -24,6 +22,7 @@ class LoadingHUD: NSObject {
         // popupView를 UIApplication의 window에 추가하고, popupView의 center를 window의 center와 동일하게 합니다.
         if let window = UIApplication.shared.keyWindow {
             window.addSubview(popupView)
+            window.isUserInteractionEnabled = false
             popupView.center = window.center
             popupView.startAnimating()
             sharedInstance.popupView?.removeFromSuperview()
@@ -49,9 +48,12 @@ class LoadingHUD: NSObject {
     }
     
     class func hide() {
-            if let popupView = sharedInstance.popupView {
-                popupView.stopAnimating()
-                popupView.removeFromSuperview()
-            }
+        if let window = UIApplication.shared.keyWindow {
+            window.isUserInteractionEnabled = true
         }
+        if let popupView = sharedInstance.popupView {
+            popupView.stopAnimating()
+            popupView.removeFromSuperview()
+        }
+    }
 }
