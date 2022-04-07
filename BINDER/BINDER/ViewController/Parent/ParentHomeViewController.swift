@@ -69,6 +69,7 @@ class ParentHomeViewController: UIViewController {
                 }
             }
         }
+        setEvaluation()
     }
     
     // 평가 불러오기

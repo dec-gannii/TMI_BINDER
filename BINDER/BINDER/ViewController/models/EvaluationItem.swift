@@ -6,7 +6,6 @@
 //
 
 struct EvaluationItem: Decodable {
-    
     // 클래스 정보
     let email: String // 학생 이메일
     let name: String // 학생 이메일
