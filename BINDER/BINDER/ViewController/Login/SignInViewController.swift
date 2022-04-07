@@ -47,11 +47,7 @@ class SignInViewController: UIViewController {
         emailAlertLabel.isHidden = true
         
         if (isGoogleSignIn == true || isAppleSignIn == true) {
-            if isGoogleSignIn == true {
-                emailTextField.text = Auth.auth().currentUser?.email
-            } else {
-                emailTextField.text = self.email
-            }
+            emailTextField.text = Auth.auth().currentUser?.email
             nameTextField.text = Auth.auth().currentUser?.displayName
             pwTextField.placeholder = "이메일로 전송된 링크에서 변경한 비밀번호를 입력해주세요."
             Auth.auth().sendPasswordReset(withEmail: (Auth.auth().currentUser?.email)!)
@@ -78,6 +74,15 @@ class SignInViewController: UIViewController {
                 print("Error adding document: \(err)")
             }
         }
+        
+        guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
+            //아니면 종료
+            return
+        }
+        subInfoVC.type = self.type
+        subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+        subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+        self.present(subInfoVC, animated: true, completion: nil)
     }
     
     // 유효한 이름인지 (공백은 아닌지) 검사하는 메소드
@@ -209,6 +214,8 @@ class SignInViewController: UIViewController {
                         print("\(document.documentID) => \(document.data())")
                         self.emailAlertLabel.text = StringUtils.emailExistAlert.rawValue
                         self.emailAlertLabel.isHidden = false
+                        self.emailTextField.text = ""
+                        return
                     }
                     
                     if self.emailAlertLabel.isHidden == true {
@@ -233,15 +240,6 @@ class SignInViewController: UIViewController {
                                 guard let user = authResult?.user else {
                                     return
                                 }
-                                
-                                guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
-                                    //아니면 종료
-                                    return
-                                }
-                                subInfoVC.type = self.type
-                                subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                                subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                                self.present(subInfoVC, animated: true, completion: nil)
                             }
                         } else {
                             if (self.isGoogleSignIn == false) {

@@ -34,6 +34,7 @@ class TypeSelectViewController: UIViewController {
         signinVC.isAppleSignIn = self.isAppleLogIn
         if (self.isAppleLogIn == true) {
             signinVC.name = name
+            signinVC.email = email
         }
         //화면전환
         self.present(signinVC, animated: true)
@@ -53,6 +54,7 @@ class TypeSelectViewController: UIViewController {
         signinVC.isAppleSignIn = self.isAppleLogIn
         if (self.isAppleLogIn == true) {
             signinVC.name = name
+            signinVC.email = email
         }
         //화면전환
         self.present(signinVC, animated: true)
@@ -72,6 +74,7 @@ class TypeSelectViewController: UIViewController {
         signinVC.isAppleSignIn = self.isAppleLogIn
         if (self.isAppleLogIn == true) {
             signinVC.name = name
+            signinVC.email = email
         }
         //화면전환
         self.present(signinVC, animated: true)

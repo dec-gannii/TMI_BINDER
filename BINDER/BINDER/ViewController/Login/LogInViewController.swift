@@ -67,12 +67,12 @@ class LogInViewController: UIViewController {
         authorizationAppleIDButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-                        self.authorizationAppleIDButton.topAnchor.constraint(equalTo: self.stackview.bottomAnchor
-                                                                             , constant: 10),
-                        self.authorizationAppleIDButton.rightAnchor.constraint(equalTo: self.view.rightAnchor
-                                                                               , constant: -120),
-                        self.authorizationAppleIDButton.heightAnchor.constraint(equalToConstant: 45),
-                        self.authorizationAppleIDButton.widthAnchor.constraint(equalToConstant: 45)
+            self.authorizationAppleIDButton.topAnchor.constraint(equalTo: self.stackview.bottomAnchor
+                                                                 , constant: 10),
+            self.authorizationAppleIDButton.rightAnchor.constraint(equalTo: self.view.rightAnchor
+                                                                   , constant: -120),
+            self.authorizationAppleIDButton.heightAnchor.constraint(equalToConstant: 45),
+            self.authorizationAppleIDButton.widthAnchor.constraint(equalToConstant: 45)
         ])
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
@@ -296,84 +296,136 @@ extension LogInViewController: ASAuthorizationControllerPresentationContextProvi
             let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                       idToken: idTokenString,
                                                       rawNonce: nonce)
+            
+            let appleSignIndb = Firestore.firestore()
+            
             // Sign in with Firebase.
             Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
                 if (error != nil) {
                     print("ERROR : \(error)")
                     return
                 } else {
-                    if ((AuthErrorCode.credentialAlreadyInUse.rawValue) != 0) {
-                        // 로그인 화면(첫화면)으로 다시 이동
-                        let alert = UIAlertController(title: "로그인 실패", message: StringUtils.emailExistAlert.rawValue, preferredStyle: UIAlertController.Style.alert)
-                        let okAction = UIAlertAction(title: "확인", style: .default) { (action) in }
-                        alert.addAction(okAction)
-                        self!.present(alert, animated: false, completion: nil)
-                        
-                        guard let loginVC = self?.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
-                        loginVC.modalPresentationStyle = .fullScreen
-                        loginVC.modalTransitionStyle = .crossDissolve
-                        
-                        self!.present(loginVC, animated: true, completion: nil)
-                    } else {
-                        // type select 화면으로 이동
-                        guard let typeSelectVC = self?.storyboard?.instantiateViewController(withIdentifier: "TypeSelectViewController") as? TypeSelectViewController else { return }
-                        typeSelectVC.modalPresentationStyle = .fullScreen
-                        typeSelectVC.modalTransitionStyle = .crossDissolve
-                        typeSelectVC.name = Auth.auth().currentUser?.displayName ?? ""
-                        
-                        self!.present(typeSelectVC, animated: true, completion: nil)
+                    appleSignIndb.collection("teacher").whereField("email", isEqualTo: Auth.auth().currentUser?.email).getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                
+                                let email = document.data()["email"] as? String ?? ""
+                                let password = document.data()["password"] as? String ?? ""
+                                
+                                guard let homeVC = self?.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                                    //아니면 종료
+                                    return
+                                }
+                                
+                                // 아이디와 비밀번호 정보 넘겨주기
+                                homeVC.pw = password
+                                homeVC.id = email
+                                
+                                if (Auth.auth().currentUser?.isEmailVerified == true){
+                                    homeVC.verified = true
+                                } else { homeVC.verified = false }
+                                
+                                guard let myClassVC = self?.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
+                                    //아니면 종료
+                                    return
+                                }
+                                
+                                guard let questionVC = self?.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
+                                    return
+                                }
+                                guard let myPageVC =
+                                        self?.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                                    return
+                                }
+                                
+                                // tab bar 설정
+                                let tb = UITabBarController()
+                                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                                tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
+                                self!.present(tb, animated: true, completion: nil)
+                                
+                            }
+                            appleSignIndb.collection("student").whereField("email", isEqualTo: Auth.auth().currentUser?.email).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        print("\(document.documentID) => \(document.data())")
+                                        
+                                        let email = document.data()["email"] as? String ?? ""
+                                        let password = document.data()["password"] as? String ?? ""
+                                        
+                                        guard let homeVC = self?.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                                            //아니면 종료
+                                            return
+                                        }
+                                        
+                                        // 아이디와 비밀번호 정보 넘겨주기
+                                        homeVC.pw = password
+                                        homeVC.id = email
+                                        
+                                        if (Auth.auth().currentUser?.isEmailVerified == true){
+                                            homeVC.verified = true
+                                        } else { homeVC.verified = false }
+                                        
+                                        guard let myClassVC = self?.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
+                                            //아니면 종료
+                                            return
+                                        }
+                                        
+                                        guard let questionVC = self?.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
+                                            return
+                                        }
+                                        guard let myPageVC =
+                                                self?.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
+                                            return
+                                        }
+                                        
+                                        // tab bar 설정
+                                        let tb = UITabBarController()
+                                        tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                                        tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
+                                        self!.present(tb, animated: true, completion: nil)
+                                    }
+                                    appleSignIndb.collection("parent").whereField("email", isEqualTo: Auth.auth().currentUser?.email).getDocuments() { (querySnapshot, err) in
+                                        if let err = err {
+                                            print("Error getting documents: \(err)")
+                                        } else {
+                                            for document in querySnapshot!.documents {
+                                                print("\(document.documentID) => \(document.data())")
+                                                print ("Email Exists!!!")
+                                                
+                                                let email = document.data()["email"] as? String ?? ""
+                                                let password = document.data()["password"] as? String ?? ""
+                                                
+                                                guard let tb = self?.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
+                                                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                                                self!.present(tb, animated: true, completion: nil)
+                                                
+                                                return
+                                            }
+                                            // type select 화면으로 이동
+                                            guard let typeSelectVC = self?.storyboard?.instantiateViewController(withIdentifier: "TypeSelectViewController") as? TypeSelectViewController else { return }
+                                            typeSelectVC.modalPresentationStyle = .fullScreen
+                                            typeSelectVC.modalTransitionStyle = .crossDissolve
+                                            typeSelectVC.name = Auth.auth().currentUser?.displayName ?? ""
+                                            typeSelectVC.email = Auth.auth().currentUser?.email ?? ""
+                                            typeSelectVC.isAppleLogIn = true
+                                            
+                                            self!.present(typeSelectVC, animated: true, completion: nil)
+                                            return
+                                        }
+                                    }
+                                }
+                                return
+                            }
+                        }
+                        return
                     }
                 }
-                print ("sha256(nonce) -> email? : \(self!.sha256(nonce))")
-                //                    print ("email : \(self?.email)")
-                //                    self!.db.collection("teacher").whereField("email", isEqualTo: self?.email).getDocuments() { (querySnapshot, err) in
-                //                        if let err = err {
-                //                            print("Error getting documents: \(err)")
-                //                        } else {
-                //                            for document in querySnapshot!.documents {
-                //                                print("\(document.documentID) => \(document.data())")
-                //                                // 로그인 화면(첫화면)으로 다시 이동
-                //                                guard let loginVC = self?.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
-                //                                loginVC.modalPresentationStyle = .fullScreen
-                //                                loginVC.modalTransitionStyle = .crossDissolve
-                //
-                //                                self!.present(loginVC, animated: true, completion: nil)
-                //                            }
-                //                            self!.db.collection("student").whereField("email", isEqualTo: self?.email).getDocuments() { (querySnapshot, err) in
-                //                                if let err = err {
-                //                                    print("Error getting documents: \(err)")
-                //                                } else {
-                //                                    for document in querySnapshot!.documents {
-                //                                        print("\(document.documentID) => \(document.data())")
-                //                                        // 로그인 화면(첫화면)으로 다시 이동
-                //                                        guard let loginVC = self?.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
-                //                                        loginVC.modalPresentationStyle = .fullScreen
-                //                                        loginVC.modalTransitionStyle = .crossDissolve
-                //
-                //                                        self!.present(loginVC, animated: true, completion: nil)
-                //                                    }
-                //                                    self!.db.collection("parent").whereField("email", isEqualTo: self?.email).getDocuments() { (querySnapshot, err) in
-                //                                        if let err = err {
-                //                                            print("Error getting documents: \(err)")
-                //                                        } else {
-                //                                            for document in querySnapshot!.documents {
-                //                                                print("\(document.documentID) => \(document.data())")
-                //                                                // 로그인 화면(첫화면)으로 다시 이동
-                //                                                guard let loginVC = self?.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
-                //                                                loginVC.modalPresentationStyle = .fullScreen
-                //                                                loginVC.modalTransitionStyle = .crossDissolve
-                //
-                //                                                self!.present(loginVC, animated: true, completion: nil)
-                //                                            }
-                //                                        }
-                //                                    }
-                //                                }
-                //                            }
-                //                        }
-                //                    }
-                //                }
-                //            }
-                //        }
             }
         }
     }
