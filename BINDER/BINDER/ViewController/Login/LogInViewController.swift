@@ -139,13 +139,12 @@ class LogInViewController: UIViewController {
                         for document in querySnapshot!.documents {
                             print("\(document.documentID) => \(document.data())")
                             // 사용할 것들 가져와서 지역 변수로 저장
-                            let type = document.data()["type"] as? String ?? ""
-                            if (type == "parent") {
-                                guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
-                                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                                self.present(tb, animated: true, completion: nil)
-                            }
+                            guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
+                            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                            self.present(tb, animated: true, completion: nil)
+                            return
                         }
+                        
                         guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
                             //아니면 종료
                             return
@@ -396,10 +395,6 @@ extension LogInViewController: ASAuthorizationControllerPresentationContextProvi
                                         } else {
                                             for document in querySnapshot!.documents {
                                                 print("\(document.documentID) => \(document.data())")
-                                                print ("Email Exists!!!")
-                                                
-                                                let email = document.data()["email"] as? String ?? ""
-                                                let password = document.data()["password"] as? String ?? ""
                                                 
                                                 guard let tb = self?.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
                                                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
