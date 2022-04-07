@@ -41,6 +41,7 @@ class DetailClassViewController: UIViewController {
     var barColors = [UIColor]()
     var count = 0
     var todos = Array<String>()
+    var todoCheck = Array<Bool>()
     var todoDoc = Array<String>()
     var bRec:Bool = false
     var date: String!
@@ -251,6 +252,7 @@ class DetailClassViewController: UIViewController {
                                                                     // 순서대로 todolist를 담는 배열에 추가해주기
                                                                     self.todoDoc.append(doc.documentID)
                                                                     self.todos.append(doc.data()["todo"] as! String)
+                                                                    self.todoCheck.append(doc.data()["check"] as! Bool)
                                                             }
                                                         }
                                                     } else {
@@ -304,6 +306,7 @@ class DetailClassViewController: UIViewController {
                                                         
                                                             self.todoDoc.append(doc.documentID)
                                                             self.todos.append(doc.data()["todo"] as! String)
+                                                            self.todoCheck.append(doc.data()["check"] as! Bool)
                                                     }
                                                 }
                                             } else {
@@ -745,6 +748,12 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         cell.todoLabel.text = "\(todo)"
         cell.checkButton.tag = indexPath.row
         cell.checkButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
+        cell.checkButton.isSelected = todoCheck[indexPath.row]
+        if cell.checkButton.isSelected == true {
+            cell.checkButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+        } else {
+            cell.checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
+        }
         return cell
     }
     
@@ -776,18 +785,17 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     @objc func checkMarkButtonClicked(sender: UIButton){
         if sender.isSelected{
             sender.isSelected = false
-            checkTime = false
+            checkTime = true
             //체크 내용 업데이트
-            
-            print("button normal \(sender.tag)")
-            sender.setImage(UIImage(systemName: "circle"), for: .normal)
-            
+            print("button selected \(sender.tag)")
+            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+           
         } else {
             sender.isSelected = true
             checkTime = true
             // 체크 내용 업데이트
-            print("button selected \(sender.tag)")
-            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+            print("button normal \(sender.tag)")
+            sender.setImage(UIImage(systemName: "circle"), for: .normal)
         }
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(todoDoc[sender.tag]).updateData([
