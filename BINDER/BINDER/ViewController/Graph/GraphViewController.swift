@@ -295,10 +295,10 @@ extension GraphViewController:UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
         let todo = self.todos[indexPath.row]
         
-        cell.TodoLabel.text = "\(todo)"
+        cell.todoLabel.text = "\(todo)"
         
         cell.selectionStyle = .none
-        cell.CheckButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
+        cell.checkButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
         return cell
     }
     

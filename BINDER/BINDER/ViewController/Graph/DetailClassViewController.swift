@@ -41,6 +41,7 @@ class DetailClassViewController: UIViewController {
     var barColors = [UIColor]()
     var count = 0
     var todos = Array<String>()
+    var todoDoc = Array<String>()
     var bRec:Bool = false
     var date: String!
     var selectedMonth: String!
@@ -241,18 +242,17 @@ class DetailClassViewController: UIViewController {
                                                 self.classNavigationBar.topItem!.title = self.userName + " 학생"
                                                 
                                                 // todolist도 가져오기
-                                                self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
-                                                    if let document = document, document.exists {
-                                                        let data = document.data()
-                                                        let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                                                        self.count = data?["count"] as? Int ?? 0
+                                                self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
+                                                    if let snapshot = snapshot {
                                                         
-                                                        self.todos.removeAll()
-                                                        for i in 1...self.count {
-                                                            // 순서대로 todolist를 담는 배열에 추가해주기
-                                                            self.todos.append(data?["todo\(i)"] as! String)
+                                                        snapshot.documents.map { doc in
+                                                            
+                                                            if doc.data()["todo"] != nil{
+                                                                    // 순서대로 todolist를 담는 배열에 추가해주기
+                                                                    self.todoDoc.append(doc.documentID)
+                                                                    self.todos.append(doc.data()["todo"] as! String)
+                                                            }
                                                         }
-                                                        print("Document data: \(dataDescription)")
                                                     } else {
                                                         print("Document does not exist")
                                                     }
@@ -292,19 +292,18 @@ class DetailClassViewController: UIViewController {
                                         let teacherUid = document.data()["uid"] as? String ?? ""
                                         
                                         // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
-                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").document("todos").getDocument {(document, error) in
-                                            if let document = document, document.exists {
-                                                let data = document.data()
-                                                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                                                self.count = data?["count"] as? Int ?? 0
-                                                self.questionLabel.text = "오늘 " + self.userName + " 선생님의 수업은 어땠나요?"
+                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
+                                            if let snapshot = snapshot {
                                                 
-                                                self.todos.removeAll()
-                                                // todolist 배열에 요소 추가
-                                                for i in 1...self.count {
-                                                    self.todos.append(data?["todo\(i)"] as! String)
+                                                snapshot.documents.map { doc in
+                                                    
+                                                    if doc.data()["todo"] != nil{
+                                                            // 순서대로 todolist를 담는 배열에 추가해주기
+                                                        
+                                                            self.todoDoc.append(doc.documentID)
+                                                            self.todos.append(doc.data()["todo"] as! String)
+                                                    }
                                                 }
-                                                print("Document data: \(dataDescription)")
                                             } else {
                                                 print("Document does not exist")
                                             }
@@ -711,31 +710,18 @@ class DetailClassViewController: UIViewController {
     @IBAction func goButtonClicked(_ sender: Any) {
         if todoTF.text != "" {
             todos.append(todoTF.text ?? "")
-            count = count + 1
             
-            let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
+            let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject)
             
-            if (count == 1) {
-                docRef.setData([
-                    "count": count,
-                    "check": checkTime,
-                    "todo\(count)":todoTF.text ?? ""
-                ]) { err in
+                docRef.collection("ToDoList").addDocument(data: ["todo" : todoTF.text, "check" : checkTime])
+                { err in
                     if let err = err {
                         print("Error adding document: \(err)")
+                    } else {
+                        print("data is inserted!")
                     }
-                }
-            } else {
-                docRef.updateData([
-                    "count": count,
-                    "check":checkTime,
-                    "todo\(count)":todoTF.text ?? ""
-                ]) { err in
-                    if let err = err {
-                        print("Error adding document: \(err)")
-                    }
-                }
             }
+        
             todoTF.text = ""
             self.tableView.reloadData()
         }
@@ -754,8 +740,8 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
         let todo = self.todos[indexPath.row]
         
-        cell.TodoLabel.text = "\(todo)"
-        cell.CheckButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
+        cell.todoLabel.text = "\(todo)"
+        cell.checkButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
         return cell
     }
     
@@ -764,27 +750,17 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         if self.userType == "teacher" {
             if editingStyle == .delete {
                 
-                todos.remove(at: indexPath.row)
-                count = count - 1
-                
-                let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document("todos")
-                
-                docRef.updateData([
-                    "count": count
-                ]) { err in
+                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(todoDoc[indexPath.row]).delete() { err in
                     if let err = err {
-                        print("Error adding document: \(err)")
+                        print("Error removing document: \(err)")
+                    } else {
+                        print("Document successfully removed!")
                     }
                 }
-                for i in 1...self.count {
-                    docRef.updateData([
-                        "todo\(i)":todos[i]
-                    ]) { err in
-                        if let err = err {
-                            print("Error adding document: \(err)")
-                        }
-                    }
-                }
+                
+                todos.remove(at: indexPath.row)
+                todoDoc.remove(at: indexPath.row)
+                
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 
             } else if editingStyle == .insert {

@@ -8,6 +8,6 @@
 import UIKit
 
 class Todocell:UITableViewCell{
-    @IBOutlet weak var CheckButton: UIButton!
-    @IBOutlet weak var TodoLabel: UILabel!
+    @IBOutlet weak var checkButton: UIButton!
+    @IBOutlet weak var todoLabel: UILabel!
 }
