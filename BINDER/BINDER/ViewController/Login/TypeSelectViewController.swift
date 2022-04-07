@@ -32,6 +32,9 @@ class TypeSelectViewController: UIViewController {
         signinVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
         signinVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
         signinVC.isAppleSignIn = self.isAppleLogIn
+        if (self.isAppleLogIn == true) {
+            signinVC.name = name
+        }
         //화면전환
         self.present(signinVC, animated: true)
     }
@@ -48,6 +51,9 @@ class TypeSelectViewController: UIViewController {
         signinVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
         signinVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
         signinVC.isAppleSignIn = self.isAppleLogIn
+        if (self.isAppleLogIn == true) {
+            signinVC.name = name
+        }
         //화면전환
         self.present(signinVC, animated: true)
     }
@@ -64,6 +70,9 @@ class TypeSelectViewController: UIViewController {
         signinVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
         signinVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
         signinVC.isAppleSignIn = self.isAppleLogIn
+        if (self.isAppleLogIn == true) {
+            signinVC.name = name
+        }
         //화면전환
         self.present(signinVC, animated: true)
     }

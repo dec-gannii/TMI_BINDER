@@ -11,9 +11,9 @@ import GoogleSignIn
 import FirebaseDatabase
 import FSCalendar
 
-// 홈 뷰 컨트롤러
+/// home view controller
 class HomeViewController: UIViewController {
-    
+    // 변수 선언
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var emailVerificationCheckBtn: UIButton!
@@ -26,12 +26,9 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var secondLinkBtn: UIButton!
     @IBOutlet weak var thirdLinkBtn: UIButton!
     
-    var events: [Date] = []
-    var days: [Date] = []
-    
-    /// 수업 변수 배열
-    var classItems: [String] = []
-    
+    var classItems: [String] = [] // 수업 변수 배열
+    var events: [Date] = [] // 이벤트가 있는 날짜 배열
+    var days: [Date] = [] // 선택된 월의 날짜들
     var id : String = ""
     var pw : String = ""
     var name : String = ""
@@ -43,29 +40,21 @@ class HomeViewController: UIViewController {
     var ref: DatabaseReference!
     let db = Firestore.firestore()
     
+    /// calendar custom
+    
+    private var currentPage: Date?
+    private lazy var today: Date = { return Date() }()
+    
     @IBAction func prevBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: true) }
     
     @IBAction func nextBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: false) }
     
-    private var currentPage: Date?
-    private lazy var today: Date = { return Date() }()
     private lazy var dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.locale = Locale(identifier: "ko_KR")
         df.dateFormat = "yyyy년 MM월"
         return df
     }()
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.calendarView.reloadData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.getTeacherEvents()
-        self.getStudentEvents()
-    }
     
     func setCalendar() {
         calendarView.delegate = self
@@ -115,48 +104,6 @@ class HomeViewController: UIViewController {
     func calendarEvent() {
         calendarView.dataSource = self
         calendarView.delegate = self
-    }
-    
-    // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-        self.view.endEditing(true)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        ref = Database.database().reference()
-        
-        setUpDays(self.today)
-        
-        calendarView.delegate = self
-        
-        verifiedCheck() // 인증된 이메일인지 체크하는 메소드
-        getTeacherInfo()
-        getStudentInfo()
-        
-        self.calendarColor()
-        self.calendarEvent()
-        self.setCalendar()
-        
-        // 인증되지 않은 계정이라면
-        if (!verified) {
-            stateLabel.text = "가입한 이메일로 인증을 진행해주세요."
-            emailVerificationCheckBtn.isHidden = false
-        } else {
-            // 인증되었고,
-            if (self.type == "teacher") { // 선생님 계정이라면
-                if (Auth.auth().currentUser?.email != nil) {
-                    emailVerificationCheckBtn.isHidden = true
-                    HomeStudentScrollView.isHidden = true
-                }
-            } else {
-                // 학생 계정이라면
-                if (Auth.auth().currentUser?.email != nil) {
-                    emailVerificationCheckBtn.isHidden = true
-                }
-            }
-        }
     }
     
     func setUpDays(_ date: Date) {
@@ -211,7 +158,61 @@ class HomeViewController: UIViewController {
         }
     }
     
-    // 내 수업 가져오기 : 선생님
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
+    /// Load View
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.calendarView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.getTeacherEvents()
+        self.getStudentEvents()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        ref = Database.database().reference()
+        
+        setUpDays(self.today)
+        
+        calendarView.delegate = self
+        
+        verifiedCheck() // 인증된 이메일인지 체크하는 메소드
+        getTeacherInfo()
+        getStudentInfo()
+        
+        self.calendarColor()
+        self.calendarEvent()
+        self.setCalendar()
+        
+        // 인증되지 않은 계정이라면
+        if (!verified) {
+            stateLabel.text = "가입한 이메일로 인증을 진행해주세요."
+            emailVerificationCheckBtn.isHidden = false
+        } else {
+            // 인증되었고,
+            if (self.type == "teacher") { // 선생님 계정이라면
+                if (Auth.auth().currentUser?.email != nil) {
+                    emailVerificationCheckBtn.isHidden = true
+                    HomeStudentScrollView.isHidden = true
+                }
+            } else {
+                // 학생 계정이라면
+                if (Auth.auth().currentUser?.email != nil) {
+                    emailVerificationCheckBtn.isHidden = true
+                }
+            }
+        }
+    }
+    
+    /// 내 수업 가져오기 : 선생님
     func setTeacherMyClasses() {
         // 데이터베이스에서 학생 리스트 가져오기, 초기화
         self.HomeStudentIconLabel.text = ""
@@ -280,7 +281,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-    
+    /// 내 수업 가져오기 : 학생
     func setStudentMyClasses() {
         // 데이터베이스에서 학생 리스트 가져오기, 초기화
         self.HomeStudentIconLabel.text = ""
@@ -349,7 +350,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-    
+    /// linked button clicked
     @IBAction func ButtonClicked(_ sender: Any) {
         // 데이터베이스 경로
         var email = ""
@@ -441,6 +442,7 @@ class HomeViewController: UIViewController {
         }
     }
     
+    /// event setting
     func getTeacherEvents(){
         // 데이터베이스 경로
         let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
@@ -490,6 +492,55 @@ class HomeViewController: UIViewController {
         }
     }
     
+    func getStudentEvents(){
+        // 데이터베이스 경로
+        let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
+        
+        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let type = data?["type"] as? String ?? ""
+                
+                let formatter = DateFormatter()
+                formatter.locale = Locale(identifier: "ko_KR")
+                formatter.timeZone = TimeZone(abbreviation: "KST")
+                
+                self.events.removeAll()
+                
+                for index in 1...self.days.count-1 {
+                    let tempDay = "\(self.days[index])"
+                    let dateWithoutDays = tempDay.components(separatedBy: " ")
+                    formatter.dateFormat = "YYYY-MM-dd"
+                    let date = formatter.date(from: dateWithoutDays[0])!
+                    let datestr = formatter.string(from: date)
+                    
+                    let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
+                    
+                    docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                // 사용할 것들 가져와서 지역 변수로 저장
+                                let date = document.data()["date"] as? String ?? ""
+                                
+                                formatter.dateFormat = "YYYY-MM-dd"
+                                let date_d = formatter.date(from: date)!
+                                self.events.append(date_d)
+                                self.calendarView.reloadData()
+                            }
+                        }
+                    }
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    /// setting informations
     func getTeacherInfo(){
         // 데이터베이스 경로
         let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
@@ -546,54 +597,6 @@ class HomeViewController: UIViewController {
             }
         }
         setTeacherMyClasses()
-    }
-    
-    func getStudentEvents(){
-        // 데이터베이스 경로
-        let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
-        
-        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                let type = data?["type"] as? String ?? ""
-                
-                let formatter = DateFormatter()
-                formatter.locale = Locale(identifier: "ko_KR")
-                formatter.timeZone = TimeZone(abbreviation: "KST")
-                
-                self.events.removeAll()
-                
-                for index in 1...self.days.count-1 {
-                    let tempDay = "\(self.days[index])"
-                    let dateWithoutDays = tempDay.components(separatedBy: " ")
-                    formatter.dateFormat = "YYYY-MM-dd"
-                    let date = formatter.date(from: dateWithoutDays[0])!
-                    let datestr = formatter.string(from: date)
-                    
-                    let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
-                    
-                    docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print("Error getting documents: \(err)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                print("\(document.documentID) => \(document.data())")
-                                // 사용할 것들 가져와서 지역 변수로 저장
-                                let date = document.data()["date"] as? String ?? ""
-                                
-                                formatter.dateFormat = "YYYY-MM-dd"
-                                let date_d = formatter.date(from: date)!
-                                self.events.append(date_d)
-                                self.calendarView.reloadData()
-                            }
-                        }
-                    }
-                }
-            } else {
-                print("Document does not exist")
-            }
-        }
     }
     
     func getStudentInfo(){

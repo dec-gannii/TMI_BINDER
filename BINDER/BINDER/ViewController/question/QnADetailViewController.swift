@@ -56,7 +56,6 @@ class QnADetailViewController: UIViewController {
     }
     
     private func playVideo(url: NSURL){
-        
         // AVPlayerController의 인스턴스 생성
         let playerController = AVPlayerViewController()
         // 비디오 URL로 초기화된 AVPlayer의 인스턴스 생성
@@ -166,6 +165,10 @@ class QnADetailViewController: UIViewController {
     /// 질문방 내용 세팅
     // 질문 리스트 가져오기
     func setQnA() {
+//        LoadingHUD.show()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//            LoadingHUD.hide()
+//        }
         let db = Firestore.firestore()
         // Auth.auth().currentUser!.uid
         //db.collection("student").getDocuments(){ (querySnapshot, err) in
@@ -270,6 +273,11 @@ class QnADetailViewController: UIViewController {
                         }
                     }
                 }
+            }
+            
+            LoadingHUD.show()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                LoadingHUD.hide()
             }
         } else { //학생이면
             if let index = self.index {
@@ -420,6 +428,11 @@ class QnADetailViewController: UIViewController {
                 }
             }
         }
+        LoadingHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            LoadingHUD.hide()
+        }
+        
         return
     }
 }

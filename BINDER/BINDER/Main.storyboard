@@ -1859,10 +1859,11 @@ Cg
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fDq-dV-rY8" customClass="GIDSignInButton">
-                                <rect key="frame" x="40" y="556" width="334" height="45"/>
+                                <rect key="frame" x="120" y="546" width="45" height="45"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="lOX-Ty-Smg"/>
+                                    <constraint firstAttribute="width" constant="45" id="gU4-j0-erI"/>
+                                    <constraint firstAttribute="height" constant="45" id="pTY-wW-eVD"/>
                                 </constraints>
                                 <connections>
                                     <action selector="googleLogInBtnClicked:" destination="7Oi-nm-qsH" eventType="touchUpInside" id="UMK-D7-84e"/>
@@ -1879,16 +1880,16 @@ Cg
                             <constraint firstItem="47u-rp-rDS" firstAttribute="leading" secondItem="iMb-Ia-RPy" secondAttribute="leading" constant="40" id="8aq-N6-Nca"/>
                             <constraint firstItem="iMb-Ia-RPy" firstAttribute="bottom" secondItem="HNp-bL-nvu" secondAttribute="bottom" constant="10" id="Avu-c5-Qcq"/>
                             <constraint firstItem="hDd-nW-eSp" firstAttribute="leading" secondItem="iMb-Ia-RPy" secondAttribute="leading" constant="40" id="PQi-4d-8x8"/>
+                            <constraint firstItem="fDq-dV-rY8" firstAttribute="leading" secondItem="iMb-Ia-RPy" secondAttribute="leading" constant="120" id="QFt-Jb-rQR"/>
                             <constraint firstItem="Bnz-aS-8cv" firstAttribute="leading" secondItem="iMb-Ia-RPy" secondAttribute="leading" constant="40" id="R25-aC-101"/>
                             <constraint firstItem="iMb-Ia-RPy" firstAttribute="trailing" secondItem="47u-rp-rDS" secondAttribute="trailing" constant="40" id="Sld-1P-hF6"/>
                             <constraint firstItem="47u-rp-rDS" firstAttribute="top" secondItem="xGM-OZ-aKN" secondAttribute="bottom" constant="30" id="TvQ-XJ-CYi"/>
-                            <constraint firstItem="fDq-dV-rY8" firstAttribute="leading" secondItem="iMb-Ia-RPy" secondAttribute="leading" constant="40" id="VIy-SJ-8sh"/>
                             <constraint firstItem="iMb-Ia-RPy" firstAttribute="trailing" secondItem="v9X-1d-LqV" secondAttribute="trailing" constant="40" id="XD2-rv-vaJ"/>
                             <constraint firstItem="shd-4G-SP9" firstAttribute="leading" secondItem="iMb-Ia-RPy" secondAttribute="leading" constant="40" id="XIw-SD-xiR"/>
+                            <constraint firstItem="fDq-dV-rY8" firstAttribute="top" secondItem="fzk-ub-GWn" secondAttribute="bottom" constant="10" id="Xa5-88-Ls2"/>
                             <constraint firstItem="iMb-Ia-RPy" firstAttribute="trailing" secondItem="shd-4G-SP9" secondAttribute="trailing" constant="40" id="Y7a-V7-g4r"/>
                             <constraint firstItem="HNp-bL-nvu" firstAttribute="leading" secondItem="iMb-Ia-RPy" secondAttribute="leading" constant="40" id="Zi2-L8-bUc"/>
                             <constraint firstItem="xGM-OZ-aKN" firstAttribute="top" secondItem="iMb-Ia-RPy" secondAttribute="top" constant="140" id="aHI-AH-T6l"/>
-                            <constraint firstItem="iMb-Ia-RPy" firstAttribute="trailing" secondItem="fDq-dV-rY8" secondAttribute="trailing" constant="40" id="bgp-o2-KwE"/>
                             <constraint firstItem="v9X-1d-LqV" firstAttribute="leading" secondItem="iMb-Ia-RPy" secondAttribute="leading" constant="40" id="dEe-X3-4Hi"/>
                             <constraint firstItem="iMb-Ia-RPy" firstAttribute="trailing" secondItem="hDd-nW-eSp" secondAttribute="trailing" constant="40" id="fZl-fl-1lb"/>
                             <constraint firstItem="iMb-Ia-RPy" firstAttribute="trailing" secondItem="HNp-bL-nvu" secondAttribute="trailing" constant="40" id="iOK-Kl-4eT"/>
@@ -1900,7 +1901,6 @@ Cg
                             <constraint firstItem="fzk-ub-GWn" firstAttribute="leading" secondItem="iMb-Ia-RPy" secondAttribute="leading" constant="80" id="oIp-Mz-deI"/>
                             <constraint firstItem="WAR-PI-b7B" firstAttribute="top" secondItem="hDd-nW-eSp" secondAttribute="bottom" id="qDf-iw-t4F"/>
                             <constraint firstItem="iMb-Ia-RPy" firstAttribute="trailing" secondItem="WAR-PI-b7B" secondAttribute="trailing" constant="40" id="tZM-ln-xga"/>
-                            <constraint firstItem="fDq-dV-rY8" firstAttribute="top" secondItem="fzk-ub-GWn" secondAttribute="bottom" constant="20" id="ug8-jK-LE3"/>
                             <constraint firstItem="v9X-1d-LqV" firstAttribute="top" secondItem="shd-4G-SP9" secondAttribute="bottom" id="vgh-NL-yyG"/>
                             <constraint firstItem="hDd-nW-eSp" firstAttribute="top" secondItem="v9X-1d-LqV" secondAttribute="bottom" constant="5" id="wCx-8l-Hb1"/>
                             <constraint firstItem="Bnz-aS-8cv" firstAttribute="top" secondItem="WAR-PI-b7B" secondAttribute="bottom" constant="5" id="wSa-U7-RDz"/>
@@ -1914,6 +1914,7 @@ Cg
                         <outlet property="googleLogInBtn" destination="fDq-dV-rY8" id="fko-ay-8eB"/>
                         <outlet property="pwAlertLabel" destination="WAR-PI-b7B" id="uGq-LX-aB7"/>
                         <outlet property="pwTextField" destination="hDd-nW-eSp" id="3wm-qZ-iry"/>
+                        <outlet property="stackview" destination="fzk-ub-GWn" id="JIk-nE-SfJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mMh-jU-jjW" sceneMemberID="firstResponder"/>
