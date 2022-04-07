@@ -188,8 +188,8 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     }
     
     func setQuestionDocument() {
-        if let email = self.email, let index = self.index {
-            print ("self.index : \(index), self.email : \(email)")
+        if let index = self.index {
+            print ("self.index : \(index)")
             var studentName = ""
             var studentEmail = ""
             var teacherUid = ""
