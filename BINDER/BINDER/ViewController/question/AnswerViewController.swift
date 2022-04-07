@@ -32,6 +32,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     var qnum : Int!
     var vnull = true
     var player : AVPlayer!
+    var avPlayerLayer : AVPlayerLayer!
     
     @IBOutlet var imgView: UIImageView!
     @IBOutlet weak var textView: UITextView!
@@ -42,7 +43,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     var captureImage: UIImage!
     var videoURL: URL!
     var flagImageSave = false
-    var imgtype:Int = 0
+    var imgtype:Int = 1
     var answer = "0"
     
     override func viewDidLoad() {
@@ -206,20 +207,18 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     
     func videoinImage(){
         
-        let playerController = AVPlayerViewController()
         player = AVPlayer(url: videoURL!)
-        playerController.player = player
-        playerController.view.frame.size.height = imgView.frame.size.height
-        playerController.view.frame.size.width = imgView.frame.size.width
-        imgView.addSubview(playerController.view)
+        avPlayerLayer = AVPlayerLayer(player: player)
+        avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
+
+        imgView.layer.addSublayer(avPlayerLayer)
         
-        player.play()
-        
-        vnull = false
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        if avPlayerLayer == nil { print("usernameVFXView.layer is nil") ; return }
+        avPlayerLayer.frame = imgView.layer.bounds
     }
     
     // 사진, 비디오 촬영이나 선택을 취소했을 때 호출되는 델리게이트 메서드
@@ -329,7 +328,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     }
                 }
             } else { //비디오의 경우
-                
+                /*
                 guard let image = imgView.image else {
                     self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                         "url":"",
@@ -376,6 +375,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     
                     return
                 }
+                 */
                 print("video exists")
                 
                 if let data = NSData(contentsOf: videoURL as URL){

@@ -263,9 +263,17 @@ class QnADetailViewController: UIViewController {
                                                 }
                                             }
                                         } else {
-                                            //self.videourl = "https://firebasestorage.googleapis.com/v0/b/tmi-binder-39173.appspot.com/o/video%2FPencil%20-%208256.mp4?alt=media&token=b44c0bf7-d39c-4c5a-908c-31a7d9823b57"
-                                            // self.imageViewClick()
-                                            // 영상 띄우기
+                                            let url = URL(string: imgurl)
+                                            DispatchQueue.global().async {
+                                                let data = try? Data(contentsOf: url!)
+                                                DispatchQueue.main.async {
+                                                    if (self.answerImgView != nil) {
+                                                        self.answerImgView.image = UIImage(data: data!)
+                                                        self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + self.answerImgView.frame.height + 50)
+                                                            .isActive = true
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
