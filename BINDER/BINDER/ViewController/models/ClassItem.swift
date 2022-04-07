@@ -20,8 +20,9 @@ struct ClassItem: Decodable {
     let payAmount: String // 정산금액
     let schedule: String // 과외일정
     let repeatYN: String // 반복유무
+    let index: Int // 인덱스
     
-    init(email: String, name: String, goal: String, subject: String, recentDate: String, currentCnt: Int, totalCnt: Int, circleColor: String, payType: String, payDate: String, payAmount: String, schedule: String, repeatYN: String) {
+    init(email: String, name: String, goal: String, subject: String, recentDate: String, currentCnt: Int, totalCnt: Int, circleColor: String, payType: String, payDate: String, payAmount: String, schedule: String, repeatYN: String, index: Int) {
         self.email = email
         self.name = name
         self.goal = goal
@@ -35,6 +36,7 @@ struct ClassItem: Decodable {
         self.payAmount = payAmount
         self.schedule = schedule
         self.repeatYN = repeatYN
+        self.index = index
     }
     
 }

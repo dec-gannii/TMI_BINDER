@@ -165,8 +165,9 @@ class QuestionViewController: BaseVC {
                                 let classColor = classDt["circleColor"] as? String ?? "026700"
                                 let email = classDt["email"] as? String ?? ""
                                 self.email = email
+                                let index = classDt["index"] as? Int ?? 0
                                 
-                                let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
+                                let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email, index: index)
                                 
                                 /// 모든 값을 더한다.
                                 self.questionItems.append(item)
@@ -197,7 +198,9 @@ class QuestionViewController: BaseVC {
                     self.classColor = classColor
                     let email = classDt["email"] as? String ?? ""
                     self.email = email
-                    let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
+                    let index = classDt["index"] as? Int ?? 0
+                    
+                    let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email, index: index)
                     
                     /// 모든 값을 더한다.
                     self.questionItems.append(item)
@@ -249,7 +252,7 @@ class QuestionViewController: BaseVC {
                                 let index = classDt["index"] as? Int ?? 0
                                 self.index = index
                                 
-                                let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
+                                let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email, index: index)
                                 
                                 /// 모든 값을 더한다.
                                 self.questionItems.append(item)
@@ -279,7 +282,9 @@ class QuestionViewController: BaseVC {
                     self.classColor = classColor
                     let email = classDt["email"] as? String ?? ""
                     self.email = email
-                    let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email)
+                    let index = classDt["index"] as? Int ?? 0
+                    
+                    let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email, index: index)
                     
                     /// 모든 값을 더한다.
                     self.questionItems.append(item)
@@ -322,6 +327,8 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
             cell.classColor.backgroundColor = UIColor.red
         }
         
+        cell.contentView.tag = item.index
+        
         return cell
         
     }
@@ -342,7 +349,9 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         var subject: String!
         var type: String!
         
-        docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: indexPath.row)
+        let currentCell = self.questionTV.cellForRow(at: indexPath)
+        
+        docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: currentCell?.contentView.tag)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")
@@ -350,7 +359,6 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
                     guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                         return
                     }
-                    
                     guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
                     
                     questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
@@ -386,7 +394,7 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
             questionListVC.subject = self.subject
             questionListVC.userName = self.userName
             questionListVC.type = "teacher"
-            questionListVC.index = indexPath.row
+            questionListVC.index = currentCell?.contentView.tag
             
             self.present(questionListVC, animated: true, completion: nil)
         }

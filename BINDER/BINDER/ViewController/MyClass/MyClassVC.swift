@@ -198,10 +198,11 @@ class MyClassVC: BaseVC{
                                 let payAmount = classDt["payAmount"] as? String ?? ""
                                 let schedule = classDt["schedule"] as? String ?? ""
                                 let repeatYN = classDt["repeatYN"] as? String ?? ""
+                                let index = classDt["index"] as? Int ?? 0
                                 
                                 self.studentEmail = email
                                 
-                                let item = ClassItem(email: email, name: name, goal: goal, subject: subject, recentDate: recentDate, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: classColor, payType: payType, payDate: payDate, payAmount: payAmount, schedule: schedule, repeatYN: repeatYN)
+                                let item = ClassItem(email: email, name: name, goal: goal, subject: subject, recentDate: recentDate, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: classColor, payType: payType, payDate: payDate, payAmount: payAmount, schedule: schedule, repeatYN: repeatYN, index: index)
                                 
                                 /// 모든 값을 더한다.
                                 self.classItems.append(item)
@@ -238,8 +239,9 @@ class MyClassVC: BaseVC{
                     let payAmount = classDt["payAmount"] as? String ?? ""
                     let schedule = classDt["schedule"] as? String ?? ""
                     let repeatYN = classDt["repeatYN"] as? String ?? ""
+                    let index = classDt["index"] as? Int ?? 0
                     
-                    let item = ClassItem(email: email, name: name, goal: goal, subject: subject, recentDate: recentDate, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: classColor, payType: payType, payDate: payDate, payAmount: payAmount, schedule: schedule, repeatYN: repeatYN)
+                    let item = ClassItem(email: email, name: name, goal: goal, subject: subject, recentDate: recentDate, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: classColor, payType: payType, payDate: payDate, payAmount: payAmount, schedule: schedule, repeatYN: repeatYN, index: index)
                     
                     /// 모든 값을 더한다.
                     self.classItems.append(item)
@@ -275,10 +277,10 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         } else {
-            
             let cell = tableView.dequeueReusableCell(withIdentifier: "class")! as! CardTableViewCell
             
             let item:ClassItem = classItems[indexPath.row]
+            
             if (self.type == "teacher") {
                 cell.studentName.text = "\(item.name) 학생"
                 
@@ -298,7 +300,7 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             }
             
             cell.manageBtn.addTarget(self, action: #selector(onClickManageButton(_:)), for: .touchUpInside)
-            cell.manageBtn.tag = indexPath.row
+            cell.manageBtn.tag = item.index
             
             return cell
         }
