@@ -10,16 +10,18 @@ import Foundation
 struct QuestionItem: Decodable {
     
     // 변수
-    let userName: String     // 학생 이름
+    let userName: String        // 학생 이름
     let subjectName : String    // 과목 이름
     let classColor : String     // 수업 색상
     let email : String          // 이메일
+    let index: Int              // 인덱스
     
-    init(userName : String, subjectName : String, classColor : String, email : String) {
+    init(userName : String, subjectName : String, classColor : String, email : String, index: Int) {
         self.userName = userName
         self.subjectName = subjectName
         self.classColor = classColor
         self.email = email
+        self.index = index
     }
 }
 
