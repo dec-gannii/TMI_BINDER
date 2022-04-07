@@ -59,7 +59,6 @@ class QuestionDetailViewController: UIViewController {
             pvc.present(answerVC, animated: true, completion: nil)
         }
         
-//        self.present(answerVC, animated: true, completion: nil)
     }
     
     func getUserInfo() {
