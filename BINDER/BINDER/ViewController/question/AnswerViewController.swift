@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 import MobileCoreServices
 import Firebase
 import FirebaseDatabase
@@ -29,6 +30,8 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     var type = ""
     var index : Int!
     var qnum : Int!
+    var vnull = true
+    var player : AVPlayer!
     
     @IBOutlet var imgView: UIImageView!
     @IBOutlet weak var textView: UITextView!
@@ -187,23 +190,36 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 // 촬영한 비디오를 옴
                 videoURL = (info[UIImagePickerController.InfoKey.mediaURL] as! URL)
                 imgtype = 2
+                print("videoURL : \(videoURL!)")
                 // 비디오를 포토 라이브러리에 저장
                 UISaveVideoAtPathToSavedPhotosAlbum(videoURL.relativePath, self, nil, nil)
             }
             //url에 정확한 이미지 url 주소를 넣는다.
-            var image : UIImage?
-            //DispatchQueue를 쓰는 이유 -> 이미지가 클 경우 이미지를 다운로드 받기 까지 잠깐의 멈춤이 생길수 있다. (이유 : 싱글 쓰레드로 작동되기때문에) //DispatchQueue를 쓰면 멀티 쓰레드로 이미지가 클경우에도 멈춤이 생기지 않는다.
-           // DispatchQueue.global().async {
-             //   let data = try? Data(contentsOf: self.videoURL!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-             //   DispatchQueue.main.async {
-             //       image = UIImage(data: data!) }
-              //  self.imgView.image = image
-          //  }
+            
+            videoinImage()
+           
         }
-        
         
         // 현재의 뷰 컨트롤러를 제거. 즉, 뷰에서 이미지 피커 화면을 제거하여 초기 뷰를 보여줌
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func videoinImage(){
+        
+        let playerController = AVPlayerViewController()
+        player = AVPlayer(url: videoURL!)
+        playerController.player = player
+        playerController.view.frame.size.height = imgView.frame.size.height
+        playerController.view.frame.size.width = imgView.frame.size.width
+        imgView.addSubview(playerController.view)
+        
+        player.play()
+        
+        vnull = false
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
     // 사진, 비디오 촬영이나 선택을 취소했을 때 호출되는 델리게이트 메서드
@@ -313,6 +329,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     }
                 }
             } else { //비디오의 경우
+                
                 guard let image = imgView.image else {
                     self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                         "url":"",
@@ -361,12 +378,12 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 }
                 print("video exists")
                 
-                if let data = image.pngData(){
-                    let urlRef = storageRef.child("video/\(captureImage!).mp4")
+                if let data = NSData(contentsOf: videoURL as URL){
+                    let urlRef = storageRef.child("video/\(videoURL!).mp4")
                     
                     let metadata = StorageMetadata()
                     metadata.contentType = "video/mp4"
-                    let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                    let uploadTask = urlRef.putData(data as Data, metadata: metadata){ (metadata, error) in
                         guard let metadata = metadata else {
                             return
                         }
