@@ -22,7 +22,9 @@ class QnADetailViewController: UIViewController {
     var qnum : Int!
     var index: Int!
     var teacherUid: String!
-    var videourl: String!
+    var videourl: URL!
+    var player : AVPlayer!
+    var avPlayerLayer : AVPlayerLayer!
     
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var titleName: UILabel!
@@ -51,20 +53,21 @@ class QnADetailViewController: UIViewController {
     
     @objc func btnPlayExternalMovie(sender: UITapGestureRecognizer){
         // 외부에 링크된 주소를 NSURL 형식으로 변경
-        let url = NSURL(string: "https://firebasestorage.googleapis.com/v0/b/tmi-binder-39173.appspot.com/o/video%2FPencil%20-%208256.mp4?alt=media&token=b44c0bf7-d39c-4c5a-908c-31a7d9823b57")!
-        playVideo(url: url) // 앞에서 얻은 url을 사용하여 비디오를 재생
+        if videourl != nil {
+        playVideo(url: videourl as NSURL) // 앞에서 얻은 url을 사용하여 비디오를 재생
+        }
     }
     
     private func playVideo(url: NSURL){
         // AVPlayerController의 인스턴스 생성
         let playerController = AVPlayerViewController()
         // 비디오 URL로 초기화된 AVPlayer의 인스턴스 생성
-        let player = AVPlayer(url: url as URL)
+        let openplayer = AVPlayer(url: url as URL)
         // AVPlayerViewController의 player 속성에 위에서 생성한 AVPlayer 인스턴스를 할당
-        playerController.player = player
+        playerController.player = openplayer
         
         self.present(playerController, animated: true){
-            player.play() // 비디오 재생
+            openplayer.play() // 비디오 재생
         }
         
     }
@@ -73,6 +76,12 @@ class QnADetailViewController: UIViewController {
         if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if avPlayerLayer == nil { print("usernameVFXView.layer is nil") ; return }
+        avPlayerLayer.frame = answerView.layer.bounds
     }
     
     func getUserInfo() {
@@ -264,16 +273,12 @@ class QnADetailViewController: UIViewController {
                                             }
                                         } else {
                                             let url = URL(string: imgurl)
-                                            DispatchQueue.global().async {
-                                                let data = try? Data(contentsOf: url!)
-                                                DispatchQueue.main.async {
-                                                    if (self.answerImgView != nil) {
-                                                        self.answerImgView.image = UIImage(data: data!)
-                                                        self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + self.answerImgView.frame.height + 50)
-                                                            .isActive = true
-                                                    }
-                                                }
-                                            }
+                                            self.player = AVPlayer(url: url!)
+                                            self.avPlayerLayer = AVPlayerLayer(player: self.player)
+                                            self.avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
+                                            self.videourl = url
+                                            self.answerView.layer.addSublayer(self.avPlayerLayer)
+                                            
                                         }
                                     }
                                 }
@@ -398,6 +403,7 @@ class QnADetailViewController: UIViewController {
                                                         
                                                         let answer = questionDt["answerContent"] as? String ?? ""
                                                         let imgurl = questionDt["url"] as? String ?? ""
+                                                        let imgType = questionDt["type"] as? String ?? ""
                                                         
                                                         self.answerContent.text = answer
                                                         self.answerContent.translatesAutoresizingMaskIntoConstraints = true
@@ -412,16 +418,26 @@ class QnADetailViewController: UIViewController {
                                                                     .isActive = true
                                                             }
                                                         } else {
-                                                            let url = URL(string: imgurl)
-                                                            DispatchQueue.global().async {
-                                                                let data = try? Data(contentsOf: url!)
-                                                                DispatchQueue.main.async {
-                                                                    if (self.answerImgView != nil) {
-                                                                        self.answerImgView.image = UIImage(data: data!)
-                                                                        self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + self.answerImgView.frame.height + 50)
-                                                                            .isActive = true
+                                                            if imgType == "image"{
+                                                                let url = URL(string: imgurl)
+                                                                DispatchQueue.global().async {
+                                                                    let data = try? Data(contentsOf: url!)
+                                                                    DispatchQueue.main.async {
+                                                                        if (self.answerImgView != nil) {
+                                                                            self.answerImgView.image = UIImage(data: data!)
+                                                                            self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + self.answerImgView.frame.height + 50)
+                                                                                .isActive = true
+                                                                        }
                                                                     }
                                                                 }
+                                                            } else {
+                                                                let url = URL(string: imgurl)
+                                                                self.player = AVPlayer(url: url!)
+                                                                self.avPlayerLayer = AVPlayerLayer(player: self.player)
+                                                                self.avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
+                                                                self.videourl = url
+                                                                self.answerView.layer.addSublayer(self.avPlayerLayer)
+                                                                
                                                             }
                                                         }
                                                     }
