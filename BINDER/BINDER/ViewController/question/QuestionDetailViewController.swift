@@ -154,6 +154,10 @@ class QuestionDetailViewController: UIViewController {
     
     // 질문 리스트 가져오기
     func setQuestion() {
+        LoadingHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            LoadingHUD.hide()
+        }
         let db = Firestore.firestore()
         if (self.type == "teacher") {
             if let qnum = self.qnum {

@@ -57,7 +57,7 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
             present(imagePicker, animated: true, completion: nil)
             
         } else {
-            myAlert("갤러리 접근 불가", message: "어플리케이션이 갤러리에 접근 불가능합니다!")
+            myAlert("갤러리 접근 불가", message: StringUtils.galleryAccessFail.rawValue)
         }
     }
     

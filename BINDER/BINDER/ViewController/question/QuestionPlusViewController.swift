@@ -136,16 +136,14 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         studyMemo = textView.text!
         
         if name == "" || studyMemo == "질문 내용을 작성해주세요." {
-            let textalertVC = UIAlertController(title: "알림", message: "질문의 위치 또는 질문 내용을 작성해주세요", preferredStyle: .alert)
+            let textalertVC = UIAlertController(title: "알림", message: "질문의 제목 또는 질문 내용을 작성해주세요", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             textalertVC.addAction(okAction)
             self.present(textalertVC, animated: true, completion: nil)
             print("제목 없음")
         }
         else {
-            
             print("제목 작성 완료")
-            
             let docRef = self.db.collection("student") // 학생이면
             docRef.whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
                 .getDocuments() { (querySnapshot, err) in

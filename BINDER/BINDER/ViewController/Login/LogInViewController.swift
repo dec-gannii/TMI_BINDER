@@ -11,35 +11,37 @@ import GoogleSignIn
 import AuthenticationServices
 import CryptoKit
 
-// 로그인 뷰 컨트롤러
+/// log in view controller
 class LogInViewController: UIViewController {
-    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var emailAlertLabel: UILabel!
     @IBOutlet weak var pwAlertLabel: UILabel!
     @IBOutlet weak var googleLogInBtn: GIDSignInButton!
+    @IBOutlet weak var stackview: UIStackView!
     
+    // 변수 선언
     var isLogouted = true
     var email = ""
     var name = ""
     fileprivate var currentNonce: String?
     
+    let authorizationAppleIDButton = ASAuthorizationAppleIDButton()
+    
     let db = Firestore.firestore()
     var ref: DatabaseReference!
     
-    let authorizationAppleIDButton = ASAuthorizationAppleIDButton()
-    
-    // MARK: - Selectors
+    /// sign in with apple
     @objc private func handleAuthorizationAppleIDButton(_ sender: ASAuthorizationAppleIDButton) {
         startSignInWithAppleFlow()
     }
     
+    /// UI setting
     func setLineStyle() {
         emailTextField.borderStyle = .none
         let emailBorder = CALayer()
         emailBorder.frame = CGRect(x: 0, y: emailTextField.frame.size.height-1, width: emailTextField.frame.width-25, height: 1)
-        emailBorder.backgroundColor = UIColor.black.cgColor
+        emailBorder.backgroundColor = UIColor.darkGray.cgColor
         emailTextField.layer.addSublayer((emailBorder))
         emailTextField.textAlignment = .left
         emailTextField.textColor = UIColor.black
@@ -47,12 +49,13 @@ class LogInViewController: UIViewController {
         pwTextField.borderStyle = .none
         let pwBorder = CALayer()
         pwBorder.frame = CGRect(x: 0, y: pwTextField.frame.size.height-1, width: pwTextField.frame.width-25, height: 1)
-        pwBorder.backgroundColor = UIColor.black.cgColor
+        pwBorder.backgroundColor = UIColor.darkGray.cgColor
         pwTextField.layer.addSublayer((pwBorder))
         pwTextField.textAlignment = .left
         pwTextField.textColor = UIColor.black
     }
     
+    /// Load View
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -64,18 +67,23 @@ class LogInViewController: UIViewController {
         authorizationAppleIDButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.authorizationAppleIDButton.topAnchor.constraint(equalTo: self.googleLogInBtn.bottomAnchor
-                                                                 , constant: 10),
-            self.authorizationAppleIDButton.leftAnchor.constraint(equalTo: self.view.leftAnchor
-                                                                  , constant: 40),
-            self.authorizationAppleIDButton.rightAnchor.constraint(equalTo: self.view.rightAnchor
-                                                                   , constant: -40),
-            self.authorizationAppleIDButton.heightAnchor.constraint(equalToConstant: 40)
+                        self.authorizationAppleIDButton.topAnchor.constraint(equalTo: self.stackview.bottomAnchor
+                                                                             , constant: 10),
+                        self.authorizationAppleIDButton.rightAnchor.constraint(equalTo: self.view.rightAnchor
+                                                                               , constant: -120),
+                        self.authorizationAppleIDButton.heightAnchor.constraint(equalToConstant: 45),
+                        self.authorizationAppleIDButton.widthAnchor.constraint(equalToConstant: 45)
         ])
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance()?.delegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        
+        // google log in button customize
+        googleLogInBtn.style = .iconOnly
+        googleLogInBtn.layer.borderWidth = 1
+        googleLogInBtn.layer.borderColor = UIColor.clear.cgColor
+        googleLogInBtn.clipsToBounds = true
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
         if (isLogouted == false) {
@@ -90,6 +98,7 @@ class LogInViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    /// log in button clicked
     @IBAction func LogInBtnClicked(_ sender: Any) {
         self.pwAlertLabel.isHidden = true
         self.emailAlertLabel.isHidden = true
@@ -176,6 +185,7 @@ class LogInViewController: UIViewController {
     @IBAction func googleLogInBtnClicked(_ sender: Any) {
     }
     
+    /// reset password button clicked
     @IBAction func ResetPasswordBtnClicked(_ sender: Any) {
         guard let resetpwVC = self.storyboard?.instantiateViewController(withIdentifier: "ResetPasswordViewController") as? ResetPasswordViewController else { return }
         resetpwVC.modalPresentationStyle = .pageSheet
@@ -191,13 +201,12 @@ class LogInViewController: UIViewController {
         self.present(typeSelectVC!, animated: true, completion: nil)
     }
     
-    
+    // 포트폴리오 보기 선택시 작동하는 함수
     @IBAction func ShowPortfolio(_ sender: Any) {
-        // 포트폴리오 보기 선택시 작동하는 함수
     }
 }
 
-// MARK: - Google Login Extension
+/// sign in with google (extension)
 extension LogInViewController: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
@@ -263,6 +272,7 @@ extension LogInViewController: GIDSignInDelegate {
     }
 }
 
+/// sign in with apple (extension)
 @available(iOS 13.0, *)
 extension LogInViewController: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
@@ -309,10 +319,12 @@ extension LogInViewController: ASAuthorizationControllerPresentationContextProvi
                         guard let typeSelectVC = self?.storyboard?.instantiateViewController(withIdentifier: "TypeSelectViewController") as? TypeSelectViewController else { return }
                         typeSelectVC.modalPresentationStyle = .fullScreen
                         typeSelectVC.modalTransitionStyle = .crossDissolve
+                        typeSelectVC.name = Auth.auth().currentUser?.displayName ?? ""
                         
                         self!.present(typeSelectVC, animated: true, completion: nil)
                     }
                 }
+                print ("sha256(nonce) -> email? : \(self!.sha256(nonce))")
                 //                    print ("email : \(self?.email)")
                 //                    self!.db.collection("teacher").whereField("email", isEqualTo: self?.email).getDocuments() { (querySnapshot, err) in
                 //                        if let err = err {
@@ -365,6 +377,7 @@ extension LogInViewController: ASAuthorizationControllerPresentationContextProvi
             }
         }
     }
+    
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) { // Handle error.
         print("Sign in with Apple errored: \(error)")
     }
@@ -428,5 +441,58 @@ extension LogInViewController: ASAuthorizationControllerPresentationContextProvi
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
+    }
+    
+    // background 에 앱이 내려가 있는 경우 사용중단 분기처리
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        appleIDProvider.getCredentialState(forUserID: "001628.1f39bf3727b44f1f8a6615166ae3b718.0924") { (credentialState, error) in
+            switch credentialState {
+                
+            case .revoked:
+                // Apple ID 사용 중단 경우.
+                // 로그아웃
+                print("revoked")
+                print("go to login")
+            case .authorized:
+                print("authorized")
+                print("go to home")
+            case .notFound:
+                // 잘못된 useridentifier 로 credentialState 를 조회하거나 애플로그인 시스템에 문제가 있을 때
+                print("notFound")
+                print("go to login")
+            @unknown default:
+                print("default")
+                print("go to login")
+            }
+        }
+    }
+    
+    // 앱을 실행할 경우 사용중단 분기처리
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        appleIDProvider.getCredentialState(forUserID: "001628.1f39bf3727b44f1f8a6615166ae3b718.0924") { (credentialState, error) in
+            switch credentialState {
+                
+            case .revoked:
+                // Apple ID 사용 중단 경우.
+                // 로그아웃
+                print("revoked")
+                print("go to login")
+            case .authorized:
+                print("authorized")
+                print("go to home")
+            case .notFound:
+                // 잘못된 useridentifier 로 credentialState 를 조회하거나 애플로그인 시스템에 문제가 있을 때
+                print("notFound")
+                print("go to login")
+            @unknown default:
+                print("default")
+                print("go to login")
+            }
+        }
+        
+        return true
     }
 }

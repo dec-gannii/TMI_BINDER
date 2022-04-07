@@ -47,7 +47,11 @@ class SignInViewController: UIViewController {
         emailAlertLabel.isHidden = true
         
         if (isGoogleSignIn == true || isAppleSignIn == true) {
-            emailTextField.text = Auth.auth().currentUser?.email
+            if isGoogleSignIn == true {
+                emailTextField.text = Auth.auth().currentUser?.email
+            } else {
+                emailTextField.text = self.email
+            }
             nameTextField.text = Auth.auth().currentUser?.displayName
             pwTextField.placeholder = "이메일로 전송된 링크에서 변경한 비밀번호를 입력해주세요."
             Auth.auth().sendPasswordReset(withEmail: (Auth.auth().currentUser?.email)!)

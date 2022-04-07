@@ -20,4 +20,5 @@ enum StringUtils: String {
     case ageValidationAlert = "유효하지 않은 나이입니다."
     case contentNotExist = "등록된 내용이 없습니다."
     case loginFail = "로그인에 실패하였습니다. 다시 시도해주세요."
+    case galleryAccessFail = "어플리케이션이 갤러리에 접근 불가능합니다."
 }

@@ -12,10 +12,10 @@ import Charts
 import BLTNBoard
 
 class DetailClassViewController: UIViewController {
-    
     let db = Firestore.firestore()
     var ref: DatabaseReference!
     
+    /// 변수 선언
     @IBOutlet var barChartView: BarChartView!
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var plusButton: UIButton!
@@ -30,7 +30,6 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var monthlyEvaluationQuestionLabel: UILabel!
     @IBOutlet weak var monthlyEvaluationTextView: UITextView!
     
-    // 넘겨주기 위한 변수들
     var userEmail: String!
     var userSubject: String!
     var userName: String!
@@ -50,8 +49,6 @@ class DetailClassViewController: UIViewController {
     var checkTime: Bool = false
     var dateStrWithoutDays: String = ""
     
-    @IBOutlet weak var calendarHeight: NSLayoutConstraint!
-    
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var evaluationView: UIView!
     @IBOutlet weak var progressTextView: UITextView!
@@ -65,7 +62,9 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var EvaluationTitleLabel: UILabel!
     @IBOutlet weak var classTimeTextField: UITextField!
     @IBOutlet weak var monthlyEvaluationOKBtn: UIButton!
+    @IBOutlet weak var calendarHeight: NSLayoutConstraint!
     
+    /// Load View
     override func viewWillAppear(_ animated: Bool) {
         getScores()
         getUserInfo()
@@ -76,16 +75,6 @@ class DetailClassViewController: UIViewController {
         
         allRound()
         barColorSetting()
-    }
-    
-    func setBorder() {
-        let color = UIColor.systemGray6.cgColor
-        self.progressTextView.layer.borderWidth = 1.0
-        self.progressTextView.layer.borderColor = color
-        self.evaluationMemoTextView.layer.borderWidth = 1.0
-        self.evaluationMemoTextView.layer.borderColor = color
-        self.monthlyEvaluationTextView.layer.borderWidth = 1.0
-        self.monthlyEvaluationTextView.layer.borderColor = color
     }
     
     override func viewDidLoad() {
@@ -133,7 +122,32 @@ class DetailClassViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    // 캘린더 외관을 꾸미기 위한 메소드
+    /// UI setting
+    func setBorder() {
+        let color = UIColor.systemGray6.cgColor
+        self.progressTextView.layer.borderWidth = 1.0
+        self.progressTextView.layer.borderColor = color
+        self.evaluationMemoTextView.layer.borderWidth = 1.0
+        self.evaluationMemoTextView.layer.borderColor = color
+        self.monthlyEvaluationTextView.layer.borderWidth = 1.0
+        self.monthlyEvaluationTextView.layer.borderColor = color
+    }
+    
+    func allRound() {
+        okButton.clipsToBounds = true
+        okButton.layer.cornerRadius = 10
+        plusButton.clipsToBounds = true
+        plusButton.layer.cornerRadius = 10
+        evaluationView.layer.cornerRadius = 10
+        monthlyEvaluationBackgroundView.layer.cornerRadius = 10
+        monthlyEvaluationTextView.layer.cornerRadius = 10
+        progressTextView.layer.cornerRadius = 10
+        evaluationMemoTextView.layer.cornerRadius = 10
+        evaluationOKBtn.layer.cornerRadius = 10
+        monthlyEvaluationOKBtn.layer.cornerRadius = 10
+    }
+    
+    /// calendar custom
     func calendarColor() {
         let color = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
         calendarView.scope = .week
@@ -170,6 +184,15 @@ class DetailClassViewController: UIViewController {
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
+    }
+    
+    func resetTextFields() {
+        // 값 다시 공백 설정
+        self.progressTextView.text = ""
+        self.testScoreTextField.text = ""
+        self.evaluationMemoTextView.text = ""
+        self.homeworkScoreTextField.text = ""
+        self.classScoreTextField.text = ""
     }
     
     // 사용자의 정보를 가져오도록 하는 메소드
@@ -302,7 +325,7 @@ class DetailClassViewController: UIViewController {
             }
     }
     
-    // 학생이 입력해둔 성적 수치를 가져오기 위한 메소드
+    /// get student's scores from database
     func getScores() {
         var studentUid = "" // 학생의 uid 변수
         // 빈 배열 형성
@@ -375,13 +398,14 @@ class DetailClassViewController: UIViewController {
         }
     }
     
-    // 뒤로가기 버튼 클릭 시 실행되는 메소드
+    /// back button clicked
     @IBAction func goBack(_ sender: Any) {
         if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
     
+    /// monthly evaluation save button clicked
     @IBAction func SaveMonthlyEvaluation(_ sender: Any) {
         let date = self.selectedMonth + "월"
         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument {(document, error) in
@@ -417,6 +441,7 @@ class DetailClassViewController: UIViewController {
         self.monthlyEvaluationBackgroundView.isHidden = true
     }
     
+    /// more button (edit or delete class info) clicked
     @IBAction func editBtnAction(_ sender: Any) {
         let optionMenu = UIAlertController(title: "수정 및 삭제", message: nil, preferredStyle: .actionSheet)
         
@@ -474,7 +499,7 @@ class DetailClassViewController: UIViewController {
     }
     
     
-    // 평가 저장하기 버튼 클릭 시 실행되는 메소드
+    /// save evaluation button clicked
     @IBAction func OKButtonClicked(_ sender: Any) {
         // 경로는 각 학생의 class의 Evaluation
         if(self.userType == "teacher") {
@@ -605,20 +630,7 @@ class DetailClassViewController: UIViewController {
         }
     }
     
-    func allRound() {
-        okButton.clipsToBounds = true
-        okButton.layer.cornerRadius = 10
-        plusButton.clipsToBounds = true
-        plusButton.layer.cornerRadius = 10
-        evaluationView.layer.cornerRadius = 10
-        monthlyEvaluationBackgroundView.layer.cornerRadius = 10
-        monthlyEvaluationTextView.layer.cornerRadius = 10
-        progressTextView.layer.cornerRadius = 10
-        evaluationMemoTextView.layer.cornerRadius = 10
-        evaluationOKBtn.layer.cornerRadius = 10
-        monthlyEvaluationOKBtn.layer.cornerRadius = 10
-    }
-    
+    /// bar chart UI setting
     func barColorSetting(){
         barColors.append(UIColor.init(displayP3Red: 22/255, green: 32/255, blue: 60/255, alpha: 1))
         barColors.append(UIColor.init(displayP3Red: 82/255, green: 90/255, blue: 109/255, alpha: 1))
@@ -680,6 +692,7 @@ class DetailClassViewController: UIViewController {
         barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
     }
     
+    /// add score button clicked
     @IBAction func PlusScores(_ sender: Any) {
         guard let plusGraphVC = self.storyboard?.instantiateViewController(withIdentifier: "PlusGraphViewController") as? PlusGraphViewController else { return }
         
@@ -694,7 +707,7 @@ class DetailClassViewController: UIViewController {
         self.present(plusGraphVC, animated: true, completion: nil)
     }
     
-    //투두리스트 추가 버튼 클릭시
+    /// add to do list factor button clicked
     @IBAction func goButtonClicked(_ sender: Any) {
         if todoTF.text != "" {
             todos.append(todoTF.text ?? "")
@@ -782,7 +795,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     
     // 투두리스트 선택에 따라
     @objc func checkMarkButtonClicked(sender: UIButton){
-        
         if sender.isSelected{
             sender.isSelected = false
             checkTime = false
@@ -826,11 +838,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             evaluationOKBtn.isHidden = false
             
             self.classTimeTextField.text = ""
-            self.testScoreTextField.text = ""
-            self.classScoreTextField.text = ""
-            self.homeworkScoreTextField.text = ""
-            self.evaluationMemoTextView.text = ""
-            self.progressTextView.text = ""
+            self.resetTextFields()
             
             // 날짜 받아와서 변수에 저장
             let dateFormatter = DateFormatter()
@@ -985,12 +993,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
                         print("Document data: \(dataDescription)")
                     } else {
                         print("Document does not exist")
-                        // 값 다시 공백 설정
-                        self.progressTextView.text = ""
-                        self.testScoreTextField.text = ""
-                        self.evaluationMemoTextView.text = ""
-                        self.homeworkScoreTextField.text = ""
-                        self.classScoreTextField.text = ""
+                        self.resetTextFields()
                     }
                 }
             } else {
