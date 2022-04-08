@@ -4719,14 +4719,14 @@ Cg
                                                         </subviews>
                                                     </stackView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fP5-MV-W3l">
-                                                        <rect key="frame" x="270" y="412" width="84" height="40"/>
+                                                        <rect key="frame" x="250" y="412" width="104" height="40"/>
                                                         <color key="backgroundColor" red="0.04814985385" green="0.066059756110000006" blue="0.19220325199999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="onu-Ot-Ya5"/>
                                                         </constraints>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" title="저장" cornerStyle="medium">
-                                                            <fontDescription key="titleFontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                                            <fontDescription key="titleFontDescription" type="system" pointSize="13"/>
                                                             <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </buttonConfiguration>
                                                         <connections>
@@ -4741,7 +4741,7 @@ Cg
                                                     <constraint firstAttribute="height" constant="460" id="PJq-ob-QJ9"/>
                                                     <constraint firstItem="fP5-MV-W3l" firstAttribute="top" secondItem="FmS-hV-hrn" secondAttribute="bottom" constant="8" id="Sbp-Eb-sQi"/>
                                                     <constraint firstAttribute="trailing" secondItem="FmS-hV-hrn" secondAttribute="trailing" constant="20" id="cC3-Mf-vuM"/>
-                                                    <constraint firstItem="fP5-MV-W3l" firstAttribute="leading" secondItem="clt-Bc-vmj" secondAttribute="leading" constant="270" id="eKy-P3-0rP"/>
+                                                    <constraint firstItem="fP5-MV-W3l" firstAttribute="leading" secondItem="clt-Bc-vmj" secondAttribute="leading" constant="250" id="eKy-P3-0rP"/>
                                                     <constraint firstItem="FmS-hV-hrn" firstAttribute="top" secondItem="clt-Bc-vmj" secondAttribute="top" constant="10" id="k54-gX-YeS"/>
                                                     <constraint firstItem="FmS-hV-hrn" firstAttribute="leading" secondItem="clt-Bc-vmj" secondAttribute="leading" constant="20" id="m5p-c0-qOq"/>
                                                 </constraints>
@@ -4769,6 +4769,9 @@ Cg
                                                                     <state key="normal" title="Button"/>
                                                                     <buttonConfiguration key="configuration" style="plain">
                                                                         <imageReference key="image" image="circle" catalog="system" symbolScale="medium"/>
+                                                                        <backgroundConfiguration key="background">
+                                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        </backgroundConfiguration>
                                                                     </buttonConfiguration>
                                                                 </button>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dK-kO-boo">
