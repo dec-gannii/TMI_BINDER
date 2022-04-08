@@ -28,16 +28,17 @@ class ParentHomeViewController: UIViewController {
             
     override func viewDidLoad() {
         super.viewDidLoad()
-        getUserInfo() // 사용자 정보 받아오기
-        setEvaluation() // 평가 불러오기
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM" // MM월의 형태로 설정
-        self.selectedMonth = dateFormatter.string(from: self.nowDate) + "월" // MM월의 형태로 선택된 달 변수에 저장
         
         // TableView 관련 delegate, dataSource 처리
         progressListTableView.delegate = self
         progressListTableView.dataSource = self
+        
+        setEvaluation() // 평가 불러오기
+        getUserInfo() // 사용자 정보 받아오기
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM" // MM월의 형태로 설정
+        self.selectedMonth = dateFormatter.string(from: self.nowDate) + "월" // MM월의 형태로 선택된 달 변수에 저장
         
         // TableView 분리선 없애기
         progressListTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
@@ -69,7 +70,7 @@ class ParentHomeViewController: UIViewController {
                 }
             }
         }
-        setEvaluation()
+//        setEvaluation()
     }
     
     // 평가 불러오기
@@ -148,6 +149,7 @@ class ParentHomeViewController: UIViewController {
 extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // tableview에 표시될 cell 개수 반환
+        print ("evaluationItem.count : \(evaluationItem.count)")
         return evaluationItem.count
     }
     
