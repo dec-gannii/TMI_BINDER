@@ -153,7 +153,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     func showVideo() {
         
         if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
-            flagImageSave = false
+            flagImageSave = true
             
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
