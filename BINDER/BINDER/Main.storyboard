@@ -4754,25 +4754,25 @@ Cg
                                                 </constraints>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TodoCell" id="x5i-bx-HER" customClass="Todocell" customModule="BINDER" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="44.5" width="414" height="52"/>
+                                                        <rect key="frame" x="0.0" y="44.5" width="414" height="55.5"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x5i-bx-HER" id="kNz-uw-w8N">
-                                                            <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="414" height="55.5"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pJN-gr-k9h">
-                                                                    <rect key="frame" x="30" y="5" width="42" height="42"/>
+                                                                    <rect key="frame" x="30" y="5" width="45.5" height="45.5"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="pJN-gr-k9h" secondAttribute="height" multiplier="1:1" id="gOU-2e-887"/>
                                                                     </constraints>
                                                                     <color key="tintColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <state key="normal" title="Button"/>
                                                                     <buttonConfiguration key="configuration" style="plain">
-                                                                        <imageReference key="image" image="circle" catalog="system" symbolScale="medium"/>
+                                                                        <imageReference key="image" image="circle" catalog="system" symbolScale="large"/>
                                                                     </buttonConfiguration>
                                                                 </button>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dK-kO-boo">
-                                                                    <rect key="frame" x="80" y="16" width="284" height="20"/>
+                                                                    <rect key="frame" x="83.5" y="16" width="280.5" height="23.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>

@@ -751,10 +751,11 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         cell.checkButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
        
         cell.checkButton.isSelected = todoCheck[indexPath.row]
+        cell.checkButton.layer.cornerRadius = cell.checkButton.frame.size.width / 2
+        cell.checkButton.layer.masksToBounds = true
         if cell.checkButton.isSelected == true {
-            cell.checkButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+            cell.checkButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
         } else {
-            
             cell.checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
         }
         return cell
@@ -784,6 +785,8 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+   
+    
     // 투두리스트 선택에 따라
     @objc func checkMarkButtonClicked(sender: UIButton){
         if sender.isSelected{
@@ -797,7 +800,7 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             checkTime = true
             // 체크 내용 업데이트
             print("button selected \(sender.tag)")
-            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
         }
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(todoDoc[sender.tag]).updateData([
@@ -1008,6 +1011,20 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool){
         calendarHeight.constant = bounds.height + 20
         self.view.layoutIfNeeded ()
+    }
+}
+
+extension UIButton {
+    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
+        UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+        context.setFillColor(color.cgColor)
+        context.fill(CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0))
+        
+        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+         
+        self.setBackgroundImage(backgroundImage, for: state)
     }
 }
 
