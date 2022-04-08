@@ -277,7 +277,7 @@ class QnADetailViewController: UIViewController {
                                             self.avPlayerLayer = AVPlayerLayer(player: self.player)
                                             self.avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
                                             self.videourl = url
-                                            self.answerView.layer.addSublayer(self.avPlayerLayer)
+                                            self.answerImgView.layer.addSublayer(self.avPlayerLayer)
                                             
                                         }
                                     }
@@ -436,7 +436,7 @@ class QnADetailViewController: UIViewController {
                                                                 self.avPlayerLayer = AVPlayerLayer(player: self.player)
                                                                 self.avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
                                                                 self.videourl = url
-                                                                self.answerView.layer.addSublayer(self.avPlayerLayer)
+                                                                self.answerImgView.layer.addSublayer(self.avPlayerLayer)
                                                                 
                                                             }
                                                         }
