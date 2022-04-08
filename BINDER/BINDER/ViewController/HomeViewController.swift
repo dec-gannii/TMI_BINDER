@@ -668,8 +668,21 @@ class HomeViewController: UIViewController {
             } else {
                 if (check == false) {
                     self.verified = false // 인증 안 되었으면 false 설정
+                    self.stateLabel.text = "이메일 인증이 진행중입니다."
+                    self.emailVerificationCheckBtn.isHidden = false
                 } else {
                     self.verified = true // 인증 되었으면 true 설정
+                    if (Auth.auth().currentUser?.email != nil) {
+                        if (self.type == "teacher") { // 선생님 계정이면
+                            self.stateLabel.text = self.name + " 선생님 환영합니다!"
+                            self.emailVerificationCheckBtn.isHidden = true
+                            self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
+                        } else if (self.type == "student") { // 학생 계정이면
+                            self.stateLabel.text = self.name + " 학생 환영합니다!"
+                            self.emailVerificationCheckBtn.isHidden = true // 이메일 인증 확인 버튼 숨기기
+                            self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
+                        }
+                    }
                 }
             }
         }
@@ -678,32 +691,6 @@ class HomeViewController: UIViewController {
     // 인증 확인 버튼 클릭시 실행되는 메소드
     @IBAction func CheckVerification(_ sender: Any) {
         verifiedCheck() // 이메일 인증 여부 확인 메소드 실행
-        if (verified == false) { // false면,
-            stateLabel.text = "이메일 인증이 진행중입니다."
-            emailVerificationCheckBtn.isHidden = false
-        } else { // true면,
-            if (Auth.auth().currentUser?.email != nil) {
-                if (type == "teacher") { // 선생님 계정이면
-                    stateLabel.text = name + " 선생님 환영합니다!"
-                } else if (type == "student") { // 학생 계정이면
-                    stateLabel.text = name + " 학생 환영합니다!"
-                }
-                calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
-                emailVerificationCheckBtn.isHidden = true // 이메일 인증 확인 버튼 숨기기
-                if (self.type == "teacher") { // 선생님 계정이라면
-                    if (Auth.auth().currentUser?.email != nil) {
-                        emailVerificationCheckBtn.isHidden = true
-                        HomeStudentScrollView.isHidden = true
-                    }
-                } else {
-                    // 학생 계정이라면
-                    if (Auth.auth().currentUser?.email != nil) {
-                        calendarView.isHidden = false
-                        emailVerificationCheckBtn.isHidden = true
-                    }
-                }
-            }
-        }
     }
 }
 
