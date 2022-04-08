@@ -48,7 +48,7 @@ class DetailClassViewController: UIViewController {
     var selectedMonth: String!
     var userIndex: Int!
     var keyHeight: CGFloat?
-    var checkTime: Bool = false
+    var checkTime: Bool = true
     var dateStrWithoutDays: String = ""
     
     @IBOutlet weak var calendarView: FSCalendar!
@@ -715,6 +715,7 @@ class DetailClassViewController: UIViewController {
     @IBAction func goButtonClicked(_ sender: Any) {
         if todoTF.text != "" {
             todos.append(todoTF.text ?? "")
+            todoCheck.append(checkTime)
             
             let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject)
             
@@ -748,10 +749,12 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
         cell.todoLabel.text = "\(todo)"
         cell.checkButton.tag = indexPath.row
         cell.checkButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
+       
         cell.checkButton.isSelected = todoCheck[indexPath.row]
         if cell.checkButton.isSelected == true {
             cell.checkButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
         } else {
+            
             cell.checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
         }
         return cell
@@ -785,17 +788,16 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     @objc func checkMarkButtonClicked(sender: UIButton){
         if sender.isSelected{
             sender.isSelected = false
-            checkTime = true
+            checkTime = false
             //체크 내용 업데이트
-            print("button selected \(sender.tag)")
-            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
-           
+            print("button normal \(sender.tag)")
+            sender.setImage(UIImage(systemName: "circle"), for: .normal)
         } else {
             sender.isSelected = true
             checkTime = true
             // 체크 내용 업데이트
-            print("button normal \(sender.tag)")
-            sender.setImage(UIImage(systemName: "circle"), for: .normal)
+            print("button selected \(sender.tag)")
+            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
         }
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(todoDoc[sender.tag]).updateData([
