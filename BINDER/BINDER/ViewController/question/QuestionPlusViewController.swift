@@ -277,6 +277,10 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                             }
                         }
                     }
+                    LoadingHUD.show()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
+                        LoadingHUD.hide()
+                    }
                     if let preVC = self.presentingViewController as? UIViewController {
                         preVC.dismiss(animated: true, completion: nil)
                     }

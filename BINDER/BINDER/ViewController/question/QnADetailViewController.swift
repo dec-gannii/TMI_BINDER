@@ -40,6 +40,10 @@ class QnADetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getUserInfo()
+        LoadingHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+            LoadingHUD.hide()
+        }
         self.answerContent.isEditable = false
         answerImgView.isUserInteractionEnabled = false
         imageViewClick()
