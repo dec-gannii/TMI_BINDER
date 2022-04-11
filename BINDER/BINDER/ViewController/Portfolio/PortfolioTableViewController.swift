@@ -43,7 +43,6 @@ class PortfolioTableViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         LoadingHUD.show()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             LoadingHUD.hide()
@@ -74,7 +73,6 @@ class PortfolioTableViewController: UIViewController {
                         let profile = document.data()["profile"] as? String ?? ""
                         let uid = document.data()["uid"] as? String ?? ""
                         self.teacherUid = uid
-                        
                         
                         self.db.collection("teacherEvaluation").document(uid).collection("evaluation").whereField("teacherUid", isEqualTo: uid).getDocuments() {
                             (querySnapshot, err) in
@@ -125,7 +123,6 @@ class PortfolioTableViewController: UIViewController {
                                 self.infos.append("선생님 평가")
                             }
                         }
-                        
                         self.teacherImage.kf.setImage(with: URL(string: profile)!)
                         self.teacherImage.makeCircle()
                     }
@@ -221,10 +218,11 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PortfolioDefaultCell")! as! PortfolioDefaultCell
+            
             if Auth.auth().currentUser?.uid != nil { // 현재 사용자의 uid가 nil이 아니면
                 self.teacherUid = Auth.auth().currentUser!.uid // self.teacherUid 를 설정
             }
-
+            
             var teacherAttitudeScoreAvg = 0
             var teacherAttitudeScoreSum = 0
             for score in self.teacherAttitudeArray {
@@ -244,13 +242,13 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                     let data = document.data()
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                     
-                    let eduText = data?["eduHistory"] as? String ?? ""
-                    let classText = data?["classMethod"] as? String ?? ""
-                    let extraText = data?["extraExprience"] as? String ?? ""
-                    let time = data?["time"] as? String ?? ""
-                    let contact = data?["contact"] as? String ?? ""
-                    let manage = data?["manage"] as? String ?? ""
-                    let portfolioShow = data?["portfolioShow"] as? String ?? ""
+                    let eduText = data?["eduHistory"] as? String ?? "저장된 내용이 없습니다."
+                    let classText = data?["classMethod"] as? String ?? "저장된 내용이 없습니다."
+                    let extraText = data?["extraExprience"] as? String ?? "저장된 내용이 없습니다."
+                    let time = data?["time"] as? String ?? "저장된 내용이 없습니다."
+                    let contact = data?["contact"] as? String ?? "저장된 내용이 없습니다."
+                    let manage = data?["manage"] as? String ?? "저장된 내용이 없습니다."
+                    let portfolioShow = data?["portfolioShow"] as? String ?? "저장된 내용이 없습니다."
                     
                     if self.infos[indexPath.row] == "연락 수단" {
                         cell.content.text = contact
