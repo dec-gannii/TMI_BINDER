@@ -19,6 +19,7 @@ ${BUILT_PRODUCTS_DIR}/FirebaseFacebookAuthUI/FirebaseFacebookAuthUI.framework
 ${BUILT_PRODUCTS_DIR}/FirebaseFirestore/FirebaseFirestore.framework
 ${BUILT_PRODUCTS_DIR}/FirebaseFirestoreUI/FirebaseFirestoreUI.framework
 ${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework
+${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework
 ${BUILT_PRODUCTS_DIR}/FirebaseOAuthUI/FirebaseOAuthUI.framework
 ${BUILT_PRODUCTS_DIR}/FirebasePhoneAuthUI/FirebasePhoneAuthUI.framework
 ${BUILT_PRODUCTS_DIR}/FirebaseStorage/FirebaseStorage.framework
