@@ -776,6 +776,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BINDER/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BINDER;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 사용을 위해 접근 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진첩 사용을 위해 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -809,6 +811,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BINDER/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BINDER;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 사용을 위해 접근 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진첩 사용을 위해 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
