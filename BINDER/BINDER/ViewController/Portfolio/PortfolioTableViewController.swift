@@ -239,6 +239,10 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                 teacherManagingSatisfyScoreAvg = teacherManagingSatisfyScoreSum / self.teacherManagingSatisfyScoreArray.count
             }
             
+            if (self.showModeEmail == "") {
+                self.showModeEmail = (Auth.auth().currentUser?.email)!
+            }
+            
             self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print(">>>>> document 에러 : \(err)")
