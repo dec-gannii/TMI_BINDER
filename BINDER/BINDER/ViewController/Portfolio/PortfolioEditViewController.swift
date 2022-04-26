@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class PortfolioEditViewController: UIViewController {
+class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var eduHistoryTV: UITextView!
     @IBOutlet weak var classMetTV: UITextView!
@@ -72,6 +72,28 @@ class PortfolioEditViewController: UIViewController {
         self.evaluationTV.layer.cornerRadius = 15
     }
     
+    func placeholderSetting(_ textView: UITextView) {
+        textView.delegate = self // 유저가 선언한 outlet
+        textView.text = StringUtils.contentNotExist.rawValue
+        textView.textColor = UIColor.lightGray
+    }
+    
+    // TextView Place Holder
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    // TextView Place Holder
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = StringUtils.contentNotExist.rawValue
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setTextViewUI()
@@ -79,18 +101,54 @@ class PortfolioEditViewController: UIViewController {
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                let eduHistory = data?["eduHistory"] as? String ?? StringUtils.contentNotExist.rawValue
+                let eduHistory = data?["eduHistory"] as? String ?? ""
                 self.eduHistoryTV.text = eduHistory
-                let classMethod = data?["classMethod"] as? String ?? StringUtils.contentNotExist.rawValue
+                // placeholder 설정
+                if (self.eduHistoryTV.text == "") {
+                    self.placeholderSetting(self.eduHistoryTV)
+                    self.textViewDidBeginEditing(self.eduHistoryTV)
+                    self.textViewDidEndEditing(self.eduHistoryTV)
+                }
+                let classMethod = data?["classMethod"] as? String ?? ""
                 self.classMetTV.text = classMethod
-                let extraExprience = data?["extraExprience"] as? String ?? StringUtils.contentNotExist.rawValue
+                // placeholder 설정
+                if (self.classMetTV.text == "") {
+                    self.placeholderSetting(self.classMetTV)
+                    self.textViewDidBeginEditing(self.classMetTV)
+                    self.textViewDidEndEditing(self.classMetTV)
+                }
+                let extraExprience = data?["extraExprience"] as? String ?? ""
                 self.extraExpTV.text = extraExprience
-                let manage = data?["manage"] as? String ?? StringUtils.contentNotExist.rawValue
+                // placeholder 설정
+                if (self.extraExpTV.text == "") {
+                    self.placeholderSetting(self.extraExpTV)
+                    self.textViewDidBeginEditing(self.extraExpTV)
+                    self.textViewDidEndEditing(self.extraExpTV)
+                }
+                let manage = data?["manage"] as? String ?? ""
                 self.manageTV.text = manage
-                let contact = data?["contact"] as? String ?? StringUtils.contentNotExist.rawValue
+                // placeholder 설정
+                if (self.manageTV.text == "") {
+                    self.placeholderSetting(self.manageTV)
+                    self.textViewDidBeginEditing(self.manageTV)
+                    self.textViewDidEndEditing(self.manageTV)
+                }
+                let contact = data?["contact"] as? String ?? ""
                 self.contactTV.text = contact
-                let time = data?["time"] as? String ?? StringUtils.contentNotExist.rawValue
+                // placeholder 설정
+                if (self.contactTV.text == "") {
+                    self.placeholderSetting(self.contactTV)
+                    self.textViewDidBeginEditing(self.contactTV)
+                    self.textViewDidEndEditing(self.contactTV)
+                }
+                let time = data?["time"] as? String ?? ""
                 self.timeTV.text = time
+                // placeholder 설정
+                if (self.timeTV.text == "") {
+                    self.placeholderSetting(self.timeTV)
+                    self.textViewDidBeginEditing(self.timeTV)
+                    self.textViewDidEndEditing(self.timeTV)
+                }
                 self.evaluationTV.text = "선생님이 수정할 수 없습니다."
                 self.evaluationTV.isEditable = false
                 
