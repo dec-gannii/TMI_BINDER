@@ -805,15 +805,31 @@ static id<FIRAuthBackendImplementation> gBackendImplementation;
 - (void)emailLinkSignin:(FIREmailLinkSignInRequest *)request
                callback:(FIREmailLinkSigninResponseCallback)callback {
   FIREmailLinkSignInResponse *response = [[FIREmailLinkSignInResponse alloc] init];
-  [self postWithRequest:request
-               response:response
-               callback:^(NSError *error) {
-                 if (error) {
-                   callback(nil, error);
+  [self
+      postWithRequest:request
+             response:response
+             callback:^(NSError *error) {
+               if (error) {
+                 callback(nil, error);
+               } else {
+                 if (!response.IDToken && response.MFAInfo) {
+#if TARGET_OS_IOS
+                   NSMutableArray<FIRMultiFactorInfo *> *multiFactorInfo = [NSMutableArray array];
+                   for (FIRAuthProtoMFAEnrollment *MFAEnrollment in response.MFAInfo) {
+                     FIRPhoneMultiFactorInfo *info =
+                         [[FIRPhoneMultiFactorInfo alloc] initWithProto:MFAEnrollment];
+                     [multiFactorInfo addObject:info];
+                   }
+                   NSError *multiFactorRequiredError = [FIRAuthErrorUtils
+                       secondFactorRequiredErrorWithPendingCredential:response.MFAPendingCredential
+                                                                hints:multiFactorInfo];
+                   callback(nil, multiFactorRequiredError);
+#endif
                  } else {
                    callback(response, nil);
                  }
-               }];
+               }
+             }];
 }
 
 - (void)secureToken:(FIRSecureTokenRequest *)request
@@ -1042,7 +1058,8 @@ static id<FIRAuthBackendImplementation> gBackendImplementation;
                              if (![dictionary isKindOfClass:[NSDictionary class]]) {
                                if (error) {
                                  callback([FIRAuthErrorUtils
-                                     unexpectedErrorResponseWithDeserializedResponse:dictionary]);
+                                     unexpectedErrorResponseWithDeserializedResponse:dictionary
+                                                                     underlyingError:error]);
                                } else {
                                  callback([FIRAuthErrorUtils
                                      unexpectedResponseWithDeserializedResponse:dictionary]);
@@ -1076,14 +1093,16 @@ static id<FIRAuthBackendImplementation> gBackendImplementation;
                                  if (errorMessage) {
                                    NSError *unexpecterErrorResponse = [FIRAuthErrorUtils
                                        unexpectedErrorResponseWithDeserializedResponse:
-                                           errorDictionary];
+                                           errorDictionary
+                                                                       underlyingError:error];
                                    callback(unexpecterErrorResponse);
                                    return;
                                  }
                                }
                                // No error message at all, return the decoded response.
                                callback([FIRAuthErrorUtils
-                                   unexpectedErrorResponseWithDeserializedResponse:dictionary]);
+                                   unexpectedErrorResponseWithDeserializedResponse:dictionary
+                                                                   underlyingError:error]);
                                return;
                              }
 

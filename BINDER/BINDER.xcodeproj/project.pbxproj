@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		19D93DB27B5D1BC62305874E /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B0DEBBD0966592C0848FA2 /* Pods_BINDER.framework */; };
+		4A6D6A4A6D594155B982C9FF /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D34E612EDB5F53A857404F2A /* Pods_BINDER.framework */; };
 		6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912805E276398EB00712739 /* PortfolioEditViewController.swift */; };
 		691A7BA2276460C6003DCB05 /* Todocell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691A7BA1276460C6003DCB05 /* Todocell.swift */; };
 		6922197D27C13CF600A03788 /* QuestionPlusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6922197C27C13CF600A03788 /* QuestionPlusViewController.swift */; };
@@ -30,6 +30,7 @@
 		6965DE86275DEF670072C16A /* ClassInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE82275DEF670072C16A /* ClassInfoVC.swift */; };
 		6993502A27CDECA100EA6C6F /* QuestionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6993502927CDECA000EA6C6F /* QuestionDetailViewController.swift */; };
 		6993502C27CDECCE00EA6C6F /* QnADetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6993502B27CDECCE00EA6C6F /* QnADetailViewController.swift */; };
+		69D73C4E280AE196008EF81F /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 69D73C4D280AE196008EF81F /* FirebaseMessaging */; };
 		69E5F6902764C762003D7DD1 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E5F68F2764C762003D7DD1 /* QuestionViewController.swift */; };
 		69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72AA275D05C2007F6F7C /* GraphViewController.swift */; };
 		69EE72AF275D0662007F6F7C /* PlusGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */; };
@@ -83,8 +84,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		15B0DEBBD0966592C0848FA2 /* Pods_BINDER.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BINDER.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		54C6141D32A95D32B99DE23C /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
 		6912805E276398EB00712739 /* PortfolioEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEditViewController.swift; sourceTree = "<group>"; };
 		691A7BA1276460C6003DCB05 /* Todocell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todocell.swift; sourceTree = "<group>"; };
 		6922197C27C13CF600A03788 /* QuestionPlusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionPlusViewController.swift; sourceTree = "<group>"; };
@@ -160,7 +159,9 @@
 		7FBC6B1727EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPortfolioItemViewController.swift; sourceTree = "<group>"; };
 		7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailClassViewController.swift; sourceTree = "<group>"; };
-		C818F3518D61A717594C3485 /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
+		A32B96367D976F89CA80A00E /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
+		A3B9E4ED7AA63364C48A859D /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
+		D34E612EDB5F53A857404F2A /* Pods_BINDER.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BINDER.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,13 +169,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19D93DB27B5D1BC62305874E /* Pods_BINDER.framework in Frameworks */,
+				69D73C4E280AE196008EF81F /* FirebaseMessaging in Frameworks */,
+				4A6D6A4A6D594155B982C9FF /* Pods_BINDER.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4761B2C2ADF09AD335DC3347 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D34E612EDB5F53A857404F2A /* Pods_BINDER.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6922197B27C13CCE00A03788 /* question */ = {
 			isa = PBXGroup;
 			children = (
@@ -325,7 +335,7 @@
 				7F16D1422749390300745522 /* BINDER */,
 				7F16D1412749390300745522 /* Products */,
 				839068290A7852076C3D8CCB /* Pods */,
-				E15C0C9AD2EC7866B352B0BF /* Frameworks */,
+				4761B2C2ADF09AD335DC3347 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -413,18 +423,10 @@
 		839068290A7852076C3D8CCB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				54C6141D32A95D32B99DE23C /* Pods-BINDER.debug.xcconfig */,
-				C818F3518D61A717594C3485 /* Pods-BINDER.release.xcconfig */,
+				A3B9E4ED7AA63364C48A859D /* Pods-BINDER.debug.xcconfig */,
+				A32B96367D976F89CA80A00E /* Pods-BINDER.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		E15C0C9AD2EC7866B352B0BF /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				15B0DEBBD0966592C0848FA2 /* Pods_BINDER.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -434,18 +436,21 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7F16D1542749390600745522 /* Build configuration list for PBXNativeTarget "BINDER" */;
 			buildPhases = (
-				40511E6B5A8AECA8150DF1A5 /* [CP] Check Pods Manifest.lock */,
+				556952996FADBA6BBF397796 /* [CP] Check Pods Manifest.lock */,
 				7F16D13C2749390300745522 /* Sources */,
 				7F16D13D2749390300745522 /* Frameworks */,
 				7F16D13E2749390300745522 /* Resources */,
-				5E373AB9A70C8CFFFFDB8F6A /* [CP] Embed Pods Frameworks */,
-				794CCC392CD4F61C9691D963 /* [CP] Copy Pods Resources */,
+				613A0577F4532DB7751C5DFB /* [CP] Embed Pods Frameworks */,
+				53DB51097D7014AE3E35AA48 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = BINDER;
+			packageProductDependencies = (
+				69D73C4D280AE196008EF81F /* FirebaseMessaging */,
+			);
 			productName = BINDER;
 			productReference = 7F16D1402749390300745522 /* BINDER.app */;
 			productType = "com.apple.product-type.application";
@@ -474,6 +479,9 @@
 				Base,
 			);
 			mainGroup = 7F16D1372749390300745522;
+			packageReferences = (
+				69D73C4C280AE196008EF81F /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
+			);
 			productRefGroup = 7F16D1412749390300745522 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -498,7 +506,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		40511E6B5A8AECA8150DF1A5 /* [CP] Check Pods Manifest.lock */ = {
+		53DB51097D7014AE3E35AA48 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		556952996FADBA6BBF397796 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -520,7 +545,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5E373AB9A70C8CFFFFDB8F6A /* [CP] Embed Pods Frameworks */ = {
+		613A0577F4532DB7751C5DFB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -535,23 +560,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		794CCC392CD4F61C9691D963 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -764,7 +772,7 @@
 		};
 		7F16D1552749390600745522 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54C6141D32A95D32B99DE23C /* Pods-BINDER.debug.xcconfig */;
+			baseConfigurationReference = A3B9E4ED7AA63364C48A859D /* Pods-BINDER.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -798,7 +806,7 @@
 		};
 		7F16D1562749390600745522 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C818F3518D61A717594C3485 /* Pods-BINDER.release.xcconfig */;
+			baseConfigurationReference = A32B96367D976F89CA80A00E /* Pods-BINDER.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -853,6 +861,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		69D73C4C280AE196008EF81F /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		69D73C4D280AE196008EF81F /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69D73C4C280AE196008EF81F /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7F16D1382749390300745522 /* Project object */;
 }
