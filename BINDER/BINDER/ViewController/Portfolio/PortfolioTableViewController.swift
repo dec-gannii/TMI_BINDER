@@ -61,6 +61,7 @@ class PortfolioTableViewController: UIViewController {
         self.teacherManagingSatisfyScoreArray.removeAll()
         
         if (isShowMode == true) { /// 포트폴리오 조회인 경우
+            print("====SHOWMODE==== email : \(self.showModeEmail)")
             self.editBtn.isHidden = true // 수정 버튼 숨기기
             self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
                 if let err = err {
@@ -129,6 +130,7 @@ class PortfolioTableViewController: UIViewController {
                 }
             }
         } else {
+            print("====NOTSHOWMODE====")
             self.infos.removeAll()
             self.teacherAttitudeArray.removeAll()
             self.teacherManagingSatisfyScoreArray.removeAll()
@@ -237,60 +239,76 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
                 teacherManagingSatisfyScoreAvg = teacherManagingSatisfyScoreSum / self.teacherManagingSatisfyScoreArray.count
             }
             
-            db.collection("teacher").document(self.teacherUid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
-                if let document = document, document.exists {
-                    let data = document.data()
-                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                    
-                    let eduText = data?["eduHistory"] as? String ?? "저장된 내용이 없습니다."
-                    let classText = data?["classMethod"] as? String ?? "저장된 내용이 없습니다."
-                    let extraText = data?["extraExprience"] as? String ?? "저장된 내용이 없습니다."
-                    let time = data?["time"] as? String ?? "저장된 내용이 없습니다."
-                    let contact = data?["contact"] as? String ?? "저장된 내용이 없습니다."
-                    let manage = data?["manage"] as? String ?? "저장된 내용이 없습니다."
-                    let portfolioShow = data?["portfolioShow"] as? String ?? "저장된 내용이 없습니다."
-                    
-                    if self.infos[indexPath.row] == "연락 수단" {
-                        cell.content.text = contact
-                    } else if self.infos[indexPath.row] == "학력사항" {
-                        cell.content.text = eduText
-                    } else if self.infos[indexPath.row] == "수업 방식" {
-                        cell.content.text = classText
-                    } else if self.infos[indexPath.row] == "과외 경력" {
-                        cell.content.text = extraText
-                    } else if self.infos[indexPath.row] == "선생님 평가" {
-                        cell.content.text = "\(String(describing: self.teacherName.text!)) 선생님의 수업 태도는 평균적으로 \(teacherAttitudeScoreAvg)점이고, 학부모님들의 학생 관리 만족도는 평균적으로 \(teacherManagingSatisfyScoreAvg)점입니다." // 연결 필요
-                    } else if self.infos[indexPath.row] == "과외 시간" {
-                        cell.content.text = time
-                    } else if self.infos[indexPath.row] == "학생 관리 방법" {
-                        cell.content.text = manage
-                    }
-                    
-                    if (portfolioShow == "Off" && self.isShowMode == true) {
-                        let message = "비공개 설정 되어있습니다."
-                        if self.infos[indexPath.row] == "연락 수단" {
-                            cell.content.text = message
-                        } else if self.infos[indexPath.row] == "학력사항" {
-                            cell.content.text = message
-                        } else if self.infos[indexPath.row] == "수업 방식" {
-                            cell.content.text = message
-                        } else if self.infos[indexPath.row] == "과외 경력" {
-                            cell.content.text = message
-                        } else if self.infos[indexPath.row] == "선생님 평가" {
-                            cell.content.text = message
-                        } else if self.infos[indexPath.row] == "과외 시간" {
-                            cell.content.text = message
-                        } else if self.infos[indexPath.row] == "학생 관리 방법" {
-                            cell.content.text = message
+            if (self.showModeEmail == "") {
+                self.showModeEmail = (Auth.auth().currentUser?.email)!
+            }
+            
+            self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let uid = document.data()["uid"] as? String ?? ""
+                        
+                        self.db.collection("teacher").document(uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                let data = document.data()
+                                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                                
+                                let eduText = data?["eduHistory"] as? String ?? "저장된 내용이 없습니다."
+                                let classText = data?["classMethod"] as? String ?? "저장된 내용이 없습니다."
+                                let extraText = data?["extraExprience"] as? String ?? "저장된 내용이 없습니다."
+                                let time = data?["time"] as? String ?? "저장된 내용이 없습니다."
+                                let contact = data?["contact"] as? String ?? "저장된 내용이 없습니다."
+                                let manage = data?["manage"] as? String ?? "저장된 내용이 없습니다."
+                                let portfolioShow = data?["portfolioShow"] as? String ?? "저장된 내용이 없습니다."
+                                
+                                if self.infos[indexPath.row] == "연락 수단" {
+                                    cell.content.text = contact
+                                } else if self.infos[indexPath.row] == "학력사항" {
+                                    cell.content.text = eduText
+                                } else if self.infos[indexPath.row] == "수업 방식" {
+                                    cell.content.text = classText
+                                } else if self.infos[indexPath.row] == "과외 경력" {
+                                    cell.content.text = extraText
+                                } else if self.infos[indexPath.row] == "선생님 평가" {
+                                    cell.content.text = "\(String(describing: self.teacherName.text!)) 선생님의 수업 태도는 평균적으로 \(teacherAttitudeScoreAvg)점이고, 학부모님들의 학생 관리 만족도는 평균적으로 \(teacherManagingSatisfyScoreAvg)점입니다." // 연결 필요
+                                } else if self.infos[indexPath.row] == "과외 시간" {
+                                    cell.content.text = time
+                                } else if self.infos[indexPath.row] == "학생 관리 방법" {
+                                    cell.content.text = manage
+                                }
+                                
+                                if (portfolioShow == "Off" && self.isShowMode == true) {
+                                    let message = "비공개 설정 되어있습니다."
+                                    if self.infos[indexPath.row] == "연락 수단" {
+                                        cell.content.text = message
+                                    } else if self.infos[indexPath.row] == "학력사항" {
+                                        cell.content.text = message
+                                    } else if self.infos[indexPath.row] == "수업 방식" {
+                                        cell.content.text = message
+                                    } else if self.infos[indexPath.row] == "과외 경력" {
+                                        cell.content.text = message
+                                    } else if self.infos[indexPath.row] == "선생님 평가" {
+                                        cell.content.text = message
+                                    } else if self.infos[indexPath.row] == "과외 시간" {
+                                        cell.content.text = message
+                                    } else if self.infos[indexPath.row] == "학생 관리 방법" {
+                                        cell.content.text = message
+                                    }
+                                }
+                                cell.title.text = self.infos[indexPath.row]
+                                
+                                print("Document data: \(dataDescription)")
+                            } else {
+                                print("Document does not exist")
+                            }
                         }
                     }
-                    cell.title.text = self.infos[indexPath.row]
-                    
-                    print("Document data: \(dataDescription)")
-                } else {
-                    print("Document does not exist")
                 }
             }
+            
             
             return cell
         }
