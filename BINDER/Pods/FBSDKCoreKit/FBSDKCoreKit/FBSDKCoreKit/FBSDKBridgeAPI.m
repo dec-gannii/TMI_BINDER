@@ -27,6 +27,7 @@
  #import "FBSDKBridgeAPIResponseFactory.h"
  #import "FBSDKContainerViewController.h"
  #import "FBSDKCoreKit+Internal.h"
+ #import "FBSDKError+Internal.h"
  #import "FBSDKInternalUtility+AppURLSchemeProviding.h"
  #import "FBSDKOperatingSystemVersionComparing.h"
  #import "NSProcessInfo+Protocols.h"
@@ -66,13 +67,16 @@ typedef NS_ENUM(NSUInteger, FBSDKAuthenticationSession) {
  #endif
 
 @property (nonnull, nonatomic) FBSDKLogger *logger;
-@property (nonatomic, readonly) id<FBSDKURLOpener> urlOpener;
+@property (nonatomic, readonly) id<FBSDKInternalURLOpener> urlOpener;
 @property (nonatomic, readonly) id<FBSDKBridgeAPIResponseCreating> bridgeAPIResponseFactory;
 @property (nonatomic, readonly) id<FBSDKDynamicFrameworkResolving> frameworkLoader;
 @property (nonatomic, readonly) id<FBSDKAppURLSchemeProviding> appURLSchemeProvider;
 
 @end
 
+ #if FBSDK_SWIFT_PACKAGE
+NS_EXTENSION_UNAVAILABLE("The Facebook iOS SDK is not currently supported in extensions")
+ #endif
 @implementation FBSDKBridgeAPI
 {
   NSObject<FBSDKBridgeAPIRequestProtocol> *_pendingRequest;
@@ -106,7 +110,7 @@ typedef NS_ENUM(NSUInteger, FBSDKAuthenticationSession) {
 
 - (instancetype)initWithProcessInfo:(id<FBSDKOperatingSystemVersionComparing>)processInfo
                              logger:(FBSDKLogger *)logger
-                          urlOpener:(id<FBSDKURLOpener>)urlOpener
+                          urlOpener:(id<FBSDKInternalURLOpener>)urlOpener
            bridgeAPIResponseFactory:(id<FBSDKBridgeAPIResponseCreating>)bridgeAPIResponseFactory
                     frameworkLoader:(id<FBSDKDynamicFrameworkResolving>)frameworkLoader
                appURLSchemeProvider:(nonnull id<FBSDKAppURLSchemeProviding>)appURLSchemeProvider;
@@ -307,7 +311,7 @@ typedef NS_ENUM(NSUInteger, FBSDKAuthenticationSession) {
       handler(opened, nil);
     }
   };
-#if FBSDKTEST
+#if FBTEST
   block();
 #else
   dispatch_async(dispatch_get_main_queue(), block);
@@ -393,7 +397,7 @@ typedef NS_ENUM(NSUInteger, FBSDKAuthenticationSession) {
   Class SFSafariViewControllerClass = self.frameworkLoader.safariViewControllerClass;
 
   if (SFSafariViewControllerClass) {
-    UIViewController *parent = fromViewController ?: [FBSDKInternalUtility topMostViewController];
+    UIViewController *parent = fromViewController ?: [FBSDKInternalUtility.sharedUtility topMostViewController];
     if (parent == nil) {
       [self.logger logEntry:@"There are no valid ViewController to present SafariViewController with"];
       return;
@@ -578,7 +582,7 @@ typedef NS_ENUM(NSUInteger, FBSDKAuthenticationSession) {
  #pragma mark - Testability
 
  #if DEBUG
-  #if FBSDKTEST
+  #if FBTEST
 
 - (id<FBSDKAuthenticationSession>)authenticationSession
 {

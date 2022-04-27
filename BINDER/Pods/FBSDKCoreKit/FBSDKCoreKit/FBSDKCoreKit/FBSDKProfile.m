@@ -557,10 +557,10 @@ static id <FBSDKDataPersisting> _store;
 
   NSString *path = [NSString stringWithFormat:@"%@/picture", profileId];
 
-  return [FBSDKInternalUtility facebookURLWithHostPrefix:@"graph"
-                                                    path:path
-                                         queryParameters:queryParameters
-                                                   error:NULL];
+  return [FBSDKInternalUtility.sharedUtility facebookURLWithHostPrefix:@"graph"
+                                                                  path:path
+                                                       queryParameters:queryParameters
+                                                                 error:NULL];
 }
 
 + (NSString *)graphPathForToken:(FBSDKAccessToken *)token
@@ -730,7 +730,7 @@ static id <FBSDKDataPersisting> _store;
  #pragma clang diagnostic pop
 
  #if DEBUG
-  #if FBSDKTEST
+  #if FBTEST
 
 + (void)resetCurrentProfileCache
 {

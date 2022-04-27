@@ -62,12 +62,23 @@ class SignInViewController: UIViewController {
         print("\(email)")
         print("\(password)")
         print("\(type)")
+        var deviceToken = ""
+        Messaging.messaging().token { token, error in
+          if let error = error {
+            print("Error fetching FCM registration token: \(error)")
+          } else if let token = token {
+            print("FCM registration token: \(token)")
+            deviceToken = token
+           // fcmRegTokenMessage.text  = "Remote FCM registration token: \(token)"
+          }
+        }
         self.db.collection("\(type)").document(Auth.auth().currentUser!.uid).setData([
             "name": name,
             "email": email,
             "password": password,
             "type": type,
             "uid": Auth.auth().currentUser?.uid,
+            "deviceToken": deviceToken,
             "profile": Auth.auth().currentUser?.photoURL?.absoluteString ?? "https://ifh.cc/g/Lt9Ip8.png"
         ]) { err in
             if let err = err {

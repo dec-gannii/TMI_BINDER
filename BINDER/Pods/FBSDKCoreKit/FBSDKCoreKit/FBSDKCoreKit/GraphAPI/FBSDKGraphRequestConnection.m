@@ -21,7 +21,7 @@
 #import "FBSDKAppEvents+EventLogging.h"
 #import "FBSDKConstants.h"
 #import "FBSDKCoreKit+Internal.h"
-#import "FBSDKError.h"
+#import "FBSDKError+Internal.h"
 #import "FBSDKErrorConfigurationProvider.h"
 #import "FBSDKGraphRequest+Internal.h"
 #import "FBSDKGraphRequestBody.h"
@@ -29,8 +29,8 @@
 #import "FBSDKGraphRequestDataAttachment.h"
 #import "FBSDKGraphRequestMetadata.h"
 #import "FBSDKGraphRequestPiggybackManagerProvider.h"
-#import "FBSDKInternalUtility.h"
-#import "FBSDKLogger.h"
+#import "FBSDKInternalUtility+Internal.h"
+#import "FBSDKLogger+Internal.h"
 #import "FBSDKOperatingSystemVersionComparing.h"
 #import "FBSDKSettingsProtocol.h"
 #import "FBSDKURLSession+URLSessionProxying.h"
@@ -304,7 +304,7 @@ static BOOL _canMakeRequests = NO;
   self.state = kStateStarted;
 
   [self logRequest:request bodyLength:0 bodyLogger:nil attachmentLogger:nil];
-  _requestStartTime = [FBSDKInternalUtility currentTimeInMilliseconds];
+  _requestStartTime = [FBSDKInternalUtility.sharedUtility currentTimeInMilliseconds];
 
   FBSDKURLSessionTaskBlock completionHandler = ^(NSData *responseDataV1, NSURLResponse *responseV1, NSError *errorV1) {
     FBSDKURLSessionTaskBlock handler = ^(NSData *responseDataV2,
@@ -574,7 +574,7 @@ static BOOL _canMakeRequests = NO;
                 addFormData:NO
                      logger:attachmentLogger];
 
-    NSURL *url = [FBSDKInternalUtility
+    NSURL *url = [FBSDKInternalUtility.sharedUtility
                   facebookURLWithHostPrefix:kGraphURLPrefix
                   path:@""
                   queryParameters:@{}
@@ -655,7 +655,7 @@ static BOOL _canMakeRequests = NO;
       }
     }
 
-    baseURL = [FBSDKInternalUtility
+    baseURL = [FBSDKInternalUtility.sharedUtility
                facebookURLWithHostPrefix:prefix
                path:request.graphPath
                queryParameters:@{}
@@ -717,7 +717,7 @@ static BOOL _canMakeRequests = NO;
     } else {
       [_logger appendFormat:@"Response <#%lu>\nDuration: %llu msec\nSize: %lu kB\nResponse Body:\n%@\n\n",
        (unsigned long)_logger.loggerSerialNumber,
-       [FBSDKInternalUtility currentTimeInMilliseconds] - _requestStartTime,
+       [FBSDKInternalUtility.sharedUtility currentTimeInMilliseconds] - _requestStartTime,
        (unsigned long)data.length,
        results];
     }
@@ -887,7 +887,8 @@ static BOOL _canMakeRequests = NO;
     BOOL isRecoveryDisabled = [metadata.request isGraphErrorRecoveryDisabled];
     if (resultError && !isRecoveryDisabled && isSingleRequestToRecover) {
       self->_recoveringRequestMetadata = metadata;
-      self->_errorRecoveryProcessor = [FBSDKGraphErrorRecoveryProcessor new];
+      self->_errorRecoveryProcessor = [[FBSDKGraphErrorRecoveryProcessor alloc]
+                                       initWithAccessTokenString:FBSDKAccessToken.currentAccessToken.tokenString];
       if ([self->_errorRecoveryProcessor processError:resultError request:metadata.request delegate:self]) {
         return;
       }
@@ -1087,7 +1088,7 @@ static BOOL _canMakeRequests = NO;
   NSString *mimeType = response.MIMEType;
   NSMutableString *mutableLogEntry = [NSMutableString stringWithFormat:@"FBSDKGraphRequestConnection <#%lu>:\n  Duration: %llu msec\nResponse Size: %lu kB\n  MIME type: %@\n",
                                       (unsigned long)[FBSDKLogger generateSerialNumber],
-                                      [FBSDKInternalUtility currentTimeInMilliseconds] - requestStartTime,
+                                      [FBSDKInternalUtility.sharedUtility currentTimeInMilliseconds] - requestStartTime,
                                       (unsigned long)responseData.length / 1024,
                                       mimeType];
 
@@ -1307,7 +1308,7 @@ static BOOL _canMakeRequests = NO;
 // MARK: - Testability
 
 #if DEBUG
- #if FBSDKTEST
+ #if FBTEST
 
 /// Resets the default connection timeout to 60 seconds
 + (void)resetDefaultConnectionTimeout
