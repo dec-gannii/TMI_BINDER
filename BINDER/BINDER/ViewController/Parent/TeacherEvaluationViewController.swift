@@ -69,27 +69,26 @@ class TeacherEvaluationViewController: UIViewController {
                             self.studentName = studentName
                             
                             self.db.collection("teacher").whereField("email", isEqualTo: self.teacherEmail).getDocuments() { (querySnapshot, err) in
-                            if let err = err {
-                                print(">>>>> document 에러 : \(err)")
-                            } else {
-                                for document in querySnapshot!.documents {
-                                    print("\(document.documentID) => \(document.data())")
-                                    let teacherUid = document.data()["uid"] as? String ?? "" // 선생님 uid
-                                    
-                                    /// parent collection / 현재 사용자 uid / teacherEvaluation collection / 선생님이름(선생님이메일) 과목 / evaluation 경로에서 문서 찾기
-                                    self.db.collection("teacherEvaluation").document(teacherUid).collection("evaluation").document(studentName + " " + self.month).getDocument { (document, error) in
-                                        if let document = document, document.exists {
-                                            let data = document.data()
-                                            let teacherAttitude = data!["teacherAttitude"] as? String ?? "" // 선생님 태도 점수
-                                            let teacherManagingSatisfyScore = data!["teacherManagingSatisfyScore"] as? String ?? "" // 학생 관리 만족도 점수
-                                            self.teacherAttitude.text = teacherAttitude // 선생님 태도 점수 text 지정
-                                            self.teacherManagingSatisfyScore.text = teacherManagingSatisfyScore // 학생 관리 만족도 점수 지정
+                                if let err = err {
+                                    print(">>>>> document 에러 : \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        print("\(document.documentID) => \(document.data())")
+                                        let teacherUid = document.data()["uid"] as? String ?? "" // 선생님 uid
+                                        
+                                        /// parent collection / 현재 사용자 uid / teacherEvaluation collection / 선생님이름(선생님이메일) 과목 / evaluation 경로에서 문서 찾기
+                                        self.db.collection("teacherEvaluation").document(teacherUid).collection("evaluation").document(studentName + " " + self.month).getDocument { (document, error) in
+                                            if let document = document, document.exists {
+                                                let data = document.data()
+                                                let teacherAttitude = data!["teacherAttitude"] as? String ?? "" // 선생님 태도 점수
+                                                let teacherManagingSatisfyScore = data!["teacherManagingSatisfyScore"] as? String ?? "" // 학생 관리 만족도 점수
+                                                self.teacherAttitude.text = teacherAttitude // 선생님 태도 점수 text 지정
+                                                self.teacherManagingSatisfyScore.text = teacherManagingSatisfyScore // 학생 관리 만족도 점수 지정
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                            
                             self.studentTitle.text = studentName + " 학생의 " + self.date + " 수업은..." // 학생 평가 title text 설정
                             self.evaluationTextView.isEditable = false // 평가 textview 수정 못하도록 설정
                         }
@@ -146,8 +145,10 @@ class TeacherEvaluationViewController: UIViewController {
                                                                     print("\(document.documentID) => \(document.data())")
                                                                     // 사용할 것들 가져와서 지역 변수로 저장
                                                                     let evaluationMemo = document.data()["evaluationMemo"] as? String ?? "선택된 날짜에는 수업이 없었습니다."
-//                                                                    let homeworkCompletion = document.data()["homeworkCompletion"] as? Int ?? 0
-//                                                                    let classAttitude = document.data()["classAttitude"] as? Int ?? 0
+                                                                    let homeworkCompletion = document.data()["homeworkCompletion"] as? Int ?? 0
+                                                                    self.averageHomeworkCompletion.text = "\(homeworkCompletion) 점"
+                                                                    let classAttitude = document.data()["classAttitude"] as? Int ?? 0
+                                                                    self.averageClassAttitude.text = "\(classAttitude) 점"
                                                                     let testScore = document.data()["testScore"] as? Int ?? 0
                                                                     self.averageTestScore.text = "\(testScore) 점"
                                                                     self.evaluationTextView.text = evaluationMemo
