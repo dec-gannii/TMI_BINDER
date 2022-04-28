@@ -7,7 +7,6 @@
 
 import UIKit
 import Firebase
-import FirebaseDatabase
 import FSCalendar
 
 // Parent 버전의 더보기 버튼 클릭 시 나타나는 평가 상세보기 화면

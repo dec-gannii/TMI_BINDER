@@ -7,9 +7,7 @@ target 'BINDER' do
 
   # Pods for BINDER
   # pod 'FirebaseUI'
-  pod 'Firebase/Auth'
-  pod 'Firebase/Core'
-  pod 'GoogleSignIn'
+  pod 'GoogleSignIn', '~> 5.0.2'
   pod 'FSCalendar'
   pod 'Charts'
   pod 'BulletinBoard'
@@ -18,8 +16,11 @@ target 'BINDER' do
   pod 'Kingfisher'
   
   # 파이어베이스
-  pod 'Firebase/Firestore'
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
   pod 'Firebase/Storage'
+  pod 'Firebase/Database'
+  pod 'Firebase/Firestore'
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
 end
