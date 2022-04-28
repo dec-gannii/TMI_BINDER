@@ -9,8 +9,8 @@ import UIKit
 import AVKit
 import MobileCoreServices
 import Firebase
-import FirebaseDatabase
 import FirebaseFirestore
+import FirebaseDatabase
 import FirebaseStorage
 import Photos
 

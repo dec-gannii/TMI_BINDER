@@ -7,7 +7,6 @@
 
 import UIKit
 import Firebase
-import FirebaseDatabase
 import FirebaseFirestore
 
 class TeacherEvaluationViewController: UIViewController {
