@@ -281,29 +281,8 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
                         LoadingHUD.hide()
                     }
-//                    if let preVC = self.presentingViewController as? UIViewController {
-//                        preVC.dismiss(animated: true, completion: nil)
-//                    }
-                    guard let pvc = self.presentingViewController else { return }
-                    
-                    guard let questionListVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
-                    
-                    questionListVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                    questionListVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                    
-                    questionListVC.userName = self.userName
-                    questionListVC.subject = self.subject
-                    questionListVC.email = self.email
-                    questionListVC.type = self.type
-                    questionListVC.index = self.index
-                    
-                    self.dismiss(animated: true) {
-                        LoadingHUD.show()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            LoadingHUD.hide()
-                        }
-                        
-                        pvc.present(questionListVC, animated: true, completion: nil)
+                    if let preVC = self.presentingViewController as? UIViewController {
+                        preVC.dismiss(animated: true, completion: nil)
                     }
                 }
             }
