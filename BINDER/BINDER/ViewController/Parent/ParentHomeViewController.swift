@@ -128,8 +128,9 @@ class ParentHomeViewController: UIViewController {
                                             let totalCnt = evaluationData["totalCnt"] as? Int ?? 8 // 총 횟수
                                             let evaluation = evaluationData["evaluation"] as? String ?? "선택된 달이 없습니다." // 평가 내용
                                             let circleColor = evaluationData["circleColor"] as? String ?? "026700" // 원 색상
+                                            let index = evaluationData["index"] as? Int ?? 0
                                             
-                                            let item = EvaluationItem(email: email, name: name, evaluation: evaluation, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: circleColor, subject: subject)
+                                            let item = EvaluationItem(email: email, name: name, evaluation: evaluation, currentCnt: currentCnt, totalCnt: totalCnt, circleColor: circleColor, subject: subject, index: index)
                                             
                                             self.evaluationItem.append(item) // evaluationItem 배열에 append 해주기
                                         }
@@ -175,7 +176,7 @@ extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         // cell의 더보기 버튼을 클릭하면 onClickShowDetailButton 함수 실행되도록 설정
         cell.showMoreInfoButton.addTarget(self, action: #selector(onClickShowDetailButton(_:)), for: .touchUpInside)
-        cell.showMoreInfoButton.tag = indexPath.row // tag를 현재 indexPath.row로 설정
+        cell.showMoreInfoButton.tag = item.index // tag를 현재 indexPath.row로 설정
         
         self.selectedMonth = cell.selectedMonth // cell의 선택된 달을 현재의 self.selectedMonth 변수값을 넣어주기
         

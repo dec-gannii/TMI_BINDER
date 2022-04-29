@@ -14,8 +14,9 @@ struct EvaluationItem: Decodable {
     let currentCnt: Int // 현재 횟수
     let totalCnt: Int // 전체 횟수
     let circleColor: String // 컬러 색상
+    let index: Int // 인덱스
     
-    init(email: String, name: String, evaluation: String, currentCnt: Int, totalCnt: Int, circleColor: String, subject: String) {
+    init(email: String, name: String, evaluation: String, currentCnt: Int, totalCnt: Int, circleColor: String, subject: String, index: Int) {
         self.email = email
         self.name = name
         self.subject = subject
@@ -23,6 +24,7 @@ struct EvaluationItem: Decodable {
         self.currentCnt = currentCnt
         self.totalCnt = totalCnt
         self.circleColor = circleColor
+        self.index = index
     }
 }
 
