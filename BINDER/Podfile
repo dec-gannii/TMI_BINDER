@@ -7,7 +7,7 @@ target 'BINDER' do
 
   # Pods for BINDER
   # pod 'FirebaseUI'
-  pod 'GoogleSignIn'
+  pod 'GoogleSignIn', '~> 5.0.2'
   pod 'FSCalendar'
   pod 'Charts'
   pod 'BulletinBoard'

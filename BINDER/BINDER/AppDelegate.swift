@@ -39,11 +39,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         FirebaseApp.configure()
         
         let db = Firestore.firestore()
-       /*
+       
         if let user = Auth.auth().currentUser {
             print("You're sign in as \(user.uid), email: \(user.email ?? "no email")")
         }
-        
+        /*
         //원격 알림 설정
         if #available(iOS 10.0, *) {
           // For iOS 10 display notification (sent via APNS)
