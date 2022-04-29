@@ -58,7 +58,7 @@ class QnADetailViewController: UIViewController {
     @objc func btnPlayExternalMovie(sender: UITapGestureRecognizer){
         // 외부에 링크된 주소를 NSURL 형식으로 변경
         if videourl != nil {
-        playVideo(url: videourl as NSURL) // 앞에서 얻은 url을 사용하여 비디오를 재생
+            playVideo(url: videourl as NSURL) // 앞에서 얻은 url을 사용하여 비디오를 재생
         }
     }
     
@@ -178,17 +178,73 @@ class QnADetailViewController: UIViewController {
     /// 질문방 내용 세팅
     // 질문 리스트 가져오기
     func setQnA() {
-//        LoadingHUD.show()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//            LoadingHUD.hide()
-//        }
         let db = Firestore.firestore()
-        // Auth.auth().currentUser!.uid
-        //db.collection("student").getDocuments(){ (querySnapshot, err) in
         if (self.type == "teacher") {
-            if let qnum = self.qnum {
+            if let qnum = self.qnum, let userName = self.userName, let userEmail = self.email, let subject = self.subject {
+                //답변 내용
+                let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + userEmail + ") " + subject).collection("questionList").document("\(qnum)").collection("answer")
+                
+                docRef.whereField("isAnswer", isEqualTo: true).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                    } else {
+                        /// nil이 아닌지 확인한다.
+                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                            print ("it's nil!!!!")
+                            return
+                        }
+                        
+                        print ("it's not nil!!!!")
+                        
+                        for document in snapshot.documents {
+                            print(">>>>> 답변 document 정보 : \(document.documentID) => \(document.data())")
+                            
+                            /// document.data()를 통해서 값 받아옴, data는 dictionary
+                            let questionDt = document.data()
+                            
+                            let answer = questionDt["answerContent"] as? String ?? ""
+                            let imgurl = questionDt["url"] as? String ?? ""
+                            let imgType = questionDt["type"] as? String ?? ""
+                            
+                            self.answerContent.text = answer
+                            self.answerContent.translatesAutoresizingMaskIntoConstraints = true
+                            self.answerContent.sizeToFit()
+                            self.answerContent.isScrollEnabled = false
+                            
+                            if (imgurl == "" || imgurl == "nil") {
+                                if (self.answerImgView != nil) {
+                                    self.answerImgView.image = .none
+                                    self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + 50)
+                                        .isActive = true
+                                }
+                            } else {
+                                if imgType == "image"{
+                                    let url = URL(string: imgurl)
+                                    DispatchQueue.global().async {
+                                        let data = try? Data(contentsOf: url!)
+                                        DispatchQueue.main.async {
+                                            if (self.answerImgView != nil) {
+                                                self.answerImgView.image = UIImage(data: data!)
+                                                self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + self.answerImgView.frame.height + 50)
+                                                    .isActive = true
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    let url = URL(string: imgurl)
+                                    self.player = AVPlayer(url: url!)
+                                    self.avPlayerLayer = AVPlayerLayer(player: self.player)
+                                    self.avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
+                                    self.videourl = url
+                                    self.answerImgView.layer.addSublayer(self.avPlayerLayer)
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 //질문 내용
-                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(qnum)).getDocuments() { (querySnapshot, err) in
+                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + userEmail + ") " + subject).collection("questionList").whereField("num", isEqualTo: "\(qnum)").getDocuments() { (querySnapshot, err) in
                     if let err = err {
                         print(">>>>> document 에러 : \(err)")
                     } else {
@@ -206,6 +262,7 @@ class QnADetailViewController: UIViewController {
                             let title = questionDt["title"] as? String ?? ""
                             let questionContent = questionDt["questionContent"] as? String ?? ""
                             let imgURL = questionDt["imgURL"] as? String ?? ""
+                            let num = questionDt["num"] as? String ?? ""
                             
                             self.titleName.text = title
                             self.questionContent.text = questionContent
@@ -224,68 +281,8 @@ class QnADetailViewController: UIViewController {
                                     }
                                 }
                             } else if (imgURL == "") {
-                                self.answerImgView.removeFromSuperview()
                                 self.questionView.heightAnchor.constraint(equalToConstant: self.questionContent.frame.height + 50)
                                     .isActive = true
-                            }
-                        }
-                        
-                        //답변 내용
-                        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").document(String(qnum)).collection("answer").whereField("isAnswer", isEqualTo: true).getDocuments() { (querySnapshot, err) in
-                            if let err = err {
-                                print(">>>>> document 에러 : \(err)")
-                            } else {
-                                /// nil이 아닌지 확인한다.
-                                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                    return
-                                }
-                                
-                                for document in snapshot.documents {
-                                    print("답변: >>>>> document 정보 : \(document.documentID) => \(document.data())")
-                                    
-                                    /// document.data()를 통해서 값 받아옴, data는 dictionary
-                                    let questionDt = document.data()
-                                    
-                                    let answer = questionDt["answerContent"] as? String ?? ""
-                                    let imgurl = questionDt["url"] as? String ?? ""
-                                    let imgType = questionDt["type"] as? String ?? ""
-                                    
-                                    self.answerContent.text = answer
-                                    self.answerContent.translatesAutoresizingMaskIntoConstraints = true
-                                    self.answerContent.sizeToFit()
-                                    self.answerContent.isScrollEnabled = false
-                                    
-                                    if (imgurl == "" || imgurl == "nil") {
-                                        if (self.answerImgView != nil) {
-                                            self.answerImgView.image = .none
-                                            self.answerImgView.removeFromSuperview()
-                                            self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + 50)
-                                                .isActive = true
-                                        }
-                                    } else {
-                                        if imgType == "image"{
-                                            let url = URL(string: imgurl)
-                                            DispatchQueue.global().async {
-                                                let data = try? Data(contentsOf: url!)
-                                                DispatchQueue.main.async {
-                                                    if (self.answerImgView != nil) {
-                                                        self.answerImgView.image = UIImage(data: data!)
-                                                        self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + self.answerImgView.frame.height + 50)
-                                                            .isActive = true
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            let url = URL(string: imgurl)
-                                            self.player = AVPlayer(url: url!)
-                                            self.avPlayerLayer = AVPlayerLayer(player: self.player)
-                                            self.avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
-                                            self.videourl = url
-                                            self.answerImgView.layer.addSublayer(self.avPlayerLayer)
-                                            
-                                        }
-                                    }
-                                }
                             }
                         }
                     }
@@ -441,7 +438,6 @@ class QnADetailViewController: UIViewController {
                                                                 self.avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
                                                                 self.videourl = url
                                                                 self.answerImgView.layer.addSublayer(self.avPlayerLayer)
-                                                                
                                                             }
                                                         }
                                                     }
