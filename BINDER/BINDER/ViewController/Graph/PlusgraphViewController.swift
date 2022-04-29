@@ -21,7 +21,7 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     @IBOutlet weak var studyLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     
-    let study = ["3월 모의고사","1학기 중간고사","6월 모의고사","1학기 기말고사","9월 모의고사","2학기 중간고사","11월 모의고사","2학기 기말고사"]
+    let study = ["3월 모평","1차 중간","6월 모평","1차 기말","9월 모평","2차 중간","11월 모평","2차 기말"]
     var todayStudy = "0"
     var todayScore = "0"
     var userName = ""

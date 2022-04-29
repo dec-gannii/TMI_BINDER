@@ -205,7 +205,15 @@ class DetailClassViewController: UIViewController {
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
-                    for document in querySnapshot!.documents { // 문서가 있다면
+                    ///nil인지 확인
+                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                        print ("nil!!!!")
+                        print ("self.name1 : \(self.userName)")
+                        return
+                    }
+                    print ("not nil!!!!")
+                    print ("self.name2 : \(self.userName)")
+                    for document in snapshot.documents { // 문서가 있다면
                         print("\(document.documentID) => \(document.data())")
                         // 선생님이므로 성적 추가하는 버튼은 보이지 않도록 superview에서 삭제
                         self.plusButton.isHidden = true
@@ -276,7 +284,16 @@ class DetailClassViewController: UIViewController {
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
-                    for document in querySnapshot!.documents {
+                    ///nil인지 확인
+                    guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                        print ("student nil!!!!")
+                        print ("self.name3 : \(self.userName)")
+                        return
+                    }
+                    print ("student not nil!!!!")
+                    print ("self.name4 : \(self.userName)")
+                    
+                    for document in snapshot.documents {
                         print("\(document.documentID) => \(document.data())")
                         
                         let studentName = document.data()["name"] as? String ?? ""
@@ -293,8 +310,6 @@ class DetailClassViewController: UIViewController {
                                         print("\(document.documentID) => \(document.data())")
                                         let teacherUid = document.data()["uid"] as? String ?? ""
                                         
-                                        self.userName = studentName
-                                        self.userEmail = studentEmail
                                         // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
                                         self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
                                             if let snapshot = snapshot {
