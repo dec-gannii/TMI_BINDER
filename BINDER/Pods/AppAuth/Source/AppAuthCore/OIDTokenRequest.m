@@ -177,21 +177,16 @@ static NSString *const kAdditionalParametersKey = @"additionalParameters";
   NSDictionary *additionalParameters =
       [aDecoder decodeObjectOfClasses:additionalParameterCodingClasses
                                forKey:kAdditionalParametersKey];
-  
-  self = [super init];
-  if (self) {
-    _configuration = [configuration copy];
-    _grantType = [grantType copy];
-    _authorizationCode = [code copy];
-    _redirectURL = [redirectURL copy];
-    _clientID = [clientID copy];
-    _clientSecret = [clientSecret copy];
-    _scope = [scope copy];
-    _refreshToken = [refreshToken copy];
-    _codeVerifier = [codeVerifier copy];
-    _additionalParameters =
-        [[NSDictionary alloc] initWithDictionary:additionalParameters copyItems:YES];
-  }
+  self = [self initWithConfiguration:configuration
+                           grantType:grantType
+                   authorizationCode:code
+                         redirectURL:redirectURL
+                            clientID:clientID
+                        clientSecret:clientSecret
+                               scope:scope
+                        refreshToken:refreshToken
+                        codeVerifier:codeVerifier
+                additionalParameters:additionalParameters];
   return self;
 }
 

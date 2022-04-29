@@ -7,32 +7,37 @@
  * regenerated. */
 
 #include <stddef.h>
-#include "upb/msg_internal.h"
-#include "google/protobuf/timestamp.upb.h"
+#if COCOAPODS==1
+  #include  "third_party/upb/upb/msg.h"
+#else
+  #include  "upb/msg.h"
+#endif
+#if COCOAPODS==1
+  #include  "src/core/ext/upb-generated/google/protobuf/timestamp.upb.h"
+#else
+  #include  "google/protobuf/timestamp.upb.h"
+#endif
 
-#include "upb/port_def.inc"
+#if COCOAPODS==1
+  #include  "third_party/upb/upb/port_def.inc"
+#else
+  #include  "upb/port_def.inc"
+#endif
 
 static const upb_msglayout_field google_protobuf_Timestamp__fields[2] = {
-  {1, UPB_SIZE(0, 0), 0, 0, 3, _UPB_MODE_SCALAR | (_UPB_REP_8BYTE << _UPB_REP_SHIFT)},
-  {2, UPB_SIZE(8, 8), 0, 0, 5, _UPB_MODE_SCALAR | (_UPB_REP_4BYTE << _UPB_REP_SHIFT)},
+  {1, UPB_SIZE(0, 0), 0, 0, 3, 1},
+  {2, UPB_SIZE(8, 8), 0, 0, 5, 1},
 };
 
 const upb_msglayout google_protobuf_Timestamp_msginit = {
   NULL,
   &google_protobuf_Timestamp__fields[0],
-  UPB_SIZE(16, 16), 2, _UPB_MSGEXT_NONE, 2, 255,
+  UPB_SIZE(16, 16), 2, false,
 };
 
-static const upb_msglayout *messages_layout[1] = {
-  &google_protobuf_Timestamp_msginit,
-};
-
-const upb_msglayout_file google_protobuf_timestamp_proto_upb_file_layout = {
-  messages_layout,
-  NULL,
-  1,
-  0,
-};
-
-#include "upb/port_undef.inc"
+#if COCOAPODS==1
+  #include  "third_party/upb/upb/port_undef.inc"
+#else
+  #include  "upb/port_undef.inc"
+#endif
 

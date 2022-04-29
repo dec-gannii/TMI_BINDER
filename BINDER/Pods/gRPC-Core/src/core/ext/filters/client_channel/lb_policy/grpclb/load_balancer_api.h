@@ -27,7 +27,11 @@
 
 #include "src/core/ext/filters/client_channel/lb_policy/grpclb/grpclb_client_stats.h"
 #include "src/core/lib/iomgr/exec_ctx.h"
-#include "src/proto/grpc/lb/v1/load_balancer.upb.h"
+#if COCOAPODS==1
+  #include  "src/core/ext/upb-generated/src/proto/grpc/lb/v1/load_balancer.upb.h"
+#else
+  #include  "src/proto/grpc/lb/v1/load_balancer.upb.h"
+#endif
 
 #define GRPC_GRPCLB_SERVICE_NAME_MAX_LENGTH 128
 #define GRPC_GRPCLB_SERVER_IP_ADDRESS_MAX_SIZE 16
@@ -66,7 +70,7 @@ grpc_slice GrpcLbLoadReportRequestCreate(
 
 // Deserialize a grpclb response.
 bool GrpcLbResponseParse(const grpc_slice& serialized_response,
-                         upb_arena* arena, GrpcLbResponse* result);
+                         upb_arena* arena, GrpcLbResponse* response);
 
 }  // namespace grpc_core
 

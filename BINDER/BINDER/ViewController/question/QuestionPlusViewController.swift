@@ -7,10 +7,9 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 import FirebaseFirestore
 import FirebaseStorage
-import FirebaseMessaging
-import FirebaseDatabase
 import Photos
 
 class QuestionPlusViewController: UIViewController, UITextViewDelegate {

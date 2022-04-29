@@ -9,7 +9,6 @@ import UIKit
 import Charts
 import BLTNBoard
 import Firebase
-import FirebaseDatabase
 
 class GraphViewController: UIViewController {
     

@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 import FirebaseFirestore
 
 class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {

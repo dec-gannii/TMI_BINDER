@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import FirebaseDatabase
 import FSCalendar
 
 /// home view controller

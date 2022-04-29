@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class FIRApp;
 
 /// A container that holds different components that are registered via the
-/// `registerAsComponentRegistrant` call. These classes should conform to `ComponentRegistrant`
+/// `registerAsComponentRegistrant:` call. These classes should conform to `FIRComponentRegistrant`
 /// in order to properly register components for Core.
 NS_SWIFT_NAME(FirebaseComponentContainer)
 @interface FIRComponentContainer : NSObject
@@ -33,7 +33,7 @@ NS_SWIFT_NAME(FirebaseComponentContainer)
 /// A weak reference to the app that an instance of the container belongs to.
 @property(nonatomic, weak, readonly) FIRApp *app;
 
-/// Unavailable. Use the `container` property on `FirebaseApp`.
+/// Unavailable. Use the `container` property on `FIRApp`.
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

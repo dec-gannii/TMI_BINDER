@@ -8,8 +8,6 @@
 import UIKit
 import Firebase
 import GoogleSignIn
-import FirebaseDatabase
-import FirebaseMessaging
 import AuthenticationServices
 import CryptoKit
 
@@ -55,8 +53,6 @@ class LogInViewController: UIViewController {
         pwTextField.layer.addSublayer((pwBorder))
         pwTextField.textAlignment = .left
         pwTextField.textColor = UIColor.black
-        
-       
     }
     
     /// Load View

@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
         tokenEndpoint:(NSURL *)tokenEndpoint
                issuer:(nullable NSURL *)issuer
  registrationEndpoint:(nullable NSURL *)registrationEndpoint
-   endSessionEndpoint:(nullable NSURL *)endSessionEndpoint
+   endSessionEndpoint:(nullable OIDServiceDiscovery *)endSessionEndpoint
     discoveryDocument:(nullable OIDServiceDiscovery *)discoveryDocument {
 
   self = [super init];

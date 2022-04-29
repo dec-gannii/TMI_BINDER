@@ -7,7 +7,6 @@
 
 import UIKit
 import Firebase
-import FirebaseDatabase
 import FSCalendar
 import Charts
 import BLTNBoard

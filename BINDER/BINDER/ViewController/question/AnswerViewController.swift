@@ -9,8 +9,8 @@ import UIKit
 import AVKit
 import MobileCoreServices
 import Firebase
-import FirebaseFirestore
 import FirebaseDatabase
+import FirebaseFirestore
 import FirebaseStorage
 import Photos
 
@@ -198,7 +198,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
             //url에 정확한 이미지 url 주소를 넣는다.
             
             videoinImage()
-            
+           
         }
         
         // 현재의 뷰 컨트롤러를 제거. 즉, 뷰에서 이미지 피커 화면을 제거하여 초기 뷰를 보여줌
@@ -210,7 +210,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         player = AVPlayer(url: videoURL!)
         avPlayerLayer = AVPlayerLayer(player: player)
         avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
-        
+
         imgView.layer.addSublayer(avPlayerLayer)
         
     }
@@ -271,7 +271,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     }
                     
                     guard let pvc = self.presentingViewController else { return }
-                    
+
                     guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
                     
                     qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
@@ -323,80 +323,58 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                             }
                         }
                     }
-                    //                    if let preVC = self.presentingViewController as? UIViewController {
-                    //                        preVC.dismiss(animated: true, completion: nil)
-                    //                    }
+                    if let preVC = self.presentingViewController as? UIViewController {
+                        preVC.dismiss(animated: true, completion: nil)
+                    }
+                }
+            } else { //비디오의 경우
+                /*
+                guard let image = imgView.image else {
+                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
+                        "url":"",
+                        "answerContent": self.answer,
+                        "isAnswer": true
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                    print("video not exists")
+                    
+                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
+                        "answerCheck": true
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                    
                     guard let pvc = self.presentingViewController else { return }
+
+                    guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
                     
-                    guard let qnaDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
+                    qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                    qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
                     
-                    qnaDetailVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                    qnaDetailVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                    
-                    qnaDetailVC.index = index
-                    qnaDetailVC.qnum = qnum
-                    qnaDetailVC.email = email
-                    qnaDetailVC.userName = userName
-                    qnaDetailVC.type = type
-                    qnaDetailVC.subject = subject
+                    qnaVC.index = index
+                    qnaVC.qnum = qnum
+                    qnaVC.email = email
+                    qnaVC.userName = userName
+                    qnaVC.type = type
+                    qnaVC.subject = subject
                     
                     self.dismiss(animated: true) {
+                        
                         LoadingHUD.show()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             LoadingHUD.hide()
                         }
                         
-                        pvc.present(qnaDetailVC, animated: true, completion: nil)
+                        pvc.present(qnaVC, animated: true, completion: nil)
                     }
+                    
+                    return
                 }
-            } else { //비디오의 경우
-                /*
-                 guard let image = imgView.image else {
-                 self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
-                 "url":"",
-                 "answerContent": self.answer,
-                 "isAnswer": true
-                 ]) { err in
-                 if let err = err {
-                 print("Error adding document: \(err)")
-                 }
-                 }
-                 print("video not exists")
-                 
-                 self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
-                 "answerCheck": true
-                 ]) { err in
-                 if let err = err {
-                 print("Error adding document: \(err)")
-                 }
-                 }
-                 
-                 guard let pvc = self.presentingViewController else { return }
-                 
-                 guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
-                 
-                 qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                 qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                 
-                 qnaVC.index = index
-                 qnaVC.qnum = qnum
-                 qnaVC.email = email
-                 qnaVC.userName = userName
-                 qnaVC.type = type
-                 qnaVC.subject = subject
-                 
-                 self.dismiss(animated: true) {
-                 
-                 LoadingHUD.show()
-                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                 LoadingHUD.hide()
-                 }
-                 
-                 pvc.present(qnaVC, animated: true, completion: nil)
-                 }
-                 
-                 return
-                 }
                  */
                 print("video exists")
                 
@@ -426,12 +404,12 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                             }
                         }
                     }
-                    if let preVC = self.presentingViewController as? UIViewController {
-                        preVC.dismiss(animated: true, completion: nil)
-                    }
+                if let preVC = self.presentingViewController as? UIViewController {
+                    preVC.dismiss(animated: true, completion: nil)
                 }
             }
         }
+            }
         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
             "answerCheck": true
         ]) { err in
@@ -440,31 +418,8 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
             }
         }
         
-        //        if let preVC = self.presentingViewController as? UIViewController {
-        //            preVC.dismiss(animated: true, completion: nil)
-        //        }
-        
-        guard let pvc = self.presentingViewController else { return }
-        
-        guard let qnaDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
-        
-        qnaDetailVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-        qnaDetailVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-        
-        qnaDetailVC.index = index
-        qnaDetailVC.qnum = qnum
-        qnaDetailVC.email = email
-        qnaDetailVC.userName = userName
-        qnaDetailVC.type = type
-        qnaDetailVC.subject = subject
-        
-        self.dismiss(animated: true) {
-            LoadingHUD.show()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                LoadingHUD.hide()
-            }
-            
-            pvc.present(qnaDetailVC, animated: true, completion: nil)
+        if let preVC = self.presentingViewController as? UIViewController {
+            preVC.dismiss(animated: true, completion: nil)
         }
     }
     

@@ -44,12 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly) NSURL *authorizationEndpoint;
 
-/*! @brief OPTIONAL. URL of the OP's OAuth 2.0 Device Authorization Endpoint.
-    @remarks device_authorization_endpoint
-    @seealso https://tools.ietf.org/html/rfc8628#section-4
- */
-@property(nonatomic, readonly, nullable) NSURL *deviceAuthorizationEndpoint;
-
 /*! @brief URL of the OP's OAuth 2.0 Token Endpoint. This is REQUIRED unless only the Implicit Flow
         is used.
     @remarks token_endpoint
@@ -326,7 +320,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*! @internal
     @brief Unavailable. Please use @c initWithDictionary:error:, @c initWithJSON:error, or the
-        @c discoverServiceConfigurationForDiscoveryURL:callback: from @c OIDAuthorizationService.
+        @c serviceDiscoveryWithURL:callback: factory method.
  */
 - (nonnull instancetype)init NS_UNAVAILABLE;
 

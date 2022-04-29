@@ -18,8 +18,6 @@
 
 #include <grpc/support/port_platform.h>
 
-#include "src/core/ext/filters/http/client_authority_filter.h"
-
 #include <assert.h>
 #include <limits.h>
 #include <string.h>
@@ -28,42 +26,53 @@
 #include <grpc/support/log.h>
 #include <grpc/support/string_util.h>
 
+#include "src/core/ext/filters/http/client_authority_filter.h"
 #include "src/core/lib/channel/channel_args.h"
-#include "src/core/lib/channel/channel_stack_builder.h"
-#include "src/core/lib/config/core_configuration.h"
 #include "src/core/lib/gpr/string.h"
 #include "src/core/lib/slice/slice_internal.h"
 #include "src/core/lib/slice/slice_string_helpers.h"
 #include "src/core/lib/surface/call.h"
+#include "src/core/lib/surface/channel_init.h"
 #include "src/core/lib/surface/channel_stack_type.h"
+#include "src/core/lib/transport/static_metadata.h"
 
 namespace {
 
 struct call_data {
+  grpc_linked_mdelem authority_storage;
   grpc_core::CallCombiner* call_combiner;
 };
 
 struct channel_data {
-  grpc_core::Slice default_authority;
+  grpc_core::ManagedMemorySlice default_authority;
+  grpc_mdelem default_authority_mdelem;
 };
 
 void client_authority_start_transport_stream_op_batch(
     grpc_call_element* elem, grpc_transport_stream_op_batch* batch) {
   channel_data* chand = static_cast<channel_data*>(elem->channel_data);
+  call_data* calld = static_cast<call_data*>(elem->call_data);
   // Handle send_initial_metadata.
+  auto* initial_metadata =
+      batch->payload->send_initial_metadata.send_initial_metadata;
   // If the initial metadata doesn't already contain :authority, add it.
   if (batch->send_initial_metadata &&
-      batch->payload->send_initial_metadata.send_initial_metadata->get_pointer(
-          grpc_core::HttpAuthorityMetadata()) == nullptr) {
-    batch->payload->send_initial_metadata.send_initial_metadata->Set(
-        grpc_core::HttpAuthorityMetadata(), chand->default_authority.Ref());
+      initial_metadata->idx.named.authority == nullptr) {
+    grpc_error* error = grpc_metadata_batch_add_head(
+        initial_metadata, &calld->authority_storage,
+        GRPC_MDELEM_REF(chand->default_authority_mdelem), GRPC_BATCH_AUTHORITY);
+    if (error != GRPC_ERROR_NONE) {
+      grpc_transport_stream_op_batch_finish_with_failure(batch, error,
+                                                         calld->call_combiner);
+      return;
+    }
   }
   // Pass control down the stack.
   grpc_call_next_op(elem, batch);
 }
 
 /* Constructor for call_data */
-grpc_error_handle client_authority_init_call_elem(
+grpc_error* client_authority_init_call_elem(
     grpc_call_element* elem, const grpc_call_element_args* args) {
   call_data* calld = static_cast<call_data*>(elem->call_data);
   calld->call_combiner = args->call_combiner;
@@ -76,9 +85,9 @@ void client_authority_destroy_call_elem(
     grpc_closure* /*ignored*/) {}
 
 /* Constructor for channel_data */
-grpc_error_handle client_authority_init_channel_elem(
+grpc_error* client_authority_init_channel_elem(
     grpc_channel_element* elem, grpc_channel_element_args* args) {
-  channel_data* chand = new (elem->channel_data) channel_data;
+  channel_data* chand = static_cast<channel_data*>(elem->channel_data);
   const grpc_arg* default_authority_arg =
       grpc_channel_args_find(args->channel_args, GRPC_ARG_DEFAULT_AUTHORITY);
   if (default_authority_arg == nullptr) {
@@ -93,14 +102,18 @@ grpc_error_handle client_authority_init_channel_elem(
         "GRPC_ARG_DEFAULT_AUTHORITY channel arg. must be a string");
   }
   chand->default_authority =
-      grpc_core::Slice::FromCopiedString(default_authority_str);
+      grpc_core::ManagedMemorySlice(default_authority_str);
+  chand->default_authority_mdelem = grpc_mdelem_create(
+      GRPC_MDSTR_AUTHORITY, chand->default_authority, nullptr);
   GPR_ASSERT(!args->is_last);
   return GRPC_ERROR_NONE;
 }
 
 /* Destructor for channel data */
 void client_authority_destroy_channel_elem(grpc_channel_element* elem) {
-  static_cast<channel_data*>(elem->channel_data)->~channel_data();
+  channel_data* chand = static_cast<channel_data*>(elem->channel_data);
+  grpc_slice_unref_internal(chand->default_authority);
+  GRPC_MDELEM_UNREF(chand->default_authority_mdelem);
 }
 }  // namespace
 
@@ -117,7 +130,8 @@ const grpc_channel_filter grpc_client_authority_filter = {
     grpc_channel_next_get_info,
     "authority"};
 
-static bool add_client_authority_filter(grpc_channel_stack_builder* builder) {
+static bool add_client_authority_filter(grpc_channel_stack_builder* builder,
+                                        void* arg) {
   const grpc_channel_args* channel_args =
       grpc_channel_stack_builder_get_channel_arguments(builder);
   const grpc_arg* disable_client_authority_filter_arg = grpc_channel_args_find(
@@ -130,14 +144,16 @@ static bool add_client_authority_filter(grpc_channel_stack_builder* builder) {
     }
   }
   return grpc_channel_stack_builder_prepend_filter(
-      builder, &grpc_client_authority_filter, nullptr, nullptr);
+      builder, static_cast<const grpc_channel_filter*>(arg), nullptr, nullptr);
 }
 
-namespace grpc_core {
-void RegisterClientAuthorityFilter(CoreConfiguration::Builder* builder) {
-  builder->channel_init()->RegisterStage(GRPC_CLIENT_SUBCHANNEL, INT_MAX,
-                                         add_client_authority_filter);
-  builder->channel_init()->RegisterStage(GRPC_CLIENT_DIRECT_CHANNEL, INT_MAX,
-                                         add_client_authority_filter);
+void grpc_client_authority_filter_init(void) {
+  grpc_channel_init_register_stage(GRPC_CLIENT_SUBCHANNEL, INT_MAX,
+                                   add_client_authority_filter,
+                                   (void*)&grpc_client_authority_filter);
+  grpc_channel_init_register_stage(GRPC_CLIENT_DIRECT_CHANNEL, INT_MAX,
+                                   add_client_authority_filter,
+                                   (void*)&grpc_client_authority_filter);
 }
-}  // namespace grpc_core
+
+void grpc_client_authority_filter_shutdown(void) {}
