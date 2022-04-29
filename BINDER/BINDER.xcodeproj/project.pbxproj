@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A95653763FD9F8FEE515A89 /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8A84F45A36256EE2D89D59B /* Pods_BINDER.framework */; };
+		61CB571421CBF487829970FF /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF12E41F2DC23E6CAE191E9A /* Pods_BINDER.framework */; };
 		6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912805E276398EB00712739 /* PortfolioEditViewController.swift */; };
 		691A7BA2276460C6003DCB05 /* Todocell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691A7BA1276460C6003DCB05 /* Todocell.swift */; };
 		6922197D27C13CF600A03788 /* QuestionPlusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6922197C27C13CF600A03788 /* QuestionPlusViewController.swift */; };
@@ -30,7 +30,6 @@
 		6965DE86275DEF670072C16A /* ClassInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965DE82275DEF670072C16A /* ClassInfoVC.swift */; };
 		6993502A27CDECA100EA6C6F /* QuestionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6993502927CDECA000EA6C6F /* QuestionDetailViewController.swift */; };
 		6993502C27CDECCE00EA6C6F /* QnADetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6993502B27CDECCE00EA6C6F /* QnADetailViewController.swift */; };
-		69B95216281A477E00845152 /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B95215281A477E00845152 /* GoogleSignIn.framework */; };
 		69E5F6902764C762003D7DD1 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E5F68F2764C762003D7DD1 /* QuestionViewController.swift */; };
 		69EE72AB275D05C2007F6F7C /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72AA275D05C2007F6F7C /* GraphViewController.swift */; };
 		69EE72AF275D0662007F6F7C /* PlusGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */; };
@@ -84,8 +83,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		244D230890573A4B9F285E43 /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
-		620CB2518DD2AE845609E5CE /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
+		4A6126E1F583B681A475BE8C /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
 		6912805E276398EB00712739 /* PortfolioEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEditViewController.swift; sourceTree = "<group>"; };
 		691A7BA1276460C6003DCB05 /* Todocell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todocell.swift; sourceTree = "<group>"; };
 		6922197C27C13CF600A03788 /* QuestionPlusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionPlusViewController.swift; sourceTree = "<group>"; };
@@ -108,7 +106,6 @@
 		6965DE82275DEF670072C16A /* ClassInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassInfoVC.swift; sourceTree = "<group>"; };
 		6993502927CDECA000EA6C6F /* QuestionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionDetailViewController.swift; sourceTree = "<group>"; };
 		6993502B27CDECCE00EA6C6F /* QnADetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnADetailViewController.swift; sourceTree = "<group>"; };
-		69B95215281A477E00845152 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignIn.framework; path = Pods/GoogleSignIn/Frameworks/GoogleSignIn.framework; sourceTree = "<group>"; };
 		69E5F68F2764C762003D7DD1 /* QuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		69EE72AA275D05C2007F6F7C /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusGraphViewController.swift; sourceTree = "<group>"; };
@@ -162,7 +159,8 @@
 		7FBC6B1727EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPortfolioItemViewController.swift; sourceTree = "<group>"; };
 		7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailClassViewController.swift; sourceTree = "<group>"; };
-		E8A84F45A36256EE2D89D59B /* Pods_BINDER.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BINDER.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF12E41F2DC23E6CAE191E9A /* Pods_BINDER.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BINDER.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F94CB4FE94CDF2957EA8ED31 /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,8 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A95653763FD9F8FEE515A89 /* Pods_BINDER.framework in Frameworks */,
-				69B95216281A477E00845152 /* GoogleSignIn.framework in Frameworks */,
+				61CB571421CBF487829970FF /* Pods_BINDER.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,7 +325,7 @@
 				7F16D1422749390300745522 /* BINDER */,
 				7F16D1412749390300745522 /* Products */,
 				839068290A7852076C3D8CCB /* Pods */,
-				E5746DFC082948AF85B65A52 /* Frameworks */,
+				F05C67C3913B911846476C4C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -416,17 +413,16 @@
 		839068290A7852076C3D8CCB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				620CB2518DD2AE845609E5CE /* Pods-BINDER.debug.xcconfig */,
-				244D230890573A4B9F285E43 /* Pods-BINDER.release.xcconfig */,
+				4A6126E1F583B681A475BE8C /* Pods-BINDER.debug.xcconfig */,
+				F94CB4FE94CDF2957EA8ED31 /* Pods-BINDER.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		E5746DFC082948AF85B65A52 /* Frameworks */ = {
+		F05C67C3913B911846476C4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				69B95215281A477E00845152 /* GoogleSignIn.framework */,
-				E8A84F45A36256EE2D89D59B /* Pods_BINDER.framework */,
+				CF12E41F2DC23E6CAE191E9A /* Pods_BINDER.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -438,12 +434,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7F16D1542749390600745522 /* Build configuration list for PBXNativeTarget "BINDER" */;
 			buildPhases = (
-				437D509E478A128366CBEE4A /* [CP] Check Pods Manifest.lock */,
+				E08D2972B0E56DC65AECDC78 /* [CP] Check Pods Manifest.lock */,
 				7F16D13C2749390300745522 /* Sources */,
 				7F16D13D2749390300745522 /* Frameworks */,
 				7F16D13E2749390300745522 /* Resources */,
-				BABCA455B3CA9527E980765B /* [CP] Embed Pods Frameworks */,
-				74982E67C7D1CCAF894959AC /* [CP] Copy Pods Resources */,
+				3BD941315777223678E46188 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -502,7 +497,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		437D509E478A128366CBEE4A /* [CP] Check Pods Manifest.lock */ = {
+		3BD941315777223678E46188 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E08D2972B0E56DC65AECDC78 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -522,40 +534,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		74982E67C7D1CCAF894959AC /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BABCA455B3CA9527E980765B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1059,46 +1037,7 @@
 		};
 		7F16D1552749390600745522 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 620CB2518DD2AE845609E5CE /* Pods-BINDER.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BINDER/BINDER.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W63BAJ5MB2;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/GoogleSignIn/Frameworks",
-				);
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BINDER/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = BINDER;
-				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 사용을 위해 접근 권한이 필요합니다.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진첩 사용을 위해 접근 권한이 필요합니다.";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TMI.BINDER;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		7F16D1562749390600745522 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 244D230890573A4B9F285E43 /* Pods-BINDER.release.xcconfig */;
+			baseConfigurationReference = 4A6126E1F583B681A475BE8C /* Pods-BINDER.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1127,7 +1066,333 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"c++\"",
+					"-l\"icucore\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AppAuth\"",
+					"-framework",
+					"\"BLTNBoard\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"Charts\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"FBAEMKit\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FSCalendar\"",
+					"-framework",
+					"\"FirebaseAnalytics\"",
+					"-framework",
+					"\"FirebaseAnonymousAuthUI\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseAuthUI\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseDatabase\"",
+					"-framework",
+					"\"FirebaseDatabaseUI\"",
+					"-framework",
+					"\"FirebaseEmailAuthUI\"",
+					"-framework",
+					"\"FirebaseFirestore\"",
+					"-framework",
+					"\"FirebaseFirestoreUI\"",
+					"-framework",
+					"\"FirebaseGoogleAuthUI\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"FirebaseOAuthUI\"",
+					"-framework",
+					"\"FirebasePhoneAuthUI\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"FirebaseStorageUI\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMAppAuth\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleAppMeasurement\"",
+					"-framework",
+					"\"GoogleAppMeasurementIdentitySupport\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleSignIn\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"LocalAuthentication\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"absl\"",
+					"-framework",
+					"\"grpc\"",
+					"-framework",
+					"\"grpcpp\"",
+					"-framework",
+					"\"leveldb\"",
+					"-framework",
+					"\"nanopb\"",
+					"-framework",
+					"\"openssl_grpc\"",
+					"-weak_framework",
+					"\"Accelerate\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"AudioToolbox\"",
+					"-weak_framework",
+					"\"AuthenticationServices\"",
+					"-weak_framework",
+					"\"Combine\"",
+					"-weak_framework",
+					"\"CoreGraphics\"",
+					"-weak_framework",
+					"\"Foundation\"",
+					"-weak_framework",
+					"\"QuartzCore\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-weak_framework",
+					"\"StoreKit\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"UserNotifications",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.TMI.BINDER;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7F16D1562749390600745522 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F94CB4FE94CDF2957EA8ED31 /* Pods-BINDER.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BINDER/BINDER.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W63BAJ5MB2;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/GoogleSignIn/Frameworks",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BINDER/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BINDER;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 사용을 위해 접근 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진첩 사용을 위해 접근 권한이 필요합니다.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"c++\"",
+					"-l\"icucore\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AppAuth\"",
+					"-framework",
+					"\"BLTNBoard\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"Charts\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"FBAEMKit\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FSCalendar\"",
+					"-framework",
+					"\"FirebaseAnalytics\"",
+					"-framework",
+					"\"FirebaseAnonymousAuthUI\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseAuthUI\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseDatabase\"",
+					"-framework",
+					"\"FirebaseDatabaseUI\"",
+					"-framework",
+					"\"FirebaseEmailAuthUI\"",
+					"-framework",
+					"\"FirebaseFirestore\"",
+					"-framework",
+					"\"FirebaseFirestoreUI\"",
+					"-framework",
+					"\"FirebaseGoogleAuthUI\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"FirebaseOAuthUI\"",
+					"-framework",
+					"\"FirebasePhoneAuthUI\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"FirebaseStorageUI\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMAppAuth\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleAppMeasurement\"",
+					"-framework",
+					"\"GoogleAppMeasurementIdentitySupport\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleSignIn\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"LocalAuthentication\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"absl\"",
+					"-framework",
+					"\"grpc\"",
+					"-framework",
+					"\"grpcpp\"",
+					"-framework",
+					"\"leveldb\"",
+					"-framework",
+					"\"nanopb\"",
+					"-framework",
+					"\"openssl_grpc\"",
+					"-weak_framework",
+					"\"Accelerate\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"AudioToolbox\"",
+					"-weak_framework",
+					"\"AuthenticationServices\"",
+					"-weak_framework",
+					"\"Combine\"",
+					"-weak_framework",
+					"\"CoreGraphics\"",
+					"-weak_framework",
+					"\"Foundation\"",
+					"-weak_framework",
+					"\"QuartzCore\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-weak_framework",
+					"\"StoreKit\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"UserNotifications",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TMI.BINDER;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

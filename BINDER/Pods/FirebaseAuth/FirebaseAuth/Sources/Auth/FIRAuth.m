@@ -453,7 +453,7 @@ static NSMutableDictionary *gKeychainServiceNameForAppName;
 
 - (instancetype)initWithApp:(FIRApp *)app {
   [FIRAuth setKeychainServiceNameForApp:app];
-  self = [self initWithAPIKey:app.options.APIKey appName:app.name];
+  self = [self initWithAPIKey:app.options.APIKey appName:app.name appID:app.options.googleAppID];
   if (self) {
     _app = app;
 #if TARGET_OS_IOS
@@ -463,11 +463,13 @@ static NSMutableDictionary *gKeychainServiceNameForAppName;
   return self;
 }
 
-- (nullable instancetype)initWithAPIKey:(NSString *)APIKey appName:(NSString *)appName {
+- (nullable instancetype)initWithAPIKey:(NSString *)APIKey
+                                appName:(NSString *)appName
+                                  appID:(NSString *)appID {
   self = [super init];
   if (self) {
     _listenerHandles = [NSMutableArray array];
-    _requestConfiguration = [[FIRAuthRequestConfiguration alloc] initWithAPIKey:APIKey];
+    _requestConfiguration = [[FIRAuthRequestConfiguration alloc] initWithAPIKey:APIKey appID:appID];
     _firebaseAppName = [appName copy];
 #if TARGET_OS_IOS
     _settings = [[FIRAuthSettings alloc] init];
@@ -2259,6 +2261,16 @@ static NSMutableDictionary *gKeychainServiceNameForAppName;
 #endif  // TARGET_OS_WATCH
     user = [unarchiver decodeObjectOfClass:[FIRUser class] forKey:userKey];
   } else {
+#if TARGET_OS_TV
+    if (self.shareAuthStateAcrossDevices) {
+      FIRLogError(kFIRLoggerAuth, @"I-AUT000001",
+                  @"Getting a stored user for a given access group is not supported "
+                  @"on tvOS when `shareAuthStateAcrossDevices` is set to `true` (#8878)."
+                  @"This case will return `nil`.");
+      return nil;
+    }
+#endif  // TARGET_OS_TV
+
     user = [self.storedUserManager getStoredUserForAccessGroup:accessGroup
                                    shareAuthStateAcrossDevices:self.shareAuthStateAcrossDevices
                                              projectIdentifier:self.app.options.APIKey

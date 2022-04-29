@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         FirebaseApp.configure()
         
         let db = Firestore.firestore()
-        
+       /*
         if let user = Auth.auth().currentUser {
             print("You're sign in as \(user.uid), email: \(user.email ?? "no email")")
         }
@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         UNUserNotificationCenter.current().delegate = self
 //        GIDSignIn.sharedInstance()?.clientID = "382918594867-akdm60fcq7msffhgglug1eou939g2ebh.apps.googleusercontent.com"
 //        GIDSignIn.sharedInstance()?.delegate = self
-        
+        */
         return true
     }
     
@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-    
+    /*
     // fcm 토큰이 등록이 되었을 때
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
       let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
@@ -94,8 +94,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
       Messaging.messaging().apnsToken = deviceToken
     }
+     */
     
 }
+/*
 extension AppDelegate: UNUserNotificationCenterDelegate {
     // 푸쉬 메시지가 앱이 켜져 있을 때 나올 때
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -136,4 +138,4 @@ extension AppDelegate: MessagingDelegate {
     }
     
 }
-
+*/

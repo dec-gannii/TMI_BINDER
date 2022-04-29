@@ -82,15 +82,18 @@ LocalStore::LocalStore(Persistence* persistence,
                        QueryEngine* query_engine,
                        const User& initial_user)
     : persistence_(persistence),
-      mutation_queue_(persistence->GetMutationQueueForUser(initial_user)),
       remote_document_cache_(persistence->remote_document_cache()),
       target_cache_(persistence->target_cache()),
       bundle_cache_(persistence->bundle_cache()),
-      query_engine_(query_engine),
-      local_documents_(
-          absl::make_unique<LocalDocumentsView>(remote_document_cache_,
-                                                mutation_queue_,
-                                                persistence->index_manager())) {
+      query_engine_(query_engine) {
+  index_manager_ = persistence->GetIndexManager(initial_user);
+  mutation_queue_ = persistence->GetMutationQueue(initial_user, index_manager_);
+  document_overlay_cache_ = persistence->GetDocumentOverlayCache(initial_user);
+  local_documents_ = absl::make_unique<LocalDocumentsView>(
+      remote_document_cache_, mutation_queue_, document_overlay_cache_,
+      index_manager_);
+  remote_document_cache_->SetIndexManager(index_manager_);
+
   persistence->reference_delegate()->AddInMemoryPins(&local_view_references_);
   target_id_generator_ = TargetIdGenerator::TargetCacheTargetIdGenerator(0);
   query_engine_->SetLocalDocumentsView(local_documents_.get());
@@ -117,7 +120,9 @@ DocumentMap LocalStore::HandleUserChange(const User& user) {
 
   // The old one has a reference to the mutation queue, so null it out first.
   local_documents_.reset();
-  mutation_queue_ = persistence_->GetMutationQueueForUser(user);
+  index_manager_ = persistence_->GetIndexManager(user);
+  mutation_queue_ = persistence_->GetMutationQueue(user, index_manager_);
+  remote_document_cache_->SetIndexManager(index_manager_);
 
   StartMutationQueue();
 
@@ -127,7 +132,8 @@ DocumentMap LocalStore::HandleUserChange(const User& user) {
 
     // Recreate our LocalDocumentsView using the new MutationQueue.
     local_documents_ = absl::make_unique<LocalDocumentsView>(
-        remote_document_cache_, mutation_queue_, persistence_->index_manager());
+        remote_document_cache_, mutation_queue_, document_overlay_cache_,
+        index_manager_);
     query_engine_->SetLocalDocumentsView(local_documents_.get());
 
     // Union the old/new changed keys.
@@ -263,6 +269,7 @@ model::DocumentMap LocalStore::ApplyRemoteEvent(
     for (const auto& entry : remote_event.target_changes()) {
       TargetId target_id = entry.first;
       const TargetChange& change = entry.second;
+      const ByteString& resume_token = change.resume_token();
 
       auto found = target_data_by_target_.find(target_id);
       if (found == target_data_by_target_.end()) {
@@ -277,24 +284,25 @@ model::DocumentMap LocalStore::ApplyRemoteEvent(
       target_cache_->RemoveMatchingKeys(change.removed_documents(), target_id);
       target_cache_->AddMatchingKeys(change.added_documents(), target_id);
 
-      // Update the resume token if the change includes one. Don't clear any
-      // preexisting value. Bump the sequence number as well, so that documents
-      // being removed now are ordered later than documents that were previously
-      // removed from this target.
-      const ByteString& resume_token = change.resume_token();
-      // Update the resume token if the change includes one.
-      if (!resume_token.empty()) {
-        TargetData new_target_data =
-            old_target_data
-                .WithResumeToken(resume_token, remote_event.snapshot_version())
-                .WithSequenceNumber(sequence_number);
-        target_data_by_target_[target_id] = new_target_data;
+      TargetData new_target_data =
+          old_target_data.WithSequenceNumber(sequence_number);
+      if (remote_event.target_mismatches().find(target_id) !=
+          remote_event.target_mismatches().end()) {
+        new_target_data =
+            new_target_data
+                .WithResumeToken(ByteString{}, SnapshotVersion::None())
+                .WithLastLimboFreeSnapshotVersion(SnapshotVersion::None());
+      } else if (!resume_token.empty()) {
+        new_target_data = old_target_data.WithResumeToken(
+            resume_token, remote_event.snapshot_version());
+      }
 
-        // Update the target data if there are target changes (or if sufficient
-        // time has passed since the last update).
-        if (ShouldPersistTargetData(new_target_data, old_target_data, change)) {
-          target_cache_->UpdateTarget(new_target_data);
-        }
+      target_data_by_target_[target_id] = new_target_data;
+
+      // Update the target data if there are target changes (or if sufficient
+      // time has passed since the last update).
+      if (ShouldPersistTargetData(new_target_data, old_target_data, change)) {
+        target_cache_->UpdateTarget(new_target_data);
       }
     }
 
@@ -330,10 +338,6 @@ model::DocumentMap LocalStore::ApplyRemoteEvent(
 bool LocalStore::ShouldPersistTargetData(const TargetData& new_target_data,
                                          const TargetData& old_target_data,
                                          const TargetChange& change) const {
-  // Avoid clearing any existing value
-  HARD_ASSERT(!new_target_data.resume_token().empty(),
-              "Attempted to persist target data with empty resume token");
-
   // Always persist target data if we don't already have a resume token.
   if (old_target_data.resume_token().empty()) return true;
 
