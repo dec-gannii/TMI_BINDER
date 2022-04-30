@@ -261,6 +261,7 @@ class DetailClassViewController: UIViewController {
                                                                     self.todoDoc.append(doc.documentID)
                                                                     self.todos.append(doc.data()["todo"] as! String)
                                                                     self.todoCheck.append(doc.data()["check"] as! Bool)
+                                                                print("doc: \(self.todoDoc), list: \(self.todos), check : \(self.todoCheck)")
                                                             }
                                                         }
                                                     } else {
@@ -729,8 +730,10 @@ class DetailClassViewController: UIViewController {
     /// add to do list factor button clicked
     @IBAction func goButtonClicked(_ sender: Any) {
         if todoTF.text != "" {
+            
             todos.append(todoTF.text ?? "")
             todoCheck.append(checkTime)
+            todoDoc = []
             
             let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject)
             
@@ -740,9 +743,23 @@ class DetailClassViewController: UIViewController {
                         print("Error adding document: \(err)")
                     } else {
                         print("data is inserted!")
+                        
                     }
             }
-        
+            
+            docRef.collection("ToDoList").getDocuments {(snapshot, error) in
+                if let snapshot = snapshot {
+                    snapshot.documents.map { doc in
+                        if doc.data()["todo"] != nil {
+                            self.todoDoc.append(doc.documentID)
+                            print("추가된 doc: \(self.todoDoc)")
+                        } else {
+                            print("Document does not exist")
+                        }
+                    }
+                }
+            }
+                
             todoTF.text = ""
             self.tableView.reloadData()
         }
@@ -817,7 +834,7 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             print("button selected \(sender.tag)")
             sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
         }
-        
+        print("tagname : \(todoDoc)")
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(todoDoc[sender.tag]).updateData([
             "check": checkTime
         ]) { err in
