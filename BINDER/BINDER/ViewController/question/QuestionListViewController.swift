@@ -68,8 +68,36 @@ class QuestionListViewController : BaseVC {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        setQuestionList()
+        super.viewDidAppear(true)
+        answeredToggle.setOn(false, animated: true)
+        getUserInfo()
         self.questionListTV.reloadData()
+        if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
+            if (self.type == "student") { // 사용자가 학생이면
+                self.navigationBar.topItem!.title = self.userName + " 선생님"
+                self.toggleLabel.text = "답변 완료만 보기"
+            } else { // 사용자가 학생이 아니면(선생님이면)
+                self.navigationBar.topItem!.title = self.userName + " 학생"
+                self.toggleLabel.text = "답변 대기만 보기"
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        answeredToggle.setOn(false, animated: true)
+        getUserInfo()
+        self.questionListTV.reloadData()
+        if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
+            if (self.type == "student") { // 사용자가 학생이면
+                self.navigationBar.topItem!.title = self.userName + " 선생님"
+                self.toggleLabel.text = "답변 완료만 보기"
+            } else { // 사용자가 학생이 아니면(선생님이면)
+                self.navigationBar.topItem!.title = self.userName + " 학생"
+                self.toggleLabel.text = "답변 대기만 보기"
+            }
+        }
     }
     
     func getUserInfo() {

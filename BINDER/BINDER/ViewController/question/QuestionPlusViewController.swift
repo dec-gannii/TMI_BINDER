@@ -40,7 +40,6 @@ class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     var videoURL: URL!
     var flagImageSave = false
     
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()

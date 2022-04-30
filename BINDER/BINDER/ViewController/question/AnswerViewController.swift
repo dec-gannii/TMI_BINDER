@@ -249,6 +249,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         } else {
             if imgtype == 1 {
                 guard let image = imgView.image else {
+                    //이미지와 영상이 없는 경우
                     self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
                         "url":"",
                         "answerContent": self.answer,
@@ -268,8 +269,9 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                         }
                     }
                     
-                    guard let pvc = self.presentingViewController else { return }
                     
+                    
+                    /*
                     guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
                     
                     qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
@@ -282,19 +284,22 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     qnaVC.type = type
                     qnaVC.subject = subject
                     
+                    
                     self.dismiss(animated: true) {
                         LoadingHUD.show()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             LoadingHUD.hide()
                         }
                         
-                        pvc.present(qnaVC, animated: true, completion: nil)
+                        pvc.present(pvc, animated: true, completion: nil)
                     }
+                     */
+                    
                     return
                 }
                 
                 print("image exists")
-                
+                // 이미지가 있는 경우
                 if let data = image.pngData(){
                     let urlRef = storageRef.child("image/\(captureImage!).png")
                     let metadata = StorageMetadata()
@@ -325,8 +330,8 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                     //                    }
                 }
                 
-                guard let pvc = self.presentingViewController else { return }
-                
+               
+                /*
                 guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
                 
                 qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
@@ -345,8 +350,9 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                         LoadingHUD.hide()
                     }
                     
-                    pvc.present(qnaVC, animated: true, completion: nil)
+                    pvc.present(pvc, animated: true, completion: nil)
                 }
+                 */
             } else { //비디오의 경우
                 /*
                  guard let image = imgView.image else {
@@ -430,6 +436,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 }
             }
         }
+        
         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
             "answerCheck": true
         ]) { err in
