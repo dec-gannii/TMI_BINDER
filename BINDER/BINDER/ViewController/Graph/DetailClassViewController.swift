@@ -50,6 +50,9 @@ class DetailClassViewController: UIViewController {
     var keyHeight: CGFloat?
     var checkTime: Bool = false
     var dateStrWithoutDays: String = ""
+    var teacherUid: String!
+    var studentName: String!
+    var studentEmail: String!
     
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var evaluationView: UIView!
@@ -297,8 +300,8 @@ class DetailClassViewController: UIViewController {
                     for document in snapshot.documents {
                         print("\(document.documentID) => \(document.data())")
                         
-                        let studentName = document.data()["name"] as? String ?? ""
-                        let studentEmail = document.data()["email"] as? String ?? ""
+                        self.studentName = document.data()["name"] as? String ?? ""
+                        self.studentEmail = document.data()["email"] as? String ?? ""
                         let teacherDocRef = self.db.collection("teacher")
                         
                         if let email = self.userEmail { // 사용자의 이메일이 nil이 아니라면
@@ -309,10 +312,10 @@ class DetailClassViewController: UIViewController {
                                 } else {
                                     for document in querySnapshot!.documents {
                                         print("\(document.documentID) => \(document.data())")
-                                        let teacherUid = document.data()["uid"] as? String ?? ""
+                                        self.teacherUid = document.data()["uid"] as? String ?? ""
                                         
                                         // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
-                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
+                                        self.db.collection("teacher").document(self.teacherUid).collection("class").document(self.studentName + "(" + self.studentEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
                                             if let snapshot = snapshot {
                                                 
                                                 snapshot.documents.map { doc in
@@ -835,15 +838,28 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
         }
         print("tagname : \(todoDoc)")
-        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(todoDoc[sender.tag]).updateData([
-            "check": checkTime
-        ]) { err in
-            if let err = err {
-                print("Error updating document: \(err)")
-            } else {
-                print("Document successfully updated")
+        if(self.userType == "teacher"){
+            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(todoDoc[sender.tag]).updateData([
+                "check": checkTime
+            ]) { err in
+                if let err = err {
+                    print("Error updating document: \(err)")
+                } else {
+                    print("Document successfully updated")
+                }
+                
             }
-            
+        } else {
+            self.db.collection("teacher").document(self.teacherUid).collection("class").document(self.studentName + "(" + self.studentEmail + ") " + self.userSubject).collection("ToDoList").document(todoDoc[sender.tag]).updateData([
+                "check": checkTime
+            ]) { err in
+                if let err = err {
+                    print("Error updating document: \(err)")
+                } else {
+                    print("Document successfully updated")
+                }
+                
+            }
         }
     }
 }
