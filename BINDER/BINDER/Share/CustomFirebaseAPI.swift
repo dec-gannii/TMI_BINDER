@@ -9,6 +9,8 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 
+public var publicTitles: [String] = []
+
 public func ShowScheduleList(type : String, date : String, datestr: String, scheduleTitles : [String], scheduleMemos : [String], count : Int) {
     let db = Firestore.firestore()
     
@@ -65,6 +67,7 @@ public func SetScheduleTexts(type : String, date : String, datestr: String, sche
                 if (!varScheduleTitles.contains(scheduleTitle)) {
                     // 여러 개의 일정이 있을 수 있으므로 가져와서 배열에 저장
                     varScheduleTitles.append(scheduleTitle)
+                    publicTitles.append(scheduleTitle)
                     varScheduleMemos.append(scheduleMemo)
                 }
                 

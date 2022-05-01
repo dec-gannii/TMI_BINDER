@@ -118,7 +118,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         guard let editScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
         editScheduleVC.date = self.date // 선택된 날짜 데이터 전달
         editScheduleVC.type = self.type
-        editScheduleVC.editingTitle = scheduleTitles[indexPath.row] // 선택된 셀의 일정 제목 데이터 전달
+        editScheduleVC.editingTitle = publicTitles[indexPath.row] // 선택된 셀의 일정 제목 데이터 전달
         editScheduleVC.modalPresentationStyle = .fullScreen
         self.present(editScheduleVC, animated: true, completion: nil)
     }
