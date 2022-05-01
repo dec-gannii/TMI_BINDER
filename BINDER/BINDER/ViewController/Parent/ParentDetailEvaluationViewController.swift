@@ -34,6 +34,9 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     var events: [Date] = []
     var days: [Date] = []
     
+    var calendarDesign = CalendarDesign()
+    var viewDesign = ViewDesign()
+    
     @IBAction func prevBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: true) }
     
     @IBAction func nextBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: false) }
@@ -80,15 +83,14 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
-        let color = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  color
-        calendarView.appearance.eventDefaultColor = color
-        calendarView.appearance.eventSelectionColor = color
-        calendarView.appearance.titleSelectionColor = color
-        calendarView.appearance.borderSelectionColor = color
-        calendarView.appearance.todayColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 0.3)
+        calendarView.appearance.headerTitleColor =  calendarDesign.calendarColor
+        calendarView.appearance.eventDefaultColor = calendarDesign.calendarColor
+        calendarView.appearance.eventSelectionColor = calendarDesign.calendarColor
+        calendarView.appearance.titleSelectionColor = calendarDesign.calendarColor
+        calendarView.appearance.borderSelectionColor = calendarDesign.calendarColor
+        calendarView.appearance.todayColor = calendarDesign.calendarTodayColor
         calendarView.appearance.titleTodayColor = .black
         calendarView.appearance.todaySelectionColor = .white
         calendarView.appearance.selectionColor = .none
@@ -107,9 +109,9 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     func setCornerRadius() {
         /// cornerRadius 지정을 위해 사용
         monthlyEvaluationTitleBackgroundView.clipsToBounds = true
-        monthlyEvaluationTitleBackgroundView.layer.cornerRadius = 15
+        monthlyEvaluationTitleBackgroundView.layer.cornerRadius = viewDesign.childViewconerRadius
         monthlyEvaluationTextView.clipsToBounds = true
-        monthlyEvaluationTextView.layer.cornerRadius = 15
+        monthlyEvaluationTextView.layer.cornerRadius = viewDesign.childViewconerRadius
         
         /// 위쪽 코너에만 cornerRadius 주기 위해 사용
         monthlyEvaluationTitleBackgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -126,7 +128,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         setUpDays(self.today)
         
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
-        monthlyEvaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        monthlyEvaluationTextView.textContainerInset = viewDesign.EdgeInsets
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM" // 날짜가 표시될 타임 설정

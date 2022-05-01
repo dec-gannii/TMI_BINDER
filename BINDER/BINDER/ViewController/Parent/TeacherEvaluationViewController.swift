@@ -30,6 +30,8 @@ class TeacherEvaluationViewController: UIViewController {
     var date: String = ""
     var studentName: String = ""
     var teacherUid: String = ""
+    var viewDesign = ViewDesign()
+    var btnDesign = ButtonDesign()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,13 +39,13 @@ class TeacherEvaluationViewController: UIViewController {
         getUserInfo() // 사용자 정보 가져오기
         
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
-        evaluationTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        evaluationTextView.textContainerInset = viewDesign.EdgeInsets
         self.TeacherTitle.text = self.teacherName + " 선생님의 " + self.month + " 수업은..." // 선생님 평가 title 설정
         
         evaluationTextView.clipsToBounds = true
-        evaluationTextView.layer.cornerRadius = 10
+        evaluationTextView.layer.cornerRadius = btnDesign.cornerRadius
         okBtn.clipsToBounds = true
-        okBtn.layer.cornerRadius = 10
+        okBtn.layer.cornerRadius = btnDesign.cornerRadius
     }
     
     override func viewWillAppear(_ animated: Bool) {

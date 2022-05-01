@@ -26,50 +26,50 @@ class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     var extra = ""
     var showPortfolio = "On"
     
+    var viewDesign = ViewDesign()
+    var btnDesign = ButtonDesign()
+    
     func setTextViewUI() {
-        let color = UIColor.systemGray6.cgColor
         // Border setting
-        self.eduHistoryTV.layer.borderWidth = 1.0
-        self.eduHistoryTV.layer.borderColor = color
-        self.classMetTV.layer.borderWidth = 1.0
-        self.classMetTV.layer.borderColor = color
-        self.extraExpTV.layer.borderWidth = 1.0
-        self.extraExpTV.layer.borderColor = color
-        self.timeTV.layer.borderWidth = 1.0
-        self.timeTV.layer.borderColor = color
-        self.contactTV.layer.borderWidth = 1.0
-        self.contactTV.layer.borderColor = color
-        self.manageTV.layer.borderWidth = 1.0
-        self.manageTV.layer.borderColor = color
-        self.evaluationTV.layer.borderWidth = 1.0
-        self.evaluationTV.layer.borderColor = color
-        
-        let edgeInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        self.eduHistoryTV.layer.borderWidth = viewDesign.borderWidth
+        self.eduHistoryTV.layer.borderColor = viewDesign.borderColor
+        self.classMetTV.layer.borderWidth = viewDesign.borderWidth
+        self.classMetTV.layer.borderColor = viewDesign.borderColor
+        self.extraExpTV.layer.borderWidth = viewDesign.borderWidth
+        self.extraExpTV.layer.borderColor = viewDesign.borderColor
+        self.timeTV.layer.borderWidth = viewDesign.borderWidth
+        self.timeTV.layer.borderColor = viewDesign.borderColor
+        self.contactTV.layer.borderWidth = viewDesign.borderWidth
+        self.contactTV.layer.borderColor = viewDesign.borderColor
+        self.manageTV.layer.borderWidth = viewDesign.borderWidth
+        self.manageTV.layer.borderColor = viewDesign.borderColor
+        self.evaluationTV.layer.borderWidth = viewDesign.borderWidth
+        self.evaluationTV.layer.borderColor = viewDesign.borderColor
         
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
-        self.eduHistoryTV.textContainerInset = edgeInset
-        self.classMetTV.textContainerInset = edgeInset
-        self.extraExpTV.textContainerInset = edgeInset
-        self.timeTV.textContainerInset = edgeInset
-        self.manageTV.textContainerInset = edgeInset
-        self.contactTV.textContainerInset = edgeInset
-        self.evaluationTV.textContainerInset = edgeInset
+        self.eduHistoryTV.textContainerInset = viewDesign.EdgeInsets
+        self.classMetTV.textContainerInset = viewDesign.EdgeInsets
+        self.extraExpTV.textContainerInset = viewDesign.EdgeInsets
+        self.timeTV.textContainerInset = viewDesign.EdgeInsets
+        self.manageTV.textContainerInset = viewDesign.EdgeInsets
+        self.contactTV.textContainerInset = viewDesign.EdgeInsets
+        self.evaluationTV.textContainerInset = viewDesign.EdgeInsets
         
         // cornerRadius 지정
         self.eduHistoryTV.clipsToBounds = true
-        self.eduHistoryTV.layer.cornerRadius = 15
+        self.eduHistoryTV.layer.cornerRadius = btnDesign.cornerRadius
         self.classMetTV.clipsToBounds = true
-        self.classMetTV.layer.cornerRadius = 15
+        self.classMetTV.layer.cornerRadius = btnDesign.cornerRadius
         self.extraExpTV.clipsToBounds = true
-        self.extraExpTV.layer.cornerRadius = 15
+        self.extraExpTV.layer.cornerRadius = btnDesign.cornerRadius
         self.timeTV.clipsToBounds = true
-        self.timeTV.layer.cornerRadius = 15
+        self.timeTV.layer.cornerRadius = btnDesign.cornerRadius
         self.manageTV.clipsToBounds = true
-        self.manageTV.layer.cornerRadius = 15
+        self.manageTV.layer.cornerRadius = btnDesign.cornerRadius
         self.contactTV.clipsToBounds = true
-        self.contactTV.layer.cornerRadius = 15
+        self.contactTV.layer.cornerRadius = btnDesign.cornerRadius
         self.evaluationTV.clipsToBounds = true
-        self.evaluationTV.layer.cornerRadius = 15
+        self.evaluationTV.layer.cornerRadius = btnDesign.cornerRadius
     }
     
     func placeholderSetting(_ textView: UITextView) {

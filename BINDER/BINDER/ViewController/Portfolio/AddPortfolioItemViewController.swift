@@ -17,25 +17,27 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var manageBtn: UIButton!
     
     let db = Firestore.firestore()
+    var btnDesign = ButtonDesign()
+    var viewDesign = ViewDesign()
     
     func setUI() {
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
-        contentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        contentTextView.textContainerInset = viewDesign.EdgeInsets
         
         contactBtn.clipsToBounds = true
-        contactBtn.layer.cornerRadius = 10
+        contactBtn.layer.cornerRadius = btnDesign.cornerRadius
         timeBtn.clipsToBounds = true
-        timeBtn.layer.cornerRadius = 10
+        timeBtn.layer.cornerRadius = btnDesign.cornerRadius
         manageBtn.clipsToBounds = true
-        manageBtn.layer.cornerRadius = 10
+        manageBtn.layer.cornerRadius = btnDesign.cornerRadius
         
         // textview 테두리 설정
         self.contentTextView.layer.borderColor = UIColor.lightGray.cgColor
-        self.contentTextView.layer.borderWidth = 0.3
+        self.contentTextView.layer.borderWidth = viewDesign.borderWidth
         
         // cornerRadius 지정
         contentTextView.clipsToBounds = true
-        contentTextView.layer.cornerRadius = 10
+        contentTextView.layer.cornerRadius = btnDesign.cornerRadius
         
         // placeholder 설정
         placeholderSetting()

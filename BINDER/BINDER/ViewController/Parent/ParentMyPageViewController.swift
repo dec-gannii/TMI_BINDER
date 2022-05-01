@@ -19,6 +19,7 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
     let storage = Storage.storage()
     var storageRef:StorageReference!
     var profile:String!
+    var viewDesign = ViewDesign()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,12 +107,12 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
     
     // 자녀 정보 background view 커스터마이징 해주기
     func viewDecorating(){
-        childInfoBackgroundView.layer.cornerRadius = 10
-        childInfoBackgroundView.layer.shadowColor = UIColor.black.cgColor
+        childInfoBackgroundView.layer.cornerRadius = viewDesign.childViewconerRadius
+        childInfoBackgroundView.layer.shadowColor = viewDesign.shadowColor
         childInfoBackgroundView.layer.masksToBounds = false
-        childInfoBackgroundView.layer.shadowOffset = CGSize(width: 2, height: 3)
-        childInfoBackgroundView.layer.shadowRadius = 5
-        childInfoBackgroundView.layer.shadowOpacity = 0.3
+        childInfoBackgroundView.layer.shadowOffset = viewDesign.shadowOffset
+        childInfoBackgroundView.layer.shadowRadius = viewDesign.shadowRadius
+        childInfoBackgroundView.layer.shadowOpacity = viewDesign.shadowOpacity
     }
     
     /// 사용자 정보 가져오기

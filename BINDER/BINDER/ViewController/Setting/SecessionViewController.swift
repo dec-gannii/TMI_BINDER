@@ -11,13 +11,13 @@ import Firebase
 
 class SecessionViewController: UIViewController {
     let db = Firestore.firestore()
-    
+    var btnDesign = ButtonDesign()
     @IBOutlet weak var secessionBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         secessionBtn.clipsToBounds = true
-        secessionBtn.layer.cornerRadius = 10
+        secessionBtn.layer.cornerRadius = btnDesign.cornerRadius
     }
     
     // 뒤로가기 버튼 클릭 시 수행되는 메소드
