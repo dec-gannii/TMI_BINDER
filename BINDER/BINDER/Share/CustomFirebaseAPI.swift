@@ -158,3 +158,29 @@ public func EditSchedule(type : String, date : String, editingTitle : String, is
         }
     }
 }
+
+public func SaveEditSchedule(type : String, date : String, editingTitle : String, isEditMode : Bool, scheduleMemoTV : UITextView, schedulePlaceTF : UITextField, scheduleTitleTF : UITextField, scheduleTimeTF : UITextField, datestr : String, current_time_string : String) {
+    // 원래 데이터베이스에 저장되어 있던 일정은 삭제하고 새롭게 수정한 내용으로 추가 후 현재 modal dismiss
+    let db = Firestore.firestore()
+    print ("editing Title : \(editingTitle)")
+    db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document(editingTitle).delete() { err in
+        if let err = err {
+            print("Error removing document: \(err)")
+        } else {
+            print("Document successfully removed!")
+        }
+    }
+    
+    db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document(scheduleTitleTF.text!).setData([
+        "title": scheduleTitleTF.text!,
+        "place": schedulePlaceTF.text!,
+        "date" : datestr,
+        "time": scheduleTimeTF.text!,
+        "memo": scheduleMemoTV.text!,
+        "savedTime": current_time_string ])
+    { err in
+        if let err = err {
+            print("Error adding document: \(err)")
+        }
+    }
+}
