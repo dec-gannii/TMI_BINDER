@@ -78,11 +78,16 @@ class DetailClassViewController: UIViewController {
         getScores()
         getUserInfo()
         
-        self.calendarText()
-        self.calendarColor()
-        self.calendarEvent()
+        calendarText(view: calendarView, design: calenderDesign)
         
-        allRound()
+        calendarView.scope = .week
+        calendarColor(view: calendarView, design: calenderDesign)
+        calendarEvent()
+        
+        let bArray: Array<UIView> = [okButton, plusButton,evaluationView,monthlyEvaluationBackgroundView,monthlyEvaluationTextView,progressTextView,evaluationMemoTextView,evaluationOKBtn,monthlyEvaluationOKBtn]
+        allRound(array: bArray, design: btnDesign)
+        okButton.clipsToBounds = true
+        plusButton.clipsToBounds = true
         barColorSetting()
     }
     
@@ -105,7 +110,8 @@ class DetailClassViewController: UIViewController {
         self.progressTextView.textColor = .black
         self.evaluationMemoTextView.textColor = .black
         
-        setBorder()
+        let tList :Array<UITextView> = [self.progressTextView,self.evaluationMemoTextView,self.monthlyEvaluationTextView]
+        setBorder(textList: tList, design: viewDesign)
         
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
@@ -126,59 +132,6 @@ class DetailClassViewController: UIViewController {
             }
         }
         super.viewDidLoad()
-    }
-    
-    /// UI setting
-    func setBorder() {
-        self.progressTextView.layer.borderWidth = viewDesign.borderWidth
-        self.progressTextView.layer.borderColor = viewDesign.borderColor
-        self.evaluationMemoTextView.layer.borderWidth = viewDesign.borderWidth
-        self.evaluationMemoTextView.layer.borderColor = viewDesign.borderColor
-        self.monthlyEvaluationTextView.layer.borderWidth = viewDesign.borderWidth
-        self.monthlyEvaluationTextView.layer.borderColor = viewDesign.borderColor
-    }
-    
-    func allRound() {
-        okButton.clipsToBounds = true
-        okButton.layer.cornerRadius = btnDesign.cornerRadius
-        plusButton.clipsToBounds = true
-        plusButton.layer.cornerRadius = btnDesign.cornerRadius
-        evaluationView.layer.cornerRadius = btnDesign.cornerRadius
-        monthlyEvaluationBackgroundView.layer.cornerRadius = btnDesign.cornerRadius
-        monthlyEvaluationTextView.layer.cornerRadius = btnDesign.cornerRadius
-        progressTextView.layer.cornerRadius = btnDesign.cornerRadius
-        evaluationMemoTextView.layer.cornerRadius = btnDesign.cornerRadius
-        evaluationOKBtn.layer.cornerRadius = btnDesign.cornerRadius
-        monthlyEvaluationOKBtn.layer.cornerRadius = btnDesign.cornerRadius
-    }
-    
-    /// calendar custom
-    func calendarColor() {
-        
-        calendarView.scope = .week
-        calendarView.appearance.weekdayTextColor = .systemGray
-        calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
-        calendarView.appearance.eventDefaultColor = calenderDesign.calendarColor
-        calendarView.appearance.eventSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.titleSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.borderSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.todayColor = calenderDesign.calendarTodayColor
-        calendarView.appearance.titleTodayColor = .black
-        calendarView.appearance.todaySelectionColor = .white
-        calendarView.appearance.selectionColor = .none
-    }
-    
-    // 캘린더 텍스트 스타일 설정을 위한 메소드
-    func calendarText() {
-        calendarView.headerHeight = CGFloat(calenderDesign.headerHeight)
-        calendarView.appearance.headerTitleFont = calenderDesign.headerFont
-        calendarView.appearance.headerMinimumDissolvedAlpha = 0.0
-        calendarView.appearance.headerDateFormat = "YYYY년 M월"
-        calendarView.appearance.titleFont = calenderDesign.titleFont
-        calendarView.appearance.weekdayFont = calenderDesign.headerFont
-        calendarView.locale = Locale(identifier: "ko_KR")
-        calendarView.weekdayHeight = CGFloat(calenderDesign.weekdayHeight)
     }
     
     func calendarEvent() {
@@ -819,8 +772,6 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
-    
-   
     
     // 투두리스트 선택에 따라
     @objc func checkMarkButtonClicked(sender: UIButton){

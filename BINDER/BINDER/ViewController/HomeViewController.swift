@@ -95,20 +95,6 @@ class HomeViewController: UIViewController {
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
     }
     
-    // 캘린더 외관을 꾸미기 위한 메소드
-    func calendarColor() {
-        calendarView.appearance.weekdayTextColor = .systemGray
-        calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
-        calendarView.appearance.eventDefaultColor = calenderDesign.calendarColor
-        calendarView.appearance.eventSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.titleSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.borderSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.titleTodayColor = .black
-        calendarView.appearance.todaySelectionColor = .white
-        calendarView.appearance.selectionColor = .none
-        calendarView.appearance.todayColor = calenderDesign.calendarTodayColor
-    }
     
     func calendarEvent() {
         calendarView.dataSource = self
@@ -197,7 +183,7 @@ class HomeViewController: UIViewController {
         getTeacherInfo()
         getStudentInfo()
         
-        self.calendarColor()
+        calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
         self.setCalendar()
         
