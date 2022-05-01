@@ -38,7 +38,7 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
         openPortfolioSwitch.onTintColor = viewDesign.titleColor
         getUserInfo()
         getPortfolioShow()
-        viewDecorating()
+        viewDecorating(btn: portfoiolBtn,view: pageView,design: viewDesign)
         imageChange()
     }
     
@@ -97,7 +97,7 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                         let url = URL(string: profile)!
                         self.imageView.kf.setImage(with: url)
                         self.imageView.makeCircle()
-                        self.viewDecorating()
+                        viewDecorating(btn: self.portfoiolBtn,view: self.pageView,design: self.viewDesign)
                         self.openPortfolioSwitch.removeFromSuperview()
                         self.portfoiolBtn.removeFromSuperview()
                         self.pageViewTitleLabel.text = "목표"
@@ -187,16 +187,6 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
             
             self.present(loginVC, animated: true, completion: nil)
         }
-    }
-    
-    func viewDecorating(){
-        portfoiolBtn.layer.cornerRadius = viewDesign.viewconerRadius
-        pageView.layer.cornerRadius = viewDesign.viewconerRadius
-        pageView.layer.shadowColor = viewDesign.shadowColor
-        pageView.layer.masksToBounds = false
-        pageView.layer.shadowOffset = viewDesign.shadowOffset
-        pageView.layer.shadowRadius = viewDesign.shadowRadius
-        pageView.layer.shadowOpacity = viewDesign.shadowOpacity
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

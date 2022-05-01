@@ -34,22 +34,22 @@ class DetailClassViewController: UIViewController {
     var userSubject: String!
     var userName: String!
     var userType: String!
-    var currentCnt: Int = 0
+    var currentCnt: Int!
     var days: [String]!
     var scores: [Double]!
-    let floatValue: [CGFloat] = [5,5]
+    var floatValue: [CGFloat]!
     var barColors = [UIColor]()
-    var count = 0
+    var count: Int!
     var todos = Array<String>()
     var todoCheck = Array<Bool>()
     var todoDoc = Array<String>()
-    var bRec:Bool = false
+    var bRec: Bool!
     var date: String!
     var selectedMonth: String!
     var userIndex: Int!
     var keyHeight: CGFloat?
-    var checkTime: Bool = false
-    var dateStrWithoutDays: String = ""
+    var checkTime: Bool!
+    var dateStrWithoutDays: String!
     var teacherUid: String!
     var studentName: String!
     var studentEmail: String!
@@ -72,6 +72,32 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var classTimeTextField: UITextField!
     @IBOutlet weak var monthlyEvaluationOKBtn: UIButton!
     @IBOutlet weak var calendarHeight: NSLayoutConstraint!
+    
+    func _init(){
+        userEmail = ""
+        userSubject = ""
+        userName = ""
+        userType = ""
+        currentCnt = 0
+        days = []
+        scores = []
+        floatValue = [5,5]
+        barColors = []
+        count = 0
+        todos = []
+        todoCheck = []
+        todoDoc = []
+        bRec = false
+        date = ""
+        selectedMonth = ""
+        userIndex = 0
+        keyHeight = 0.0
+        checkTime = false
+        dateStrWithoutDays = ""
+        teacherUid = ""
+        studentName = ""
+        studentEmail = ""
+    }
     
     /// Load View
     override func viewWillAppear(_ animated: Bool) {
