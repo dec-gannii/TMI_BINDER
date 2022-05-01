@@ -12,6 +12,8 @@ import Firebase
 class ShowPortfolioViewController: UIViewController {
     
     let db = Firestore.firestore()
+    var btnDesign = ButtonDesign()
+    
     @IBOutlet weak var teacherEmailTextField: UITextField!
     @IBOutlet weak var showBtn: UIButton!
     
@@ -21,7 +23,7 @@ class ShowPortfolioViewController: UIViewController {
         teacherEmailTextField.becomeFirstResponder()
         
         showBtn.clipsToBounds = true
-        showBtn.layer.cornerRadius = 10
+        showBtn.layer.cornerRadius = btnDesign.cornerRadius
     }
     
     // 포트폴리오 조회 버튼 클릭 시 실행되는 메소드

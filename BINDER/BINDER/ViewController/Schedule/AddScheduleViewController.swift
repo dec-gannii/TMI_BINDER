@@ -22,6 +22,7 @@ class AddScheduleViewController: UIViewController {
     var isEditMode: Bool = false
     var savedTime: String = ""
     var type: String = ""
+    var viewDesign = ViewDesign()
     
     let db = Firestore.firestore()
     
@@ -29,8 +30,8 @@ class AddScheduleViewController: UIViewController {
         super.viewDidLoad()
         
         self.dateLabel.text = date
-        self.scheduleMemo.layer.borderWidth = 1.0
-        self.scheduleMemo.layer.borderColor = UIColor.systemGray6.cgColor
+        self.scheduleMemo.layer.borderWidth = viewDesign.borderWidth
+        self.scheduleMemo.layer.borderColor = viewDesign.borderColor
         
         // 만약 넘어온 수정할 제목이 넘어와서 nil이 아니라면,
         if (self.editingTitle != nil) {

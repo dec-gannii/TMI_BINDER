@@ -9,6 +9,7 @@ import UIKit
 import Charts
 import BLTNBoard
 import Firebase
+import FirebaseDatabase
 
 class GraphViewController: UIViewController {
     
@@ -158,7 +159,6 @@ class GraphViewController: UIViewController {
         
         // 차트 컬러
         chartDataSet.colors = barColors
-        chartDataSet.valueFont = NSUIFont.systemFont(ofSize: 20)
         
         // 데이터 삽입
         let chartData = BarChartData(dataSet: chartDataSet)
@@ -184,7 +184,6 @@ class GraphViewController: UIViewController {
         // X축 레이블 포맷 지정
         barChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: days)
         barChartView.legend.setCustom(entries: [])
-        barChartView.xAxis.granularity = 1
         
         // X축 레이블 갯수 최대로 설정 (이 코드 안쓸 시 Jan Mar May 이런식으로 띄엄띄엄 조금만 나옴)
         barChartView.xAxis.setLabelCount(dataPoints.count, force: false)

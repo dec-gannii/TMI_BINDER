@@ -17,11 +17,13 @@ class ResetPasswordViewController: UIViewController {
     @IBOutlet weak var alertLabel: UILabel!
     @IBOutlet weak var sendBtn: UIButton!
     
+    var btnDesign = ButtonDesign()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         sendBtn.clipsToBounds = true
-        sendBtn.layer.cornerRadius = 10
+        sendBtn.layer.cornerRadius = btnDesign.cornerRadius
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드

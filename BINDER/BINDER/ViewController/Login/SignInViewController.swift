@@ -30,6 +30,7 @@ class SignInViewController: UIViewController {
     
     var name: String = ""
     var email: String = ""
+    var viewDesign = ViewDesign()
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -139,7 +140,7 @@ class SignInViewController: UIViewController {
             let tb = UITabBarController()
             tb.modalPresentationStyle = .fullScreen // 전체화면으로 보이게 설정
             tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
-            tb.tabBar.tintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
+            tb.tabBar.tintColor = viewDesign.titleColor
             self.present(tb, animated: true, completion: nil)
             self.present(homeVC, animated: true, completion: nil)
         } else {

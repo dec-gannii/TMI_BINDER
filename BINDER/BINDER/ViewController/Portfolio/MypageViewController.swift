@@ -29,11 +29,13 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
     let db = Firestore.firestore()
     var profile:String!
     var type:String!
+    var viewDesign = ViewDesign()
+    var btnDesign = ButtonDesign()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         storageRef = storage.reference()
-        openPortfolioSwitch.onTintColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
+        openPortfolioSwitch.onTintColor = viewDesign.titleColor
         getUserInfo()
         getPortfolioShow()
         viewDecorating()
@@ -188,13 +190,13 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
     }
     
     func viewDecorating(){
-        portfoiolBtn.layer.cornerRadius = 20
-        pageView.layer.cornerRadius = 30
-        pageView.layer.shadowColor = UIColor.black.cgColor
+        portfoiolBtn.layer.cornerRadius = viewDesign.viewconerRadius
+        pageView.layer.cornerRadius = viewDesign.viewconerRadius
+        pageView.layer.shadowColor = viewDesign.shadowColor
         pageView.layer.masksToBounds = false
-        pageView.layer.shadowOffset = CGSize(width: 2, height: 3)
-        pageView.layer.shadowRadius = 5
-        pageView.layer.shadowOpacity = 0.3
+        pageView.layer.shadowOffset = viewDesign.shadowOffset
+        pageView.layer.shadowRadius = viewDesign.shadowRadius
+        pageView.layer.shadowOpacity = viewDesign.shadowOpacity
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

@@ -24,13 +24,15 @@ class LogInViewController: UIViewController {
     var isLogouted = true
     var email = ""
     var name = ""
+    var viewDesign = ViewDesign()
+    var btnDesign = ButtonDesign()
     fileprivate var currentNonce: String?
     
     let authorizationAppleIDButton = ASAuthorizationAppleIDButton()
     
     let db = Firestore.firestore()
     var ref: DatabaseReference!
-    
+    var loginDesign = LoginDesign()
     /// sign in with apple
     @objc private func handleAuthorizationAppleIDButton(_ sender: ASAuthorizationAppleIDButton) {
         startSignInWithAppleFlow()
@@ -41,18 +43,19 @@ class LogInViewController: UIViewController {
         emailTextField.borderStyle = .none
         let emailBorder = CALayer()
         emailBorder.frame = CGRect(x: 0, y: emailTextField.frame.size.height-1, width: emailTextField.frame.width-25, height: 1)
-        emailBorder.backgroundColor = UIColor.darkGray.cgColor
+        emailBorder.backgroundColor = loginDesign.bgColor
         emailTextField.layer.addSublayer((emailBorder))
         emailTextField.textAlignment = .left
-        emailTextField.textColor = UIColor.black
+        emailTextField.textColor = loginDesign.textColor
         
         pwTextField.borderStyle = .none
         let pwBorder = CALayer()
         pwBorder.frame = CGRect(x: 0, y: pwTextField.frame.size.height-1, width: pwTextField.frame.width-25, height: 1)
-        pwBorder.backgroundColor = UIColor.darkGray.cgColor
+        pwBorder.backgroundColor = loginDesign.bgColor
         pwTextField.layer.addSublayer((pwBorder))
         pwTextField.textAlignment = .left
-        pwTextField.textColor = UIColor.black
+        pwTextField.textColor = loginDesign.textColor
+        
     }
     
     /// Load View
@@ -81,7 +84,7 @@ class LogInViewController: UIViewController {
         
         // google log in button customize
         googleLogInBtn.style = .iconOnly
-        googleLogInBtn.layer.borderWidth = 1
+        googleLogInBtn.layer.borderWidth = viewDesign.borderWidth
         googleLogInBtn.layer.borderColor = UIColor.clear.cgColor
         googleLogInBtn.clipsToBounds = true
         

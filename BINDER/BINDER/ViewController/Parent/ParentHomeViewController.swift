@@ -25,7 +25,7 @@ class ParentHomeViewController: UIViewController {
     
     @IBOutlet weak var parentNameLabel: UILabel! // 학부모 이름 Label
     @IBOutlet weak var progressListTableView: UITableView! // TableView
-            
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

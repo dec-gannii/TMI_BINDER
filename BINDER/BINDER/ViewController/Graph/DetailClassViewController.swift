@@ -53,6 +53,10 @@ class DetailClassViewController: UIViewController {
     var teacherUid: String!
     var studentName: String!
     var studentEmail: String!
+    var viewDesign = ViewDesign()
+    var calenderDesign = CalendarDesign()
+    var chartDesign = ChartDesign()
+    var btnDesign = ButtonDesign()
     
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var evaluationView: UIView!
@@ -87,11 +91,9 @@ class DetailClassViewController: UIViewController {
         days = []
         scores = []
         
-        let EdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        
-        monthlyEvaluationTextView.textContainerInset = EdgeInsets
-        evaluationMemoTextView.textContainerInset = EdgeInsets
-        progressTextView.textContainerInset = EdgeInsets
+        monthlyEvaluationTextView.textContainerInset = viewDesign.EdgeInsets
+        evaluationMemoTextView.textContainerInset = viewDesign.EdgeInsets
+        progressTextView.textContainerInset = viewDesign.EdgeInsets
         
         self.monthlyEvaluationBackgroundView.isHidden = true
         
@@ -102,7 +104,6 @@ class DetailClassViewController: UIViewController {
         
         self.progressTextView.textColor = .black
         self.evaluationMemoTextView.textColor = .black
-        
         
         setBorder()
         
@@ -129,41 +130,40 @@ class DetailClassViewController: UIViewController {
     
     /// UI setting
     func setBorder() {
-        let color = UIColor.systemGray6.cgColor
-        self.progressTextView.layer.borderWidth = 1.0
-        self.progressTextView.layer.borderColor = color
-        self.evaluationMemoTextView.layer.borderWidth = 1.0
-        self.evaluationMemoTextView.layer.borderColor = color
-        self.monthlyEvaluationTextView.layer.borderWidth = 1.0
-        self.monthlyEvaluationTextView.layer.borderColor = color
+        self.progressTextView.layer.borderWidth = viewDesign.borderWidth
+        self.progressTextView.layer.borderColor = viewDesign.borderColor
+        self.evaluationMemoTextView.layer.borderWidth = viewDesign.borderWidth
+        self.evaluationMemoTextView.layer.borderColor = viewDesign.borderColor
+        self.monthlyEvaluationTextView.layer.borderWidth = viewDesign.borderWidth
+        self.monthlyEvaluationTextView.layer.borderColor = viewDesign.borderColor
     }
     
     func allRound() {
         okButton.clipsToBounds = true
-        okButton.layer.cornerRadius = 10
+        okButton.layer.cornerRadius = btnDesign.cornerRadius
         plusButton.clipsToBounds = true
-        plusButton.layer.cornerRadius = 10
-        evaluationView.layer.cornerRadius = 10
-        monthlyEvaluationBackgroundView.layer.cornerRadius = 10
-        monthlyEvaluationTextView.layer.cornerRadius = 10
-        progressTextView.layer.cornerRadius = 10
-        evaluationMemoTextView.layer.cornerRadius = 10
-        evaluationOKBtn.layer.cornerRadius = 10
-        monthlyEvaluationOKBtn.layer.cornerRadius = 10
+        plusButton.layer.cornerRadius = btnDesign.cornerRadius
+        evaluationView.layer.cornerRadius = btnDesign.cornerRadius
+        monthlyEvaluationBackgroundView.layer.cornerRadius = btnDesign.cornerRadius
+        monthlyEvaluationTextView.layer.cornerRadius = btnDesign.cornerRadius
+        progressTextView.layer.cornerRadius = btnDesign.cornerRadius
+        evaluationMemoTextView.layer.cornerRadius = btnDesign.cornerRadius
+        evaluationOKBtn.layer.cornerRadius = btnDesign.cornerRadius
+        monthlyEvaluationOKBtn.layer.cornerRadius = btnDesign.cornerRadius
     }
     
     /// calendar custom
     func calendarColor() {
-        let color = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
+        
         calendarView.scope = .week
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  color
-        calendarView.appearance.eventDefaultColor = color
-        calendarView.appearance.eventSelectionColor = color
-        calendarView.appearance.titleSelectionColor = color
-        calendarView.appearance.borderSelectionColor = color
-        calendarView.appearance.todayColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 0.3)
+        calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
+        calendarView.appearance.eventDefaultColor = calenderDesign.calendarColor
+        calendarView.appearance.eventSelectionColor = calenderDesign.calendarColor
+        calendarView.appearance.titleSelectionColor = calenderDesign.calendarColor
+        calendarView.appearance.borderSelectionColor = calenderDesign.calendarColor
+        calendarView.appearance.todayColor = calenderDesign.calendarTodayColor
         calendarView.appearance.titleTodayColor = .black
         calendarView.appearance.todaySelectionColor = .white
         calendarView.appearance.selectionColor = .none
@@ -171,14 +171,14 @@ class DetailClassViewController: UIViewController {
     
     // 캘린더 텍스트 스타일 설정을 위한 메소드
     func calendarText() {
-        calendarView.headerHeight = 16
-        calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 12)
+        calendarView.headerHeight = CGFloat(calenderDesign.headerHeight)
+        calendarView.appearance.headerTitleFont = calenderDesign.headerFont
         calendarView.appearance.headerMinimumDissolvedAlpha = 0.0
         calendarView.appearance.headerDateFormat = "YYYY년 M월"
-        calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 13)
-        calendarView.appearance.weekdayFont = UIFont.systemFont(ofSize: 12)
+        calendarView.appearance.titleFont = calenderDesign.titleFont
+        calendarView.appearance.weekdayFont = calenderDesign.headerFont
         calendarView.locale = Locale(identifier: "ko_KR")
-        calendarView.weekdayHeight = 14
+        calendarView.weekdayHeight = CGFloat(calenderDesign.weekdayHeight)
     }
     
     func calendarEvent() {
@@ -655,11 +655,11 @@ class DetailClassViewController: UIViewController {
     
     /// bar chart UI setting
     func barColorSetting(){
-        barColors.append(UIColor.init(displayP3Red: 22/255, green: 32/255, blue: 60/255, alpha: 1))
-        barColors.append(UIColor.init(displayP3Red: 82/255, green: 90/255, blue: 109/255, alpha: 1))
-        barColors.append(UIColor.init(displayP3Red: 126/255, green: 129/255, blue: 144/255, alpha: 1))
-        barColors.append(UIColor.init(displayP3Red: 146/255, green: 150/255, blue: 160/255, alpha: 1))
-        barColors.append(UIColor.init(displayP3Red: 175/255, green: 178/255, blue: 186/255, alpha: 1))
+        barColors.append(chartDesign.chartColor_60)
+        barColors.append(chartDesign.chartColor_70)
+        barColors.append(chartDesign.chartColor_80)
+        barColors.append(chartDesign.chartColor_90)
+        barColors.append(chartDesign.chartColor_100)
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
@@ -693,7 +693,7 @@ class DetailClassViewController: UIViewController {
         
         // 차트 점선으로 표시
         barChartView.xAxis.gridColor = .clear
-        barChartView.leftAxis.gridColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 0.4)
+        barChartView.leftAxis.gridColor = chartDesign.gridColor
         barChartView.leftAxis.gridLineWidth = CGFloat(1.0)
         barChartView.leftAxis.gridLineDashLengths = floatValue
         barChartView.leftAxis.axisMaximum = 100
