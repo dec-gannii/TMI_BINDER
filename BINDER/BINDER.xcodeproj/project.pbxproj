@@ -78,6 +78,7 @@
 		7FBC6B1427EA05930067BAD5 /* PortfolioDefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1327EA05930067BAD5 /* PortfolioDefaultCell.swift */; };
 		7FBC6B1627EA06690067BAD5 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1527EA06690067BAD5 /* PortfolioTableViewController.swift */; };
 		7FBC6B1827EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1727EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift */; };
+		7FD18BE6281EAE1200FB86C0 /* CustomFirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD18BE5281EAE1200FB86C0 /* CustomFirebaseAPI.swift */; };
 		7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */; };
 		7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */; };
 /* End PBXBuildFile section */
@@ -158,6 +159,7 @@
 		7FBC6B1327EA05930067BAD5 /* PortfolioDefaultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDefaultCell.swift; sourceTree = "<group>"; };
 		7FBC6B1527EA06690067BAD5 /* PortfolioTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewController.swift; sourceTree = "<group>"; };
 		7FBC6B1727EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPortfolioItemViewController.swift; sourceTree = "<group>"; };
+		7FD18BE5281EAE1200FB86C0 /* CustomFirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFirebaseAPI.swift; sourceTree = "<group>"; };
 		7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailClassViewController.swift; sourceTree = "<group>"; };
 		C818F3518D61A717594C3485 /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			children = (
 				6918F342281E39A7008B3404 /* DesignShare.swift */,
 				6965DE79275DEF410072C16A /* CircleButton.swift */,
+				7FD18BE5281EAE1200FB86C0 /* CustomFirebaseAPI.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -619,6 +622,7 @@
 				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
 				7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */,
 				6FFDECC927CDF9380028B652 /* QuestionAnsweredListItem.swift in Sources */,
+				7FD18BE6281EAE1200FB86C0 /* CustomFirebaseAPI.swift in Sources */,
 				6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */,
 				7FBC6B1427EA05930067BAD5 /* PortfolioDefaultCell.swift in Sources */,
 				7FB50F7C27FC63C500BC2B09 /* FirebaseAuthentication.swift in Sources */,
