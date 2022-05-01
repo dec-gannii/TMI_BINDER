@@ -8,13 +8,13 @@
 import UIKit
 
 // 일정 리스트 테이블 뷰 셀
-class ScheduleCellTableViewCell: UITableViewCell {
+public class ScheduleCellTableViewCell: UITableViewCell {
     
     @IBOutlet weak var scheduleDate: UILabel!
     @IBOutlet weak var scheduleTitle: UILabel!
     @IBOutlet weak var scheduleMemo: UILabel!
     @IBOutlet weak var scheduleBackgroundView: UIView!
-    override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         scheduleBackgroundView.clipsToBounds = true
@@ -24,7 +24,7 @@ class ScheduleCellTableViewCell: UITableViewCell {
         scheduleBackgroundView.layer.borderColor = UIColor.systemGray6.cgColor
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
 }
