@@ -39,6 +39,8 @@ class HomeViewController: UIViewController {
     
     var ref: DatabaseReference!
     let db = Firestore.firestore()
+    var calenderDesign= CalendarDesign()
+    
     
     /// calendar custom
     
@@ -86,19 +88,17 @@ class HomeViewController: UIViewController {
     
     // 캘린더 외관을 꾸미기 위한 메소드
     func calendarColor() {
-        let color = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-        
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  color
-        calendarView.appearance.eventDefaultColor = color
-        calendarView.appearance.eventSelectionColor = color
-        calendarView.appearance.titleSelectionColor = color
-        calendarView.appearance.borderSelectionColor = color
+        calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
+        calendarView.appearance.eventDefaultColor = calenderDesign.calendarColor
+        calendarView.appearance.eventSelectionColor = calenderDesign.calendarColor
+        calendarView.appearance.titleSelectionColor = calenderDesign.calendarColor
+        calendarView.appearance.borderSelectionColor = calenderDesign.calendarColor
         calendarView.appearance.titleTodayColor = .black
         calendarView.appearance.todaySelectionColor = .white
         calendarView.appearance.selectionColor = .none
-        calendarView.appearance.todayColor = UIColor.init(red: 196/255, green: 196/255, blue: 196/255, alpha: 0.3)
+        calendarView.appearance.todayColor = calenderDesign.calendarTodayColor
     }
     
     func calendarEvent() {

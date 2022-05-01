@@ -35,7 +35,7 @@ struct CalendarDesign {
     
     var calendarColor = UIColor(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
     var calendarTodayColor = UIColor(red: 196/255, green: 196/255, blue: 196/255, alpha: 0.3)
-    
+
     var headerFont = UIFont.systemFont(ofSize: 12)
     var titleFont = UIFont.systemFont(ofSize: 13)
 }
