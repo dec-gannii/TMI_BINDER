@@ -39,7 +39,7 @@ class HomeViewController: UIViewController {
     
     var ref: DatabaseReference!
     let db = Firestore.firestore()
-    var calenderDesign= CalendarDesign()
+    var calenderDesign = CalendarDesign()
     
     
     /// calendar custom
