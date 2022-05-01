@@ -26,24 +26,20 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var secondLinkBtn: UIButton!
     @IBOutlet weak var thirdLinkBtn: UIButton!
     
-    var classItems: [String] = [] // 수업 변수 배열
-    var events: [Date] = [] // 이벤트가 있는 날짜 배열
-    var days: [Date] = [] // 선택된 월의 날짜들
-    var id : String = ""
-    var pw : String = ""
-    var name : String = ""
-    var number : Int = 1
-    var verified : Bool = false
-    var type : String = ""
+    var classItems: [String]! // 수업 변수 배열
+    var events: [Date]! // 이벤트가 있는 날짜 배열
+    var days: [Date]! // 선택된 월의 날짜들
+    var id : String!
+    var pw : String!
+    var name : String!
+    var number : Int!
+    var verified : Bool!
+    var type : String!
     var date : String!
-    
     var ref: DatabaseReference!
     let db = Firestore.firestore()
     var calenderDesign = CalendarDesign()
-    
-    
-    /// calendar custom
-    
+  
     private var currentPage: Date?
     private lazy var today: Date = { return Date() }()
     
@@ -57,6 +53,19 @@ class HomeViewController: UIViewController {
         df.dateFormat = "yyyy년 MM월"
         return df
     }()
+    
+    func _init(){
+        classItems = [] // 수업 변수 배열
+        events = [] // 이벤트가 있는 날짜 배열
+        days = [] // 선택된 월의 날짜들
+        id = ""
+        pw  = ""
+        name  = ""
+        number  = 1
+        verified  = false
+        type  = ""
+        date = ""
+    }
     
     func setCalendar() {
         calendarView.delegate = self
@@ -356,12 +365,10 @@ class HomeViewController: UIViewController {
         var email = ""
         var subject = ""
         var btnIndex = 0
-        var type = self.type
         
         if (self.type == "teacher") {
-            
-            type = "teacher"
-            let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
+    
+            let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("class")
             
             guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
             
@@ -391,7 +398,7 @@ class HomeViewController: UIViewController {
                     detailClassVC.userSubject = subject
                     detailClassVC.userEmail = email
                     detailClassVC.userIndex = btnIndex
-                    detailClassVC.userType = type
+                    detailClassVC.userType = self.type
                     
                     detailClassVC.modalPresentationStyle = .fullScreen
                     detailClassVC.modalTransitionStyle = .crossDissolve
@@ -400,8 +407,8 @@ class HomeViewController: UIViewController {
                 }
             }
         } else {
-            type = "student"
-            let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
+            
+            let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("class")
             
             guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
             
@@ -431,7 +438,7 @@ class HomeViewController: UIViewController {
                     detailClassVC.userSubject = subject
                     detailClassVC.userEmail = email
                     detailClassVC.userIndex = btnIndex
-                    detailClassVC.userType = type
+                    detailClassVC.userType = self.type
                     
                     detailClassVC.modalPresentationStyle = .fullScreen
                     detailClassVC.modalTransitionStyle = .crossDissolve
@@ -737,3 +744,4 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
 
 extension HomeViewController: FSCalendarDataSource {
 }
+
