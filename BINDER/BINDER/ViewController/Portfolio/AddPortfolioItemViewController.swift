@@ -40,7 +40,7 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
         contentTextView.layer.cornerRadius = btnDesign.cornerRadius
         
         // placeholder 설정
-        placeholderSetting()
+        placeholderSetting(contentTextView)
         textViewDidBeginEditing(self.contentTextView)
         textViewDidEndEditing(self.contentTextView)
     }
@@ -52,12 +52,6 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
         titleTextField.becomeFirstResponder()
     }
     
-    func placeholderSetting() {
-        contentTextView.delegate = self // 유저가 선언한 outlet
-        contentTextView.text = "추가할 내용을 입력해주세요."
-        contentTextView.textColor = UIColor.lightGray
-    }
-    
     // TextView Place Holder
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
@@ -66,17 +60,17 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-        self.view.endEditing(true)
-    }
-    
     // TextView Place Holder
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "추가할 내용을 입력해주세요."
             textView.textColor = UIColor.lightGray
         }
+    }
+    
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
     }
     
     @IBAction func BackButtonClicked(_ sender: Any) {

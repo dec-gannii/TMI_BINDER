@@ -21,61 +21,19 @@ class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     let db = Firestore.firestore()
     var ref: DatabaseReference!
     
-    var edu = ""
-    var classMethod = ""
-    var extra = ""
-    var showPortfolio = "On"
+    var edu :String!
+    var classMethod :String!
+    var extra :String!
+    var showPortfolio:String!
     
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
     
-    func setTextViewUI() {
-        // Border setting
-        self.eduHistoryTV.layer.borderWidth = viewDesign.borderWidth
-        self.eduHistoryTV.layer.borderColor = viewDesign.borderColor
-        self.classMetTV.layer.borderWidth = viewDesign.borderWidth
-        self.classMetTV.layer.borderColor = viewDesign.borderColor
-        self.extraExpTV.layer.borderWidth = viewDesign.borderWidth
-        self.extraExpTV.layer.borderColor = viewDesign.borderColor
-        self.timeTV.layer.borderWidth = viewDesign.borderWidth
-        self.timeTV.layer.borderColor = viewDesign.borderColor
-        self.contactTV.layer.borderWidth = viewDesign.borderWidth
-        self.contactTV.layer.borderColor = viewDesign.borderColor
-        self.manageTV.layer.borderWidth = viewDesign.borderWidth
-        self.manageTV.layer.borderColor = viewDesign.borderColor
-        self.evaluationTV.layer.borderWidth = viewDesign.borderWidth
-        self.evaluationTV.layer.borderColor = viewDesign.borderColor
-        
-        // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
-        self.eduHistoryTV.textContainerInset = viewDesign.EdgeInsets
-        self.classMetTV.textContainerInset = viewDesign.EdgeInsets
-        self.extraExpTV.textContainerInset = viewDesign.EdgeInsets
-        self.timeTV.textContainerInset = viewDesign.EdgeInsets
-        self.manageTV.textContainerInset = viewDesign.EdgeInsets
-        self.contactTV.textContainerInset = viewDesign.EdgeInsets
-        self.evaluationTV.textContainerInset = viewDesign.EdgeInsets
-        
-        // cornerRadius 지정
-        self.eduHistoryTV.clipsToBounds = true
-        self.eduHistoryTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.classMetTV.clipsToBounds = true
-        self.classMetTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.extraExpTV.clipsToBounds = true
-        self.extraExpTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.timeTV.clipsToBounds = true
-        self.timeTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.manageTV.clipsToBounds = true
-        self.manageTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.contactTV.clipsToBounds = true
-        self.contactTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.evaluationTV.clipsToBounds = true
-        self.evaluationTV.layer.cornerRadius = btnDesign.cornerRadius
-    }
-    
-    func placeholderSetting(_ textView: UITextView) {
-        textView.delegate = self // 유저가 선언한 outlet
-        textView.text = StringUtils.contentNotExist.rawValue
-        textView.textColor = UIColor.lightGray
+    func _init(){
+        edu = ""
+        classMethod = ""
+        extra = ""
+        showPortfolio = "On"
     }
     
     // TextView Place Holder
@@ -85,7 +43,7 @@ class PortfolioEditViewController: UIViewController, UITextViewDelegate {
             textView.textColor = UIColor.black
         }
     }
-    
+
     // TextView Place Holder
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
@@ -96,7 +54,8 @@ class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setTextViewUI()
+        var textView:Array<UITextView> = [self.eduHistoryTV,self.classMetTV,self.extraExpTV,self.timeTV,self.manageTV,self.contactTV,self.evaluationTV]
+        setTextViewUI(textList:textView,viewdesign: viewDesign,btndesign: btnDesign)
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
             if let document = document, document.exists {
@@ -105,7 +64,7 @@ class PortfolioEditViewController: UIViewController, UITextViewDelegate {
                 self.eduHistoryTV.text = eduHistory
                 // placeholder 설정
                 if (self.eduHistoryTV.text == "") {
-                    self.placeholderSetting(self.eduHistoryTV)
+                    placeholderSetting(self.eduHistoryTV)
                     self.textViewDidBeginEditing(self.eduHistoryTV)
                     self.textViewDidEndEditing(self.eduHistoryTV)
                 }
@@ -113,7 +72,7 @@ class PortfolioEditViewController: UIViewController, UITextViewDelegate {
                 self.classMetTV.text = classMethod
                 // placeholder 설정
                 if (self.classMetTV.text == "") {
-                    self.placeholderSetting(self.classMetTV)
+                    placeholderSetting(self.classMetTV)
                     self.textViewDidBeginEditing(self.classMetTV)
                     self.textViewDidEndEditing(self.classMetTV)
                 }
@@ -121,7 +80,7 @@ class PortfolioEditViewController: UIViewController, UITextViewDelegate {
                 self.extraExpTV.text = extraExprience
                 // placeholder 설정
                 if (self.extraExpTV.text == "") {
-                    self.placeholderSetting(self.extraExpTV)
+                    placeholderSetting(self.extraExpTV)
                     self.textViewDidBeginEditing(self.extraExpTV)
                     self.textViewDidEndEditing(self.extraExpTV)
                 }
@@ -129,7 +88,7 @@ class PortfolioEditViewController: UIViewController, UITextViewDelegate {
                 self.manageTV.text = manage
                 // placeholder 설정
                 if (self.manageTV.text == "") {
-                    self.placeholderSetting(self.manageTV)
+                    placeholderSetting(self.manageTV)
                     self.textViewDidBeginEditing(self.manageTV)
                     self.textViewDidEndEditing(self.manageTV)
                 }
@@ -137,7 +96,7 @@ class PortfolioEditViewController: UIViewController, UITextViewDelegate {
                 self.contactTV.text = contact
                 // placeholder 설정
                 if (self.contactTV.text == "") {
-                    self.placeholderSetting(self.contactTV)
+                    placeholderSetting(self.contactTV)
                     self.textViewDidBeginEditing(self.contactTV)
                     self.textViewDidEndEditing(self.contactTV)
                 }
@@ -145,7 +104,7 @@ class PortfolioEditViewController: UIViewController, UITextViewDelegate {
                 self.timeTV.text = time
                 // placeholder 설정
                 if (self.timeTV.text == "") {
-                    self.placeholderSetting(self.timeTV)
+                    placeholderSetting(self.timeTV)
                     self.textViewDidBeginEditing(self.timeTV)
                     self.textViewDidEndEditing(self.timeTV)
                 }
