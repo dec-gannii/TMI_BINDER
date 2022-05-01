@@ -39,23 +39,7 @@ class AddScheduleViewController: UIViewController {
             self.okBtn.setTitle("일정 수정하기", for: .normal)
             
             // 내용이 있다는 의미이므로 데이터베이스에서 다시 받아와서 textfield의 값으로 설정
-            self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(self.editingTitle).getDocument { (document, error) in
-                if let document = document, document.exists {
-                    self.isEditMode = true
-                    let data = document.data()
-                    let memo = data?["memo"] as? String ?? ""
-                    self.scheduleMemo.text = memo
-                    let place = data?["place"] as? String ?? ""
-                    self.schedulePlace.text = place
-                    let title = data?["title"] as? String ?? ""
-                    self.scheduleTitle.text = title
-                    let time = data?["time"] as? String ?? ""
-                    self.scheduleTime.text = time
-                } else {
-                    print("Document does not exist")
-                }
-            }
-            
+            EditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, isEditMode: self.isEditMode, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTitleTF: self.scheduleTitle, scheduleTimeTF: self.scheduleTime)
         }
     }
     
