@@ -46,6 +46,7 @@
 		6FF28C0A2766135000D3BDE9 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF28C092766135000D3BDE9 /* QuestionTableViewCell.swift */; };
 		6FFDBAE727D88004006B0622 /* EditClassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFDBAE627D88004006B0622 /* EditClassVC.swift */; };
 		6FFDECC927CDF9380028B652 /* QuestionAnsweredListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFDECC827CDF9380028B652 /* QuestionAnsweredListItem.swift */; };
+		7F1232CE281FB4D50095580E /* CustomFirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1232CD281FB4D50095580E /* CustomFirebaseAPI.swift */; };
 		7F16D1442749390300745522 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1432749390300745522 /* AppDelegate.swift */; };
 		7F16D1462749390300745522 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1452749390300745522 /* SceneDelegate.swift */; };
 		7F16D1482749390300745522 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D1472749390300745522 /* SignInViewController.swift */; };
@@ -123,6 +124,7 @@
 		6FF28C092766135000D3BDE9 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		6FFDBAE627D88004006B0622 /* EditClassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClassVC.swift; sourceTree = "<group>"; };
 		6FFDECC827CDF9380028B652 /* QuestionAnsweredListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionAnsweredListItem.swift; sourceTree = "<group>"; };
+		7F1232CD281FB4D50095580E /* CustomFirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFirebaseAPI.swift; sourceTree = "<group>"; };
 		7F16D1402749390300745522 /* BINDER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BINDER.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F16D1432749390300745522 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F16D1452749390300745522 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			children = (
 				6918F342281E39A7008B3404 /* DesignShare.swift */,
 				6965DE79275DEF410072C16A /* CircleButton.swift */,
+				7F1232CD281FB4D50095580E /* CustomFirebaseAPI.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -619,6 +622,7 @@
 				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
 				7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */,
 				6FFDECC927CDF9380028B652 /* QuestionAnsweredListItem.swift in Sources */,
+				7F1232CE281FB4D50095580E /* CustomFirebaseAPI.swift in Sources */,
 				6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */,
 				7FBC6B1427EA05930067BAD5 /* PortfolioDefaultCell.swift in Sources */,
 				7FB50F7C27FC63C500BC2B09 /* FirebaseAuthentication.swift in Sources */,
