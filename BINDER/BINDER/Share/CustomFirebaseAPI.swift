@@ -334,3 +334,280 @@ public func SetQuestionList(self : QuestionListViewController) {
         }
     }
 }
+
+public func GetUserInfoInQuestionVC (self : QuestionViewController) {
+    let db = Firestore.firestore()
+    db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        if let err = err {
+            print(">>>>> document 에러(inQuestionVC) : \(err)")
+        } else {
+            if let err = err {
+                print("Error getting documents(inQuestionVC): \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    userType = document.data()["type"] as? String ?? ""
+                    userEmail = document.data()["email"] as? String ?? ""
+                    userName = document.data()["name"] as? String ?? ""
+                    let userProfile = document.data()["profile"] as? String ?? ""
+                    let url = URL(string: userProfile)!
+                    self.teacherImage.kf.setImage(with: url)
+                    self.teacherImage.makeCircle()
+                    self.setTeacherInfo()
+                }
+            }
+        }
+    }
+    
+    db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        if let err = err {
+            print(">>>>> document 에러 : \(err)")
+        } else {
+            if let err = err {
+                print("Error getting documents(inMyClassView): \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    let type = document.data()["type"] as? String ?? ""
+                    userType = type
+                    let userProfile = document.data()["profile"] as? String ?? ""
+                    let url = URL(string: userProfile)!
+                    self.teacherImage.kf.setImage(with: url)
+                    self.teacherImage.makeCircle()
+                    self.setStudentInfo()
+                }
+            }
+        }
+    }
+}
+
+public func SetQuestionRoom (self : QuestionViewController) {
+    let db = Firestore.firestore()
+    
+    // 선생님일 경우
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+        if let err = err {
+            print(">>>>> document 에러 : \(err)")
+            self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
+        } else {
+            /// nil이 아닌지 확인한다.
+            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                        self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
+                    } else {
+                        /// nil이 아닌지 확인한다.
+                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                            return
+                        }
+                        
+                        /// 조회하기 위해 원래 있던 것 들 다 지움
+                        self.questionItems.removeAll()
+                        
+                        for document in snapshot.documents {
+                            print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                            
+                            /// document.data()를 통해서 값 받아옴, data는 dictionary
+                            let classDt = document.data()
+                            let name = classDt["name"] as? String ?? ""
+                            userName = name
+                            let subject = classDt["subject"] as? String ?? ""
+                            userSubject = subject
+                            let classColor = classDt["circleColor"] as? String ?? "026700"
+                            let email = classDt["email"] as? String ?? ""
+                            userEmail = email
+                            let index = classDt["index"] as? Int ?? 0
+                            
+                            let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email, index: index)
+                            
+                            /// 모든 값을 더한다.
+                            self.questionItems.append(item)
+                        }
+                        
+                        /// UITableView를 reload 하기
+                        self.questionTV.reloadData()
+                    }
+                }
+                return
+            }
+            
+            /// 조회하기 위해 원래 있던 것 들 다 지움
+            self.questionItems.removeAll()
+            
+            
+            for document in snapshot.documents {
+                print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                
+                /// document.data()를 통해서 값 받아옴, data는 dictionary
+                let classDt = document.data()
+                /// nil값 처리
+                let name = classDt["name"] as? String ?? ""
+                userName = name
+                let subject = classDt["subject"] as? String ?? ""
+                userSubject = subject
+                let classColor = classDt["circleColor"] as? String ?? "026700"
+                self.classColor = classColor
+                let email = classDt["email"] as? String ?? ""
+                userEmail = email
+                let index = classDt["index"] as? Int ?? 0
+                
+                let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email, index: index)
+                
+                /// 모든 값을 더한다.
+                self.questionItems.append(item)
+            }
+            
+            /// UITableView를 reload 하기
+            self.questionTV.reloadData()
+        }
+        return
+    }
+    
+    // 학생일 경우
+    db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+        if let err = err {
+            print(">>>>> document 에러 : \(err)")
+            self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
+        } else {
+            /// nil이 아닌지 확인한다.
+            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                        self.showDefaultAlert(msg: "클래스를 찾는 중 에러가 발생했습니다.")
+                    } else {
+                        /// nil이 아닌지 확인한다.
+                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                            return
+                        }
+                        
+                        /// 조회하기 위해 원래 있던 것 들 다 지움
+                        self.questionItems.removeAll()
+                        
+                        for document in snapshot.documents {
+                            print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                            /// document.data()를 통해서 값 받아옴, data는 dictionary
+                            let classDt = document.data()
+                            // nil 값 처리
+                            let name = classDt["name"] as? String ?? ""
+                            userName = name
+                            let subject = classDt["subject"] as? String ?? ""
+                            userSubject = subject
+                            let classColor = classDt["circleColor"] as? String ?? "026700"
+                            let email = classDt["email"] as? String ?? ""
+                            userEmail = email
+                            let index = classDt["index"] as? Int ?? 0
+                            self.index = index
+                            
+                            let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email, index: index)
+                            
+                            /// 모든 값을 더한다.
+                            self.questionItems.append(item)
+                        }
+                        
+                        /// UITableView를 reload 하기
+                        self.questionTV.reloadData()
+                    }
+                }
+                return
+            }
+            
+            /// 조회하기 위해 원래 있던 것 들 다 지움
+            self.questionItems.removeAll()
+            
+            for document in snapshot.documents {
+                print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                
+                /// document.data()를 통해서 값 받아옴, data는 dictionary
+                let classDt = document.data()
+                /// nil값 처리
+                let name = classDt["name"] as? String ?? ""
+                userName = name
+                let subject = classDt["subject"] as? String ?? ""
+                userSubject = subject
+                let classColor = classDt["circleColor"] as? String ?? "026700"
+                self.classColor = classColor
+                let email = classDt["email"] as? String ?? ""
+                userEmail = email
+                let index = classDt["index"] as? Int ?? 0
+                
+                let item = QuestionItem(userName : name, subjectName : subject, classColor: classColor, email: email, index: index)
+                
+                /// 모든 값을 더한다.
+                self.questionItems.append(item)
+            }
+            
+            /// UITableView를 reload 하기
+            self.questionTV.reloadData()
+        }
+        return
+    }
+}
+
+public func QuestionCellClicked(self : QuestionViewController, indexPath : IndexPath) {
+    let docRef : CollectionReference!
+    let db = Firestore.firestore()
+    
+    // 사용자 구별
+    if userType == "teacher" {
+        docRef = db.collection("teacher")
+    } else {
+        docRef = db.collection("student")
+    }
+    
+    var index: Int!
+    var name: String!
+    var email: String!
+    var subject: String!
+    var type: String!
+    
+    let currentCell = self.questionTV.cellForRow(at: indexPath)
+    
+    docRef.document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: currentCell?.contentView.tag)
+        .getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                    return
+                }
+                guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
+                
+                questionVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                questionVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                /// first : 여러개가 와도 첫번째 것만 봄.
+                
+                let questionDt = snapshot.documents.first!.data()
+                
+                index = questionDt["index"] as? Int ?? 0
+                name = questionDt["name"] as? String ?? ""
+                subject = questionDt["subject"] as? String ?? ""
+                email = questionDt["email"] as? String ?? ""
+                type = questionDt["type"] as? String ?? ""
+                
+                questionVC.index = index
+                questionVC.email = email
+                questionVC.name = name
+                questionVC.type = type
+                questionVC.subject = subject
+                
+                self.present(questionVC, animated: true, completion: nil)
+            }
+        }
+    if (userType == "teacher"){
+        guard let questionListVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListViewController") as? QuestionListViewController else { return }
+        
+        questionListVC.modalPresentationStyle = .fullScreen
+        questionListVC.modalTransitionStyle = .crossDissolve
+        
+        questionListVC.email = email
+        questionListVC.subject = subject
+        questionListVC.name = name
+        questionListVC.type = "teacher"
+        questionListVC.index = currentCell?.contentView.tag
+        
+        self.present(questionListVC, animated: true, completion: nil)
+    }
+
+}
