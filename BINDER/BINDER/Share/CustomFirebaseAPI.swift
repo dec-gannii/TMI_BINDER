@@ -12,7 +12,11 @@ import UIKit
 
 public var publicTitles: [String] = []
 public var varCount = 0
+<<<<<<< Updated upstream
 public var varIsEdited = false
+=======
+public var varIsEditMode = false
+>>>>>>> Stashed changes
 
 public func ShowScheduleList(type : String, date : String, datestr: String, scheduleTitles : [String], scheduleMemos : [String], count : Int) {
     let db = Firestore.firestore()
@@ -136,13 +140,19 @@ public func DeleteSchedule(type : String, date : String , indexPathRow : Int, sc
     }
 }
 
+<<<<<<< Updated upstream
 public func EditSchedule(type : String, date : String, editingTitle : String, isEditMode : Bool, scheduleMemoTV : UITextView, schedulePlaceTF : UITextField, scheduleTitleTF : UITextField, scheduleTimeTF : UITextField) {
     let db = Firestore.firestore()
     varIsEdited = isEditMode
+=======
+public func GetBeforeEditSchedule(type : String, date : String, editingTitle : String, scheduleMemo : UITextView, schedulePlace : UITextField, scheduleTitle : UITextField, scheduleTime : UITextField) {
+    let db = Firestore.firestore()
+>>>>>>> Stashed changes
     
     // 내용이 있다는 의미이므로 데이터베이스에서 다시 받아와서 textfield의 값으로 설정
     db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document(editingTitle).getDocument { (document, error) in
         if let document = document, document.exists {
+<<<<<<< Updated upstream
             varIsEdited = true
             let data = document.data()
             let memo = data?["memo"] as? String ?? ""
@@ -153,10 +163,23 @@ public func EditSchedule(type : String, date : String, editingTitle : String, is
             scheduleTitleTF.text = title
             let time = data?["time"] as? String ?? ""
             scheduleTimeTF.text = time
+=======
+            varIsEditMode = true
+            let data = document.data()
+            let memo = data?["memo"] as? String ?? ""
+            scheduleMemo.text = memo
+            let place = data?["place"] as? String ?? ""
+            schedulePlace.text = place
+            let title = data?["title"] as? String ?? ""
+            scheduleTitle.text = title
+            let time = data?["time"] as? String ?? ""
+            scheduleTime.text = time
+>>>>>>> Stashed changes
         } else {
             print("Document does not exist")
         }
     }
+<<<<<<< Updated upstream
 }
 
 public func SaveEditSchedule(type : String, date : String, editingTitle : String, isEditMode : Bool, scheduleMemoTV : UITextView, schedulePlaceTF : UITextField, scheduleTitleTF : UITextField, scheduleTimeTF : UITextField, datestr : String, current_time_string : String) {
@@ -183,4 +206,6 @@ public func SaveEditSchedule(type : String, date : String, editingTitle : String
             print("Error adding document: \(err)")
         }
     }
+=======
+>>>>>>> Stashed changes
 }
