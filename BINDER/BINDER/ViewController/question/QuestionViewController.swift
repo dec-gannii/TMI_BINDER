@@ -27,7 +27,7 @@ class QuestionViewController: BaseVC {
     var index : Int!
     var email : String!
     var subject : String!
-    var userName : String!
+    var name : String!
     var classColor : String!
     var type = ""       // 유저의 타입
     var questionItems: [QuestionItem] = []
@@ -54,7 +54,7 @@ class QuestionViewController: BaseVC {
                         print("\(document.documentID) => \(document.data())")
                         self.type = document.data()["type"] as? String ?? ""
                         self.email = document.data()["email"] as? String ?? ""
-                        self.userName = document.data()["name"] as? String ?? ""
+                        self.name = document.data()["name"] as? String ?? ""
                         let userProfile = document.data()["profile"] as? String ?? ""
                         let url = URL(string: userProfile)!
                         self.teacherImage.kf.setImage(with: url)
@@ -159,7 +159,7 @@ class QuestionViewController: BaseVC {
                                 /// document.data()를 통해서 값 받아옴, data는 dictionary
                                 let classDt = document.data()
                                 let name = classDt["name"] as? String ?? ""
-                                self.userName = name
+                                self.name = name
                                 let subject = classDt["subject"] as? String ?? ""
                                 self.subject = subject
                                 let classColor = classDt["circleColor"] as? String ?? "026700"
@@ -191,7 +191,7 @@ class QuestionViewController: BaseVC {
                     let classDt = document.data()
                     /// nil값 처리
                     let name = classDt["name"] as? String ?? ""
-                    self.userName = name
+                    self.name = name
                     let subject = classDt["subject"] as? String ?? ""
                     self.subject = subject
                     let classColor = classDt["circleColor"] as? String ?? "026700"
@@ -243,7 +243,7 @@ class QuestionViewController: BaseVC {
                                 let classDt = document.data()
                                 // nil 값 처리
                                 let name = classDt["name"] as? String ?? ""
-                                self.userName = name
+                                self.name = name
                                 let subject = classDt["subject"] as? String ?? ""
                                 self.subject = subject
                                 let classColor = classDt["circleColor"] as? String ?? "026700"
@@ -275,7 +275,7 @@ class QuestionViewController: BaseVC {
                     let classDt = document.data()
                     /// nil값 처리
                     let name = classDt["name"] as? String ?? ""
-                    self.userName = name
+                    self.name = name
                     let subject = classDt["subject"] as? String ?? ""
                     self.subject = subject
                     let classColor = classDt["circleColor"] as? String ?? "026700"
@@ -375,7 +375,7 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     questionVC.index = index
                     questionVC.email = email
-                    questionVC.userName = name
+                    questionVC.name = name
                     questionVC.type = type
                     questionVC.subject = subject
                     
@@ -390,9 +390,9 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
             questionListVC.modalPresentationStyle = .fullScreen
             questionListVC.modalTransitionStyle = .crossDissolve
             
-            questionListVC.email = self.email
-            questionListVC.subject = self.subject
-            questionListVC.userName = self.userName
+            questionListVC.email = email
+            questionListVC.subject = subject
+            questionListVC.name = name
             questionListVC.type = "teacher"
             questionListVC.index = currentCell?.contentView.tag
             
