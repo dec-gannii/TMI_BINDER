@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 
 // 일정 리스트 뷰 컨트롤러
-class ScheduleListViewController: UIViewController {
+public class ScheduleListViewController: UIViewController {
     
     @IBOutlet weak var scheduleListTableView: UITableView!
     var date: String = ""
@@ -21,7 +21,7 @@ class ScheduleListViewController: UIViewController {
     
     let db = Firestore.firestore()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         scheduleListTableView.delegate = self
@@ -30,12 +30,12 @@ class ScheduleListViewController: UIViewController {
         self.scheduleListTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         scheduleListTableView.reloadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         self.scheduleTitles.removeAll()
         self.scheduleMemos.removeAll()
         
@@ -90,7 +90,7 @@ class ScheduleListViewController: UIViewController {
 }
 
 extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let scheduleCell = scheduleListTableView.dequeueReusableCell(withIdentifier: "ScheduleCell", for: indexPath) as! ScheduleCellTableViewCell
         
         let formatter = DateFormatter()
@@ -135,11 +135,11 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         return scheduleCell
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.count // 셀의 개수 반환
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 셀이 선택되면 수정될 수 있도록 설정
         guard let editScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
         editScheduleVC.date = self.date // 선택된 날짜 데이터 전달
@@ -150,10 +150,10 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     // 일정 삭제를 위한 메소드 - 1
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle { return .delete }
+    public func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle { return .delete }
     
     // 일정 삭제를 위한 메소드 - 2
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let selectedTitle = scheduleTitles[indexPath.row]
         if editingStyle == .delete {
             self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(selectedTitle).delete() { err in
