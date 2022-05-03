@@ -14,7 +14,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import Photos
 
-class AnswerViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextViewDelegate{
+public class AnswerViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextViewDelegate{
     
     let db = Firestore.firestore()
     var ref: DatabaseReference!
@@ -46,7 +46,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     var imgtype:Int = 1
     var answer = "0"
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         storageRef = storage.reference()
         placeholderSetting()
@@ -65,16 +65,15 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     }
     
     // TextView Place Holder
-    func textViewDidBeginEditing(_ textView: UITextView) {
+    public func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
         }
-        
     }
     
     // TextView Place Holders
-    func textViewDidEndEditing(_ textView: UITextView) {
+    public func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "답변 내용을 작성해주세요."
             textView.textColor = UIColor.lightGray
@@ -82,8 +81,6 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     }
     
     @IBAction func selectImage(_ sender: UIButton) {
-        print("select")
-        
         let actionSheet = UIAlertController(title: "사진 또는 영상 선택", message: "사진의 위치를 선택해주세요.", preferredStyle: .actionSheet)
         // 취소 버튼 추가
         let action_cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
@@ -167,7 +164,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     }
     
     // 사진, 비디오 촬영이나 선택이 끝났을 때 호출되는 델리게이트 메서드
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // 미디어 종류 확인
         let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! NSString
         
@@ -191,14 +188,11 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
                 // 촬영한 비디오를 옴
                 videoURL = (info[UIImagePickerController.InfoKey.mediaURL] as! URL)
                 imgtype = 2
-                print("videoURL : \(videoURL!)")
                 // 비디오를 포토 라이브러리에 저장
                 UISaveVideoAtPathToSavedPhotosAlbum(videoURL.relativePath, self, nil, nil)
             }
             //url에 정확한 이미지 url 주소를 넣는다.
-            
             videoinImage()
-            
         }
         
         // 현재의 뷰 컨트롤러를 제거. 즉, 뷰에서 이미지 피커 화면을 제거하여 초기 뷰를 보여줌
@@ -215,14 +209,14 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         
     }
     
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if avPlayerLayer == nil { print("usernameVFXView.layer is nil") ; return }
         avPlayerLayer.frame = imgView.layer.bounds
     }
     
     // 사진, 비디오 촬영이나 선택을 취소했을 때 호출되는 델리게이트 메서드
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // 현재의 뷰(이미지 피커) 제거
         self.dismiss(animated: true, completion: nil)
     }
@@ -235,215 +229,9 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
         self.present(alert, animated: true, completion: nil)
     }
     
-    
     @IBAction func btnAnswer(_ sender: Any) {
-        print("upload")
         answer = textView.text
-        
-        if answer == "내용이 잘 이해가 가지 않거나 모르겠는 내용을 질문해보세요." || answer == "" {
-            let textalertVC = UIAlertController(title: "내용 없음", message: "질문이 있는 교재의 페이지 또는 질문 내용을 작성해주세요", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            textalertVC.addAction(okAction)
-            self.present(textalertVC, animated: true, completion: nil)
-            print("제목 없음")
-        } else {
-            if imgtype == 1 {
-                guard let image = imgView.image else {
-                    //이미지와 영상이 없는 경우
-                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
-                        "url":"",
-                        "answerContent": self.answer,
-                        "isAnswer": true
-                    ]) { err in
-                        if let err = err {
-                            print("Error adding document: \(err)")
-                        }
-                    }
-                    print("image not exists")
-                    
-                    self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
-                        "answerCheck": true
-                    ]) { err in
-                        if let err = err {
-                            print("Error adding document: \(err)")
-                        }
-                    }
-                    
-                    
-                    
-                    /*
-                    guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
-                    
-                    qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                    qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                    
-                    qnaVC.index = index
-                    qnaVC.qnum = qnum
-                    qnaVC.email = email
-                    qnaVC.userName = userName
-                    qnaVC.type = type
-                    qnaVC.subject = subject
-                    
-                    
-                    self.dismiss(animated: true) {
-                        LoadingHUD.show()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            LoadingHUD.hide()
-                        }
-                        
-                        pvc.present(pvc, animated: true, completion: nil)
-                    }
-                     */
-                    
-                    return
-                }
-                
-                print("image exists")
-                // 이미지가 있는 경우
-                if let data = image.pngData(){
-                    let urlRef = storageRef.child("image/\(captureImage!).png")
-                    let metadata = StorageMetadata()
-                    metadata.contentType = "image/png"
-                    let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-                        guard let metadata = metadata else {
-                            return
-                        }
-                        
-                        urlRef.downloadURL { (url, error) in
-                            guard let downloadURL = url else {
-                                return
-                            }
-                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
-                                "url":"\(downloadURL)",
-                                "answerContent": self.answer,
-                                "isAnswer": true,
-                                "type":"image"
-                            ]) { err in
-                                if let err = err {
-                                    print("Error adding document: \(err)")
-                                }
-                            }
-                        }
-                    }
-                    //                    if let preVC = self.presentingViewController as? UIViewController {
-                    //                        preVC.dismiss(animated: true, completion: nil)
-                    //                    }
-                }
-                
-               
-                /*
-                guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
-                
-                qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                
-                qnaVC.index = index
-                qnaVC.qnum = qnum
-                qnaVC.email = email
-                qnaVC.userName = userName
-                qnaVC.type = type
-                qnaVC.subject = subject
-                
-                self.dismiss(animated: true) {
-                    LoadingHUD.show()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        LoadingHUD.hide()
-                    }
-                    
-                    pvc.present(pvc, animated: true, completion: nil)
-                }
-                 */
-            } else { //비디오의 경우
-                /*
-                 guard let image = imgView.image else {
-                 self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
-                 "url":"",
-                 "answerContent": self.answer,
-                 "isAnswer": true
-                 ]) { err in
-                 if let err = err {
-                 print("Error adding document: \(err)")
-                 }
-                 }
-                 print("video not exists")
-                 
-                 self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
-                 "answerCheck": true
-                 ]) { err in
-                 if let err = err {
-                 print("Error adding document: \(err)")
-                 }
-                 }
-                 
-                 guard let pvc = self.presentingViewController else { return }
-                 
-                 guard let qnaVC = self.storyboard?.instantiateViewController(withIdentifier: "QnADetailVC") as? QnADetailViewController else { return }
-                 
-                 qnaVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                 qnaVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                 
-                 qnaVC.index = index
-                 qnaVC.qnum = qnum
-                 qnaVC.email = email
-                 qnaVC.userName = userName
-                 qnaVC.type = type
-                 qnaVC.subject = subject
-                 
-                 self.dismiss(animated: true) {
-                 
-                 LoadingHUD.show()
-                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                 LoadingHUD.hide()
-                 }
-                 
-                 pvc.present(qnaVC, animated: true, completion: nil)
-                 }
-                 
-                 return
-                 }
-                 */
-                print("video exists")
-                
-                if let data = NSData(contentsOf: videoURL as URL){
-                    let urlRef = storageRef.child("video/\(videoURL!).mp4")
-                    
-                    let metadata = StorageMetadata()
-                    metadata.contentType = "video/mp4"
-                    let uploadTask = urlRef.putData(data as Data, metadata: metadata){ (metadata, error) in
-                        guard let metadata = metadata else {
-                            return
-                        }
-                        
-                        urlRef.downloadURL { [self] (url, error) in
-                            guard let videoURL = url else {
-                                return
-                            }
-                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + self.email + ") " + self.subject).collection("questionList").document(String(self.qnum)).collection("answer").document(Auth.auth().currentUser!.uid).setData([
-                                "url":"\(videoURL)",
-                                "answerContent": self.answer,
-                                "isAnswer": true,
-                                "type":"video"
-                            ]) { err in
-                                if let err = err {
-                                    print("Error adding document: \(err)")
-                                }
-                            }
-                        }
-                    }
-                    if let preVC = self.presentingViewController as? UIViewController {
-                        preVC.dismiss(animated: true, completion: nil)
-                    }
-                }
-            }
-        }
-        
-        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(userName + "(" + email + ") " + self.subject).collection("questionList").document(String(self.qnum)).updateData([
-            "answerCheck": true
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            }
-        }
+        UpdateAnswer(answer: answer, imgtype: self.imgtype, self: self, imgView: self.imgView)
         
         if let preVC = self.presentingViewController as? UIViewController {
             preVC.dismiss(animated: true, completion: nil)
@@ -451,7 +239,7 @@ class AnswerViewController: UIViewController, UINavigationControllerDelegate, UI
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
 }
