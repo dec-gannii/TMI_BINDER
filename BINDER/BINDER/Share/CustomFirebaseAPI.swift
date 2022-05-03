@@ -13,6 +13,7 @@ import UIKit
 public var publicTitles: [String] = []
 public var varCount = 0
 public var varIsEditMode = false
+var count = 0
 
 public func ShowScheduleList(type : String, date : String, datestr: String, scheduleTitles : [String], scheduleMemos : [String], count : Int) {
     let db = Firestore.firestore()
@@ -241,98 +242,73 @@ public func SaveSchedule(type : String, date : String, scheduleTitleTF : UITextF
     }
 }
 
-public func GetTeacherMyClass(firstLabel : UILabel, firstBtn : UIButton, secondLabel : UILabel, secondBtn : UIButton, thirdLabel : UILabel, thirdBtn : UIButton) {
+public func GetTeacherMyClass(self : HomeViewController) {
+    count = 0
     let db = Firestore.firestore()
-    let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
+    let labels = [self.HomeStudentIconLabel, self.HomeStudentIconSecondLabel, self.HomeStudentIconThirdLabel]
+    let buttons = [self.firstLinkBtn, self.secondLinkBtn, self.thirdLinkBtn]
     
-    // index가 0, 1, 2인 세 명의 학생 정보 가져오기
-    docRef.whereField("index", isEqualTo: 0).getDocuments() { (querySnapshot, err) in
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
         if let err = err {
             print("Error getting documents: \(err)")
         } else {
             for document in querySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")
-                // 사용할 것들 가져와서 지역 변수로 저장
-                firstLabel.text = document.data()["name"] as? String ?? ""
-                firstBtn.isHidden = false
-                firstLabel.isHidden = false
-            }
-        }
-    }
-    
-    docRef.whereField("index", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
-        if let err = err {
-            print("Error getting documents: \(err)")
-        } else {
-            for document in querySnapshot!.documents {
-                print("\(document.documentID) => \(document.data())")
-                // 사용할 것들 가져와서 지역 변수로 저장
-                secondLabel.text = document.data()["name"] as? String ?? ""
-                secondBtn.isHidden = false
-                secondLabel.isHidden = false
-            }
-        }
-    }
-    
-    docRef.whereField("index", isEqualTo: 2).getDocuments() { (querySnapshot, err) in
-        if let err = err {
-            print("Error getting documents: \(err)")
-        } else {
-            for document in querySnapshot!.documents {
-                print("\(document.documentID) => \(document.data())")
-                // 사용할 것들 가져와서 지역 변수로 저장
-                thirdLabel.text = document.data()["name"] as? String ?? ""
-                thirdBtn.isHidden = false
-                thirdLabel.isHidden = false
+                if ((querySnapshot?.documents.count)! >= 3) {
+                    if count <= 2 {
+                        let name = document.data()["name"] as? String ?? ""
+                        labels[count]!.text = name
+                        buttons[count]!.isHidden = false
+                        labels[count]!.isHidden = false
+                        count = count + 1
+                    }
+                } else {
+                    if count < (querySnapshot?.documents.count)! {
+                        let name = document.data()["name"] as? String ?? ""
+                        labels[count]!.text = name
+                        buttons[count]!.isHidden = false
+                        labels[count]!.isHidden = false
+                        count = count + 1
+                    }
+                }
+                continue
             }
         }
     }
 }
 
 
-public func GetStudentMyClass(firstLabel : UILabel, firstBtn : UIButton, secondLabel : UILabel, secondBtn : UIButton, thirdLabel : UILabel, thirdBtn : UIButton) {
+public func GetStudentMyClass(self : HomeViewController) {
+    count = 0
+    
     let db = Firestore.firestore()
-    let docRef = db.collection("student").document(Auth.auth().currentUser!.uid).collection("class")
+    let labels = [self.HomeStudentIconLabel, self.HomeStudentIconSecondLabel, self.HomeStudentIconThirdLabel]
+    let buttons = [self.firstLinkBtn, self.secondLinkBtn, self.thirdLinkBtn]
     
-    // index가 0, 1, 2인 세 명의 학생 정보 가져오기
-    docRef.whereField("index", isEqualTo: 0).getDocuments() { (querySnapshot, err) in
+    db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
         if let err = err {
             print("Error getting documents: \(err)")
         } else {
             for document in querySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")
-                // 사용할 것들 가져와서 지역 변수로 저장
-                firstLabel.text = document.data()["name"] as? String ?? ""
-                firstBtn.isHidden = false
-                firstLabel.isHidden = false
-            }
-        }
-    }
-    
-    docRef.whereField("index", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
-        if let err = err {
-            print("Error getting documents: \(err)")
-        } else {
-            for document in querySnapshot!.documents {
-                print("\(document.documentID) => \(document.data())")
-                // 사용할 것들 가져와서 지역 변수로 저장
-                secondLabel.text = document.data()["name"] as? String ?? ""
-                secondBtn.isHidden = false
-                secondLabel.isHidden = false
-            }
-        }
-    }
-    
-    docRef.whereField("index", isEqualTo: 2).getDocuments() { (querySnapshot, err) in
-        if let err = err {
-            print("Error getting documents: \(err)")
-        } else {
-            for document in querySnapshot!.documents {
-                print("\(document.documentID) => \(document.data())")
-                // 사용할 것들 가져와서 지역 변수로 저장
-                thirdLabel.text = document.data()["name"] as? String ?? ""
-                thirdBtn.isHidden = false
-                thirdLabel.isHidden = false
+                if ((querySnapshot?.documents.count)! >= 3) {
+                    if count <= 2 {
+                        let name = document.data()["name"] as? String ?? ""
+                        labels[count]!.text = name
+                        buttons[count]!.isHidden = false
+                        labels[count]!.isHidden = false
+                        count = count + 1
+                    }
+                } else {
+                    if count < (querySnapshot?.documents.count)! {
+                        let name = document.data()["name"] as? String ?? ""
+                        labels[count]!.text = name
+                        buttons[count]!.isHidden = false
+                        labels[count]!.isHidden = false
+                        count = count + 1
+                    }
+                }
+                continue
             }
         }
     }
