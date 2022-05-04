@@ -32,12 +32,21 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
     @IBOutlet weak var ageAlertLabel: UILabel!
     
     let agelist = ["초등학생","중학생","고등학생","일반인"]
-    var age = "0"
-    var phonenum = "0"
-    var goal = "0"
-    var type: String = ""
-    var pw: Int = 0
-    var tpassword: String = ""
+    var age :String!
+    var phonenum :String!
+    var goal :String!
+    var type: String!
+    var pw: Int!
+    var tpassword: String!
+    
+    func _init(){
+        age = "0"
+        phonenum = "0"
+        goal = "0"
+        type = ""
+        pw = 0
+        tpassword = ""
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,20 +98,6 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             count += 1
         }
         return count
-    }
-    
-    //  숫자인지를 검사하는 메소드
-    func isValidPw(_ pw: Int) -> Bool {
-        //         공백 검사
-        if (pw == Int(ageShowPicker.text!.trimmingCharacters(in: .whitespaces))) { return true }
-        else { return false }
-    }
-    
-    // 이메일 형식인지 검사하는 메소드
-    func isValidEmail(_ email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -205,6 +200,13 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         self.present(loginVC, animated: true, completion: nil)
     }
     
+    //  숫자인지를 검사하는 메소드
+    func isValidPw(_ pw: Int) -> Bool {
+        //         공백 검사
+        if (pw == Int(ageShowPicker.text!.trimmingCharacters(in: .whitespaces))) { return true }
+        else { return false }
+    }
+    
     @IBAction func goNext(_ sender: Any) {
         phonenum = phonenumTextField.text!
         goal = goalTextField.text!
@@ -235,6 +237,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         let countOfDigit = countOfDigit()
         if (type == "teacher"){
             pw = Int(ageShowPicker.text!)!
+
             if (!isValidPw(pw) || countOfDigit > 6) {
                 ageAlertLabel.text = StringUtils.passwordValidationAlert.rawValue
                 ageAlertLabel.isHidden = false
@@ -290,8 +293,9 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             }
         } else if (type == "parent") {
             // 선생님 이메일 이용한 비밀번호 받아오기
+            var emailbool = isValidEmail(goal)
             
-            if(isValidEmail(goal)){
+            if(emailbool){
                 db.collection("teacher").whereField("email", isEqualTo: goal).getDocuments() { (querySnapshot, err) in
                     if let err = err {
                         print(">>>>> document 에러 : \(err)")

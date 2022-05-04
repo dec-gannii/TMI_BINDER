@@ -20,17 +20,28 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var emailAlertLabel: UILabel!
     @IBOutlet weak var pwAlertLabel: UILabel!
     
-    static var number : Int = 1
-    var verified : Bool = false
-    var type : String = ""
+    static var number : Int!
+    var verified : Bool!
+    var type : String!
     var ref: DatabaseReference!
     let db = Firestore.firestore()
-    var isGoogleSignIn : Bool = false
-    var isAppleSignIn : Bool = false
+    var isGoogleSignIn : Bool!
+    var isAppleSignIn : Bool!
     
-    var name: String = ""
-    var email: String = ""
+    var name: String!
+    var email: String!
     var viewDesign = ViewDesign()
+    
+    func _init(){
+        SignInViewController.number = 1
+        verified = false
+        type = ""
+        isGoogleSignIn = false
+        isAppleSignIn = false
+        
+        name = ""
+        email = ""
+    }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -93,7 +104,7 @@ class SignInViewController: UIViewController {
             return false
         } else { return true }
     }
-    
+    /*
     // 이메일 형식인지 검사하는 메소드
     func isValidEmail(_ email: String) -> Bool {
         if (self.isGoogleSignIn == true) { return false }
@@ -101,7 +112,7 @@ class SignInViewController: UIViewController {
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
-    
+     */
     // 유효한 비밀번호인지 검사하는 메소드
     func isValidPassword(_ password: String) -> Bool {
         // 최소한 6개의 문자로 이루어져 있어야 함
@@ -109,7 +120,7 @@ class SignInViewController: UIViewController {
         let minPasswordLength = 6
         return password.count >= minPasswordLength
     }
-    
+  
     // 로그인 버튼 클릭 시 실행되는 메소드
     @IBAction func GoToSignInBtnClicked(_ sender: Any) {
         if (self.isGoogleSignIn == true) {
@@ -201,6 +212,8 @@ class SignInViewController: UIViewController {
         guard let id = self.emailTextField.text else { return }
         guard let pw = self.pwTextField.text else { return }
         
+        var emailbool = isValidEmail(id)
+        
         self.emailAlertLabel.isHidden = true
         self.pwAlertLabel.isHidden = true
         self.nameAlertLabel.isHidden = true
@@ -221,7 +234,7 @@ class SignInViewController: UIViewController {
                     
                     if self.emailAlertLabel.isHidden == true {
                         // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면, && self.isValidAge(age)
-                        if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) ) {
+                        if (self.isValidName(name) && emailbool && self.isValidPassword(pw) ) {
                             // 사용자를 생성
                             Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
                                 if (self.type != "parent"){
@@ -245,7 +258,7 @@ class SignInViewController: UIViewController {
                         } else {
                             if (self.isGoogleSignIn == false) {
                                 // 유효하지 않다면, 에러가 난 부분 label로 알려주기 위해 error label 숨김 해제
-                                if (!self.isValidEmail(id)){
+                                if (!emailbool){
                                     self.emailAlertLabel.isHidden = false
                                     self.emailAlertLabel.text = StringUtils.emailValidationAlert.rawValue
                                 }
