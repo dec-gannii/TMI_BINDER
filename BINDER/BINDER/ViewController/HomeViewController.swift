@@ -36,10 +36,13 @@ class HomeViewController: UIViewController {
     var verified : Bool!
     var type : String!
     var date : String!
+    
     var ref: DatabaseReference!
     let db = Firestore.firestore()
     var calenderDesign = CalendarDesign()
-  
+    
+    /// calendar custom
+    
     private var currentPage: Date?
     private lazy var today: Date = { return Date() }()
     
@@ -59,98 +62,12 @@ class HomeViewController: UIViewController {
         events = [] // 이벤트가 있는 날짜 배열
         days = [] // 선택된 월의 날짜들
         id = ""
-        pw  = ""
-        name  = ""
-        number  = 1
-        verified  = false
-        type  = ""
+        pw = ""
+        name = ""
+        number = 1
+        verified = false
+        type = ""
         date = ""
-    }
-    
-    func setCalendar() {
-        calendarView.delegate = self
-        calendarView.headerHeight = 0
-        calendarView.scope = .month
-        monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
-    }
-    
-    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        self.days.removeAll()
-        self.events.removeAll()
-        
-        self.monthLabel.text = self.dateFormatter.string(from: calendar.currentPage)
-        let date = self.dateFormatter.date(from: self.monthLabel.text!)
-        
-        self.setUpDays(date!)
-        
-        getTeacherEvents()
-        getStudentEvents()
-    }
-    
-    private func scrollCurrentPage(isPrev: Bool) {
-        let cal = Calendar.current
-        var dateComponents = DateComponents()
-        dateComponents.month = isPrev ? -1 : 1
-        self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
-        self.calendarView.setCurrentPage(self.currentPage!, animated: true)
-    }
-    
-    
-    func calendarEvent() {
-        calendarView.dataSource = self
-        calendarView.delegate = self
-    }
-    
-    func setUpDays(_ date: Date) {
-        let nowDate = date // 오늘 날짜
-        let formatter = DateFormatter()
-        
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        
-        formatter.dateFormat = "M"
-        let currentDate = formatter.string(from: nowDate)
-        
-        formatter.dateFormat = "yyyy"
-        let currentYear = formatter.string(from: nowDate)
-        
-        formatter.dateFormat = "MM"
-        let currentMonth = formatter.string(from: nowDate)
-        
-        var days: Int = 0
-        
-        switch currentDate {
-        case "1", "3", "5", "7", "8", "10", "12":
-            days = 31
-            break
-        case "2":
-            if (Int(currentYear)! % 400 == 0 || (Int(currentYear)! % 100 != 0 && Int(currentYear)! % 4 == 0)) {
-                days = 29
-                break
-            } else {
-                days = 28
-                break
-            }
-        default:
-            days = 30
-            break
-        }
-        
-        for index in 1...days {
-            var day = ""
-            
-            if (index < 10) {
-                day = "0\(index)"
-            } else {
-                day = "\(index)"
-            }
-            
-            let dayOfMonth = "\(currentYear)-\(currentMonth)-\(day)"
-            
-            formatter.dateFormat = "yyyy-MM-dd"
-            let searchDate = formatter.date(from: dayOfMonth)
-            self.days.append(searchDate!)
-        }
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
@@ -205,6 +122,39 @@ class HomeViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func setCalendar() {
+        calendarView.delegate = self
+        calendarView.headerHeight = 0
+        calendarView.scope = .month
+        monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
+    }
+    
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        self.days.removeAll()
+        self.events.removeAll()
+        
+        self.monthLabel.text = self.dateFormatter.string(from: calendar.currentPage)
+        let date = self.dateFormatter.date(from: self.monthLabel.text!)
+        
+        days = setUpDays(date!)
+        
+        getTeacherEvents()
+        getStudentEvents()
+    }
+    
+    private func scrollCurrentPage(isPrev: Bool) {
+        let cal = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.month = isPrev ? -1 : 1
+        self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
+        self.calendarView.setCurrentPage(self.currentPage!, animated: true)
+    }
+    
+    func calendarEvent() {
+        calendarView.dataSource = self
+        calendarView.delegate = self
     }
     
     /// 내 수업 가져오기 : 선생님
@@ -353,7 +303,7 @@ class HomeViewController: UIViewController {
         var btnIndex = 0
         
         if (self.type == "teacher") {
-    
+            
             let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("class")
             
             guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }

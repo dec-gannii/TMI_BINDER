@@ -34,22 +34,22 @@ class DetailClassViewController: UIViewController {
     var userSubject: String!
     var userName: String!
     var userType: String!
-    var currentCnt: Int = 0
+    var currentCnt: Int!
     var days: [String]!
     var scores: [Double]!
-    let floatValue: [CGFloat] = [5,5]
+    var floatValue: [CGFloat]!
     var barColors = [UIColor]()
-    var count = 0
+    var count: Int!
     var todos = Array<String>()
     var todoCheck = Array<Bool>()
     var todoDoc = Array<String>()
-    var bRec:Bool = false
+    var bRec: Bool!
     var date: String!
     var selectedMonth: String!
     var userIndex: Int!
     var keyHeight: CGFloat?
-    var checkTime: Bool = false
-    var dateStrWithoutDays: String = ""
+    var checkTime: Bool!
+    var dateStrWithoutDays: String!
     var teacherUid: String!
     var studentName: String!
     var studentEmail: String!
@@ -73,21 +73,42 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var monthlyEvaluationOKBtn: UIButton!
     @IBOutlet weak var calendarHeight: NSLayoutConstraint!
     
+    func _init(){
+        userEmail = ""
+        userSubject = ""
+        userName = ""
+        userType = ""
+        currentCnt = 0
+        days = []
+        scores = []
+        floatValue = [5,5]
+        barColors = []
+        count = 0
+        todos = []
+        todoCheck = []
+        todoDoc = []
+        bRec = false
+        date = ""
+        selectedMonth = ""
+        userIndex = 0
+        keyHeight = 0.0
+        checkTime = false
+        dateStrWithoutDays = ""
+        teacherUid = ""
+        studentName = ""
+        studentEmail = ""
+    }
+    
     /// Load View
     override func viewWillAppear(_ animated: Bool) {
         getScores()
         getUserInfo()
         
-        calendarText(view: calendarView, design: calenderDesign)
+        self.calendarText()
+        self.calendarColor()
+        self.calendarEvent()
         
-        calendarView.scope = .week
-        calendarColor(view: calendarView, design: calenderDesign)
-        calendarEvent()
-        
-        let bArray: Array<UIView> = [okButton, plusButton,evaluationView,monthlyEvaluationBackgroundView,monthlyEvaluationTextView,progressTextView,evaluationMemoTextView,evaluationOKBtn,monthlyEvaluationOKBtn]
-        allRound(array: bArray, design: btnDesign)
-        okButton.clipsToBounds = true
-        plusButton.clipsToBounds = true
+        allRound()
         barColorSetting()
     }
     
@@ -110,8 +131,7 @@ class DetailClassViewController: UIViewController {
         self.progressTextView.textColor = .black
         self.evaluationMemoTextView.textColor = .black
         
-        let tList :Array<UITextView> = [self.progressTextView,self.evaluationMemoTextView,self.monthlyEvaluationTextView]
-        setBorder(textList: tList, design: viewDesign)
+        setBorder()
         
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
@@ -132,6 +152,59 @@ class DetailClassViewController: UIViewController {
             }
         }
         super.viewDidLoad()
+    }
+    
+    /// UI setting
+    func setBorder() {
+        self.progressTextView.layer.borderWidth = viewDesign.borderWidth
+        self.progressTextView.layer.borderColor = viewDesign.borderColor
+        self.evaluationMemoTextView.layer.borderWidth = viewDesign.borderWidth
+        self.evaluationMemoTextView.layer.borderColor = viewDesign.borderColor
+        self.monthlyEvaluationTextView.layer.borderWidth = viewDesign.borderWidth
+        self.monthlyEvaluationTextView.layer.borderColor = viewDesign.borderColor
+    }
+    
+    func allRound() {
+        okButton.clipsToBounds = true
+        okButton.layer.cornerRadius = btnDesign.cornerRadius
+        plusButton.clipsToBounds = true
+        plusButton.layer.cornerRadius = btnDesign.cornerRadius
+        evaluationView.layer.cornerRadius = btnDesign.cornerRadius
+        monthlyEvaluationBackgroundView.layer.cornerRadius = btnDesign.cornerRadius
+        monthlyEvaluationTextView.layer.cornerRadius = btnDesign.cornerRadius
+        progressTextView.layer.cornerRadius = btnDesign.cornerRadius
+        evaluationMemoTextView.layer.cornerRadius = btnDesign.cornerRadius
+        evaluationOKBtn.layer.cornerRadius = btnDesign.cornerRadius
+        monthlyEvaluationOKBtn.layer.cornerRadius = btnDesign.cornerRadius
+    }
+    
+    /// calendar custom
+    func calendarColor() {
+        
+        calendarView.scope = .week
+        calendarView.appearance.weekdayTextColor = .systemGray
+        calendarView.appearance.titleWeekendColor = .black
+        calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
+        calendarView.appearance.eventDefaultColor = calenderDesign.calendarColor
+        calendarView.appearance.eventSelectionColor = calenderDesign.calendarColor
+        calendarView.appearance.titleSelectionColor = calenderDesign.calendarColor
+        calendarView.appearance.borderSelectionColor = calenderDesign.calendarColor
+        calendarView.appearance.todayColor = calenderDesign.calendarTodayColor
+        calendarView.appearance.titleTodayColor = .black
+        calendarView.appearance.todaySelectionColor = .white
+        calendarView.appearance.selectionColor = .none
+    }
+    
+    // 캘린더 텍스트 스타일 설정을 위한 메소드
+    func calendarText() {
+        calendarView.headerHeight = CGFloat(calenderDesign.headerHeight)
+        calendarView.appearance.headerTitleFont = calenderDesign.headerFont
+        calendarView.appearance.headerMinimumDissolvedAlpha = 0.0
+        calendarView.appearance.headerDateFormat = "YYYY년 M월"
+        calendarView.appearance.titleFont = calenderDesign.titleFont
+        calendarView.appearance.weekdayFont = calenderDesign.headerFont
+        calendarView.locale = Locale(identifier: "ko_KR")
+        calendarView.weekdayHeight = CGFloat(calenderDesign.weekdayHeight)
     }
     
     func calendarEvent() {
@@ -772,6 +845,8 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
+    
+   
     
     // 투두리스트 선택에 따라
     @objc func checkMarkButtonClicked(sender: UIButton){

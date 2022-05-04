@@ -23,7 +23,7 @@ class ShowPortfolioViewController: UIViewController {
         teacherEmailTextField.becomeFirstResponder()
         
         showBtn.clipsToBounds = true
-        showBtn.layer.cornerRadius = btnDesign.cornerRadius
+        showBtn.layer.cornerRadius = btnDesign.cornerbtnRadius
     }
     
     // 포트폴리오 조회 버튼 클릭 시 실행되는 메소드

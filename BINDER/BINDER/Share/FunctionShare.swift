@@ -7,8 +7,79 @@
 
 import Foundation
 import UIKit
-import FSCalendar
 import FirebaseStorage
+import FSCalendar
+
+// 캘린더 외관을 꾸미기 위한 메소드
+func calendarColor(view:FSCalendar, design:CalendarDesign) {
+    view.appearance.weekdayTextColor = .systemGray
+    view.appearance.titleWeekendColor = .black
+    view.appearance.headerTitleColor =  design.calendarColor
+    view.appearance.eventDefaultColor = design.calendarColor
+    view.appearance.eventSelectionColor = design.calendarColor
+    view.appearance.titleSelectionColor = design.calendarColor
+    view.appearance.borderSelectionColor = design.calendarColor
+    view.appearance.titleTodayColor = .black
+    view.appearance.todaySelectionColor = .white
+    view.appearance.selectionColor = .none
+    view.appearance.todayColor = design.calendarTodayColor
+}
+
+//달별 달력 날짜 셋팅
+func setUpDays(_ date: Date) -> Array<Date> {
+    var days : Array<Date> = []
+    let nowDate = date // 오늘 날짜
+    let formatter = DateFormatter()
+    
+    formatter.locale = Locale(identifier: "ko_KR")
+    formatter.timeZone = TimeZone(abbreviation: "KST")
+    
+    formatter.dateFormat = "M"
+    let currentDate = formatter.string(from: nowDate)
+    
+    formatter.dateFormat = "yyyy"
+    let currentYear = formatter.string(from: nowDate)
+    
+    formatter.dateFormat = "MM"
+    let currentMonth = formatter.string(from: nowDate)
+    
+    var day: Int = 0
+    
+    switch currentDate {
+    case "1", "3", "5", "7", "8", "10", "12":
+        day = 31
+        break
+    case "2":
+        if (Int(currentYear)! % 400 == 0 || (Int(currentYear)! % 100 != 0 && Int(currentYear)! % 4 == 0)) {
+            day = 29
+            break
+        } else {
+            day = 28
+            break
+        }
+    default:
+        day = 30
+        break
+    }
+    
+    for index in 1...day {
+        var dayText = ""
+        
+        if (index < 10) {
+            dayText = "0\(index)"
+        } else {
+            dayText = "\(index)"
+        }
+        
+        let dayOfMonth = "\(currentYear)-\(currentMonth)-\(dayText)"
+        
+        formatter.dateFormat = "yyyy-MM-dd"
+        let searchDate = formatter.date(from: dayOfMonth)
+        days.append(searchDate!)
+        
+    }
+    return days
+}
 
 func viewDecorating(btn: UIButton, view: UIView, design: ViewDesign){
     btn.layer.cornerRadius = design.viewconerRadius
@@ -34,59 +105,11 @@ func setTextViewUI(textList: Array<UITextView>, viewdesign: ViewDesign,btndesign
     }
 }
 
-/// UI setting
-func setBorder(textList: Array<UITextView>, design: ViewDesign) {
-    for textView in textList {
-        textView.layer.borderWidth = design.borderWidth
-        textView.layer.borderColor = design.borderColor
-    }
-}
-
-func allRound(array: Array<UIView>, design: ButtonDesign) {
-    for view in array {
-        view.layer.cornerRadius = design.cornerRadius
-    }
-}
-
-/// calendar custom
-func calendarColor(view: FSCalendar, design: CalendarDesign) {
-    
-    view.appearance.weekdayTextColor = .systemGray
-    view.appearance.titleWeekendColor = .black
-    view.appearance.headerTitleColor =  design.calendarColor
-    view.appearance.eventDefaultColor = design.calendarColor
-    view.appearance.eventSelectionColor = design.calendarColor
-    view.appearance.titleSelectionColor = design.calendarColor
-    view.appearance.borderSelectionColor = design.calendarColor
-    view.appearance.todayColor = design.calendarTodayColor
-    view.appearance.titleTodayColor = .black
-    view.appearance.todaySelectionColor = .white
-    view.appearance.selectionColor = .none
-}
-
-// 캘린더 텍스트 스타일 설정을 위한 메소드
-func calendarText(view: FSCalendar, design: CalendarDesign) {
-    view.headerHeight = CGFloat(design.headerHeight)
-    view.appearance.headerTitleFont = design.headerFont
-    view.appearance.headerMinimumDissolvedAlpha = 0.0
-    view.appearance.headerDateFormat = "YYYY년 M월"
-    view.appearance.titleFont = design.titleFont
-    view.appearance.weekdayFont = design.headerFont
-    view.locale = Locale(identifier: "ko_KR")
-    view.weekdayHeight = CGFloat(design.weekdayHeight)
-}
-
 func placeholderSetting(_ textView: UITextView) {
     textView.delegate = textView as! UITextViewDelegate // 유저가 선언한 outlet
     textView.text = StringUtils.contentNotExist.rawValue
     textView.textColor = UIColor.lightGray
 }
 
-// 이메일 형식인지 검사하는 메소드
-func isValidEmail(_ email: String) -> Bool {
-    let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-    let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-    return emailPred.evaluate(with: email)
-}
 
 
