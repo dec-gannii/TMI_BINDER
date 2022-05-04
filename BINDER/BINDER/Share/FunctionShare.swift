@@ -25,6 +25,8 @@ func calendarColor(view:FSCalendar, design:CalendarDesign) {
     view.appearance.todayColor = design.calendarTodayColor
 }
 
+
+
 //달별 달력 날짜 셋팅
 func setUpDays(_ date: Date) -> Array<Date> {
     var days : Array<Date> = []
