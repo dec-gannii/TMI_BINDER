@@ -145,11 +145,36 @@ class EditInfoViewController: UIViewController {
     func saveParentInfo(_ name: String, _ password: String, _ childPhoneNumber: String){
         let db = Firestore.firestore()
         
+        var childPhoneNumberWithDash = "" // '-'가 들어간 번호로 다시 만들어 주기 위해 사용
+        if (childPhoneNumber.contains(" - ")) { /// '-'가 있는 휴대폰 번호의 경우
+            childPhoneNumberWithDash = childPhoneNumber // '-'가 들어간 번호 변수에 그대로 사용
+        } else {  /// '-'가 없는 휴대폰 번호의 경우
+            var firstPart = "" // 010 파트
+            var secondPart = "" // 중간 번호 파트
+            var thirdPart = "" // 끝 번호 파트
+            var count = 0 // 몇 개의 숫자를 셌는지 파악하기 위한 변수
+            
+            for char in childPhoneNumber{ // childPhoneNumber가 String이므로 하나하나의 문자를 사용
+                if (count >= 0 && count <= 2) { // 0-2번째에 해당하는 수는 010 파트로 저장
+                    firstPart += String(char)
+                } else if (count >= 3 && count <= 6){ // 3-6번째에 해당하는 수는 중간 번호 파트로 저장
+                    secondPart += String(char)
+                } else if (count >= 7 && count <= 10){ // 7-10번째에 해당하는 수는 끝 번호 파트로 저장
+                    thirdPart += String(char)
+                }
+                // 한 번 할 때마다 count 하나씩 증가
+                count = count + 1
+                
+            }
+            // '-'가 들어간 번호 변수에 010 파트와 중간 번호 하트, 끝 번호 파트를 '-'로 연결해서 저장
+            childPhoneNumberWithDash = firstPart + " - " + secondPart + " - " + thirdPart
+        }
+        
         // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
         db.collection("\(self.type)").document(Auth.auth().currentUser!.uid).updateData([
             "name": name,
             "password": password,
-            "childPhoneNumber": childPhoneNumber
+            "childPhoneNumber": childPhoneNumberWithDash
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
