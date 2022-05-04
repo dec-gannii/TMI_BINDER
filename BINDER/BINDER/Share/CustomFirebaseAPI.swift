@@ -98,6 +98,7 @@ public func ShowPortfolio(self : ShowPortfolioViewController) {
             
             for document in querySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")
+                self.view.endEditing(true)
                 let email = document.data()["email"] as? String ?? ""
                 // 포트폴리오를 보여주는 화면 present
                 guard let portfolioVC = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioTableViewController") as? PortfolioTableViewController else { return }
