@@ -6,7 +6,7 @@
 
 import UIKit
 
-class BaseVC: UIViewController {
+public class BaseVC: UIViewController {
     
     /// 알림 띄우는 함수
     func showDefaultAlert(msg: String) {
