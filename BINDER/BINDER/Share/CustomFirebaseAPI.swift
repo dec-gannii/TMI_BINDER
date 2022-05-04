@@ -79,3 +79,145 @@ public func SetScheduleTexts(type : String, date : String, datestr: String, sche
         }
     }
 }
+
+public func GetStudentClassCount(self : ClassInfoVC, uid : String) {
+    let db = Firestore.firestore()
+    self.studentCount = 0
+    db.collection("student").document(uid).collection("class").getDocuments()
+    {
+        (querySnapshot, err) in
+        
+        if let err = err
+        {
+            print("Error getting documents: \(err)");
+        }
+        else
+        {
+            var count = 0
+            for document in querySnapshot!.documents {
+                count += 1
+                print("student \(document.documentID) => \(document.data())");
+            }
+            if (count > 0) {
+                db.collection("student").document(uid).collection("class").document("\(LoginRepository.shared.teacherItem!.name)(\(LoginRepository.shared.teacherItem!.email)) " + self.subjectTextField.text!).updateData(["index": count-1])
+                { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
+            }
+        }
+    }
+}
+
+public func GetTeacherClassCount(self : ClassInfoVC) {
+    let db = Firestore.firestore()
+    self.studentCount = 0
+    
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments()
+    {
+        (querySnapshot, err) in
+        
+        if let err = err
+        {
+            print("Error getting documents: \(err)");
+        }
+        else
+        {
+            var count = 0
+            
+            for document in querySnapshot!.documents {
+                count += 1
+                print("\(document.documentID) => \(document.data())");
+            }
+            if (count > 0) {
+                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.studentItem.name + "(" + self.studentItem.email + ") " + self.subjectTextField.text!).updateData(["index": count-1])
+                { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
+                
+            }
+        }
+    }
+}
+
+public func SaveClassInfo(self : ClassInfoVC, subject : String, payDate : String, payment : String , schedule : String) {
+    // 데이터베이스 연결
+    var studentUid = ""
+    let db = Firestore.firestore()
+    
+    db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments {
+        (querySnapshot, err) in
+        if let err = err {
+            print(">>>>> document 에러 : \(err)")
+        } else {
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                db.collection("student").whereField("email", isEqualTo: "\(self.studentItem.email)").getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                    } else {
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                studentUid = document.data()["uid"] as? String ?? ""
+                                
+                                db.collection("student").document(studentUid).collection("class").document("\(LoginRepository.shared.teacherItem!.name)(\(LoginRepository.shared.teacherItem!.email)) " + self.subjectTextField.text!).setData([
+                                    "email" : "\(LoginRepository.shared.teacherItem!.email)",
+                                    "name" : "\(LoginRepository.shared.teacherItem!.name)",
+                                    "subject" : self.subjectTextField.text!,
+                                    "currentCnt" : 0,
+                                    "totalCnt" : 8,
+                                    "circleColor" : self.classColor1,
+                                    "recentDate" : "",
+                                    "datetime": Date().formatted(),
+                                    "goal": self.studentItem.goal])
+                                { err in
+                                    if let err = err {
+                                        print(">>>>> document 에러 : \(err)")
+                                        self.showDefaultAlert(msg: "수업 저장 중에 에러가 발생했습니다.")
+                                    }
+                                }
+                            }
+                            GetStudentClassCount(self: self, uid: studentUid)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.studentItem.name + "(" + self.studentItem.email + ") " + self.subjectTextField.text!).setData([
+        "email" : self.studentItem.email,
+        "name" : self.studentItem.name,
+        "goal" : self.studentItem.goal,
+        "subject" : subject,
+        "currentCnt" : 0,
+        "totalCnt" : 8,
+        "circleColor" : self.classColor1,
+        "recentDate" : "",
+        "payType" : self.payType == .timly ? "T" : "C",
+        "payDate": payDate,
+        "payAmount": payment,
+        "schedule" : schedule,
+        "repeatYN": self.isRepeat.isOn,
+        "datetime": Date().formatted()])
+    { err in
+        if let err = err {
+            print(">>>>> document 에러 : \(err)")
+            self.showDefaultAlert(msg: "수업 저장 중에 에러가 발생했습니다.")
+        } else {
+            // 데이타 저장에 성공한 경우 처리
+            ///  dissmiss 닫음
+            /// completion :클로저
+            self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: {
+                self.delegate?.onSuccess()
+            })
+        }
+    }
+    
+}
