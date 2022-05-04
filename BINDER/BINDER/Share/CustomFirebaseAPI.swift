@@ -79,3 +79,81 @@ public func SetScheduleTexts(type : String, date : String, datestr: String, sche
         }
     }
 }
+
+public func UpdateClassInfo(self : EditClassVC, schedule : String) {
+    let db = Firestore.firestore()
+    
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+        "subject": self.subjectTF.text ?? "None",
+        "payType": self.payType == .timly ? "T" : "C",
+        "payAmount": self.payAmountTF.text ?? "None",
+        "payDate": self.payDateTF.text ?? "None",
+        "repeatYN": self.repeatYN ,
+        "schedule": schedule
+    ]) { err in
+        if let err = err {
+            print("Error adding document: \(err)")
+        }
+    }
+}
+
+public func GetClassInfo(self : EditClassVC) {
+    let db = Firestore.firestore()
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { [self] (document, error) in
+        if let document = document, document.exists {
+            let data = document.data()
+            
+            let subject = data?["subject"] as? String ?? ""
+            self.subjectTF.text = subject
+            
+            let payType = data?["payType"] as? String ?? ""
+            if (payType == "C") {
+                self.payTypeBtn.setTitle("회차별", for: .normal)
+            } else {
+                self.payTypeBtn.setTitle("시간별", for: .normal)
+            }
+            
+            let payAmount = data?["payAmount"] as? String ?? ""
+            self.payAmountTF.text = payAmount
+            
+            let payDate = data?["payDate"] as? String ?? ""
+            self.payDateTF.text = payDate
+            
+            let repeatYN = data?["repeatYN"] as? Bool ?? true
+            if (repeatYN == true) {
+                self.repeatYNToggle.setOn(true, animated: true)
+            } else {
+                self.repeatYNToggle.setOn(false, animated: true)
+            }
+            
+            let schedule = data?["schedule"] as? String ?? ""
+            // 저장된 스케줄을 " " 단위로 갈라내어 배열로 저장함
+            self.days = schedule.components(separatedBy: " ")
+            print(self.days)
+            
+            if self.days.contains("월") {
+                self.daysBtn[0].isSelected = true
+            }
+            if self.days.contains("화") {
+                self.daysBtn[1].isSelected = true
+            }
+            if self.days.contains("수") {
+                self.daysBtn[2].isSelected = true
+            }
+            if self.days.contains("목") {
+                self.daysBtn[3].isSelected = true
+            }
+            if self.days.contains("금") {
+                self.daysBtn[4].isSelected = true
+            }
+            if self.days.contains("토") {
+                self.daysBtn[5].isSelected = true
+            }
+            if self.days.contains("일") {
+                self.daysBtn[6].isSelected = true
+            }
+        } else {
+            print("Document does not exist")
+        }
+    }
+}
