@@ -1321,3 +1321,54 @@ public func SaveImage(self : MyPageViewController) {
         }
     }
 }
+
+public func GetEvaluationForStudentCell(self : StudentEvaluationCell) {
+    let db = Firestore.firestore()
+    db.collection("parent").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
+        if let err = err {
+            print(">>>>> document 에러 : \(err)")
+        } else {
+            /// nil이 아닌지 확인한다.
+            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                return
+            }
+            for document in snapshot.documents {
+                if (LoadingHUD.isLoaded == false) {
+                    LoadingHUD.show()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        LoadingHUD.isLoaded = true
+                        LoadingHUD.hide()
+                    }
+                }
+                print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                /// nil값 처리
+                let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? ""
+                db.collection("student").whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            let studentUid = document.data()["uid"] as? String ?? ""
+                            db.collection("student").document(studentUid).collection("class").document(self.teacherName + "(" + self.teacherEmail + ") " + self.subject).collection("Evaluation").whereField("month", isEqualTo: self.selectedMonth).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print(">>>>> document 에러 : \(err)")
+                                } else {
+                                    self.setTextView("등록된 평가가 없습니다.")
+                                    self.monthPickerView.text = "\(self.selectedMonth)"
+                                    for document in querySnapshot!.documents {
+                                        let evaluation = document.data()["evaluation"] as? String ??  "등록된 평가가 없습니다."
+                                        self.setTextView(evaluation)
+                                        self.monthPickerView.text = "\(self.selectedMonth)"
+                                        LoadingHUD.isLoaded = true
+                                    }
+                                    self.monthPickerView.resignFirstResponder()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
