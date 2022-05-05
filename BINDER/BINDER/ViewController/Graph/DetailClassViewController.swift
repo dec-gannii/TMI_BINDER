@@ -11,7 +11,7 @@ import FSCalendar
 import Charts
 import BLTNBoard
 
-class DetailClassViewController: UIViewController {
+public class DetailClassViewController: UIViewController {
     let db = Firestore.firestore()
     var ref: DatabaseReference!
     
@@ -74,7 +74,7 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var calendarHeight: NSLayoutConstraint!
     
     /// Load View
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         getScores()
         getUserInfo()
         
@@ -86,7 +86,7 @@ class DetailClassViewController: UIViewController {
         barColorSetting()
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         // 빈 배열 형성
         days = []
         scores = []
@@ -187,7 +187,7 @@ class DetailClassViewController: UIViewController {
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
     
@@ -772,12 +772,12 @@ class DetailClassViewController: UIViewController {
 extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     
     //데이터 카운트
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todos.count
     }
     
     // 데이터 나타내기
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
         let todo = self.todos[indexPath.row]
         
@@ -797,7 +797,7 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
     }
     
     // 데이터 삭제
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if self.userType == "teacher" {
             if editingStyle == .delete {
                 
@@ -865,7 +865,7 @@ extension DetailClassViewController:UITableViewDataSource, UITableViewDelegate {
 }
 
 extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate, UITextViewDelegate {
-    internal func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
+    public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
         if (self.userType == "teacher") {
             if (self.currentCnt % 8 == 0 && (self.currentCnt == 0 || self.currentCnt == 8)) {
@@ -1056,7 +1056,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
         }
     }
     
-    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool){
+    public func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool){
         calendarHeight.constant = bounds.height + 20
         self.view.layoutIfNeeded ()
     }
