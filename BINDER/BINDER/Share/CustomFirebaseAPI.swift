@@ -36,7 +36,7 @@ public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLa
         } else if ((sender as AnyObject).tag == 2) {
             linkBtnName = thirdLabel.text!
         }
-
+        
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("name", isEqualTo: linkBtnName).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -48,16 +48,16 @@ public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLa
                     linkBtnEmail = document.data()["email"] as? String ?? ""
                     linkBtnSubject = document.data()["subject"] as? String ?? ""
                 }
-
+                
                 detailVC.userName = linkBtnName
                 detailVC.userSubject = linkBtnSubject
                 detailVC.userEmail = linkBtnEmail
                 detailVC.userIndex = linkBtnIndex
                 detailVC.userType = userType
-
+                
                 detailVC.modalPresentationStyle = .fullScreen
                 detailVC.modalTransitionStyle = .crossDissolve
-
+                
                 self.present(detailVC, animated: true, completion: nil)
             }
         }
@@ -70,7 +70,7 @@ public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLa
         } else if ((sender as AnyObject).tag == 2) {
             linkBtnName = thirdLabel.text!
         }
-
+        
         db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("name", isEqualTo: linkBtnName).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -82,23 +82,22 @@ public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLa
                     linkBtnEmail = document.data()["email"] as? String ?? ""
                     linkBtnSubject = document.data()["subject"] as? String ?? ""
                 }
-
+                
                 detailVC.userName = linkBtnName
                 detailVC.userSubject = linkBtnSubject
                 detailVC.userEmail = linkBtnEmail
                 detailVC.userIndex = linkBtnIndex
                 detailVC.userType = userType
-
+                
                 detailVC.modalPresentationStyle = .fullScreen
                 detailVC.modalTransitionStyle = .crossDissolve
-
+                
                 self.present(detailVC, animated: true, completion: nil)
             }
         }
     }
 }
 
-// 일정 리스트 불러오기
 public func ShowScheduleList(type : String, date : String, datestr: String, scheduleTitles : [String], scheduleMemos : [String], count : Int) {
     let db = Firestore.firestore()
     
@@ -126,13 +125,12 @@ public func ShowScheduleList(type : String, date : String, datestr: String, sche
                 }
                 
                 // 일정의 제목은 필수 항목이므로 일정 제목 개수만큼을 개수로 지정
-                varCount = scheduleTitles.count
+                varCount = varScheduleTitles.count
             }
         }
     }
 }
 
-// 일정 내용 설정
 public func SetScheduleTexts(type : String, date : String, datestr: String, scheduleTitles : [String], scheduleMemos : [String], count : Int, scheduleCell : ScheduleCellTableViewCell, indexPathRow : Int) {
     // 데이터베이스에서 일정 리스트 가져오기
     let db = Firestore.firestore()
@@ -164,6 +162,7 @@ public func SetScheduleTexts(type : String, date : String, datestr: String, sche
                 
                 // 일정의 제목은 필수 항목이므로 일정 제목 개수만큼을 개수로 지정
                 varCount = varScheduleTitles.count
+            
             }
             for i in 0...indexPathRow {
                 // 가져온 내용들을 순서대로 일정 셀의 텍스트로 설정
@@ -182,24 +181,24 @@ public func GetTeacherEvents(events : [Date], days : [Date], calendarView : FSCa
         if let document = document, document.exists {
             let data = document.data()
             let type = data?["type"] as? String ?? ""
-
+            
             let formatter = DateFormatter()
-
+            
             formatter.locale = Locale(identifier: "ko_KR")
             formatter.timeZone = TimeZone(abbreviation: "KST")
-
+            
             sharedEvents.removeAll()
             sharedDays = days
-
+            
             for index in 1...days.count-1 {
                 let tempDay = "\(sharedDays[index])"
                 let dateWithoutDays = tempDay.components(separatedBy: " ")
                 formatter.dateFormat = "YYYY-MM-dd"
                 let date = formatter.date(from: dateWithoutDays[0])!
                 let datestr = formatter.string(from: date)
-
+                
                 let docRef = db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
-
+                
                 docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
                     if let err = err {
                         print("Error getting documents: \(err)")
@@ -208,7 +207,7 @@ public func GetTeacherEvents(events : [Date], days : [Date], calendarView : FSCa
                             print("\(document.documentID) => \(document.data())")
                             // 사용할 것들 가져와서 지역 변수로 저장
                             let date = document.data()["date"] as? String ?? ""
-
+                            
                             formatter.dateFormat = "YYYY-MM-dd"
                             let date_d = formatter.date(from: date)!
                             sharedEvents.append(date_d)
@@ -226,29 +225,29 @@ public func GetTeacherEvents(events : [Date], days : [Date], calendarView : FSCa
 // 학생 일정 불러오기
 public func GetStudentEvents(events : [Date], days : [Date], calendarView : FSCalendar) {
     let db = Firestore.firestore()
-
+    
     // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
     db.collection("student").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
         if let document = document, document.exists {
             let data = document.data()
             let type = data?["type"] as? String ?? ""
-
+            
             let formatter = DateFormatter()
             formatter.locale = Locale(identifier: "ko_KR")
             formatter.timeZone = TimeZone(abbreviation: "KST")
-
+            
             sharedEvents.removeAll()
             sharedDays = days
-
+            
             for index in 1...days.count-1 {
                 let tempDay = "\(sharedDays[index])"
                 let dateWithoutDays = tempDay.components(separatedBy: " ")
                 formatter.dateFormat = "YYYY-MM-dd"
                 let date = formatter.date(from: dateWithoutDays[0])!
                 let datestr = formatter.string(from: date)
-
+                
                 let docRef = db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
-
+                
                 docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
                     if let err = err {
                         print("Error getting documents: \(err)")
@@ -257,7 +256,7 @@ public func GetStudentEvents(events : [Date], days : [Date], calendarView : FSCa
                             print("\(document.documentID) => \(document.data())")
                             // 사용할 것들 가져와서 지역 변수로 저장
                             let date = document.data()["date"] as? String ?? ""
-
+                            
                             formatter.dateFormat = "YYYY-MM-dd"
                             let date_d = formatter.date(from: date)!
                             sharedEvents.append(date_d)
@@ -405,45 +404,46 @@ public func DeleteSchedule(type : String, date : String , indexPathRow : Int, sc
     let db = Firestore.firestore()
     
     db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document(publicTitles[indexPathRow]).delete() { err in
+        if let err = err {
+            print("Error removing document: \(err)")
+        } else {
+            print("Document successfully removed!")
+            varCount = varCount - 1
+            scheduleListTableView.reloadData()
+        }
+    }
+    
+    db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").getDocuments()
+    {
+        (querySnapshot, err) in
+        
+        if let err = err
+        {
+            print("Error getting documents: \(err)");
+        }
+        else
+        {
+            var count = 0
+            for document in querySnapshot!.documents {
+                count += 1
+                print("\(document.documentID) => \(document.data())");
+            }
+            
+            if (count == 1) {
+                db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document("Count").setData(["count": 0])
+                { err in
                     if let err = err {
-                        print("Error removing document: \(err)")
-                    } else {
-                        print("Document successfully removed!")
-                        varCount = varCount - 1
-                        scheduleListTableView.reloadData()
+                        print("Error adding document: \(err)")
                     }
                 }
-                
-                db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").getDocuments()
-                {
-                    (querySnapshot, err) in
-                    
-                    if let err = err
-                    {
-                        print("Error getting documents: \(err)");
-                    }
-                    else
-                    {
-                        var count = 0
-                        for document in querySnapshot!.documents {
-                            count += 1
-                            print("\(document.documentID) => \(document.data())");
-                        }
-                        
-                        if (count == 1) {
-                            db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document("Count").setData(["count": 0])
-                            { err in
-                                if let err = err {
-                                    print("Error adding document: \(err)")
-                                }
-                            }
-                        } else {
-                            db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document("Count").setData(["count": count-1])
-                            { err in
-                                if let err = err {
-                                    print("Error adding document: \(err)")
-                                }
-                            }
-                        }
+            } else {
+                db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document("Count").setData(["count": count-1])
+                { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
                     }
                 }
+            }
+        }
+    }
+}

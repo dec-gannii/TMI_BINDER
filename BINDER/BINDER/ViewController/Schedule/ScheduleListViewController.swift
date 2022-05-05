@@ -46,7 +46,6 @@ public class ScheduleListViewController: UIViewController {
         let date = formatter.date(from: dateWithoutDays[0])!
         let datestr = formatter.string(from: date)
         
-        
         // 데이터베이스에서 일정 리스트 가져오기
         ShowScheduleList(type: self.type, date: self.date, datestr: datestr, scheduleTitles: scheduleTitles, scheduleMemos: scheduleMemos, count: self.count)
         
@@ -87,9 +86,8 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         return scheduleCell
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return varCount // 셀의 개수 반환
-        
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -106,7 +104,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
     public func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle { return .delete }
     
     // 일정 삭제를 위한 메소드 - 2
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             DeleteSchedule(type: self.type, date: self.date, indexPathRow: indexPath.row, scheduleListTableView: self.scheduleListTableView)
         }
