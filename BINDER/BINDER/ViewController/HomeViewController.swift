@@ -239,66 +239,15 @@ public class HomeViewController: UIViewController {
         self.HomeStudentIconSecondLabel.text = ""
         self.HomeStudentIconThirdLabel.text = ""
         
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
-        
-        // index가 0, 1, 2인 세 명의 학생 정보 가져오기
-        docRef.whereField("index", isEqualTo: 0).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconLabel.text = document.data()["name"] as? String ?? ""
-                    self.firstLinkBtn.isHidden = false
-                    self.HomeStudentIconLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconSecondLabel.text = document.data()["name"] as? String ?? ""
-                    self.secondLinkBtn.isHidden = false
-                    self.HomeStudentIconSecondLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 2).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconThirdLabel.text = document.data()["name"] as? String ?? ""
-                    self.thirdLinkBtn.isHidden = false
-                    self.HomeStudentIconThirdLabel.isHidden = false
-                }
-            }
-        }
-        
         // 만약 학생이 없다면 버튼과 레이블을 숨기기
-        if (self.HomeStudentIconLabel.text == "" || self.HomeStudentIconLabel.text == "Name Label") {
-            self.firstLinkBtn.isHidden = true
-            self.HomeStudentIconLabel.isHidden = true
-        }
+        self.firstLinkBtn.isHidden = true
+        self.HomeStudentIconLabel.isHidden = true
+        self.secondLinkBtn.isHidden = true
+        self.HomeStudentIconSecondLabel.isHidden = true
+        self.thirdLinkBtn.isHidden = true
+        self.HomeStudentIconThirdLabel.isHidden = true
         
-        if (self.HomeStudentIconSecondLabel.text == "" || self.HomeStudentIconSecondLabel.text == "Name Label") {
-            self.secondLinkBtn.isHidden = true
-            self.HomeStudentIconSecondLabel.isHidden = true
-        }
-        
-        if (self.HomeStudentIconThirdLabel.text == "" || self.HomeStudentIconThirdLabel.text == "Name Label") {
-            self.thirdLinkBtn.isHidden = true
-            self.HomeStudentIconThirdLabel.isHidden = true
-        }
+        GetTeacherMyClass(self: self)
     }
     
     /// 내 수업 가져오기 : 학생
@@ -308,66 +257,15 @@ public class HomeViewController: UIViewController {
         self.HomeStudentIconSecondLabel.text = ""
         self.HomeStudentIconThirdLabel.text = ""
         
-        let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class")
-        
-        // index가 0, 1, 2인 세 명의 학생 정보 가져오기
-        docRef.whereField("index", isEqualTo: 0).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconLabel.text = document.data()["name"] as? String ?? ""
-                    self.firstLinkBtn.isHidden = false
-                    self.HomeStudentIconLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconSecondLabel.text = document.data()["name"] as? String ?? ""
-                    self.secondLinkBtn.isHidden = false
-                    self.HomeStudentIconSecondLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 2).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconThirdLabel.text = document.data()["name"] as? String ?? ""
-                    self.thirdLinkBtn.isHidden = false
-                    self.HomeStudentIconThirdLabel.isHidden = false
-                }
-            }
-        }
-        
         // 만약 학생이 없다면 버튼과 레이블을 숨기기
-        if (self.HomeStudentIconLabel.text == "" || self.HomeStudentIconLabel.text == "Name Label") {
-            self.firstLinkBtn.isHidden = true
-            self.HomeStudentIconLabel.isHidden = true
-        }
+        self.firstLinkBtn.isHidden = true
+        self.HomeStudentIconLabel.isHidden = true
+        self.secondLinkBtn.isHidden = true
+        self.HomeStudentIconSecondLabel.isHidden = true
+        self.thirdLinkBtn.isHidden = true
+        self.HomeStudentIconThirdLabel.isHidden = true
         
-        if (self.HomeStudentIconSecondLabel.text == "" || self.HomeStudentIconSecondLabel.text == "Name Label") {
-            self.secondLinkBtn.isHidden = true
-            self.HomeStudentIconSecondLabel.isHidden = true
-        }
-        
-        if (self.HomeStudentIconThirdLabel.text == "" || self.HomeStudentIconThirdLabel.text == "Name Label") {
-            self.thirdLinkBtn.isHidden = true
-            self.HomeStudentIconThirdLabel.isHidden = true
-        }
+        GetStudentMyClass(self: self)
     }
     
     /// linked button clicked
