@@ -23,6 +23,8 @@ public var sharedEvents : [Date] = []
 public var sharedDays : [Date] = []
 public var publicTitles: [String] = []
 
+public var varCount = 0
+
 public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLabel : UILabel, thirdLabel : UILabel, detailVC : DetailClassViewController, self : HomeViewController) {
     let db = Firestore.firestore()
     if (userType == "teacher") {
@@ -102,7 +104,7 @@ public func ShowScheduleList(type : String, date : String, datestr: String, sche
     
     var varScheduleTitles = scheduleTitles
     var varScheduleMemos = scheduleMemos
-    var varCount: Int = count
+    varCount = count
     
     // 데이터베이스에서 일정 리스트 가져오기
     let docRef = db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList")
@@ -137,7 +139,9 @@ public func SetScheduleTexts(type : String, date : String, datestr: String, sche
     
     var varScheduleTitles = scheduleTitles
     var varScheduleMemos = scheduleMemos
-    var varCount: Int = count
+    varCount = count
+    
+    publicTitles.removeAll()
     
     let docRef = db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList")
     // Date field가 현재 날짜와 동일한 도큐먼트 모두 가져오기
@@ -396,3 +400,50 @@ public func ShowScheduleList(date : String, scheduleListVC : ScheduleListViewCon
     scheduleListVC.modalPresentationStyle = .fullScreen
     self.present(scheduleListVC, animated: true, completion: nil)
 }
+
+public func DeleteSchedule(type : String, date : String , indexPathRow : Int, scheduleListTableView : UITableView) {
+    let db = Firestore.firestore()
+    
+    db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document(publicTitles[indexPathRow]).delete() { err in
+                    if let err = err {
+                        print("Error removing document: \(err)")
+                    } else {
+                        print("Document successfully removed!")
+                        varCount = varCount - 1
+                        scheduleListTableView.reloadData()
+                    }
+                }
+                
+                db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").getDocuments()
+                {
+                    (querySnapshot, err) in
+                    
+                    if let err = err
+                    {
+                        print("Error getting documents: \(err)");
+                    }
+                    else
+                    {
+                        var count = 0
+                        for document in querySnapshot!.documents {
+                            count += 1
+                            print("\(document.documentID) => \(document.data())");
+                        }
+                        
+                        if (count == 1) {
+                            db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document("Count").setData(["count": 0])
+                            { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                }
+                            }
+                        } else {
+                            db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document("Count").setData(["count": count-1])
+                            { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                }
+                            }
+                        }
+                    }
+                }
