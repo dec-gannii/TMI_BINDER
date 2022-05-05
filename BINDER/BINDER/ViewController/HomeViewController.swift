@@ -12,7 +12,7 @@ import FirebaseDatabase
 import FSCalendar
 
 /// home view controller
-class HomeViewController: UIViewController {
+public class HomeViewController: UIViewController {
     // 변수 선언
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var stateLabel: UILabel!
@@ -65,7 +65,7 @@ class HomeViewController: UIViewController {
         monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
     }
     
-    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+    public func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         self.days.removeAll()
         self.events.removeAll()
         
@@ -159,23 +159,23 @@ class HomeViewController: UIViewController {
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
     
     /// Load View
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.calendarView.reloadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.getTeacherEvents()
         self.getStudentEvents()
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         ref = Database.database().reference()
@@ -219,66 +219,17 @@ class HomeViewController: UIViewController {
         self.HomeStudentIconSecondLabel.text = ""
         self.HomeStudentIconThirdLabel.text = ""
         
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
-        
-        // index가 0, 1, 2인 세 명의 학생 정보 가져오기
-        docRef.whereField("index", isEqualTo: 0).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconLabel.text = document.data()["name"] as? String ?? ""
-                    self.firstLinkBtn.isHidden = false
-                    self.HomeStudentIconLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconSecondLabel.text = document.data()["name"] as? String ?? ""
-                    self.secondLinkBtn.isHidden = false
-                    self.HomeStudentIconSecondLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 2).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconThirdLabel.text = document.data()["name"] as? String ?? ""
-                    self.thirdLinkBtn.isHidden = false
-                    self.HomeStudentIconThirdLabel.isHidden = false
-                }
-            }
-        }
+        GetTeacherMyClass(self: self)
         
         // 만약 학생이 없다면 버튼과 레이블을 숨기기
-        if (self.HomeStudentIconLabel.text == "" || self.HomeStudentIconLabel.text == "Name Label") {
-            self.firstLinkBtn.isHidden = true
-            self.HomeStudentIconLabel.isHidden = true
-        }
+        self.firstLinkBtn.isHidden = true
+        self.HomeStudentIconLabel.isHidden = true
+        self.secondLinkBtn.isHidden = true
+        self.HomeStudentIconSecondLabel.isHidden = true
+        self.thirdLinkBtn.isHidden = true
+        self.HomeStudentIconThirdLabel.isHidden = true
         
-        if (self.HomeStudentIconSecondLabel.text == "" || self.HomeStudentIconSecondLabel.text == "Name Label") {
-            self.secondLinkBtn.isHidden = true
-            self.HomeStudentIconSecondLabel.isHidden = true
-        }
-        
-        if (self.HomeStudentIconThirdLabel.text == "" || self.HomeStudentIconThirdLabel.text == "Name Label") {
-            self.thirdLinkBtn.isHidden = true
-            self.HomeStudentIconThirdLabel.isHidden = true
-        }
+        GetTeacherMyClass(self: self)
     }
     
     /// 내 수업 가져오기 : 학생
@@ -288,66 +239,15 @@ class HomeViewController: UIViewController {
         self.HomeStudentIconSecondLabel.text = ""
         self.HomeStudentIconThirdLabel.text = ""
         
-        let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class")
-        
-        // index가 0, 1, 2인 세 명의 학생 정보 가져오기
-        docRef.whereField("index", isEqualTo: 0).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconLabel.text = document.data()["name"] as? String ?? ""
-                    self.firstLinkBtn.isHidden = false
-                    self.HomeStudentIconLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconSecondLabel.text = document.data()["name"] as? String ?? ""
-                    self.secondLinkBtn.isHidden = false
-                    self.HomeStudentIconSecondLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 2).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconThirdLabel.text = document.data()["name"] as? String ?? ""
-                    self.thirdLinkBtn.isHidden = false
-                    self.HomeStudentIconThirdLabel.isHidden = false
-                }
-            }
-        }
-        
         // 만약 학생이 없다면 버튼과 레이블을 숨기기
-        if (self.HomeStudentIconLabel.text == "" || self.HomeStudentIconLabel.text == "Name Label") {
-            self.firstLinkBtn.isHidden = true
-            self.HomeStudentIconLabel.isHidden = true
-        }
+        self.firstLinkBtn.isHidden = true
+        self.HomeStudentIconLabel.isHidden = true
+        self.secondLinkBtn.isHidden = true
+        self.HomeStudentIconSecondLabel.isHidden = true
+        self.thirdLinkBtn.isHidden = true
+        self.HomeStudentIconThirdLabel.isHidden = true
         
-        if (self.HomeStudentIconSecondLabel.text == "" || self.HomeStudentIconSecondLabel.text == "Name Label") {
-            self.secondLinkBtn.isHidden = true
-            self.HomeStudentIconSecondLabel.isHidden = true
-        }
-        
-        if (self.HomeStudentIconThirdLabel.text == "" || self.HomeStudentIconThirdLabel.text == "Name Label") {
-            self.thirdLinkBtn.isHidden = true
-            self.HomeStudentIconThirdLabel.isHidden = true
-        }
+        GetStudentMyClass(self: self)
     }
     
     /// linked button clicked
@@ -697,7 +597,7 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
     // 날짜 선택 시 실행되는 메소드
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
+    public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -726,7 +626,7 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
     }
     
     //이벤트 표시 개수
-    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+    public func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         if self.events.contains(date) {
             return 1
         } else {
