@@ -16,7 +16,6 @@ class HomeViewController: UIViewController {
     // 변수 선언
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var stateLabel: UILabel!
-    @IBOutlet weak var emailVerificationCheckBtn: UIButton!
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var HomeStudentIconLabel: UILabel!
     @IBOutlet weak var HomeStudentIconSecondLabel: UILabel!
@@ -25,6 +24,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var firstLinkBtn: UIButton!
     @IBOutlet weak var secondLinkBtn: UIButton!
     @IBOutlet weak var thirdLinkBtn: UIButton!
+    
+    @IBOutlet weak var textView: UIView!
     
     var classItems: [String] = [] // 수업 변수 배열
     var events: [Date] = [] // 이벤트가 있는 날짜 배열
@@ -41,9 +42,7 @@ class HomeViewController: UIViewController {
     let db = Firestore.firestore()
     var calenderDesign = CalendarDesign()
     
-    
     /// calendar custom
-    
     private var currentPage: Date?
     private lazy var today: Date = { return Date() }()
     
@@ -91,14 +90,16 @@ class HomeViewController: UIViewController {
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
         calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
-        calendarView.appearance.eventDefaultColor = calenderDesign.calendarColor
-        calendarView.appearance.eventSelectionColor = calenderDesign.calendarColor
+        calendarView.appearance.eventDefaultColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
+        calendarView.appearance.eventSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
+    
         calendarView.appearance.titleSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.borderSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.titleTodayColor = .black
-        calendarView.appearance.todaySelectionColor = .white
+        calendarView.appearance.borderSelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
+        calendarView.appearance.titleTodayColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
+        calendarView.appearance.todaySelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
         calendarView.appearance.selectionColor = .none
-        calendarView.appearance.todayColor = calenderDesign.calendarTodayColor
+        calendarView.appearance.todayColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
+        
     }
     
     func calendarEvent() {
@@ -179,11 +180,14 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         ref = Database.database().reference()
-        
+
         setUpDays(self.today)
         
         calendarView.delegate = self
-        
+        textView.clipsToBounds = true
+        textView.layer.cornerRadius = 10
+        textView.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
+
         verifiedCheck() // 인증된 이메일인지 체크하는 메소드
         getTeacherInfo()
         getStudentInfo()
@@ -195,18 +199,15 @@ class HomeViewController: UIViewController {
         // 인증되지 않은 계정이라면
         if (!verified) {
             stateLabel.text = "가입한 이메일로 인증을 진행해주세요."
-            emailVerificationCheckBtn.isHidden = false
         } else {
             // 인증되었고,
             if (self.type == "teacher") { // 선생님 계정이라면
                 if (Auth.auth().currentUser?.email != nil) {
-                    emailVerificationCheckBtn.isHidden = true
                     HomeStudentScrollView.isHidden = true
                 }
             } else {
                 // 학생 계정이라면
                 if (Auth.auth().currentUser?.email != nil) {
-                    emailVerificationCheckBtn.isHidden = true
                 }
             }
         }
@@ -669,17 +670,14 @@ class HomeViewController: UIViewController {
                 if (check == false) {
                     self.verified = false // 인증 안 되었으면 false 설정
                     self.stateLabel.text = "이메일 인증이 진행중입니다."
-                    self.emailVerificationCheckBtn.isHidden = false
                 } else {
                     self.verified = true // 인증 되었으면 true 설정
                     if (Auth.auth().currentUser?.email != nil) {
                         if (self.type == "teacher") { // 선생님 계정이면
                             self.stateLabel.text = self.name + " 선생님 환영합니다!"
-                            self.emailVerificationCheckBtn.isHidden = true
                             self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
                         } else if (self.type == "student") { // 학생 계정이면
                             self.stateLabel.text = self.name + " 학생 환영합니다!"
-                            self.emailVerificationCheckBtn.isHidden = true // 이메일 인증 확인 버튼 숨기기
                             self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
                         }
                     }
