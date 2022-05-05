@@ -21,6 +21,7 @@ public var userPW : String = ""
 
 public var sharedEvents : [Date] = []
 public var sharedDays : [Date] = []
+public var publicTitles: [String] = []
 
 public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLabel : UILabel, thirdLabel : UILabel, detailVC : DetailClassViewController, self : HomeViewController) {
     let db = Firestore.firestore()
@@ -153,6 +154,7 @@ public func SetScheduleTexts(type : String, date : String, datestr: String, sche
                 if (!varScheduleTitles.contains(scheduleTitle)) {
                     // 여러 개의 일정이 있을 수 있으므로 가져와서 배열에 저장
                     varScheduleTitles.append(scheduleTitle)
+                    publicTitles.append(scheduleTitle)
                     varScheduleMemos.append(scheduleMemo)
                 }
                 
