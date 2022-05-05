@@ -10,6 +10,7 @@ import Firebase
 import FirebaseFirestore
 import UIKit
 import FSCalendar
+import FirebaseStorage
 
 public var linkBtnEmail : String = ""
 public var linkBtnIndex : Int = 0
@@ -821,7 +822,7 @@ public func ShowPortfolio(self : ShowPortfolioViewController) {
                 self.present(alert, animated: false, completion: nil)
                 return
             }
-
+            
             for document in querySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")
                 self.view.endEditing(true)
@@ -840,10 +841,10 @@ public func ShowPortfolio(self : ShowPortfolioViewController) {
 
 public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewController) {
     let db = Firestore.firestore()
-
+    
     self.teacherAttitudeArray.removeAll()
     self.teacherManagingSatisfyScoreArray.removeAll()
-
+    
     if (self.isShowMode == true) { /// 포트폴리오 조회인 경우
         self.editBtn.isHidden = true // 수정 버튼 숨기기
         self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
@@ -857,7 +858,7 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
                     let profile = document.data()["profile"] as? String ?? ""
                     let uid = document.data()["uid"] as? String ?? ""
                     self.teacherUid = uid
-
+                    
                     self.db.collection("teacherEvaluation").document(uid).collection("evaluation").whereField("teacherUid", isEqualTo: uid).getDocuments() {
                         (querySnapshot, err) in
                         if let err = err {
@@ -872,13 +873,13 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
                             }
                         }
                     }
-
+                    
                     self.infos.removeAll() // 원래 있는 제목 정보들 모두 지우기
                     
                     self.db.collection("teacher").document(uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
                         if let document = document, document.exists {
                             let data = document.data()
-
+                            
                             let eduText = data?["eduHistory"] as? String ?? "" // 학력 정보
                             let classText = data?["classMethod"] as? String ?? "" // 수업 방식
                             let extraText = data?["extraExprience"] as? String ?? "" // 과외 경력
@@ -916,7 +917,7 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
         self.infos.removeAll()
         self.teacherAttitudeArray.removeAll()
         self.teacherManagingSatisfyScoreArray.removeAll()
-
+        
         self.db.collection("teacherEvaluation").document(Auth.auth().currentUser!.uid).collection("evaluation").whereField("teacherUid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() {
             (querySnapshot, err) in
             if let err = err {
@@ -931,18 +932,18 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
                 }
             }
         }
-
+        
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-
+                
                 let eduText = data?["eduHistory"] as? String ?? ""
                 let classText = data?["classMethod"] as? String ?? ""
                 let extraText = data?["extraExprience"] as? String ?? ""
                 let time = data?["time"] as? String ?? ""
                 let contact = data?["contact"] as? String ?? ""
                 let manage = data?["manage"] as? String ?? ""
-
+                
                 if (eduText != "") {
                     self.infos.append("학력사항")
                 }
@@ -964,12 +965,12 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
                 self.infos.append("선생님 평가")
             }
         }
-
+        
         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-
+                
                 let name = data?["name"] as? String ?? ""
                 self.teacherName.text = name
                 let email = data?["email"] as? String ?? ""
@@ -987,29 +988,29 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
 
 public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath : IndexPath, cell : PortfolioDefaultCell) {
     let db = Firestore.firestore()
-
+    
     if Auth.auth().currentUser?.uid != nil { // 현재 사용자의 uid가 nil이 아니면
         self.teacherUid = Auth.auth().currentUser!.uid // self.teacherUid 를 설정
     }
-
+    
     var teacherAttitudeScoreAvg = 0
     var teacherAttitudeScoreSum = 0
     for score in self.teacherAttitudeArray {
         teacherAttitudeScoreSum += score
         teacherAttitudeScoreAvg = teacherAttitudeScoreSum / self.teacherAttitudeArray.count
     }
-
+    
     var teacherManagingSatisfyScoreAvg = 0
     var teacherManagingSatisfyScoreSum = 0
     for score in self.teacherManagingSatisfyScoreArray {
         teacherManagingSatisfyScoreSum += score
         teacherManagingSatisfyScoreAvg = teacherManagingSatisfyScoreSum / self.teacherManagingSatisfyScoreArray.count
     }
-
+    
     if (self.showModeEmail == "") {
         self.showModeEmail = (Auth.auth().currentUser?.email)!
     }
-
+    
     db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
         if let err = err {
             print(">>>>> document 에러 : \(err)")
@@ -1017,12 +1018,12 @@ public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath :
             for document in querySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")
                 let uid = document.data()["uid"] as? String ?? ""
-
+                
                 self.db.collection("teacher").document(uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-
+                        
                         let eduText = data?["eduHistory"] as? String ?? "저장된 내용이 없습니다."
                         let classText = data?["classMethod"] as? String ?? "저장된 내용이 없습니다."
                         let extraText = data?["extraExprience"] as? String ?? "저장된 내용이 없습니다."
@@ -1030,7 +1031,7 @@ public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath :
                         let contact = data?["contact"] as? String ?? "저장된 내용이 없습니다."
                         let manage = data?["manage"] as? String ?? "저장된 내용이 없습니다."
                         let portfolioShow = data?["portfolioShow"] as? String ?? "저장된 내용이 없습니다."
-
+                        
                         if self.infos[indexPath.row] == "연락 수단" {
                             cell.content.text = contact
                         } else if self.infos[indexPath.row] == "학력사항" {
@@ -1046,7 +1047,7 @@ public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath :
                         } else if self.infos[indexPath.row] == "학생 관리 방법" {
                             cell.content.text = manage
                         }
-
+                        
                         if (portfolioShow == "Off" && self.isShowMode == true) {
                             let message = "비공개 설정 되어있습니다."
                             if self.infos[indexPath.row] == "연락 수단" {
@@ -1066,7 +1067,7 @@ public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath :
                             }
                         }
                         cell.title.text = self.infos[indexPath.row]
-
+                        
                         print("Document data: \(dataDescription)")
                     } else {
                         print("Document does not exist")
@@ -1143,7 +1144,7 @@ public func GetPortfolioPlots(self : PortfolioEditViewController) {
             }
             self.evaluationTV.text = "선생님이 수정할 수 없습니다."
             self.evaluationTV.isEditable = false
-
+            
             let showPortfolio = data?["portfolioShow"] as? String ?? ""
             if (showPortfolio == "Off") {
                 self.showPortfolio = "Off"
@@ -1162,9 +1163,9 @@ public func SaveEditedPlot(self : PortfolioEditViewController) {
         if let document = document, document.exists {
             let data = document.data()
             let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-
+            
             let email = data?["email"] as? String ?? ""
-
+            
             db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").updateData([
                 "portfolioEmail": email
             ]) { err in
@@ -1177,7 +1178,6 @@ public func SaveEditedPlot(self : PortfolioEditViewController) {
             print("Document does not exist")
         }
     }
-
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").setData([
         "eduHistory": self.eduHistoryTV.text ?? "",
         "classMethod": self.classMetTV.text ?? "",
@@ -1189,6 +1189,135 @@ public func SaveEditedPlot(self : PortfolioEditViewController) {
     ]) { err in
         if let err = err {
             print("Error adding document: \(err)")
+        }
+    }
+}
+
+public func GetUserInfoForMyPage(self : MyPageViewController) {
+    let db = Firestore.firestore()
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+        if let document = document, document.exists {
+            LoginRepository.shared.doLogin {
+                self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
+                self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
+                self.type = "teacher"
+                let url = URL(string: LoginRepository.shared.teacherItem!.profile)!
+                self.imageView.kf.setImage(with: url)
+                self.imageView.makeCircle()
+            } failure: { error in
+                self.showDefaultAlert(msg: "")
+            }
+        } else {
+            db.collection("student").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    let userName = data?["name"] as? String ?? ""
+                    self.nameLabel.text = "\(userName) 학생"
+                    let userEmail = data?["email"] as? String ?? ""
+                    self.teacherEmail.text = userEmail
+                    let profile =  data?["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                    let goal = data?["goal"] as? String ?? "목표를 작성하지 않았습니다."
+                    self.type = "student"
+                    let url = URL(string: profile)!
+                    self.imageView.kf.setImage(with: url)
+                    self.imageView.makeCircle()
+                    self.viewDecorating()
+                    self.openPortfolioSwitch.removeFromSuperview()
+                    self.portfoiolBtn.removeFromSuperview()
+                    self.pageViewTitleLabel.text = "목표"
+                    self.pageViewContentLabel.text = goal
+                    self.pageViewContentLabel.numberOfLines = 2
+                    
+                    self.pageViewContentLabel.rightAnchor.constraint(equalTo: self.pageView.rightAnchor
+                                                                     , constant: -20).isActive = true
+                    self.pageViewTitleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
+                    self.pageViewTitleLabel.topAnchor.constraint(equalTo: self.pageView.topAnchor
+                                                                 , constant: 20).isActive = true
+                    self.pageView.heightAnchor.constraint(equalToConstant: 120)
+                        .isActive = true
+                } else {
+                    print("Document does not exist")
+                }
+            }
+        }
+    }
+}
+
+public func GetPortfolioShow(self : MyPageViewController) {
+    let db = Firestore.firestore()
+    
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
+        if let document = document, document.exists {
+            let data = document.data()
+            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+            
+            let isShowOK = data?["portfolioShow"] as? String ?? ""
+            if (isShowOK == "On") {
+                self.openPortfolioSwitch.setOn(true, animated: true)
+            } else {
+                self.openPortfolioSwitch.setOn(false, animated: true)
+            }
+            print ("Document data does not exist")
+        }
+    }
+}
+
+public func PortfolioToggleButtonClicked(self : MyPageViewController) {
+    let db = Firestore.firestore()
+    
+    if (self.openPortfolioSwitch.isOn) {
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").updateData([
+            "portfolioShow": "On"
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            }
+        }
+    } else {
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").updateData([
+            "portfolioShow": "Off"
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            }
+        }
+    }
+}
+
+public func SaveImage(self : MyPageViewController) {
+    let db = Firestore.firestore()
+    let storage = Storage.storage()
+    var storageRef = storage.reference()
+    
+    let image = self.imageView.image!
+    if let data = image.pngData(){
+        let urlRef = storageRef.child("image/\(self.profile!).png")
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/png"
+        let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+            guard let metadata = metadata else {
+                return
+            }
+            
+            urlRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    return
+                }
+                
+                self.db.collection(self.type).document(Auth.auth().currentUser!.uid).updateData([
+                    "profile":"\(downloadURL)",
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
+                if (self.type == "teacher") {
+                    LoginRepository.shared.teacherItem?.profile = "\(downloadURL)"
+                } else if (self.type == "student") {
+                    LoginRepository.shared.studentItem?.profile = "\(downloadURL)"
+                }
+            }
         }
     }
 }
