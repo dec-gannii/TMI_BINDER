@@ -26,6 +26,7 @@ class EditInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.currentPW = sharedCurrentPW
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -120,6 +121,7 @@ class EditInfoViewController: UIViewController {
                 //  현재 비밀번호와 동일하면 새로운 비밀번호를 현재 비밀번호로 설정
                 newPW = self.currentPW
             }
+            
             // 만약 새로운 비밀번호가 현재 비밀번호와 다르면
             if (newPW != self.currentPW) {
                 if (userType == "teacher") { // 선생님인 경우, 선생님 정보 저장 메소드로 정보 저장

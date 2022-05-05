@@ -685,7 +685,6 @@ public func GetPW() {
             let data = document.data()
             // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
             sharedCurrentPW = data?["password"] as? String ?? ""
-            print ("\(sharedCurrentPW) : sharedCurrentPW")
         } else {
             // 먼저 설정한 선생님 정보의 uid의 경로가 없다면 학생 정보에서 재탐색
             db.collection("student").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
@@ -693,14 +692,12 @@ public func GetPW() {
                     let data = document.data()
                     // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
                     sharedCurrentPW = data?["password"] as? String ?? ""
-                    print ("\(sharedCurrentPW) : sharedCurrentPW1")
                 } else {
                     db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
                         if let document = document, document.exists {
                             let data = document.data()
                             // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
                             sharedCurrentPW = data?["password"] as? String ?? ""
-                            print ("\(sharedCurrentPW) : sharedCurrentPW2")
                         } else {
                             print("Document does not exist")
                         }
