@@ -27,6 +27,10 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var textView: UIView!
     
+    @IBOutlet weak var eventCountTxt: UILabel!
+    @IBOutlet weak var homeStudentClassTxt: UILabel!
+    @IBOutlet weak var homeStudentClassTxt2: UILabel!
+    @IBOutlet weak var homeStudentClassTxt3: UILabel!
     var classItems: [String] = [] // 수업 변수 배열
     var events: [Date] = [] // 이벤트가 있는 날짜 배열
     var days: [Date] = [] // 선택된 월의 날짜들
@@ -188,6 +192,22 @@ class HomeViewController: UIViewController {
         textView.layer.cornerRadius = 10
         textView.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
 
+        eventCountTxt.clipsToBounds = true
+        eventCountTxt.layer.cornerRadius = 10
+        eventCountTxt.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
+        
+        homeStudentClassTxt.clipsToBounds = true
+        homeStudentClassTxt.layer.cornerRadius = 5
+        homeStudentClassTxt.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
+        
+        homeStudentClassTxt2.clipsToBounds = true
+        homeStudentClassTxt2.layer.cornerRadius = 5
+        homeStudentClassTxt2.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
+        
+        homeStudentClassTxt3.clipsToBounds = true
+        homeStudentClassTxt3.layer.cornerRadius = 5
+        homeStudentClassTxt3.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
+        
         verifiedCheck() // 인증된 이메일인지 체크하는 메소드
         getTeacherInfo()
         getStudentInfo()
