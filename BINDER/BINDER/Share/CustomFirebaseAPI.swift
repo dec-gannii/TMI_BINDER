@@ -8,6 +8,92 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
+import UIKit
+import FSCalendar
+
+public var linkBtnEmail : String = ""
+public var linkBtnIndex : Int = 0
+public var linkBtnSubject : String = ""
+public var linkBtnName : String = ""
+public var userType : String = ""
+public var userEmail : String = ""
+public var userPW : String = ""
+
+public var sharedEvents : [Date] = []
+public var sharedDays : [Date] = []
+
+public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLabel : UILabel, thirdLabel : UILabel, detailVC : DetailClassViewController, self : HomeViewController) {
+    let db = Firestore.firestore()
+    if (userType == "teacher") {
+        // 설정해둔 버튼의 태그에 따라서 레이블의 이름을 가지고 비교 후 학생 관리 페이지로 넘어가기
+        if ((sender as AnyObject).tag == 0) {
+            linkBtnName = firstLabel.text!
+        } else if ((sender as AnyObject).tag == 1) {
+            linkBtnName = secondLabel.text!
+        } else if ((sender as AnyObject).tag == 2) {
+            linkBtnName = thirdLabel.text!
+        }
+
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("name", isEqualTo: linkBtnName).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    // 사용할 것들 가져와서 지역 변수로 저장
+                    linkBtnIndex = document.data()["index"] as? Int ?? 0
+                    linkBtnEmail = document.data()["email"] as? String ?? ""
+                    linkBtnSubject = document.data()["subject"] as? String ?? ""
+                }
+
+                detailVC.userName = linkBtnName
+                detailVC.userSubject = linkBtnSubject
+                detailVC.userEmail = linkBtnEmail
+                detailVC.userIndex = linkBtnIndex
+                detailVC.userType = userType
+
+                detailVC.modalPresentationStyle = .fullScreen
+                detailVC.modalTransitionStyle = .crossDissolve
+
+                self.present(detailVC, animated: true, completion: nil)
+            }
+        }
+    } else {
+        // 설정해둔 버튼의 태그에 따라서 레이블의 이름을 가지고 비교 후 학생 관리 페이지로 넘어가기
+        if ((sender as AnyObject).tag == 0) {
+            linkBtnName = firstLabel.text!
+        } else if ((sender as AnyObject).tag == 1) {
+            linkBtnName = secondLabel.text!
+        } else if ((sender as AnyObject).tag == 2) {
+            linkBtnName = thirdLabel.text!
+        }
+
+        db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("name", isEqualTo: linkBtnName).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    // 사용할 것들 가져와서 지역 변수로 저장
+                    linkBtnIndex = document.data()["index"] as? Int ?? 0
+                    linkBtnEmail = document.data()["email"] as? String ?? ""
+                    linkBtnSubject = document.data()["subject"] as? String ?? ""
+                }
+
+                detailVC.userName = linkBtnName
+                detailVC.userSubject = linkBtnSubject
+                detailVC.userEmail = linkBtnEmail
+                detailVC.userIndex = linkBtnIndex
+                detailVC.userType = userType
+
+                detailVC.modalPresentationStyle = .fullScreen
+                detailVC.modalTransitionStyle = .crossDissolve
+
+                self.present(detailVC, animated: true, completion: nil)
+            }
+        }
+    }
+}
 
 // 일정 리스트 불러오기
 public func ShowScheduleList(type : String, date : String, datestr: String, scheduleTitles : [String], scheduleMemos : [String], count : Int) {

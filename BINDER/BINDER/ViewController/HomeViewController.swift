@@ -544,13 +544,8 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
     }
     
     //이벤트 표시 개수
-<<<<<<< Updated upstream
-    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        if self.events.contains(date) {
-=======
     public func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         if sharedEvents.contains(date) {
->>>>>>> Stashed changes
             return 1
         } else {
             return 0
