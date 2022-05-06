@@ -9,12 +9,12 @@
 import UIKit
 import Firebase
 
-class SecessionViewController: UIViewController {
+public class SecessionViewController: UIViewController {
     let db = Firestore.firestore()
     var btnDesign = ButtonDesign()
     @IBOutlet weak var secessionBtn: UIButton!
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         secessionBtn.clipsToBounds = true
         secessionBtn.layer.cornerRadius = btnDesign.cornerRadius

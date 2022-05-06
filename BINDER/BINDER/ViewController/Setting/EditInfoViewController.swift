@@ -1,14 +1,5 @@
-//
-//  EditInfoViewController.swift
-//  BINDER
-//
-//  Created by 김가은 on 2022/02/09.
-//
-// 정보 수정 화면
-
 import UIKit
 import Firebase
-
 
 class EditInfoViewController: UIViewController {
     
@@ -31,7 +22,7 @@ class EditInfoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        GetUserInfoForEditInfo(nameTF: self.nameTextField, emailLabel: self.emailLabel, parentPassword: self.parentPassword, parentPasswordLabel: self.parentPasswordLabel) // 사용자 정보 가져오기
+        GetUserInfoForEditInfo(nameTF: self.nameTextField, emailLabel: self.emailLabel, parentPassword: self.parentPassword, parentPasswordLabel: self.parentPasswordLabel)
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
@@ -81,7 +72,7 @@ class EditInfoViewController: UIViewController {
     // 학부모 인증용 비밀번호 확인 메소드
     func CheckParentPW() -> Bool {
         let parentPW = self.parentPassword.text
-        if (self.type == "teacher"){
+        if (userType == "teacher"){
             if (parentPassword.text!.count <= 6) {
                 if let convertedNum = Int(parentPW!) { // 숫자형으로 변환
                     print("\(convertedNum)")
@@ -118,18 +109,18 @@ class EditInfoViewController: UIViewController {
             parentPW = self.parentPassword.text!
             
             if ((newPassword.text == "" && newPasswordCheck.text == "") || (newPassword.text == self.currentPW || newPasswordCheck.text == self.currentPW)) {
-                // 새롭게 변경할 비밀번호와 새롭게 변경할 비밀번호 확인이 모두 공백이거나 새로운 비밀번호가 현재 비밀번호와 동일하면 새로운 비밀번호를
-                // 현재 비밀번호로 설정
+                // 새롭게 변경할 비밀번호와 새롭게 변경할 비밀번호 확인이 모두 공백이거나 새로운 비밀번호가
+                //  현재 비밀번호와 동일하면 새로운 비밀번호를 현재 비밀번호로 설정
                 newPW = self.currentPW
             }
             // 만약 새로운 비밀번호가 현재 비밀번호와 다르면
             if (newPW != self.currentPW) {
-                if (self.type == "teacher") { // 선생님인 경우, 선생님 정보 저장 메소드로 정보 저장
+                if (userType == "teacher") { // 선생님인 경우, 선생님 정보 저장 메소드로 정보 저장
                     SaveTeacherInfos(name: name, password: newPW, parentPW: parentPW)
-                } else if (self.type == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
-                    SaveStudentInfos(name: name, password: newPW, parentPassword: parentPW)
-                } else if (self.type == "parent") {
-                    saveParentInfo(name, newPW, parentPW)
+                } else if (userType == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
+                    SaveStudentInfos(name: name, password: newPW, parentPassword: self.parentPassword)
+                } else if (userType == "parent") {
+                    SaveParentInfos(name: name, password: newPW, childPhoneNumber: parentPW)
                 }
                 
                 // 새로운 비밀번호로 지정
@@ -147,20 +138,19 @@ class EditInfoViewController: UIViewController {
                 self.present(loginVC, animated: true, completion: nil)
             } else {
                 if (name != "") { // 이름이 공백이 아니면
-                    if (self.type == "teacher") { // 선생님인 경우, 선생님 정보 저장 메소드로 정보 저장
-                        saveInfo(name, newPW, parentPW)
-                    } else if (self.type == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
-                        saveStudentInfo(name, newPW)
-                    } else if (self.type == "parent") {
-                        saveParentInfo(name, newPW, parentPW)
+                    if (userType == "teacher") { // 선생님인 경우, 선생님 정보 저장 메소드로 정보 저장
+                        SaveTeacherInfos(name: name, password: newPW, parentPW: parentPW)
+                    } else if (userType == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
+                        SaveStudentInfos(name: name, password: newPW, parentPassword: self.parentPassword)
+                    } else if (userType == "parent") {
+                        SaveParentInfos(name: name, password: newPW, childPhoneNumber: parentPW)
                     }
                     
-                    if (self.type == "parent") {
+                    if (userType == "parent") {
                         guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
                         tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                         self.present(tb, animated: true, completion: nil)
                     } else {
-                        
                         guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
                             //아니면 종료
                             return
@@ -232,4 +222,3 @@ class EditInfoViewController: UIViewController {
         }
     }
 }
-

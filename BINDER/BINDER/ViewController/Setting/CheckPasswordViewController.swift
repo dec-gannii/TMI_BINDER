@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class CheckPasswordViewController: UIViewController {
+public class CheckPasswordViewController: UIViewController {
     
     var ref: DatabaseReference!
     let db = Firestore.firestore()
@@ -20,7 +20,7 @@ class CheckPasswordViewController: UIViewController {
     var currentPW = ""
     var btnDesign = ButtonDesign()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         GetPW() // 현재 비밀번호가 맞는지 확인하기 위해 호출
         okBtn.clipsToBounds = true
@@ -35,7 +35,7 @@ class CheckPasswordViewController: UIViewController {
     // 완료 버튼 클릭 시 실행되는 메소드
     @IBAction func OKBtnClicked(_ sender: Any) {
         // 만약 현재 저장되어 있는 비밀번호와 입력한 비밀번호가 동일하면
-        if (currentPW == pwTextField.text) {
+        if (sharedCurrentPW == pwTextField.text) {
             // 정보 수정 화면으로 이동
             guard let editInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "EditInfoViewController") as? EditInfoViewController else { return }
             
