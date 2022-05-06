@@ -693,3 +693,80 @@ public func DeleteToDoList(self: DetailClassViewController, editingStyle: UITabl
         }
     }
 }
+
+public func SaveGraphScore(todayStudy: String, todayScore : String, self : PlusGraphViewController) {
+    let db = Firestore.firestore()
+    // 데이터 저장
+    db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").document(todayStudy).setData([
+        "type": todayStudy,
+        "score":todayScore,
+        "isScore": "true"
+    ]) { err in
+        if let err = err {
+            print("Error adding document: \(err)")
+        }
+    }
+    db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").getDocuments()
+    {
+        (querySnapshot, err) in
+        
+        if let err = err
+        {
+            print("Error getting documents: \(err)");
+        }
+        else
+        {
+            var count = 0
+            for document in querySnapshot!.documents {
+                count += 1
+                print("\(document.documentID) => \(document.data())");
+            }
+            
+            // 현재 존재하는 데이터가 하나면,
+            if (count == 1) {
+                // 1으로 저장
+                db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").document("Count").setData(["count": count])
+                { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
+            } else {
+                // 현재 존재하는 데이터들이 여러 개면, Count 도큐먼트를 포함한 것이므로
+                // 하나를 뺀 수로 지정해서 저장해줌
+                db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").document("Count").setData(["count": count-1])
+                { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                }
+            }
+            if let preVC = self.presentingViewController {
+                preVC.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+}
+
+public func GetScoreForEdit(self : PlusGraphViewController, todayStudy: String) {
+    let db = Firestore.firestore()
+    db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").whereField("type", isEqualTo: todayStudy)
+        .getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        
+                        let score = document.data()["score"] as? String ?? ""
+                        self.scoreTextField.text = score
+                        break
+                    }
+                }
+            }
+        }
+    self.scoreTextField.text = ""
+}
