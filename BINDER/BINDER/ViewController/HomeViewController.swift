@@ -72,8 +72,8 @@ public class HomeViewController: UIViewController {
         
         self.setUpDays(date!)
         
-        getTeacherEvents()
-        getStudentEvents()
+        GetTeacherEvents(events: self.events, days: self.days, calendarView: self.calendarView)
+        GetStudentEvents(events: self.events, days: self.days, calendarView: self.calendarView)
     }
     
     private func scrollCurrentPage(isPrev: Bool) {
@@ -171,8 +171,9 @@ public class HomeViewController: UIViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.getTeacherEvents()
-        self.getStudentEvents()
+        
+        GetTeacherEvents(events: self.events, days: self.days, calendarView: self.calendarView)
+        GetStudentEvents(events: self.events, days: self.days, calendarView: self.calendarView)
     }
     
     public override func viewDidLoad() {
@@ -255,104 +256,6 @@ public class HomeViewController: UIViewController {
         guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
         
         GetLinkButtonInfos(sender: sender as! UIButton, firstLabel: HomeStudentIconLabel, secondLabel: HomeStudentIconSecondLabel, thirdLabel: HomeStudentIconThirdLabel, detailVC: detailClassVC, self: self)
-    }
-    
-    /// event setting
-    func getTeacherEvents(){
-        // 데이터베이스 경로
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
-        
-        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                let type = data?["type"] as? String ?? ""
-                
-                let formatter = DateFormatter()
-                
-                formatter.locale = Locale(identifier: "ko_KR")
-                formatter.timeZone = TimeZone(abbreviation: "KST")
-                
-                self.events.removeAll()
-                
-                for index in 1...self.days.count-1 {
-                    let tempDay = "\(self.days[index])"
-                    let dateWithoutDays = tempDay.components(separatedBy: " ")
-                    formatter.dateFormat = "YYYY-MM-dd"
-                    let date = formatter.date(from: dateWithoutDays[0])!
-                    let datestr = formatter.string(from: date)
-                    
-                    let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
-                    
-                    docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print("Error getting documents: \(err)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                print("\(document.documentID) => \(document.data())")
-                                // 사용할 것들 가져와서 지역 변수로 저장
-                                let date = document.data()["date"] as? String ?? ""
-                                
-                                formatter.dateFormat = "YYYY-MM-dd"
-                                let date_d = formatter.date(from: date)!
-                                self.events.append(date_d)
-                                self.calendarView.reloadData()
-                            }
-                        }
-                    }
-                }
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
-    
-    func getStudentEvents(){
-        // 데이터베이스 경로
-        let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
-        
-        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                let type = data?["type"] as? String ?? ""
-                
-                let formatter = DateFormatter()
-                formatter.locale = Locale(identifier: "ko_KR")
-                formatter.timeZone = TimeZone(abbreviation: "KST")
-                
-                self.events.removeAll()
-                
-                for index in 1...self.days.count-1 {
-                    let tempDay = "\(self.days[index])"
-                    let dateWithoutDays = tempDay.components(separatedBy: " ")
-                    formatter.dateFormat = "YYYY-MM-dd"
-                    let date = formatter.date(from: dateWithoutDays[0])!
-                    let datestr = formatter.string(from: date)
-                    
-                    let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
-                    
-                    docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print("Error getting documents: \(err)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                print("\(document.documentID) => \(document.data())")
-                                // 사용할 것들 가져와서 지역 변수로 저장
-                                let date = document.data()["date"] as? String ?? ""
-                                
-                                formatter.dateFormat = "YYYY-MM-dd"
-                                let date_d = formatter.date(from: date)!
-                                self.events.append(date_d)
-                                self.calendarView.reloadData()
-                            }
-                        }
-                    }
-                }
-            } else {
-                print("Document does not exist")
-            }
-        }
     }
     
     /// setting informations
