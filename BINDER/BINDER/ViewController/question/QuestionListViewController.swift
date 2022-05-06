@@ -163,12 +163,6 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
     // 테이블뷰 선택시
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        // 사용자 구별
-        if type == "teacher" {
-            docRef = db.collection("teacher")
-        } else {
-            docRef = db.collection("student")
-        }
         
         var qemail: String!
         
