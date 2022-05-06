@@ -12,7 +12,7 @@ import AuthenticationServices
 import CryptoKit
 
 /// log in view controller
-class LogInViewController: UIViewController {
+public class LogInViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var emailAlertLabel: UILabel!
@@ -59,7 +59,7 @@ class LogInViewController: UIViewController {
     }
     
     /// Load View
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         setLineStyle()
@@ -97,7 +97,7 @@ class LogInViewController: UIViewController {
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
     
@@ -135,51 +135,7 @@ class LogInViewController: UIViewController {
                 }
             } else {
                 // 별 오류 없으면 로그인 되어서 홈 뷰 컨트롤러 띄우기
-                self.db.collection("parent").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
-                    if let err = err {
-                        print("Error getting documents: \(err)")
-                    } else {
-                        for document in querySnapshot!.documents {
-                            print("\(document.documentID) => \(document.data())")
-                            // 사용할 것들 가져와서 지역 변수로 저장
-                            guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
-                            tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                            self.present(tb, animated: true, completion: nil)
-                            return
-                        }
-                        
-                        guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                            //아니면 종료
-                            return
-                        }
-                        
-                        // 아이디와 비밀번호 정보 넘겨주기
-                        homeVC.pw = password
-                        homeVC.id = email
-                        if (Auth.auth().currentUser?.isEmailVerified == true){
-                            homeVC.verified = true
-                        } else { homeVC.verified = false }
-                        
-                        guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
-                            //아니면 종료
-                            return
-                        }
-                        
-                        guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
-                            return
-                        }
-                        guard let myPageVC =
-                                self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                            return
-                        }
-                        
-                        // tab bar 설정
-                        let tb = UITabBarController()
-                        tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                        tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
-                        self.present(tb, animated: true, completion: nil)
-                    }
-                }
+                LogInAndShowHomeVC(email: email, password: password, self: self)
             }
         }
     }
@@ -210,7 +166,7 @@ class LogInViewController: UIViewController {
 
 /// sign in with google (extension)
 extension LogInViewController: GIDSignInDelegate {
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    public func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print("signIn error: \(error.localizedDescription)")
             return
@@ -220,68 +176,18 @@ extension LogInViewController: GIDSignInDelegate {
         
         guard let auth = user.authentication else { return }
         let googleCredential = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken) // 파이어베이스 로그인
-        Auth.auth().signIn(with: googleCredential) {
-            (authResult, error) in if let error = error {
-                print("Firebase sign in error: \(error)")
-                return
-            } else {
-                guard let TypeSelectVC = self.storyboard?.instantiateViewController(withIdentifier: "TypeSelectViewController") as? TypeSelectViewController else {
-                    //아니면 종료
-                    return
-                }
-                
-                //화면전환
-                if ((Auth.auth().currentUser) != nil) {
-                    // 홈 화면으로 바로 이동
-                    guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                        //아니면 종료
-                        return
-                    }
-                    
-                    if (Auth.auth().currentUser?.isEmailVerified == true){
-                        homeVC.verified = true
-                    } else { homeVC.verified = false }
-                    
-                    //화면전환
-                    guard let myClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
-                        //아니면 종료
-                        return
-                    }
-                    
-                    guard let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
-                        return
-                    }
-                    guard let myPageVC =
-                            self.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                        return
-                    }
-                    
-                    // tab bar 설정
-                    let tb = UITabBarController()
-                    tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                    tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
-                    self.present(tb, animated: true, completion: nil)
-                    
-                    self.isLogouted = false
-                } else {
-                    TypeSelectVC.isGoogleSignIn = true
-                    TypeSelectVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                    TypeSelectVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                    self.present(TypeSelectVC, animated: true)
-                }
-            }
-        }
+        GoogleLogIn(googleCredential: googleCredential, self: self)
     }
 }
 
 /// sign in with apple (extension)
 @available(iOS 13.0, *)
 extension LogInViewController: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+    public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return view.window!
     }
     
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+    public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
@@ -300,135 +206,11 @@ extension LogInViewController: ASAuthorizationControllerPresentationContextProvi
                                                       rawNonce: nonce)
             
             let appleSignIndb = Firestore.firestore()
-            
-            // Sign in with Firebase.
-            Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
-                if (error != nil) {
-                    print("ERROR : \(error)")
-                    return
-                } else {
-                    appleSignIndb.collection("teacher").whereField("email", isEqualTo: Auth.auth().currentUser?.email).getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print("Error getting documents: \(err)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                print("\(document.documentID) => \(document.data())")
-                                
-                                let email = document.data()["email"] as? String ?? ""
-                                let password = document.data()["password"] as? String ?? ""
-                                
-                                guard let homeVC = self?.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                                    //아니면 종료
-                                    return
-                                }
-                                
-                                // 아이디와 비밀번호 정보 넘겨주기
-                                homeVC.pw = password
-                                homeVC.id = email
-                                
-                                if (Auth.auth().currentUser?.isEmailVerified == true){
-                                    homeVC.verified = true
-                                } else { homeVC.verified = false }
-                                
-                                guard let myClassVC = self?.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
-                                    //아니면 종료
-                                    return
-                                }
-                                
-                                guard let questionVC = self?.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
-                                    return
-                                }
-                                guard let myPageVC =
-                                        self?.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                                    return
-                                }
-                                
-                                // tab bar 설정
-                                let tb = UITabBarController()
-                                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                                tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
-                                self!.present(tb, animated: true, completion: nil)
-                                
-                            }
-                            appleSignIndb.collection("student").whereField("email", isEqualTo: Auth.auth().currentUser?.email).getDocuments() { (querySnapshot, err) in
-                                if let err = err {
-                                    print("Error getting documents: \(err)")
-                                } else {
-                                    for document in querySnapshot!.documents {
-                                        print("\(document.documentID) => \(document.data())")
-                                        
-                                        let email = document.data()["email"] as? String ?? ""
-                                        let password = document.data()["password"] as? String ?? ""
-                                        
-                                        guard let homeVC = self?.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                                            //아니면 종료
-                                            return
-                                        }
-                                        
-                                        // 아이디와 비밀번호 정보 넘겨주기
-                                        homeVC.pw = password
-                                        homeVC.id = email
-                                        
-                                        if (Auth.auth().currentUser?.isEmailVerified == true){
-                                            homeVC.verified = true
-                                        } else { homeVC.verified = false }
-                                        
-                                        guard let myClassVC = self?.storyboard?.instantiateViewController(withIdentifier: "MyClassViewController") as? MyClassVC else {
-                                            //아니면 종료
-                                            return
-                                        }
-                                        
-                                        guard let questionVC = self?.storyboard?.instantiateViewController(withIdentifier: "QuestionViewController") as? QuestionViewController else {
-                                            return
-                                        }
-                                        guard let myPageVC =
-                                                self?.storyboard?.instantiateViewController(withIdentifier: "MyPageViewController") as? MyPageViewController else {
-                                            return
-                                        }
-                                        
-                                        // tab bar 설정
-                                        let tb = UITabBarController()
-                                        tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                                        tb.setViewControllers([homeVC, myClassVC, questionVC, myPageVC], animated: true)
-                                        self!.present(tb, animated: true, completion: nil)
-                                    }
-                                    appleSignIndb.collection("parent").whereField("email", isEqualTo: Auth.auth().currentUser?.email).getDocuments() { (querySnapshot, err) in
-                                        if let err = err {
-                                            print("Error getting documents: \(err)")
-                                        } else {
-                                            for document in querySnapshot!.documents {
-                                                print("\(document.documentID) => \(document.data())")
-                                                
-                                                guard let tb = self?.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
-                                                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                                                self!.present(tb, animated: true, completion: nil)
-                                                
-                                                return
-                                            }
-                                            // type select 화면으로 이동
-                                            guard let typeSelectVC = self?.storyboard?.instantiateViewController(withIdentifier: "TypeSelectViewController") as? TypeSelectViewController else { return }
-                                            typeSelectVC.modalPresentationStyle = .fullScreen
-                                            typeSelectVC.modalTransitionStyle = .crossDissolve
-                                            typeSelectVC.name = Auth.auth().currentUser?.displayName ?? ""
-                                            typeSelectVC.email = Auth.auth().currentUser?.email ?? ""
-                                            typeSelectVC.isAppleLogIn = true
-                                            
-                                            self!.present(typeSelectVC, animated: true, completion: nil)
-                                            return
-                                        }
-                                    }
-                                }
-                                return
-                            }
-                        }
-                        return
-                    }
-                }
-            }
+            AppleLogIn(credential: credential, self: self)
         }
     }
     
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) { // Handle error.
+    public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) { // Handle error.
         print("Sign in with Apple errored: \(error)")
     }
     
