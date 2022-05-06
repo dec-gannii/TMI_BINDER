@@ -12,19 +12,32 @@ import FirebaseFirestore
 
 // 학부모 버전 Home 화면
 class ParentHomeViewController: UIViewController {
-    var evaluationItem: [EvaluationItem] = [] // 평가 항목 저장할 EvaluationItem 배열
-    var teacherEmails: [String] = []
-    var teacherNames: [String] = []
+   
+    var evaluationItem: [EvaluationItem]!// 평가 항목 저장할 EvaluationItem 배열
+    var teacherEmails: [String]!
+    var teacherNames: [String]!
     
-    var studentUid: String = "" // db 접근을 위해 필요한 학생 uid 정보
-    var teacherName = "" // 선생님 이름
-    var teacherEmail = "" // 선생님 이메일
-    var subject = "" // 과목
-    var selectedMonth = "" // 선택된 달
+    var studentUid: String! // db 접근을 위해 필요한 학생 uid 정보
+    var teacherName: String!// 선생님 이름
+    var teacherEmail: String! // 선생님 이메일
+    var subject: String! // 과목
+    var selectedMonth: String! // 선택된 달
     let nowDate = Date() // 오늘 날짜
     
     @IBOutlet weak var parentNameLabel: UILabel! // 학부모 이름 Label
     @IBOutlet weak var progressListTableView: UITableView! // TableView
+    
+    func _init(){
+        evaluationItem = []
+        teacherEmails = []
+        teacherNames = []
+        
+        studentUid = ""
+        teacherName = ""
+        teacherEmail = ""
+        subject = ""
+        selectedMonth = ""
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

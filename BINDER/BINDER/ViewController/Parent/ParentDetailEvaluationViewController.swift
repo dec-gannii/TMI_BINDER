@@ -21,21 +21,34 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     
     let db = Firestore.firestore()
     
-    var studentUid: String = "" // 학생 Uid
-    var studentEmail: String = "" // 학생 이메일
-    var teacherName: String = "" // 선생님 이름
-    var teacherEmail: String = "" // 선생님 이메일
-    var subject: String = "" // 과목
-    var index: Int = 0 // index (학생 순서)
-    var month: String = "" // 월
-    var studentName: String = "" // 학생 이름
+    var studentUid: String! // 학생 Uid
+    var studentEmail: String! // 학생 이메일
+    var teacherName: String! // 선생님 이름
+    var teacherEmail: String! // 선생님 이메일
+    var subject: String! // 과목
+    var index: Int! // index (학생 순서)
+    var month: String! // 월
+    var studentName: String! // 학생 이름
     let nowDate = Date() // 오늘 날짜
     
-    var events: [Date] = []
-    var days: [Date] = []
+    var events: [Date]!
+    var days: [Date]!
     
     var calendarDesign = CalendarDesign()
     var viewDesign = ViewDesign()
+    
+    func _init(){
+        studentUid = ""
+        studentEmail = ""
+        teacherName = ""
+        teacherEmail = ""
+        subject = ""
+        index = 0
+        month = ""
+        studentName = ""
+        events = []
+        days = []
+    }
     
     @IBAction func prevBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: true) }
     
@@ -51,78 +64,6 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         return df
     }()
     
-    override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated)
-        setCalendar()
-        getUserInfo()
-        getEvaluationEvents()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.calendarView.reloadData()
-    }
-    
-    func setCalendar() {
-        calendarView.delegate = self
-        calendarView.headerHeight = 0
-        calendarView.scope = .month
-        monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
-    }
-    
-    private func scrollCurrentPage(isPrev: Bool) {
-        let cal = Calendar.current
-        var dateComponents = DateComponents()
-        dateComponents.month = isPrev ? -1 : 1
-        self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
-        LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            LoadingHUD.hide()
-        }
-        self.calendarView.setCurrentPage(self.currentPage!, animated: true)
-    }
-    
-    // 캘린더 외관을 꾸미기 위한 메소드
-    func calendarColor() {
-        calendarView.appearance.weekdayTextColor = .systemGray
-        calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  calendarDesign.calendarColor
-        calendarView.appearance.eventDefaultColor = calendarDesign.calendarColor
-        calendarView.appearance.eventSelectionColor = calendarDesign.calendarColor
-        calendarView.appearance.titleSelectionColor = calendarDesign.calendarColor
-        calendarView.appearance.borderSelectionColor = calendarDesign.calendarColor
-        calendarView.appearance.todayColor = calendarDesign.calendarTodayColor
-        calendarView.appearance.titleTodayColor = .black
-        calendarView.appearance.todaySelectionColor = .white
-        calendarView.appearance.selectionColor = .none
-    }
-    
-    // 캘린더 텍스트 스타일 설정을 위한 메소드
-    func calendarText() {
-        calendarView.headerHeight = 0
-    }
-    
-    func calendarEvent() {
-        calendarView.dataSource = self
-        calendarView.delegate = self
-    }
-    
-    func setCornerRadius() {
-        /// cornerRadius 지정을 위해 사용
-        monthlyEvaluationTitleBackgroundView.clipsToBounds = true
-        monthlyEvaluationTitleBackgroundView.layer.cornerRadius = viewDesign.childViewconerRadius
-        monthlyEvaluationTextView.clipsToBounds = true
-        monthlyEvaluationTextView.layer.cornerRadius = viewDesign.childViewconerRadius
-        
-        /// 위쪽 코너에만 cornerRadius 주기 위해 사용
-        monthlyEvaluationTitleBackgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.addSubview(monthlyEvaluationTitleBackgroundView)
-        
-        /// 이래쪽 코너에만 cornerRadius 주기 위해 사용
-        monthlyEvaluationTextView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        view.addSubview(monthlyEvaluationTextView)
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpDays(self.today)
@@ -137,7 +78,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         
         // calendar 커스터마이징
         self.calendarText()
-        self.calendarColor()
+        calendarColor(view: calendarView, design: calendarDesign)
         self.calendarEvent()
         self.setCornerRadius()
         
@@ -181,57 +122,129 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         }
     }
     
-    func setUpDays(_ date: Date) {
-        self.days.removeAll()
-        let nowDate = date // 오늘 날짜
-        let formatter = DateFormatter()
-        
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        
-        formatter.dateFormat = "M"
-        let currentDate = formatter.string(from: nowDate)
-        
-        formatter.dateFormat = "yyyy"
-        let currentYear = formatter.string(from: nowDate)
-        
-        formatter.dateFormat = "MM"
-        let currentMonth = formatter.string(from: nowDate)
-        
-        var days: Int = 0
-        
-        switch currentDate {
-        case "1", "3", "5", "7", "8", "10", "12":
-            days = 31
-            break
-        case "2":
-            if (Int(currentYear)! % 400 == 0 || (Int(currentYear)! % 100 != 0 && Int(currentYear)! % 4 == 0)) {
-                days = 29
-                break
-            } else {
-                days = 28
-                break
-            }
-        default:
-            days = 30
-            break
+    override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated)
+        setCalendar()
+        getUserInfo()
+        getEvaluationEvents()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.calendarView.reloadData()
+    }
+    
+    func setCalendar() {
+        calendarView.delegate = self
+        calendarView.headerHeight = 0
+        calendarView.scope = .month
+        monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
+    }
+    
+    private func scrollCurrentPage(isPrev: Bool) {
+        let cal = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.month = isPrev ? -1 : 1
+        self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
+        LoadingHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            LoadingHUD.hide()
         }
+        self.calendarView.setCurrentPage(self.currentPage!, animated: true)
+    }
+    /*
+    // 캘린더 외관을 꾸미기 위한 메소드
+    func calendarColor() {
+        calendarView.appearance.weekdayTextColor = .systemGray
+        calendarView.appearance.titleWeekendColor = .black
+        calendarView.appearance.headerTitleColor =  calendarDesign.calendarColor
+        calendarView.appearance.eventDefaultColor = calendarDesign.calendarColor
+        calendarView.appearance.eventSelectionColor = calendarDesign.calendarColor
+        calendarView.appearance.titleSelectionColor = calendarDesign.calendarColor
+        calendarView.appearance.borderSelectionColor = calendarDesign.calendarColor
+        calendarView.appearance.todayColor = calendarDesign.calendarTodayColor
+        calendarView.appearance.titleTodayColor = .black
+        calendarView.appearance.todaySelectionColor = .white
+        calendarView.appearance.selectionColor = .none
+    }
+     
+     func setUpDays(_ date: Date) {
+         self.days.removeAll()
+         let nowDate = date // 오늘 날짜
+         let formatter = DateFormatter()
+         
+         formatter.locale = Locale(identifier: "ko_KR")
+         formatter.timeZone = TimeZone(abbreviation: "KST")
+         
+         formatter.dateFormat = "M"
+         let currentDate = formatter.string(from: nowDate)
+         
+         formatter.dateFormat = "yyyy"
+         let currentYear = formatter.string(from: nowDate)
+         
+         formatter.dateFormat = "MM"
+         let currentMonth = formatter.string(from: nowDate)
+         
+         var days: Int = 0
+         
+         switch currentDate {
+         case "1", "3", "5", "7", "8", "10", "12":
+             days = 31
+             break
+         case "2":
+             if (Int(currentYear)! % 400 == 0 || (Int(currentYear)! % 100 != 0 && Int(currentYear)! % 4 == 0)) {
+                 days = 29
+                 break
+             } else {
+                 days = 28
+                 break
+             }
+         default:
+             days = 30
+             break
+         }
+         
+         for index in 1...days {
+             var day = ""
+             
+             if (index < 10) {
+                 day = "0\(index)"
+             } else {
+                 day = "\(index)"
+             }
+             
+             let dayOfMonth = "\(currentYear)-\(currentMonth)-\(day)"
+             
+             formatter.dateFormat = "yyyy-MM-dd"
+             let searchDate = formatter.date(from: dayOfMonth)
+             self.days.append(searchDate!)
+         }
+     }
+    */
+    // 캘린더 텍스트 스타일 설정을 위한 메소드
+    func calendarText() {
+        calendarView.headerHeight = 0
+    }
+    
+    func calendarEvent() {
+        calendarView.dataSource = self
+        calendarView.delegate = self
+    }
+    
+    func setCornerRadius() {
+        /// cornerRadius 지정을 위해 사용
+        monthlyEvaluationTitleBackgroundView.clipsToBounds = true
+        monthlyEvaluationTitleBackgroundView.layer.cornerRadius = viewDesign.childViewconerRadius
+        monthlyEvaluationTextView.clipsToBounds = true
+        monthlyEvaluationTextView.layer.cornerRadius = viewDesign.childViewconerRadius
         
-        for index in 1...days {
-            var day = ""
-            
-            if (index < 10) {
-                day = "0\(index)"
-            } else {
-                day = "\(index)"
-            }
-            
-            let dayOfMonth = "\(currentYear)-\(currentMonth)-\(day)"
-            
-            formatter.dateFormat = "yyyy-MM-dd"
-            let searchDate = formatter.date(from: dayOfMonth)
-            self.days.append(searchDate!)
-        }
+        /// 위쪽 코너에만 cornerRadius 주기 위해 사용
+        monthlyEvaluationTitleBackgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.addSubview(monthlyEvaluationTitleBackgroundView)
+        
+        /// 이래쪽 코너에만 cornerRadius 주기 위해 사용
+        monthlyEvaluationTextView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        view.addSubview(monthlyEvaluationTextView)
+        
     }
     
     /// 사용자 정보 가져오기
@@ -438,7 +451,7 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         self.monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
         let date = self.dateFormatter.date(from: self.monthLabel.text!)
         
-        self.setUpDays(date!)
+        days = setUpDays(date!)
         getEvaluationEvents()
     }
     

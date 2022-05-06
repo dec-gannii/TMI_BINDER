@@ -21,14 +21,22 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     @IBOutlet weak var studyLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     
+    var todayStudy: String!
+    var todayScore: String!
+    var userName: String!
+    var userEmail: String!
+    var userSubject: String!
+    var userType: String!
     let study = ["3월 모평","1차 중간","6월 모평","1차 기말","9월 모평","2차 중간","11월 모평","2차 기말"]
-    var todayStudy = "0"
-    var todayScore = "0"
-    var userName = ""
-    var userEmail = ""
-    var userSubject = ""
-    var userType = ""
     
+    func _init(){
+        todayStudy = "0"
+        todayScore = "0"
+        userName = ""
+        userEmail = ""
+        userSubject = ""
+        userType = ""
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         

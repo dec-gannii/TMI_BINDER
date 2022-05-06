@@ -23,16 +23,25 @@ class TeacherEvaluationViewController: UIViewController {
     @IBOutlet var teacherManagingSatisfyScore: UITextField!
     @IBOutlet weak var okBtn: UIButton!
     
-    var teacherName: String = ""
-    var teacherEmail: String = ""
-    var subject: String = ""
-    var month: String = ""
-    var date: String = ""
-    var studentName: String = ""
-    var teacherUid: String = ""
+    var teacherName: String!
+    var teacherEmail: String!
+    var subject: String!
+    var month: String!
+    var date: String!
+    var studentName: String!
+    var teacherUid: String!
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
     
+    func _init(){
+        teacherName = ""
+        teacherEmail = ""
+        subject = ""
+        month = ""
+        date = ""
+        studentName = ""
+        teacherUid = ""
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         getEvaluation() // 학생에 대한 평가 정보 가져오기

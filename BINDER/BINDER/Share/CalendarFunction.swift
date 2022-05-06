@@ -25,6 +25,31 @@ func calendarColor(view:FSCalendar, design:CalendarDesign) {
     view.appearance.todayColor = design.calendarTodayColor
 }
 
+// 캘린더 텍스트 스타일 설정을 위한 메소드
+func calendarText(view:FSCalendar, design:CalendarDesign) {
+    view.headerHeight = CGFloat(design.headerHeight)
+    view.appearance.headerTitleFont = design.headerFont
+    view.appearance.headerMinimumDissolvedAlpha = 0.0
+    view.appearance.headerDateFormat = "YYYY년 M월"
+    view.appearance.titleFont = design.titleFont
+    view.appearance.weekdayFont = design.headerFont
+    view.locale = Locale(identifier: "ko_KR")
+    view.weekdayHeight = CGFloat(design.weekdayHeight)
+}
+
+/// UI setting
+func setBorder(views:Array<UITextView>, design:ViewDesign) {
+    for view in views{
+        view.layer.borderWidth = design.borderWidth
+        view.layer.borderColor = design.borderColor
+    }
+}
+
+func allRound(views: Array<AnyObject>, design:ButtonDesign) {
+    for view in views{
+        view.layer.cornerRadius = design.cornerRadius
+    }
+}
 
 
 //달별 달력 날짜 셋팅
@@ -83,8 +108,7 @@ func setUpDays(_ date: Date) -> Array<Date> {
     return days
 }
 
-func viewDecorating(btn: UIButton, view: UIView, design: ViewDesign){
-    btn.layer.cornerRadius = design.viewconerRadius
+func viewDecorating(view: UIView, design: ViewDesign){
     view.layer.cornerRadius = design.viewconerRadius
     view.layer.shadowColor = design.shadowColor
     view.layer.masksToBounds = false
@@ -112,6 +136,5 @@ func placeholderSetting(_ textView: UITextView) {
     textView.text = StringUtils.contentNotExist.rawValue
     textView.textColor = UIColor.lightGray
 }
-
 
 
