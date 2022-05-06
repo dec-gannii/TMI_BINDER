@@ -43,7 +43,9 @@ public func ShowScheduleList(type : String, date : String, datestr: String, sche
     
     var varScheduleTitles = scheduleTitles
     var varScheduleMemos = scheduleMemos
-    var varCount: Int = count
+    varCount = count
+    
+    publicTitles.removeAll()
     
     // 데이터베이스에서 일정 리스트 가져오기
     let docRef = db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList")
@@ -65,7 +67,7 @@ public func ShowScheduleList(type : String, date : String, datestr: String, sche
                 }
                 
                 // 일정의 제목은 필수 항목이므로 일정 제목 개수만큼을 개수로 지정
-                varCount = scheduleTitles.count
+                varCount = varScheduleTitles.count
             }
         }
     }
@@ -77,7 +79,9 @@ public func SetScheduleTexts(type : String, date : String, datestr: String, sche
     
     var varScheduleTitles = scheduleTitles
     var varScheduleMemos = scheduleMemos
-    var varCount: Int = count
+    varCount = count
+    
+    publicTitles.removeAll()
     
     let docRef = db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList")
     // Date field가 현재 날짜와 동일한 도큐먼트 모두 가져오기
@@ -94,6 +98,7 @@ public func SetScheduleTexts(type : String, date : String, datestr: String, sche
                 if (!varScheduleTitles.contains(scheduleTitle)) {
                     // 여러 개의 일정이 있을 수 있으므로 가져와서 배열에 저장
                     varScheduleTitles.append(scheduleTitle)
+                    publicTitles.append(scheduleTitle)
                     varScheduleMemos.append(scheduleMemo)
                 }
                 

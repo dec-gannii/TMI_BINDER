@@ -12,7 +12,7 @@ import FirebaseDatabase
 import FSCalendar
 
 /// home view controller
-class HomeViewController: UIViewController {
+public class HomeViewController: UIViewController {
     // 변수 선언
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var stateLabel: UILabel!
@@ -68,7 +68,7 @@ class HomeViewController: UIViewController {
         monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
     }
     
-    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+    public func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         self.days.removeAll()
         self.events.removeAll()
         
@@ -164,29 +164,30 @@ class HomeViewController: UIViewController {
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
     
     /// Load View
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.calendarView.reloadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         GetTeacherEvents(events: self.events, days: self.days, calendarView: self.calendarView)
         GetStudentEvents(events: self.events, days: self.days, calendarView: self.calendarView)
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
-        ref = Database.database().reference()
-
         setUpDays(self.today)
+        
+        getTeacherInfo()
+        getStudentInfo()
         
         calendarView.delegate = self
         textView.clipsToBounds = true
@@ -209,9 +210,7 @@ class HomeViewController: UIViewController {
         homeStudentClassTxt3.layer.cornerRadius = 5
         homeStudentClassTxt3.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
         
-        verifiedCheck() // 인증된 이메일인지 체크하는 메소드
-        getTeacherInfo()
-        getStudentInfo()
+//        verifiedCheck() // 인증된 이메일인지 체크하는 메소드
         
         self.calendarColor()
         self.calendarEvent()
@@ -222,7 +221,7 @@ class HomeViewController: UIViewController {
             stateLabel.text = "가입한 이메일로 인증을 진행해주세요."
         } else {
             // 인증되었고,
-            if (self.type == "teacher") { // 선생님 계정이라면
+            if (userType == "teacher") { // 선생님 계정이라면
                 if (Auth.auth().currentUser?.email != nil) {
                     HomeStudentScrollView.isHidden = true
                 }
@@ -236,414 +235,115 @@ class HomeViewController: UIViewController {
     
     /// 내 수업 가져오기 : 선생님
     func setTeacherMyClasses() {
+        
         // 데이터베이스에서 학생 리스트 가져오기, 초기화
         self.HomeStudentIconLabel.text = ""
         self.HomeStudentIconSecondLabel.text = ""
         self.HomeStudentIconThirdLabel.text = ""
         
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class")
-        
-        // index가 0, 1, 2인 세 명의 학생 정보 가져오기
-        docRef.whereField("index", isEqualTo: 0).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconLabel.text = document.data()["name"] as? String ?? ""
-                    self.firstLinkBtn.isHidden = false
-                    self.HomeStudentIconLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconSecondLabel.text = document.data()["name"] as? String ?? ""
-                    self.secondLinkBtn.isHidden = false
-                    self.HomeStudentIconSecondLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 2).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconThirdLabel.text = document.data()["name"] as? String ?? ""
-                    self.thirdLinkBtn.isHidden = false
-                    self.HomeStudentIconThirdLabel.isHidden = false
-                }
-            }
-        }
-        
         // 만약 학생이 없다면 버튼과 레이블을 숨기기
-        if (self.HomeStudentIconLabel.text == "" || self.HomeStudentIconLabel.text == "Name Label") {
-            self.firstLinkBtn.isHidden = true
-            self.HomeStudentIconLabel.isHidden = true
-        }
+        self.firstLinkBtn.isHidden = true
+        self.HomeStudentIconLabel.isHidden = true
+        self.secondLinkBtn.isHidden = true
+        self.HomeStudentIconSecondLabel.isHidden = true
+        self.thirdLinkBtn.isHidden = true
+        self.HomeStudentIconThirdLabel.isHidden = true
         
-        if (self.HomeStudentIconSecondLabel.text == "" || self.HomeStudentIconSecondLabel.text == "Name Label") {
-            self.secondLinkBtn.isHidden = true
-            self.HomeStudentIconSecondLabel.isHidden = true
-        }
-        
-        if (self.HomeStudentIconThirdLabel.text == "" || self.HomeStudentIconThirdLabel.text == "Name Label") {
-            self.thirdLinkBtn.isHidden = true
-            self.HomeStudentIconThirdLabel.isHidden = true
-        }
+        GetTeacherMyClass(self: self)
     }
     
     /// 내 수업 가져오기 : 학생
     func setStudentMyClasses() {
+        
         // 데이터베이스에서 학생 리스트 가져오기, 초기화
         self.HomeStudentIconLabel.text = ""
         self.HomeStudentIconSecondLabel.text = ""
         self.HomeStudentIconThirdLabel.text = ""
         
-        let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class")
-        
-        // index가 0, 1, 2인 세 명의 학생 정보 가져오기
-        docRef.whereField("index", isEqualTo: 0).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconLabel.text = document.data()["name"] as? String ?? ""
-                    self.firstLinkBtn.isHidden = false
-                    self.HomeStudentIconLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 1).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconSecondLabel.text = document.data()["name"] as? String ?? ""
-                    self.secondLinkBtn.isHidden = false
-                    self.HomeStudentIconSecondLabel.isHidden = false
-                }
-            }
-        }
-        
-        docRef.whereField("index", isEqualTo: 2).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 사용할 것들 가져와서 지역 변수로 저장
-                    self.HomeStudentIconThirdLabel.text = document.data()["name"] as? String ?? ""
-                    self.thirdLinkBtn.isHidden = false
-                    self.HomeStudentIconThirdLabel.isHidden = false
-                }
-            }
-        }
-        
         // 만약 학생이 없다면 버튼과 레이블을 숨기기
-        if (self.HomeStudentIconLabel.text == "" || self.HomeStudentIconLabel.text == "Name Label") {
-            self.firstLinkBtn.isHidden = true
-            self.HomeStudentIconLabel.isHidden = true
-        }
+        self.firstLinkBtn.isHidden = true
+        self.HomeStudentIconLabel.isHidden = true
+        self.secondLinkBtn.isHidden = true
+        self.HomeStudentIconSecondLabel.isHidden = true
+        self.thirdLinkBtn.isHidden = true
+        self.HomeStudentIconThirdLabel.isHidden = true
         
-        if (self.HomeStudentIconSecondLabel.text == "" || self.HomeStudentIconSecondLabel.text == "Name Label") {
-            self.secondLinkBtn.isHidden = true
-            self.HomeStudentIconSecondLabel.isHidden = true
-        }
-        
-        if (self.HomeStudentIconThirdLabel.text == "" || self.HomeStudentIconThirdLabel.text == "Name Label") {
-            self.thirdLinkBtn.isHidden = true
-            self.HomeStudentIconThirdLabel.isHidden = true
-        }
+        GetStudentMyClass(self: self)
     }
     
     /// linked button clicked
     @IBAction func ButtonClicked(_ sender: Any) {
-        // 데이터베이스 경로
-        var email = ""
-        var subject = ""
-        var btnIndex = 0
-        var type = self.type
-        
-        if (self.type == "teacher") {
-            
-            type = "teacher"
-            let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
-            
-            guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
-            
-            var name = ""
-            // 설정해둔 버튼의 태그에 따라서 레이블의 이름을 가지고 비교 후 학생 관리 페이지로 넘어가기
-            if ((sender as AnyObject).tag == 0) {
-                name = self.HomeStudentIconLabel.text!
-            } else if ((sender as AnyObject).tag == 1) {
-                name = self.HomeStudentIconSecondLabel.text!
-            } else if ((sender as AnyObject).tag == 2) {
-                name = self.HomeStudentIconThirdLabel.text!
-            }
-            
-            docRef.whereField("name", isEqualTo: name).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        // 사용할 것들 가져와서 지역 변수로 저장
-                        btnIndex = document.data()["index"] as? Int ?? 0
-                        email = document.data()["email"] as? String ?? ""
-                        subject = document.data()["subject"] as? String ?? ""
-                    }
-                    // 학생의 이름 데이터 넘겨주기
-                    detailClassVC.userName = name
-                    detailClassVC.userSubject = subject
-                    detailClassVC.userEmail = email
-                    detailClassVC.userIndex = btnIndex
-                    detailClassVC.userType = type
-                    
-                    detailClassVC.modalPresentationStyle = .fullScreen
-                    detailClassVC.modalTransitionStyle = .crossDissolve
-                    
-                    self.present(detailClassVC, animated: true, completion: nil)
-                }
-            }
-        } else {
-            type = "student"
-            let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
-            
-            guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
-            
-            var name = ""
-            // 설정해둔 버튼의 태그에 따라서 레이블의 이름을 가지고 비교 후 학생 관리 페이지로 넘어가기
-            if ((sender as AnyObject).tag == 0) {
-                name = self.HomeStudentIconLabel.text!
-            } else if ((sender as AnyObject).tag == 1) {
-                name = self.HomeStudentIconSecondLabel.text!
-            } else if ((sender as AnyObject).tag == 2) {
-                name = self.HomeStudentIconThirdLabel.text!
-            }
-            
-            docRef.whereField("name", isEqualTo: name).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        // 사용할 것들 가져와서 지역 변수로 저장
-                        btnIndex = document.data()["index"] as? Int ?? 0
-                        email = document.data()["email"] as? String ?? ""
-                        subject = document.data()["subject"] as? String ?? ""
-                    }
-                    // 학생의 이름 데이터 넘겨주기
-                    detailClassVC.userName = name
-                    detailClassVC.userSubject = subject
-                    detailClassVC.userEmail = email
-                    detailClassVC.userIndex = btnIndex
-                    detailClassVC.userType = type
-                    
-                    detailClassVC.modalPresentationStyle = .fullScreen
-                    detailClassVC.modalTransitionStyle = .crossDissolve
-                    
-                    self.present(detailClassVC, animated: true, completion: nil)
-                }
-            }
-        }
+        guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
+                
+                GetLinkButtonInfos(sender: sender as! UIButton, firstLabel: HomeStudentIconLabel, secondLabel: HomeStudentIconSecondLabel, thirdLabel: HomeStudentIconThirdLabel, detailVC: detailClassVC, self: self)
     }
     
     /// setting informations
     func getTeacherInfo(){
-        // 데이터베이스 경로
-        let docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
-        
-        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                self.name = data?["name"] as? String ?? ""
-                self.stateLabel.text = self.name + " 선생님 환영합니다!"
-                if (Auth.auth().currentUser?.email == (data?["email"] as! String)) {
-                    self.type = "teacher"
-                } else {
-                    self.type = data?["type"] as? String ?? ""
-                }
-                self.id = data?["email"] as? String ?? ""
-                self.pw = data?["password"] as? String ?? ""
+        GetTeacherInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel)
                 
-                let formatter = DateFormatter()
-                formatter.locale = Locale(identifier: "ko_KR")
-                formatter.timeZone = TimeZone(abbreviation: "KST")
-                
-                self.events.removeAll()
-                
-                for index in 1...self.days.count-1 {
-                    let tempDay = "\(self.days[index])"
-                    let dateWithoutDays = tempDay.components(separatedBy: " ")
-                    formatter.dateFormat = "YYYY-MM-dd"
-                    let date = formatter.date(from: dateWithoutDays[0])!
-                    let datestr = formatter.string(from: date)
-                    
-                    let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
-                    
-                    docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print("Error getting documents: \(err)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                print("\(document.documentID) => \(document.data())")
-                                // 사용할 것들 가져와서 지역 변수로 저장
-                                let date = document.data()["date"] as? String ?? ""
-                                
-                                formatter.dateFormat = "YYYY-MM-dd"
-                                let date_d = formatter.date(from: date)!
-                                
-                                self.events.append(date_d)
-                            }
-                        }
-                    }
-                }
-                self.HomeStudentScrollView.isHidden = false
-            } else {
-                print("Document does not exist")
-            }
-        }
+        self.id = userEmail
+        self.pw = userPW
+        self.type = userType
         setTeacherMyClasses()
     }
     
     func getStudentInfo(){
-        // 데이터베이스 경로
-        let docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
+        GetStudentInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel)
         
-        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                self.name = data?["name"] as? String ?? ""
-                self.stateLabel.text = self.name + " 학생 환영합니다!"
-                self.id = data?["email"] as? String ?? ""
-                self.pw = data?["password"] as? String ?? ""
-                if (Auth.auth().currentUser?.email == (data?["email"] as! String)) {
-                    self.type = "student"
-                } else {
-                    self.type = data?["type"] as? String ?? ""
-                }
-                
-                let formatter = DateFormatter()
-                formatter.locale = Locale(identifier: "ko_KR")
-                formatter.timeZone = TimeZone(abbreviation: "KST")
-                
-                self.events.removeAll()
-                
-                for index in 1...self.days.count-1 {
-                    
-                    let tempDay = "\(self.days[index])"
-                    let dateWithoutDays = tempDay.components(separatedBy: " ")
-                    formatter.dateFormat = "YYYY-MM-dd"
-                    let date = formatter.date(from: dateWithoutDays[0])!
-                    let datestr = formatter.string(from: date)
-                    
-                    let docRef = self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(datestr).collection("scheduleList")
-                    
-                    docRef.whereField("date", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print("Error getting documents: \(err)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                print("\(document.documentID) => \(document.data())")
-                                // 사용할 것들 가져와서 지역 변수로 저장
-                                let date = document.data()["date"] as? String ?? ""
-                                formatter.dateFormat = "YYYY-MM-dd"
-                                let date_d = formatter.date(from: date)!
-                                
-                                self.events.append(date_d)
-                            }
-                        }
-                    }
-                }
-                self.HomeStudentScrollView.isHidden = false
-            } else {
-                print("Document does not exist")
-            }
-        }
+        self.id = userEmail
+        self.pw = userPW
+        self.type = userType
         setStudentMyClasses()
     }
     
-    func verifiedCheck() {
-        getStudentInfo() // 학생 정보 받아오기
-        getTeacherInfo() // 선생님 정보 받아오기
-        // id와 pw 변수에 저장된 걸로 로그인 진행
-        Auth.auth().signIn(withEmail: id, password: pw) { result, error in
-            let check = Auth.auth().currentUser?.isEmailVerified // 이메일 인증 여부
-            if error != nil {
-                print(error!.localizedDescription)
-            } else {
-                if (check == false) {
-                    self.verified = false // 인증 안 되었으면 false 설정
-                    self.stateLabel.text = "이메일 인증이 진행중입니다."
-                } else {
-                    self.verified = true // 인증 되었으면 true 설정
-                    if (Auth.auth().currentUser?.email != nil) {
-                        if (self.type == "teacher") { // 선생님 계정이면
-                            self.stateLabel.text = self.name + " 선생님 환영합니다!"
-                            self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
-                        } else if (self.type == "student") { // 학생 계정이면
-                            self.stateLabel.text = self.name + " 학생 환영합니다!"
-                            self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    func verifiedCheck() {
+//        getStudentInfo() // 학생 정보 받아오기
+//        getTeacherInfo() // 선생님 정보 받아오기
+//        // id와 pw 변수에 저장된 걸로 로그인 진행
+//        Auth.auth().signIn(withEmail: id, password: pw) { result, error in
+//            let check = Auth.auth().currentUser?.isEmailVerified // 이메일 인증 여부
+//            if error != nil {
+//                print(error!.localizedDescription)
+//            } else {
+//                if (check == false) {
+//                    self.verified = false // 인증 안 되었으면 false 설정
+//                    self.stateLabel.text = "이메일 인증이 진행중입니다."
+//                } else {
+//                    self.verified = true // 인증 되었으면 true 설정
+//                    if (Auth.auth().currentUser?.email != nil) {
+//                        if (self.type == "teacher") { // 선생님 계정이면
+//                            self.stateLabel.text = self.name + " 선생님 환영합니다!"
+//                            self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
+//                        } else if (self.type == "student") { // 학생 계정이면
+//                            self.stateLabel.text = self.name + " 학생 환영합니다!"
+//                            self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     // 인증 확인 버튼 클릭시 실행되는 메소드
-    @IBAction func CheckVerification(_ sender: Any) {
-        verifiedCheck() // 이메일 인증 여부 확인 메소드 실행
-    }
+//    @IBAction func CheckVerification(_ sender: Any) {
+//        verifiedCheck() // 이메일 인증 여부 확인 메소드 실행
+//    }
 }
 
 
 extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
     // 날짜 선택 시 실행되는 메소드
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
+    public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = Locale(identifier: "ko_KR")
-        
+        let datestr = dateFormatter.string(from: date)
         // 일정 리스트 뷰 보여주기
         guard let scheduleListVC = self.storyboard?.instantiateViewController(withIdentifier: "ScheduleListViewController") as? ScheduleListViewController else { return }
         // 데이터베이스의 Count document에서 count 정보를 받아서 전달
-        self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(dateFormatter.string(from: date)).collection("scheduleList").document("Count").addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            guard let data = document.data() else {
-                print("Document data was empty.")
-                return
-            }
-            scheduleListVC.count = data["count"] as! Int
-        }
-        
-        // 날짜 데이터 넘겨주기
-        scheduleListVC.date = dateFormatter.string(from: date)
-        scheduleListVC.type = self.type
-        scheduleListVC.modalPresentationStyle = .fullScreen
-        self.present(scheduleListVC, animated: true, completion: nil)
+        ShowScheduleList(date: datestr, scheduleListVC: scheduleListVC, self: self)
     }
     
     //이벤트 표시 개수
