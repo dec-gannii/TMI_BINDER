@@ -5,12 +5,13 @@
 //  Created by 양성혜 on 2021/12/05.
 //
 
+
 import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseDatabase
 
-class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     let db = Firestore.firestore()
     var ref: DatabaseReference!
@@ -29,7 +30,7 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     var userSubject = ""
     var userType = ""
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         studyLabel.text = nil
@@ -40,31 +41,31 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return study.count
     }
     
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return study[row]
     }
     
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.todayStudy = study[row]
         studyShowPicker.text = study[row]
     }
     
-    func createPickerView() {
+    public func createPickerView() {
         let pickerView = UIPickerView()
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -72,7 +73,7 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
         studyShowPicker.inputView = pickerView
     }
     
-    func dismissPickerView() {
+    public func dismissPickerView() {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         let doneBT = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(donePicker))
@@ -88,7 +89,7 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     @objc func donePicker() {
         studyShowPicker.text = "\(todayStudy)"
         self.studyShowPicker.resignFirstResponder()
-        getScore()
+        GetScoreForEdit(self: self, todayStudy: todayStudy)
     }
     
     @objc func cancelPicker() {
@@ -99,85 +100,13 @@ class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerVie
     @IBAction func goPlus(_ sender: Any) {
         todayScore = scoreTextField.text!
         let docRef = db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph")
-        
         if todayStudy == "0"{
             studyLabel.text = "하나를 선택해주세요"
         } else if todayScore == "" {
             scoreLabel.text = "성적을 작성해주세요"
         } else {
-            // 데이터 저장
-            docRef.document(todayStudy).setData([
-                "type": todayStudy,
-                "score":todayScore,
-                "isScore": "true"
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                }
-            }
-            docRef.getDocuments()
-            {
-                (querySnapshot, err) in
-                
-                if let err = err
-                {
-                    print("Error getting documents: \(err)");
-                }
-                else
-                {
-                    var count = 0
-                    for document in querySnapshot!.documents {
-                        count += 1
-                        print("\(document.documentID) => \(document.data())");
-                    }
-                    
-                    // 현재 존재하는 데이터가 하나면,
-                    if (count == 1) {
-                        // 1으로 저장
-                        docRef.document("Count").setData(["count": count])
-                        { err in
-                            if let err = err {
-                                print("Error adding document: \(err)")
-                            }
-                        }
-                    } else {
-                        // 현재 존재하는 데이터들이 여러 개면, Count 도큐먼트를 포함한 것이므로
-                        // 하나를 뺀 수로 지정해서 저장해줌
-                        docRef.document("Count").setData(["count": count-1])
-                        { err in
-                            if let err = err {
-                                print("Error adding document: \(err)")
-                            }
-                        }
-                    }
-                    if let preVC = self.presentingViewController {
-                        preVC.dismiss(animated: true, completion: nil)
-                    }
-                }
-            }
+            SaveGraphScore(todayStudy: todayStudy, todayScore: todayScore, self: self)
         }
-    }
-    
-    func getScore() {
-        db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").whereField("type", isEqualTo: todayStudy)
-            .getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print(">>>>> document 에러 : \(err)")
-                } else {
-                    if let err = err {
-                        print("Error getting documents: \(err)")
-                    } else {
-                        for document in querySnapshot!.documents {
-                            print("\(document.documentID) => \(document.data())")
-                            
-                            let score = document.data()["score"] as? String ?? ""
-                            self.scoreTextField.text = score
-                            break
-                        }
-                    }
-                }
-            }
-        self.scoreTextField.text = ""
     }
     
     @IBAction func goBack(_ sender: Any) {

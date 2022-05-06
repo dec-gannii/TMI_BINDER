@@ -68,6 +68,7 @@ class AddScheduleViewController: UIViewController {
         let date = formatter_time.date(from: dateWithoutDays[0])!
         let datestr = formatter_time.string(from: date)
         
+        
         // 수정 모드라면,
         if (varIsEditMode == true) {
             SaveEditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, isEditMode: self.isEditMode, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTitleTF: self.scheduleTitle, scheduleTimeTF: self.scheduleTime, datestr: datestr, current_time_string: current_time_string)
@@ -77,7 +78,57 @@ class AddScheduleViewController: UIViewController {
             // 수정 모드가 아니라면,
             if (scheduleTitle.text != "") {
                 if ((scheduleTitle.text?.trimmingCharacters(in: .whitespaces)) != "") {
-                    SaveSchedule(type: self.type, date: self.date, scheduleTitleTF: self.scheduleTitle, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTimeTF: self.scheduleTime, datestr: datestr, current_time_string: current_time_string)
+                    // 데이터베이스에 입력된 내용 추가
+                    self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(scheduleTitle.text!).setData([
+                        "title": scheduleTitle.text!,
+                        "place": schedulePlace.text!,
+                        "date" : datestr,
+                        "time": scheduleTime.text!,
+                        "memo": scheduleMemo.text!,
+                        "savedTime": current_time_string ])
+                    { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        }
+                    }
+                    // 존재하는 도큐먼트의 수만큼 Count에 숫자 더해주기
+                    self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").getDocuments()
+                    {
+                        (querySnapshot, err) in
+                        
+                        if let err = err
+                        {
+                            print("Error getting documents: \(err)");
+                        }
+                        else
+                        {
+                            var count = 0
+                            for document in querySnapshot!.documents {
+                                count += 1
+                                print("\(document.documentID) => \(document.data())");
+                            }
+                            
+                            // 현재 존재하는 데이터가 하나면,
+                            if (count == 1) {
+                                // 1으로 저장
+                                self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document("Count").setData(["count": count])
+                                { err in
+                                    if let err = err {
+                                        print("Error adding document: \(err)")
+                                    }
+                                }
+                            } else {
+                                // 현재 존재하는 데이터들이 여러 개면, Count 도큐먼트를 포함한 것이므로
+                                // 하나를 뺀 수로 지정해서 저장해줌
+                                self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document("Count").setData(["count": count-1])
+                                { err in
+                                    if let err = err {
+                                        print("Error adding document: \(err)")
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 dismiss(animated: true, completion: nil)
             }
