@@ -12,6 +12,9 @@ import GoogleSignIn
 import AuthenticationServices
 import CryptoKit
 
+public var sharedCurrentPW : String = ""
+public var userType : String = ""
+
 public func ShowScheduleList(type : String, date : String, datestr: String, scheduleTitles : [String], scheduleMemos : [String], count : Int) {
     let db = Firestore.firestore()
     
@@ -1008,8 +1011,6 @@ public func UpdateClassInfo(self : EditClassVC, schedule : String) {
     }
 }
 
-
-
 public func GetClassInfo(self : EditClassVC) {
     let db = Firestore.firestore()
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { [self] (document, error) in
@@ -1067,6 +1068,178 @@ public func GetClassInfo(self : EditClassVC) {
             }
         } else {
             print("Document does not exist")
+        }
+    }
+}
+
+/// 설정을 위한 DB 메소드들
+
+public func Secession(self : SecessionViewController) {
+    let db = Firestore.firestore()
+    let user = Auth.auth().currentUser // 사용자 정보 가져오기
+    
+    user?.delete { error in
+        if let error = error {
+            // An error happened.
+            print("delete user error : \(error)")
+        } else {
+            // Account deleted.
+            // 선생님 학생 학부모이냐에 관계 없이 DB에 저장된 정보 삭제
+            db.collection("teacher").document(user!.uid).delete() { err in
+                if let err = err {
+                    print("Error removing document: \(err)")
+                } else {
+                    print("Document successfully removed!")
+                }
+            }
+            
+            db.collection("student").document(user!.uid).delete() { err in
+                if let err = err {
+                    print("Error removing document: \(err)")
+                } else {
+                    print("Document successfully removed!")
+                }
+            }
+            
+            db.collection("parent").document(user!.uid).delete() { err in
+                if let err = err {
+                    print("Error removing document: \(err)")
+                } else {
+                    print("Document successfully removed!")
+                }
+            }
+        }
+        
+        print("delete success, go sign in page")
+        
+        // 로그인 화면(첫화면)으로 다시 이동
+        guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
+        loginVC.modalPresentationStyle = .fullScreen
+        loginVC.modalTransitionStyle = .crossDissolve
+        self.present(loginVC, animated: true, completion: nil)
+    }
+}
+
+public func GetPW() {
+    let db = Firestore.firestore()
+    
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+        if let document = document, document.exists {
+            let data = document.data()
+            // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
+            sharedCurrentPW = data?["password"] as? String ?? ""
+        } else {
+            // 먼저 설정한 선생님 정보의 uid의 경로가 없다면 학생 정보에서 재탐색
+            db.collection("student").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
+                    sharedCurrentPW = data?["password"] as? String ?? ""
+                } else {
+                    db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            let data = document.data()
+                            // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
+                            sharedCurrentPW = data?["password"] as? String ?? ""
+                        } else {
+                            print("Document does not exist")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+public func SaveTeacherInfos(name : String, password : String , parentPW : String) {
+    let db = Firestore.firestore()
+    // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).updateData([
+        "name": name,
+        "password": password,
+        "parentPW": parentPW
+    ]) { err in
+        if let err = err {
+            print("Error adding document: \(err)")
+        }
+    }
+}
+
+public func SaveStudentInfos(name : String, password : String , parentPassword : UITextField) {
+    let db = Firestore.firestore()
+    // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
+    db.collection("student").document(Auth.auth().currentUser!.uid).updateData([
+        "name": name,
+        "password": password,
+        "goal": parentPassword.text!
+    ]) { err in
+        if let err = err {
+            print("Error adding document: \(err)")
+        }
+    }
+}
+
+public func SaveParentInfos (name : String, password : String, childPhoneNumber : String) {
+    let db = Firestore.firestore()
+    // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
+    db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
+        "name": name,
+        "password": password,
+        "childPhoneNumber": childPhoneNumber
+    ]) { err in
+        if let err = err {
+            print("Error adding document: \(err)")
+        }
+    }
+}
+
+public func GetUserInfoForEditInfo(nameTF : UITextField, emailLabel : UILabel, parentPassword : UITextField, parentPasswordLabel : UILabel) {
+    let db = Firestore.firestore()
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+        if let document = document, document.exists {
+            let data = document.data()
+            // 이름, 이메일, 학부모 인증용 비밀번호, 사용자의 타입
+            let userName = data?["name"] as? String ?? ""
+            nameTF.text = userName
+            let userEmail = data?["email"] as? String ?? ""
+            emailLabel.text = userEmail
+            let parentPW = data?["parentPW"] as? String ?? ""
+            parentPassword.text = parentPW
+            userType = data?["type"] as? String ?? ""
+            sharedCurrentPW = data?["password"] as? String ?? ""
+        } else {
+            // 현재 사용자에 해당하는 선생님 문서가 없으면 학생 문서로 다시 검색
+            db.collection("student").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    let userName = data?["name"] as? String ?? ""
+                    nameTF.text = userName
+                    let userEmail = data?["email"] as? String ?? ""
+                    emailLabel.text = userEmail
+                    userType = data?["type"] as? String ?? ""
+                    sharedCurrentPW = data?["password"] as? String ?? ""
+                    let goal = data?["goal"] as? String ?? ""
+                    parentPasswordLabel.text = "목표"
+                    parentPassword.text = goal
+                } else {
+                    db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            let data = document.data()
+                            let userName = data?["name"] as? String ?? ""
+                            nameTF.text = userName
+                            let userEmail = data?["email"] as? String ?? ""
+                            emailLabel.text = userEmail
+                            userType = data?["type"] as? String ?? ""
+                            sharedCurrentPW = data?["password"] as? String ?? ""
+                            parentPasswordLabel.text = "자녀 휴대전화 번호"
+                            let childPhoneNumber = data?["childPhoneNumber"] as? String ?? ""
+                            parentPassword.text = childPhoneNumber
+                        } else {
+                            print("Document does not exist")
+                        }
+                    }
+                }
+            }
         }
     }
 }
