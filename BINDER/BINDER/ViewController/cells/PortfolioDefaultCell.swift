@@ -7,13 +7,13 @@
 
 import UIKit
 
-public class PortfolioDefaultCell: UITableViewCell {
+class PortfolioDefaultCell: UITableViewCell {
 
     @IBOutlet weak var content: UITextView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var ContentViewBackground: UIView!
     
-    public override func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         
         // cornerRadius 지정
@@ -26,7 +26,7 @@ public class PortfolioDefaultCell: UITableViewCell {
         self.selectionStyle = .none
     }
     
-    public override func setSelected(_ selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     

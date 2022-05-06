@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-public class CheckPasswordViewController: UIViewController {
+class CheckPasswordViewController: UIViewController {
     
     var ref: DatabaseReference!
     let db = Firestore.firestore()
@@ -20,11 +20,46 @@ public class CheckPasswordViewController: UIViewController {
     var currentPW = ""
     var btnDesign = ButtonDesign()
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
-        GetPW() // 현재 비밀번호가 맞는지 확인하기 위해 호출
+        getPW() // 현재 비밀번호가 맞는지 확인하기 위해 호출
         okBtn.clipsToBounds = true
         okBtn.layer.cornerRadius = btnDesign.cornerRadius
+    }
+    
+    // 비밀번호가 맞는지 확인하기 위해 비밀번호를 확인하는 메소드
+    func getPW() {
+        // 데이터베이스 경로
+        var docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
+        
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
+                self.currentPW = data?["password"] as? String ?? ""
+            } else {
+                // 먼저 설정한 선생님 정보의 uid의 경로가 없다면 학생 정보에서 재탐색
+                docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
+                docRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
+                        self.currentPW = data?["password"] as? String ?? ""
+                    } else {
+                        docRef = self.db.collection("parent").document(Auth.auth().currentUser!.uid)
+                        docRef.getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                let data = document.data()
+                                // 현재 비밀번호 변수에 DB에 저장된 비밀번호 가져와서 할당
+                                self.currentPW = data?["password"] as? String ?? ""
+                            } else {
+                                print("Document does not exist")
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     // 뒤로 가기 버튼 클릭 시 실행되는 메소드
@@ -35,7 +70,7 @@ public class CheckPasswordViewController: UIViewController {
     // 완료 버튼 클릭 시 실행되는 메소드
     @IBAction func OKBtnClicked(_ sender: Any) {
         // 만약 현재 저장되어 있는 비밀번호와 입력한 비밀번호가 동일하면
-        if (sharedCurrentPW == pwTextField.text) {
+        if (currentPW == pwTextField.text) {
             // 정보 수정 화면으로 이동
             guard let editInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "EditInfoViewController") as? EditInfoViewController else { return }
             
