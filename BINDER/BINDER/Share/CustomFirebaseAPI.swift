@@ -81,59 +81,59 @@ public func SetScheduleTexts(type : String, date : String, datestr: String, sche
 }
 
 public func GetUserInfoForClassList(self : MyClassVC) {
-        let db = Firestore.firestore()
-        db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+    let db = Firestore.firestore()
+    db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        if let err = err {
+            print(">>>>> document 에러 : \(err)")
+        } else {
             if let err = err {
-                print(">>>>> document 에러 : \(err)")
+                print("Error getting documents(inMyClassView): \(err)")
             } else {
-                if let err = err {
-                    print("Error getting documents(inMyClassView): \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        let type = document.data()["type"] as? String ?? ""
-                        self.type = type
-                        let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
-                        
-                        let url = URL(string: profile)!
-                        self.teacherImage.kf.setImage(with: url)
-                        self.setTeacherInfo()
-                        
-                        LoadingHUD.show()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            LoadingHUD.hide()
-                        }
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    let type = document.data()["type"] as? String ?? ""
+                    self.type = type
+                    let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                    
+                    let url = URL(string: profile)!
+                    self.teacherImage.kf.setImage(with: url)
+                    self.setTeacherInfo()
+                    
+                    LoadingHUD.show()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        LoadingHUD.hide()
                     }
                 }
             }
         }
-        
-        db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+    }
+    
+    db.collection("student").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
+        if let err = err {
+            print(">>>>> document 에러 : \(err)")
+        } else {
             if let err = err {
-                print(">>>>> document 에러 : \(err)")
+                print("Error getting documents(inMyClassView): \(err)")
             } else {
-                if let err = err {
-                    print("Error getting documents(inMyClassView): \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        let type = document.data()["type"] as? String ?? ""
-                        self.type = type
-                        
-                        let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
-                        let url = URL(string: profile)!
-                        self.teacherImage.kf.setImage(with: url)
-                        
-                        self.setStudentInfo()
-                        
-                        LoadingHUD.show()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            LoadingHUD.hide()
-                        }
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    let type = document.data()["type"] as? String ?? ""
+                    self.type = type
+                    
+                    let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                    let url = URL(string: profile)!
+                    self.teacherImage.kf.setImage(with: url)
+                    
+                    self.setStudentInfo()
+                    
+                    LoadingHUD.show()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        LoadingHUD.hide()
                     }
                 }
             }
         }
+    }
 }
 
 public func SetMyClasses(self : MyClassVC) {
@@ -290,5 +290,40 @@ public func MoveToDetailClassVC (self : MyClassVC, sender : UIButton) {
                 
                 self.present(weekendVC, animated: true, completion: nil)
             }
+        }
+}
+
+
+public func SearchStudent(self : AddStudentVC, email : String) {
+    let db = Firestore.firestore()
+    /// 입력한 이메일과 갖고있는 이메일이 같은지 확인
+    db.collection("student").whereField("email", isEqualTo: email)
+        .getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+                self.showDefaultAlert(msg: "학생을 찾는 중 에러가 발생했습니다.")
+            } else {
+                
+                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                    self.showDefaultAlert(msg: "해당하는 학생이 존재하지 않습니다.")
+                    return
+                }
+                
+                /// first : 여러개가 와도 첫번째 것만 봄.
+                let studentDt = snapshot.documents.first!.data()
+                let age = studentDt["age"] as? Int ?? 0
+                let email = studentDt["email"] as? String ?? ""
+                let goal = studentDt["goal"] as? String ?? ""
+                let name = studentDt["name"] as? String ?? ""
+                let password = studentDt["password"] as? String ?? ""
+                let phone = studentDt["phone"] as? String ?? ""
+                let profile = studentDt["profile"] as? String ?? ""
+                let item = StudentItem(age: age, email: email, goal: goal, name: name, password: password, phone: phone, profile: profile)
+                
+                /// 값 넘어가기
+                self.performSegue(withIdentifier: "inputClassSegue", sender: item)
+            }
+            /// 변수 다시 공백으로 바꾸기
+            self.emailTf.text = ""
         }
 }
