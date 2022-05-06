@@ -10,7 +10,7 @@ import Firebase
 import FirebaseDatabase
 import FirebaseFirestore
 
-class TeacherEvaluationViewController: UIViewController {
+public class TeacherEvaluationViewController: UIViewController {
     let db = Firestore.firestore()
     
     @IBOutlet var studentTitle: UILabel!
@@ -33,10 +33,10 @@ class TeacherEvaluationViewController: UIViewController {
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
-        getEvaluation() // 학생에 대한 평가 정보 가져오기
-        getUserInfo() // 사용자 정보 가져오기
+        GetEvaluation(self: self)
+        GetUserAndClassInfo(self: self)
         
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
         evaluationTextView.textContainerInset = viewDesign.EdgeInsets
@@ -48,146 +48,17 @@ class TeacherEvaluationViewController: UIViewController {
         okBtn.layer.cornerRadius = btnDesign.cornerRadius
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        getEvaluation() // 학생에 대한 평가 정보 가져오기
-        getUserInfo() // 사용자 정보 가져오기
-    }
-    
-    /// 사용자 정보 가져오기
-    func getUserInfo() {
-        /// parent collection / 현재 사용자 uid 경로에서 문서 찾기
-        self.db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
-            if let document = document, document.exists { /// 문서 있으면
-                let data = document.data()
-                let childPhoneNumber = data!["childPhoneNumber"] as? String ?? "" // 학생(자녀) 휴대전화 번호
-                ///  student collection에 가져온 학생 전화번호와 동일한 전화번호 정보를 가지는 문서 찾기
-                self.db.collection("student").whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
-                    if let err = err {
-                        print(">>>>> document 에러 : \(err)")
-                    } else {
-                        /// 문서 있으면
-                        for document in querySnapshot!.documents {
-                            print("\(document.documentID) => \(document.data())")
-                            let studentName = document.data()["name"] as? String ?? "" // 학생 이름
-                            self.studentName = studentName
-                            
-                            self.db.collection("teacher").whereField("email", isEqualTo: self.teacherEmail).getDocuments() { (querySnapshot, err) in
-                            if let err = err {
-                                print(">>>>> document 에러 : \(err)")
-                            } else {
-                                for document in querySnapshot!.documents {
-                                    print("\(document.documentID) => \(document.data())")
-                                    let teacherUid = document.data()["uid"] as? String ?? "" // 선생님 uid
-                                    
-                                    /// parent collection / 현재 사용자 uid / teacherEvaluation collection / 선생님이름(선생님이메일) 과목 / evaluation 경로에서 문서 찾기
-                                    self.db.collection("teacherEvaluation").document(teacherUid).collection("evaluation").document(studentName + " " + self.month).getDocument { (document, error) in
-                                        if let document = document, document.exists {
-                                            let data = document.data()
-                                            let teacherAttitude = data!["teacherAttitude"] as? String ?? "" // 선생님 태도 점수
-                                            let teacherManagingSatisfyScore = data!["teacherManagingSatisfyScore"] as? String ?? "" // 학생 관리 만족도 점수
-                                            self.teacherAttitude.text = teacherAttitude // 선생님 태도 점수 text 지정
-                                            self.teacherManagingSatisfyScore.text = teacherManagingSatisfyScore // 학생 관리 만족도 점수 지정
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                            
-                            self.studentTitle.text = studentName + " 학생의 " + self.date + " 수업은..." // 학생 평가 title text 설정
-                            self.evaluationTextView.isEditable = false // 평가 textview 수정 못하도록 설정
-                        }
-                    }
-                }
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
-    
-    func getEvaluation(){
-        // 데이터베이스 경로
-        self.db.collection("teacher").whereField("email", isEqualTo: self.teacherEmail).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print(">>>>> document 에러 : \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    let teacherUid = document.data()["uid"] as? String ?? "" // 선생님 uid
-                    self.teacherUid = teacherUid
-                    let parentDocRef = self.db.collection("parent")
-                    parentDocRef.whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print(">>>>> document 에러 : \(err)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                print("\(document.documentID) => \(document.data())")
-                                let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? ""
-                                
-                                let docRef = self.db.collection("student")
-                                docRef.whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
-                                    if let err = err {
-                                        print(">>>>> document 에러 : \(err)")
-                                    } else {
-                                        for document in querySnapshot!.documents {
-                                            print("\(document.documentID) => \(document.data())")
-                                            let studentEmail = document.data()["email"] as? String ?? "" // 학생 이메일
-                                            let studentName = document.data()["name"] as? String ?? "" // 학생 이메일
-                                            
-                                            self.db.collection("teacher").document(teacherUid).collection("class").whereField("email", isEqualTo: studentEmail).getDocuments() { (querySnapshot, err) in
-                                                if let err = err {
-                                                    print(">>>>> document 에러 : \(err)")
-                                                } else {
-                                                    for document in querySnapshot!.documents {
-                                                        print("\(document.documentID) => \(document.data())")
-                                                        let subject = document.data()["subject"] as? String ?? ""
-                                                        
-                                                        self.db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + subject).collection("Evaluation").whereField("evaluationDate", isEqualTo: self.date).getDocuments() { (querySnapshot, err) in
-                                                            if let err = err {
-                                                                print("Error getting documents: \(err)")
-                                                            } else {
-                                                                for document in querySnapshot!.documents {
-                                                                    print("\(document.documentID) => \(document.data())")
-                                                                    // 사용할 것들 가져와서 지역 변수로 저장
-                                                                    let evaluationMemo = document.data()["evaluationMemo"] as? String ?? "선택된 날짜에는 수업이 없었습니다."
-                                                                    let homeworkCompletion = document.data()["homeworkCompletion"] as? Int ?? 0
-                                                                    self.averageHomeworkCompletion.text = "\(homeworkCompletion) 점"
-                                                                    let classAttitude = document.data()["classAttitude"] as? Int ?? 0
-                                                                    self.averageClassAttitude.text = "\(classAttitude) 점"
-                                                                    let testScore = document.data()["testScore"] as? Int ?? 0
-                                                                    self.averageTestScore.text = "\(testScore) 점"
-                                                                    self.evaluationTextView.text = evaluationMemo
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    public override func viewWillAppear(_ animated: Bool) {
+        GetEvaluation(self: self)
+        GetUserAndClassInfo(self: self) // 사용자 정보 가져오기
     }
     
     /// 선생님 평가 저장 버튼 클릭 시 실행되는 메소드
     @IBAction func SaveTeacherEvaluation(_ sender: Any) {
-        /// parent collection / 현재 사용자 Uid / teacherEvaluation / 선생님이름(선생님이메일) / 현재 달 collection / evaluation 아래에 선생님 태도 점수와 학생 관리 만족도 점수 저장
-        self.db.collection("teacherEvaluation").document(self.teacherUid).collection("evaluation").document(self.studentName + " " + self.month)
-            .setData([
-                "teacherUid": self.teacherUid,
-                "teacherAttitude": teacherAttitude.text!,
-                "teacherManagingSatisfyScore": teacherManagingSatisfyScore.text!
-            ])
-        { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            }
-        }
+        BINDER.SaveTeacherEvaluation(self: self)
         // modal dismiss
         self.dismiss(animated: true, completion: nil)
     }
 }
+
+
