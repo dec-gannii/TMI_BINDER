@@ -31,7 +31,7 @@ class EditInfoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getInfo() // 사용자 정보 가져오기
+        GetUserInfoForEditInfo(nameTF: self.nameTextField, emailLabel: self.emailLabel, parentPassword: self.parentPassword, parentPasswordLabel: self.parentPasswordLabel) // 사용자 정보 가져오기
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
@@ -52,110 +52,6 @@ class EditInfoViewController: UIViewController {
         // 최소한 6개의 문자로 이루어져 있어야 함
         let minPasswordLength = 6
         return password.count >= minPasswordLength
-    }
-    
-    // 사용자 정보를 가져오는 메소드
-    func getInfo() {
-        // 데이터베이스 경로
-        var docRef = self.db.collection("teacher").document(Auth.auth().currentUser!.uid)
-        
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                // 이름, 이메일, 학부모 인증용 비밀번호, 사용자의 타입
-                let userName = data?["name"] as? String ?? ""
-                self.nameTextField.text = userName
-                let userEmail = data?["email"] as? String ?? ""
-                self.emailLabel.text = userEmail
-                let parentPW = data?["parentPW"] as? String ?? ""
-                self.parentPassword.text = parentPW
-                self.type = data?["type"] as? String ?? ""
-                self.currentPW = data?["password"] as? String ?? ""
-            } else {
-                // 현재 사용자에 해당하는 선생님 문서가 없으면 학생 문서로 다시 검색
-                docRef = self.db.collection("student").document(Auth.auth().currentUser!.uid)
-                docRef.getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        let data = document.data()
-                        let userName = data?["name"] as? String ?? ""
-                        self.nameTextField.text = userName
-                        let userEmail = data?["email"] as? String ?? ""
-                        self.emailLabel.text = userEmail
-                        self.type = data?["type"] as? String ?? ""
-                        self.currentPW = data?["password"] as? String ?? ""
-                        let goal = data?["goal"] as? String ?? ""
-                        self.parentPasswordLabel.text = "목표"
-                        self.parentPassword.text = goal
-                    } else {
-                        docRef = self.db.collection("parent").document(Auth.auth().currentUser!.uid)
-                        docRef.getDocument { (document, error) in
-                            if let document = document, document.exists {
-                                let data = document.data()
-                                let userName = data?["name"] as? String ?? ""
-                                self.nameTextField.text = userName
-                                let userEmail = data?["email"] as? String ?? ""
-                                self.emailLabel.text = userEmail
-                                self.type = data?["type"] as? String ?? ""
-                                self.currentPW = data?["password"] as? String ?? ""
-                                self.parentPasswordLabel.text = "자녀 휴대전화 번호"
-                                let childPhoneNumber = data?["childPhoneNumber"] as? String ?? ""
-                                self.parentPassword.text = childPhoneNumber
-                            } else {
-                                print("Document does not exist")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    // 선생님 정보 저장하는 메소드
-    func saveInfo(_ name: String, _ password: String, _ parentPW: String){
-        let db = Firestore.firestore()
-        
-        // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
-        db.collection("\(self.type)").document(Auth.auth().currentUser!.uid).updateData([
-            "name": name,
-            "password": password,
-            "parentPW": parentPW
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            }
-        }
-    }
-    
-    // 학생 정보 저장하는 메소드
-    func saveStudentInfo(_ name: String, _ password: String){
-        let db = Firestore.firestore()
-        
-        // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
-        db.collection("\(self.type)").document(Auth.auth().currentUser!.uid).updateData([
-            "name": name,
-            "password": password,
-            "goal": self.parentPassword.text ?? ""
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            }
-        }
-    }
-    
-    // 학부모 정보 저장하는 메소드
-    func saveParentInfo(_ name: String, _ password: String, _ childPhoneNumber: String){
-        let db = Firestore.firestore()
-        
-        // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
-        db.collection("\(self.type)").document(Auth.auth().currentUser!.uid).updateData([
-            "name": name,
-            "password": password,
-            "childPhoneNumber": childPhoneNumber
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            }
-        }
     }
     
     // 뒤로가기 버튼 클릭 시 수행되는 메소드
@@ -229,9 +125,9 @@ class EditInfoViewController: UIViewController {
             // 만약 새로운 비밀번호가 현재 비밀번호와 다르면
             if (newPW != self.currentPW) {
                 if (self.type == "teacher") { // 선생님인 경우, 선생님 정보 저장 메소드로 정보 저장
-                    saveInfo(name, newPW, parentPW)
+                    SaveTeacherInfos(name: name, password: newPW, parentPW: parentPW)
                 } else if (self.type == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
-                    saveStudentInfo(name, newPW)
+                    SaveStudentInfos(name: name, password: newPW, parentPassword: parentPW)
                 } else if (self.type == "parent") {
                     saveParentInfo(name, newPW, parentPW)
                 }

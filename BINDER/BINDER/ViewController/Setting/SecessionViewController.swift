@@ -36,35 +36,7 @@ class SecessionViewController: UIViewController {
             } else {
                 // Account deleted.
                 // 선생님 학생 학부모이냐에 관계 없이 DB에 저장된 정보 삭제
-                var docRef = self.db.collection("teacher").document(user!.uid)
-                
-                docRef.delete() { err in
-                    if let err = err {
-                        print("Error removing document: \(err)")
-                    } else {
-                        print("Document successfully removed!")
-                    }
-                }
-                
-                docRef = self.db.collection("student").document(user!.uid)
-                
-                docRef.delete() { err in
-                    if let err = err {
-                        print("Error removing document: \(err)")
-                    } else {
-                        print("Document successfully removed!")
-                    }
-                }
-                
-                docRef = self.db.collection("parent").document(user!.uid)
-                
-                docRef.delete() { err in
-                    if let err = err {
-                        print("Error removing document: \(err)")
-                    } else {
-                        print("Document successfully removed!")
-                    }
-                }
+                Secession(self: self)
             }
             
             print("delete success, go sign in page")
