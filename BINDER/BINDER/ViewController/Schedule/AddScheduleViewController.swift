@@ -37,25 +37,15 @@ class AddScheduleViewController: UIViewController {
         if (self.editingTitle != nil) {
             // 버튼의 타이틀을 일정 수정하기로 변경
             self.okBtn.setTitle("일정 수정하기", for: .normal)
+<<<<<<< Updated upstream
             
             // 내용이 있다는 의미이므로 데이터베이스에서 다시 받아와서 textfield의 값으로 설정
-            self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(self.editingTitle).getDocument { (document, error) in
-                if let document = document, document.exists {
-                    self.isEditMode = true
-                    let data = document.data()
-                    let memo = data?["memo"] as? String ?? ""
-                    self.scheduleMemo.text = memo
-                    let place = data?["place"] as? String ?? ""
-                    self.schedulePlace.text = place
-                    let title = data?["title"] as? String ?? ""
-                    self.scheduleTitle.text = title
-                    let time = data?["time"] as? String ?? ""
-                    self.scheduleTime.text = time
-                } else {
-                    print("Document does not exist")
-                }
-            }
-            
+            EditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, isEditMode: self.isEditMode, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTitleTF: self.scheduleTitle, scheduleTimeTF: self.scheduleTime)
+        } else {
+            varIsEdited = false
+=======
+            GetBeforeEditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, scheduleMemo: self.scheduleMemo, schedulePlace: self.schedulePlace, scheduleTitle: self.scheduleTitle, scheduleTime: self.scheduleTime)
+>>>>>>> Stashed changes
         }
     }
     
@@ -84,28 +74,8 @@ class AddScheduleViewController: UIViewController {
         
         
         // 수정 모드라면,
-        if (isEditMode == true) {
-            // 원래 데이터베이스에 저장되어 있던 일정은 삭제하고 새롭게 수정한 내용으로 추가 후 현재 modal dismiss
-            self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(self.editingTitle).delete() { err in
-                if let err = err {
-                    print("Error removing document: \(err)")
-                } else {
-                    print("Document successfully removed!")
-                }
-            }
-            
-            self.db.collection(self.type).document(Auth.auth().currentUser!.uid).collection("schedule").document(self.date).collection("scheduleList").document(scheduleTitle.text!).setData([
-                "title": scheduleTitle.text!,
-                "place": schedulePlace.text!,
-                "date" : datestr,
-                "time": scheduleTime.text!,
-                "memo": scheduleMemo.text!,
-                "savedTime": current_time_string ])
-            { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                }
-            }
+        if (varIsEdited == true) {
+            SaveEditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, isEditMode: self.isEditMode, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTitleTF: self.scheduleTitle, scheduleTimeTF: self.scheduleTime, datestr: datestr, current_time_string: current_time_string)
             self.dismiss(animated: true, completion: nil)
         }
         else {
