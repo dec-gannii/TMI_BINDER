@@ -27,7 +27,6 @@ public var varCount = 0
 public var varIsEditMode = false
 var count = 0
 
-
 public func ShowScheduleList(type : String, date : String, datestr: String, scheduleTitles : [String], scheduleMemos : [String], count : Int) {
     let db = Firestore.firestore()
     
@@ -56,7 +55,7 @@ public func ShowScheduleList(type : String, date : String, datestr: String, sche
                 }
                 
                 // 일정의 제목은 필수 항목이므로 일정 제목 개수만큼을 개수로 지정
-                varCount = scheduleTitles.count
+                varCount = varScheduleTitles.count
             }
         }
     }
@@ -151,9 +150,9 @@ public func DeleteSchedule(type : String, date : String , indexPathRow : Int, sc
     }
 }
 
-
 public func GetBeforeEditSchedule(type : String, date : String, editingTitle : String, scheduleMemo : UITextView, schedulePlace : UITextField, scheduleTitle : UITextField, scheduleTime : UITextField) {
     let db = Firestore.firestore()
+    
     // 내용이 있다는 의미이므로 데이터베이스에서 다시 받아와서 textfield의 값으로 설정
     db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document(editingTitle).getDocument { (document, error) in
         if let document = document, document.exists {

@@ -80,7 +80,6 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         
         // 일정 리스트 받아와서 날짜에 맞는 일정 텍스트 설정
         SetScheduleTexts(type: self.type, date: self.date, datestr: datestr, scheduleTitles: self.scheduleTitles, scheduleMemos: self.scheduleMemos, count: self.count, scheduleCell: scheduleCell, indexPathRow: indexPath.row)
-
         // 날짜는 선택된 날짜로 고정되도록 설정
         scheduleCell.scheduleDate.text = self.date
         
