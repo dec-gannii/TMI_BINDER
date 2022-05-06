@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseDatabase
 
 // 회원가입 뷰 컨트롤러
-class SignInViewController: UIViewController {
+public class SignInViewController: UIViewController {
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -33,14 +33,13 @@ class SignInViewController: UIViewController {
     var viewDesign = ViewDesign()
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        print("isAppleSignIn : \(isAppleSignIn)")
         
         // 오류 발생 시 나타날 label들 우선 숨겨두기
         nameAlertLabel.isHidden = true
@@ -54,36 +53,6 @@ class SignInViewController: UIViewController {
             Auth.auth().sendPasswordReset(withEmail: (Auth.auth().currentUser?.email)!)
             emailTextField.isEnabled = false
         }
-    }
-    
-    // 정보 저장하는 메소드
-    func saveInfo(_ number: Int, _ name: String, _ email: String, _ password: String, _ type: String){
-        // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
-        print("\(name)")
-        print("\(email)")
-        print("\(password)")
-        print("\(type)")
-        self.db.collection("\(type)").document(Auth.auth().currentUser!.uid).setData([
-            "name": name,
-            "email": email,
-            "password": password,
-            "type": type,
-            "uid": Auth.auth().currentUser?.uid,
-            "profile": Auth.auth().currentUser?.photoURL?.absoluteString ?? "https://ifh.cc/g/Lt9Ip8.png"
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            }
-        }
-        
-        guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
-            //아니면 종료
-            return
-        }
-        subInfoVC.type = self.type
-        subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-        subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-        self.present(subInfoVC, animated: true, completion: nil)
     }
     
     // 유효한 이름인지 (공백은 아닌지) 검사하는 메소드
@@ -144,47 +113,7 @@ class SignInViewController: UIViewController {
             self.present(tb, animated: true, completion: nil)
             self.present(homeVC, animated: true, completion: nil)
         } else {
-            let user = Auth.auth().currentUser // 사용자 정보 가져오기
-            
-            user?.delete { error in
-                if let error = error {
-                    // An error happened.
-                    print("delete user error : \(error)")
-                } else {
-                    // Account deleted.
-                    // 선생님 학생 학부모이냐에 관계 없이 DB에 저장된 정보 삭제
-                    var docRef = self.db.collection("teacher").document(user!.uid)
-                    
-                    docRef.delete() { err in
-                        if let err = err {
-                            print("Error removing document: \(err)")
-                        } else {
-                            print("Document successfully removed!")
-                        }
-                    }
-                    
-                    docRef = self.db.collection("student").document(user!.uid)
-                    
-                    docRef.delete() { err in
-                        if let err = err {
-                            print("Error removing document: \(err)")
-                        } else {
-                            print("Document successfully removed!")
-                        }
-                    }
-                    
-                    docRef = self.db.collection("parent").document(user!.uid)
-                    
-                    docRef.delete() { err in
-                        if let err = err {
-                            print("Error removing document: \(err)")
-                        } else {
-                            print("Document successfully removed!")
-                        }
-                    }
-                }
-            }
-            
+            DeleteUserWhileSignUp()
             // 로그인 화면(첫화면)으로 다시 이동
             guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
             loginVC.modalPresentationStyle = .fullScreen
@@ -207,75 +136,7 @@ class SignInViewController: UIViewController {
         
         switch self.type {
         case "teacher", "student", "parent":
-            self.db.collection(self.type).whereField("email", isEqualTo: id).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        self.emailAlertLabel.text = StringUtils.emailExistAlert.rawValue
-                        self.emailAlertLabel.isHidden = false
-                        self.emailTextField.text = ""
-                        return
-                    }
-                    
-                    if self.emailAlertLabel.isHidden == true {
-                        // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면, && self.isValidAge(age)
-                        if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) ) {
-                            // 사용자를 생성
-                            Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
-                                if (self.type != "parent"){
-                                    Auth.auth().currentUser?.sendEmailVerification(completion: {(error) in
-                                        print("sended to " + id)
-                                        if let error = error {
-                                            print(error.localizedDescription)
-                                        } else {
-                                            
-                                        }
-                                    })
-                                }
-                                
-                                // 정보 저장
-                                self.saveInfo(SignInViewController.number, name, id, pw, self.type)
-                                SignInViewController.number = SignInViewController.number + 1
-                                guard let user = authResult?.user else {
-                                    return
-                                }
-                            }
-                        } else {
-                            if (self.isGoogleSignIn == false) {
-                                // 유효하지 않다면, 에러가 난 부분 label로 알려주기 위해 error label 숨김 해제
-                                if (!self.isValidEmail(id)){
-                                    self.emailAlertLabel.isHidden = false
-                                    self.emailAlertLabel.text = StringUtils.emailValidationAlert.rawValue
-                                }
-                                if (!self.isValidPassword(pw)) {
-                                    self.pwAlertLabel.isHidden = false
-                                    self.pwAlertLabel.text = StringUtils.passwordValidationAlert.rawValue
-                                }
-                            } else {
-                                // 정보 저장
-                                self.saveInfo(SignInViewController.number, name, id, pw, self.type)
-                                SignInViewController.number = SignInViewController.number + 1
-                                
-                                // 추가 정보를 입력하는 뷰로 이동
-                                guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
-                                    //아니면 종료
-                                    return
-                                }
-                                subInfoVC.type = self.type
-                                subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                                subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                                self.present(subInfoVC, animated: true, completion: nil)
-                            }
-                            if (!self.isValidName(name)) {
-                                self.nameAlertLabel.isHidden = false
-                                self.nameAlertLabel.text = StringUtils.nameValidationAlert.rawValue
-                            }
-                        }
-                    }
-                }
-            }
+            CreateUser(type: self.type, self: self, name: name, id: id, pw: pw)
             break
         default:
             break
