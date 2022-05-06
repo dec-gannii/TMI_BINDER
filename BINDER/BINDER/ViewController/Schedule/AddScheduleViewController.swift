@@ -37,15 +37,10 @@ class AddScheduleViewController: UIViewController {
         if (self.editingTitle != nil) {
             // 버튼의 타이틀을 일정 수정하기로 변경
             self.okBtn.setTitle("일정 수정하기", for: .normal)
-<<<<<<< Updated upstream
-            
             // 내용이 있다는 의미이므로 데이터베이스에서 다시 받아와서 textfield의 값으로 설정
-            EditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, isEditMode: self.isEditMode, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTitleTF: self.scheduleTitle, scheduleTimeTF: self.scheduleTime)
-        } else {
-            varIsEdited = false
-=======
             GetBeforeEditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, scheduleMemo: self.scheduleMemo, schedulePlace: self.schedulePlace, scheduleTitle: self.scheduleTitle, scheduleTime: self.scheduleTime)
->>>>>>> Stashed changes
+        } else {
+            varIsEditMode = false
         }
     }
     
@@ -74,7 +69,7 @@ class AddScheduleViewController: UIViewController {
         
         
         // 수정 모드라면,
-        if (varIsEdited == true) {
+        if (varIsEditMode == true) {
             SaveEditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, isEditMode: self.isEditMode, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTitleTF: self.scheduleTitle, scheduleTimeTF: self.scheduleTime, datestr: datestr, current_time_string: current_time_string)
             self.dismiss(animated: true, completion: nil)
         }

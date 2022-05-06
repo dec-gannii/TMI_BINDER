@@ -106,7 +106,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
     
     // 일정 삭제를 위한 메소드 - 2
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let selectedTitle = scheduleTitles[indexPath.row]
+        let selectedTitle = publicTitles[indexPath.row]
         if editingStyle == .delete {
             DeleteSchedule(type: self.type, date: self.date, indexPathRow: indexPath.row, scheduleListTableView: self.scheduleListTableView)
         }
