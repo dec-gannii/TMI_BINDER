@@ -4,7 +4,6 @@
 //
 //  Created by 김가은 on 2021/12/04.
 //
-
 import UIKit
 
 // 일정 리스트 테이블 뷰 셀
