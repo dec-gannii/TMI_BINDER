@@ -456,6 +456,7 @@ public func GetTeacherEvents(events : [Date], days : [Date], calendarView : FSCa
             print("Document does not exist")
         }
     }
+    calendarView.reloadData()
 }
 
 public func GetStudentEvents(events : [Date], days : [Date], calendarView : FSCalendar) {
@@ -504,6 +505,7 @@ public func GetStudentEvents(events : [Date], days : [Date], calendarView : FSCa
             print("Document does not exist")
         }
     }
+    calendarView.reloadData()
 }
 
 public func GetTeacherInfo(days : [Date], homeStudentScrollView : UIScrollView, stateLabel : UILabel) {

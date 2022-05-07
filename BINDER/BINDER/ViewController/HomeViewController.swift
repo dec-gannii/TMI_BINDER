@@ -96,14 +96,13 @@ public class HomeViewController: UIViewController {
         calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
         calendarView.appearance.eventDefaultColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
         calendarView.appearance.eventSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-    
+        
         calendarView.appearance.titleSelectionColor = calenderDesign.calendarColor
         calendarView.appearance.borderSelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
         calendarView.appearance.titleTodayColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
         calendarView.appearance.todaySelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
         calendarView.appearance.selectionColor = .none
         calendarView.appearance.todayColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-        
     }
     
     func calendarEvent() {
@@ -193,7 +192,7 @@ public class HomeViewController: UIViewController {
         textView.clipsToBounds = true
         textView.layer.cornerRadius = 10
         textView.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
-
+        
         eventCountTxt.clipsToBounds = true
         eventCountTxt.layer.cornerRadius = 10
         eventCountTxt.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
@@ -210,7 +209,7 @@ public class HomeViewController: UIViewController {
         homeStudentClassTxt3.layer.cornerRadius = 5
         homeStudentClassTxt3.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
         
-//        verifiedCheck() // 인증된 이메일인지 체크하는 메소드
+        //        verifiedCheck() // 인증된 이메일인지 체크하는 메소드
         
         self.calendarColor()
         self.calendarEvent()
@@ -274,14 +273,14 @@ public class HomeViewController: UIViewController {
     /// linked button clicked
     @IBAction func ButtonClicked(_ sender: Any) {
         guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
-                
-                GetLinkButtonInfos(sender: sender as! UIButton, firstLabel: HomeStudentIconLabel, secondLabel: HomeStudentIconSecondLabel, thirdLabel: HomeStudentIconThirdLabel, detailVC: detailClassVC, self: self)
+        
+        GetLinkButtonInfos(sender: sender as! UIButton, firstLabel: HomeStudentIconLabel, secondLabel: HomeStudentIconSecondLabel, thirdLabel: HomeStudentIconThirdLabel, detailVC: detailClassVC, self: self)
     }
     
     /// setting informations
     func getTeacherInfo(){
         GetTeacherInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel)
-                
+        
         self.id = userEmail
         self.pw = userPW
         self.type = userType
@@ -297,42 +296,42 @@ public class HomeViewController: UIViewController {
         setStudentMyClasses()
     }
     
-//    func verifiedCheck() {
-//        getStudentInfo() // 학생 정보 받아오기
-//        getTeacherInfo() // 선생님 정보 받아오기
-//        // id와 pw 변수에 저장된 걸로 로그인 진행
-//        Auth.auth().signIn(withEmail: id, password: pw) { result, error in
-//            let check = Auth.auth().currentUser?.isEmailVerified // 이메일 인증 여부
-//            if error != nil {
-//                print(error!.localizedDescription)
-//            } else {
-//                if (check == false) {
-//                    self.verified = false // 인증 안 되었으면 false 설정
-//                    self.stateLabel.text = "이메일 인증이 진행중입니다."
-//                } else {
-//                    self.verified = true // 인증 되었으면 true 설정
-//                    if (Auth.auth().currentUser?.email != nil) {
-//                        if (self.type == "teacher") { // 선생님 계정이면
-//                            self.stateLabel.text = self.name + " 선생님 환영합니다!"
-//                            self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
-//                        } else if (self.type == "student") { // 학생 계정이면
-//                            self.stateLabel.text = self.name + " 학생 환영합니다!"
-//                            self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    //    func verifiedCheck() {
+    //        getStudentInfo() // 학생 정보 받아오기
+    //        getTeacherInfo() // 선생님 정보 받아오기
+    //        // id와 pw 변수에 저장된 걸로 로그인 진행
+    //        Auth.auth().signIn(withEmail: id, password: pw) { result, error in
+    //            let check = Auth.auth().currentUser?.isEmailVerified // 이메일 인증 여부
+    //            if error != nil {
+    //                print(error!.localizedDescription)
+    //            } else {
+    //                if (check == false) {
+    //                    self.verified = false // 인증 안 되었으면 false 설정
+    //                    self.stateLabel.text = "이메일 인증이 진행중입니다."
+    //                } else {
+    //                    self.verified = true // 인증 되었으면 true 설정
+    //                    if (Auth.auth().currentUser?.email != nil) {
+    //                        if (self.type == "teacher") { // 선생님 계정이면
+    //                            self.stateLabel.text = self.name + " 선생님 환영합니다!"
+    //                            self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
+    //                        } else if (self.type == "student") { // 학생 계정이면
+    //                            self.stateLabel.text = self.name + " 학생 환영합니다!"
+    //                            self.calendarView.isHidden = false // 캘린더 뷰 숨겨둔 거 보여주기
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
     
     // 인증 확인 버튼 클릭시 실행되는 메소드
-//    @IBAction func CheckVerification(_ sender: Any) {
-//        verifiedCheck() // 이메일 인증 여부 확인 메소드 실행
-//    }
+    //    @IBAction func CheckVerification(_ sender: Any) {
+    //        verifiedCheck() // 이메일 인증 여부 확인 메소드 실행
+    //    }
 }
 
 
-extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
+extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate, FSCalendarDelegateAppearance {
     // 날짜 선택 시 실행되는 메소드
     public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
@@ -354,7 +353,17 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
             return 0
         }
     }
+    
+    public func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
+        if sharedEvents.contains(date) {
+            return UIColor(red: 1, green: 104, blue: 255, alpha: 1)
+        } 
+        return nil
+    }
 }
 
 extension HomeViewController: FSCalendarDataSource {
 }
+
+
+
