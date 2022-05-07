@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Home.png",
+      "filename" : "Image.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -19,6 +19,7 @@
     "version" : 1
   },
   "properties" : {
+    "preserves-vector-representation" : true,
     "template-rendering-intent" : "original"
   }
 }
