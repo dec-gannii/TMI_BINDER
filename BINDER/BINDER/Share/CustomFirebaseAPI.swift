@@ -465,6 +465,7 @@ public func GetTeacherEvents(events : [Date], days : [Date], self : HomeViewCont
                             sharedEvents.append(date_d)
                             self.calendarView.reloadData()
                         }
+                        self.eventCountTxt.text = "\(sharedEvents.count)개의 일정"
                     }
                 }
             }
@@ -513,6 +514,7 @@ public func GetStudentEvents(events : [Date], days : [Date], self : HomeViewCont
                             sharedEvents.append(date_d)
                             self.calendarView.reloadData()
                         }
+                        self.eventCountTxt.text = "\(sharedEvents.count)개의 일정"
                     }
                 }
             }
@@ -522,7 +524,7 @@ public func GetStudentEvents(events : [Date], days : [Date], self : HomeViewCont
     }
 }
 
-public func GetTeacherInfo(days : [Date], homeStudentScrollView : UIScrollView, stateLabel : UILabel) {
+public func GetTeacherInfo(days : [Date], homeStudentScrollView : UIScrollView, stateLabel : UILabel, self: HomeViewController) {
     let db = Firestore.firestore()
     // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
     db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
@@ -564,6 +566,8 @@ public func GetTeacherInfo(days : [Date], homeStudentScrollView : UIScrollView, 
                             
                             sharedEvents.append(date_d)
                         }
+                        
+                        self.eventCountTxt.text = "\(sharedEvents.count)개의 일정"
                     }
                 }
             }
@@ -574,7 +578,7 @@ public func GetTeacherInfo(days : [Date], homeStudentScrollView : UIScrollView, 
     }
 }
 
-public func GetStudentInfo(days : [Date], homeStudentScrollView : UIScrollView, stateLabel : UILabel) {
+public func GetStudentInfo(days : [Date], homeStudentScrollView : UIScrollView, stateLabel : UILabel, self: HomeViewController) {
     let db = Firestore.firestore()
     
     db.collection("student").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
@@ -617,6 +621,7 @@ public func GetStudentInfo(days : [Date], homeStudentScrollView : UIScrollView, 
                             
                             sharedEvents.append(date_d)
                         }
+                        self.eventCountTxt.text = "\(sharedEvents.count)개의 일정"
                     }
                 }
             }

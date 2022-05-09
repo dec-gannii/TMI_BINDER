@@ -175,9 +175,8 @@ public class HomeViewController: UIViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        GetTeacherEvents(events: self.events, days: self.days, self: self)
-        GetStudentEvents(events: self.events, days: self.days, self: self)
+        getTeacherInfo()
+        getStudentInfo()
     }
     
     public override func viewDidLoad() {
@@ -188,9 +187,6 @@ public class HomeViewController: UIViewController {
         self.homeStudentClassTxt.isHidden = true
 
         setUpDays(self.today)
-        
-        getTeacherInfo()
-        getStudentInfo()
         
         calendarView.delegate = self
         textView.clipsToBounds = true
@@ -283,7 +279,7 @@ public class HomeViewController: UIViewController {
     
     /// setting informations
     func getTeacherInfo(){
-        GetTeacherInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel)
+        GetTeacherInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel, self: self)
         
         self.id = userEmail
         self.pw = userPW
@@ -292,7 +288,7 @@ public class HomeViewController: UIViewController {
     }
     
     func getStudentInfo(){
-        GetStudentInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel)
+        GetStudentInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel, self: self)
         
         self.id = userEmail
         self.pw = userPW
