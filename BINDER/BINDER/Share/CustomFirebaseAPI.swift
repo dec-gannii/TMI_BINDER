@@ -286,6 +286,7 @@ public func GetTeacherMyClass(self : HomeViewController) {
                         buttons[count]!.isHidden = false
                         labels[count]!.isHidden = false
                         subjectLabels[count]!.text = subject
+                        subjectLabels[count]!.isHidden = false
                         count = count + 1
                     }
                 } else {
@@ -296,6 +297,7 @@ public func GetTeacherMyClass(self : HomeViewController) {
                         buttons[count]!.isHidden = false
                         labels[count]!.isHidden = false
                         subjectLabels[count]!.text = subject
+                        subjectLabels[count]!.isHidden = false
                         count = count + 1
                     }
                 }
@@ -328,6 +330,7 @@ public func GetStudentMyClass(self : HomeViewController) {
                         buttons[count]!.isHidden = false
                         labels[count]!.isHidden = false
                         subjectLabels[count]!.text = subject
+                        subjectLabels[count]!.isHidden = false
                         count = count + 1
                     }
                 } else {
@@ -338,6 +341,7 @@ public func GetStudentMyClass(self : HomeViewController) {
                         buttons[count]!.isHidden = false
                         labels[count]!.isHidden = false
                         subjectLabels[count]!.text = subject
+                        subjectLabels[count]!.isHidden = false
                         count = count + 1
                     }
                 }

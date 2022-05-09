@@ -183,6 +183,10 @@ public class HomeViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.homeStudentClassTxt3.isHidden = true
+        self.homeStudentClassTxt2.isHidden = true
+        self.homeStudentClassTxt.isHidden = true
+
         setUpDays(self.today)
         
         getTeacherInfo()
