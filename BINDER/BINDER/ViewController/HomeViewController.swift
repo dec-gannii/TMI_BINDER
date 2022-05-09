@@ -77,8 +77,8 @@ public class HomeViewController: UIViewController {
         
         self.setUpDays(date!)
         
-        GetTeacherEvents(events: self.events, days: self.days, calendarView: self.calendarView)
-        GetStudentEvents(events: self.events, days: self.days, calendarView: self.calendarView)
+        GetTeacherEvents(events: self.events, days: self.days, self: self)
+        GetStudentEvents(events: self.events, days: self.days, self: self)
     }
     
     private func scrollCurrentPage(isPrev: Bool) {
@@ -176,8 +176,8 @@ public class HomeViewController: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        GetTeacherEvents(events: self.events, days: self.days, calendarView: self.calendarView)
-        GetStudentEvents(events: self.events, days: self.days, calendarView: self.calendarView)
+        GetTeacherEvents(events: self.events, days: self.days, self: self)
+        GetStudentEvents(events: self.events, days: self.days, self: self)
     }
     
     public override func viewDidLoad() {
@@ -357,8 +357,9 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
     public func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
         if sharedEvents.contains(date) {
             return UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        } 
-        return nil
+        } else {
+            return nil
+        }
     }
 }
 

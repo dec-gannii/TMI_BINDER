@@ -270,6 +270,7 @@ public func GetTeacherMyClass(self : HomeViewController) {
     let db = Firestore.firestore()
     let labels = [self.HomeStudentIconLabel, self.HomeStudentIconSecondLabel, self.HomeStudentIconThirdLabel]
     let buttons = [self.firstLinkBtn, self.secondLinkBtn, self.thirdLinkBtn]
+    let subjectLabels = [self.homeStudentClassTxt2, self.homeStudentClassTxt3, self.homeStudentClassTxt]
     
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
         if let err = err {
@@ -280,17 +281,21 @@ public func GetTeacherMyClass(self : HomeViewController) {
                 if ((querySnapshot?.documents.count)! >= 3) {
                     if count <= 2 {
                         let name = document.data()["name"] as? String ?? ""
+                        let subject = document.data()["subject"] as? String ?? ""
                         labels[count]!.text = name
                         buttons[count]!.isHidden = false
                         labels[count]!.isHidden = false
+                        subjectLabels[count]!.text = subject
                         count = count + 1
                     }
                 } else {
                     if count < (querySnapshot?.documents.count)! {
                         let name = document.data()["name"] as? String ?? ""
+                        let subject = document.data()["subject"] as? String ?? ""
                         labels[count]!.text = name
                         buttons[count]!.isHidden = false
                         labels[count]!.isHidden = false
+                        subjectLabels[count]!.text = subject
                         count = count + 1
                     }
                 }
@@ -306,6 +311,7 @@ public func GetStudentMyClass(self : HomeViewController) {
     let db = Firestore.firestore()
     let labels = [self.HomeStudentIconLabel, self.HomeStudentIconSecondLabel, self.HomeStudentIconThirdLabel]
     let buttons = [self.firstLinkBtn, self.secondLinkBtn, self.thirdLinkBtn]
+    let subjectLabels = [self.homeStudentClassTxt2, self.homeStudentClassTxt3, self.homeStudentClassTxt]
     
     db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
         if let err = err {
@@ -316,17 +322,22 @@ public func GetStudentMyClass(self : HomeViewController) {
                 if ((querySnapshot?.documents.count)! >= 3) {
                     if count <= 2 {
                         let name = document.data()["name"] as? String ?? ""
+                        let subject = document.data()["subject"] as? String ?? ""
+                        let index = document.data()["index"] as? Int ?? 0
                         labels[count]!.text = name
                         buttons[count]!.isHidden = false
                         labels[count]!.isHidden = false
+                        subjectLabels[count]!.text = subject
                         count = count + 1
                     }
                 } else {
                     if count < (querySnapshot?.documents.count)! {
                         let name = document.data()["name"] as? String ?? ""
+                        let subject = document.data()["subject"] as? String ?? ""
                         labels[count]!.text = name
                         buttons[count]!.isHidden = false
                         labels[count]!.isHidden = false
+                        subjectLabels[count]!.text = subject
                         count = count + 1
                     }
                 }
@@ -338,15 +349,13 @@ public func GetStudentMyClass(self : HomeViewController) {
 
 public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLabel : UILabel, thirdLabel : UILabel, detailVC : DetailClassViewController, self : HomeViewController) {
     let db = Firestore.firestore()
+    let labels = [self.HomeStudentIconLabel, self.HomeStudentIconSecondLabel, self.HomeStudentIconThirdLabel]
+    let subjectLabels = [self.homeStudentClassTxt2, self.homeStudentClassTxt3, self.homeStudentClassTxt]
+    
     if (userType == "teacher") {
         // 설정해둔 버튼의 태그에 따라서 레이블의 이름을 가지고 비교 후 학생 관리 페이지로 넘어가기
-        if ((sender as AnyObject).tag == 0) {
-            linkBtnName = firstLabel.text!
-        } else if ((sender as AnyObject).tag == 1) {
-            linkBtnName = secondLabel.text!
-        } else if ((sender as AnyObject).tag == 2) {
-            linkBtnName = thirdLabel.text!
-        }
+        linkBtnName = labels[(sender as AnyObject).tag]!.text!
+        linkBtnSubject = subjectLabels[(sender as AnyObject).tag]!.text!
         
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("name", isEqualTo: linkBtnName).getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -355,9 +364,13 @@ public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLa
                 for document in querySnapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
                     // 사용할 것들 가져와서 지역 변수로 저장
-                    linkBtnIndex = document.data()["index"] as? Int ?? 0
                     linkBtnEmail = document.data()["email"] as? String ?? ""
-                    linkBtnSubject = document.data()["subject"] as? String ?? ""
+                    let subject = document.data()["subject"] as? String ?? ""
+                    if (linkBtnSubject != subject) {
+                        continue
+                    } else {
+                        linkBtnIndex = document.data()["index"] as? Int ?? 0
+                    }
                 }
                 
                 detailVC.userName = linkBtnName
@@ -374,13 +387,8 @@ public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLa
         }
     } else {
         // 설정해둔 버튼의 태그에 따라서 레이블의 이름을 가지고 비교 후 학생 관리 페이지로 넘어가기
-        if ((sender as AnyObject).tag == 0) {
-            linkBtnName = firstLabel.text!
-        } else if ((sender as AnyObject).tag == 1) {
-            linkBtnName = secondLabel.text!
-        } else if ((sender as AnyObject).tag == 2) {
-            linkBtnName = thirdLabel.text!
-        }
+        linkBtnName = labels[(sender as AnyObject).tag]!.text!
+        linkBtnSubject = subjectLabels[(sender as AnyObject).tag]!.text!
         
         db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("name", isEqualTo: linkBtnName).getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -389,9 +397,13 @@ public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLa
                 for document in querySnapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
                     // 사용할 것들 가져와서 지역 변수로 저장
-                    linkBtnIndex = document.data()["index"] as? Int ?? 0
                     linkBtnEmail = document.data()["email"] as? String ?? ""
-                    linkBtnSubject = document.data()["subject"] as? String ?? ""
+                    let subject = document.data()["subject"] as? String ?? ""
+                    if (linkBtnSubject != subject) {
+                        continue
+                    } else {
+                        linkBtnIndex = document.data()["index"] as? Int ?? 0
+                    }
                 }
                 
                 detailVC.userName = linkBtnName
@@ -410,7 +422,7 @@ public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLa
 }
 
 
-public func GetTeacherEvents(events : [Date], days : [Date], calendarView : FSCalendar) {
+public func GetTeacherEvents(events : [Date], days : [Date], self : HomeViewController) {
     let db = Firestore.firestore()
     // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
     db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
@@ -447,7 +459,7 @@ public func GetTeacherEvents(events : [Date], days : [Date], calendarView : FSCa
                             formatter.dateFormat = "YYYY-MM-dd"
                             let date_d = formatter.date(from: date)!
                             sharedEvents.append(date_d)
-                            calendarView.reloadData()
+                            self.calendarView.reloadData()
                         }
                     }
                 }
@@ -456,10 +468,9 @@ public func GetTeacherEvents(events : [Date], days : [Date], calendarView : FSCa
             print("Document does not exist")
         }
     }
-    calendarView.reloadData()
 }
 
-public func GetStudentEvents(events : [Date], days : [Date], calendarView : FSCalendar) {
+public func GetStudentEvents(events : [Date], days : [Date], self : HomeViewController) {
     let db = Firestore.firestore()
     
     // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
@@ -496,7 +507,7 @@ public func GetStudentEvents(events : [Date], days : [Date], calendarView : FSCa
                             formatter.dateFormat = "YYYY-MM-dd"
                             let date_d = formatter.date(from: date)!
                             sharedEvents.append(date_d)
-                            calendarView.reloadData()
+                            self.calendarView.reloadData()
                         }
                     }
                 }
@@ -505,7 +516,6 @@ public func GetStudentEvents(events : [Date], days : [Date], calendarView : FSCa
             print("Document does not exist")
         }
     }
-    calendarView.reloadData()
 }
 
 public func GetTeacherInfo(days : [Date], homeStudentScrollView : UIScrollView, stateLabel : UILabel) {
@@ -3419,7 +3429,7 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                                             self.userName = name
                                             self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
                                             self.userEmail = document.data()["email"] as? String ?? ""
-                                            self.userSubject = document.data()["subject"] as? String ?? ""
+//                                            self.userSubject = document.data()["subject"] as? String ?? ""
                                             self.monthlyEvaluationQuestionLabel.text = "이번 달 " + self.userName + " 학생은 전반적으로 어땠나요?"
                                             self.classNavigationBar.topItem!.title = self.userName + " 학생"
                                             
