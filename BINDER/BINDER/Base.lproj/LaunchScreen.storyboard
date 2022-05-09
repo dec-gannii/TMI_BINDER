@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,16 +17,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_whiteBG" translatesAutoresizingMaskIntoConstraints="NO" id="rJB-Jw-Z8c">
-                                <rect key="frame" x="87" y="328" width="240" height="240"/>
+                                <rect key="frame" x="140" y="244" width="134" height="106"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash_Text" translatesAutoresizingMaskIntoConstraints="NO" id="evT-98-EUy">
+                                <rect key="frame" x="140" y="650" width="134" height="26"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rJB-Jw-Z8c" secondAttribute="trailing" constant="87" id="R5u-VK-Dlj"/>
-                            <constraint firstItem="rJB-Jw-Z8c" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="284" id="aSF-3t-a6F"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rJB-Jw-Z8c" secondAttribute="bottom" constant="294" id="k0b-iF-Vdk"/>
-                            <constraint firstItem="rJB-Jw-Z8c" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="r2q-aH-TzG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rJB-Jw-Z8c" secondAttribute="trailing" constant="140" id="Bcb-hv-p6L"/>
+                            <constraint firstItem="evT-98-EUy" firstAttribute="top" secondItem="rJB-Jw-Z8c" secondAttribute="bottom" constant="300" id="DRa-ac-Wpt"/>
+                            <constraint firstItem="rJB-Jw-Z8c" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="200" id="Qh2-QY-L3Z"/>
+                            <constraint firstItem="rJB-Jw-Z8c" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="140" id="YWr-09-26J"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="evT-98-EUy" secondAttribute="trailing" constant="140" id="fJ8-qW-Iav"/>
+                            <constraint firstItem="evT-98-EUy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="140" id="wom-Bt-I0g"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -36,7 +41,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo_whiteBG" width="232" height="232"/>
+        <image name="Splash_Text" width="70" height="26"/>
+        <image name="logo_whiteBG" width="83" height="106"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
