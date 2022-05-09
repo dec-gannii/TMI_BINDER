@@ -2790,6 +2790,10 @@ public func GetStudentDailyEvaluations (self : ParentDetailEvaluationViewControl
                                                     print("\(document.documentID) => \(document.data())")
                                                     let subject = document.data()["subject"] as? String ?? ""
                                                     
+                                                    if subject != self.subject {
+                                                        continue
+                                                    }
+                                                    
                                                     for index in 1...self.days.count-1 {
                                                         let tempDay = "\(self.days[index])"
                                                         let dateWithoutDays = tempDay.components(separatedBy: " ")
