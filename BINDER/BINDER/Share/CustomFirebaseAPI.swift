@@ -2712,7 +2712,9 @@ public func GetStudentMonthlyEvaluations(self : ParentDetailEvaluationViewContro
                     print(">>>>> document 에러 : \(err)")
                 } else {
                     // 현재로 설정된 달의 월말 평가가 등록되지 않은 경우
-                    self.monthlyEvaluationTextView.text = "\(self.month)달 월말 평가가 등록되지 않았습니다."
+                    if let month = self.month {
+                        self.monthlyEvaluationTextView.text = "\(month)달 월말 평가가 등록되지 않았습니다."
+                    }
                     
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
@@ -5048,7 +5050,7 @@ public func GetParentInfoForParentDetailVC(self : ParentDetailEvaluationViewCont
                     print(">>>>> document 에러 : \(err)")
                 } else {
                     // 현재로 설정된 달의 월말 평가가 등록되지 않은 경우
-                    self.monthlyEvaluationTextView.text = "\(self.month)달 월말 평가가 등록되지 않았습니다."
+                    self.monthlyEvaluationTextView.text = "\(self.month!)달 월말 평가가 등록되지 않았습니다."
                     
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")

@@ -50,10 +50,7 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         teacherEmail = ""
         subject = ""
         index = 0
-        month = ""
         studentName = ""
-        events = []
-        days = []
     }
     
     @IBAction func prevBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: true) }
@@ -73,6 +70,7 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setCalendar()
+        GetParentInfoForParentDetailVC(self: self)
         GetStudentMonthlyEvaluations(self: self)
         GetStudentDailyEvaluations(self: self)
     }
@@ -130,7 +128,9 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        setUpDays(self.today)
+        
+        events = []
+        self.days = setUpDays(self.today)
         
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
         monthlyEvaluationTextView.textContainerInset = viewDesign.EdgeInsets
@@ -216,7 +216,7 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         self.monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
         let date = self.dateFormatter.date(from: self.monthLabel.text!)
         
-        setUpDays(date!)
+        self.days = setUpDays(date!)
         GetStudentDailyEvaluations(self: self)
 
     }
