@@ -12,7 +12,7 @@ import Kingfisher
 import FirebaseStorage
 import Photos
 
-class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+public class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     @IBOutlet weak var pageView: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -32,14 +32,13 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         storageRef = storage.reference()
         openPortfolioSwitch.onTintColor = viewDesign.titleColor
-        getUserInfo()
-        getPortfolioShow()
-        portfoiolBtn.layer.cornerRadius = viewDesign.viewconerRadius
-        viewDecorating(view: pageView, design: viewDesign)
+        GetUserInfoForMyPage(self: self)
+        GetPortfolioShow(self: self)
+        viewDecorating()
         imageChange()
     }
     
@@ -71,97 +70,8 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
         self.present(alert, animated: true, completion: nil)
     }
     
-    func getUserInfo(){
-        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
-            if let document = document, document.exists {
-                LoginRepository.shared.doLogin {
-                    self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
-                    self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
-                    self.type = "teacher"
-                    let url = URL(string: LoginRepository.shared.teacherItem!.profile)!
-                    self.imageView.kf.setImage(with: url)
-                    self.imageView.makeCircle()
-                } failure: { error in
-                    self.showDefaultAlert(msg: "")
-                }
-            } else {
-                self.db.collection("student").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        let data = document.data()
-                        let userName = data?["name"] as? String ?? ""
-                        self.nameLabel.text = "\(userName) 학생"
-                        let userEmail = data?["email"] as? String ?? ""
-                        self.teacherEmail.text = userEmail
-                        let profile =  data?["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
-                        let goal = data?["goal"] as? String ?? "목표를 작성하지 않았습니다."
-                        self.type = "student"
-                        let url = URL(string: profile)!
-                        self.imageView.kf.setImage(with: url)
-                        self.imageView.makeCircle()
-                        self.portfoiolBtn.layer.cornerRadius = self.viewDesign.viewconerRadius
-                        viewDecorating(view: self.pageView, design: self.viewDesign)
-                        self.openPortfolioSwitch.removeFromSuperview()
-                        self.portfoiolBtn.removeFromSuperview()
-                        self.pageViewTitleLabel.text = "목표"
-                        self.pageViewContentLabel.text = goal
-                        self.pageViewContentLabel.numberOfLines = 2
-                        
-                        self.pageViewContentLabel.rightAnchor.constraint(equalTo: self.pageView.rightAnchor
-                                    , constant: -20).isActive = true
-                        self.pageViewTitleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
-                        self.pageViewTitleLabel.topAnchor.constraint(equalTo: self.pageView.topAnchor
-                                    , constant: 20).isActive = true
-                        self.pageView.heightAnchor.constraint(equalToConstant: 120)
-                                    .isActive = true
-                    } else {
-                        print("Document does not exist")
-                    }
-                }
-            }
-        }
-    }
-    
-    func getPortfolioShow() {
-        let docRef = db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio")
-        
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                
-                let isShowOK = data?["portfolioShow"] as? String ?? ""
-                if (isShowOK == "On") {
-                    self.openPortfolioSwitch.setOn(true, animated: true)
-                } else {
-                    self.openPortfolioSwitch.setOn(false, animated: true)
-                }
-                
-                print("Document data: \(dataDescription)")
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
-    
     @IBAction func ShowProtfolioBtnClicked(_ sender: Any) {
-        if (self.openPortfolioSwitch.isOn) {
-            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").updateData([
-                "portfolioShow": "On"
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                }
-            }
-        } else {
-            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").updateData([
-                "portfolioShow": "Off"
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                }
-            }
-        }
-        
+        PortfolioToggleButtonClicked(self: self)
     }
     
     @IBAction func LogOutBtnClicked(_ sender: Any) {
@@ -202,7 +112,7 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
     }
     */
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         imagePicker.dismiss(animated: true, completion: nil)
         
         guard let selectedImage = info[.originalImage] as? UIImage else {
@@ -214,41 +124,6 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
         }
         
         imageView.image = selectedImage
-        saveImage()
-    }
-    
-    func saveImage(){
-        let image = imageView.image!
-        if let data = image.pngData(){
-            let urlRef = storageRef.child("image/\(profile!).png")
-            
-            let metadata = StorageMetadata()
-            metadata.contentType = "image/png"
-            let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-                guard let metadata = metadata else {
-                    return
-                }
-                
-                urlRef.downloadURL { (url, error) in
-                    guard let downloadURL = url else {
-                        return
-                    }
-                    
-                    self.db.collection(self.type).document(Auth.auth().currentUser!.uid).updateData([
-                        "profile":"\(downloadURL)",
-                    ]) { err in
-                        if let err = err {
-                            print("Error adding document: \(err)")
-                        }
-                    }
-                    if (self.type == "teacher") {
-                        LoginRepository.shared.teacherItem?.profile = "\(downloadURL)"
-                    } else if (self.type == "student") {
-                        LoginRepository.shared.studentItem?.profile = "\(downloadURL)"
-                    }
-                }
-            }
-        }
+        SaveImage(self: self)
     }
 }
-

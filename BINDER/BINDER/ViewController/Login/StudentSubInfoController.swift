@@ -10,13 +10,13 @@ import Firebase
 import FirebaseAuth
 import FirebaseDatabase
 
-class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     let db = Firestore.firestore()
     var ref: DatabaseReference!
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
     
@@ -39,7 +39,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
     var pw: Int = 0
     var tpassword: String = ""
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
         
@@ -105,23 +105,23 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
         return emailPred.evaluate(with: email)
     }
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return agelist.count
     }
     
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         age = agelist[row]
         return agelist[row]
     }
     
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         ageShowPicker.text = agelist[row]
     }
     
@@ -159,45 +159,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
     
     @IBAction func goSignInPage(_ sender: Any) {
         let user = Auth.auth().currentUser // 사용자 정보 가져오기
-        
-        user?.delete { error in
-            if let error = error {
-                // An error happened.
-                print("delete user error : \(error)")
-            } else {
-                // Account deleted.
-                // 선생님 학생 학부모이냐에 관계 없이 DB에 저장된 정보 삭제
-                var docRef = self.db.collection("teacher").document(user!.uid)
-                
-                docRef.delete() { err in
-                    if let err = err {
-                        print("Error removing document: \(err)")
-                    } else {
-                        print("Document successfully removed!")
-                    }
-                }
-                
-                docRef = self.db.collection("student").document(user!.uid)
-                
-                docRef.delete() { err in
-                    if let err = err {
-                        print("Error removing document: \(err)")
-                    } else {
-                        print("Document successfully removed!")
-                    }
-                }
-                
-                docRef = self.db.collection("parent").document(user!.uid)
-                
-                docRef.delete() { err in
-                    if let err = err {
-                        print("Error removing document: \(err)")
-                    } else {
-                        print("Document successfully removed!")
-                    }
-                }
-            }
-        }
+        DeleteUser(self: self)
         // 로그인 화면(첫화면)으로 다시 이동
         guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
         loginVC.modalPresentationStyle = .fullScreen
@@ -227,7 +189,6 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                     thirdPart += String(char)
                 }
                 count = count + 1
-                
             }
             phoneNumberWithDash = firstPart + " - " + secondPart + " - " + thirdPart
         }
@@ -241,20 +202,14 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             } else {
                 // 데이터 저장
                 ageAlertLabel.isHidden = true
-                db.collection("teacher").document(Auth.auth().currentUser!.uid).updateData([
-                    "parentPW": ageShowPicker.text!
-                ]) { err in
-                    if let err = err {
-                        print("Error adding document: \(err)")
-                    }
-                }
+                UpdateTeacherSubInfo(parentPW: ageShowPicker.text!)
                 guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else { return }
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 self.present(tb, animated: true, completion: nil)
             }
         } else if (type == "student") {
             if age == "0" {
-                ageAlertLabel.text = "나이대가 어떻게 되는지 선택해주세요."
+                ageAlertLabel.text = "나이대를 선택해주세요."
                 ageAlertLabel.isHidden = false
             }
             else if phonenum == "" {
@@ -274,16 +229,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
                 phoneAlertLabel.isHidden = true
                 ageAlertLabel.isHidden = true
                 // 데이터 저장
-                
-                db.collection("student").document(Auth.auth().currentUser!.uid).updateData([
-                    "age": age,
-                    "phonenum": phoneNumberWithDash,
-                    "goal": goal
-                ]) { err in
-                    if let err = err {
-                        print("Error adding document: \(err)")
-                    }
-                }
+                UpdateStudentSubInfo(age: age, phonenum: phoneNumberWithDash, goal: goal)
                 guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else { return }
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 self.present(tb, animated: true, completion: nil)
@@ -292,77 +238,7 @@ class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerV
             // 선생님 이메일 이용한 비밀번호 받아오기
             
             if(isValidEmail(goal)){
-                db.collection("teacher").whereField("email", isEqualTo: goal).getDocuments() { (querySnapshot, err) in
-                    if let err = err {
-                        print(">>>>> document 에러 : \(err)")
-                    } else {
-                        guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                            return
-                        }
-                        for document in querySnapshot!.documents {
-                            // 선생님 비밀번호
-                            self.tpassword = document.data()["parentPW"] as? String ?? ""
-                            print("안쪽 선생님 비밀번호 : \(self.tpassword)")
-                            
-                            if self.phonenum == "" {
-                                self.phoneAlertLabel.text = "전화번호를 작성해주세요."
-                                self.phoneAlertLabel.isHidden = false
-                            }
-                            else if ((self.phonenumTextField.text!.contains("-") && self.phonenumTextField.text!.count >= 15) || (self.phonenumTextField.text!.count >= 12 && !self.phonenumTextField.text!.contains("-"))) {
-                                self.phoneAlertLabel.text = StringUtils.phoneNumAlert.rawValue
-                                self.phoneAlertLabel.isHidden = false
-                            }
-                            else if self.tpassword != self.ageShowPicker.text! {
-                                self.ageAlertLabel.text = StringUtils.tEmailNotMatch.rawValue
-                                self.ageAlertLabel.isHidden = false
-                            }
-                            else {
-                                self.goalAlertLabel.isHidden = true
-                                self.phoneAlertLabel.isHidden = true
-                                self.ageAlertLabel.isHidden = true
-                                
-                                if phoneNumberWithDash != ""{
-                                    // 학생 번호가 선생님과 연결된것이 맞다면 데이터 저장
-                                    self.db.collection("student").whereField("phonenum", isEqualTo: phoneNumberWithDash).getDocuments() { (querySnapshot, err) in
-                                        if let err = err {
-                                            print(">>>>> document 에러 : \(err)")
-                                            self.phoneAlertLabel.text = StringUtils.phoneNumAlert.rawValue
-                                            self.phoneAlertLabel.isHidden = false
-                                        } else {
-                                            guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
-                                                return
-                                            }
-                                            for document in querySnapshot!.documents {
-                                                var sphonenum = document.data()["phonenum"] as? String ?? ""
-                                                
-                                                if sphonenum == phoneNumberWithDash {
-                                                    self.db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
-                                                        "teacherEmail": self.goal,
-                                                        "childPhoneNumber": phoneNumberWithDash                ]) { err in
-                                                            if let err = err {
-                                                                print("Error adding document: \(err)")
-                                                            }
-                                                        }
-                                                    
-                                                    guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
-                                                    tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                                                    self.present(tb, animated: true, completion: nil)
-                                                } else {
-                                                    self.phoneAlertLabel.text = StringUtils.phoneNumAlert.rawValue
-                                                    self.phoneAlertLabel.isHidden = false
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                else {
-                                    self.phoneAlertLabel.text = StringUtils.phoneNumAlert.rawValue
-                                    self.phoneAlertLabel.isHidden = false
-                                }
-                            }
-                        }
-                    }
-                }
+                CheckStudentPhoneNumberForParent(phoneNumber: phoneNumberWithDash, self: self, goal: goal)
             } else {
                 goalAlertLabel.text = StringUtils.emailValidationAlert.rawValue
                 ageAlertLabel.isHidden = false

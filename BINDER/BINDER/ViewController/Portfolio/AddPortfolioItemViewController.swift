@@ -94,14 +94,7 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
             } else if (data == manageBtn.titleLabel!.text) {
                 title = "manage"
             }
-            
-            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").updateData([
-                "\(title)": content
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                }
-            }
+            AddPortfolioFactors(title: title, content: content)
             dismiss(animated: true, completion: nil)
         } else {
             print("Document does not exist")
