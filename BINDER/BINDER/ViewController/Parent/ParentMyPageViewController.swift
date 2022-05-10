@@ -14,6 +14,7 @@ import FirebaseFirestore
 
 // 학부모 버전의 myPage 화면
 class ParentMyPageViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+   
     let db = Firestore.firestore()
     let imagePicker: UIImagePickerController! = UIImagePickerController()
     let storage = Storage.storage()
@@ -36,7 +37,7 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
     
     override func viewWillAppear(_ animated: Bool) {
         getUserInfo() // 사용자 정보 가져오기
-        viewDecorating() // 학생 전화번호 배경 view 커스터마이징
+        viewDecorating(view: childInfoBackgroundView, design: viewDesign) // 학생 전화번호 배경 view 커스터마이징
     }
     
     /// 학생 전화번호 삭제 버튼 클릭 시 실행
@@ -104,7 +105,7 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
         
         self.present(settingVC, animated: true, completion: nil)
     }
-    
+    /*
     // 자녀 정보 background view 커스터마이징 해주기
     func viewDecorating(){
         childInfoBackgroundView.layer.cornerRadius = viewDesign.childViewconerRadius
@@ -114,7 +115,7 @@ class ParentMyPageViewController: UIViewController, UIImagePickerControllerDeleg
         childInfoBackgroundView.layer.shadowRadius = viewDesign.shadowRadius
         childInfoBackgroundView.layer.shadowOpacity = viewDesign.shadowOpacity
     }
-    
+    */
     /// 사용자 정보 가져오기
     func getUserInfo() {
         let db = Firestore.firestore()

@@ -34,22 +34,22 @@ class DetailClassViewController: UIViewController {
     var userSubject: String!
     var userName: String!
     var userType: String!
-    var currentCnt: Int = 0
+    var currentCnt: Int!
     var days: [String]!
     var scores: [Double]!
-    let floatValue: [CGFloat] = [5,5]
+    var floatValue: [CGFloat]!
     var barColors = [UIColor]()
-    var count = 0
+    var count: Int!
     var todos = Array<String>()
     var todoCheck = Array<Bool>()
     var todoDoc = Array<String>()
-    var bRec:Bool = false
+    var bRec: Bool!
     var date: String!
     var selectedMonth: String!
     var userIndex: Int!
     var keyHeight: CGFloat?
-    var checkTime: Bool = false
-    var dateStrWithoutDays: String = ""
+    var checkTime: Bool!
+    var dateStrWithoutDays: String!
     var teacherUid: String!
     var studentName: String!
     var studentEmail: String!
@@ -73,17 +73,50 @@ class DetailClassViewController: UIViewController {
     @IBOutlet weak var monthlyEvaluationOKBtn: UIButton!
     @IBOutlet weak var calendarHeight: NSLayoutConstraint!
     
+    func _init(){
+        userEmail = ""
+        userSubject = ""
+        userName = ""
+        userType = ""
+        currentCnt = 0
+        days = []
+        scores = []
+        floatValue = [5,5]
+        barColors = []
+        count = 0
+        todos = []
+        todoCheck = []
+        todoDoc = []
+        bRec = false
+        date = ""
+        selectedMonth = ""
+        userIndex = 0
+        keyHeight = 0.0
+        checkTime = false
+        dateStrWithoutDays = ""
+        teacherUid = ""
+        studentName = ""
+        studentEmail = ""
+        
+    }
+    
     /// Load View
     override func viewWillAppear(_ animated: Bool) {
         getScores()
         getUserInfo()
         
-        self.calendarText()
-        self.calendarColor()
+        calendarView.scope = .week
+        calendarText(view: calendarView, design: calenderDesign)
+        calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
         
-        allRound()
-        barColorSetting()
+        
+        okButton.clipsToBounds = true
+        plusButton.clipsToBounds = true
+        let roundViews: Array<AnyObject> = [
+            plusButton,evaluationView,monthlyEvaluationBackgroundView,monthlyEvaluationTextView,progressTextView,evaluationMemoTextView,evaluationOKBtn,monthlyEvaluationOKBtn]
+        allRound(views:roundViews,design: btnDesign)
+        barColors = barColorSetting(design: chartDesign)
     }
     
     override func viewDidLoad() {
@@ -105,7 +138,8 @@ class DetailClassViewController: UIViewController {
         self.progressTextView.textColor = .black
         self.evaluationMemoTextView.textColor = .black
         
-        setBorder()
+        let textViews:Array<UITextView> = [progressTextView,evaluationMemoTextView,monthlyEvaluationTextView]
+        setBorder(views: textViews, design: viewDesign)
         
         evaluationView.isHidden = true
         evaluationOKBtn.isHidden = true
@@ -127,7 +161,7 @@ class DetailClassViewController: UIViewController {
         }
         super.viewDidLoad()
     }
-    
+   /*
     /// UI setting
     func setBorder() {
         self.progressTextView.layer.borderWidth = viewDesign.borderWidth
@@ -138,24 +172,8 @@ class DetailClassViewController: UIViewController {
         self.monthlyEvaluationTextView.layer.borderColor = viewDesign.borderColor
     }
     
-    func allRound() {
-        okButton.clipsToBounds = true
-        okButton.layer.cornerRadius = btnDesign.cornerRadius
-        plusButton.clipsToBounds = true
-        plusButton.layer.cornerRadius = btnDesign.cornerRadius
-        evaluationView.layer.cornerRadius = btnDesign.cornerRadius
-        monthlyEvaluationBackgroundView.layer.cornerRadius = btnDesign.cornerRadius
-        monthlyEvaluationTextView.layer.cornerRadius = btnDesign.cornerRadius
-        progressTextView.layer.cornerRadius = btnDesign.cornerRadius
-        evaluationMemoTextView.layer.cornerRadius = btnDesign.cornerRadius
-        evaluationOKBtn.layer.cornerRadius = btnDesign.cornerRadius
-        monthlyEvaluationOKBtn.layer.cornerRadius = btnDesign.cornerRadius
-    }
-    
     /// calendar custom
     func calendarColor() {
-        
-        calendarView.scope = .week
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
         calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
@@ -180,6 +198,93 @@ class DetailClassViewController: UIViewController {
         calendarView.locale = Locale(identifier: "ko_KR")
         calendarView.weekdayHeight = CGFloat(calenderDesign.weekdayHeight)
     }
+   
+    func allRound() {
+        okButton.clipsToBounds = true
+        okButton.layer.cornerRadius = btnDesign.cornerRadius
+        plusButton.clipsToBounds = true
+        plusButton.layer.cornerRadius = btnDesign.cornerRadius
+        evaluationView.layer.cornerRadius = btnDesign.cornerRadius
+        monthlyEvaluationBackgroundView.layer.cornerRadius = btnDesign.cornerRadius
+        monthlyEvaluationTextView.layer.cornerRadius = btnDesign.cornerRadius
+        progressTextView.layer.cornerRadius = btnDesign.cornerRadius
+        evaluationMemoTextView.layer.cornerRadius = btnDesign.cornerRadius
+        evaluationOKBtn.layer.cornerRadius = btnDesign.cornerRadius
+        monthlyEvaluationOKBtn.layer.cornerRadius = btnDesign.cornerRadius
+    }
+    
+    /// bar chart UI setting
+    func barColorSetting(){
+        barColors.append(chartDesign.chartColor_60)
+        barColors.append(chartDesign.chartColor_70)
+        barColors.append(chartDesign.chartColor_80)
+        barColors.append(chartDesign.chartColor_90)
+        barColors.append(chartDesign.chartColor_100)
+    }
+    
+    func setChart(dataPoints: [String], values: [Double]) {
+        // 데이터 생성
+        var dataEntries: [BarChartDataEntry] = []
+        for i in 0..<dataPoints.count {
+            let dataEntry = BarChartDataEntry(x: Double(i), y: values[i])
+            dataEntries.append(dataEntry)
+        }
+        
+        if (dataEntries.count < 4) {
+            for i in dataPoints.count...3 {
+                dataEntries.append(BarChartDataEntry(x: Double(i), y: 0))
+            }
+        }
+        let chartDataSet = BarChartDataSet(entries: dataEntries, label: "성적 그래프")
+        
+        // 차트 컬러
+        chartDataSet.colors = barColors
+        
+        // 데이터 삽입
+        let chartData = BarChartData(dataSet: chartDataSet)
+        barChartView.data = chartData
+        barChartView.drawValueAboveBarEnabled = true
+        chartData.barWidth = Double(0.4)
+        // 선택 안되게
+        chartDataSet.highlightEnabled = false
+        
+        // 줌 안되게
+        barChartView.doubleTapToZoomEnabled = false
+        
+        // 차트 점선으로 표시
+        barChartView.xAxis.gridColor = .clear
+        barChartView.leftAxis.gridColor = chartDesign.gridColor
+        barChartView.leftAxis.gridLineWidth = CGFloat(1.0)
+        barChartView.leftAxis.gridLineDashLengths = floatValue
+        barChartView.leftAxis.axisMaximum = 100
+        barChartView.leftAxis.axisMinimum = 0
+        
+        // X축 레이블 위치 조정
+        barChartView.xAxis.labelPosition = .bottom
+        // X축 레이블 포맷 지정
+        barChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: days)
+        barChartView.legend.setCustom(entries: [])
+        
+        // X축 레이블 갯수 최대로 설정 (이 코드 안쓸 시 Jan Mar May 이런식으로 띄엄띄엄 조금만 나옴)
+        barChartView.xAxis.setLabelCount(dataPoints.count, force: false)
+        
+        // 오른쪽 레이블 제거
+        barChartView.rightAxis.enabled = false
+        
+        // 기본 애니메이션
+        barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+    }
+    
+    */
+    
+    func resetTextFields() {
+        // 값 다시 공백 설정
+        self.progressTextView.text = ""
+        self.testScoreTextField.text = ""
+        self.evaluationMemoTextView.text = ""
+        self.homeworkScoreTextField.text = ""
+        self.classScoreTextField.text = ""
+    }
     
     func calendarEvent() {
         calendarView.dataSource = self
@@ -189,15 +294,6 @@ class DetailClassViewController: UIViewController {
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
-    }
-    
-    func resetTextFields() {
-        // 값 다시 공백 설정
-        self.progressTextView.text = ""
-        self.testScoreTextField.text = ""
-        self.evaluationMemoTextView.text = ""
-        self.homeworkScoreTextField.text = ""
-        self.classScoreTextField.text = ""
     }
     
     // 사용자의 정보를 가져오도록 하는 메소드
@@ -402,7 +498,7 @@ class DetailClassViewController: UIViewController {
                                                     self.scores.insert(Double(document.data()["score"] as? String ?? "0.0")!, at: i)
                                                 }
                                             }
-                                            self.setChart(dataPoints: self.days, values: self.scores)
+                                            setChart(dataPoints: self.days, values: self.scores, view: self.barChartView, design: self.chartDesign, colors: self.barColors, fvalue: self.floatValue)
                                         } else {
                                             self.barChartView.noDataText = "데이터가 없습니다."
                                             self.barChartView.noDataFont = .systemFont(ofSize: 20)
@@ -653,67 +749,6 @@ class DetailClassViewController: UIViewController {
         }
     }
     
-    /// bar chart UI setting
-    func barColorSetting(){
-        barColors.append(chartDesign.chartColor_60)
-        barColors.append(chartDesign.chartColor_70)
-        barColors.append(chartDesign.chartColor_80)
-        barColors.append(chartDesign.chartColor_90)
-        barColors.append(chartDesign.chartColor_100)
-    }
-    
-    func setChart(dataPoints: [String], values: [Double]) {
-        // 데이터 생성
-        var dataEntries: [BarChartDataEntry] = []
-        for i in 0..<dataPoints.count {
-            let dataEntry = BarChartDataEntry(x: Double(i), y: values[i])
-            dataEntries.append(dataEntry)
-        }
-        
-        if (dataEntries.count < 4) {
-            for i in dataPoints.count...3 {
-                dataEntries.append(BarChartDataEntry(x: Double(i), y: 0))
-            }
-        }
-        let chartDataSet = BarChartDataSet(entries: dataEntries, label: "성적 그래프")
-        
-        // 차트 컬러
-        chartDataSet.colors = barColors
-        
-        // 데이터 삽입
-        let chartData = BarChartData(dataSet: chartDataSet)
-        barChartView.data = chartData
-        barChartView.drawValueAboveBarEnabled = true
-        chartData.barWidth = Double(0.4)
-        // 선택 안되게
-        chartDataSet.highlightEnabled = false
-        
-        // 줌 안되게
-        barChartView.doubleTapToZoomEnabled = false
-        
-        // 차트 점선으로 표시
-        barChartView.xAxis.gridColor = .clear
-        barChartView.leftAxis.gridColor = chartDesign.gridColor
-        barChartView.leftAxis.gridLineWidth = CGFloat(1.0)
-        barChartView.leftAxis.gridLineDashLengths = floatValue
-        barChartView.leftAxis.axisMaximum = 100
-        barChartView.leftAxis.axisMinimum = 0
-        
-        // X축 레이블 위치 조정
-        barChartView.xAxis.labelPosition = .bottom
-        // X축 레이블 포맷 지정
-        barChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: days)
-        barChartView.legend.setCustom(entries: [])
-        
-        // X축 레이블 갯수 최대로 설정 (이 코드 안쓸 시 Jan Mar May 이런식으로 띄엄띄엄 조금만 나옴)
-        barChartView.xAxis.setLabelCount(dataPoints.count, force: false)
-        
-        // 오른쪽 레이블 제거
-        barChartView.rightAxis.enabled = false
-        
-        // 기본 애니메이션
-        barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-    }
     
     /// add score button clicked
     @IBAction func PlusScores(_ sender: Any) {

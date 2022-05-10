@@ -38,7 +38,8 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
         openPortfolioSwitch.onTintColor = viewDesign.titleColor
         getUserInfo()
         getPortfolioShow()
-        viewDecorating()
+        portfoiolBtn.layer.cornerRadius = viewDesign.viewconerRadius
+        viewDecorating(view: pageView, design: viewDesign)
         imageChange()
     }
     
@@ -97,7 +98,8 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
                         let url = URL(string: profile)!
                         self.imageView.kf.setImage(with: url)
                         self.imageView.makeCircle()
-                        self.viewDecorating()
+                        self.portfoiolBtn.layer.cornerRadius = self.viewDesign.viewconerRadius
+                        viewDecorating(view: self.pageView, design: self.viewDesign)
                         self.openPortfolioSwitch.removeFromSuperview()
                         self.portfoiolBtn.removeFromSuperview()
                         self.pageViewTitleLabel.text = "목표"
@@ -189,8 +191,8 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
         }
     }
     
+    /*
     func viewDecorating(){
-        portfoiolBtn.layer.cornerRadius = viewDesign.viewconerRadius
         pageView.layer.cornerRadius = viewDesign.viewconerRadius
         pageView.layer.shadowColor = viewDesign.shadowColor
         pageView.layer.masksToBounds = false
@@ -198,6 +200,7 @@ class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationC
         pageView.layer.shadowRadius = viewDesign.shadowRadius
         pageView.layer.shadowOpacity = viewDesign.shadowOpacity
     }
+    */
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         imagePicker.dismiss(animated: true, completion: nil)
