@@ -5,13 +5,19 @@
 //  Created by 김가은 on 2022/03/15.
 //
 
+//
+//  ParentDetailEvaluationViewController.swift
+//  BINDER
+//
+//  Created by 김가은 on 2022/03/15.
+//
 import UIKit
 import Firebase
 import FirebaseDatabase
 import FSCalendar
 
 // Parent 버전의 더보기 버튼 클릭 시 나타나는 평가 상세보기 화면
-class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSource {
+public class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSource {
     @IBOutlet weak var calendarView: FSCalendar! // 월간 캘린더
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var monthlyEvaluationTextView: UITextView! // 월간 평가가 나타나는 textview
@@ -124,11 +130,11 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
     
     override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated)
         setCalendar()
-        getUserInfo()
-        getEvaluationEvents()
+        GetStudentMonthlyEvaluations(self: self)
+        GetStudentDailyEvaluations(self: self)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.calendarView.reloadData()
     }
@@ -151,75 +157,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         }
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
     }
-    /*
-    // 캘린더 외관을 꾸미기 위한 메소드
-    func calendarColor() {
-        calendarView.appearance.weekdayTextColor = .systemGray
-        calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  calendarDesign.calendarColor
-        calendarView.appearance.eventDefaultColor = calendarDesign.calendarColor
-        calendarView.appearance.eventSelectionColor = calendarDesign.calendarColor
-        calendarView.appearance.titleSelectionColor = calendarDesign.calendarColor
-        calendarView.appearance.borderSelectionColor = calendarDesign.calendarColor
-        calendarView.appearance.todayColor = calendarDesign.calendarTodayColor
-        calendarView.appearance.titleTodayColor = .black
-        calendarView.appearance.todaySelectionColor = .white
-        calendarView.appearance.selectionColor = .none
-    }
-     
-     func setUpDays(_ date: Date) {
-         self.days.removeAll()
-         let nowDate = date // 오늘 날짜
-         let formatter = DateFormatter()
-         
-         formatter.locale = Locale(identifier: "ko_KR")
-         formatter.timeZone = TimeZone(abbreviation: "KST")
-         
-         formatter.dateFormat = "M"
-         let currentDate = formatter.string(from: nowDate)
-         
-         formatter.dateFormat = "yyyy"
-         let currentYear = formatter.string(from: nowDate)
-         
-         formatter.dateFormat = "MM"
-         let currentMonth = formatter.string(from: nowDate)
-         
-         var days: Int = 0
-         
-         switch currentDate {
-         case "1", "3", "5", "7", "8", "10", "12":
-             days = 31
-             break
-         case "2":
-             if (Int(currentYear)! % 400 == 0 || (Int(currentYear)! % 100 != 0 && Int(currentYear)! % 4 == 0)) {
-                 days = 29
-                 break
-             } else {
-                 days = 28
-                 break
-             }
-         default:
-             days = 30
-             break
-         }
-         
-         for index in 1...days {
-             var day = ""
-             
-             if (index < 10) {
-                 day = "0\(index)"
-             } else {
-                 day = "\(index)"
-             }
-             
-             let dayOfMonth = "\(currentYear)-\(currentMonth)-\(day)"
-             
-             formatter.dateFormat = "yyyy-MM-dd"
-             let searchDate = formatter.date(from: dayOfMonth)
-             self.days.append(searchDate!)
-         }
-     }
-    */
+   
     // 캘린더 텍스트 스타일 설정을 위한 메소드
     func calendarText() {
         calendarView.headerHeight = 0
@@ -245,6 +183,28 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
         monthlyEvaluationTextView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.addSubview(monthlyEvaluationTextView)
         
+    }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpDays(self.today)
+        
+        // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
+        monthlyEvaluationTextView.textContainerInset = viewDesign.EdgeInsets
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM" // 날짜가 표시될 타임 설정
+        self.month = dateFormatter.string(from: self.nowDate) + "월" // 월 정보에 오늘에 해당하는 월 설저
+        self.monthlyEvaluationTextView.isEditable = false // 평가 뷰는 수정되면 안 되므로 수정 불가능하도록 설정
+        
+        // calendar 커스터마이징
+        self.calendarText()
+        self.calendarColor()
+        self.calendarEvent()
+        self.setCornerRadius()
+        
+        /// parent collection에서 현재 사용자의 uid와 동일한 값의 uid를 가지는 문서 찾기
+        GetChildrenInfo(self: self)
     }
     
     /// 사용자 정보 가져오기
@@ -393,7 +353,7 @@ class ParentDetailEvaluationViewController: UIViewController, FSCalendarDataSour
 
 extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
     /// 날짜 선택 시 실행되는 메소드
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
+    public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
         /// 선생님 평가 view controller 띄우기
         guard let teacherEvaluationVC = self.storyboard?.instantiateViewController(withIdentifier: "TeacherEvaluationViewController") as? TeacherEvaluationViewController else {
@@ -427,7 +387,7 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
     }
     
     /// 캘린더의 현재 페이지가 달라진 경우 실행되는 메소드
-    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+    public func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         LoadingHUD.show()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             LoadingHUD.hide()
@@ -443,7 +403,7 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         } else { // 10월 이후면 그냥 저장
             self.month = "\(month)월"
         }
-        getUserInfo() // 사용자 정보 가져오기
+        GetStudentMonthlyEvaluations(self: self)
         
         self.days.removeAll()
         self.events.removeAll()
@@ -451,12 +411,13 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         self.monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
         let date = self.dateFormatter.date(from: self.monthLabel.text!)
         
-        days = setUpDays(date!)
-        getEvaluationEvents()
+        self.setUpDays(date!)
+        GetStudentDailyEvaluations(self: self)
+
     }
     
     //이벤트 표시 개수
-    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+    public func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         if self.events.contains(date) {
             return 1
         } else {
