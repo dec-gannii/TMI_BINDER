@@ -34,12 +34,12 @@ public class ParentMyPageViewController: UIViewController, UIImagePickerControll
     @IBOutlet weak var childPhoneNumberLabel: UILabel! // 학생 전화번호 Label
     @IBOutlet weak var childNameLabel: UILabel! // 학생 이름 Label
     
-    public override func viewWillAppear(_ animated: Bool) {
-//        getUserInfo() // 사용자 정보 가져오기
+  public override func viewWillAppear(_ animated: Bool) {
+
         GetParentInfo(self: self)
         viewDecorating() // 학생 전화번호 배경 view 커스터마이징
-    }
-    
+
+  }
     /// 학생 전화번호 삭제 버튼 클릭 시 실행
     @IBAction func DeleteChildInfoBtnClicked(_ sender: Any) {
         DeleteChildPhone()
@@ -88,16 +88,6 @@ public class ParentMyPageViewController: UIViewController, UIImagePickerControll
         settingVC.modalPresentationStyle = .fullScreen
         
         self.present(settingVC, animated: true, completion: nil)
-    }
-    
-    // 자녀 정보 background view 커스터마이징 해주기
-    func viewDecorating(){
-        childInfoBackgroundView.layer.cornerRadius = viewDesign.childViewconerRadius
-        childInfoBackgroundView.layer.shadowColor = viewDesign.shadowColor
-        childInfoBackgroundView.layer.masksToBounds = false
-        childInfoBackgroundView.layer.shadowOffset = viewDesign.shadowOffset
-        childInfoBackgroundView.layer.shadowRadius = viewDesign.shadowRadius
-        childInfoBackgroundView.layer.shadowOpacity = viewDesign.shadowOpacity
     }
     
     func imageChange(){

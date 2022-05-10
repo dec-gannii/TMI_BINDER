@@ -27,21 +27,34 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
     
     let db = Firestore.firestore()
     
-    var studentUid: String = "" // 학생 Uid
-    var studentEmail: String = "" // 학생 이메일
-    var teacherName: String = "" // 선생님 이름
-    var teacherEmail: String = "" // 선생님 이메일
-    var subject: String = "" // 과목
-    var index: Int = 0 // index (학생 순서)
-    var month: String = "" // 월
-    var studentName: String = "" // 학생 이름
+    var studentUid: String! // 학생 Uid
+    var studentEmail: String! // 학생 이메일
+    var teacherName: String! // 선생님 이름
+    var teacherEmail: String! // 선생님 이메일
+    var subject: String! // 과목
+    var index: Int! // index (학생 순서)
+    var month: String! // 월
+    var studentName: String! // 학생 이름
     let nowDate = Date() // 오늘 날짜
     
-    var events: [Date] = []
-    var days: [Date] = []
+    var events: [Date]!
+    var days: [Date]!
     
     var calendarDesign = CalendarDesign()
     var viewDesign = ViewDesign()
+    
+    func _init(){
+        studentUid = ""
+        studentEmail = ""
+        teacherName = ""
+        teacherEmail = ""
+        subject = ""
+        index = 0
+        month = ""
+        studentName = ""
+        events = []
+        days = []
+    }
     
     @IBAction func prevBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: true) }
     
@@ -57,7 +70,65 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         return df
     }()
     
-    public override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpDays(self.today)
+        
+        // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
+        monthlyEvaluationTextView.textContainerInset = viewDesign.EdgeInsets
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM" // 날짜가 표시될 타임 설정
+        self.month = dateFormatter.string(from: self.nowDate) + "월" // 월 정보에 오늘에 해당하는 월 설저
+        self.monthlyEvaluationTextView.isEditable = false // 평가 뷰는 수정되면 안 되므로 수정 불가능하도록 설정
+        
+        // calendar 커스터마이징
+        self.calendarText()
+        calendarColor(view: calendarView, design: calendarDesign)
+        self.calendarEvent()
+        self.setCornerRadius()
+        
+        /// parent collection에서 현재 사용자의 uid와 동일한 값의 uid를 가지는 문서 찾기
+        db.collection("parent").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                /// nil이 아닌지 확인한다.
+                guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
+                    return
+                }
+                for document in snapshot.documents {
+                    print(">>>>> document 정보 : \(document.documentID) => \(document.data())")
+                    /// nil값 처리
+                    let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? "" // 학생(자녀) 휴대전화 번호
+                    
+                    /// student collection에서 위에서 가져온 childPhoneNumber와 동일한 휴대전화 번호 정보를 가지는 사람이 있는지 찾기
+                    self.db.collection("student").whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print(">>>>> document 에러 : \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                
+                                LoadingHUD.show()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    LoadingHUD.hide()
+                                }
+                                
+                                let studentName = document.data()["name"] as? String ?? "" // 학생 이름
+                                self.studentName = studentName // self.studentName에 저장
+                                self.monthlyEvaluationTitle.text = "이번 달 " + studentName + " 학생은..." // 이번 달 평가 제목에 사용
+                                let studentEmail = document.data()["email"] as? String ?? "" // 학생 이메일
+                                self.studentEmail = studentEmail
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated)
         setCalendar()
         GetStudentMonthlyEvaluations(self: self)
         GetStudentDailyEvaluations(self: self)
@@ -86,22 +157,7 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         }
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
     }
-    
-    // 캘린더 외관을 꾸미기 위한 메소드
-    func calendarColor() {
-        calendarView.appearance.weekdayTextColor = .systemGray
-        calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  calendarDesign.calendarColor
-        calendarView.appearance.eventDefaultColor = calendarDesign.calendarColor
-        calendarView.appearance.eventSelectionColor = calendarDesign.calendarColor
-        calendarView.appearance.titleSelectionColor = calendarDesign.calendarColor
-        calendarView.appearance.borderSelectionColor = calendarDesign.calendarColor
-        calendarView.appearance.todayColor = calendarDesign.calendarTodayColor
-        calendarView.appearance.titleTodayColor = .black
-        calendarView.appearance.todaySelectionColor = .white
-        calendarView.appearance.selectionColor = .none
-    }
-    
+   
     // 캘린더 텍스트 스타일 설정을 위한 메소드
     func calendarText() {
         calendarView.headerHeight = 0
@@ -151,56 +207,141 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         GetChildrenInfo(self: self)
     }
     
-    func setUpDays(_ date: Date) {
-        self.days.removeAll()
-        let nowDate = date // 오늘 날짜
-        let formatter = DateFormatter()
-        
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        
-        formatter.dateFormat = "M"
-        let currentDate = formatter.string(from: nowDate)
-        
-        formatter.dateFormat = "yyyy"
-        let currentYear = formatter.string(from: nowDate)
-        
-        formatter.dateFormat = "MM"
-        let currentMonth = formatter.string(from: nowDate)
-        
-        var days: Int = 0
-        
-        switch currentDate {
-        case "1", "3", "5", "7", "8", "10", "12":
-            days = 31
-            break
-        case "2":
-            if (Int(currentYear)! % 400 == 0 || (Int(currentYear)! % 100 != 0 && Int(currentYear)! % 4 == 0)) {
-                days = 29
-                break
-            } else {
-                days = 28
-                break
+    /// 사용자 정보 가져오기
+    func getUserInfo() {
+        /// parent collection / 현재 사용자 uid의 경로에서 정보를 가져오기
+        self.db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let childPhoneNumber = data!["childPhoneNumber"] as? String ?? "" // 학생(자녀) 휴대전화 번호
+                
+                /// student collection에서 위에서 가져온 childPhoneNumber와 동일한 휴대전화 번호 정보를 가지는 사람이 있는지 찾기
+                self.db.collection("student").whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                    } else {
+                        // 현재로 설정된 달의 월말 평가가 등록되지 않은 경우
+                        self.monthlyEvaluationTextView.text = "\(self.month)달 월말 평가가 등록되지 않았습니다."
+                        print ("====== 1 =====")
+                        
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            let studentUid = document.data()["uid"] as? String ?? "" // 학생 uid
+                            print ("===== 2 =====")
+                            
+                            /// student collection / studentUid / class collection에서 index필드의 값이 self.index와 동일한 문서를 찾기
+                            self.db.collection("student").document(studentUid).collection("class").whereField("index", isEqualTo: self.index).getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print(">>>>> document 에러 : \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        print ("===== 3 =====")
+                                        print("\(document.documentID) => \(document.data())")
+                                        let name = document.data()["name"] as? String ?? "" // 선생님 이름
+                                        self.teacherName = name // 선생님 이름으로 설정
+                                        let email = document.data()["email"] as? String ?? "" // 선생님 이메일
+                                        self.teacherEmail = email // 선생님 이메일로 설정
+                                        let subject = document.data()["subject"] as? String ?? "" // 과목
+                                        self.subject = subject // 과목으로 설정
+                                        
+                                        self.navigationBarTitle.title = self.studentName + " 학생 " + self.subject + " 월말평가" // navigationBar의 title text에 학생 이름과 과목을 포함하여 지정
+                                        
+                                        /// student collection / studentUid / class / 선생님이름(선생님이메일) 과목 / Evaluation 경로에서 month가 현재 설정된 달의 값과 같은 문서 찾기
+                                        self.db.collection("student").document(studentUid).collection("class").document(name + "(" + email + ") " + self.subject).collection("Evaluation").whereField("month", isEqualTo: self.month).getDocuments() { (querySnapshot, err) in
+                                            if let err = err {
+                                                print(">>>>> document 에러 : \(err)")
+                                            } else {
+                                                for document in querySnapshot!.documents {
+                                                    let evaluationData = document.data()
+                                                    let evaluation = evaluationData["evaluation"] as? String ?? "아직 이번 달 월말 평가가 등록되지 않았습니다." // 평가 내용 정보
+                                                    self.monthlyEvaluationTextView.text = evaluation // 평가 내용 text로 설정
+                                                    self.monthlyEvaluationTextView.isEditable = false // 수정 불가능하도록 설정
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-        default:
-            days = 30
-            break
         }
+    }
+    
+    func getEvaluationEvents(){
+        // 데이터베이스 경로
+        let formatter = DateFormatter()
+        self.events.removeAll()
         
-        for index in 1...days {
-            var day = ""
-            
-            if (index < 10) {
-                day = "0\(index)"
+        self.db.collection("teacher").whereField("email", isEqualTo: self.teacherEmail).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
             } else {
-                day = "\(index)"
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    let teacherUid = document.data()["uid"] as? String ?? "" // 선생님 uid
+                    
+                    let parentDocRef = self.db.collection("parent")
+                    parentDocRef.whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print(">>>>> document 에러 : \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? ""
+                                
+                                self.db.collection("student").whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
+                                    if let err = err {
+                                        print(">>>>> document 에러 : \(err)")
+                                    } else {
+                                        for document in querySnapshot!.documents {
+                                            print("\(document.documentID) => \(document.data())")
+                                            let studentEmail = document.data()["email"] as? String ?? "" // 학생 이메일
+                                            
+                                            self.db.collection("teacher").document(teacherUid).collection("class").whereField("email", isEqualTo: self.studentEmail).getDocuments() { (querySnapshot, err) in
+                                                if let err = err {
+                                                    print(">>>>> document 에러 : \(err)")
+                                                } else {
+                                                    for document in querySnapshot!.documents {
+                                                        print("\(document.documentID) => \(document.data())")
+                                                        let subject = document.data()["subject"] as? String ?? ""
+                                                        
+                                                        for index in 1...self.days.count-1 {
+                                                            let tempDay = "\(self.days[index])"
+                                                            let dateWithoutDays = tempDay.components(separatedBy: " ")
+                                                            formatter.dateFormat = "YYYY-MM-dd"
+                                                            let date = formatter.date(from: dateWithoutDays[0])!
+                                                            let datestr = formatter.string(from: date)
+                                                            
+                                                            self.db.collection("teacher").document(teacherUid).collection("class").document(self.studentName + "(" + studentEmail + ") " + subject).collection("Evaluation").whereField("evaluationDate", isEqualTo: datestr).getDocuments() { (querySnapshot, err) in
+                                                                if let err = err {
+                                                                    print("Error getting documents: \(err)")
+                                                                } else {
+                                                                    for document in querySnapshot!.documents {
+                                                                        print("\(document.documentID) => \(document.data())")
+                                                                        // 사용할 것들 가져와서 지역 변수로 저장
+                                                                        let date = document.data()["evaluationDate"] as? String ?? ""
+                                                                        
+                                                                        formatter.dateFormat = "YYYY-MM-dd"
+                                                                        let date_d = formatter.date(from: date)!
+                                                                        self.events.append(date_d)
+                                                                        self.calendarView.reloadData()
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            
-            let dayOfMonth = "\(currentYear)-\(currentMonth)-\(day)"
-            
-            formatter.dateFormat = "yyyy-MM-dd"
-            let searchDate = formatter.date(from: dayOfMonth)
-            self.days.append(searchDate!)
         }
     }
     
@@ -272,6 +413,7 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         
         self.setUpDays(date!)
         GetStudentDailyEvaluations(self: self)
+
     }
     
     //이벤트 표시 개수

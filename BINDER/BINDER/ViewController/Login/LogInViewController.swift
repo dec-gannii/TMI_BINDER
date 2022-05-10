@@ -21,9 +21,9 @@ public class LogInViewController: UIViewController {
     @IBOutlet weak var stackview: UIStackView!
     
     // 변수 선언
-    var isLogouted = true
-    var email = ""
-    var name = ""
+    var isLogouted: Bool!
+    var email:String!
+    var name:String!
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
     fileprivate var currentNonce: String?
@@ -36,6 +36,12 @@ public class LogInViewController: UIViewController {
     /// sign in with apple
     @objc private func handleAuthorizationAppleIDButton(_ sender: ASAuthorizationAppleIDButton) {
         startSignInWithAppleFlow()
+    }
+    
+    func _init(){
+        isLogouted = true
+        email = ""
+        name = ""
     }
     
     /// UI setting

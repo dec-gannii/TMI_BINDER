@@ -23,16 +23,17 @@ public class TeacherEvaluationViewController: UIViewController {
     @IBOutlet var teacherManagingSatisfyScore: UITextField!
     @IBOutlet weak var okBtn: UIButton!
     
-    var teacherName: String = ""
-    var teacherEmail: String = ""
-    var subject: String = ""
-    var month: String = ""
-    var date: String = ""
-    var studentName: String = ""
-    var teacherUid: String = ""
+    var teacherName: String!
+    var teacherEmail: String!
+    var subject: String!
+    var month: String!
+    var date: String!
+    var studentName: String!
+    var teacherUid: String!
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
     
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         GetEvaluation(self: self)

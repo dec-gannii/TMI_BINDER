@@ -101,8 +101,8 @@ public class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavi
         }
     }
     
+    /*
     func viewDecorating(){
-        portfoiolBtn.layer.cornerRadius = viewDesign.viewconerRadius
         pageView.layer.cornerRadius = viewDesign.viewconerRadius
         pageView.layer.shadowColor = viewDesign.shadowColor
         pageView.layer.masksToBounds = false
@@ -110,6 +110,7 @@ public class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavi
         pageView.layer.shadowRadius = viewDesign.shadowRadius
         pageView.layer.shadowOpacity = viewDesign.shadowOpacity
     }
+    */
     
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         imagePicker.dismiss(animated: true, completion: nil)

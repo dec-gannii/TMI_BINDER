@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 
 public class CheckPasswordViewController: UIViewController {
     
@@ -18,13 +19,12 @@ public class CheckPasswordViewController: UIViewController {
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var okBtn: UIButton!
     var currentPW = ""
-    var btnDesign = ButtonDesign()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         GetPW() // 현재 비밀번호가 맞는지 확인하기 위해 호출
         okBtn.clipsToBounds = true
-        okBtn.layer.cornerRadius = btnDesign.cornerRadius
+        okBtn.layer.cornerRadius = 10
     }
     
     // 뒤로 가기 버튼 클릭 시 실행되는 메소드
