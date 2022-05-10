@@ -34,12 +34,10 @@ public class ParentMyPageViewController: UIViewController, UIImagePickerControll
     @IBOutlet weak var childPhoneNumberLabel: UILabel! // 학생 전화번호 Label
     @IBOutlet weak var childNameLabel: UILabel! // 학생 이름 Label
     
-  public override func viewWillAppear(_ animated: Bool) {
-
+    public override func viewWillAppear(_ animated: Bool) {
         GetParentInfo(self: self)
-        viewDecorating() // 학생 전화번호 배경 view 커스터마이징
-
-  }
+        viewDecorating(view: self.childInfoBackgroundView, design: viewDesign) // 학생 전화번호 배경 view 커스터마이징
+    }
     /// 학생 전화번호 삭제 버튼 클릭 시 실행
     @IBAction func DeleteChildInfoBtnClicked(_ sender: Any) {
         DeleteChildPhone()

@@ -177,7 +177,7 @@ public class DetailClassViewController: UIViewController {
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
     
@@ -201,10 +201,10 @@ public class DetailClassViewController: UIViewController {
             } else { // 아니라면 전 view controller에서 받아온 이메일로 설정
                 studentEmail = email
             }
-
+            
             GetScores(self: self, studentEmail: studentEmail)
         }
-
+    }
     
     /// back button clicked
     @IBAction func goBack(_ sender: Any) {

@@ -2380,7 +2380,7 @@ public func GetUserInfoForMyPage(self : MyPageViewController) {
                     let url = URL(string: profile)!
                     self.imageView.kf.setImage(with: url)
                     self.imageView.makeCircle()
-                    self.viewDecorating()
+                    viewDecorating(view: self.portfolioPageView, design: self.viewDesign)
                     self.openPortfolioSwitch.removeFromSuperview()
                     self.portfoiolBtn.removeFromSuperview()
                     self.pageViewTitleLabel.text = "목표"
@@ -3405,7 +3405,7 @@ public func GetScores(self : DetailClassViewController, studentEmail : String) {
                                             self.scores.insert(Double(document.data()["score"] as? String ?? "0.0")!, at: i)
                                         }
                                     }
-                                    self.setChart(dataPoints: self.days, values: self.scores)
+                                    setChart(dataPoints: self.days, values: self.scores, view: self.barChartView, design: self.chartDesign, colors: self.barColors, fvalue: self.floatValue)
                                 } else {
                                     self.barChartView.noDataText = "데이터가 없습니다."
                                     self.barChartView.noDataFont = .systemFont(ofSize: 20)
@@ -5020,6 +5020,65 @@ public func SetQnA (self : QnADetailViewController) {
                                                         }
                                                     }
                                                 }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+public func GetParentInfoForParentDetailVC(self : ParentDetailEvaluationViewController) {
+    /// parent collection / 현재 사용자 uid의 경로에서 정보를 가져오기
+    let db = Firestore.firestore()
+    db.collection("parent").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+        if let document = document, document.exists {
+            let data = document.data()
+            let childPhoneNumber = data!["childPhoneNumber"] as? String ?? "" // 학생(자녀) 휴대전화 번호
+            
+            /// student collection에서 위에서 가져온 childPhoneNumber와 동일한 휴대전화 번호 정보를 가지는 사람이 있는지 찾기
+            self.db.collection("student").whereField("phonenum", isEqualTo: childPhoneNumber).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    // 현재로 설정된 달의 월말 평가가 등록되지 않은 경우
+                    self.monthlyEvaluationTextView.text = "\(self.month)달 월말 평가가 등록되지 않았습니다."
+                    
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let studentUid = document.data()["uid"] as? String ?? "" // 학생 uid
+                        
+                        /// student collection / studentUid / class collection에서 index필드의 값이 self.index와 동일한 문서를 찾기
+                        db.collection("student").document(studentUid).collection("class").whereField("index", isEqualTo: self.index).getDocuments() { (querySnapshot, err) in
+                            if let err = err {
+                                print(">>>>> document 에러 : \(err)")
+                            } else {
+                                for document in querySnapshot!.documents {
+                                    print("\(document.documentID) => \(document.data())")
+                                    let name = document.data()["name"] as? String ?? "" // 선생님 이름
+                                    self.teacherName = name // 선생님 이름으로 설정
+                                    let email = document.data()["email"] as? String ?? "" // 선생님 이메일
+                                    self.teacherEmail = email // 선생님 이메일로 설정
+                                    let subject = document.data()["subject"] as? String ?? "" // 과목
+                                    self.subject = subject // 과목으로 설정
+                                    
+                                    self.navigationBarTitle.title = self.studentName + " 학생 " + self.subject + " 월말평가" // navigationBar의 title text에 학생 이름과 과목을 포함하여 지정
+                                    
+                                    /// student collection / studentUid / class / 선생님이름(선생님이메일) 과목 / Evaluation 경로에서 month가 현재 설정된 달의 값과 같은 문서 찾기
+                                    db.collection("student").document(studentUid).collection("class").document(name + "(" + email + ") " + self.subject).collection("Evaluation").whereField("month", isEqualTo: self.month).getDocuments() { (querySnapshot, err) in
+                                        if let err = err {
+                                            print(">>>>> document 에러 : \(err)")
+                                        } else {
+                                            for document in querySnapshot!.documents {
+                                                let evaluationData = document.data()
+                                                let evaluation = evaluationData["evaluation"] as? String ?? "아직 이번 달 월말 평가가 등록되지 않았습니다." // 평가 내용 정보
+                                                self.monthlyEvaluationTextView.text = evaluation // 평가 내용 text로 설정
+                                                self.monthlyEvaluationTextView.isEditable = false // 수정 불가능하도록 설정
                                             }
                                         }
                                     }

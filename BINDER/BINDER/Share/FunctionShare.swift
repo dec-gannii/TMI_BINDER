@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import FSCalendar
 import FirebaseStorage
-import NSPredicate
 
 struct FunctionShare{
     func viewDecorating(btn: UIButton, view: UIView, design: ViewDesign){
@@ -21,7 +20,7 @@ struct FunctionShare{
         view.layer.shadowRadius = design.shadowRadius
         view.layer.shadowOpacity = design.shadowOpacity
     }
-
+    
     func setTextViewUI(textList: Array<UITextView>, viewdesign: ViewDesign,btndesign: ButtonDesign) {
         // Border setting
         for textView in textList {
@@ -35,7 +34,7 @@ struct FunctionShare{
             textView.layer.cornerRadius = btndesign.cornerRadius
         }
     }
-
+    
     /// UI setting
     func setBorder(textList: Array<UITextView>, design: ViewDesign) {
         for textView in textList {
@@ -43,13 +42,13 @@ struct FunctionShare{
             textView.layer.borderColor = design.borderColor
         }
     }
-
+    
     func allRound(array: Array<UIView>, design: ButtonDesign) {
         for view in array {
             view.layer.cornerRadius = design.cornerRadius
         }
     }
-
+    
     /// calendar custom
     func calendarColor(view: FSCalendar, design: CalendarDesign) {
         
@@ -65,7 +64,7 @@ struct FunctionShare{
         view.appearance.todaySelectionColor = .white
         view.appearance.selectionColor = .none
     }
-
+    
     // 캘린더 텍스트 스타일 설정을 위한 메소드
     func calendarText(view: FSCalendar, design: CalendarDesign) {
         view.headerHeight = CGFloat(design.headerHeight)
@@ -77,25 +76,11 @@ struct FunctionShare{
         view.locale = Locale(identifier: "ko_KR")
         view.weekdayHeight = CGFloat(design.weekdayHeight)
     }
-
+    
     func placeholderSetting(_ textView: UITextView) {
         textView.delegate = textView as! UITextViewDelegate // 유저가 선언한 outlet
         textView.text = StringUtils.contentNotExist.rawValue
         textView.textColor = UIColor.lightGray
-    }
-
-    //  숫자인지를 검사하는 메소드
-    func isValidPw(_ pw: Int) -> Bool {
-        //         공백 검사
-        if (pw == Int(ageShowPicker.text!.trimmingCharacters(in: .whitespaces))) { return true }
-        else { return false }
-    }
-
-    // 이메일 형식인지 검사하는 메소드
-    func isValidEmail(_ email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
     }
 }
 

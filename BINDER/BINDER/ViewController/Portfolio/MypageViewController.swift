@@ -12,7 +12,7 @@ import Kingfisher
 import FirebaseStorage
 import Photos
 
-public class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     @IBOutlet weak var pageView: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -38,7 +38,7 @@ public class MyPageViewController: BaseVC,UIImagePickerControllerDelegate,UINavi
         openPortfolioSwitch.onTintColor = viewDesign.titleColor
         GetUserInfoForMyPage(self: self)
         GetPortfolioShow(self: self)
-        viewDecorating()
+        viewDecorating(view: portfolioPageView, design: viewDesign)
         imageChange()
     }
     
