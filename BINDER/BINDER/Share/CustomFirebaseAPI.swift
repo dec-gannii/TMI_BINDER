@@ -3367,6 +3367,7 @@ public func AddToDoListFactors(self : DetailClassViewController, checkTime : Boo
 public func GetScores(self : DetailClassViewController, studentEmail : String) {
     let db = Firestore.firestore()
     // 학생의 정보들 중 이메일이 동일한 정보 불러오기
+    self.floatValue = [5,5]
     var studentUid = ""
     db.collection("student").whereField("email", isEqualTo: studentEmail).getDocuments() {
         (QuerySnapshot, err) in
