@@ -31,15 +31,15 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var homeStudentClassTxt: UILabel!
     @IBOutlet weak var homeStudentClassTxt2: UILabel!
     @IBOutlet weak var homeStudentClassTxt3: UILabel!
-    var classItems: [String] = [] // 수업 변수 배열
-    var events: [Date] = [] // 이벤트가 있는 날짜 배열
-    var days: [Date] = [] // 선택된 월의 날짜들
-    var id : String = ""
-    var pw : String = ""
-    var name : String = ""
-    var number : Int = 1
-    var verified : Bool = false
-    var type : String = ""
+    var classItems: [String]! // 수업 변수 배열
+    var events: [Date]! // 이벤트가 있는 날짜 배열
+    var days: [Date]! // 선택된 월의 날짜들
+    var id : String!
+    var pw : String!
+    var name : String!
+    var number : Int!
+    var verified : Bool!
+    var type : String!
     var date : String!
     
     var ref: DatabaseReference!
@@ -61,6 +61,20 @@ class HomeViewController: UIViewController {
         return df
     }()
     
+    func _init(){
+        classItems = [] // 수업 변수 배열
+        events = [] // 이벤트가 있는 날짜 배열
+        days = [] // 선택된 월의 날짜들
+        id = ""
+        pw = ""
+        name = ""
+        number = 1
+        verified = false
+        type = ""
+        date = ""
+    }
+    
+    
     func setCalendar() {
         calendarView.delegate = self
         calendarView.headerHeight = 0
@@ -75,7 +89,7 @@ class HomeViewController: UIViewController {
         self.monthLabel.text = self.dateFormatter.string(from: calendar.currentPage)
         let date = self.dateFormatter.date(from: self.monthLabel.text!)
         
-        self.setUpDays(date!)
+        setUpDays(date!)
         
         getTeacherEvents()
         getStudentEvents()
@@ -89,79 +103,11 @@ class HomeViewController: UIViewController {
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
     }
     
-    // 캘린더 외관을 꾸미기 위한 메소드
-    func calendarColor() {
-        calendarView.appearance.weekdayTextColor = .systemGray
-        calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
-        calendarView.appearance.eventDefaultColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        calendarView.appearance.eventSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-    
-        calendarView.appearance.titleSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.borderSelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-        calendarView.appearance.titleTodayColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        calendarView.appearance.todaySelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-        calendarView.appearance.selectionColor = .none
-        calendarView.appearance.todayColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-        
-    }
-    
     func calendarEvent() {
         calendarView.dataSource = self
         calendarView.delegate = self
     }
     
-    func setUpDays(_ date: Date) {
-        let nowDate = date // 오늘 날짜
-        let formatter = DateFormatter()
-        
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        
-        formatter.dateFormat = "M"
-        let currentDate = formatter.string(from: nowDate)
-        
-        formatter.dateFormat = "yyyy"
-        let currentYear = formatter.string(from: nowDate)
-        
-        formatter.dateFormat = "MM"
-        let currentMonth = formatter.string(from: nowDate)
-        
-        var days: Int = 0
-        
-        switch currentDate {
-        case "1", "3", "5", "7", "8", "10", "12":
-            days = 31
-            break
-        case "2":
-            if (Int(currentYear)! % 400 == 0 || (Int(currentYear)! % 100 != 0 && Int(currentYear)! % 4 == 0)) {
-                days = 29
-                break
-            } else {
-                days = 28
-                break
-            }
-        default:
-            days = 30
-            break
-        }
-        
-        for index in 1...days {
-            var day = ""
-            
-            if (index < 10) {
-                day = "0\(index)"
-            } else {
-                day = "\(index)"
-            }
-            
-            let dayOfMonth = "\(currentYear)-\(currentMonth)-\(day)"
-            
-            formatter.dateFormat = "yyyy-MM-dd"
-            let searchDate = formatter.date(from: dayOfMonth)
-            self.days.append(searchDate!)
-        }
-    }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -188,31 +134,12 @@ class HomeViewController: UIViewController {
         setUpDays(self.today)
         
         calendarView.delegate = self
-        textView.clipsToBounds = true
-        textView.layer.cornerRadius = 10
-        textView.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
-
-        eventCountTxt.clipsToBounds = true
-        eventCountTxt.layer.cornerRadius = 10
-        eventCountTxt.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
-        
-        homeStudentClassTxt.clipsToBounds = true
-        homeStudentClassTxt.layer.cornerRadius = 5
-        homeStudentClassTxt.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
-        
-        homeStudentClassTxt2.clipsToBounds = true
-        homeStudentClassTxt2.layer.cornerRadius = 5
-        homeStudentClassTxt2.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
-        
-        homeStudentClassTxt3.clipsToBounds = true
-        homeStudentClassTxt3.layer.cornerRadius = 5
-        homeStudentClassTxt3.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
         
         verifiedCheck() // 인증된 이메일인지 체크하는 메소드
         getTeacherInfo()
         getStudentInfo()
         
-        self.calendarColor()
+        calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
         self.setCalendar()
         
@@ -382,7 +309,7 @@ class HomeViewController: UIViewController {
         if (self.type == "teacher") {
             
             type = "teacher"
-            let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
+            let docRef = self.db.collection(type!).document(Auth.auth().currentUser!.uid).collection("class")
             
             guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
             
@@ -422,7 +349,7 @@ class HomeViewController: UIViewController {
             }
         } else {
             type = "student"
-            let docRef = self.db.collection(type).document(Auth.auth().currentUser!.uid).collection("class")
+            let docRef = self.db.collection(type!).document(Auth.auth().currentUser!.uid).collection("class")
             
             guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
             
