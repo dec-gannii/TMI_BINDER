@@ -85,7 +85,7 @@ public class QnADetailViewController: UIViewController {
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if avPlayerLayer == nil { print("usernameVFXView.layer is nil") ; return }
-        avPlayerLayer.frame = answerView.layer.bounds
+        avPlayerLayer.frame = answerImgView.layer.bounds
     }
     
     /// 질문방 내용 세팅

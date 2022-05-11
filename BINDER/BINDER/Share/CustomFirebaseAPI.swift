@@ -4695,7 +4695,6 @@ public func GetUserInfoInQnADetailVC (self : QnADetailViewController) {
                     
                     if let index = self.index { // userIndex가 nil이 아니라면
                         // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
-                        print ("index : \(index)")
                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
                             .getDocuments() { (querySnapshot, err) in
                                 if let err = err {
@@ -4735,7 +4734,6 @@ public func GetUserInfoInQnADetailVC (self : QnADetailViewController) {
                     if let index = self.index { // userIndex가 nil이 아니라면
                         // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
                         self.type = "student"
-                        print ("index : \(index)")
                         self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
                             .getDocuments() { (querySnapshot, err) in
                                 if let err = err {
@@ -4817,8 +4815,12 @@ public func SetQnA (self : QnADetailViewController) {
                             } else {
                                 let url = URL(string: imgurl)
                                 self.player = AVPlayer(url: url!)
-                                self.avPlayerLayer = AVPlayerLayer(player: self.player)
-                                self.avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
+                                self.avPlayerLayer = {
+                                   let layer = AVPlayerLayer(player: self.player)
+                                    layer.videoGravity = .resizeAspect
+                                    layer.needsDisplayOnBoundsChange = true
+                                    return layer
+                                }()
                                 self.videourl = url
                                 self.answerImgView.layer.addSublayer(self.avPlayerLayer)
                             }
