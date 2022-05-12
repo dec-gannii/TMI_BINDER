@@ -3913,9 +3913,6 @@ public func UpdateAnswer(answer : String, imgtype : Int, self : AnswerViewContro
                         }
                     }
                 }
-                if let preVC = self.presentingViewController as? UIViewController {
-                    preVC.dismiss(animated: true, completion: nil)
-                }
             }
         }
     }
