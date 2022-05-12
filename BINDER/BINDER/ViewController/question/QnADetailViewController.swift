@@ -40,6 +40,7 @@ public class QnADetailViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         GetUserInfoInQnADetailVC(self: self)
+        setQnA()
         LoadingHUD.show()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
             LoadingHUD.hide()
