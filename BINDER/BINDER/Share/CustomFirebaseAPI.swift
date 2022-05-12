@@ -3471,7 +3471,7 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                                             self.userName = name
                                             self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
                                             self.userEmail = document.data()["email"] as? String ?? ""
-//                                            self.userSubject = document.data()["subject"] as? String ?? ""
+                                            //                                            self.userSubject = document.data()["subject"] as? String ?? ""
                                             self.monthlyEvaluationQuestionLabel.text = "이번 달 " + self.userName + " 학생은 전반적으로 어땠나요?"
                                             self.classNavigationBar.topItem!.title = self.userName + " 학생"
                                             
@@ -4781,7 +4781,10 @@ public func SetQnA (self : QnADetailViewController) {
                         /// document.data()를 통해서 값 받아옴, data는 dictionary
                         let questionDt = document.data()
                         
-                        let answer = questionDt["answerContent"] as? String ?? ""
+                        var answer = questionDt["answerContent"] as? String ?? ""
+                        if (answer == "답변 내용을 작성해주세요.") {
+                            answer = ""
+                        }
                         let imgurl = questionDt["url"] as? String ?? ""
                         let imgType = questionDt["type"] as? String ?? ""
                         
@@ -4811,15 +4814,17 @@ public func SetQnA (self : QnADetailViewController) {
                                 }
                             } else {
                                 let url = URL(string: imgurl)
-                                self.player = AVPlayer(url: url!)
-                                self.avPlayerLayer = {
-                                   let layer = AVPlayerLayer(player: self.player)
-                                    layer.videoGravity = .resizeAspect
-                                    layer.needsDisplayOnBoundsChange = true
-                                    return layer
-                                }()
-                                self.videourl = url
-                                self.answerImgView.layer.addSublayer(self.avPlayerLayer)
+                                DispatchQueue.main.async {
+                                    self.player = AVPlayer(url: url!)
+                                    self.avPlayerLayer = {
+                                        let layer = AVPlayerLayer(player: self.player)
+                                        layer.videoGravity = .resizeAspect
+                                        layer.needsDisplayOnBoundsChange = true
+                                        return layer
+                                    }()
+                                    self.videourl = url
+                                    self.answerImgView.layer.addSublayer(self.avPlayerLayer)
+                                }
                             }
                         }
                     }
