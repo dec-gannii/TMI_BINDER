@@ -72,15 +72,9 @@ extension ParentHomeViewController: UITableViewDelegate, UITableViewDataSource {
         let item:EvaluationItem = evaluationItem[indexPath.row]
         
         cell.setTeacherInfo(item.name, item.email, item.subject) // cell의 함수를 이용해서 수업의 정보 넘기기
-        cell.subjectLabel.text = item.subject + " - " + item.name + " 선생님" // 과목과 선생님의을 보여주는 label의 text로 지정
+        cell.subjectLabel.text = item.subject // 과목과 선생님의을 보여주는 label의 text로 지정
         cell.progressLabel.text = "\(item.currentCnt) / \(item.totalCnt)" // 수업의 현재 횟수 / 전체 횟수 지정
-        cell.monthlyEvaluationTextView.text = item.evaluation // 평가 항목을 item의 평가 항목 text로 지정
-        cell.classColorView.makeCircle() // 수업 색상을 지정하는 view를 원으로 보이도록 설정
-        if let hex = Int(item.circleColor, radix: 16) { // 16진수로 저장된 string을 int로 바꿔주어 hex에 넣어주기
-            cell.classColorView.backgroundColor = UIColor.init(rgb: hex) // 있으면 그 hex로 컬러 설정
-        } else {
-            cell.classColorView.backgroundColor = UIColor.red // 없으면 기본적으로 빨간색으로 설정
-        }
+        cell.TeacherNameLabel.text = item.name + " 선생님" // 평가 항목을 item의 평가 항목 text로 지정
         
         // cell의 더보기 버튼을 클릭하면 onClickShowDetailButton 함수 실행되도록 설정
         cell.showMoreInfoButton.addTarget(self, action: #selector(onClickShowDetailButton(_:)), for: .touchUpInside)

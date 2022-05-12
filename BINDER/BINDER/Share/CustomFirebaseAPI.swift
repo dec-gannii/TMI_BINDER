@@ -2445,7 +2445,7 @@ public func GetParentUserInfo(self : ParentHomeViewController) {
                     // 이름 받아서 학부모 이름 label의 text를 'OOO 학부모님'으로 지정
                     
                     let name = document.data()["name"] as? String ?? ""
-                    self.parentNameLabel.text = name + " 학부모님"
+                    self.parentNameLabel.text = name + " 학부모님!"
                 }
             }
         }
