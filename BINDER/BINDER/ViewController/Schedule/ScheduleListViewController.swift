@@ -58,7 +58,7 @@ public class ScheduleListViewController: UIViewController {
         guard let addScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
         addScheduleVC.date = self.date // 날짜 정보를 넘겨주기
         addScheduleVC.type = self.type
-        addScheduleVC.modalPresentationStyle = .pageSheet
+        addScheduleVC.modalPresentationStyle = .fullScreen
         self.present(addScheduleVC, animated: true, completion: nil)
     }
     

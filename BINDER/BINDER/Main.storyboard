@@ -18,16 +18,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmx-Pj-JSE">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmx-Pj-JSE">
                                 <rect key="frame" x="24" y="180" width="366" height="38.5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <string key="text">안녕하세요!
 과외 관리 서비스, 바인더입니다!</string>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <color key="textColor" red="0.32941176470588235" green="0.32549019607843138" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B7d-J9-FfR">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B7d-J9-FfR">
                                 <rect key="frame" x="24" y="305.5" width="366" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="wnN-Wi-cAF"/>
@@ -59,7 +58,7 @@
                                     <action selector="SelectTeacherRole:" destination="7Q5-kz-MQL" eventType="touchUpInside" id="T6p-rp-N0i"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IhL-c6-vVj">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IhL-c6-vVj">
                                 <rect key="frame" x="24" y="373.5" width="366" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="xlb-2y-HL0"/>
@@ -92,7 +91,7 @@
                                     <action selector="SelectStudentRole:" destination="7Q5-kz-MQL" eventType="touchUpInside" id="pBj-M8-uhE"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2A-oO-JSk">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2A-oO-JSk">
                                 <rect key="frame" x="24" y="441.5" width="366" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="7ck-kk-8VV"/>
@@ -125,15 +124,14 @@
                                     <action selector="SelectParentRole:" destination="7Q5-kz-MQL" eventType="touchUpInside" id="MrW-TP-YNZ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="서비스 이용 역할을 선택해주세요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gv-53-tB2">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="서비스 이용 역할을 선택해주세요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gv-53-tB2">
                                 <rect key="frame" x="24" y="224.5" width="366" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrp-D7-Pgt">
-                                <rect key="frame" x="16" y="44" width="32" height="32"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrp-D7-Pgt">
+                                <rect key="frame" x="16" y="60" width="32" height="32"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="1L8-88-mqX"/>
@@ -153,6 +151,25 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="h95-ZO-upA"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="nrp-D7-Pgt" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="16" id="1xD-Q9-WhF"/>
+                            <constraint firstItem="B7d-J9-FfR" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="24" id="3la-Kf-W0o"/>
+                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="0gv-53-tB2" secondAttribute="trailing" constant="24" id="9gZ-eT-3Ay"/>
+                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="IhL-c6-vVj" secondAttribute="trailing" constant="24" id="ATV-1c-rr4"/>
+                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="B7d-J9-FfR" secondAttribute="trailing" constant="24" id="B2e-bW-cah"/>
+                            <constraint firstItem="0gv-53-tB2" firstAttribute="top" secondItem="dmx-Pj-JSE" secondAttribute="bottom" constant="6" id="DJK-Eu-ez8"/>
+                            <constraint firstItem="B7d-J9-FfR" firstAttribute="top" secondItem="0gv-53-tB2" secondAttribute="bottom" constant="63" id="Ikw-Pv-6vT"/>
+                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="dmx-Pj-JSE" secondAttribute="trailing" constant="24" id="Keq-Bq-wpe"/>
+                            <constraint firstItem="n2A-oO-JSk" firstAttribute="top" secondItem="IhL-c6-vVj" secondAttribute="bottom" constant="18" id="Khd-OK-45e"/>
+                            <constraint firstItem="n2A-oO-JSk" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="24" id="LXd-NX-JJC"/>
+                            <constraint firstItem="dmx-Pj-JSE" firstAttribute="top" secondItem="nrp-D7-Pgt" secondAttribute="bottom" constant="88" id="Rnp-1F-Z5y"/>
+                            <constraint firstItem="0gv-53-tB2" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="24" id="T49-Bf-sAS"/>
+                            <constraint firstItem="IhL-c6-vVj" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="24" id="hIk-KL-oMJ"/>
+                            <constraint firstItem="IhL-c6-vVj" firstAttribute="top" secondItem="B7d-J9-FfR" secondAttribute="bottom" constant="18" id="k1i-jG-SDJ"/>
+                            <constraint firstItem="nrp-D7-Pgt" firstAttribute="top" secondItem="h95-ZO-upA" secondAttribute="top" constant="16" id="ptz-GM-OdB"/>
+                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="n2A-oO-JSk" secondAttribute="trailing" constant="24" id="rHK-Jv-H2H"/>
+                            <constraint firstItem="dmx-Pj-JSE" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="24" id="vb0-lX-Xja"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oum-Yg-vC9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
