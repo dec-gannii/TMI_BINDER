@@ -8,12 +8,10 @@ import UIKit
 import Firebase
 
 public class ClassInfoVC: BaseVC {
-    @IBOutlet weak var classColor: UIView!
     @IBOutlet weak var studentBox: UIView!
     @IBOutlet weak var classInputBox: UIView!
     @IBOutlet weak var studentEmail: UILabel!
     @IBOutlet weak var studentName: UILabel!
-    @IBOutlet weak var studentGoal: UILabel!
     @IBOutlet weak var payTypeLb: UILabel!
     @IBOutlet weak var subjectTextField: UITextField!
     @IBOutlet weak var togglePayBtn: UIButton!
@@ -43,22 +41,9 @@ public class ClassInfoVC: BaseVC {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        /// 둥근 테두리 주기
-        classColor.makeCircle()
-        
-        if let hex = Int(classColor1, radix: 16) {
-            classColor.backgroundColor = UIColor.init(rgb: hex)
-        } else {
-            classColor.backgroundColor = UIColor.red
-        }
-        
-        studentBox.allRound()
-        classInputBox.allRound()
-        
         /// 학생 정보 셋팅
         studentEmail.text = studentItem.email
-        studentName.text = "\(studentItem.name) 학생"
-        studentGoal.text = studentItem.goal
+        studentName.text = "\(studentItem.name)"
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tap)

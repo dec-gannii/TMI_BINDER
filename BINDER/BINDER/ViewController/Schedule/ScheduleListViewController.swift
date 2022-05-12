@@ -11,6 +11,7 @@ import Firebase
 // 일정 리스트 뷰 컨트롤러
 public class ScheduleListViewController: UIViewController {
     
+    @IBOutlet weak var scheduleListViewNavigationBar: UINavigationBar!
     @IBOutlet weak var scheduleListTableView: UITableView!
     var date: String = ""
     var scheduleTitles: [String] = []
@@ -23,7 +24,6 @@ public class ScheduleListViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
         scheduleListTableView.delegate = self
         scheduleListTableView.dataSource = self
         

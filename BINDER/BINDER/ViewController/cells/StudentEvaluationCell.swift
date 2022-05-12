@@ -10,17 +10,16 @@ import Firebase
 import FirebaseDatabase
 import FirebaseFirestore
 
-class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    let months = ["01월", "02월", "03월", "04월", "05월", "06월", "07월", "08월", "09월", "10월", "11월", "12월"]
+class StudentEvaluationCell: UITableViewCell, UITextFieldDelegate {
     let nowDate = Date()
     
     @IBOutlet weak var classColorView: UIView!
     @IBOutlet weak var cellBackgroundView: UIView!
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var progressLabel: UILabel!
-    @IBOutlet weak var monthPickerView: UITextField!
-    @IBOutlet weak var monthlyEvaluationTextView: UITextView!
     @IBOutlet weak var showMoreInfoButton: UIButton!
+    @IBOutlet weak var TeacherNameLabel: UILabel! // 선생님 이름 Label
+    @IBOutlet weak var isRecorededLabel: UILabel!
     
     var selectedMonth = ""
     var evaluation = ""
@@ -47,52 +46,11 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM"
         self.selectedMonth = dateFormatter.string(from: self.nowDate) + "월"
-        self.monthPickerView.text = self.selectedMonth
         
         cellBackgroundView.clipsToBounds = true
         cellBackgroundView.layer.cornerRadius = 15
         
-        createPickerView()
-        dismissPickerView()
-        
-        classColorView.makeCircle()
-        
-        monthPickerView.backgroundColor = .white
-        monthPickerView.borderStyle = .none
-        monthPickerView.textAlignment = .right
-        monthPickerView.clipsToBounds = true
-        monthPickerView.layer.cornerRadius = 10
-        monthPickerView.rightView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 5.0, height: 0.0))
-        monthPickerView.rightViewMode = .always
-        monthlyEvaluationTextView.textContainer.maximumNumberOfLines = 3
-        monthlyEvaluationTextView.isScrollEnabled = false
-        monthlyEvaluationTextView.textContainer.lineBreakMode = .byTruncatingTail
-        
         self.selectionStyle = .none
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return months.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return months[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.selectedMonth = months[row]
-    }
-    
-    func createPickerView() {
-        let pickerView = UIPickerView()
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        monthPickerView.tintColor = .clear
-        monthPickerView.inputView = pickerView
     }
     
     func getEvaluation() {
@@ -127,15 +85,12 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
                                     if let err = err {
                                         print(">>>>> document 에러 : \(err)")
                                     } else {
-                                        self.setTextView("등록된 평가가 없습니다.")
-                                        self.monthPickerView.text = "\(self.selectedMonth)"
+                                        self.isRecorededLabel.text = "\(self.selectedMonth)의 평가가 없어요..."
                                         for document in querySnapshot!.documents {
-                                            let evaluation = document.data()["evaluation"] as? String ??  "등록된 평가가 없습니다."
-                                            self.setTextView(evaluation)
-                                            self.monthPickerView.text = "\(self.selectedMonth)"
+                                            let evaluation = document.data()["evaluation"] as? String ??  "\(self.selectedMonth)의 평가가 없어요..."
+                                            self.isRecorededLabel.text = "\(self.selectedMonth)의 평가 등록 완료!"
                                             LoadingHUD.isLoaded = true
                                         }
-                                        self.monthPickerView.resignFirstResponder()
                                     }
                                 }
                             }
@@ -144,30 +99,5 @@ class StudentEvaluationCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
                 }
             }
         }
-    }
-    
-    func dismissPickerView() {
-        let toolBar = UIToolbar()
-        toolBar.sizeToFit()
-        let doneBT = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(donePicker))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let cancelBT = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(cancelPicker))
-        
-        toolBar.setItems([cancelBT,flexibleSpace,doneBT], animated: true)
-        toolBar.isUserInteractionEnabled = true
-        
-        monthPickerView.inputAccessoryView = toolBar
-    }
-    
-    func setTextView(_ Evaluation: String) {
-        self.monthlyEvaluationTextView.text = Evaluation
-    }
-    
-    @objc func donePicker() {
-        getEvaluation()
-    }
-    
-    @objc func cancelPicker() {
-        monthPickerView.resignFirstResponder()
     }
 }
