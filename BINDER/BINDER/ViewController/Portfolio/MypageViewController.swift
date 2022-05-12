@@ -21,7 +21,10 @@ public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINav
     @IBOutlet weak var openPortfolioSwitch: UISwitch!
     @IBOutlet weak var portfolioPageView: UIView!
     @IBOutlet weak var pageViewTitleLabel: UILabel!
-    @IBOutlet weak var pageViewContentLabel: UILabel!
+    @IBOutlet weak var portfolioNameLabel: UILabel!
+    @IBOutlet weak var portolioLabel: UIView!
+    @IBOutlet weak var whiteBGOnView: UIView!
+    @IBOutlet weak var portfolioShowView: UIView!
     
     let imagePicker: UIImagePickerController! = UIImagePickerController()
     let storage = Storage.storage()
@@ -38,7 +41,6 @@ public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINav
         openPortfolioSwitch.onTintColor = viewDesign.titleColor
         GetUserInfoForMyPage(self: self)
         GetPortfolioShow(self: self)
-        viewDecorating(view: portfolioPageView, design: viewDesign)
         imageChange()
     }
     

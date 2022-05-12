@@ -2357,7 +2357,9 @@ public func GetUserInfoForMyPage(self : MyPageViewController) {
     db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
         if let document = document, document.exists {
             LoginRepository.shared.doLogin {
+                self.portolioLabel.isHidden = false
                 self.nameLabel.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
+                self.portfolioNameLabel.text = "\(LoginRepository.shared.teacherItem!.name)"
                 self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
                 self.type = "teacher"
                 let url = URL(string: LoginRepository.shared.teacherItem!.profile)!
@@ -2372,6 +2374,7 @@ public func GetUserInfoForMyPage(self : MyPageViewController) {
                     let data = document.data()
                     let userName = data?["name"] as? String ?? ""
                     self.nameLabel.text = "\(userName) 학생"
+                    self.portfolioNameLabel.text = userName
                     let userEmail = data?["email"] as? String ?? ""
                     self.teacherEmail.text = userEmail
                     let profile =  data?["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
@@ -2380,20 +2383,23 @@ public func GetUserInfoForMyPage(self : MyPageViewController) {
                     let url = URL(string: profile)!
                     self.imageView.kf.setImage(with: url)
                     self.imageView.makeCircle()
-                    viewDecorating(view: self.portfolioPageView, design: self.viewDesign)
                     self.openPortfolioSwitch.removeFromSuperview()
                     self.portfoiolBtn.removeFromSuperview()
+                    self.portolioLabel.isHidden = true
                     self.pageViewTitleLabel.text = "목표"
-                    self.pageViewContentLabel.text = goal
-                    self.pageViewContentLabel.numberOfLines = 2
+                    let pageViewContentLabel = UILabel(frame: CGRect(x: 85, y: 15, width: 230, height: 17))
+
+                    self.whiteBGOnView.addSubview(pageViewContentLabel)
                     
-                    self.pageViewContentLabel.rightAnchor.constraint(equalTo: self.pageView.rightAnchor
-                                                                     , constant: -20).isActive = true
-                    self.pageViewTitleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
-                    self.pageViewTitleLabel.topAnchor.constraint(equalTo: self.pageView.topAnchor
-                                                                 , constant: 20).isActive = true
-                    self.pageView.heightAnchor.constraint(equalToConstant: 120)
-                        .isActive = true
+                    pageViewContentLabel.text = goal
+                    pageViewContentLabel.numberOfLines = 2
+                    pageViewContentLabel.textAlignment = .left
+                    pageViewContentLabel.textColor = UIColor(red: 84, green: 83, blue: 87, alpha: 1.0)
+                    pageViewContentLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
+                    
+                    pageViewContentLabel.centerXAnchor.constraint(equalTo: self.whiteBGOnView.centerXAnchor).isActive = true
+                    pageViewContentLabel.centerYAnchor.constraint(equalTo: self.whiteBGOnView.centerYAnchor).isActive = true
+
                 } else {
                     print("Document does not exist")
                 }
