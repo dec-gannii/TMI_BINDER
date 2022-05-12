@@ -11,6 +11,7 @@ import Firebase
 // 일정 리스트 뷰 컨트롤러
 public class ScheduleListViewController: UIViewController {
     
+    @IBOutlet weak var scheduleListViewNavigationBar: UINavigationBar!
     @IBOutlet weak var scheduleListTableView: UITableView!
     var date: String = ""
     var scheduleTitles: [String] = []
@@ -23,7 +24,6 @@ public class ScheduleListViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
         scheduleListTableView.delegate = self
         scheduleListTableView.dataSource = self
         
@@ -58,7 +58,7 @@ public class ScheduleListViewController: UIViewController {
         guard let addScheduleVC = self.storyboard?.instantiateViewController(withIdentifier: "AddScheduleViewController") as? AddScheduleViewController else { return }
         addScheduleVC.date = self.date // 날짜 정보를 넘겨주기
         addScheduleVC.type = self.type
-        addScheduleVC.modalPresentationStyle = .fullScreen
+        addScheduleVC.modalPresentationStyle = .pageSheet
         self.present(addScheduleVC, animated: true, completion: nil)
     }
     
