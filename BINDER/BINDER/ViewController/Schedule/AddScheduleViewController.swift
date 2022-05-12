@@ -10,11 +10,13 @@ import UIKit
 import Firebase
 
 class AddScheduleViewController: UIViewController {
+    
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var scheduleTitle: UITextField!
     @IBOutlet weak var schedulePlace: UITextField!
     @IBOutlet weak var scheduleTime: UITextField!
     @IBOutlet weak var scheduleMemo: UITextView!
+    @IBOutlet weak var dateLabelBGView: UIView!
     @IBOutlet weak var okBtn: UIButton!
     
     var date: String!
@@ -32,6 +34,12 @@ class AddScheduleViewController: UIViewController {
         self.dateLabel.text = date
         self.scheduleMemo.layer.borderWidth = viewDesign.borderWidth
         self.scheduleMemo.layer.borderColor = viewDesign.borderColor
+        
+        scheduleMemo.layer.cornerRadius = 8
+        scheduleTime.layer.cornerRadius = 8
+        dateLabelBGView.layer.cornerRadius = 8
+        schedulePlace.layer.cornerRadius = 8
+        scheduleMemo.textContainerInset = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 8)
         
         // 만약 넘어온 수정할 제목이 넘어와서 nil이 아니라면,
         if (self.editingTitle != nil) {

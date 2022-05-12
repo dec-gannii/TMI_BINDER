@@ -173,11 +173,11 @@ public func GetBeforeEditSchedule(type : String, date : String, editingTitle : S
             let memo = data?["memo"] as? String ?? ""
             scheduleMemo.text = memo
             let place = data?["place"] as? String ?? ""
-            schedulePlace.text = place
+            schedulePlace.text = "   " + place
             let title = data?["title"] as? String ?? ""
             scheduleTitle.text = title
             let time = data?["time"] as? String ?? ""
-            scheduleTime.text = time
+            scheduleTime.text = "   " + time
         } else {
             print("Document does not exist")
         }
