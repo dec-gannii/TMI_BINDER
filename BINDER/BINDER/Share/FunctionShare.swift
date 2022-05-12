@@ -82,5 +82,10 @@ struct FunctionShare{
         textView.text = StringUtils.contentNotExist.rawValue
         textView.textColor = UIColor.lightGray
     }
+    
+    func ViewBorderRound(_ view: UIView) {
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 10
+    }
 }
 
