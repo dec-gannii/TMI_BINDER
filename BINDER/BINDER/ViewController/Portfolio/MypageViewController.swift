@@ -38,7 +38,6 @@ public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINav
     public override func viewDidLoad() {
         super.viewDidLoad()
         storageRef = storage.reference()
-        openPortfolioSwitch.onTintColor = viewDesign.titleColor
         GetUserInfoForMyPage(self: self)
         GetPortfolioShow(self: self)
         imageChange()
