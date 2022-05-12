@@ -248,6 +248,14 @@ public class HomeViewController: UIViewController {
         self.thirdLinkBtn.isHidden = true
         self.HomeStudentIconThirdLabel.isHidden = true
         
+        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).updateData([
+            "fcmToken": Messaging.messaging().fcmToken
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            }
+        }
+        
         GetTeacherMyClass(self: self)
     }
     
@@ -266,6 +274,14 @@ public class HomeViewController: UIViewController {
         self.HomeStudentIconSecondLabel.isHidden = true
         self.thirdLinkBtn.isHidden = true
         self.HomeStudentIconThirdLabel.isHidden = true
+        
+        self.db.collection("student").document(Auth.auth().currentUser!.uid).updateData([
+            "fcmToken": Messaging.messaging().fcmToken
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            }
+        }
         
         GetStudentMyClass(self: self)
     }

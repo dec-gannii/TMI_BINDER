@@ -42,13 +42,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             print("You're sign in as \(user.uid), email: \(user.email ?? "no email")")
         }
         
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        
+        if #available(iOS 12.0, *){
+            UNUserNotificationCenter.current().requestAuthorization(options: authOptions,completionHandler: {didAllow, Error in
+                print(didAllow)
+            })
+        } else {
+            
+        }
+        UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
-            UNUserNotificationCenter.current().delegate = self
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(options: authOptions,completionHandler: {_, _ in })
-            application.registerForRemoteNotifications()
-//        GIDSignIn.sharedInstance()?.clientID = "382918594867-akdm60fcq7msffhgglug1eou939g2ebh.apps.googleusercontent.com"
-//        GIDSignIn.sharedInstance()?.delegate = self
+       application.registerForRemoteNotifications()
         
         return true
     }
@@ -68,20 +73,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-         Messaging.messaging().apnsToken = deviceToken
+        let deviceTokenString = deviceToken.reduce("",{$0 + String(format: "%02X", $1)})
+        print("[Log] deviceToken :",deviceTokenString)
+        
+        Messaging.messaging().apnsToken = deviceToken
       }
 }
 extension AppDelegate: UNUserNotificationCenterDelegate {
-  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    print("\(#function)")
-  }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert,.badge,.sound])
+    }
+      
+      func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+          completionHandler()
+      }
 }
 
 extension AppDelegate: MessagingDelegate {
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String!) {
-    print("Firebase registration token: \(fcmToken)")
-    let dataDict:[String: String] = ["token": fcmToken]
-    NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        let firebaseToken = fcmToken ?? ""
+        print("firebase token: \(firebaseToken)")
   }
 }
 

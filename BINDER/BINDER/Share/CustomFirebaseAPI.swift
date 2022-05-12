@@ -1107,7 +1107,8 @@ public func SaveInfoForSignUp (self : SignInViewController, number: Int, name: S
         "password": password,
         "type": type,
         "uid": Auth.auth().currentUser?.uid,
-        "profile": Auth.auth().currentUser?.photoURL?.absoluteString ?? "https://ifh.cc/g/Lt9Ip8.png"
+        "profile": Auth.auth().currentUser?.photoURL?.absoluteString ?? "https://ifh.cc/g/Lt9Ip8.png",
+        "fcmToken": Messaging.messaging().fcmToken
     ]) { err in
         if let err = err {
             print("Error adding document: \(err)")
