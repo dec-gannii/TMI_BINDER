@@ -18,73 +18,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmx-Pj-JSE">
-                                <rect key="frame" x="50" y="169" width="314" height="74.5"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="반가워요">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="30" name="AppleSDGothicNeo-Light"/>
-                                            <font key="NSOriginalFont" size="30" name="AppleSDGothicNeo-Light"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="!">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="30" name="Helvetica-Light"/>
-                                            <font key="NSOriginalFont" size="30" name="Helvetica-Light"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="30" name="Helvetica-Bold"/>
-                                            <font key="NSOriginalFont" size="30" name="Helvetica-Bold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="역할을">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="30" name="AppleSDGothicNeo-Bold"/>
-                                            <font key="NSOriginalFont" size="30" name="AppleSDGothicNeo-Bold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=" ">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="30" name="Helvetica-Bold"/>
-                                            <font key="NSOriginalFont" size="30" name="Helvetica-Bold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="선택">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="30" name="AppleSDGothicNeo-Bold"/>
-                                            <font key="NSOriginalFont" size="30" name="AppleSDGothicNeo-Bold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="해주세요.">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" metaFont="system" size="30"/>
-                                            <font key="NSOriginalFont" metaFont="system" size="30"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmx-Pj-JSE">
+                                <rect key="frame" x="24" y="180" width="366" height="38.5"/>
+                                <string key="text">안녕하세요!
+과외 관리 서비스, 바인더입니다!</string>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <color key="textColor" red="0.32941176470588235" green="0.32549019607843138" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B7d-J9-FfR">
-                                <rect key="frame" x="40" y="313.5" width="334" height="50"/>
+                                <rect key="frame" x="24" y="305.5" width="366" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="wnN-Wi-cAF"/>
                                 </constraints>
@@ -92,7 +35,7 @@ Cg
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain">
                                     <backgroundConfiguration key="background" cornerRadius="9">
-                                        <color key="backgroundColor" red="0.94901960780000005" green="0.96078431369999995" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </backgroundConfiguration>
                                     <attributedString key="attributedTitle">
                                         <fragment content="수업 관리를 하고 싶은 ">
@@ -109,13 +52,14 @@ Cg
                                             </attributes>
                                         </fragment>
                                     </attributedString>
+                                    <color key="baseForegroundColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="SelectTeacherRole:" destination="7Q5-kz-MQL" eventType="touchUpInside" id="T6p-rp-N0i"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IhL-c6-vVj">
-                                <rect key="frame" x="40" y="413.5" width="334" height="50"/>
+                                <rect key="frame" x="24" y="373.5" width="366" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="xlb-2y-HL0"/>
                                 </constraints>
@@ -123,7 +67,7 @@ Cg
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain">
                                     <backgroundConfiguration key="background" cornerRadius="9">
-                                        <color key="backgroundColor" red="0.94901960780000005" green="0.96078431369999995" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </backgroundConfiguration>
                                     <attributedString key="attributedTitle">
                                         <fragment content="학습 관리를 하고 싶은 ">
@@ -141,13 +85,14 @@ Cg
                                             </attributes>
                                         </fragment>
                                     </attributedString>
+                                    <color key="baseForegroundColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="SelectStudentRole:" destination="7Q5-kz-MQL" eventType="touchUpInside" id="pBj-M8-uhE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2A-oO-JSk">
-                                <rect key="frame" x="40" y="513.5" width="334" height="50"/>
+                                <rect key="frame" x="24" y="441.5" width="366" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="7ck-kk-8VV"/>
                                 </constraints>
@@ -155,7 +100,7 @@ Cg
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain">
                                     <backgroundConfiguration key="background" cornerRadius="9">
-                                        <color key="backgroundColor" red="0.94901960780000005" green="0.96078431369999995" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </backgroundConfiguration>
                                     <attributedString key="attributedTitle">
                                         <fragment content="수업 진행을 확인하고 싶은 ">
@@ -173,31 +118,30 @@ Cg
                                             </attributes>
                                         </fragment>
                                     </attributedString>
+                                    <color key="baseForegroundColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="SelectParentRole:" destination="7Q5-kz-MQL" eventType="touchUpInside" id="MrW-TP-YNZ"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="서비스 이용 역할을 선택해주세요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gv-53-tB2">
+                                <rect key="frame" x="24" y="224.5" width="366" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrp-D7-Pgt">
-                                <rect key="frame" x="40" y="802" width="334" height="50"/>
+                                <rect key="frame" x="16" y="44" width="32" height="32"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="1L8-88-mqX"/>
+                                    <constraint firstAttribute="height" constant="32" id="1L8-88-mqX"/>
+                                    <constraint firstAttribute="width" constant="32" id="luQ-Oe-xe5"/>
                                 </constraints>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="이전 화면으로">
-                                            <attributes>
-                                                <color key="NSBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="15" name="AppleSDGothicNeo-UltraLight"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <imageReference key="image" image="arrow.backward" catalog="system" symbolScale="large"/>
+                                    <color key="baseForegroundColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <color key="baseBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -208,21 +152,23 @@ Cg
                         <viewLayoutGuide key="safeArea" id="h95-ZO-upA"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="dmx-Pj-JSE" firstAttribute="top" secondItem="h95-ZO-upA" secondAttribute="top" constant="125" id="2vK-3t-nX7"/>
-                            <constraint firstItem="n2A-oO-JSk" firstAttribute="top" secondItem="IhL-c6-vVj" secondAttribute="bottom" constant="50" id="8rf-Zt-7fM"/>
-                            <constraint firstItem="h95-ZO-upA" firstAttribute="bottom" secondItem="nrp-D7-Pgt" secondAttribute="bottom" constant="10" id="JSi-yC-XJe"/>
-                            <constraint firstItem="IhL-c6-vVj" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="40" id="MV5-dJ-P53"/>
-                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="IhL-c6-vVj" secondAttribute="trailing" constant="40" id="OfD-dU-idb"/>
-                            <constraint firstItem="B7d-J9-FfR" firstAttribute="top" secondItem="dmx-Pj-JSE" secondAttribute="bottom" constant="70" id="T8j-Zg-JMT"/>
-                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="nrp-D7-Pgt" secondAttribute="trailing" constant="40" id="VyA-ho-mZq"/>
-                            <constraint firstItem="dmx-Pj-JSE" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="50" id="XqV-PP-HcD"/>
-                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="n2A-oO-JSk" secondAttribute="trailing" constant="40" id="lCI-av-2BF"/>
-                            <constraint firstItem="n2A-oO-JSk" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="40" id="lHL-po-UQD"/>
-                            <constraint firstItem="nrp-D7-Pgt" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="40" id="npq-7q-l23"/>
-                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="dmx-Pj-JSE" secondAttribute="trailing" constant="50" id="o4Q-5D-Ypd"/>
-                            <constraint firstItem="B7d-J9-FfR" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="40" id="tcm-jw-FIJ"/>
-                            <constraint firstItem="IhL-c6-vVj" firstAttribute="top" secondItem="B7d-J9-FfR" secondAttribute="bottom" constant="50" id="uOZ-4M-Kl7"/>
-                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="B7d-J9-FfR" secondAttribute="trailing" constant="40" id="vv3-qI-Vl4"/>
+                            <constraint firstItem="0gv-53-tB2" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="24" id="8kV-Fb-2Us"/>
+                            <constraint firstItem="n2A-oO-JSk" firstAttribute="top" secondItem="IhL-c6-vVj" secondAttribute="bottom" constant="18" id="8rf-Zt-7fM"/>
+                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="0gv-53-tB2" secondAttribute="trailing" constant="24" id="CxO-rZ-ccJ"/>
+                            <constraint firstItem="IhL-c6-vVj" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="24" id="MV5-dJ-P53"/>
+                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="IhL-c6-vVj" secondAttribute="trailing" constant="24" id="OfD-dU-idb"/>
+                            <constraint firstItem="nrp-D7-Pgt" firstAttribute="top" secondItem="h95-ZO-upA" secondAttribute="top" id="QCD-YE-WqN"/>
+                            <constraint firstItem="B7d-J9-FfR" firstAttribute="top" secondItem="0gv-53-tB2" secondAttribute="bottom" constant="63" id="VmM-MB-Ot5"/>
+                            <constraint firstItem="dmx-Pj-JSE" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="24" id="XqV-PP-HcD"/>
+                            <constraint firstItem="dmx-Pj-JSE" firstAttribute="top" secondItem="nrp-D7-Pgt" secondAttribute="bottom" constant="104" id="dOx-EJ-MgM"/>
+                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="n2A-oO-JSk" secondAttribute="trailing" constant="24" id="lCI-av-2BF"/>
+                            <constraint firstItem="n2A-oO-JSk" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="24" id="lHL-po-UQD"/>
+                            <constraint firstItem="nrp-D7-Pgt" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="16" id="npq-7q-l23"/>
+                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="dmx-Pj-JSE" secondAttribute="trailing" constant="24" id="o4Q-5D-Ypd"/>
+                            <constraint firstItem="B7d-J9-FfR" firstAttribute="leading" secondItem="h95-ZO-upA" secondAttribute="leading" constant="24" id="tcm-jw-FIJ"/>
+                            <constraint firstItem="IhL-c6-vVj" firstAttribute="top" secondItem="B7d-J9-FfR" secondAttribute="bottom" constant="18" id="uOZ-4M-Kl7"/>
+                            <constraint firstItem="h95-ZO-upA" firstAttribute="trailing" secondItem="B7d-J9-FfR" secondAttribute="trailing" constant="24" id="vv3-qI-Vl4"/>
+                            <constraint firstItem="0gv-53-tB2" firstAttribute="top" secondItem="dmx-Pj-JSE" secondAttribute="bottom" constant="6" id="xh5-bE-Pfd"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -6496,7 +6442,7 @@ Cg
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4N-ea-yW8">
                                 <rect key="frame" x="24" y="393.5" width="366" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="1" green="0.38823529411764707" blue="0.38431372549019605" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvV-KX-7Wh">
