@@ -8,7 +8,6 @@ import UIKit
 
 class CardTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var classColor: UIView!
     @IBOutlet weak var studentName: UILabel!
     @IBOutlet weak var subjectName: UILabel!
     @IBOutlet weak var recentDate: UILabel!
@@ -21,9 +20,6 @@ class CardTableViewCell: UITableViewCell {
     // 둥글게하기
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        contentViewCell.clipsToBounds = true
-        contentViewCell.layer.cornerRadius = 20
         
         self.selectionStyle = .none
     }
