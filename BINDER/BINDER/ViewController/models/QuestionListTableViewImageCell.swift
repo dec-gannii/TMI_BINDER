@@ -19,12 +19,6 @@ class QuestionListTableViewImageCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        contentViewCell.clipsToBounds = true
-        contentViewCell.layer.cornerRadius = 20
-        
-        background.clipsToBounds = true
-        background.layer.cornerRadius = 8
-        
         self.selectionStyle = .none
     }
 
