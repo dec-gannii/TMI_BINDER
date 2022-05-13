@@ -1257,7 +1257,6 @@ public func GetUserInfoForClassList(self : MyClassVC) {
                     let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                     
                     let url = URL(string: profile)!
-                    self.teacherImage.kf.setImage(with: url)
                     self.setTeacherInfo()
                     
                     LoadingHUD.show()
@@ -1283,7 +1282,6 @@ public func GetUserInfoForClassList(self : MyClassVC) {
                     
                     let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                     let url = URL(string: profile)!
-                    self.teacherImage.kf.setImage(with: url)
                     
                     self.setStudentInfo()
                     
