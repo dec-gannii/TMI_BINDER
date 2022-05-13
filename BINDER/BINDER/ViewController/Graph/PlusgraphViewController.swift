@@ -87,7 +87,7 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
     }
     
     @objc func donePicker() {
-        studyShowPicker.text = "\(todayStudy)"
+        studyShowPicker.text = todayStudy
         self.studyShowPicker.resignFirstResponder()
         GetScoreForEdit(self: self, todayStudy: todayStudy)
     }
