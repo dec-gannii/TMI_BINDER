@@ -9,16 +9,6 @@ import Kingfisher
 import Firebase
 
 public class MyClassVC: BaseVC{
-    
-    /// 선생님 이름 변수
-    @IBOutlet weak var teacherName: UILabel!
-    
-    /// 선생님 이메일 변수
-    @IBOutlet weak var teacherEmail: UILabel!
-    
-    /// 선생님 사진 변수
-    @IBOutlet weak var teacherImage: UIImageView!
-    
     /// 학생 리스트
     @IBOutlet weak var studentTV: UITableView!
     
@@ -31,11 +21,6 @@ public class MyClassVC: BaseVC{
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // 초기화
-        teacherName.text = ""
-        teacherEmail.text = ""
-        
         getUserInfo()
     }
     
@@ -63,15 +48,6 @@ public class MyClassVC: BaseVC{
     /// 선생님 셋팅
     func setTeacherInfo() {
         LoginRepository.shared.doLogin {
-            /// 가져오는 시간 걸림
-            self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
-            self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
-            
-            let url = URL(string: LoginRepository.shared.teacherItem!.profile)!
-            
-            self.teacherImage.kf.setImage(with: url)
-            self.teacherImage.makeCircle()
-            
             /// 클래스 가져오기
             SetMyClasses(self: self)
         } failure: { error in
@@ -83,15 +59,6 @@ public class MyClassVC: BaseVC{
     /// 학생 셋팅
     func setStudentInfo() {
         LoginRepository.shared.doLogin {
-            /// 가져오는 시간 걸림
-            self.teacherName.text = "\(LoginRepository.shared.studentItem!.name) 학생"
-            self.teacherEmail.text = LoginRepository.shared.studentItem!.email
-            
-            let url = URL(string: LoginRepository.shared.studentItem!.profile)!
-            
-            self.teacherImage.kf.setImage(with: url)
-            self.teacherImage.makeCircle()
-            
             /// 클래스 가져오기
             SetMyClasses(self: self)
         } failure: { error in
@@ -126,7 +93,7 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             let item:ClassItem = classItems[indexPath.row]
             
             if (self.type == "teacher") {
-                cell.studentName.text = "\(item.name) 학생"
+                cell.studentName.text = "\(item.name)"
                 
             } else {
                 cell.studentName.text = "\(item.name) 선생님"
@@ -135,13 +102,7 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             cell.subjectName.text = item.subject
             cell.subjectGoal.text = item.goal
             cell.cntLb.text = "\(item.currentCnt) / \(item.totalCnt)"
-            cell.recentDate.text = "최근 수업 : \(item.recentDate)"
-            cell.classColor.makeCircle()
-            if let hex = Int(item.circleColor, radix: 16) {
-                cell.classColor.backgroundColor = UIColor.init(rgb: hex)
-            } else {
-                cell.classColor.backgroundColor = UIColor.red
-            }
+            cell.recentDate.text = "\(item.recentDate)"
             
             cell.manageBtn.addTarget(self, action: #selector(onClickManageButton(_:)), for: .touchUpInside)
             cell.manageBtn.tag = item.index
