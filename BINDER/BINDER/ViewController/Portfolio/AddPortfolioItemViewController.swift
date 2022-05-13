@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import Kingfisher
+import SwiftUI
 
 class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var titleTextField: UITextField!
@@ -31,9 +32,9 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
         manageBtn.clipsToBounds = true
         manageBtn.layer.cornerRadius = btnDesign.cornerRadius
         
-        // textview 테두리 설정
-        self.contentTextView.layer.borderColor = UIColor.lightGray.cgColor
-        self.contentTextView.layer.borderWidth = viewDesign.borderWidth
+        contactBtn.titleLabel?.textColor = UIColor(rgb: 0x0168FF)
+        timeBtn.titleLabel?.textColor = UIColor(rgb: 0xC2C2C2)
+        manageBtn.titleLabel?.textColor = UIColor(rgb: 0xC2C2C2)
         
         // cornerRadius 지정
         contentTextView.clipsToBounds = true
@@ -86,7 +87,7 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     @IBAction func OkButtonClicked(_ sender: Any) {
         // 설정된 title 내용에 따라서 저장할 db 경로 이름 설정
         if let data = titleTextField.text, let content = contentTextView.text {
-            var title = ""
+            var title = "contact"
             if (data == contactBtn.titleLabel!.text) {
                 title = "contact"
             } else if (data == timeBtn.titleLabel!.text) {
@@ -104,5 +105,28 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     @IBAction func TitleButtonClicked(_ sender: Any) {
         // 선택한 버튼의 타이틀 레이블 텍스트와 동일하게 titletextfield 글씨 설정
         self.titleTextField.text = (sender as AnyObject).titleLabel?.text
+        
+        if ((sender as AnyObject).tag == 0) {
+            contactBtn.backgroundColor = UIColor(rgb: 0xCDE7FC)
+            timeBtn.backgroundColor = UIColor(rgb: 0xF5F5F5)
+            manageBtn.backgroundColor = UIColor(rgb: 0xF5F5F5)
+            contactBtn.titleLabel?.textColor = UIColor(rgb: 0x0168FF)
+            timeBtn.titleLabel?.textColor = UIColor(rgb: 0xC2C2C2)
+            manageBtn.titleLabel?.textColor = UIColor(rgb: 0xC2C2C2)
+        } else if ((sender as AnyObject).tag == 1) {
+            contactBtn.backgroundColor = UIColor(rgb: 0xF5F5F5)
+            timeBtn.backgroundColor = UIColor(rgb: 0xCDE7FC)
+            manageBtn.backgroundColor = UIColor(rgb: 0xF5F5F5)
+            contactBtn.titleLabel?.textColor = UIColor(rgb: 0xC2C2C2)
+            timeBtn.titleLabel?.textColor = UIColor(rgb: 0x0168FF)
+            manageBtn.titleLabel?.textColor = UIColor(rgb: 0xC2C2C2)
+        } else {
+            contactBtn.backgroundColor = UIColor(rgb: 0xF5F5F5)
+            timeBtn.backgroundColor = UIColor(rgb: 0xF5F5F5)
+            manageBtn.backgroundColor = UIColor(rgb: 0xCDE7FC)
+            contactBtn.titleLabel?.textColor = UIColor(rgb: 0xC2C2C2)
+            timeBtn.titleLabel?.textColor = UIColor(rgb: 0xC2C2C2)
+            manageBtn.titleLabel?.textColor = UIColor(rgb: 0x0168FF)
+        }
     }
 }
