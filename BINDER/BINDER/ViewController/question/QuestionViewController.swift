@@ -11,12 +11,6 @@ import Firebase
 import AVFoundation
 
 public class QuestionViewController: BaseVC {
-    
-    // 요소 연결(테이블 뷰 X)
-    @IBOutlet weak var teacherName: UILabel!
-    @IBOutlet weak var teacherEmail: UILabel!
-    @IBOutlet weak var teacherImage: UIImageView!
-    
     // 테이블 뷰 연결
     @IBOutlet weak var questionTV: UITableView!
     
@@ -40,14 +34,6 @@ public class QuestionViewController: BaseVC {
     /// 선생님 셋팅
     func setTeacherInfo() {
         LoginRepository.shared.doLogin {
-            /// 가져오는 시간 걸림
-            self.teacherName.text = "\(LoginRepository.shared.teacherItem!.name) 선생님"
-            self.teacherEmail.text = LoginRepository.shared.teacherItem!.email
-            
-            let url = URL(string: LoginRepository.shared.teacherItem!.profile)
-            self.teacherImage.kf.setImage(with: url)
-            self.teacherImage.makeCircle()
-            
             /// 클래스 가져오기
             self.setQuestionroom()
         } failure: { error in
@@ -59,10 +45,6 @@ public class QuestionViewController: BaseVC {
     /// 학생 셋팅
     func setStudentInfo() {
         LoginRepository.shared.doLogin {
-            /// 가져오는 시간 걸림
-            self.teacherName.text = "\(LoginRepository.shared.studentItem!.name) 학생"
-            self.teacherEmail.text = LoginRepository.shared.studentItem!.email
-            
             /// 클래스 가져오기
             self.setQuestionroom()
         } failure: { error in
@@ -93,18 +75,12 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
         let item:QuestionItem = questionItems[indexPath.row]
         
         if (userType == "teacher") {
-            cell.studentName.text = "\(item.userName) 학생"
+            cell.studentName.text = "\(item.userName)"
         } else {
             cell.studentName.text = "\(item.userName) 선생님"
         }
         
         cell.subjectName.text = item.subjectName
-        cell.classColor.allRoundSmall()
-        if let hex = Int(item.classColor, radix: 16) {
-            cell.classColor.backgroundColor = UIColor.init(rgb: hex)
-        } else {
-            cell.classColor.backgroundColor = UIColor.red
-        }
         
         cell.contentView.tag = item.index
         
