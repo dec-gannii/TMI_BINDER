@@ -4998,13 +4998,14 @@ public func SetQnA (self : QnADetailViewController) {
                                                     if (imgurl == "" || imgurl == "nil") {
                                                         if (self.answerImgView != nil) {
                                                             self.answerImgView.image = .none
-                                                            self.answerImgView.removeFromSuperview()
+                                                            self.answerImgView.isHidden = true
                                                             self.answerView.heightAnchor.constraint(equalToConstant: self.answerContent.frame.height + 50)
                                                                 .isActive = true
                                                         }
                                                     } else {
                                                         if imgType == "image"{
                                                             let url = URL(string: imgurl)
+                                                            self.answerImgView.isHidden = true
                                                             DispatchQueue.global().async {
                                                                 let data = try? Data(contentsOf: url!)
                                                                 DispatchQueue.main.async {
@@ -5017,6 +5018,7 @@ public func SetQnA (self : QnADetailViewController) {
                                                             }
                                                         } else {
                                                             let url = URL(string: imgurl)
+                                                            self.answerImgView.isHidden = true
                                                             self.player = AVPlayer(url: url!)
                                                             self.avPlayerLayer = AVPlayerLayer(player: self.player)
                                                             self.avPlayerLayer.videoGravity = AVLayerVideoGravity.resize

@@ -10,6 +10,7 @@ import Firebase
 import FirebaseMessaging
 import GoogleSignIn
 import UserNotifications
+import FirebaseFirestore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
