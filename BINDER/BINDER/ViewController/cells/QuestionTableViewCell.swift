@@ -12,15 +12,10 @@ class QuestionTableViewCell: UITableViewCell {
     
     @IBOutlet weak var subjectName: UILabel!
     @IBOutlet weak var studentName: UILabel!
-    @IBOutlet weak var classColor: UIView!
     @IBOutlet weak var contentViewCell: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        contentViewCell.clipsToBounds = true
-        contentViewCell.layer.cornerRadius = 20
-        
         self.selectionStyle = .none
     }
 

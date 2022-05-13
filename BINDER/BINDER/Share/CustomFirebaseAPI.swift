@@ -4195,8 +4195,6 @@ public func GetUserInfoInQuestionVC (self : QuestionViewController) {
                     userName = document.data()["name"] as? String ?? ""
                     let userProfile = document.data()["profile"] as? String ?? ""
                     let url = URL(string: userProfile)!
-                    self.teacherImage.kf.setImage(with: url)
-                    self.teacherImage.makeCircle()
                     self.setTeacherInfo()
                 }
             }
@@ -4216,8 +4214,6 @@ public func GetUserInfoInQuestionVC (self : QuestionViewController) {
                     userType = type
                     let userProfile = document.data()["profile"] as? String ?? ""
                     let url = URL(string: userProfile)!
-                    self.teacherImage.kf.setImage(with: url)
-                    self.teacherImage.makeCircle()
                     self.setStudentInfo()
                 }
             }
