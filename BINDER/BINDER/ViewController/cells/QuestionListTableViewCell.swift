@@ -11,8 +11,6 @@ import Firebase
 
 class QuestionListTableViewCell: UITableViewCell {
     
-    // 테이블 뷰 요소 연결
-    
     // 과목이름
     @IBOutlet weak var title: UILabel!
     // 답변 완료 여부 배경
@@ -27,13 +25,6 @@ class QuestionListTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        contentViewCell.clipsToBounds = true
-        contentViewCell.layer.cornerRadius = 20
-        
-        background.clipsToBounds = true
-        background.layer.cornerRadius = 8
-        
         
         self.selectionStyle = .none
     }

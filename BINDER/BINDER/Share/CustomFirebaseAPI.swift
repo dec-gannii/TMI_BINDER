@@ -4042,8 +4042,6 @@ public func SetQuestionList(self : QuestionListViewController) {
                         self.maxnum = Int(qnumber)!
                     }
                     
-                    print("가장 큰 값 : \(self.maxnum)")
-                    
                     let item = QuestionListItem(title: title, answerCheck: answerCheck, imgURL: imgURL , questionContent: questionContent, email: email, index: qnumber )
                     
                     let answeredItem = QuestionAnsweredListItem(title: title, answerCheck: answerCheck, imgURL: imgURL, questionContent: questionContent, email: email, index: qnumber)
