@@ -113,6 +113,21 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         
     }
     
+    func calendarColor() {
+        calendarView.appearance.weekdayTextColor = .systemGray
+        calendarView.appearance.titleWeekendColor = .black
+        calendarView.appearance.headerTitleColor =  calendarDesign.calendarColor
+        calendarView.appearance.eventDefaultColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
+        calendarView.appearance.eventSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
+        
+        calendarView.appearance.titleSelectionColor = calendarDesign.calendarColor
+        calendarView.appearance.borderSelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
+        calendarView.appearance.titleTodayColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
+        calendarView.appearance.todaySelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
+        calendarView.appearance.selectionColor = .none
+        calendarView.appearance.todayColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -129,7 +144,8 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         
         // calendar 커스터마이징
         calendarText()
-        calendarColor(view: self.calendarView, design: calendarDesign)
+//        calendarColor(view: self.calendarView, design: calendarDesign)
+        self.calendarColor()
         self.calendarEvent()
         self.setCornerRadius()
         
@@ -214,6 +230,14 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
             return 1
         } else {
             return 0
+        }
+    }
+    
+    public func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
+        if self.events.contains(date) {
+            return UIColor(red: 1, green: 104, blue: 255, alpha: 1)
+        } else {
+            return nil
         }
     }
 }
