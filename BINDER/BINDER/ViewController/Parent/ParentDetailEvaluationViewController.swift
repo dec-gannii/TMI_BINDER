@@ -22,7 +22,7 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var monthlyEvaluationTextView: UITextView! // 월간 평가가 나타나는 textview
     @IBOutlet weak var monthlyEvaluationTitle: UILabel! // 평가 제목 Label
-    @IBOutlet weak var monthlyEvaluationTitleBackgroundView: UIView! // 평가가 나타나는 위치의 배경 view
+//    @IBOutlet weak var monthlyEvaluationTitleBackgroundView: UIView! // 평가가 나타나는 위치의 배경 view
     @IBOutlet weak var navigationBarTitle: UINavigationItem! // 네비게이션 바
     
     let db = Firestore.firestore()
@@ -110,19 +110,6 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
     }
     
     func setCornerRadius() {
-        /// cornerRadius 지정을 위해 사용
-        monthlyEvaluationTitleBackgroundView.clipsToBounds = true
-        monthlyEvaluationTitleBackgroundView.layer.cornerRadius = viewDesign.childViewconerRadius
-        monthlyEvaluationTextView.clipsToBounds = true
-        monthlyEvaluationTextView.layer.cornerRadius = viewDesign.childViewconerRadius
-        
-        /// 위쪽 코너에만 cornerRadius 주기 위해 사용
-        monthlyEvaluationTitleBackgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.addSubview(monthlyEvaluationTitleBackgroundView)
-        
-        /// 이래쪽 코너에만 cornerRadius 주기 위해 사용
-        monthlyEvaluationTextView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        view.addSubview(monthlyEvaluationTextView)
         
     }
     
