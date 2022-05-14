@@ -1942,7 +1942,7 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
     self.teacherManagingSatisfyScoreArray.removeAll()
     
     if (self.isShowMode == true) { /// 포트폴리오 조회인 경우
-        self.editBtn.isHidden = true // 수정 버튼 숨기기
+        self.editBtn.isEnabled = false
         self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
@@ -2010,6 +2010,12 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
             }
         }
     } else {
+        self.editBtn.isEnabled = true
+        if let image = UIImage(named: "pencil") {
+            print("pencil is Exist!!")
+            self.editBtn.setImage(image, for: .normal)
+            self.editBtn.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        }
         self.infos.removeAll()
         self.teacherAttitudeArray.removeAll()
         self.teacherManagingSatisfyScoreArray.removeAll()
