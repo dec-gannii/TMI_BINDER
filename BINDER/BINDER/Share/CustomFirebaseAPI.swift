@@ -2386,7 +2386,7 @@ public func GetUserInfoForMyPage(self : MyPageViewController) {
                     self.portolioLabel.isHidden = true
                     self.pageViewTitleLabel.text = "목표"
                     let pageViewContentLabel = UILabel(frame: CGRect(x: 85, y: 15, width: 230, height: 17))
-
+                    
                     self.whiteBGOnView.addSubview(pageViewContentLabel)
                     
                     pageViewContentLabel.text = goal
@@ -2397,7 +2397,7 @@ public func GetUserInfoForMyPage(self : MyPageViewController) {
                     
                     pageViewContentLabel.centerXAnchor.constraint(equalTo: self.whiteBGOnView.centerXAnchor).isActive = true
                     pageViewContentLabel.centerYAnchor.constraint(equalTo: self.whiteBGOnView.centerYAnchor).isActive = true
-
+                    
                 } else {
                     print("Document does not exist")
                 }
@@ -4562,8 +4562,26 @@ public func SetQuestion(self : QuestionDetailViewController) {
                         let imgURL = questionDt["imgURL"] as? String ?? ""
                         
                         self.titleName.text = title
+                        
+                        let size = CGSize(width: self.view.frame.width, height: .infinity)
+                        let estimatedSize = self.questionContent.sizeThatFits(size)
+                        
+                        self.questionContent.constraints.forEach { (constraint) in
+                            
+                            /// 180 이하일때는 더 이상 줄어들지 않게하기
+                            if estimatedSize.height <= 180 {
+                                
+                            }
+                            else {
+                                if constraint.firstAttribute == .height {
+                                    constraint.constant = estimatedSize.height
+                                }
+                            }
+                        }
+                        
                         self.questionContent.text = questionContent
                         if imgURL != "" {
+                            self.imgView.isHidden = false
                             let url = URL(string: imgURL)
                             DispatchQueue.global().async {
                                 let data = try? Data(contentsOf: url!)
@@ -4572,10 +4590,9 @@ public func SetQuestion(self : QuestionDetailViewController) {
                                 }
                             }
                         } else if (imgURL == "") {
-                            self.imgView.removeFromSuperview()
+                            self.imgView.isHidden = true
                         }
                         self.questionContent.translatesAutoresizingMaskIntoConstraints = true
-                        self.questionContent.sizeToFit()
                         self.questionContent.isScrollEnabled = false
                     }
                 }
@@ -4623,7 +4640,6 @@ public func SetQuestion(self : QuestionDetailViewController) {
                                         for document in querySnapshot!.documents {
                                             teacherUid = document.data()["uid"] as? String ?? ""
                                             self.teacherUid = teacherUid
-                                            print ("TeacherUID : \(teacherUid)")
                                             
                                             db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(self.qnum)).getDocuments() { (querySnapshot, err) in
                                                 if let err = err {
@@ -4645,8 +4661,26 @@ public func SetQuestion(self : QuestionDetailViewController) {
                                                         let imgURL = questionDt["imgURL"] as? String ?? ""
                                                         
                                                         self.titleName.text = title
+                                                        
+                                                        let size = CGSize(width: self.view.frame.width, height: .infinity)
+                                                        let estimatedSize = self.questionContent.sizeThatFits(size)
+                                                        
+                                                        self.questionContent.constraints.forEach { (constraint) in
+                                                            
+                                                            /// 180 이하일때는 더 이상 줄어들지 않게하기
+                                                            if estimatedSize.height <= 180 {
+                                                                
+                                                            }
+                                                            else {
+                                                                if constraint.firstAttribute == .height {
+                                                                    constraint.constant = estimatedSize.height
+                                                                }
+                                                            }
+                                                        }
+                                                        
                                                         self.questionContent.text = questionContent
                                                         if imgURL != "" {
+                                                            self.imgView.isHidden = false
                                                             let url = URL(string: imgURL)
                                                             DispatchQueue.global().async {
                                                                 let data = try? Data(contentsOf: url!)
@@ -4655,11 +4689,10 @@ public func SetQuestion(self : QuestionDetailViewController) {
                                                                 }
                                                             }
                                                         } else if (imgURL == "") {
-                                                            self.imgView.removeFromSuperview()
+                                                            self.imgView.isHidden = true
                                                         }
                                                         
                                                         self.questionContent.translatesAutoresizingMaskIntoConstraints = true
-                                                        self.questionContent.sizeToFit()
                                                         self.questionContent.isScrollEnabled = false
                                                     }
                                                 }
@@ -4864,7 +4897,6 @@ public func SetQnA (self : QnADetailViewController) {
                         self.titleName.text = title
                         self.questionContent.text = questionContent
                         self.questionContent.translatesAutoresizingMaskIntoConstraints = true
-                        self.questionContent.sizeToFit()
                         self.questionContent.isScrollEnabled = false
                         
                         if imgURL != "" {
@@ -4873,7 +4905,7 @@ public func SetQnA (self : QnADetailViewController) {
                                 let data = try? Data(contentsOf: url!)
                                 DispatchQueue.main.async {
                                     self.questionImgView.image = UIImage(data: data!)
-                                    self.questionView.heightAnchor.constraint(equalToConstant: self.questionContent.frame.height + self.questionImgView.frame.height + 50)
+                                    self.questionView.heightAnchor.constraint(equalToConstant: self.view.frame.height + self.questionImgView.frame.height + 50)
                                         .isActive = true
                                 }
                             }
@@ -4932,7 +4964,6 @@ public func SetQnA (self : QnADetailViewController) {
                                         for document in querySnapshot!.documents {
                                             teacherUid = document.data()["uid"] as? String ?? ""
                                             self.teacherUid = teacherUid
-                                            print ("TeacherUID : \(teacherUid)")
                                             //질문 내용
                                             db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.subject).collection("questionList").whereField("num", isEqualTo: String(self.qnum!)).getDocuments() { (querySnapshot, err) in
                                                 if let err = err {
@@ -4957,7 +4988,6 @@ public func SetQnA (self : QnADetailViewController) {
                                                         self.titleName.text = title
                                                         self.questionContent.text = questionContent
                                                         self.questionContent.translatesAutoresizingMaskIntoConstraints = true
-                                                        self.questionContent.sizeToFit()
                                                         self.questionContent.isScrollEnabled = false
                                                         
                                                         if imgURL != "" {
@@ -4966,7 +4996,7 @@ public func SetQnA (self : QnADetailViewController) {
                                                                 let data = try? Data(contentsOf: url!)
                                                                 DispatchQueue.main.async {
                                                                     self.questionImgView.image = UIImage(data: data!)
-                                                                    self.questionView.heightAnchor.constraint(equalToConstant: self.questionContent.frame.height + self.questionImgView.frame.height + 50)
+                                                                    self.questionView.heightAnchor.constraint(equalToConstant: self.view.frame.height + self.questionImgView.frame.height + 50)
                                                                         .isActive = true
                                                                     
                                                                 }
@@ -5003,7 +5033,21 @@ public func SetQnA (self : QnADetailViewController) {
                                                     
                                                     self.answerContent.text = answer
                                                     self.answerContent.translatesAutoresizingMaskIntoConstraints = true
-                                                    self.answerContent.sizeToFit()
+                                                    let size = CGSize(width: self.answerView.frame.width, height: .infinity)
+                                                    let estimatedSize = self.answerContent.sizeThatFits(size)
+                                                    
+                                                    self.answerContent.constraints.forEach { (constraint) in
+                                                        
+                                                        /// 180 이하일때는 더 이상 줄어들지 않게하기
+                                                        if estimatedSize.height <= 180 {
+                                                            
+                                                        }
+                                                        else {
+                                                            if constraint.firstAttribute == .height {
+                                                                constraint.constant = estimatedSize.height
+                                                            }
+                                                        }
+                                                    }
                                                     self.answerContent.isScrollEnabled = false
                                                     
                                                     if (imgurl == "" || imgurl == "nil") {
