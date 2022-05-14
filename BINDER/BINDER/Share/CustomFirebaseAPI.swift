@@ -704,7 +704,7 @@ public func LogInAndShowHomeVC (email : String, password: String, self : LogInVi
     }
 }
 
-public func GoogleLogIn(googleCredential : AuthCredential, self : LogInViewController) {
+public func GoogleLogIn(googleCredential : AuthCredential, self : MainViewController) {
     Auth.auth().signIn(with: googleCredential) {
         (authResult, error) in if let error = error {
             print("Firebase sign in error: \(error)")
@@ -830,7 +830,7 @@ public func GoogleLogIn(googleCredential : AuthCredential, self : LogInViewContr
     }
 }
 
-public func AppleLogIn(credential : OAuthCredential, self : LogInViewController) {
+public func AppleLogIn(credential : OAuthCredential, self : MainViewController) {
     let db = Firestore.firestore()
     // Sign in with Firebase.
     Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in

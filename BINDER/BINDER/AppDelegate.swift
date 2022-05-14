@@ -34,7 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {// Use Firebase library to configure APIs
-       
+        
+        sleep(3) 
+        
         FirebaseApp.configure()
         
         let db = Firestore.firestore()
