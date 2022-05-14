@@ -4155,6 +4155,7 @@
                                         <buttonConfiguration key="configuration" style="filled">
                                             <imageReference key="image" image="xmark" catalog="system" symbolScale="medium"/>
                                             <color key="baseForegroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="baseBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="cancelButton:" destination="m7l-2y-fPk" eventType="touchUpInside" id="wSz-po-Bw9"/>
@@ -4177,6 +4178,7 @@
                                         <buttonConfiguration key="configuration" style="filled">
                                             <imageReference key="image" image="checkmark" catalog="system" symbolScale="medium"/>
                                             <color key="baseForegroundColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="baseBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="editButton:" destination="m7l-2y-fPk" eventType="touchUpInside" id="qBg-ai-iPb"/>
