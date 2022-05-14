@@ -704,7 +704,7 @@ public func LogInAndShowHomeVC (email : String, password: String, self : LogInVi
     }
 }
 
-public func GoogleLogIn(googleCredential : AuthCredential, self : LogInViewController) {
+public func GoogleLogIn(googleCredential : AuthCredential, self : MainViewController) {
     Auth.auth().signIn(with: googleCredential) {
         (authResult, error) in if let error = error {
             print("Firebase sign in error: \(error)")
@@ -830,7 +830,7 @@ public func GoogleLogIn(googleCredential : AuthCredential, self : LogInViewContr
     }
 }
 
-public func AppleLogIn(credential : OAuthCredential, self : LogInViewController) {
+public func AppleLogIn(credential : OAuthCredential, self : MainViewController) {
     let db = Firestore.firestore()
     // Sign in with Firebase.
     Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
@@ -1942,7 +1942,7 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
     self.teacherManagingSatisfyScoreArray.removeAll()
     
     if (self.isShowMode == true) { /// 포트폴리오 조회인 경우
-        self.editBtn.isHidden = true // 수정 버튼 숨기기
+        self.editBtn.isEnabled = false
         self.db.collection("teacher").whereField("email", isEqualTo: self.showModeEmail).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
@@ -2010,6 +2010,12 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
             }
         }
     } else {
+        self.editBtn.isEnabled = true
+        if let image = UIImage(named: "pencil") {
+            print("pencil is Exist!!")
+            self.editBtn.setImage(image, for: .normal)
+            self.editBtn.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        }
         self.infos.removeAll()
         self.teacherAttitudeArray.removeAll()
         self.teacherManagingSatisfyScoreArray.removeAll()

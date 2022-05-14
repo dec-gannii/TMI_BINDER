@@ -84,10 +84,10 @@ public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINav
         
         if Auth.auth().currentUser != nil {
             // Show logout page
-            let signinVC = self.storyboard?.instantiateViewController(withIdentifier: "SignInViewController")
-            signinVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-            signinVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-            self.present(signinVC!, animated: true, completion: nil)
+            let mainVC = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController")
+            mainVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+            mainVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+            self.present(mainVC!, animated: true, completion: nil)
         } else {
             // Show login page
             guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else {
@@ -101,17 +101,6 @@ public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINav
             self.present(loginVC, animated: true, completion: nil)
         }
     }
-    
-    /*
-    func viewDecorating(){
-        pageView.layer.cornerRadius = viewDesign.viewconerRadius
-        pageView.layer.shadowColor = viewDesign.shadowColor
-        pageView.layer.masksToBounds = false
-        pageView.layer.shadowOffset = viewDesign.shadowOffset
-        pageView.layer.shadowRadius = viewDesign.shadowRadius
-        pageView.layer.shadowOpacity = viewDesign.shadowOpacity
-    }
-    */
     
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         imagePicker.dismiss(animated: true, completion: nil)
