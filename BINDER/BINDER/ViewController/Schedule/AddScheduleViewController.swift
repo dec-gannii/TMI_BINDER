@@ -26,14 +26,10 @@ class AddScheduleViewController: UIViewController {
     var type: String = ""
     var viewDesign = ViewDesign()
     
-    let db = Firestore.firestore()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.dateLabel.text = date
-        self.scheduleMemo.layer.borderWidth = viewDesign.borderWidth
-        self.scheduleMemo.layer.borderColor = viewDesign.borderColor
         
         scheduleMemo.layer.cornerRadius = 8
         scheduleTime.layer.cornerRadius = 8
