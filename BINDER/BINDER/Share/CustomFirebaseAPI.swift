@@ -4705,8 +4705,6 @@ public func GetUserInfoInQnADetailVC (self : QnADetailViewController) {
                                             let name = document.data()["name"] as? String ?? ""
                                             self.userName = name
                                             self.email = document.data()["email"] as? String ?? ""
-                                            self.subject = document.data()["subject"] as? String ?? ""
-                                            self.subjectName.text = self.subject
                                             self.navigationBar.topItem!.title = self.userName + " 학생"
                                             self.setQnA()
                                         }
@@ -4744,7 +4742,6 @@ public func GetUserInfoInQnADetailVC (self : QnADetailViewController) {
                                             let name = document.data()["name"] as? String ?? ""
                                             let email = document.data()["email"] as? String ?? ""
                                             let subject = document.data()["subject"] as? String ?? ""
-                                            self.subjectName.text = subject
                                             self.navigationBar.topItem!.title = name + " 선생님"
                                             
                                             self.db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("questionList").getDocuments() {(document, error) in
@@ -4788,7 +4785,21 @@ public func SetQnA (self : QnADetailViewController) {
                         
                         self.answerContent.text = answer
                         self.answerContent.translatesAutoresizingMaskIntoConstraints = true
-                        self.answerContent.sizeToFit()
+                        let size = CGSize(width: self.answerView.frame.width, height: .infinity)
+                        let estimatedSize = self.answerContent.sizeThatFits(size)
+                        
+                        self.answerContent.constraints.forEach { (constraint) in
+                            
+                            /// 180 이하일때는 더 이상 줄어들지 않게하기
+                            if estimatedSize.height <= 180 {
+                                
+                            }
+                            else {
+                                if constraint.firstAttribute == .height {
+                                    constraint.constant = estimatedSize.height
+                                }
+                            }
+                        }
                         self.answerContent.isScrollEnabled = false
                         
                         if (imgurl == "" || imgurl == "nil") {

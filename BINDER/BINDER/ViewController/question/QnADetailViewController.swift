@@ -33,7 +33,6 @@ public class QnADetailViewController: UIViewController {
     
     @IBOutlet weak var questionView: UIView!
     @IBOutlet weak var answerView: UILabel!
-    @IBOutlet weak var subjectName: UILabel!
     @IBOutlet weak var answerContent: UITextView!
     @IBOutlet weak var answerImgView: UIImageView!
     
