@@ -17,7 +17,6 @@ class TypeSelectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("isAppleLogIn : \(isAppleLogIn)")
     }
     
     // 선생님 타입 선택 시 실행되는 메소드
@@ -42,7 +41,7 @@ class TypeSelectViewController: UIViewController {
     
     // 학생 타입 선택 시 실행되는 메소드
     @IBAction func SelectStudentRole(_ sender: Any) {
-        // 학생 선택시 작동하는 함수
+//        // 학생 선택시 작동하는 함수
         guard let signinVC = self.storyboard?.instantiateViewController(withIdentifier: "SignInViewController") as? SignInViewController else {
             //아니면 종료
             return

@@ -67,6 +67,7 @@ public class MainViewController : UIViewController {
         googleLogInBtn.style = .wide
         googleLogInBtn.layer.borderWidth = viewDesign.borderWidth
         googleLogInBtn.layer.borderColor = UIColor.clear.cgColor
+        googleLogInBtn.layer.shadowOpacity = 0.0
         googleLogInBtn.clipsToBounds = true
         
         GIDSignIn.sharedInstance()?.presentingViewController = self

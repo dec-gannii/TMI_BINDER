@@ -61,6 +61,7 @@
 		7F2E9EA327DB482B008991EB /* EvaluationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9EA227DB482A008991EB /* EvaluationItem.swift */; };
 		7F2EC22627F5CC8F005A9214 /* LoadingHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2EC22527F5CC8F005A9214 /* LoadingHUD.swift */; };
 		7F33791227FBDECC00E1FC1C /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F33791127FBDECC00E1FC1C /* StringUtils.swift */; };
+		7F3E3C512830A135005159BC /* EmailVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3E3C502830A135005159BC /* EmailVerificationViewController.swift */; };
 		7F4285312765034500BA0310 /* ShowPortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */; };
 		7F5278B7282FFFA2001AC18A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5278B6282FFFA2001AC18A /* MainViewController.swift */; };
 		7F63AB6F27B4E3620081ED49 /* TermViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F63AB6E27B4E3620081ED49 /* TermViewController.swift */; };
@@ -145,6 +146,7 @@
 		7F2E9EA227DB482A008991EB /* EvaluationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationItem.swift; sourceTree = "<group>"; };
 		7F2EC22527F5CC8F005A9214 /* LoadingHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHUD.swift; sourceTree = "<group>"; };
 		7F33791127FBDECC00E1FC1C /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
+		7F3E3C502830A135005159BC /* EmailVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationViewController.swift; sourceTree = "<group>"; };
 		7F4285302765034500BA0310 /* ShowPortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPortfolioViewController.swift; sourceTree = "<group>"; };
 		7F5278B6282FFFA2001AC18A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7F63AB6E27B4E3620081ED49 /* TermViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermViewController.swift; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				7F16D16027496FC800745522 /* TypeSelectViewController.swift */,
 				7F94E55C27FAF245000047A7 /* ResetPasswordViewController.swift */,
 				7FB50F7B27FC63C500BC2B09 /* FirebaseAuthentication.swift */,
+				7F3E3C502830A135005159BC /* EmailVerificationViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -601,6 +604,7 @@
 				7F6E5E4D27B2C3ED00292601 /* CheckPasswordViewController.swift in Sources */,
 				7F645B68282A963D00FF2BC6 /* FunctionShare.swift in Sources */,
 				7F33791227FBDECC00E1FC1C /* StringUtils.swift in Sources */,
+				7F3E3C512830A135005159BC /* EmailVerificationViewController.swift in Sources */,
 				6965DE75275DEF330072C16A /* CardTableViewCell.swift in Sources */,
 				7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */,
 				7F9B8AF327E0D31A008B705B /* TeacherEvaluationViewController.swift in Sources */,

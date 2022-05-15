@@ -52,6 +52,7 @@ public class SignInViewController: UIViewController {
             pwTextField.placeholder = "이메일로 전송된 링크에서 변경한 비밀번호를 입력해주세요."
             Auth.auth().sendPasswordReset(withEmail: (Auth.auth().currentUser?.email)!)
             emailTextField.isEnabled = false
+        } else {
         }
     }
     
@@ -61,14 +62,6 @@ public class SignInViewController: UIViewController {
         if ((nameValidation.isEmpty) == true) {
             return false
         } else { return true }
-    }
-    
-    // 이메일 형식인지 검사하는 메소드
-    func isValidEmail(_ email: String) -> Bool {
-        if (self.isGoogleSignIn == true) { return false }
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
     }
     
     // 유효한 비밀번호인지 검사하는 메소드
