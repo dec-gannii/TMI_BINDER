@@ -39,16 +39,66 @@
                                         <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </backgroundConfiguration>
                                     <attributedString key="attributedTitle">
-                                        <fragment content="수업 관리를 하고 싶은 ">
+                                        <fragment content="수업">
                                             <attributes>
-                                                <color key="NSColor" red="0.048149853852433921" green="0.066059756114299081" blue="0.19220325200244637" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="18" name="AppleSDGothicNeo-Regular"/>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="14" name=".AppleSDGothicNeoI-Regular"/>
+                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content=" ">
+                                            <attributes>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="관리를">
+                                            <attributes>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="14" name=".AppleSDGothicNeoI-Regular"/>
+                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content=" ">
+                                            <attributes>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="하고">
+                                            <attributes>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="14" name=".AppleSDGothicNeoI-Regular"/>
+                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content=" ">
+                                            <attributes>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="싶은">
+                                            <attributes>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="14" name=".AppleSDGothicNeoI-Regular"/>
+                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content=" ">
+                                            <attributes>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
                                             </attributes>
                                         </fragment>
                                         <fragment content="선생님">
                                             <attributes>
-                                                <color key="NSColor" red="0.048149853852433921" green="0.066059756114299081" blue="0.19220325200244637" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="14" name="AppleSDGothicNeo-Bold"/>
                                                 <font key="NSOriginalFont" size="18" name="AppleSDGothicNeo-Bold"/>
                                             </attributes>
                                         </fragment>
@@ -73,15 +123,15 @@
                                     <attributedString key="attributedTitle">
                                         <fragment content="학습 관리를 하고 싶은 ">
                                             <attributes>
-                                                <color key="NSColor" red="0.048149853852433921" green="0.066059756114299081" blue="0.19220325200244637" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="18" name="AppleSDGothicNeo-Regular"/>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="14" name="AppleSDGothicNeo-Regular"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                         <fragment content="학생">
                                             <attributes>
-                                                <color key="NSColor" red="0.048149853852433921" green="0.066059756114299081" blue="0.19220325200244637" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="14" name="AppleSDGothicNeo-Bold"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
@@ -106,15 +156,15 @@
                                     <attributedString key="attributedTitle">
                                         <fragment content="수업 진행을 확인하고 싶은 ">
                                             <attributes>
-                                                <color key="NSColor" red="0.048149853852433921" green="0.066059756114299081" blue="0.19220325200244637" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="18" name="AppleSDGothicNeo-Regular"/>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="14" name="AppleSDGothicNeo-Regular"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                         <fragment content="학부모">
                                             <attributes>
-                                                <color key="NSColor" red="0.048149853852433921" green="0.066059756114299081" blue="0.19220325200244637" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="14" name="AppleSDGothicNeo-Bold"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
@@ -175,7 +225,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oum-Yg-vC9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1596" y="177"/>
+            <point key="canvasLocation" x="-3493" y="177"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -392,7 +442,114 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-948" y="177"/>
+            <point key="canvasLocation" x="-2855" y="177"/>
+        </scene>
+        <!--Email Verification View Controller-->
+        <scene sceneID="Hll-XD-tYz">
+            <objects>
+                <viewController storyboardIdentifier="EmailVerificationViewController" id="meG-0T-N55" customClass="EmailVerificationViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NgA-9W-wf6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J1d-op-d00">
+                                <rect key="frame" x="16" y="60" width="46" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="J1d-op-d00" secondAttribute="height" multiplier="1:1" id="cit-0C-vfQ"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="arrow.backward" catalog="system">
+                                    <color key="baseForegroundColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" modalPresentationStyle="fullScreen" id="TRh-HR-c6L"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일을 확인해주세요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k1Z-9I-NGS">
+                                <rect key="frame" x="24" y="226" width="366" height="20"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <color key="textColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="아래 이메일로 인증 확인이 가능한 링크를 전송해드렸어요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dc8-WO-cN4">
+                                <rect key="frame" x="24" y="249" width="366" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.40406057239999998" green="0.39964026209999998" blue="0.41568845510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="UvT-t8-XDp">
+                                <rect key="frame" x="24" y="282" width="366" height="44"/>
+                                <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="r1a-99-f4a"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g45-rE-h0l">
+                                <rect key="frame" x="24" y="329" width="366" height="14.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="1" green="0.38823529410000002" blue="0.38431372549999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6yt-eG-P5H">
+                                <rect key="frame" x="24" y="349.5" width="366" height="44"/>
+                                <color key="backgroundColor" red="0.80253106360000004" green="0.903860569" blue="0.98824900390000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="wmP-a8-a3F"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="계속하기">
+                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="14"/>
+                                    <color key="baseForegroundColor" red="0.17462652919999999" green="0.40809917449999999" blue="0.9647597671" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="OKBtnClicked:" destination="meG-0T-N55" eventType="touchUpInside" id="QKd-7w-Fif"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QXe-ov-Ey8"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="g45-rE-h0l" firstAttribute="leading" secondItem="QXe-ov-Ey8" secondAttribute="leading" constant="24" id="1vq-Iw-T7f"/>
+                            <constraint firstItem="dc8-WO-cN4" firstAttribute="top" secondItem="k1Z-9I-NGS" secondAttribute="bottom" constant="3" id="1wl-j3-ByN"/>
+                            <constraint firstItem="J1d-op-d00" firstAttribute="top" secondItem="QXe-ov-Ey8" secondAttribute="top" constant="16" id="4fJ-aa-GKQ"/>
+                            <constraint firstItem="6yt-eG-P5H" firstAttribute="leading" secondItem="QXe-ov-Ey8" secondAttribute="leading" constant="24" id="4lz-Pu-E4x"/>
+                            <constraint firstItem="k1Z-9I-NGS" firstAttribute="top" secondItem="J1d-op-d00" secondAttribute="bottom" constant="120" id="7uB-SG-X8a"/>
+                            <constraint firstItem="6yt-eG-P5H" firstAttribute="top" secondItem="g45-rE-h0l" secondAttribute="bottom" constant="6" id="BIj-jw-OPD"/>
+                            <constraint firstItem="J1d-op-d00" firstAttribute="leading" secondItem="QXe-ov-Ey8" secondAttribute="leading" constant="16" id="CIR-tZ-dOU"/>
+                            <constraint firstItem="QXe-ov-Ey8" firstAttribute="trailing" secondItem="UvT-t8-XDp" secondAttribute="trailing" constant="24" id="HGu-31-Z1h"/>
+                            <constraint firstItem="g45-rE-h0l" firstAttribute="top" secondItem="UvT-t8-XDp" secondAttribute="bottom" constant="3" id="Hsd-ZG-8G0"/>
+                            <constraint firstItem="k1Z-9I-NGS" firstAttribute="leading" secondItem="QXe-ov-Ey8" secondAttribute="leading" constant="24" id="JbB-fg-Q2z"/>
+                            <constraint firstItem="QXe-ov-Ey8" firstAttribute="trailing" secondItem="g45-rE-h0l" secondAttribute="trailing" constant="24" id="SZk-ep-Ae0"/>
+                            <constraint firstItem="QXe-ov-Ey8" firstAttribute="trailing" secondItem="6yt-eG-P5H" secondAttribute="trailing" constant="24" id="Y42-PS-coJ"/>
+                            <constraint firstItem="QXe-ov-Ey8" firstAttribute="trailing" secondItem="dc8-WO-cN4" secondAttribute="trailing" constant="24" id="f5y-1r-utM"/>
+                            <constraint firstItem="dc8-WO-cN4" firstAttribute="leading" secondItem="QXe-ov-Ey8" secondAttribute="leading" constant="24" id="fQY-Op-MPH"/>
+                            <constraint firstItem="QXe-ov-Ey8" firstAttribute="trailing" secondItem="k1Z-9I-NGS" secondAttribute="trailing" constant="24" id="mh8-Qd-pbb"/>
+                            <constraint firstItem="UvT-t8-XDp" firstAttribute="leading" secondItem="QXe-ov-Ey8" secondAttribute="leading" constant="24" id="unj-9W-9hC"/>
+                            <constraint firstItem="UvT-t8-XDp" firstAttribute="top" secondItem="dc8-WO-cN4" secondAttribute="bottom" constant="16" id="xwI-r8-Krm"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="emailTF" destination="UvT-t8-XDp" id="40V-bS-sCE"/>
+                        <outlet property="emailVerificationAlertLabel" destination="g45-rE-h0l" id="s0g-iE-9rh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Cb-Xa-fhQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2220" y="177"/>
         </scene>
         <!--Parent My Page View Controller-->
         <scene sceneID="cmX-Lq-zU0">
@@ -2084,7 +2241,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dky-hc-8Az" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3004.347826086957" y="176.78571428571428"/>
+            <point key="canvasLocation" x="-4786" y="177"/>
         </scene>
         <!--Log In View Controller-->
         <scene sceneID="mZr-w0-DU4">
@@ -2263,7 +2420,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mMh-jU-jjW" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2241" y="177"/>
+            <point key="canvasLocation" x="-4138" y="177"/>
         </scene>
         <!--Show Portfolio View Controller-->
         <scene sceneID="Cb5-hx-cXL">
@@ -2363,7 +2520,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WPO-qE-TQb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2796" y="1001"/>
+            <point key="canvasLocation" x="-4786" y="842"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="thc-lf-fiF">
@@ -3003,7 +3160,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="196-D1-anu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-304.34782608695656" y="176.78571428571428"/>
+            <point key="canvasLocation" x="-1596" y="177"/>
         </scene>
         <!--My ClassVC-->
         <scene sceneID="bCe-mH-WBb">
@@ -7302,7 +7459,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ns1-mD-idw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1552" y="842"/>
+            <point key="canvasLocation" x="-3448" y="842"/>
         </scene>
     </scenes>
     <resources>

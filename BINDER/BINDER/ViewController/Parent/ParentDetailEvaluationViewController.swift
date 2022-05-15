@@ -22,7 +22,6 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var monthlyEvaluationTextView: UITextView! // 월간 평가가 나타나는 textview
     @IBOutlet weak var monthlyEvaluationTitle: UILabel! // 평가 제목 Label
-//    @IBOutlet weak var monthlyEvaluationTitleBackgroundView: UIView! // 평가가 나타나는 위치의 배경 view
     @IBOutlet weak var navigationBarTitle: UINavigationItem! // 네비게이션 바
     
     let db = Firestore.firestore()
@@ -109,10 +108,6 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         calendarView.delegate = self
     }
     
-    func setCornerRadius() {
-        
-    }
-    
     func calendarColor() {
         calendarView.appearance.weekdayTextColor = .systemGray
         calendarView.appearance.titleWeekendColor = .black
@@ -144,10 +139,8 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         
         // calendar 커스터마이징
         calendarText()
-//        calendarColor(view: self.calendarView, design: calendarDesign)
         self.calendarColor()
         self.calendarEvent()
-        self.setCornerRadius()
         
         /// parent collection에서 현재 사용자의 uid와 동일한 값의 uid를 가지는 문서 찾기
         GetChildrenInfo(self: self)
@@ -159,7 +152,7 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
     }
 }
 
-extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate {
+extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate, FSCalendarDelegateAppearance {
     /// 날짜 선택 시 실행되는 메소드
     public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
@@ -211,7 +204,6 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         } else { // 10월 이후면 그냥 저장
             self.month = "\(month)월"
         }
-        GetStudentMonthlyEvaluations(self: self)
         
         self.days.removeAll()
         self.events.removeAll()
@@ -220,8 +212,7 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         let date = self.dateFormatter.date(from: self.monthLabel.text!)
         
         self.days = setUpDays(date!)
-        GetStudentDailyEvaluations(self: self)
-
+        GetStudentMonthlyEvaluations(self: self)
     }
     
     //이벤트 표시 개수

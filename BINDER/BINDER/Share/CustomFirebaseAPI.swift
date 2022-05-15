@@ -1114,14 +1114,15 @@ public func SaveInfoForSignUp (self : SignInViewController, number: Int, name: S
         }
     }
     
-    guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
+    guard let emailVerificationVC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVerificationViewController") as? EmailVerificationViewController else {
         //아니면 종료
         return
     }
-    subInfoVC.type = type
-    subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-    subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-    self.present(subInfoVC, animated: true, completion: nil)
+    emailVerificationVC.type = type
+    emailVerificationVC.email = email
+    emailVerificationVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+    emailVerificationVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+    self.present(emailVerificationVC, animated: true, completion: nil)
 }
 
 public func DeleteUserWhileSignUp () {
@@ -1184,18 +1185,11 @@ public func CreateUser(type : String, self : SignInViewController, name : String
             
             if self.emailAlertLabel.isHidden == true {
                 // 이름, 이메일, 비밀번호, 나이가 모두 유효하다면, && self.isValidAge(age)
-                if (self.isValidName(name) && self.isValidEmail(id) && self.isValidPassword(pw) ) {
+                if (self.isValidPassword(pw)) {
                     // 사용자를 생성
                     Auth.auth().createUser(withEmail: id, password: pw) {(authResult, error) in
-                        if (type != "parent"){
-                            Auth.auth().currentUser?.sendEmailVerification(completion: {(error) in
-                                print("sended to " + id)
-                                if let error = error {
-                                    print(error.localizedDescription)
-                                } else {
-                                }
-                            })
-                        }
+                        
+                        Auth.auth().currentUser?.sendEmailVerification()
                         
                         // 정보 저장
                         SaveInfoForSignUp(self: self, number: SignInViewController.number, name: name, email: id, password: pw, type: self.type)
@@ -1207,10 +1201,6 @@ public func CreateUser(type : String, self : SignInViewController, name : String
                 } else {
                     if (self.isGoogleSignIn == false) {
                         // 유효하지 않다면, 에러가 난 부분 label로 알려주기 위해 error label 숨김 해제
-                        if (!self.isValidEmail(id)){
-                            self.emailAlertLabel.isHidden = false
-                            self.emailAlertLabel.text = StringUtils.emailValidationAlert.rawValue
-                        }
                         if (!self.isValidPassword(pw)) {
                             self.pwAlertLabel.isHidden = false
                             self.pwAlertLabel.text = StringUtils.passwordValidationAlert.rawValue
@@ -1221,14 +1211,15 @@ public func CreateUser(type : String, self : SignInViewController, name : String
                         SignInViewController.number = SignInViewController.number + 1
                         
                         // 추가 정보를 입력하는 뷰로 이동
-                        guard let subInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "StudentSubInfoController") as? StudentSubInfoController else {
+                        guard let emailVerificationVC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVerificationViewController") as? EmailVerificationViewController else {
                             //아니면 종료
                             return
                         }
-                        subInfoVC.type = type
-                        subInfoVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
-                        subInfoVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
-                        self.present(subInfoVC, animated: true, completion: nil)
+                        emailVerificationVC.type = type
+                        emailVerificationVC.email = id
+                        emailVerificationVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                        emailVerificationVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
+                        self.present(emailVerificationVC, animated: true, completion: nil)
                     }
                     if (!self.isValidName(name)) {
                         self.nameAlertLabel.isHidden = false
@@ -2846,6 +2837,7 @@ public func GetStudentDailyEvaluations (self : ParentDetailEvaluationViewControl
                 }
             }
         }
+        self.calendarView.reloadData()
     }
 }
 
