@@ -39,56 +39,7 @@
                                         <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </backgroundConfiguration>
                                     <attributedString key="attributedTitle">
-                                        <fragment content="수업">
-                                            <attributes>
-                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="14" name=".AppleSDGothicNeoI-Regular"/>
-                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content=" ">
-                                            <attributes>
-                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content="관리를">
-                                            <attributes>
-                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="14" name=".AppleSDGothicNeoI-Regular"/>
-                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content=" ">
-                                            <attributes>
-                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content="하고">
-                                            <attributes>
-                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="14" name=".AppleSDGothicNeoI-Regular"/>
-                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content=" ">
-                                            <attributes>
-                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content="싶은">
-                                            <attributes>
-                                                <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="14" name=".AppleSDGothicNeoI-Regular"/>
-                                                <font key="NSOriginalFont" size="14" name="AppleSDGothicNeo-Medium"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment content=" ">
+                                        <fragment content="수업 관리를 하고 싶은 ">
                                             <attributes>
                                                 <color key="NSColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <font key="NSFont" metaFont="system" size="14"/>

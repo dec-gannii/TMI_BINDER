@@ -213,6 +213,7 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         
         self.days = setUpDays(date!)
         GetStudentMonthlyEvaluations(self: self)
+        GetStudentDailyEvaluations(self: self)
     }
     
     //이벤트 표시 개수
