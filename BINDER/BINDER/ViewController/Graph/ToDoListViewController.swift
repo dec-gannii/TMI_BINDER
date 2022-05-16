@@ -39,27 +39,35 @@ public class ToDoListViewController: UIViewController {
     }
     
     @IBOutlet weak var todoTF: UITextField!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var plusButton: UIButton!
+    @IBOutlet weak var todoTableView: UITableView!
+    @IBOutlet weak var plusBtn: UIButton!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        //        GetUserAndClassInfo(self: self)
+        GetUserInfoInDetailClassVC(self: nil, detailClassVC: nil, graphVC: nil, todolistVC: self)
+        if self.userType == "student" {
+            self.plusBtn.isHidden = true
+            self.todoTF.isHidden = true
+        } else {
+            self.plusBtn.isHidden = false
+        }
+        self.todoTableView.reloadData()
+        print ("TODO ::::: userName : \(userName) / userEmail : \(userEmail) / userIndex : \(userIndex) / userType : \(userType) / userSubject : \(userSubject)")
     }
     
     public override func viewWillAppear(_ animated: Bool) {
-        //        GetUserAndClassInfo(self: self)
+        guard let myClassDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassDetailViewController") as? MyClassDetailViewController else { return }
+//        GetUserInfoInDetailClassVC(self: myClassDetailVC, detailClassVC: nil, graphVC: nil, todolistVC: self)
         super.viewWillAppear(true)
     }
     
     @IBAction func goButtonClicked(_ sender: Any) {
         if todoTF.text != "" {
             todos.append(todoTF.text ?? "")
-            todoCheck.append(checkTime)
+            todoCheck.append(false)
             todoDoc = []
-//            AddToDoListFactors(self: self, checkTime: checkTime)
-            todoTF.text = ""
-            self.tableView.reloadData()
+            AddToDoListFactors(self: self, checkTime: false)
+            self.todoTableView.reloadData()
         }
     }
 }
@@ -84,16 +92,16 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
         cell.checkButton.layer.cornerRadius = cell.checkButton.frame.size.width / 2
         cell.checkButton.layer.masksToBounds = true
         if cell.checkButton.isSelected == true {
-            cell.checkButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
+            cell.checkButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
         } else {
-            cell.checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
+            cell.checkButton.setImage(UIImage(systemName: "square"), for: .normal)
         }
         return cell
     }
     
     // 데이터 삭제
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        DeleteToDoList(self: self, editingStyle: editingStyle, tableView: tableView, indexPath: indexPath)
+        DeleteToDoList(self: self, editingStyle: editingStyle, tableView: tableView, indexPath: indexPath)
     }
     
     // 투두리스트 선택에 따라
@@ -102,13 +110,13 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
             sender.isSelected = false
             checkTime = false
             //체크 내용 업데이트
-            sender.setImage(UIImage(systemName: "circle"), for: .normal)
+            sender.setImage(UIImage(systemName: "square"), for: .normal)
         } else {
             sender.isSelected = true
             checkTime = true
             // 체크 내용 업데이트
-            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
+            sender.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
         }
-//        CheckmarkButtonClicked(self: self, checkTime: checkTime, sender: sender)
+        CheckmarkButtonClicked(self: self, checkTime: checkTime, sender: sender)
     }
 }

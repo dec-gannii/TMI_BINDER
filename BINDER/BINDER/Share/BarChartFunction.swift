@@ -37,7 +37,8 @@ func setChart(dataPoints: [String], values: [Double], view:BarChartView, design:
     let chartDataSet = BarChartDataSet(entries: dataEntries, label: "성적 그래프")
     
     // 차트 컬러
-    chartDataSet.colors = colors
+    let chartDesign = ChartDesign()
+    chartDataSet.colors = barColorSetting(design: chartDesign)
     
     // 데이터 삽입
     let chartData = BarChartData(dataSet: chartDataSet)

@@ -1231,9 +1231,6 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수업 및 평가 성실도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Yq-js-m1f">
                                         <rect key="frame" x="0.0" y="0.0" width="291" height="27"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="280" id="la9-v1-Obw"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -1270,9 +1267,6 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="학생 관리 만족도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ddu-VT-5H0">
                                         <rect key="frame" x="0.0" y="0.0" width="291" height="27"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="280" id="Fyf-Qt-52S"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2704,6 +2698,7 @@
                     <connections>
                         <outlet property="classNavigationBar" destination="pOI-bb-176" id="jB2-1r-Lby"/>
                         <outlet property="collectionViewBG" destination="cJe-SP-rLX" id="B2N-Sd-A1c"/>
+                        <outlet property="editBtn" destination="FpD-bf-NLw" id="eb9-Cm-MRU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sel-FV-fK0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -7362,7 +7357,7 @@
                     <navigationItem key="navigationItem" id="tIN-SG-LJc"/>
                     <connections>
                         <outlet property="barChartView" destination="s24-5q-pSG" id="aDf-TK-ULn"/>
-                        <outlet property="plusButton" destination="D3h-MX-dEN" id="uhS-Hy-ayx"/>
+                        <outlet property="plusButton" destination="D3h-MX-dEN" id="dpC-lb-ko3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VNB-cu-SmL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -7500,9 +7495,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="Szt-Rg-BVT"/>
                     <connections>
-                        <outlet property="plusButton" destination="3Tt-Qd-D4L" id="AZy-pB-Lz0"/>
-                        <outlet property="tableView" destination="lja-uo-7hw" id="hS5-zx-NUB"/>
+                        <outlet property="plusBtn" destination="3Tt-Qd-D4L" id="F7i-hP-b9s"/>
                         <outlet property="todoTF" destination="2sV-4P-KoU" id="anm-ie-G4G"/>
+                        <outlet property="todoTableView" destination="lja-uo-7hw" id="1Wc-DZ-cyK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BtJ-5m-1FQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

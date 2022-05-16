@@ -54,7 +54,6 @@ public class DetailClassViewController: UIViewController {
     var calenderDesign = CalendarDesign()
     var btnDesign = ButtonDesign()
     
-    
     func _init(){
         userEmail = ""
         userSubject = ""
@@ -75,7 +74,7 @@ public class DetailClassViewController: UIViewController {
     
     /// Load View
     public override func viewWillAppear(_ animated: Bool) {
-        getUserInfo()
+//        getUserInfo()
         
         calendarView.scope = .week
         calendarText(view: calendarView, design: calenderDesign)
@@ -100,21 +99,11 @@ public class DetailClassViewController: UIViewController {
         self.progressTextView.textColor = .black
         self.evaluationMemoTextView.textColor = .black
         
+        print ("Detail ::::: userName : \(userName) / userEmail : \(userEmail) / userIndex : \(userIndex) / userType : \(userType) / userSubject : \(userSubject)")
+        
         let textViews:Array<UITextView> = [progressTextView,evaluationMemoTextView,monthlyEvaluationTextView]
         setBorder(views: textViews, design: viewDesign)
         
-        if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
-            if (self.userType == "student") { // 사용자가 학생이면
-                self.questionLabel.text = "오늘 " + self.userName + " 선생님의 수업은 어땠나요?"
-                self.classTimeTextField.isEnabled = false
-                self.progressLabel.text = "오늘 내용 요약"
-                self.homeworkLabel.text = "수업 준비 점수"
-                self.evaluationLabel.text = "수업 만족도 점수"
-                self.testLabel.text = "수업 난이도 점수"
-            } else { // 사용자가 학생이 아니면(선생님이면)
-                self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
-            }
-        }
         super.viewDidLoad()
     }
     
@@ -139,7 +128,8 @@ public class DetailClassViewController: UIViewController {
     
     // 사용자의 정보를 가져오도록 하는 메소드
     func getUserInfo() {
-//        GetUserInfoInDetailClassVC(self: self)
+        guard let myClassDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassDetailViewController") as? MyClassDetailViewController else { return }
+//        GetUserInfoInDetailClassVC(self: nil, detailClassVC: self, graphVC: nil, todolistVC: nil)
     }
     
     /// monthly evaluation save button clicked
@@ -174,6 +164,13 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             self.monthlyEvaluationOKBtn.isHidden = true
             self.monthlyEvaluationTextView.isHidden = true
         }
+        if (self.evaluationView.isHidden == true) {
+            self.evaluationView.isHidden = false
+            self.evaluationOKBtn.isHidden = false
+        } else {
+            self.evaluationView.isHidden = true
+            self.evaluationOKBtn.isHidden = true
+        }
         
         let selectedDate = date
         let nowDate = Date()
@@ -182,7 +179,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
         let distanceDay = Calendar.current.dateComponents([.day], from: selectedDate, to: nowDate).day
         
         // 차이가 0보다 작거나 같으면
-        if (!(distanceDay! <= 0)) {
+        if (!(distanceDay! >= 0)) {
             // 평가 입력 뷰를 숨김 해제
             evaluationView.isHidden = false
             evaluationOKBtn.isHidden = false

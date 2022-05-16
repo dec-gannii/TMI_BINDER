@@ -16,7 +16,6 @@ import BLTNBoard
 
 public class MyClassDetailViewController: UIViewController {
     
-    
     var userEmail: String!
     var userSubject: String!
     var userName: String!
@@ -69,11 +68,11 @@ public class MyClassDetailViewController: UIViewController {
         teacherUid = ""
         studentName = ""
         studentEmail = ""
-        
     }
     
     @IBOutlet weak var collectionViewBG: UIView!
     @IBOutlet weak var classNavigationBar: UINavigationBar!
+    @IBOutlet weak var editBtn: UIBarButtonItem!
     
     @IBAction func goBack(_ sender: Any) {
         if let preVC = self.presentingViewController {
@@ -110,10 +109,6 @@ public class MyClassDetailViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        days = []
-        scores = []
-        
         var studentUid = "" // 학생의 uid 변수
         // 빈 배열 형성
         days = []
@@ -127,10 +122,9 @@ public class MyClassDetailViewController: UIViewController {
             } else { // 아니라면 전 view controller에서 받아온 이메일로 설정
                 studentEmail = email
             }
-//            GetScores(self: self, studentEmail: studentEmail)
         }
         
-        GetUserInfoInDetailClassVC(self: self)
+        GetUserInfoInDetailClassVC(self: self, detailClassVC: nil, graphVC: nil, todolistVC: nil)
         
         if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
             if (self.userType == "student") { // 사용자가 학생이면
@@ -173,7 +167,9 @@ public class MyClassDetailViewController: UIViewController {
         let viewController1 = storyboard!.instantiateViewController(identifier: "DetailClassViewController")
         let viewController2 = storyboard!.instantiateViewController(identifier: "GraphViewController")
         let viewController3 = storyboard!.instantiateViewController(identifier: "ToDoListViewController")
-
+        
+        GetUserInfoInDetailClassVC(self: self, detailClassVC: viewController1 as! DetailClassViewController, graphVC: viewController2 as! GraphViewController, todolistVC: viewController3 as! ToDoListViewController)
+        
         dataSourceVC.append(viewController1)
         dataSourceVC.append(viewController2)
         dataSourceVC.append(viewController3)
