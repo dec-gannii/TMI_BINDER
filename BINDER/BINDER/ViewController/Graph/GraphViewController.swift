@@ -48,7 +48,6 @@ public class GraphViewController: UIViewController {
         days = []
         scores = []
         guard let myClassDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassDetailViewController") as? MyClassDetailViewController else { return }
-//        GetUserInfoInDetailClassVC(self: myClassDetailVC, detailClassVC: nil, graphVC: self, todolistVC: nil)
         getScores()
         super.viewWillAppear(true)
     }
@@ -63,9 +62,6 @@ public class GraphViewController: UIViewController {
         barChartView.noDataFont = .systemFont(ofSize: 14.0, weight: .bold)
         barChartView.noDataTextColor = .lightGray
         
-        print ("GRAPH ::::: userName : \(userName) / userEmail : \(userEmail) / userIndex : \(userIndex) / userType : \(userType) / userSubject : \(userSubject)")
-        
-//        GetUserInfoInDetailClassVC(self: nil, detailClassVC: nil, graphVC: self, todolistVC: nil)
         getScores()
     }
     
@@ -89,12 +85,13 @@ public class GraphViewController: UIViewController {
         scores = []
         
         var studentEmail = ""
-        guard let email = self.userEmail else {
-            studentEmail = (Auth.auth().currentUser?.email)!
+        if let email = self.userEmail {
+            if self.userType == "student" {
+                studentEmail = (Auth.auth().currentUser?.email)!
+            } else {
+                studentEmail = email
+            }
             GetScores(self: self, studentEmail: studentEmail)
-            return
         }
-        studentEmail = email
-        GetScores(self: self, studentEmail: studentEmail)
     }
 }
