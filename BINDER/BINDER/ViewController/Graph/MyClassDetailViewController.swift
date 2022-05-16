@@ -127,7 +127,7 @@ public class MyClassDetailViewController: UIViewController {
             } else { // 아니라면 전 view controller에서 받아온 이메일로 설정
                 studentEmail = email
             }
-            GetScores(self: self, studentEmail: studentEmail)
+//            GetScores(self: self, studentEmail: studentEmail)
         }
         
         GetUserInfoInDetailClassVC(self: self)
@@ -251,7 +251,7 @@ public class MyClassDetailViewController: UIViewController {
         })
         
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
-            DeleteClass(self: self)
+//            DeleteClass(self: self)
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         

@@ -22,6 +22,8 @@ public class GraphViewController: UIViewController {
     var floatValue: [CGFloat]!
     var barColors = [UIColor]()
     
+    var chartDesign = ChartDesign()
+    
     func _init(){
         userEmail = ""
         userSubject = ""

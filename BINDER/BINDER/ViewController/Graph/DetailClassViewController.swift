@@ -52,7 +52,6 @@ public class DetailClassViewController: UIViewController {
     var studentEmail: String!
     var viewDesign = ViewDesign()
     var calenderDesign = CalendarDesign()
-    var chartDesign = ChartDesign()
     var btnDesign = ButtonDesign()
     
     

@@ -3058,7 +3058,9 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                 print("Error adding document: \(err)")
             }
             // 저장 이후에는 다시 안 보이도록 함
-            self.monthlyEvaluationBackgroundView.isHidden = true
+            self.monthlyEvaluationOKBtn.isHidden = true
+            self.monthlyEvaluationTextView.isHidden = true
+            self.monthlyEvaluationQuestionLabel.isHidden = true
             self.evaluationOKBtn.isHidden = true
             self.evaluationView.isHidden = true
             
@@ -3316,7 +3318,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
     }
 }
 
-public func CheckmarkButtonClicked(self : DetailClassViewController, checkTime : Bool, sender : UIButton) {
+public func CheckmarkButtonClicked(self : ToDoListViewController, checkTime : Bool, sender : UIButton) {
     let db = Firestore.firestore()
     if(self.userType == "teacher"){
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(self.todoDoc[sender.tag]).updateData([
@@ -3330,7 +3332,7 @@ public func CheckmarkButtonClicked(self : DetailClassViewController, checkTime :
             
         }
     } else {
-        db.collection("teacher").document(self.teacherUid).collection("class").document(self.studentName + "(" + self.studentEmail + ") " + self.userSubject).collection("ToDoList").document(self.todoDoc[sender.tag]).updateData([
+        db.collection("teacher").document(self.teacherUid).collection("class").document(self.studentName + "(" + self.studentEmail + ") " + self.userSubject!).collection("ToDoList").document(self.todoDoc[sender.tag]).updateData([
             "check": checkTime
         ]) { err in
             if let err = err {
@@ -3342,7 +3344,7 @@ public func CheckmarkButtonClicked(self : DetailClassViewController, checkTime :
     }
 }
 
-public func AddToDoListFactors(self : DetailClassViewController, checkTime : Bool) {
+public func AddToDoListFactors(self : ToDoListViewController, checkTime : Bool) {
     let db = Firestore.firestore()
     
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").addDocument(data: ["todo" : self.todoTF.text, "check" : checkTime])
@@ -3368,7 +3370,7 @@ public func AddToDoListFactors(self : DetailClassViewController, checkTime : Boo
     }
 }
 
-public func GetScores(self : MyClassDetailViewController, studentEmail : String) {
+public func GetScores(self : GraphViewController, studentEmail : String) {
     let db = Firestore.firestore()
     // 학생의 정보들 중 이메일이 동일한 정보 불러오기
     self.floatValue = [5,5]
@@ -3410,11 +3412,11 @@ public func GetScores(self : MyClassDetailViewController, studentEmail : String)
                                             self.scores.insert(Double(document.data()["score"] as? String ?? "0.0")!, at: i)
                                         }
                                     }
-//                                    setChart(dataPoints: self.days, values: self.scores, view: self.barChartView, design: self.chartDesign, colors: self.barColors, fvalue: self.floatValue)
+                                    setChart(dataPoints: self.days, values: self.scores, view: self.barChartView, design: self.chartDesign, colors: self.barColors, fvalue: self.floatValue)
                                 } else {
-//                                    self.barChartView.noDataText = "데이터가 없습니다."
-//                                    self.barChartView.noDataFont = .systemFont(ofSize: 20)
-//                                    self.barChartView.noDataTextColor = .lightGray
+                                    self.barChartView.noDataText = "데이터가 없습니다."
+                                    self.barChartView.noDataFont = .systemFont(ofSize: 20)
+                                    self.barChartView.noDataTextColor = .lightGray
                                 }
                             }
                         }
@@ -3565,18 +3567,18 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController) {
                             }
                         }
                     }
-                    // 학생이면 투두리스트 추가를 하지 못하도록 설정
+//                     학생이면 투두리스트 추가를 하지 못하도록 설정
 //                    self.plusButton.isHidden = false
 //                    self.okButton.isHidden = true
 //                    self.todoTF.isHidden = true
-                    // 학생이면 수업 수정 버튼 보이지 않도록 설정
+//                     학생이면 수업 수정 버튼 보이지 않도록 설정
 //                    self.editBtn.isHidden = true
                 }
             }
         }
 }
 
-public func DeleteToDoList(self: DetailClassViewController, editingStyle: UITableViewCell.EditingStyle, tableView : UITableView, indexPath : IndexPath) {
+public func DeleteToDoList(self: ToDoListViewController, editingStyle: UITableViewCell.EditingStyle, tableView : UITableView, indexPath : IndexPath) {
     let db = Firestore.firestore()
     if self.userType == "teacher" {
         if editingStyle == .delete {

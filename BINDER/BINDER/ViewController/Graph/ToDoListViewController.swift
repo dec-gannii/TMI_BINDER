@@ -6,19 +6,36 @@
 //
 
 import UIKit
+import Firebase
 
 public class ToDoListViewController: UIViewController {
     
+    var userEmail: String!
+    var userSubject: String!
+    var userName: String!
+    var userType: String!
+    var userIndex: Int!
     var todos = Array<String>()
     var todoCheck = Array<Bool>()
     var todoDoc = Array<String>()
     var checkTime: Bool!
+    var teacherUid: String!
+    var studentName: String!
+    var studentEmail: String!
     
     func _init(){
+        userEmail = ""
+        userSubject = ""
+        userName = ""
+        userType = ""
+        userIndex = 0
         todos = []
         todoCheck = []
         todoDoc = []
         checkTime = false
+        teacherUid = ""
+        studentName = ""
+        studentEmail = ""
     }
     
     @IBOutlet weak var todoTF: UITextField!
@@ -40,7 +57,7 @@ public class ToDoListViewController: UIViewController {
             todos.append(todoTF.text ?? "")
             todoCheck.append(checkTime)
             todoDoc = []
-            AddToDoListFactors(self: self, checkTime: checkTime)
+//            AddToDoListFactors(self: self, checkTime: checkTime)
             todoTF.text = ""
             self.tableView.reloadData()
         }
