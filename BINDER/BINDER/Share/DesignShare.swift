@@ -56,3 +56,7 @@ struct ButtonDesign {
     var cornerbtnRadius = CGFloat(5)
     var bgColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100)
 }
+
+struct MyCollectionViewModel {
+    let title: String
+}

@@ -351,7 +351,7 @@ public func GetStudentMyClass(self : HomeViewController) {
     }
 }
 
-public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLabel : UILabel, thirdLabel : UILabel, detailVC : DetailClassViewController, self : HomeViewController) {
+public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLabel : UILabel, thirdLabel : UILabel, detailVC : MyClassDetailViewController, self : HomeViewController) {
     let db = Firestore.firestore()
     let labels = [self.HomeStudentIconLabel, self.HomeStudentIconSecondLabel, self.HomeStudentIconThirdLabel]
     let subjectLabels = [self.homeStudentClassTxt2, self.homeStudentClassTxt3, self.homeStudentClassTxt]
@@ -1408,7 +1408,7 @@ public func MoveToDetailClassVC (self : MyClassVC, sender : UIButton) {
                     return
                 }
                 
-                guard let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
+                guard let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassDetailViewController") as? MyClassDetailViewController else { return }
                 
                 weekendVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 weekendVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
@@ -3011,7 +3011,7 @@ public func SaveMonthlyEvaluation(self : DetailClassViewController) {
     }
 }
 
-public func DeleteClass (self : DetailClassViewController) {
+public func DeleteClass (self : MyClassDetailViewController) {
     let db = Firestore.firestore()
     
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).delete()
@@ -3022,7 +3022,7 @@ public func DeleteClass (self : DetailClassViewController) {
             let teacherName = data!["name"] as? String ?? ""
             let teacherEmail = data!["email"] as? String ?? ""
             if let email = self.userEmail {
-                let studentPath = self.db.collection("student").whereField("email", isEqualTo: email)
+                let studentPath = db.collection("student").whereField("email", isEqualTo: email)
                 studentPath.getDocuments() {
                     (QuerySnapshot, err) in
                     if let err = err {
@@ -3058,7 +3058,9 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                 print("Error adding document: \(err)")
             }
             // 저장 이후에는 다시 안 보이도록 함
-            self.monthlyEvaluationBackgroundView.isHidden = true
+            self.monthlyEvaluationOKBtn.isHidden = true
+            self.monthlyEvaluationTextView.isHidden = true
+            self.monthlyEvaluationQuestionLabel.isHidden = true
             self.evaluationOKBtn.isHidden = true
             self.evaluationView.isHidden = true
             
@@ -3316,7 +3318,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
     }
 }
 
-public func CheckmarkButtonClicked(self : DetailClassViewController, checkTime : Bool, sender : UIButton) {
+public func CheckmarkButtonClicked(self : ToDoListViewController, checkTime : Bool, sender : UIButton) {
     let db = Firestore.firestore()
     if(self.userType == "teacher"){
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(self.todoDoc[sender.tag]).updateData([
@@ -3342,36 +3344,59 @@ public func CheckmarkButtonClicked(self : DetailClassViewController, checkTime :
     }
 }
 
-public func AddToDoListFactors(self : DetailClassViewController, checkTime : Bool) {
+public func AddToDoListFactors(self : ToDoListViewController, checkTime : Bool) {
     let db = Firestore.firestore()
     
-    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").addDocument(data: ["todo" : self.todoTF.text, "check" : checkTime])
-    { err in
-        if let err = err {
-            print("Error adding document: \(err)")
-        } else {
-            print("data is inserted!")
-            
-        }
-    }
-    
-    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
-        if let snapshot = snapshot {
-            snapshot.documents.map { doc in
-                if doc.data()["todo"] != nil {
-                    self.todoDoc.append(doc.documentID)
+    if let index = self.userIndex { // userIndex가 nil이 아니라면
+        // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
                 } else {
-                    print("Document does not exist")
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            let name = document.data()["name"] as? String ?? ""
+                            let email = document.data()["email"] as? String ?? ""
+                            let subject = document.data()["subject"] as? String ?? ""
+                            
+                            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("ToDoList").addDocument(data: ["todo" : self.todoTF.text, "check" : checkTime])
+                            { err in
+                                if let err = err {
+                                    print("Error adding document: \(err)")
+                                } else {
+                                    print("data is inserted!")
+                                    
+                                }
+                            }
+                            
+                            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("ToDoList").getDocuments {(snapshot, error) in
+                                if let snapshot = snapshot {
+                                    snapshot.documents.map { doc in
+                                        if doc.data()["todo"] != nil {
+                                            self.todoDoc.append(doc.documentID)
+                                        } else {
+                                            print("Document does not exist")
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            self.todoTF.text = ""
+                        }
+                    }
                 }
             }
-        }
     }
 }
 
-public func GetScores(self : DetailClassViewController, studentEmail : String) {
+public func GetScores(self : GraphViewController, studentEmail : String) {
+    self.floatValue = [5,5]
     let db = Firestore.firestore()
     // 학생의 정보들 중 이메일이 동일한 정보 불러오기
-    self.floatValue = [5,5]
     var studentUid = ""
     db.collection("student").whereField("email", isEqualTo: studentEmail).getDocuments() {
         (QuerySnapshot, err) in
@@ -3381,55 +3406,73 @@ public func GetScores(self : DetailClassViewController, studentEmail : String) {
             for document in QuerySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")
                 studentUid = document.data()["uid"] as? String ?? "" // 학생의 uid 변수에 저장
+                // 그래프 정보 저장 경로
+                db.collection("student").document(studentUid).collection("Graph").document("Count").getDocument {(document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                        let countOfScores = data?["count"] as? Int ?? 0
+                        db.collection("student").document(studentUid).collection("Graph").whereField("isScore", isEqualTo: "true")
+                            .getDocuments() { (querySnapshot, err) in
+                                if let err = err {
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    
+                                    self.days = []
+                                    self.scores = []
+                                    
+                                    for document in querySnapshot!.documents {
+                                        print("\(document.documentID) => \(document.data())")
+                                        let type = document.data()["type"] as? String ?? ""
+                                        let score = Double(document.data()["score"] as? String ?? "0.0")
+                                        
+                                        if (countOfScores > 0) {
+                                            if (countOfScores == 1) {
+                                                self.days.insert(type, at: 0)
+                                                self.scores.insert(score!, at: 0)
+                                            } else {
+                                                for i in stride(from: 0, to: 1, by: 1) {
+                                                    self.days.insert(document.data()["type"] as? String ?? "", at: i)
+                                                    self.scores.insert(Double(document.data()["score"] as? String ?? "0.0")!, at: i)
+                                                }
+                                            }
+                                            setChart(dataPoints: self.days, values: self.scores, view: self.barChartView, design: self.chartDesign, colors: self.barColors, fvalue: self.floatValue)
+                                        } else {
+                                            self.barChartView.noDataText = "입력된 성적이 없어요! 입력해보는 건 어떨까요?"
+                                            self.barChartView.noDataFont = .systemFont(ofSize: 14.0, weight: .bold)
+                                            self.barChartView.noDataTextColor = .lightGray
+                                        }
+                                    }
+                                }
+                            }
+                        print("Document data: \(dataDescription)")
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
             }
         }
         
-        // 그래프 정보 저장 경로
-        db.collection("student").document(studentUid).collection("Graph").document("Count").getDocument {(document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                let countOfScores = data?["count"] as? Int ?? 0
-                self.db.collection("student").document(studentUid).collection("Graph").whereField("isScore", isEqualTo: "true")
-                    .getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print("Error getting documents: \(err)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                print("\(document.documentID) => \(document.data())")
-                                let type = document.data()["type"] as? String ?? ""
-                                let score = Double(document.data()["score"] as? String ?? "0.0")
-                                if (countOfScores > 0) {
-                                    if (countOfScores == 1) {
-                                        self.days.insert(type, at: 0)
-                                        self.scores.insert(score!, at: 0)
-                                    } else {
-                                        for i in stride(from: 0, to: 1, by: 1) {
-                                            print ("i : \(i)")
-                                            self.days.insert(document.data()["type"] as? String ?? "", at: i)
-                                            self.scores.insert(Double(document.data()["score"] as? String ?? "0.0")!, at: i)
-                                        }
-                                    }
-                                    setChart(dataPoints: self.days, values: self.scores, view: self.barChartView, design: self.chartDesign, colors: self.barColors, fvalue: self.floatValue)
-                                } else {
-                                    self.barChartView.noDataText = "데이터가 없습니다."
-                                    self.barChartView.noDataFont = .systemFont(ofSize: 20)
-                                    self.barChartView.noDataTextColor = .lightGray
-                                }
-                            }
-                        }
-                    }
-                print("Document data: \(dataDescription)")
-            } else {
-                print("Document does not exist")
-            }
-        }
     }
 }
 
-public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
+public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, detailClassVC: DetailClassViewController?, graphVC: GraphViewController?, todolistVC: ToDoListViewController?) {
     let db = Firestore.firestore()
     // 선생님이면
+    
+    guard let graphVC = graphVC else {
+        return
+    }
+    guard let detailClassVC = detailClassVC else {
+        return
+    }
+    guard let todolistVC = todolistVC else {
+        return
+    }
+    guard let self = self else {
+        return
+    }
+    
     db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
         .getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -3439,11 +3482,14 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                 guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                     return
                 }
+                self.userType = "teacher"
+                detailClassVC.userType = "teacher"
+                graphVC.userType = "teacher"
+                todolistVC.userType = "teacher"
                 
                 for document in snapshot.documents { // 문서가 있다면
                     print("\(document.documentID) => \(document.data())")
                     // 선생님이므로 성적 추가하는 버튼은 보이지 않도록 superview에서 삭제
-                    self.plusButton.isHidden = true
                     
                     if let index = self.userIndex { // userIndex가 nil이 아니라면
                         // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
@@ -3461,44 +3507,91 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                                             // 네비게이션 바의 이름도 설정해주기
                                             let name = document.data()["name"] as? String ?? ""
                                             let payType = document.data()["payType"] as? String ?? ""
+                                            let email = document.data()["email"] as? String ?? ""
+                                            let index = document.data()["index"] as? Int ?? 0
                                             
-                                            if (payType == "T") {
-                                                self.classTimeTextField.isEnabled = true
-                                            } else if (payType == "C") {
-                                                self.classTimeTextField.isEnabled = false
-                                            }
+                                            //                                            self.payType = payType
+                                            detailClassVC.payType = payType
+                                            //                                            if (payType == "T") {
+                                            //                                                detailClassVC.classTimeTextField.isEnabled = true
+                                            //                                            } else if (payType == "C") {
+                                            //                                                detailClassVC.classTimeTextField.isEnabled = false
+                                            //                                            }
                                             
                                             let currentCnt = document.data()["currentCnt"] as? Int ?? 0
-                                            self.currentCnt = currentCnt
-                                            self.userName = name
-                                            self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
-                                            self.userEmail = document.data()["email"] as? String ?? ""
-                                            //                                            self.userSubject = document.data()["subject"] as? String ?? ""
-                                            self.monthlyEvaluationQuestionLabel.text = "이번 달 " + self.userName + " 학생은 전반적으로 어땠나요?"
-                                            self.classNavigationBar.topItem!.title = self.userName + " 학생"
+                                            detailClassVC.currentCnt = currentCnt
                                             
-                                            self.todoDoc.removeAll()
-                                            self.todos.removeAll()
-                                            self.todoCheck.removeAll()
+                                            let userEmail = document.data()["email"] as? String ?? ""
+                                            
+                                            let userSubject = document.data()["subject"] as? String ?? ""
+                                            
+                                            self.classNavigationBar.topItem!.title = name + " 학생"
+                                            if (index == linkBtnIndex) {
+                                                detailClassVC.userIndex = linkBtnIndex
+                                                graphVC.userIndex = linkBtnIndex
+                                                todolistVC.userIndex = linkBtnIndex
+                                                
+                                                detailClassVC.userName = linkBtnName
+                                                graphVC.userName = linkBtnName
+                                                todolistVC.userName = linkBtnName
+                                                
+                                                detailClassVC.userEmail = linkBtnEmail
+                                                graphVC.userEmail = linkBtnEmail
+                                                todolistVC.userEmail = linkBtnEmail
+                                                
+                                                detailClassVC.userSubject = linkBtnSubject
+                                                graphVC.userSubject = linkBtnSubject
+                                                todolistVC.userSubject = linkBtnSubject
+                                                
+                                                self.studentEmail = email
+                                                
+                                                self.dataSourceVC.append(detailClassVC)
+                                                self.dataSourceVC.append(graphVC)
+                                                self.dataSourceVC.append(todolistVC)
+                                            } else {
+                                                detailClassVC.userIndex = self.userIndex
+                                                graphVC.userIndex = self.userIndex
+                                                todolistVC.userIndex = self.userIndex
+                                                
+                                                detailClassVC.userName = self.userName
+                                                graphVC.userName = self.userName
+                                                todolistVC.userName = self.userName
+                                                
+                                                detailClassVC.userEmail = self.userEmail
+                                                graphVC.userEmail = self.userEmail
+                                                todolistVC.userEmail = self.userEmail
+                                                
+                                                detailClassVC.userSubject = self.userSubject
+                                                graphVC.userSubject = self.userSubject
+                                                todolistVC.userSubject = self.userSubject
+                                                
+                                                self.studentEmail = email
+                                                
+                                                self.dataSourceVC.append(detailClassVC)
+                                                self.dataSourceVC.append(graphVC)
+                                                self.dataSourceVC.append(todolistVC)
+                                            }
+                                            
+                                            todolistVC.todoDoc.removeAll()
+                                            todolistVC.todos.removeAll()
+                                            todolistVC.todoCheck.removeAll()
                                             
                                             // todolist도 가져오기
-                                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
+                                            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + userEmail + ") " + userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
                                                 if let snapshot = snapshot {
                                                     
                                                     snapshot.documents.map { doc in
                                                         
                                                         if doc.data()["todo"] != nil{
                                                             // 순서대로 todolist를 담는 배열에 추가해주기
-                                                            self.todoDoc.append(doc.documentID)
-                                                            self.todos.append(doc.data()["todo"] as! String)
-                                                            self.todoCheck.append(doc.data()["check"] as! Bool)
-                                                            print("doc: \(self.todoDoc), list: \(self.todos), check : \(self.todoCheck)")
+                                                            todolistVC.todoDoc.append(doc.documentID)
+                                                            todolistVC.todos.append(doc.data()["todo"] as! String)
+                                                            todolistVC.todoCheck.append(doc.data()["check"] as! Bool)
                                                         }
                                                     }
                                                 } else {
                                                     print("Document does not exist")
                                                 }
-                                                self.tableView.reloadData()
                                             }
                                         }
                                     }
@@ -3520,80 +3613,211 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                 guard let snapshot = querySnapshot, !snapshot.documents.isEmpty else {
                     return
                 }
+                self.userType = "student"
+                detailClassVC.userType = "student"
+                graphVC.userType = "student"
+                todolistVC.userType = "student"
                 
                 for document in snapshot.documents {
                     print("\(document.documentID) => \(document.data())")
                     
-                    self.studentName = document.data()["name"] as? String ?? ""
-                    self.studentEmail = document.data()["email"] as? String ?? ""
-                    let teacherDocRef = self.db.collection("teacher")
+                    let studentName = document.data()["name"] as? String ?? ""
+                    self.studentName = studentName
+                    todolistVC.studentName = studentName
+                    detailClassVC.studentName = studentName
+                    graphVC.studentName = studentName
+                    
+                    let studentEmail = document.data()["email"] as? String ?? ""
+                    todolistVC.studentEmail = studentEmail
+                    detailClassVC.studentEmail = studentEmail
+                    graphVC.studentEmail = studentEmail
+                    
+                    db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: self.userIndex)
+                        .getDocuments() { (querySnapshot, err) in
+                            if let err = err {
+                                print(">>>>> document 에러 : \(err)")
+                            } else {
+                                if let err = err {
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        print("\(document.documentID) => \(document.data())")
+                                        // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
+                                        // 네비게이션 바의 이름도 설정해주기
+                                        let name = document.data()["name"] as? String ?? ""
+                                        let payType = document.data()["payType"] as? String ?? ""
+                                        let index = document.data()["index"] as? Int ?? 0
+                                        
+                                        //                                        self.payType = payType
+                                        detailClassVC.payType = payType
+                                        
+                                        let currentCnt = document.data()["currentCnt"] as? Int ?? 0
+                                        detailClassVC.currentCnt = currentCnt
+                                        
+                                        detailClassVC.userName = name
+                                        graphVC.userName = name
+                                        self.userName = name
+                                        todolistVC.userName = name
+                                        
+                                        let userEmail = document.data()["email"] as? String ?? ""
+                                        detailClassVC.userEmail = userEmail
+                                        graphVC.userEmail = userEmail
+                                        self.userEmail = userEmail
+                                        todolistVC.userEmail = userEmail
+                                        
+                                        let userSubject = document.data()["subject"] as? String ?? ""
+                                        detailClassVC.userSubject = userSubject
+                                        graphVC.userSubject = userSubject
+                                        self.userSubject = userSubject
+                                        todolistVC.userSubject = userSubject
+                                        
+                                        if (index == linkBtnIndex) {
+                                            detailClassVC.userIndex = linkBtnIndex
+                                            graphVC.userIndex = linkBtnIndex
+                                            todolistVC.userIndex = linkBtnIndex
+                                            
+                                            detailClassVC.userName = linkBtnName
+                                            graphVC.userName = linkBtnName
+                                            todolistVC.userName = linkBtnName
+                                            
+                                            detailClassVC.userEmail = linkBtnEmail
+                                            graphVC.userEmail = linkBtnEmail
+                                            todolistVC.userEmail = linkBtnEmail
+                                            
+                                            detailClassVC.userSubject = linkBtnSubject
+                                            graphVC.userSubject = linkBtnSubject
+                                            todolistVC.userSubject = linkBtnSubject
+                                            
+                                            self.dataSourceVC.append(detailClassVC)
+                                            self.dataSourceVC.append(graphVC)
+                                            self.dataSourceVC.append(todolistVC)
+                                        } else {
+                                            detailClassVC.userIndex = self.userIndex
+                                            graphVC.userIndex = self.userIndex
+                                            todolistVC.userIndex = self.userIndex
+                                            
+                                            detailClassVC.userName = self.userName
+                                            graphVC.userName = self.userName
+                                            todolistVC.userName = self.userName
+                                            
+                                            detailClassVC.userEmail = self.userEmail
+                                            graphVC.userEmail = self.userEmail
+                                            todolistVC.userEmail = self.userEmail
+                                            
+                                            detailClassVC.userSubject = self.userSubject
+                                            graphVC.userSubject = self.userSubject
+                                            todolistVC.userSubject = self.userSubject
+                                            
+                                            self.dataSourceVC.append(detailClassVC)
+                                            self.dataSourceVC.append(graphVC)
+                                            self.dataSourceVC.append(todolistVC)
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     
                     if let email = self.userEmail { // 사용자의 이메일이 nil이 아니라면
                         // 선생님들 정보의 경로 중 이메일이 일치하는 선생님 찾기
-                        self.db.collection("teacher").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                        db.collection("teacher").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
                             if let err = err {
                                 print("Error getting documents: \(err)")
                             } else {
                                 for document in querySnapshot!.documents {
                                     print("\(document.documentID) => \(document.data())")
-                                    self.teacherUid = document.data()["uid"] as? String ?? ""
+                                    let teacherUid = document.data()["uid"] as? String ?? ""
+                                    let teacherName = document.data()["name"] as? String ?? ""
                                     
-                                    self.todoDoc.removeAll()
-                                    self.todos.removeAll()
-                                    self.todoCheck.removeAll()
+                                    todolistVC.teacherUid = teacherUid
+                                    self.teacherUid = teacherUid
+                                    detailClassVC.teacherUid = teacherUid
                                     
-                                    // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
-                                    self.db.collection("teacher").document(self.teacherUid).collection("class").document(self.studentName + "(" + self.studentEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
-                                        if let snapshot = snapshot {
-                                            
-                                            snapshot.documents.map { doc in
-                                                
-                                                if doc.data()["todo"] != nil{
-                                                    // 순서대로 todolist를 담는 배열에 추가해주기
-                                                    
-                                                    self.todoDoc.append(doc.documentID)
-                                                    self.todos.append(doc.data()["todo"] as! String)
-                                                    self.todoCheck.append(doc.data()["check"] as! Bool)
+                                    todolistVC.todoDoc.removeAll()
+                                    todolistVC.todos.removeAll()
+                                    todolistVC.todoCheck.removeAll()
+                                    
+                                    if let index = self.userIndex { // userIndex가 nil이 아니라면
+                                        // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
+                                        db.collection("teacher").document(teacherUid).collection("class").whereField("index", isEqualTo: index)
+                                            .getDocuments() { (querySnapshot, err) in
+                                                if let err = err {
+                                                    print(">>>>> document 에러 : \(err)")
+                                                } else {
+                                                    if let err = err {
+                                                        print("Error getting documents: \(err)")
+                                                    } else {
+                                                        for document in querySnapshot!.documents {
+                                                            print("\(document.documentID) => \(document.data())")
+                                                            let userSubject = document.data()["subject"] as! String ?? ""
+                                                            // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
+                                                            db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
+                                                                if let snapshot = snapshot {
+                                                                    
+                                                                    snapshot.documents.map { doc in
+                                                                        
+                                                                        if doc.data()["todo"] != nil{
+                                                                            // 순서대로 todolist를 담는 배열에 추가해주기
+                                                                            
+                                                                            todolistVC.todoDoc.append(doc.documentID)
+                                                                            todolistVC.todos.append(doc.data()["todo"] as! String)
+                                                                            todolistVC.todoCheck.append(doc.data()["check"] as! Bool)
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    print("Document does not exist")
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
-                                        } else {
-                                            print("Document does not exist")
-                                        }
-                                        self.tableView.reloadData()
                                     }
+                                    
                                 }
                             }
                         }
                     }
-                    // 학생이면 투두리스트 추가를 하지 못하도록 설정
-                    self.plusButton.isHidden = false
-                    self.okButton.isHidden = true
-                    self.todoTF.isHidden = true
-                    // 학생이면 수업 수정 버튼 보이지 않도록 설정
-                    self.editBtn.isHidden = true
                 }
             }
         }
 }
 
-public func DeleteToDoList(self: DetailClassViewController, editingStyle: UITableViewCell.EditingStyle, tableView : UITableView, indexPath : IndexPath) {
+public func DeleteToDoList(self: ToDoListViewController, editingStyle: UITableViewCell.EditingStyle, tableView : UITableView, indexPath : IndexPath) {
     let db = Firestore.firestore()
     if self.userType == "teacher" {
         if editingStyle == .delete {
-            
-            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(self.todoDoc[indexPath.row]).delete() { err in
-                if let err = err {
-                    print("Error removing document: \(err)")
-                } else {
-                    print("Document successfully removed!")
-                }
+            if let index = self.userIndex { // userIndex가 nil이 아니라면
+                // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
+                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
+                    .getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print(">>>>> document 에러 : \(err)")
+                        } else {
+                            if let err = err {
+                                print("Error getting documents: \(err)")
+                            } else {
+                                for document in querySnapshot!.documents {
+                                    print("\(document.documentID) => \(document.data())")
+                                    let name = document.data()["name"] as? String ?? ""
+                                    let email = document.data()["email"] as? String ?? ""
+                                    let subject = document.data()["subject"] as? String ?? ""
+                                    
+                                    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("ToDoList").document(self.todoDoc[indexPath.row]).delete() { err in
+                                        if let err = err {
+                                            print("Error removing document: \(err)")
+                                        } else {
+                                            print("Document successfully removed!")
+                                        }
+                                    }
+                                    self.todos.remove(at: indexPath.row)
+                                    self.todoDoc.remove(at: indexPath.row)
+                                    
+                                    tableView.deleteRows(at: [indexPath], with: .fade)
+                                }
+                            }
+                        }
+                    }
             }
-            
-            self.todos.remove(at: indexPath.row)
-            self.todoDoc.remove(at: indexPath.row)
-            
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            
         } else if editingStyle == .insert {
             
         }
