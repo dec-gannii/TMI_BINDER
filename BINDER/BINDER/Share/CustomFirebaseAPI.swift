@@ -3509,6 +3509,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             let name = document.data()["name"] as? String ?? ""
                                             let payType = document.data()["payType"] as? String ?? ""
                                             let email = document.data()["email"] as? String ?? ""
+                                            let index = document.data()["index"] as? Int ?? 0
                                             
                                             if (payType == "T") {
                                                 detailClassVC.classTimeTextField.isEnabled = true
@@ -3526,7 +3527,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             let userSubject = document.data()["subject"] as? String ?? ""
                                             
                                             self.classNavigationBar.topItem!.title = name + " 학생"
-                                            if (self.userIndex == linkBtnIndex) {
+                                            if (index == linkBtnIndex) {
                                                 detailClassVC.userIndex = linkBtnIndex
                                                 graphVC.userIndex = linkBtnIndex
                                                 todolistVC.userIndex = linkBtnIndex
@@ -3584,7 +3585,6 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                                 } else {
                                                     print("Document does not exist")
                                                 }
-                                                //                                                todolistVC.tableView.reloadData()
                                             }
                                         }
                                     }
@@ -3639,6 +3639,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         // 네비게이션 바의 이름도 설정해주기
                                         let name = document.data()["name"] as? String ?? ""
                                         let payType = document.data()["payType"] as? String ?? ""
+                                        let index = document.data()["index"] as? Int ?? 0
                                         
                                         if (payType == "T") {
                                             detailClassVC.classTimeTextField.isEnabled = true
@@ -3666,7 +3667,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         self.userSubject = userSubject
                                         todolistVC.userSubject = userSubject
                                         
-                                        if (self.userIndex == linkBtnIndex) {
+                                        if (index == linkBtnIndex) {
                                             detailClassVC.userIndex = linkBtnIndex
                                             graphVC.userIndex = linkBtnIndex
                                             todolistVC.userIndex = linkBtnIndex
