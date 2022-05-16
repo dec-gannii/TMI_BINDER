@@ -39,6 +39,7 @@ public class MyClassDetailViewController: UIViewController {
     var teacherUid: String!
     var studentName: String!
     var studentEmail: String!
+//    var payType: String!
     var viewDesign = ViewDesign()
     var calenderDesign = CalendarDesign()
     var chartDesign = ChartDesign()
@@ -68,6 +69,7 @@ public class MyClassDetailViewController: UIViewController {
         teacherUid = ""
         studentName = ""
         studentEmail = ""
+//        payType = ""
     }
     
     @IBOutlet weak var collectionViewBG: UIView!
@@ -169,10 +171,10 @@ public class MyClassDetailViewController: UIViewController {
         let viewController3 = storyboard!.instantiateViewController(identifier: "ToDoListViewController")
         
         GetUserInfoInDetailClassVC(self: self, detailClassVC: viewController1 as! DetailClassViewController, graphVC: viewController2 as! GraphViewController, todolistVC: viewController3 as! ToDoListViewController)
-        
-        dataSourceVC.append(viewController1)
-        dataSourceVC.append(viewController2)
-        dataSourceVC.append(viewController3)
+//
+//        dataSourceVC.append(viewController1)
+//        dataSourceVC.append(viewController2)
+//        dataSourceVC.append(viewController3)
     }
 
     private func addSubviews() {
@@ -215,7 +217,6 @@ public class MyClassDetailViewController: UIViewController {
     }
 
     private func bind(oldValue: Int, newValue: Int) {
-
         // collectionView 에서 선택한 경우
         let direction: UIPageViewController.NavigationDirection = oldValue < newValue ? .forward : .reverse
         pageViewController.setViewControllers([dataSourceVC[currentPage]], direction: direction, animated: true, completion: nil)
@@ -247,7 +248,7 @@ public class MyClassDetailViewController: UIViewController {
         })
         
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
-//            DeleteClass(self: self)
+            DeleteClass(self: self)
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         

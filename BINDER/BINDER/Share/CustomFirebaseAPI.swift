@@ -3011,7 +3011,7 @@ public func SaveMonthlyEvaluation(self : DetailClassViewController) {
     }
 }
 
-public func DeleteClass (self : DetailClassViewController) {
+public func DeleteClass (self : MyClassDetailViewController) {
     let db = Firestore.firestore()
     
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).delete()
@@ -3022,7 +3022,7 @@ public func DeleteClass (self : DetailClassViewController) {
             let teacherName = data!["name"] as? String ?? ""
             let teacherEmail = data!["email"] as? String ?? ""
             if let email = self.userEmail {
-                let studentPath = self.db.collection("student").whereField("email", isEqualTo: email)
+                let studentPath = db.collection("student").whereField("email", isEqualTo: email)
                 studentPath.getDocuments() {
                     (QuerySnapshot, err) in
                     if let err = err {
@@ -3178,9 +3178,11 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
     let db = Firestore.firestore()
     // 데이터베이스 경로
     if (self.userType == "teacher") {
+        print ("::::: 1")
         // 데이터를 받아와서 각각의 값에 따라 textfield 값 설정 (만약 없다면 공백 설정, 있다면 그 값 불러옴)
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document(dateStr).getDocument { (document, error) in
             if let document = document, document.exists {
+                print ("::::: 2")
                 let data = document.data()
                 let dateStrWithoutDays = data?["evaluationDate"] as? String ?? ""
                 
@@ -3226,6 +3228,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                 print("Document data: \(dataDescription)")
             } else {
                 print("Document does not exist")
+                print ("::::: 3")
                 // 값 다시 공백 설정
                 self.testScoreTextField.text = ""
                 self.homeworkScoreTextField.text = ""
@@ -3238,6 +3241,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents { // 문서가 있다면
+                    print ("::::: 4")
                     print("\(document.documentID) => \(document.data())")
                     let studentUid = document.data()["uid"] as? String ?? ""
                     
@@ -3246,12 +3250,14 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                             print("Error getting documents: \(err)")
                         } else {
                             for document in querySnapshot!.documents { // 문서가 있다면
+                                print ("::::: 5")
                                 print("\(document.documentID) => \(document.data())")
                                 let teacherName = document.data()["name"] as? String ?? ""
                                 let teacherEmail = document.data()["email"] as? String ?? ""
                                 
                                 db.collection("student").document(studentUid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(self.selectedMonth + "월").getDocument(){ (document, error) in
                                     if let document = document, document.exists {
+                                        print ("::::: 6")
                                         let data = document.data()
                                         let evaluation = data!["evaluation"] as? String ?? ""
                                         self.monthlyEvaluationTextView.text = evaluation
@@ -3511,16 +3517,16 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             let email = document.data()["email"] as? String ?? ""
                                             let index = document.data()["index"] as? Int ?? 0
                                             
-                                            if (payType == "T") {
-                                                detailClassVC.classTimeTextField.isEnabled = true
-                                            } else if (payType == "C") {
-                                                detailClassVC.classTimeTextField.isEnabled = false
-                                            }
+//                                            self.payType = payType
+                                            detailClassVC.payType = payType
+//                                            if (payType == "T") {
+//                                                detailClassVC.classTimeTextField.isEnabled = true
+//                                            } else if (payType == "C") {
+//                                                detailClassVC.classTimeTextField.isEnabled = false
+//                                            }
                                             
                                             let currentCnt = document.data()["currentCnt"] as? Int ?? 0
                                             detailClassVC.currentCnt = currentCnt
-                                            
-                                            detailClassVC.questionLabel.text = "오늘 " + name + " 학생의 수업 참여는 어땠나요?"
                                             
                                             let userEmail = document.data()["email"] as? String ?? ""
                                             
@@ -3545,6 +3551,10 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                                 todolistVC.userSubject = linkBtnSubject
                                                 
                                                 self.studentEmail = email
+                                                
+                                                self.dataSourceVC.append(detailClassVC)
+                                                self.dataSourceVC.append(graphVC)
+                                                self.dataSourceVC.append(todolistVC)
                                             } else {
                                                 detailClassVC.userIndex = self.userIndex
                                                 graphVC.userIndex = self.userIndex
@@ -3563,6 +3573,10 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                                 todolistVC.userSubject = self.userSubject
                                                 
                                                 self.studentEmail = email
+                                                
+                                                self.dataSourceVC.append(detailClassVC)
+                                                self.dataSourceVC.append(graphVC)
+                                                self.dataSourceVC.append(todolistVC)
                                             }
                                             
                                             todolistVC.todoDoc.removeAll()
@@ -3641,11 +3655,8 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         let payType = document.data()["payType"] as? String ?? ""
                                         let index = document.data()["index"] as? Int ?? 0
                                         
-                                        if (payType == "T") {
-                                            detailClassVC.classTimeTextField.isEnabled = true
-                                        } else if (payType == "C") {
-                                            detailClassVC.classTimeTextField.isEnabled = false
-                                        }
+//                                        self.payType = payType
+                                        detailClassVC.payType = payType
                                         
                                         let currentCnt = document.data()["currentCnt"] as? Int ?? 0
                                         detailClassVC.currentCnt = currentCnt
@@ -3683,6 +3694,10 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             detailClassVC.userSubject = linkBtnSubject
                                             graphVC.userSubject = linkBtnSubject
                                             todolistVC.userSubject = linkBtnSubject
+                                            
+                                            self.dataSourceVC.append(detailClassVC)
+                                            self.dataSourceVC.append(graphVC)
+                                            self.dataSourceVC.append(todolistVC)
                                         } else {
                                             detailClassVC.userIndex = self.userIndex
                                             graphVC.userIndex = self.userIndex
@@ -3699,6 +3714,10 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             detailClassVC.userSubject = self.userSubject
                                             graphVC.userSubject = self.userSubject
                                             todolistVC.userSubject = self.userSubject
+                                            
+                                            self.dataSourceVC.append(detailClassVC)
+                                            self.dataSourceVC.append(graphVC)
+                                            self.dataSourceVC.append(todolistVC)
                                         }
                                     }
                                 }
@@ -3715,13 +3734,6 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                     print("\(document.documentID) => \(document.data())")
                                     let teacherUid = document.data()["uid"] as? String ?? ""
                                     let teacherName = document.data()["name"] as? String ?? ""
-                                    
-                                    detailClassVC.questionLabel.text = "오늘 " + teacherName + " 선생님의 수업은 어땠나요?"
-                                    detailClassVC.classTimeTextField.isEnabled = false
-                                    detailClassVC.progressLabel.text = "오늘 내용 요약"
-                                    detailClassVC.homeworkLabel.text = "수업 준비 점수"
-                                    detailClassVC.evaluationLabel.text = "수업 만족도 점수"
-                                    detailClassVC.testLabel.text = "수업 난이도 점수"
                                     
                                     todolistVC.teacherUid = teacherUid
                                     self.teacherUid = teacherUid
