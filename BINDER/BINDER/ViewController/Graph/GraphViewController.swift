@@ -63,7 +63,6 @@ public class GraphViewController: UIViewController {
         barChartView.noDataTextColor = .lightGray
         
         getScores()
-        print ("GRAPH ::::: userName : \(userName) / userEmail : \(userEmail) / userIndex : \(userIndex) / userType : \(userType) / userSubject : \(userSubject)")
     }
     
     @IBAction func PlusScores(_ sender: Any) {

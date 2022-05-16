@@ -39,7 +39,6 @@ public class MyClassDetailViewController: UIViewController {
     var teacherUid: String!
     var studentName: String!
     var studentEmail: String!
-//    var payType: String!
     var viewDesign = ViewDesign()
     var calenderDesign = CalendarDesign()
     var chartDesign = ChartDesign()
@@ -69,12 +68,12 @@ public class MyClassDetailViewController: UIViewController {
         teacherUid = ""
         studentName = ""
         studentEmail = ""
-//        payType = ""
     }
     
     @IBOutlet weak var collectionViewBG: UIView!
     @IBOutlet weak var classNavigationBar: UINavigationBar!
     @IBOutlet weak var editBtn: UIBarButtonItem!
+    @IBOutlet weak var navigationBarItem: UINavigationItem!
     
     @IBAction func goBack(_ sender: Any) {
         if let preVC = self.presentingViewController {
@@ -111,7 +110,11 @@ public class MyClassDetailViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        var studentUid = "" // 학생의 uid 변수
+        
+        if self.userType == "student" {
+            navigationBarItem.rightBarButtonItems?.removeAll()
+        } 
+        
         // 빈 배열 형성
         days = []
         scores = []

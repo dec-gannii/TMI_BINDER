@@ -52,7 +52,6 @@ public class ToDoListViewController: UIViewController {
             self.plusBtn.isHidden = false
         }
         self.todoTableView.reloadData()
-        print ("TODO ::::: userName : \(userName) / userEmail : \(userEmail) / userIndex : \(userIndex) / userType : \(userType) / userSubject : \(userSubject)")
     }
     
     public override func viewWillAppear(_ animated: Bool) {

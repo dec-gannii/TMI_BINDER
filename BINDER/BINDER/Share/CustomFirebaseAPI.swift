@@ -3178,11 +3178,9 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
     let db = Firestore.firestore()
     // 데이터베이스 경로
     if (self.userType == "teacher") {
-        print ("::::: 1")
         // 데이터를 받아와서 각각의 값에 따라 textfield 값 설정 (만약 없다면 공백 설정, 있다면 그 값 불러옴)
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document(dateStr).getDocument { (document, error) in
             if let document = document, document.exists {
-                print ("::::: 2")
                 let data = document.data()
                 let dateStrWithoutDays = data?["evaluationDate"] as? String ?? ""
                 
@@ -3228,7 +3226,6 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                 print("Document data: \(dataDescription)")
             } else {
                 print("Document does not exist")
-                print ("::::: 3")
                 // 값 다시 공백 설정
                 self.testScoreTextField.text = ""
                 self.homeworkScoreTextField.text = ""
@@ -3241,7 +3238,6 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents { // 문서가 있다면
-                    print ("::::: 4")
                     print("\(document.documentID) => \(document.data())")
                     let studentUid = document.data()["uid"] as? String ?? ""
                     
@@ -3250,14 +3246,12 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                             print("Error getting documents: \(err)")
                         } else {
                             for document in querySnapshot!.documents { // 문서가 있다면
-                                print ("::::: 5")
                                 print("\(document.documentID) => \(document.data())")
                                 let teacherName = document.data()["name"] as? String ?? ""
                                 let teacherEmail = document.data()["email"] as? String ?? ""
                                 
                                 db.collection("student").document(studentUid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(self.selectedMonth + "월").getDocument(){ (document, error) in
                                     if let document = document, document.exists {
-                                        print ("::::: 6")
                                         let data = document.data()
                                         let evaluation = data!["evaluation"] as? String ?? ""
                                         self.monthlyEvaluationTextView.text = evaluation
@@ -3326,28 +3320,28 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
 
 public func CheckmarkButtonClicked(self : ToDoListViewController, checkTime : Bool, sender : UIButton) {
     let db = Firestore.firestore()
-        if(self.userType == "teacher"){
-            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(self.todoDoc[sender.tag]).updateData([
-                "check": checkTime
-            ]) { err in
-                if let err = err {
-                    print("Error updating document: \(err)")
-                } else {
-                    print("Document successfully updated")
-                }
-                
+    if(self.userType == "teacher"){
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").document(self.todoDoc[sender.tag]).updateData([
+            "check": checkTime
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
             }
-        } else {
-            db.collection("teacher").document(self.teacherUid).collection("class").document(self.studentName + "(" + self.studentEmail + ") " + self.userSubject).collection("ToDoList").document(self.todoDoc[sender.tag]).updateData([
-                "check": checkTime
-            ]) { err in
-                if let err = err {
-                    print("Error updating document: \(err)")
-                } else {
-                    print("Document successfully updated")
-                }
+            
+        }
+    } else {
+        db.collection("teacher").document(self.teacherUid).collection("class").document(self.studentName + "(" + self.studentEmail + ") " + self.userSubject).collection("ToDoList").document(self.todoDoc[sender.tag]).updateData([
+            "check": checkTime
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
             }
         }
+    }
 }
 
 public func AddToDoListFactors(self : ToDoListViewController, checkTime : Bool) {
@@ -3438,7 +3432,6 @@ public func GetScores(self : GraphViewController, studentEmail : String) {
                                                 self.scores.insert(score!, at: 0)
                                             } else {
                                                 for i in stride(from: 0, to: 1, by: 1) {
-                                                    print ("i : \(i)")
                                                     self.days.insert(document.data()["type"] as? String ?? "", at: i)
                                                     self.scores.insert(Double(document.data()["score"] as? String ?? "0.0")!, at: i)
                                                 }
@@ -3517,13 +3510,13 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             let email = document.data()["email"] as? String ?? ""
                                             let index = document.data()["index"] as? Int ?? 0
                                             
-//                                            self.payType = payType
+                                            //                                            self.payType = payType
                                             detailClassVC.payType = payType
-//                                            if (payType == "T") {
-//                                                detailClassVC.classTimeTextField.isEnabled = true
-//                                            } else if (payType == "C") {
-//                                                detailClassVC.classTimeTextField.isEnabled = false
-//                                            }
+                                            //                                            if (payType == "T") {
+                                            //                                                detailClassVC.classTimeTextField.isEnabled = true
+                                            //                                            } else if (payType == "C") {
+                                            //                                                detailClassVC.classTimeTextField.isEnabled = false
+                                            //                                            }
                                             
                                             let currentCnt = document.data()["currentCnt"] as? Int ?? 0
                                             detailClassVC.currentCnt = currentCnt
@@ -3655,7 +3648,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         let payType = document.data()["payType"] as? String ?? ""
                                         let index = document.data()["index"] as? Int ?? 0
                                         
-//                                        self.payType = payType
+                                        //                                        self.payType = payType
                                         detailClassVC.payType = payType
                                         
                                         let currentCnt = document.data()["currentCnt"] as? Int ?? 0
@@ -3784,8 +3777,6 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                             }
                         }
                     }
-                    //                     학생이면 수업 수정 버튼 보이지 않도록 설정
-                    //                    self.editBtn.isHidden = true
                 }
             }
         }

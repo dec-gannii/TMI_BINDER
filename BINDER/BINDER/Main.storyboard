@@ -2668,18 +2668,18 @@
                                                 <action selector="goBack:" destination="7e5-MP-OBs" id="m8T-Ye-8Si"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" id="FpD-bf-NLw">
+                                        <barButtonItem key="rightBarButtonItem" title="Item" id="nmv-ac-bf8">
                                             <imageReference key="image" image="ellipsis" catalog="system" symbolScale="medium"/>
                                             <color key="tintColor" red="0.40406057239999998" green="0.39964026209999998" blue="0.41568845510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <connections>
-                                                <action selector="editBtnAction:" destination="7e5-MP-OBs" id="jTI-rV-JsD"/>
+                                                <action selector="editBtnAction:" destination="7e5-MP-OBs" id="PZY-uw-iK3"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cJe-SP-rLX">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
@@ -2695,10 +2695,13 @@
                             <constraint firstItem="pOI-bb-176" firstAttribute="leading" secondItem="AkV-wO-w2o" secondAttribute="leading" id="thG-cL-dVM"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="classNavigationBar" destination="pOI-bb-176" id="jB2-1r-Lby"/>
                         <outlet property="collectionViewBG" destination="cJe-SP-rLX" id="B2N-Sd-A1c"/>
-                        <outlet property="editBtn" destination="FpD-bf-NLw" id="eb9-Cm-MRU"/>
+                        <outlet property="editBtn" destination="nmv-ac-bf8" id="5pf-Z5-LDG"/>
+                        <outlet property="navigationBarItem" destination="KlC-Bw-h1w" id="ha2-BU-pY4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sel-FV-fK0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
