@@ -53,6 +53,8 @@
 		7F16D15A274941ED00745522 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D159274941ED00745522 /* HomeViewController.swift */; };
 		7F16D16127496FC800745522 /* TypeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F16D16027496FC800745522 /* TypeSelectViewController.swift */; };
 		7F17FB83275BB45500834B4D /* ScheduleCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */; };
+		7F1CE0EE283237EA00EBBA8B /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1CE0ED283237EA00EBBA8B /* GraphViewController.swift */; };
+		7F1CE0F02832382000EBBA8B /* ToDoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1CE0EF2832382000EBBA8B /* ToDoListViewController.swift */; };
 		7F2E9E9B27DB1BDD008991EB /* ParentHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9E9A27DB1BDD008991EB /* ParentHomeViewController.swift */; };
 		7F2E9E9D27DB1DBD008991EB /* ParentMyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9E9C27DB1DBD008991EB /* ParentMyPageViewController.swift */; };
 		7F2E9E9F27DB2217008991EB /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2E9E9E27DB2217008991EB /* TabBarController.swift */; };
@@ -139,6 +141,8 @@
 		7F16D159274941ED00745522 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		7F16D16027496FC800745522 /* TypeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeSelectViewController.swift; sourceTree = "<group>"; };
 		7F17FB82275BB45500834B4D /* ScheduleCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellTableViewCell.swift; sourceTree = "<group>"; };
+		7F1CE0ED283237EA00EBBA8B /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		7F1CE0EF2832382000EBBA8B /* ToDoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListViewController.swift; sourceTree = "<group>"; };
 		7F2E9E9A27DB1BDD008991EB /* ParentHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentHomeViewController.swift; sourceTree = "<group>"; };
 		7F2E9E9C27DB1DBD008991EB /* ParentMyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentMyPageViewController.swift; sourceTree = "<group>"; };
 		7F2E9E9E27DB2217008991EB /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -303,6 +307,8 @@
 				7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */,
 				69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */,
 				7FCEBE7D283118DB00A259E6 /* MyClassDetailViewController.swift */,
+				7F1CE0ED283237EA00EBBA8B /* GraphViewController.swift */,
+				7F1CE0EF2832382000EBBA8B /* ToDoListViewController.swift */,
 			);
 			path = Graph;
 			sourceTree = "<group>";
@@ -615,6 +621,7 @@
 				7FCEBE7C2831189500A259E6 /* MyCollectionViewCell.swift in Sources */,
 				6965DE75275DEF330072C16A /* CardTableViewCell.swift in Sources */,
 				7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */,
+				7F1CE0EE283237EA00EBBA8B /* GraphViewController.swift in Sources */,
 				7F9B8AF327E0D31A008B705B /* TeacherEvaluationViewController.swift in Sources */,
 				6965DE7A275DEF410072C16A /* CircleButton.swift in Sources */,
 				6F86FBD427B37FDC00670928 /* QuestionListItem.swift in Sources */,
@@ -648,6 +655,7 @@
 				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
 				7F645B66282A962200FF2BC6 /* CalendarFunction.swift in Sources */,
 				7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */,
+				7F1CE0F02832382000EBBA8B /* ToDoListViewController.swift in Sources */,
 				6FFDECC927CDF9380028B652 /* QuestionAnsweredListItem.swift in Sources */,
 				7FD18BE8281EB7D000FB86C0 /* CustomFirebaseAPI.swift in Sources */,
 				6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */,

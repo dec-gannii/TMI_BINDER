@@ -2,25 +2,12 @@
 //  ToDoListViewController.swift
 //  BINDER
 //
-//  Created by 김가은 on 2022/05/15.
+//  Created by 김가은 on 2022/05/16.
 //
 
 import UIKit
 
 public class ToDoListViewController: UIViewController {
-    
-    @IBOutlet weak var toDoTF: UITextField!
-    @IBOutlet weak var toDoListTableView: UITableView!
-    @IBOutlet weak var plusBtn: UIButton!
-    
-    var userEmail: String!
-    var userSubject: String!
-    var userName: String!
-    var userType: String!
-    var userIndex: Int!
-    var studentName: String!
-    var studentEmail: String!
-    var teacherUid: String!
     
     var todos = Array<String>()
     var todoCheck = Array<Bool>()
@@ -28,36 +15,39 @@ public class ToDoListViewController: UIViewController {
     var checkTime: Bool!
     
     func _init(){
-        userEmail = ""
-        userSubject = ""
-        userName = ""
-        userType = ""
-        userIndex = 0
         todos = []
         todoCheck = []
         todoDoc = []
         checkTime = false
-        studentName = ""
-        studentEmail = ""
-        teacherUid = ""
     }
+    
+    @IBOutlet weak var todoTF: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var plusButton: UIButton!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        //        GetUserAndClassInfo(self: self)
     }
     
-    @IBAction func AddToDoBtnClicked(_ sender: Any) {if toDoTF.text != "" {
-        todos.append(toDoTF.text ?? "")
-        todoCheck.append(checkTime)
-        todoDoc = []
-        AddToDoListFactors(self: self, checkTime: checkTime)
-        toDoTF.text = ""
-        self.toDoListTableView.reloadData()
+    public override func viewWillAppear(_ animated: Bool) {
+        //        GetUserAndClassInfo(self: self)
+        super.viewWillAppear(true)
     }
+    
+    @IBAction func goButtonClicked(_ sender: Any) {
+        if todoTF.text != "" {
+            todos.append(todoTF.text ?? "")
+            todoCheck.append(checkTime)
+            todoDoc = []
+            AddToDoListFactors(self: self, checkTime: checkTime)
+            todoTF.text = ""
+            self.tableView.reloadData()
+        }
     }
 }
 
-extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
+extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
     
     //데이터 카운트
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -86,7 +76,7 @@ extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
     
     // 데이터 삭제
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        DeleteToDoList(self: self, editingStyle: editingStyle, tableView: tableView, indexPath: indexPath)
+//        DeleteToDoList(self: self, editingStyle: editingStyle, tableView: tableView, indexPath: indexPath)
     }
     
     // 투두리스트 선택에 따라
@@ -102,6 +92,6 @@ extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
             // 체크 내용 업데이트
             sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
         }
-        CheckmarkButtonClicked(self: self, checkTime: checkTime, sender: sender)
+//        CheckmarkButtonClicked(self: self, checkTime: checkTime, sender: sender)
     }
 }

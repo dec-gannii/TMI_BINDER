@@ -171,8 +171,8 @@ public class MyClassDetailViewController: UIViewController {
 
     private func setupViewControllers() {
         let viewController1 = storyboard!.instantiateViewController(identifier: "DetailClassViewController")
-        let viewController2 = storyboard!.instantiateViewController(identifier: "HomeViewController")
-        let viewController3 = storyboard!.instantiateViewController(identifier: "MyPageViewController")
+        let viewController2 = storyboard!.instantiateViewController(identifier: "GraphViewController")
+        let viewController3 = storyboard!.instantiateViewController(identifier: "ToDoListViewController")
 
         dataSourceVC.append(viewController1)
         dataSourceVC.append(viewController2)
@@ -230,6 +230,36 @@ public class MyClassDetailViewController: UIViewController {
 
     func didTapCell(at indexPath: IndexPath) {
         currentPage = indexPath.item
+    }
+    
+    /// more button (edit or delete class info) clicked
+    @IBAction func editBtnAction(_ sender: Any) {
+        let optionMenu = UIAlertController(title: "수정 및 삭제", message: nil, preferredStyle: .actionSheet)
+        
+        let editAction = UIAlertAction(title: "수정", style: .default, handler: { action in
+            guard let editClassVC = self.storyboard?.instantiateViewController(withIdentifier: "EditClassViewController") as? EditClassVC else { return }
+            
+            editClassVC.modalTransitionStyle = .crossDissolve
+            editClassVC.modalPresentationStyle = .fullScreen
+            
+            // 값 보내주는 역할
+            editClassVC.userName = self.userName
+            editClassVC.userEmail = self.userEmail
+            editClassVC.userSubject = self.userSubject
+            
+            self.present(editClassVC, animated: true, completion: nil)
+        })
+        
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
+            DeleteClass(self: self)
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        optionMenu.addAction(editAction)
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(cancelAction)
+        
+        self.present(optionMenu, animated: true, completion: nil)
     }
 }
 
