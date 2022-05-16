@@ -7452,7 +7452,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="QAb-jH-zYG" secondAttribute="height" multiplier="1:1" id="3vz-Wt-RPZ"/>
                                                     </constraints>
-                                                    <color key="tintColor" red="0.082352943720000002" green="0.1176470518" blue="0.231372565" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <color key="tintColor" red="0.1764705882352941" green="0.40784313725490196" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain">
                                                         <imageReference key="image" image="square" catalog="system" symbolScale="medium"/>
