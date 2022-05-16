@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		19D93DB27B5D1BC62305874E /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B0DEBBD0966592C0848FA2 /* Pods_BINDER.framework */; };
 		6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912805E276398EB00712739 /* PortfolioEditViewController.swift */; };
 		6918F343281E39A7008B3404 /* DesignShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6918F342281E39A7008B3404 /* DesignShare.swift */; };
 		691A7BA2276460C6003DCB05 /* Todocell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691A7BA1276460C6003DCB05 /* Todocell.swift */; };
@@ -83,14 +82,15 @@
 		7FBC6B1427EA05930067BAD5 /* PortfolioDefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1327EA05930067BAD5 /* PortfolioDefaultCell.swift */; };
 		7FBC6B1627EA06690067BAD5 /* PortfolioTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1527EA06690067BAD5 /* PortfolioTableViewController.swift */; };
 		7FBC6B1827EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1727EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift */; };
+		7FCEBE7C2831189500A259E6 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEBE7B2831189500A259E6 /* MyCollectionViewCell.swift */; };
+		7FCEBE7E283118DB00A259E6 /* MyClassDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEBE7D283118DB00A259E6 /* MyClassDetailViewController.swift */; };
 		7FD18BE8281EB7D000FB86C0 /* CustomFirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD18BE7281EB7D000FB86C0 /* CustomFirebaseAPI.swift */; };
 		7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */; };
 		7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */; };
+		CD13139741E4256CB5B9AA88 /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C86D2241045D496397DACDDB /* Pods_BINDER.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		15B0DEBBD0966592C0848FA2 /* Pods_BINDER.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BINDER.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		54C6141D32A95D32B99DE23C /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
 		6912805E276398EB00712739 /* PortfolioEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEditViewController.swift; sourceTree = "<group>"; };
 		6918F342281E39A7008B3404 /* DesignShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignShare.swift; sourceTree = "<group>"; };
 		691A7BA1276460C6003DCB05 /* Todocell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todocell.swift; sourceTree = "<group>"; };
@@ -169,10 +169,14 @@
 		7FBC6B1327EA05930067BAD5 /* PortfolioDefaultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDefaultCell.swift; sourceTree = "<group>"; };
 		7FBC6B1527EA06690067BAD5 /* PortfolioTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewController.swift; sourceTree = "<group>"; };
 		7FBC6B1727EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPortfolioItemViewController.swift; sourceTree = "<group>"; };
+		7FCEBE7B2831189500A259E6 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
+		7FCEBE7D283118DB00A259E6 /* MyClassDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyClassDetailViewController.swift; sourceTree = "<group>"; };
 		7FD18BE7281EB7D000FB86C0 /* CustomFirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFirebaseAPI.swift; sourceTree = "<group>"; };
 		7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailClassViewController.swift; sourceTree = "<group>"; };
-		C818F3518D61A717594C3485 /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
+		B7DC38B79B711E876C867FDB /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
+		C86D2241045D496397DACDDB /* Pods_BINDER.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BINDER.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDFEABC087F437EFBA58C340 /* Pods-BINDER.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.release.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,7 +184,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19D93DB27B5D1BC62305874E /* Pods_BINDER.framework in Frameworks */,
+				CD13139741E4256CB5B9AA88 /* Pods_BINDER.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +267,7 @@
 				7F2E9EA027DB23D1008991EB /* StudentEvaluationCell.swift */,
 				7FBC6B1127EA05720067BAD5 /* PlusPortfolioCell.swift */,
 				7FBC6B1327EA05930067BAD5 /* PortfolioDefaultCell.swift */,
+				7FCEBE7B2831189500A259E6 /* MyCollectionViewCell.swift */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 			children = (
 				7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */,
 				69EE72AE275D0661007F6F7C /* PlusGraphViewController.swift */,
+				7FCEBE7D283118DB00A259E6 /* MyClassDetailViewController.swift */,
 			);
 			path = Graph;
 			sourceTree = "<group>";
@@ -342,7 +348,7 @@
 				7F16D1422749390300745522 /* BINDER */,
 				7F16D1412749390300745522 /* Products */,
 				839068290A7852076C3D8CCB /* Pods */,
-				E15C0C9AD2EC7866B352B0BF /* Frameworks */,
+				8E8C71770FE09F92AD57705C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -431,16 +437,16 @@
 		839068290A7852076C3D8CCB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				54C6141D32A95D32B99DE23C /* Pods-BINDER.debug.xcconfig */,
-				C818F3518D61A717594C3485 /* Pods-BINDER.release.xcconfig */,
+				B7DC38B79B711E876C867FDB /* Pods-BINDER.debug.xcconfig */,
+				DDFEABC087F437EFBA58C340 /* Pods-BINDER.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		E15C0C9AD2EC7866B352B0BF /* Frameworks */ = {
+		8E8C71770FE09F92AD57705C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				15B0DEBBD0966592C0848FA2 /* Pods_BINDER.framework */,
+				C86D2241045D496397DACDDB /* Pods_BINDER.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -452,12 +458,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7F16D1542749390600745522 /* Build configuration list for PBXNativeTarget "BINDER" */;
 			buildPhases = (
-				40511E6B5A8AECA8150DF1A5 /* [CP] Check Pods Manifest.lock */,
+				DCD7A0D9F45E036B8AF232F1 /* [CP] Check Pods Manifest.lock */,
 				7F16D13C2749390300745522 /* Sources */,
 				7F16D13D2749390300745522 /* Frameworks */,
 				7F16D13E2749390300745522 /* Resources */,
-				5E373AB9A70C8CFFFFDB8F6A /* [CP] Embed Pods Frameworks */,
-				794CCC392CD4F61C9691D963 /* [CP] Copy Pods Resources */,
+				C5CF680B9F0507ACEC145146 /* [CP] Embed Pods Frameworks */,
+				6B86F1592D13095D73A3AF6F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -516,7 +522,41 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		40511E6B5A8AECA8150DF1A5 /* [CP] Check Pods Manifest.lock */ = {
+		6B86F1592D13095D73A3AF6F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C5CF680B9F0507ACEC145146 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DCD7A0D9F45E036B8AF232F1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -538,40 +578,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5E373AB9A70C8CFFFFDB8F6A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		794CCC392CD4F61C9691D963 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BINDER/Pods-BINDER-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -585,6 +591,7 @@
 				6FBF7BBC27B5E49300ED0144 /* QuestionListViewDelegate.swift in Sources */,
 				6965DE85275DEF670072C16A /* BaseVC.swift in Sources */,
 				6FFDBAE727D88004006B0622 /* EditClassVC.swift in Sources */,
+				7FCEBE7E283118DB00A259E6 /* MyClassDetailViewController.swift in Sources */,
 				7F2EC22627F5CC8F005A9214 /* LoadingHUD.swift in Sources */,
 				7F7818E827B3AE2600241655 /* EditInfoViewController.swift in Sources */,
 				7F2E9EA127DB23D1008991EB /* StudentEvaluationCell.swift in Sources */,
@@ -605,6 +612,7 @@
 				7F645B68282A963D00FF2BC6 /* FunctionShare.swift in Sources */,
 				7F33791227FBDECC00E1FC1C /* StringUtils.swift in Sources */,
 				7F3E3C512830A135005159BC /* EmailVerificationViewController.swift in Sources */,
+				7FCEBE7C2831189500A259E6 /* MyCollectionViewCell.swift in Sources */,
 				6965DE75275DEF330072C16A /* CardTableViewCell.swift in Sources */,
 				7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */,
 				7F9B8AF327E0D31A008B705B /* TeacherEvaluationViewController.swift in Sources */,
@@ -788,7 +796,7 @@
 		};
 		7F16D1552749390600745522 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54C6141D32A95D32B99DE23C /* Pods-BINDER.debug.xcconfig */;
+			baseConfigurationReference = B7DC38B79B711E876C867FDB /* Pods-BINDER.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -822,7 +830,7 @@
 		};
 		7F16D1562749390600745522 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C818F3518D61A717594C3485 /* Pods-BINDER.release.xcconfig */;
+			baseConfigurationReference = DDFEABC087F437EFBA58C340 /* Pods-BINDER.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

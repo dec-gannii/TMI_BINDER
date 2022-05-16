@@ -1408,7 +1408,7 @@ public func MoveToDetailClassVC (self : MyClassVC, sender : UIButton) {
                     return
                 }
                 
-                guard let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailClassViewController") as? DetailClassViewController else { return }
+                guard let weekendVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassDetailViewController") as? MyClassDetailViewController else { return }
                 
                 weekendVC.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 weekendVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
@@ -3368,7 +3368,7 @@ public func AddToDoListFactors(self : DetailClassViewController, checkTime : Boo
     }
 }
 
-public func GetScores(self : DetailClassViewController, studentEmail : String) {
+public func GetScores(self : MyClassDetailViewController, studentEmail : String) {
     let db = Firestore.firestore()
     // 학생의 정보들 중 이메일이 동일한 정보 불러오기
     self.floatValue = [5,5]
@@ -3390,7 +3390,7 @@ public func GetScores(self : DetailClassViewController, studentEmail : String) {
                 let data = document.data()
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 let countOfScores = data?["count"] as? Int ?? 0
-                self.db.collection("student").document(studentUid).collection("Graph").whereField("isScore", isEqualTo: "true")
+                db.collection("student").document(studentUid).collection("Graph").whereField("isScore", isEqualTo: "true")
                     .getDocuments() { (querySnapshot, err) in
                         if let err = err {
                             print("Error getting documents: \(err)")
@@ -3410,11 +3410,11 @@ public func GetScores(self : DetailClassViewController, studentEmail : String) {
                                             self.scores.insert(Double(document.data()["score"] as? String ?? "0.0")!, at: i)
                                         }
                                     }
-                                    setChart(dataPoints: self.days, values: self.scores, view: self.barChartView, design: self.chartDesign, colors: self.barColors, fvalue: self.floatValue)
+//                                    setChart(dataPoints: self.days, values: self.scores, view: self.barChartView, design: self.chartDesign, colors: self.barColors, fvalue: self.floatValue)
                                 } else {
-                                    self.barChartView.noDataText = "데이터가 없습니다."
-                                    self.barChartView.noDataFont = .systemFont(ofSize: 20)
-                                    self.barChartView.noDataTextColor = .lightGray
+//                                    self.barChartView.noDataText = "데이터가 없습니다."
+//                                    self.barChartView.noDataFont = .systemFont(ofSize: 20)
+//                                    self.barChartView.noDataTextColor = .lightGray
                                 }
                             }
                         }
@@ -3427,7 +3427,7 @@ public func GetScores(self : DetailClassViewController, studentEmail : String) {
     }
 }
 
-public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
+public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController) {
     let db = Firestore.firestore()
     // 선생님이면
     db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
@@ -3443,7 +3443,7 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                 for document in snapshot.documents { // 문서가 있다면
                     print("\(document.documentID) => \(document.data())")
                     // 선생님이므로 성적 추가하는 버튼은 보이지 않도록 superview에서 삭제
-                    self.plusButton.isHidden = true
+//                    self.plusButton.isHidden = true
                     
                     if let index = self.userIndex { // userIndex가 nil이 아니라면
                         // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
@@ -3462,19 +3462,19 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                                             let name = document.data()["name"] as? String ?? ""
                                             let payType = document.data()["payType"] as? String ?? ""
                                             
-                                            if (payType == "T") {
-                                                self.classTimeTextField.isEnabled = true
-                                            } else if (payType == "C") {
-                                                self.classTimeTextField.isEnabled = false
-                                            }
-                                            
+//                                            if (payType == "T") {
+//                                                self.classTimeTextField.isEnabled = true
+//                                            } else if (payType == "C") {
+//                                                self.classTimeTextField.isEnabled = false
+//                                            }
+//
                                             let currentCnt = document.data()["currentCnt"] as? Int ?? 0
                                             self.currentCnt = currentCnt
                                             self.userName = name
-                                            self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
+//                                            self.questionLabel.text = "오늘 " + self.userName + " 학생의 수업 참여는 어땠나요?"
                                             self.userEmail = document.data()["email"] as? String ?? ""
                                             //                                            self.userSubject = document.data()["subject"] as? String ?? ""
-                                            self.monthlyEvaluationQuestionLabel.text = "이번 달 " + self.userName + " 학생은 전반적으로 어땠나요?"
+//                                            self.monthlyEvaluationQuestionLabel.text = "이번 달 " + self.userName + " 학생은 전반적으로 어땠나요?"
                                             self.classNavigationBar.topItem!.title = self.userName + " 학생"
                                             
                                             self.todoDoc.removeAll()
@@ -3482,7 +3482,7 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                                             self.todoCheck.removeAll()
                                             
                                             // todolist도 가져오기
-                                            self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
+                                            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
                                                 if let snapshot = snapshot {
                                                     
                                                     snapshot.documents.map { doc in
@@ -3498,7 +3498,7 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                                                 } else {
                                                     print("Document does not exist")
                                                 }
-                                                self.tableView.reloadData()
+//                                                self.tableView.reloadData()
                                             }
                                         }
                                     }
@@ -3526,11 +3526,11 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                     
                     self.studentName = document.data()["name"] as? String ?? ""
                     self.studentEmail = document.data()["email"] as? String ?? ""
-                    let teacherDocRef = self.db.collection("teacher")
+                    let teacherDocRef = db.collection("teacher")
                     
                     if let email = self.userEmail { // 사용자의 이메일이 nil이 아니라면
                         // 선생님들 정보의 경로 중 이메일이 일치하는 선생님 찾기
-                        self.db.collection("teacher").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
+                        db.collection("teacher").whereField("email", isEqualTo: email).getDocuments() { (querySnapshot, err) in
                             if let err = err {
                                 print("Error getting documents: \(err)")
                             } else {
@@ -3543,7 +3543,7 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                                     self.todoCheck.removeAll()
                                     
                                     // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
-                                    self.db.collection("teacher").document(self.teacherUid).collection("class").document(self.studentName + "(" + self.studentEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
+                                    db.collection("teacher").document(self.teacherUid).collection("class").document(self.studentName! + "(" + self.studentEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
                                         if let snapshot = snapshot {
                                             
                                             snapshot.documents.map { doc in
@@ -3559,18 +3559,18 @@ public func GetUserInfoInDetailClassVC (self : DetailClassViewController) {
                                         } else {
                                             print("Document does not exist")
                                         }
-                                        self.tableView.reloadData()
+//                                        self.tableView.reloadData()
                                     }
                                 }
                             }
                         }
                     }
                     // 학생이면 투두리스트 추가를 하지 못하도록 설정
-                    self.plusButton.isHidden = false
-                    self.okButton.isHidden = true
-                    self.todoTF.isHidden = true
+//                    self.plusButton.isHidden = false
+//                    self.okButton.isHidden = true
+//                    self.todoTF.isHidden = true
                     // 학생이면 수업 수정 버튼 보이지 않도록 설정
-                    self.editBtn.isHidden = true
+//                    self.editBtn.isHidden = true
                 }
             }
         }

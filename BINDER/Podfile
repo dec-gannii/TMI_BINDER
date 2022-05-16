@@ -24,4 +24,10 @@ target 'BINDER' do
   pod 'Firebase/Storage'
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
+
+  # collection view
+  pod 'RxSwift'
+  pod 'SnapKit'
+  pod 'RxCocoa'
+  pod 'RxGesture'
 end

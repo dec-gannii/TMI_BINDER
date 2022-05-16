@@ -183,7 +183,7 @@ public class DetailClassViewController: UIViewController {
     
     // 사용자의 정보를 가져오도록 하는 메소드
     func getUserInfo() {
-        GetUserInfoInDetailClassVC(self: self)
+//        GetUserInfoInDetailClassVC(self: self)
     }
     
     /// get student's scores from database
@@ -202,7 +202,7 @@ public class DetailClassViewController: UIViewController {
                 studentEmail = email
             }
             
-            GetScores(self: self, studentEmail: studentEmail)
+//            GetScores(self: self, studentEmail: studentEmail)
         }
     }
     

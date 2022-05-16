@@ -2650,6 +2650,55 @@
             </objects>
             <point key="canvasLocation" x="4641" y="522"/>
         </scene>
+        <!--My Class Detail View Controller-->
+        <scene sceneID="FmW-hX-AaU">
+            <objects>
+                <viewController storyboardIdentifier="MyClassDetailViewController" id="7e5-MP-OBs" customClass="MyClassDetailViewController" customModule="BINDER" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AkV-wO-w2o">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pOI-bb-176">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <items>
+                                    <navigationItem title="Title" id="KlC-Bw-h1w">
+                                        <barButtonItem key="leftBarButtonItem" id="DbD-a8-8si">
+                                            <imageReference key="image" image="arrow.backward" catalog="system" symbolScale="medium"/>
+                                            <color key="tintColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <connections>
+                                                <action selector="goBack:" destination="7e5-MP-OBs" id="m8T-Ye-8Si"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cJe-SP-rLX">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="s32-Fh-dWR"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="cJe-SP-rLX" firstAttribute="top" secondItem="pOI-bb-176" secondAttribute="bottom" id="Iho-yN-SVy"/>
+                            <constraint firstItem="s32-Fh-dWR" firstAttribute="bottom" secondItem="cJe-SP-rLX" secondAttribute="bottom" id="RvF-gF-Z4c"/>
+                            <constraint firstItem="cJe-SP-rLX" firstAttribute="leading" secondItem="s32-Fh-dWR" secondAttribute="leading" id="eyw-a9-LBt"/>
+                            <constraint firstItem="s32-Fh-dWR" firstAttribute="trailing" secondItem="cJe-SP-rLX" secondAttribute="trailing" id="hhw-nE-7Y5"/>
+                            <constraint firstItem="pOI-bb-176" firstAttribute="top" secondItem="s32-Fh-dWR" secondAttribute="top" id="jeV-2g-yre"/>
+                            <constraint firstItem="s32-Fh-dWR" firstAttribute="trailing" secondItem="pOI-bb-176" secondAttribute="trailing" id="tWS-P5-xoL"/>
+                            <constraint firstItem="pOI-bb-176" firstAttribute="leading" secondItem="AkV-wO-w2o" secondAttribute="leading" id="thG-cL-dVM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="classNavigationBar" destination="pOI-bb-176" id="jB2-1r-Lby"/>
+                        <outlet property="collectionViewBG" destination="cJe-SP-rLX" id="B2N-Sd-A1c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sel-FV-fK0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5277" y="522"/>
+        </scene>
         <!--My Page View Controller-->
         <scene sceneID="y2r-lW-tEW">
             <objects>
