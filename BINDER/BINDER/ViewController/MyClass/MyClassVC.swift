@@ -81,12 +81,14 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == classItems.count {
+            if (self.type == "teacher") {
             let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
-            if (self.type == "student") {
-                cell.isHidden = true
-            } 
-            return cell
-            
+                cell.isHidden = false
+                return cell
+            } else {
+                let cell = UITableViewCell()
+                return cell
+            }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "class")! as! CardTableViewCell
             
