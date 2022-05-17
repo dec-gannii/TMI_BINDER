@@ -42,6 +42,13 @@ public class SignInViewController: UIViewController {
         super.viewDidLoad()
         ref = Database.database().reference()
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tap)
+        
+        /// 키보드 올라올 때 화면 쉽게 이동할 수 있도록 해주는 것, 키보드 높이만큼 padding
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+        
         var textfields = [UITextField]()
         textfields = [self.nameTextField, self.emailTextField, self.pwTextField]
         
@@ -62,6 +69,24 @@ public class SignInViewController: UIViewController {
             emailTextField.isEnabled = false
         } else {
         }
+    }
+    
+    // 키보드 내리기
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    /// 키보드 올라올때 처리
+    /// - Parameter notification: 노티피케이션
+    @objc func keyboardWillShow(notification:NSNotification) {
+        if (self.emailTextField.isFirstResponder == true) {
+            self.view.frame.origin.y = -(self.emailTextField.frame.height + 20)
+        }
+    }
+    
+    /// 키보드 내려갈때 처리
+    @objc func keyboardWillHide(notification:NSNotification) {
+        self.view.frame.origin.y = 0 // Move view 150 points upward
     }
     
     // 유효한 이름인지 (공백은 아닌지) 검사하는 메소드
