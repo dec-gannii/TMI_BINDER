@@ -23,6 +23,8 @@ public class CheckPasswordViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        /// 키보드 띄우기
+        self.pwTextField.becomeFirstResponder()
         
         var textfields = [UITextField]()
         textfields = [self.pwTextField]

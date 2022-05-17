@@ -47,7 +47,6 @@ public class ClassInfoVC: BaseVC {
         
         functionShare.textFieldPaddingSetting(textfields)
         
-        
         /// 학생 정보 셋팅
         studentEmail.text = studentItem.email
         studentName.text = "\(studentItem.name)"

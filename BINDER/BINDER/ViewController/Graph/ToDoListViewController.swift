@@ -51,6 +51,8 @@ public class ToDoListViewController: UIViewController {
         textfields = [self.todoTF]
         
         functionShare.textFieldPaddingSetting(textfields)
+        /// 키보드 띄우기
+        self.todoTF.becomeFirstResponder()
         
         GetUserInfoInDetailClassVC(self: nil, detailClassVC: nil, graphVC: nil, todolistVC: self)
         if self.userType == "student" {

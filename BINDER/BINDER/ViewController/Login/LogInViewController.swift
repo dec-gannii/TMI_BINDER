@@ -37,6 +37,9 @@ public class LogInViewController: UIViewController {
         //            GIDSignIn.sharedInstance()?.restorePreviousSignIn() // 자동로그인
         //        }
         
+        /// 키보드 띄우기
+        self.emailTextField.becomeFirstResponder()
+        
         var textfields = [UITextField]()
         textfields = [self.emailTextField, self.pwTextField]
         

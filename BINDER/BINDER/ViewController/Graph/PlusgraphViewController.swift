@@ -35,6 +35,8 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
      public override func viewDidLoad() {
         super.viewDidLoad()
          
+         scoreTextField.keyboardType = .numberPad
+         
          var textfields = [UITextField]()
          textfields = [self.studyShowPicker, self.scoreTextField]
          

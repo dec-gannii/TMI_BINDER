@@ -89,6 +89,11 @@ public class DetailClassViewController: UIViewController {
     
     public override func viewDidLoad() {
         
+        self.classTimeTextField.keyboardType = .numberPad
+        self.testScoreTextField.keyboardType = .numberPad
+        self.classScoreTextField.keyboardType = .numberPad
+        self.homeworkScoreTextField.keyboardType = .numberPad
+        
         var textfields = [UITextField]()
         textfields = [self.testScoreTextField, self.classTimeTextField, self.classScoreTextField, self.homeworkScoreTextField]
         

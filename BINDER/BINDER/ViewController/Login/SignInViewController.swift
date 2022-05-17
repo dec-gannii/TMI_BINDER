@@ -46,6 +46,8 @@ public class SignInViewController: UIViewController {
         textfields = [self.nameTextField, self.emailTextField, self.pwTextField]
         
         functionShare.textFieldPaddingSetting(textfields)
+        /// 키보드 띄우기
+        self.nameTextField.becomeFirstResponder()
         
         // 오류 발생 시 나타날 label들 우선 숨겨두기
         nameAlertLabel.isHidden = true

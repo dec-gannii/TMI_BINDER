@@ -19,6 +19,8 @@ class EditInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /// 키보드 띄우기
+        self.nameTextField.becomeFirstResponder()
         
         var textfields = [UITextField]()
         textfields = [self.nameTextField, self.newPassword, self.newPasswordCheck, self.parentPassword]

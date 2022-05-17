@@ -49,6 +49,7 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
         textfields = [self.ageShowPicker, self.phonenumTextField, self.goalTextField]
         
         functionShare.textFieldPaddingSetting(textfields)
+        phonenumTextField.keyboardType = .numberPad
         
         if (type == "teacher") {
             ageLabel.text = "학부모 인증 비밀번호"
