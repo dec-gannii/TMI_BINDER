@@ -19,9 +19,18 @@ public class CheckPasswordViewController: UIViewController {
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var okBtn: UIButton!
     var currentPW = ""
+    var functionShare = FunctionShare()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        /// 키보드 띄우기
+        self.pwTextField.becomeFirstResponder()
+        
+        var textfields = [UITextField]()
+        textfields = [self.pwTextField]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
         GetPW() // 현재 비밀번호가 맞는지 확인하기 위해 호출
         okBtn.clipsToBounds = true
         okBtn.layer.cornerRadius = 10

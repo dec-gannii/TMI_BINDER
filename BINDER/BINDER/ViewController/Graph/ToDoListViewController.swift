@@ -42,8 +42,18 @@ public class ToDoListViewController: UIViewController {
     @IBOutlet weak var todoTableView: UITableView!
     @IBOutlet weak var plusBtn: UIButton!
     
+    var functionShare = FunctionShare()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var textfields = [UITextField]()
+        textfields = [self.todoTF]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        /// 키보드 띄우기
+        self.todoTF.becomeFirstResponder()
+        
         GetUserInfoInDetailClassVC(self: nil, detailClassVC: nil, graphVC: nil, todolistVC: self)
         if self.userType == "student" {
             self.plusBtn.isHidden = true

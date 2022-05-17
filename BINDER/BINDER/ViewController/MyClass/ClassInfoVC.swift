@@ -35,11 +35,17 @@ public class ClassInfoVC: BaseVC {
     weak var delegate: AddStudentDelegate?
     
     var studentItem: StudentItem!
+    var functionShare = FunctionShare()
     
     // MARK: - 라이프 사이클
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var textfields = [UITextField]()
+        textfields = [self.subjectTextField, self.moneyTextField, self.creditDayTextField]
+        
+        functionShare.textFieldPaddingSetting(textfields)
         
         /// 학생 정보 셋팅
         studentEmail.text = studentItem.email

@@ -53,6 +53,7 @@ public class DetailClassViewController: UIViewController {
     var viewDesign = ViewDesign()
     var calenderDesign = CalendarDesign()
     var btnDesign = ButtonDesign()
+    var functionShare = FunctionShare()
     var payType: String!
     
     func _init(){
@@ -87,6 +88,17 @@ public class DetailClassViewController: UIViewController {
     }
     
     public override func viewDidLoad() {
+        
+        self.classTimeTextField.keyboardType = .numberPad
+        self.testScoreTextField.keyboardType = .numberPad
+        self.classScoreTextField.keyboardType = .numberPad
+        self.homeworkScoreTextField.keyboardType = .numberPad
+        
+        var textfields = [UITextField]()
+        textfields = [self.testScoreTextField, self.classTimeTextField, self.classScoreTextField, self.homeworkScoreTextField]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
         
         monthlyEvaluationTextView.textContainerInset = viewDesign.EdgeInsets
         evaluationMemoTextView.textContainerInset = viewDesign.EdgeInsets

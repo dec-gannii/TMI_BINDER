@@ -20,8 +20,16 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     let db = Firestore.firestore()
     var btnDesign = ButtonDesign()
     var viewDesign = ViewDesign()
+    var functionShare = FunctionShare()
     
     func setUI() {
+        
+        var textfields = [UITextField]()
+        textfields = [self.titleTextField]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
+        
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
         contentTextView.textContainerInset = viewDesign.EdgeInsets
         

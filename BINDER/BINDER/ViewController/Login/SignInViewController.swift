@@ -31,6 +31,7 @@ public class SignInViewController: UIViewController {
     var name: String = ""
     var email: String = ""
     var viewDesign = ViewDesign()
+    var functionShare = FunctionShare()
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -40,6 +41,13 @@ public class SignInViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
+        
+        var textfields = [UITextField]()
+        textfields = [self.nameTextField, self.emailTextField, self.pwTextField]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        /// 키보드 띄우기
+        self.nameTextField.becomeFirstResponder()
         
         // 오류 발생 시 나타날 label들 우선 숨겨두기
         nameAlertLabel.isHidden = true

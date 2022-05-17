@@ -13,12 +13,19 @@ public class ShowPortfolioViewController: UIViewController {
     
     let db = Firestore.firestore()
     var btnDesign = ButtonDesign()
+    var functionShare = FunctionShare()
     
     @IBOutlet weak var teacherEmailTextField: UITextField!
     @IBOutlet weak var showBtn: UIButton!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var textfields = [UITextField]()
+        textfields = [self.teacherEmailTextField]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
         /// 키보드 띄우기
         teacherEmailTextField.becomeFirstResponder()
         

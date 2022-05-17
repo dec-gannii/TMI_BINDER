@@ -62,6 +62,12 @@ public class GraphViewController: UIViewController {
         barChartView.noDataFont = .systemFont(ofSize: 14.0, weight: .bold)
         barChartView.noDataTextColor = .lightGray
         
+        if self.userType == "teacher" {
+            self.plusButton.isHidden = true
+        } else {
+            self.plusButton.isHidden = false
+        }
+        
         getScores()
     }
     

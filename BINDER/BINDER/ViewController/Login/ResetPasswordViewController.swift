@@ -18,9 +18,17 @@ class ResetPasswordViewController: UIViewController {
     @IBOutlet weak var sendBtn: UIButton!
     
     var btnDesign = ButtonDesign()
+    var functionShare = FunctionShare()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /// 키보드 띄우기
+        self.emailTextField.becomeFirstResponder()
+        
+        var textfields = [UITextField]()
+        textfields = [self.emailTextField]
+        
+        functionShare.textFieldPaddingSetting(textfields)
         
         sendBtn.clipsToBounds = true
         sendBtn.layer.cornerRadius = btnDesign.cornerRadius

@@ -16,9 +16,16 @@ public class EmailVerificationViewController: UIViewController {
     
     var email: String = ""
     var type: String = ""
+    var functionShare = FunctionShare()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var textfields = [UITextField]()
+        textfields = [self.emailTF]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
         self.emailVerificationAlertLabel.isHidden = true
         self.emailTF.text = email
         self.emailTF.isEnabled = false

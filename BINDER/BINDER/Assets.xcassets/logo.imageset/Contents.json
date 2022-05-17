@@ -1,15 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "frame5541.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "student_plus_btn.png",
+      "filename" : "frame5541@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "frame5541@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
@@ -17,5 +19,8 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "template-rendering-intent" : "original"
   }
 }

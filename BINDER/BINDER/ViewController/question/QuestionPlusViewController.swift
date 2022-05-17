@@ -42,6 +42,8 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        /// 키보드 띄우기
+        self.questionName.becomeFirstResponder()
         storageRef = storage.reference()
         placeholderSetting()
         

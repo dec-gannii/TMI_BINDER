@@ -39,6 +39,9 @@ public class TeacherEvaluationViewController: UIViewController {
         GetEvaluation(self: self)
         GetUserAndClassInfo(self: self)
         
+        teacherAttitude.keyboardType = .numberPad
+        teacherManagingSatisfyScore.keyboardType = .numberPad
+        
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
         evaluationTextView.textContainerInset = viewDesign.EdgeInsets
         self.TeacherTitle.text = self.teacherName + " 선생님의 " + self.month + " 수업은..." // 선생님 평가 title 설정

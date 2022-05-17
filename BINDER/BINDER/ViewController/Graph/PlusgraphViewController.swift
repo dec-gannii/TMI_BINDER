@@ -22,6 +22,8 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
     @IBOutlet weak var studyLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     
+    var functionShare = FunctionShare()
+    
     var todayStudy: String!
     var todayScore: String!
     var userName: String!
@@ -32,12 +34,19 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
     
      public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        studyLabel.text = nil
-        scoreLabel.text = nil
-        
-        createPickerView()
-        dismissPickerView()
+         
+         scoreTextField.keyboardType = .numberPad
+         
+         var textfields = [UITextField]()
+         textfields = [self.studyShowPicker, self.scoreTextField]
+         
+         functionShare.textFieldPaddingSetting(textfields)
+         
+         studyLabel.text = nil
+         scoreLabel.text = nil
+         
+         createPickerView()
+         dismissPickerView()
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
