@@ -87,5 +87,12 @@ struct FunctionShare{
         view.clipsToBounds = true
         view.layer.cornerRadius = 10
     }
+    
+    func textFieldPaddingSetting(_ textfields: [UITextField]) {
+        for item in textfields {
+            item.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 10.0, height: 0.0))
+            item.leftViewMode = .always
+        }
+    }
 }
 

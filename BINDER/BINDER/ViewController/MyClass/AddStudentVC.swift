@@ -12,11 +12,17 @@ public class AddStudentVC: BaseVC {
     @IBOutlet weak var emailTf: UITextField!
     
     weak var delegate: AddStudentDelegate?
-    
+    var functionShare = FunctionShare()
     // MARK: - 라이프 사이클
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var textfields = [UITextField]()
+        textfields = [self.emailTf]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
         
         /// 키보드 띄우기
         emailTf.becomeFirstResponder()

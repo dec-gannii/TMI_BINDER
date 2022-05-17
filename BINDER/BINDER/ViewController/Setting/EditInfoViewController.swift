@@ -8,6 +8,7 @@ class EditInfoViewController: UIViewController {
     
     var type = ""
     var currentPW = ""
+    var functionShare = FunctionShare()
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
@@ -18,6 +19,12 @@ class EditInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var textfields = [UITextField]()
+        textfields = [self.nameTextField, self.newPassword, self.newPasswordCheck, self.parentPassword]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
         self.currentPW = sharedCurrentPW
     }
     

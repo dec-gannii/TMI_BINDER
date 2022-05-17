@@ -31,6 +31,8 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet weak var phoneAlertLabel: UILabel!
     @IBOutlet weak var ageAlertLabel: UILabel!
     
+    let functionShare = FunctionShare()
+    
     let agelist = ["초등학생","중학생","고등학생","일반인"]
     var age = "0"
     var phonenum = "0"
@@ -42,6 +44,11 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
     public override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
+        
+        var textfields = [UITextField]()
+        textfields = [self.ageShowPicker, self.phonenumTextField, self.goalTextField]
+        
+        functionShare.textFieldPaddingSetting(textfields)
         
         if (type == "teacher") {
             ageLabel.text = "학부모 인증 비밀번호"

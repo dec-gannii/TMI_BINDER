@@ -20,6 +20,7 @@ public class EditClassVC : UIViewController {
     @IBOutlet weak var repeatYNToggle: UISwitch!
     @IBOutlet var daysBtn: [UIButton]!
     
+    var functionShare = FunctionShare()
     var schedule = ""
     
     @IBOutlet weak var cancelBtn: UIButton!
@@ -125,6 +126,12 @@ public class EditClassVC : UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var textfields = [UITextField]()
+        textfields = [self.subjectTF, self.payDateTF, self.payAmountTF]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
         box.allRound()
         GetClassInfo(self: self)
     }

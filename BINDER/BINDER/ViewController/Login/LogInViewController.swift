@@ -21,6 +21,8 @@ public class LogInViewController: UIViewController {
     var email:String!
     var name:String!
     
+    var functionShare = FunctionShare()
+    
     func _init(){
         isLogouted = true
         email = ""
@@ -34,6 +36,12 @@ public class LogInViewController: UIViewController {
         //        if (isLogouted == false) {
         //            GIDSignIn.sharedInstance()?.restorePreviousSignIn() // 자동로그인
         //        }
+        
+        var textfields = [UITextField]()
+        textfields = [self.emailTextField, self.pwTextField]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
         emailAlertLabel.isHidden = true
         pwAlertLabel.isHidden = true
     }

@@ -25,9 +25,16 @@ class AddScheduleViewController: UIViewController {
     var savedTime: String = ""
     var type: String = ""
     var viewDesign = ViewDesign()
+    var functionShare = FunctionShare()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var textfields = [UITextField]()
+        textfields = [self.scheduleTime, self.schedulePlace]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
         
         self.dateLabel.text = date
         
