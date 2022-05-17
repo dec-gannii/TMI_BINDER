@@ -33,12 +33,15 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
     var vnull = true
     var player : AVPlayer!
     var avPlayerLayer : AVPlayerLayer!
+    var tname : String!
+    var fcmtoken: String!
     
     @IBOutlet var imgView: UIImageView!
     @IBOutlet weak var textView: UITextView!
     
     // UIImagePickerController의 인스턴스 변수 생성
     let imagePicker: UIImagePickerController! = UIImagePickerController()
+    let notification = PushNotificationSender()
     
     var captureImage: UIImage!
     var videoURL: URL!
@@ -50,6 +53,7 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
         super.viewDidLoad()
         storageRef = storage.reference()
         placeholderSetting()
+        getNameFcm()
     }
     
     @IBAction func undoBtn(_ sender: Any) {
@@ -233,6 +237,8 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
         answer = textView.text
         UpdateAnswer(answer: answer, imgtype: self.imgtype, self: self, imgView: self.imgView)
         
+        notification.sendPushNotification(token: fcmtoken, title: "답변이 달렸습니다.", body: "\(tname!)선생님이 답변을 달아주셨습니다.")
+        
         if let preVC = self.presentingViewController as? UIViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
@@ -241,5 +247,33 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
+    }
+    
+    func getNameFcm(){
+        let db = Firestore.firestore()
+        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                self.tname = data?["name"] as? String ?? ""
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+        db.collection("student").whereField("name", isEqualTo: self.userName!).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                if let err = err {
+                    print("Error getting documents(inMyClassView): \(err)")
+                } else {
+                    /// 문서 존재하면
+                    for document in querySnapshot!.documents {
+                        self.fcmtoken = document.data()["fcmToken"] as? String ?? ""
+                    }
+                }
+            }
+        }
     }
 }

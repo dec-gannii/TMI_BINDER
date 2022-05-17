@@ -17,6 +17,7 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     let db = Firestore.firestore()
     var ref: DatabaseReference!
     
+    let notification = PushNotificationSender()
     let storage = Storage.storage()
     var storageRef:StorageReference!
     var imagePicker:UIImagePickerController!
@@ -35,6 +36,7 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     var index : Int!
     var qnum : Int!
     var teacherUid: String!
+    var fcmtoken: String!
     
     var captureImage: UIImage!
     var videoURL: URL!
@@ -44,6 +46,7 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         storageRef = storage.reference()
         placeholderSetting()
+        getFcm()
         
     }
     
@@ -135,6 +138,27 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         else {
             print("제목 작성 완료")
             UpdateImage(self: self)
+            
+            notification.sendPushNotification(token: fcmtoken, title: "질문이 달렸습니다.", body: "\(self.userName!)학생의 질문이 달렸습니다.")
+        }
+    }
+    
+    func getFcm(){
+        let db = Firestore.firestore()
+        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
+        db.collection("teacher").whereField("name", isEqualTo: self.userName!).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                if let err = err {
+                    print("Error getting documents(inMyClassView): \(err)")
+                } else {
+                    /// 문서 존재하면
+                    for document in querySnapshot!.documents {
+                        self.fcmtoken = document.data()["fcmToken"] as? String ?? ""
+                    }
+                }
+            }
         }
     }
 }
