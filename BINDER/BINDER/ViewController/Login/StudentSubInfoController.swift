@@ -244,7 +244,7 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
             // 선생님 이메일 이용한 비밀번호 받아오기
             if(isValidEmail(goal)){
                 CheckStudentPhoneNumberForParent(phoneNumber: phoneNumberWithDash, self: self, goal: goal)
-                guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else { return }
+                guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 self.present(tb, animated: true, completion: nil)
             } else {
