@@ -14,7 +14,7 @@ import BLTNBoard
 public class DetailClassViewController: UIViewController {
     let db = Firestore.firestore()
     var ref: DatabaseReference!
-    
+    let notification = PushNotificationSender()
     /// 변수 선언
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var homeworkLabel: UILabel!
