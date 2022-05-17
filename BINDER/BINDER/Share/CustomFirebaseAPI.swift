@@ -173,11 +173,11 @@ public func GetBeforeEditSchedule(type : String, date : String, editingTitle : S
             let memo = data?["memo"] as? String ?? ""
             scheduleMemo.text = memo
             let place = data?["place"] as? String ?? ""
-            schedulePlace.text = "   " + place
+            schedulePlace.text = place
             let title = data?["title"] as? String ?? ""
             scheduleTitle.text = title
             let time = data?["time"] as? String ?? ""
-            scheduleTime.text = "   " + time
+            scheduleTime.text = time
         } else {
             print("Document does not exist")
         }
@@ -2118,13 +2118,13 @@ public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath :
                         let data = document.data()
                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                         
-                        let eduText = data?["eduHistory"] as? String ?? "저장된 내용이 없습니다."
-                        let classText = data?["classMethod"] as? String ?? "저장된 내용이 없습니다."
-                        let extraText = data?["extraExprience"] as? String ?? "저장된 내용이 없습니다."
-                        let time = data?["time"] as? String ?? "저장된 내용이 없습니다."
-                        let contact = data?["contact"] as? String ?? "저장된 내용이 없습니다."
-                        let manage = data?["manage"] as? String ?? "저장된 내용이 없습니다."
-                        let portfolioShow = data?["portfolioShow"] as? String ?? "저장된 내용이 없습니다."
+                        let eduText = data?["eduHistory"] as? String ?? ""
+                        let classText = data?["classMethod"] as? String ?? ""
+                        let extraText = data?["extraExprience"] as? String ?? ""
+                        let time = data?["time"] as? String ?? ""
+                        let contact = data?["contact"] as? String ?? ""
+                        let manage = data?["manage"] as? String ?? ""
+                        let portfolioShow = data?["portfolioShow"] as? String ?? ""
                         
                         if self.infos[indexPath.row] == "연락 수단" {
                             cell.content.text = contact
