@@ -64,6 +64,11 @@ class AddScheduleViewController: UIViewController {
         }
     }
     
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
     // 키보드 내리기
     @objc func dismissKeyboard() {
         view.endEditing(true)

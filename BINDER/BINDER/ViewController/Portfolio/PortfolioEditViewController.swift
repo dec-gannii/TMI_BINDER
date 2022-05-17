@@ -98,12 +98,42 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         self.setTextViewUI()
         GetPortfolioPlots(self: self)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tap)
+        
+        /// 키보드 올라올 때 화면 쉽게 이동할 수 있도록 해주는 것, 키보드 높이만큼 padding
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
+    
+    // 키보드 내리기
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    /// 키보드 올라올때 처리
+    /// - Parameter notification: 노티피케이션
+    @objc func keyboardWillShow(notification:NSNotification) {
+        if (self.timeTV.isFirstResponder == true) {
+            self.view.frame.origin.y = -(self.timeTV.frame.height)
+        } else if (self.contactTV.isFirstResponder == true) {
+            self.view.frame.origin.y = -(self.timeTV.frame.height + self.contactTV.frame.height)
+        } else if (self.manageTV.isFirstResponder == true) {
+            self.view.frame.origin.y = -(self.contactTV.frame.height + self.manageTV.frame.height)
+        }
+    }
+    
+    /// 키보드 내려갈때 처리
+    @objc func keyboardWillHide(notification:NSNotification) {
+        self.view.frame.origin.y = 0 // Move view 150 points upward
+    }
+    
     
     @IBAction func editButton(_ sender: Any) {
         SaveEditedPlot(self: self)
