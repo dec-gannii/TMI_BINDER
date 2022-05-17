@@ -157,9 +157,7 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
     
     @objc func donePicker() {
         ageShowPicker.text = "\(age)"
-        self.ageShowPicker.resignFirstResponder()
-        
-    }
+        self.ageShowPicker.resignFirstResponder()    }
     
     @objc func cancelPicker() {
         ageShowPicker.resignFirstResponder()
@@ -244,9 +242,11 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
             }
         } else if (type == "parent") {
             // 선생님 이메일 이용한 비밀번호 받아오기
-            
             if(isValidEmail(goal)){
                 CheckStudentPhoneNumberForParent(phoneNumber: phoneNumberWithDash, self: self, goal: goal)
+                guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else { return }
+                tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
+                self.present(tb, animated: true, completion: nil)
             } else {
                 goalAlertLabel.text = StringUtils.emailValidationAlert.rawValue
                 ageAlertLabel.isHidden = false

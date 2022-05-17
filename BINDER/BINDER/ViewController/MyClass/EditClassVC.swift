@@ -52,6 +52,15 @@ public class EditClassVC : UIViewController {
     }
     @IBOutlet weak var okBtn: UIButton!
     
+    // 키보드 내리기
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
     
     @IBAction func mondayBtn(_ sender: Any) {
         let index = (sender as AnyObject).tag!
