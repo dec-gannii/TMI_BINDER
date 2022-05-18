@@ -33,8 +33,10 @@ struct CalendarDesign {
     var headerHeight = CGFloat(16)
     var weekdayHeight = CGFloat(14)
     
-    var calendarColor = UIColor(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
-    var calendarTodayColor = UIColor(red: 196/255, green: 196/255, blue: 196/255, alpha: 0.3)
+    
+    var calendarColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
+    var calendarTodayColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
+    var calendartitleColor = UIColor(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
 
     var headerFont = UIFont.systemFont(ofSize: 12)
     var titleFont = UIFont.systemFont(ofSize: 13)

@@ -14,13 +14,13 @@ import FSCalendar
 func calendarColor(view:FSCalendar, design:CalendarDesign) {
     view.appearance.weekdayTextColor = .systemGray
     view.appearance.titleWeekendColor = .black
-    view.appearance.headerTitleColor =  design.calendarColor
+    view.appearance.headerTitleColor =  design.calendartitleColor
     view.appearance.eventDefaultColor = design.calendarColor
     view.appearance.eventSelectionColor = design.calendarColor
-    view.appearance.titleSelectionColor = design.calendarColor
-    view.appearance.borderSelectionColor = design.calendarColor
-    view.appearance.titleTodayColor = .black
-    view.appearance.todaySelectionColor = .white
+    view.appearance.titleSelectionColor = design.calendartitleColor
+    view.appearance.borderSelectionColor = design.calendarTodayColor
+    view.appearance.titleTodayColor = design.calendarColor
+    view.appearance.todaySelectionColor = design.calendarTodayColor
     view.appearance.selectionColor = .none
     view.appearance.todayColor = design.calendarTodayColor
 }

@@ -108,21 +108,6 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         calendarView.delegate = self
     }
     
-    func calendarColor() {
-        calendarView.appearance.weekdayTextColor = .systemGray
-        calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  calendarDesign.calendarColor
-        calendarView.appearance.eventDefaultColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        calendarView.appearance.eventSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        
-        calendarView.appearance.titleSelectionColor = calendarDesign.calendarColor
-        calendarView.appearance.borderSelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-        calendarView.appearance.titleTodayColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        calendarView.appearance.todaySelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-        calendarView.appearance.selectionColor = .none
-        calendarView.appearance.todayColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-    }
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -139,7 +124,7 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         
         // calendar 커스터마이징
         calendarText()
-        self.calendarColor()
+        calendarColor(view: calendarView, design: calendarDesign)
         self.calendarEvent()
         
         /// parent collection에서 현재 사용자의 uid와 동일한 값의 uid를 가지는 문서 찾기
