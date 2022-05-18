@@ -80,10 +80,23 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == classItems.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
-            if (self.type == "student") {
+            if (userType == "teacher"){
+                cell.isHidden = false
+                cell.messageLabel.text = "학생 등록하기"
+                cell.plusImage.isHidden = false
+                return cell
+            } else if (userType == "student"){
+                if (classItems.count == 0){
+                    cell.messageLabel.text = "등록된 수업이 없습니다."
+                    cell.plusImage.isHidden = true
+                } else {
+                    cell.isHidden = true
+                }
+                return cell
+            } else {
                 cell.isHidden = true
+                return cell
             }
-            return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "class")! as! CardTableViewCell
             
@@ -120,7 +133,9 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 플러스 row
         if indexPath.row == classItems.count {
+            if (userType == "teacher"){
             performSegue(withIdentifier: "addStudentSegue", sender: nil)
+            }
         }
         // 학생 row
         else {
