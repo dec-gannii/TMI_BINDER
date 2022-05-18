@@ -46,11 +46,11 @@ struct ChartDesign {
     
     var gridColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 0.4)
     
-    var chartColor_60 = UIColor(displayP3Red: 22/255, green: 32/255, blue: 60/255, alpha: 1)
-    var chartColor_70 = UIColor(displayP3Red: 82/255, green: 90/255, blue: 109/255, alpha: 1)
-    var chartColor_80 = UIColor(displayP3Red: 126/255, green: 129/255, blue: 144/255, alpha: 1)
-    var chartColor_90 = UIColor(displayP3Red: 146/255, green: 150/255, blue: 160/255, alpha: 1)
-    var chartColor_100 = UIColor(displayP3Red: 175/255, green: 178/255, blue: 186/255, alpha: 1)
+    var chartColor_60 = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
+    var chartColor_70 = UIColor(red: 158, green: 211, blue: 255, alpha: 1)
+    var chartColor_80 = UIColor(red: 84, green: 179, blue: 255, alpha: 1)
+    var chartColor_90 = UIColor(red: 0, green: 141, blue: 255, alpha: 1)
+    var chartColor_100 = UIColor(red: 0, green: 103, blue: 255, alpha: 1)
 }
 
 struct ButtonDesign {
