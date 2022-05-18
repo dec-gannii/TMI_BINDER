@@ -1101,13 +1101,23 @@ public func CheckStudentPhoneNumberForParent(phoneNumber: String, self: StudentS
 
 public func SaveInfoForSignUp (self : SignInViewController, number: Int, name: String, email: String, password: String, type: String) {
     let db = Firestore.firestore()
+    var profileImage = ""
+    
+    if (type == "student") {
+        profileImage = "https://i.postimg.cc/4xbWLCKh/student-profile.png"
+    } else if (type == "parent") {
+        profileImage = "https://i.postimg.cc/Z5hfxYqS/parent-profile.png"
+    } else if (type == "teacher") {
+        profileImage = "https://i.postimg.cc/9XKgzY5z/teacher-profile.png"
+    }
+    
     db.collection("\(type)").document(Auth.auth().currentUser!.uid).setData([
         "name": name,
         "email": email,
         "password": password,
         "type": type,
         "uid": Auth.auth().currentUser?.uid,
-        "profile": Auth.auth().currentUser?.photoURL?.absoluteString ?? "https://ifh.cc/g/Lt9Ip8.png",
+        "profile": Auth.auth().currentUser?.photoURL?.absoluteString ?? profileImage,
         "fcmToken": Messaging.messaging().fcmToken
     ]) { err in
         if let err = err {
@@ -1246,7 +1256,7 @@ public func GetUserInfoForClassList(self : MyClassVC) {
                     print("\(document.documentID) => \(document.data())")
                     let type = document.data()["type"] as? String ?? ""
                     self.type = type
-                    let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                    let profile = document.data()["profile"] as? String ?? "https://i.postimg.cc/9XKgzY5z/teacher-profile.png"
                     
                     let url = URL(string: profile)!
                     self.setTeacherInfo()
@@ -1272,7 +1282,7 @@ public func GetUserInfoForClassList(self : MyClassVC) {
                     let type = document.data()["type"] as? String ?? ""
                     self.type = type
                     
-                    let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                    let profile = document.data()["profile"] as? String ?? "https://i.postimg.cc/4xbWLCKh/student-profile.png"
                     let url = URL(string: profile)!
                     
                     self.setStudentInfo()
@@ -1843,6 +1853,44 @@ public func SaveParentInfos (name : String, password : String, childPhoneNumber 
     }
 }
 
+public func SaveChildPhoneNum(childPhoneNumber : String) {
+    let db = Firestore.firestore()
+    // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
+    
+    var childPhoneNumberWithDash = "" // '-'가 들어간 번호로 다시 만들어 주기 위해 사용
+    if (childPhoneNumber.contains(" - ")) { /// '-'가 있는 휴대폰 번호의 경우
+        childPhoneNumberWithDash = childPhoneNumber // '-'가 들어간 번호 변수에 그대로 사용
+    } else {  /// '-'가 없는 휴대폰 번호의 경우
+        var firstPart = "" // 010 파트
+        var secondPart = "" // 중간 번호 파트
+        var thirdPart = "" // 끝 번호 파트
+        var count = 0 // 몇 개의 숫자를 셌는지 파악하기 위한 변수
+        
+        for char in childPhoneNumber{ // childPhoneNumber가 String이므로 하나하나의 문자를 사용
+            if (count >= 0 && count <= 2) { // 0-2번째에 해당하는 수는 010 파트로 저장
+                firstPart += String(char)
+            } else if (count >= 3 && count <= 6){ // 3-6번째에 해당하는 수는 중간 번호 파트로 저장
+                secondPart += String(char)
+            } else if (count >= 7 && count <= 10){ // 7-10번째에 해당하는 수는 끝 번호 파트로 저장
+                thirdPart += String(char)
+            }
+            // 한 번 할 때마다 count 하나씩 증가
+            count = count + 1
+            
+        }
+        // '-'가 들어간 번호 변수에 010 파트와 중간 번호 하트, 끝 번호 파트를 '-'로 연결해서 저장
+        childPhoneNumberWithDash = firstPart + " - " + secondPart + " - " + thirdPart
+    }
+    
+    db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
+        "childPhoneNumber": childPhoneNumberWithDash
+    ]) { err in
+        if let err = err {
+            print("Error adding document: \(err)")
+        }
+    }
+}
+
 public func GetUserInfoForEditInfo(nameTF : UITextField, emailLabel : UILabel, parentPassword : UITextField, parentPasswordLabel : UILabel) {
     let db = Firestore.firestore()
     db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
@@ -2373,7 +2421,7 @@ public func GetUserInfoForMyPage(self : MyPageViewController) {
                     self.portfolioNameLabel.text = userName
                     let userEmail = data?["email"] as? String ?? ""
                     self.teacherEmail.text = userEmail
-                    let profile =  data?["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
+                    let profile =  data?["profile"] as? String ?? "https://i.postimg.cc/4xbWLCKh/student-profile.png"
                     let goal = data?["goal"] as? String ?? "목표를 작성하지 않았습니다."
                     self.type = "student"
                     let url = URL(string: profile)!
@@ -2560,8 +2608,7 @@ public func GetParentInfo(self : ParentMyPageViewController) {
                             LoadingHUD.hide()
                         }
                     }
-                    
-                    let profile = document.data()["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png" // 학부모 프로필 이미지 링크 가져오기
+                    let profile = document.data()["profile"] as? String ?? "https://i.postimg.cc/Z5hfxYqS/parent-profile.png" // 학부모 프로필 이미지 링크 가져오기
                     let name = document.data()["name"] as? String ?? "" // 학부모 이름
                     let childPhoneNumber = document.data()["childPhoneNumber"] as? String ?? "" // 자녀 휴대폰 번호
                     

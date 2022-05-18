@@ -242,6 +242,7 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
             }
         } else if (type == "parent") {
             // 선생님 이메일 이용한 비밀번호 받아오기
+            SaveChildPhoneNum(childPhoneNumber: phoneNumberWithDash)
             if(isValidEmail(goal)){
                 CheckStudentPhoneNumberForParent(phoneNumber: phoneNumberWithDash, self: self, goal: goal)
                 guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
