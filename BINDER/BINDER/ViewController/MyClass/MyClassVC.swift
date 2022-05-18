@@ -80,15 +80,10 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == classItems.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
-            if (self.type == "teacher") {
-                cell.messageLabel.text = "수업 등록하기"
-                return cell
-            } else {
-                cell.plusImage.removeFromSuperview()
-                cell.messageLabel.text = "등록된 수업이 없습니다."
+            if (self.type == "student") {
                 cell.isHidden = true
-                return cell
             }
+            return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "class")! as! CardTableViewCell
             
