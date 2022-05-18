@@ -1187,6 +1187,11 @@ public func CreateUser(type : String, self : SignInViewController, name : String
     db.collection(type).whereField("email", isEqualTo: id).getDocuments() { (querySnapshot, err) in
         if let err = err {
             print("Error getting documents: \(err)")
+            let alert = UIAlertController(title: "계정 오류", message: "이미 존재하는 계정입니다!", preferredStyle: UIAlertController.Style.alert)
+            let okAction = UIAlertAction(title: "확인", style: .default) { (action) in }
+            alert.addAction(okAction)
+            self.present(alert, animated: false, completion: nil)
+            return
         } else {
             for document in querySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")

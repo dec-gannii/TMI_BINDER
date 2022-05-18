@@ -16,9 +16,9 @@ class MyCollectionViewCell: UICollectionViewCell {
 
     var model: MyCollectionViewModel? { didSet { bind() } }
 
-    lazy var contentsView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 225, green: 225, blue: 225, alpha: 1.0)
+    lazy var contentsView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "tabBarWhite")
 
         return view
     }()
@@ -40,8 +40,8 @@ class MyCollectionViewCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet {
-            contentsView.backgroundColor = isSelected ? UIColor(red: 1, green: 104, blue: 255, alpha: 1) : UIColor(red: 225, green: 225, blue: 225, alpha: 1.0)
-            titleLabel.textColor = isSelected ? UIColor(red: 1, green: 104, blue: 255, alpha: 1) : UIColor(red: 225, green: 225, blue: 225, alpha: 1.0)
+            contentsView.image = isSelected ? UIImage(named: "tabBarColor") : UIImage(named: "tabBarWhite")
+            titleLabel.textColor = isSelected ? UIColor(red: 1, green: 104, blue: 255, alpha: 1) : UIColor(red: 155, green: 155, blue: 155, alpha: 1.0)
             titleLabel.font = isSelected ? UIFont.systemFont(ofSize: 14.0, weight: .bold) : UIFont.systemFont(ofSize: 14.0, weight: .medium)
         }
     }
@@ -66,13 +66,12 @@ class MyCollectionViewCell: UICollectionViewCell {
         backgroundColor = .white
 
         contentsView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(45)
-            make.bottom.equalToSuperview().inset(6)
             make.leading.trailing.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
 
         titleLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(8)
+            make.top.equalToSuperview().inset(25)
             make.left.equalToSuperview().inset(30)
             make.right.equalToSuperview().inset(27)
         }

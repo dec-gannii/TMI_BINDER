@@ -162,7 +162,7 @@ public class MyClassDetailViewController: UIViewController {
 
     private func setupDataSource() {
         for i in 0...2 {
-            let titles = ["진도 및 평가", "성적 그래프", "숙제 목록"]
+            let titles = ["진도 및 평가", "성적 그래프", "숙제 리스트"]
             let model = MyCollectionViewModel(title: titles[i])
             dataSource += [model]
         }
