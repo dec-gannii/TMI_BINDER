@@ -75,7 +75,7 @@ public class HomeViewController: UIViewController {
         self.monthLabel.text = self.dateFormatter.string(from: calendar.currentPage)
         let date = self.dateFormatter.date(from: self.monthLabel.text!)
         
-        self.setUpDays(date!)
+        days = setUpDays(date!)
         
         GetTeacherEvents(events: self.events, days: self.days, self: self)
         GetStudentEvents(events: self.events, days: self.days, self: self)
@@ -89,77 +89,9 @@ public class HomeViewController: UIViewController {
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
     }
     
-    // 캘린더 외관을 꾸미기 위한 메소드
-    func calendarColor() {
-        calendarView.appearance.weekdayTextColor = .systemGray
-        calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
-        calendarView.appearance.eventDefaultColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        calendarView.appearance.eventSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        
-        calendarView.appearance.titleSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.borderSelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-        calendarView.appearance.titleTodayColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        calendarView.appearance.todaySelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-        calendarView.appearance.selectionColor = .none
-        calendarView.appearance.todayColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-    }
-    
     func calendarEvent() {
         calendarView.dataSource = self
         calendarView.delegate = self
-    }
-    
-    func setUpDays(_ date: Date) {
-        let nowDate = date // 오늘 날짜
-        let formatter = DateFormatter()
-        
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        
-        formatter.dateFormat = "M"
-        let currentDate = formatter.string(from: nowDate)
-        
-        formatter.dateFormat = "yyyy"
-        let currentYear = formatter.string(from: nowDate)
-        
-        formatter.dateFormat = "MM"
-        let currentMonth = formatter.string(from: nowDate)
-        
-        var days: Int = 0
-        
-        switch currentDate {
-        case "1", "3", "5", "7", "8", "10", "12":
-            days = 31
-            break
-        case "2":
-            if (Int(currentYear)! % 400 == 0 || (Int(currentYear)! % 100 != 0 && Int(currentYear)! % 4 == 0)) {
-                days = 29
-                break
-            } else {
-                days = 28
-                break
-            }
-        default:
-            days = 30
-            break
-        }
-        
-        for index in 1...days {
-            var day = ""
-            
-            if (index < 10) {
-                day = "0\(index)"
-            } else {
-                day = "\(index)"
-            }
-            
-            let dayOfMonth = "\(currentYear)-\(currentMonth)-\(day)"
-            
-            formatter.dateFormat = "yyyy-MM-dd"
-            let searchDate = formatter.date(from: dayOfMonth)
-            self.days.append(searchDate!)
-        }
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
@@ -186,7 +118,7 @@ public class HomeViewController: UIViewController {
         self.homeStudentClassTxt2.isHidden = true
         self.homeStudentClassTxt.isHidden = true
 
-        setUpDays(self.today)
+        days = setUpDays(self.today)
         
         calendarView.delegate = self
         textView.clipsToBounds = true
@@ -209,7 +141,7 @@ public class HomeViewController: UIViewController {
         homeStudentClassTxt3.layer.cornerRadius = 5
         homeStudentClassTxt3.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMaxXMaxYCorner)
         
-        self.calendarColor()
+        calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
         self.setCalendar()
     }

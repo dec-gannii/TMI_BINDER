@@ -75,28 +75,12 @@ public class DetailClassViewController: UIViewController {
         payType = ""
     }
     
-    // 캘린더 외관을 꾸미기 위한 메소드
-    func calendarColor() {
-        calendarView.appearance.weekdayTextColor = .systemGray
-        calendarView.appearance.titleWeekendColor = .black
-        calendarView.appearance.headerTitleColor =  calenderDesign.calendarColor
-        calendarView.appearance.eventDefaultColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        calendarView.appearance.eventSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        
-        calendarView.appearance.titleSelectionColor = calenderDesign.calendarColor
-        calendarView.appearance.borderSelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-        calendarView.appearance.titleTodayColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        calendarView.appearance.todaySelectionColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-        calendarView.appearance.selectionColor = .none
-        calendarView.appearance.todayColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-    }
-    
     /// Load View
     public override func viewWillAppear(_ animated: Bool) {
         calendarView.scope = .week
         calendarText(view: calendarView, design: calenderDesign)
 //        calendarColor(view: calendarView, design: calenderDesign)
-        self.calendarColor()
+        calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
         
         let roundViews: Array<AnyObject> = [progressTextView,evaluationMemoTextView,evaluationOKBtn,monthlyEvaluationOKBtn]
