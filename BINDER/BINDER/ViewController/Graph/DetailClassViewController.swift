@@ -55,6 +55,9 @@ public class DetailClassViewController: UIViewController {
     var btnDesign = ButtonDesign()
     var functionShare = FunctionShare()
     var payType: String!
+    var tname : String!
+    var temail: String!
+    var fcmtoken: String!
     
     func _init(){
         userEmail = ""
@@ -98,7 +101,6 @@ public class DetailClassViewController: UIViewController {
         textfields = [self.testScoreTextField, self.classTimeTextField, self.classScoreTextField, self.homeworkScoreTextField]
         
         functionShare.textFieldPaddingSetting(textfields)
-        
         
         monthlyEvaluationTextView.textContainerInset = viewDesign.EdgeInsets
         evaluationMemoTextView.textContainerInset = viewDesign.EdgeInsets
@@ -164,6 +166,66 @@ public class DetailClassViewController: UIViewController {
     /// save evaluation button clicked
     @IBAction func OKButtonClicked(_ sender: Any) {
         SaveDailyEvaluation(self: self)
+        var payfor = notiForParent()
+        if payfor == true {
+            getNameFcm()
+            notification.sendPushNotification(token: fcmtoken, title: "입금기간이에요!", body: "\(tname!) 선생님의 입금날짜가 되었어요.")
+        }
+    }
+    
+    func notiForParent() -> Bool {
+        var notibool : Bool!
+        
+        let db = Firestore.firestore()
+        // 경로는 각 학생의 class의 Evaluation
+        if(self.userType == "teacher") {
+            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    var currentCnt = data?["currentCnt"] as? Int ?? 0
+                    var totalCnt = data?["totalCnt"] as? Int ?? 0
+                    
+                    if currentCnt == totalCnt {
+                        notibool = true
+                    } else{
+                        notibool = false
+                    }
+                    
+                } else {
+                    print("Document does not exist")
+                }
+            }
+        }
+        return notibool
+    }
+    
+    func getNameFcm(){
+        let db = Firestore.firestore()
+        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                self.tname = data?["name"] as? String ?? ""
+                self.temail = data?["email"] as? String ?? ""
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+        db.collection("parent").whereField("teacherEmail", isEqualTo: self.temail!).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print(">>>>> document 에러 : \(err)")
+            } else {
+                if let err = err {
+                    print("Error getting documents(inMyClassView): \(err)")
+                } else {
+                    /// 문서 존재하면
+                    for document in querySnapshot!.documents {
+                        self.fcmtoken = document.data()["fcmToken"] as? String ?? ""
+                    }
+                }
+            }
+        }
     }
 }
 
