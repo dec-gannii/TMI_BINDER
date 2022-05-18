@@ -9,6 +9,8 @@ import UIKit
 class PlusTableViewCell: UITableViewCell {
 
     @IBOutlet weak var contentViewCell: UIView!
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var plusImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
