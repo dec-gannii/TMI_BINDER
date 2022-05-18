@@ -14,7 +14,6 @@ import BLTNBoard
 public class DetailClassViewController: UIViewController {
     let db = Firestore.firestore()
     var ref: DatabaseReference!
-    let notification = PushNotificationSender()
     /// 변수 선언
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var homeworkLabel: UILabel!
@@ -55,6 +54,9 @@ public class DetailClassViewController: UIViewController {
     var btnDesign = ButtonDesign()
     var functionShare = FunctionShare()
     var payType: String!
+    var tname: String!
+    var temail: String!
+    var fcmToken: String!
     
     func _init(){
         userEmail = ""
@@ -99,7 +101,7 @@ public class DetailClassViewController: UIViewController {
         
         functionShare.textFieldPaddingSetting(textfields)
         
-        
+        getNameFcm()
         monthlyEvaluationTextView.textContainerInset = viewDesign.EdgeInsets
         evaluationMemoTextView.textContainerInset = viewDesign.EdgeInsets
         progressTextView.textContainerInset = viewDesign.EdgeInsets
@@ -164,6 +166,37 @@ public class DetailClassViewController: UIViewController {
     /// save evaluation button clicked
     @IBAction func OKButtonClicked(_ sender: Any) {
         SaveDailyEvaluation(self: self)
+    }
+    
+    func getNameFcm(){
+        let db = Firestore.firestore()
+        // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                self.tname = data?["name"] as? String ?? ""
+                self.temail = data?["email"] as? String ?? ""
+                print("선생님 정보 : \(self.tname), \(self.temail)")
+                
+                db.collection("parent").whereField("teacherEmail", isEqualTo: self.temail!).getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print(">>>>> document 에러 : \(err)")
+                    } else {
+                        if let err = err {
+                            print("Error getting documents(inMyClassView): \(err)")
+                        } else {
+                            /// 문서 존재하면
+                            for document in querySnapshot!.documents {
+                                self.fcmToken = document.data()["fcmToken"] as? String ?? ""
+                                print("fcmtoken: \(self.fcmToken)")
+                            }
+                        }
+                    }
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
 }
 
