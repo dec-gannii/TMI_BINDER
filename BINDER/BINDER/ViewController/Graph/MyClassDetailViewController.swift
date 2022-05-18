@@ -161,8 +161,15 @@ public class MyClassDetailViewController: UIViewController {
     }
 
     private func setupDataSource() {
+        var titles = Array<String>()
+        titles = []
+        if (self.userType == "student") {
+            titles = ["숙제 리스트", "성적 그래프", "진도 및 평가"]
+        } else {
+            titles = ["진도 및 평가", "성적 그래프", "숙제 리스트"]
+        }
+        
         for i in 0...2 {
-            let titles = ["진도 및 평가", "성적 그래프", "숙제 리스트"]
             let model = MyCollectionViewModel(title: titles[i])
             dataSource += [model]
         }
@@ -174,10 +181,6 @@ public class MyClassDetailViewController: UIViewController {
         let viewController3 = storyboard!.instantiateViewController(identifier: "ToDoListViewController")
         
         GetUserInfoInDetailClassVC(self: self, detailClassVC: viewController1 as! DetailClassViewController, graphVC: viewController2 as! GraphViewController, todolistVC: viewController3 as! ToDoListViewController)
-//
-//        dataSourceVC.append(viewController1)
-//        dataSourceVC.append(viewController2)
-//        dataSourceVC.append(viewController3)
     }
 
     private func addSubviews() {
@@ -190,7 +193,7 @@ public class MyClassDetailViewController: UIViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(collectionViewBG.snp.top)
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(55)
+            make.height.equalTo(40)
         }
 
         pageViewController.view.snp.makeConstraints { make in

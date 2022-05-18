@@ -3737,9 +3737,9 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         graphVC.userSubject = self.userSubject
                                         todolistVC.userSubject = self.userSubject
                                         
-                                        self.dataSourceVC.append(detailClassVC)
-                                        self.dataSourceVC.append(graphVC)
                                         self.dataSourceVC.append(todolistVC)
+                                        self.dataSourceVC.append(graphVC)
+                                        self.dataSourceVC.append(detailClassVC)
                                     }
                                 }
                             }

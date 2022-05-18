@@ -71,7 +71,7 @@ class MyCollectionViewCell: UICollectionViewCell {
         }
 
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(25)
+            make.top.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(30)
             make.right.equalToSuperview().inset(27)
         }
