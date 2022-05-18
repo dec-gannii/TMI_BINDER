@@ -173,11 +173,11 @@ public func GetBeforeEditSchedule(type : String, date : String, editingTitle : S
             let memo = data?["memo"] as? String ?? ""
             scheduleMemo.text = memo
             let place = data?["place"] as? String ?? ""
-            schedulePlace.text = "   " + place
+            schedulePlace.text = place
             let title = data?["title"] as? String ?? ""
             scheduleTitle.text = title
             let time = data?["time"] as? String ?? ""
-            scheduleTime.text = "   " + time
+            scheduleTime.text = time
         } else {
             print("Document does not exist")
         }
@@ -1056,7 +1056,7 @@ public func CheckStudentPhoneNumberForParent(phoneNumber: String, self: StudentS
                     self.phoneAlertLabel.isHidden = true
                     self.ageAlertLabel.isHidden = true
                     
-                    if phoneNumber != ""{
+                    if phoneNumber != "" {
                         db.collection("student").whereField("phonenum", isEqualTo: phoneNumber).getDocuments() { (querySnapshot, err) in
                             if let err = err {
                                 print(">>>>> document 에러 : \(err)")
@@ -2118,13 +2118,13 @@ public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath :
                         let data = document.data()
                         let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                         
-                        let eduText = data?["eduHistory"] as? String ?? "저장된 내용이 없습니다."
-                        let classText = data?["classMethod"] as? String ?? "저장된 내용이 없습니다."
-                        let extraText = data?["extraExprience"] as? String ?? "저장된 내용이 없습니다."
-                        let time = data?["time"] as? String ?? "저장된 내용이 없습니다."
-                        let contact = data?["contact"] as? String ?? "저장된 내용이 없습니다."
-                        let manage = data?["manage"] as? String ?? "저장된 내용이 없습니다."
-                        let portfolioShow = data?["portfolioShow"] as? String ?? "저장된 내용이 없습니다."
+                        let eduText = data?["eduHistory"] as? String ?? ""
+                        let classText = data?["classMethod"] as? String ?? ""
+                        let extraText = data?["extraExprience"] as? String ?? ""
+                        let time = data?["time"] as? String ?? ""
+                        let contact = data?["contact"] as? String ?? ""
+                        let manage = data?["manage"] as? String ?? ""
+                        let portfolioShow = data?["portfolioShow"] as? String ?? ""
                         
                         if self.infos[indexPath.row] == "연락 수단" {
                             cell.content.text = contact
@@ -3511,14 +3511,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             let email = document.data()["email"] as? String ?? ""
                                             let index = document.data()["index"] as? Int ?? 0
                                             
-                                            //                                            self.payType = payType
                                             detailClassVC.payType = payType
-                                            //                                            if (payType == "T") {
-                                            //                                                detailClassVC.classTimeTextField.isEnabled = true
-                                            //                                            } else if (payType == "C") {
-                                            //                                                detailClassVC.classTimeTextField.isEnabled = false
-                                            //                                            }
-                                            
                                             let currentCnt = document.data()["currentCnt"] as? Int ?? 0
                                             detailClassVC.currentCnt = currentCnt
                                             
@@ -3527,51 +3520,31 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             let userSubject = document.data()["subject"] as? String ?? ""
                                             
                                             self.classNavigationBar.topItem!.title = name + " 학생"
-                                            if (index == linkBtnIndex) {
-                                                detailClassVC.userIndex = linkBtnIndex
-                                                graphVC.userIndex = linkBtnIndex
-                                                todolistVC.userIndex = linkBtnIndex
-                                                
-                                                detailClassVC.userName = linkBtnName
-                                                graphVC.userName = linkBtnName
-                                                todolistVC.userName = linkBtnName
-                                                
-                                                detailClassVC.userEmail = linkBtnEmail
-                                                graphVC.userEmail = linkBtnEmail
-                                                todolistVC.userEmail = linkBtnEmail
-                                                
-                                                detailClassVC.userSubject = linkBtnSubject
-                                                graphVC.userSubject = linkBtnSubject
-                                                todolistVC.userSubject = linkBtnSubject
-                                                
-                                                self.studentEmail = email
-                                                
-                                                self.dataSourceVC.append(detailClassVC)
-                                                self.dataSourceVC.append(graphVC)
-                                                self.dataSourceVC.append(todolistVC)
-                                            } else {
-                                                detailClassVC.userIndex = self.userIndex
-                                                graphVC.userIndex = self.userIndex
-                                                todolistVC.userIndex = self.userIndex
-                                                
-                                                detailClassVC.userName = self.userName
-                                                graphVC.userName = self.userName
-                                                todolistVC.userName = self.userName
-                                                
-                                                detailClassVC.userEmail = self.userEmail
-                                                graphVC.userEmail = self.userEmail
-                                                todolistVC.userEmail = self.userEmail
-                                                
-                                                detailClassVC.userSubject = self.userSubject
-                                                graphVC.userSubject = self.userSubject
-                                                todolistVC.userSubject = self.userSubject
-                                                
-                                                self.studentEmail = email
-                                                
-                                                self.dataSourceVC.append(detailClassVC)
-                                                self.dataSourceVC.append(graphVC)
-                                                self.dataSourceVC.append(todolistVC)
+                                            
+                                            if index == linkBtnIndex {
+                                                self.userIndex = linkBtnIndex
                                             }
+                                            detailClassVC.userIndex = self.userIndex
+                                            graphVC.userIndex = self.userIndex
+                                            todolistVC.userIndex = self.userIndex
+                                            
+                                            detailClassVC.userName = self.userName
+                                            graphVC.userName = self.userName
+                                            todolistVC.userName = self.userName
+                                            
+                                            detailClassVC.userEmail = self.userEmail
+                                            graphVC.userEmail = self.userEmail
+                                            todolistVC.userEmail = self.userEmail
+                                            
+                                            detailClassVC.userSubject = self.userSubject
+                                            graphVC.userSubject = self.userSubject
+                                            todolistVC.userSubject = self.userSubject
+                                            
+                                            self.studentEmail = email
+                                            
+                                            self.dataSourceVC.append(detailClassVC)
+                                            self.dataSourceVC.append(graphVC)
+                                            self.dataSourceVC.append(todolistVC)
                                             
                                             todolistVC.todoDoc.removeAll()
                                             todolistVC.todos.removeAll()
@@ -3649,7 +3622,6 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         let payType = document.data()["payType"] as? String ?? ""
                                         let index = document.data()["index"] as? Int ?? 0
                                         
-                                        //                                        self.payType = payType
                                         detailClassVC.payType = payType
                                         
                                         let currentCnt = document.data()["currentCnt"] as? Int ?? 0
@@ -3672,47 +3644,28 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         self.userSubject = userSubject
                                         todolistVC.userSubject = userSubject
                                         
-                                        if (index == linkBtnIndex) {
-                                            detailClassVC.userIndex = linkBtnIndex
-                                            graphVC.userIndex = linkBtnIndex
-                                            todolistVC.userIndex = linkBtnIndex
-                                            
-                                            detailClassVC.userName = linkBtnName
-                                            graphVC.userName = linkBtnName
-                                            todolistVC.userName = linkBtnName
-                                            
-                                            detailClassVC.userEmail = linkBtnEmail
-                                            graphVC.userEmail = linkBtnEmail
-                                            todolistVC.userEmail = linkBtnEmail
-                                            
-                                            detailClassVC.userSubject = linkBtnSubject
-                                            graphVC.userSubject = linkBtnSubject
-                                            todolistVC.userSubject = linkBtnSubject
-                                            
-                                            self.dataSourceVC.append(detailClassVC)
-                                            self.dataSourceVC.append(graphVC)
-                                            self.dataSourceVC.append(todolistVC)
-                                        } else {
-                                            detailClassVC.userIndex = self.userIndex
-                                            graphVC.userIndex = self.userIndex
-                                            todolistVC.userIndex = self.userIndex
-                                            
-                                            detailClassVC.userName = self.userName
-                                            graphVC.userName = self.userName
-                                            todolistVC.userName = self.userName
-                                            
-                                            detailClassVC.userEmail = self.userEmail
-                                            graphVC.userEmail = self.userEmail
-                                            todolistVC.userEmail = self.userEmail
-                                            
-                                            detailClassVC.userSubject = self.userSubject
-                                            graphVC.userSubject = self.userSubject
-                                            todolistVC.userSubject = self.userSubject
-                                            
-                                            self.dataSourceVC.append(detailClassVC)
-                                            self.dataSourceVC.append(graphVC)
-                                            self.dataSourceVC.append(todolistVC)
+                                        if index == linkBtnIndex {
+                                            self.userIndex = linkBtnIndex
                                         }
+                                        detailClassVC.userIndex = self.userIndex
+                                        graphVC.userIndex = self.userIndex
+                                        todolistVC.userIndex = self.userIndex
+                                        
+                                        detailClassVC.userName = self.userName
+                                        graphVC.userName = self.userName
+                                        todolistVC.userName = self.userName
+                                        
+                                        detailClassVC.userEmail = self.userEmail
+                                        graphVC.userEmail = self.userEmail
+                                        todolistVC.userEmail = self.userEmail
+                                        
+                                        detailClassVC.userSubject = self.userSubject
+                                        graphVC.userSubject = self.userSubject
+                                        todolistVC.userSubject = self.userSubject
+                                        
+                                        self.dataSourceVC.append(detailClassVC)
+                                        self.dataSourceVC.append(graphVC)
+                                        self.dataSourceVC.append(todolistVC)
                                     }
                                 }
                             }
