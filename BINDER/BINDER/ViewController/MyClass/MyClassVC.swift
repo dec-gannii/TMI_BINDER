@@ -77,16 +77,16 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
         return classItems.count + 1
     }
     
-    
-    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == classItems.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
-            if (userType == "teacher") {
+            if (self.type == "teacher") {
+                cell.messageLabel.text = "수업 등록하기"
                 return cell
             } else {
                 cell.plusImage.removeFromSuperview()
                 cell.messageLabel.text = "등록된 수업이 없습니다."
+                cell.isHidden = true
                 return cell
             }
         } else {
@@ -125,10 +125,8 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 플러스 row
         if indexPath.row == classItems.count {
-            if (userType == "teacher"){
+            if (self.type == "teacher"){
                 performSegue(withIdentifier: "addStudentSegue", sender: nil)
-            } else {
-                
             }
         }
         // 학생 row
