@@ -3447,6 +3447,8 @@
                                                 </tableViewCellContentView>
                                                 <connections>
                                                     <outlet property="contentViewCell" destination="BnB-SI-NaA" id="fEx-zt-WTY"/>
+                                                    <outlet property="messageLabel" destination="VBw-fb-X0k" id="zMZ-ka-wSq"/>
+                                                    <outlet property="plusImage" destination="BU2-NI-mW3" id="ZUG-hr-mc5"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
@@ -7525,16 +7527,16 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Home_Color" width="36" height="36"/>
-        <image name="Home_Gray" width="36" height="36"/>
-        <image name="MyClass_Color" width="36" height="36"/>
-        <image name="MyClass_Gray" width="36" height="36"/>
+        <image name="Home_Color" width="39" height="38"/>
+        <image name="Home_Gray" width="38" height="39"/>
+        <image name="MyClass_Color" width="38" height="38"/>
+        <image name="MyClass_Gray" width="38" height="38"/>
         <image name="MyPageFolderImage" width="327" height="165"/>
-        <image name="MyPage_Color" width="36" height="36"/>
-        <image name="MyPage_Gray" width="36" height="36"/>
+        <image name="MyPage_Color" width="38" height="38"/>
+        <image name="MyPage_Gray" width="38" height="38"/>
         <image name="QuestionRoomBG" width="327" height="118"/>
-        <image name="Question_Color" width="36" height="36"/>
-        <image name="Question_Gray" width="36" height="36"/>
+        <image name="Question_Color" width="38" height="38"/>
+        <image name="Question_Gray" width="38" height="38"/>
         <image name="StudentLinkBtn" width="316" height="234"/>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <image name="arrow.forward" catalog="system" width="128" height="98"/>

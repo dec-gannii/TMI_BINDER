@@ -77,16 +77,16 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
         return classItems.count + 1
     }
     
-    
-    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == classItems.count {
-            if (self.type == "teacher") {
             let cell = tableView.dequeueReusableCell(withIdentifier: "add")! as! PlusTableViewCell
-                cell.isHidden = false
+            if (self.type == "teacher") {
+                cell.messageLabel.text = "수업 등록하기"
                 return cell
             } else {
-                let cell = UITableViewCell()
+                cell.plusImage.removeFromSuperview()
+                cell.messageLabel.text = "등록된 수업이 없습니다."
+                cell.isHidden = true
                 return cell
             }
         } else {

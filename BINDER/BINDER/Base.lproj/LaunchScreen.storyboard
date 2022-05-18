@@ -22,45 +22,43 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="과외 성사 이후의 모든 것" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uai-Wl-iG1">
-                                <rect key="frame" x="140" y="645.5" width="134" height="29"/>
+                                <rect key="frame" x="140" y="651.5" width="134" height="29"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                 <color key="textColor" red="0.34901960784313724" green="0.61568627450980395" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ox7-lu-oaz">
-                                <rect key="frame" x="167" y="244" width="80" height="101.5"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_noBG" translatesAutoresizingMaskIntoConstraints="NO" id="LWU-Aj-rrZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="4Ny-jw-dPs"/>
-                                            <constraint firstAttribute="width" secondItem="LWU-Aj-rrZ" secondAttribute="height" multiplier="1:1" id="aar-b0-4ZL"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BINDER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDg-UA-Vek">
-                                        <rect key="frame" x="0.0" y="80" width="80" height="21.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="18"/>
-                                        <color key="textColor" red="0.34901960784313724" green="0.61568627450980395" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="LWU-Aj-rrZ">
+                                <rect key="frame" x="167" y="244" width="80" height="80"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="4Ny-jw-dPs"/>
+                                    <constraint firstAttribute="width" secondItem="LWU-Aj-rrZ" secondAttribute="height" multiplier="1:1" id="aar-b0-4ZL"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BINDER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDg-UA-Vek">
+                                <rect key="frame" x="150" y="330" width="114" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="18"/>
+                                <color key="textColor" red="0.34901960784313724" green="0.61568627450980395" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="uai-Wl-iG1" firstAttribute="top" secondItem="Ox7-lu-oaz" secondAttribute="bottom" constant="300" id="FNp-yW-D4D"/>
+                            <constraint firstItem="LWU-Aj-rrZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="167" id="4FS-Xy-OBa"/>
+                            <constraint firstItem="LWU-Aj-rrZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="200" id="7NY-WD-br7"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LWU-Aj-rrZ" secondAttribute="trailing" constant="167" id="Cuq-Ct-wyd"/>
                             <constraint firstItem="vYu-PM-nUa" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="FdO-EP-7dG"/>
+                            <constraint firstItem="uai-Wl-iG1" firstAttribute="top" secondItem="pDg-UA-Vek" secondAttribute="bottom" constant="300" id="MR2-5K-YDH"/>
                             <constraint firstItem="vYu-PM-nUa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NyN-hg-JQG"/>
+                            <constraint firstItem="pDg-UA-Vek" firstAttribute="top" secondItem="LWU-Aj-rrZ" secondAttribute="bottom" constant="6" id="RiM-T4-QVg"/>
+                            <constraint firstItem="pDg-UA-Vek" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="150" id="Yqv-wg-PiV"/>
                             <constraint firstAttribute="bottom" secondItem="vYu-PM-nUa" secondAttribute="bottom" id="ak8-Ur-9iC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uai-Wl-iG1" secondAttribute="trailing" constant="140" id="fGY-9N-zCA"/>
-                            <constraint firstItem="Ox7-lu-oaz" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="jMm-vK-Te6"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vYu-PM-nUa" secondAttribute="trailing" id="jyH-q4-3HY"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pDg-UA-Vek" secondAttribute="trailing" constant="150" id="kTk-3E-hv6"/>
                             <constraint firstItem="uai-Wl-iG1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="140" id="lzn-FH-okn"/>
-                            <constraint firstItem="Ox7-lu-oaz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="200" id="uKd-1f-lG4"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -70,7 +68,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo_noBG" width="266" height="267"/>
+        <image name="logo.png" width="80" height="80"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

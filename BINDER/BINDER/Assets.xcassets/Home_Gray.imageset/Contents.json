@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Image.png",
+      "filename" : "Home_Gray.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -19,7 +19,6 @@
     "version" : 1
   },
   "properties" : {
-    "preserves-vector-representation" : true,
     "template-rendering-intent" : "original"
   }
 }
