@@ -237,7 +237,7 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
         answer = textView.text
         UpdateAnswer(answer: answer, imgtype: self.imgtype, self: self, imgView: self.imgView)
         
-        notification.sendPushNotification(token: fcmtoken, title: "답변이 달렸습니다.", body: "\(tname!)선생님이 답변을 달아주셨습니다.")
+        notification.sendPushNotification(token: fcmtoken, title: "답변이 올라왔어요!", body: "\(tname!) 선생님이 답변을 달았어요.")
         
         if let preVC = self.presentingViewController as? UIViewController {
             preVC.dismiss(animated: true, completion: nil)
