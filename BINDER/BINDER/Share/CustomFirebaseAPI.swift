@@ -34,6 +34,8 @@ public var sharedEvents : [Date] = []
 public var sharedDays : [Date] = []
 public var publicTitles: [String] = []
 
+let notification = PushNotificationSender()
+
 public var varCount = 0
 public var varIsEditMode = false
 var count = 0
@@ -3107,6 +3109,25 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                                 print("Error adding document: \(err)")
                             }
                         }
+                        
+                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                let data = document.data()
+                                var currentCnt = data?["currentCnt"] as? Int ?? 0
+                                
+                                if currentCnt == 8 || currentCnt == 0 {
+                                    print("true로 넘어왔다요")
+                                    self.getNameFcm()
+                                    notification.sendPushNotification(token: self.fcmToken, title: "입금기간이에요!", body: "\(self.tname!) 선생님의 입금날짜가 되었어요.")
+                                    print("currentCnt :\(currentCnt)")
+                                } else{
+                                    print("currentCnt :\(currentCnt)")
+                                }
+                                
+                            } else {
+                                print("Document does not exist")
+                            }
+                        }
                     } else {
                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                             "currentCnt": currentCnt + 1
@@ -3147,7 +3168,7 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                     }
                 }
             } else {
-                print("Document does not exist")
+                print("버튼 클릭 후 Document does not exist")
             }
         }
         self.evaluationView.isHidden = true
@@ -3174,6 +3195,7 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
         }
     }
 }
+
 
 public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
     let db = Firestore.firestore()
