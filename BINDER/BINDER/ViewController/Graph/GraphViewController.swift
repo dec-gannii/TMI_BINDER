@@ -36,7 +36,6 @@ public class GraphViewController: UIViewController {
         days = []
         scores = []
         floatValue = [5,5]
-        barColors = barColorSetting(design: chartDesign)
         studentEmail = ""
         studentName = "" 
     }
