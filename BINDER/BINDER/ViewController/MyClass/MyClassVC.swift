@@ -125,9 +125,7 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 플러스 row
         if indexPath.row == classItems.count {
-            if (self.type == "teacher"){
-                performSegue(withIdentifier: "addStudentSegue", sender: nil)
-            }
+            performSegue(withIdentifier: "addStudentSegue", sender: nil)
         }
         // 학생 row
         else {
