@@ -79,6 +79,7 @@
 		7F94E55D27FAF245000047A7 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F94E55C27FAF245000047A7 /* ResetPasswordViewController.swift */; };
 		7F9B8AF127E0CA11008B705B /* ParentDetailEvaluationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9B8AF027E0CA11008B705B /* ParentDetailEvaluationViewController.swift */; };
 		7F9B8AF327E0D31A008B705B /* TeacherEvaluationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9B8AF227E0D31A008B705B /* TeacherEvaluationViewController.swift */; };
+		7FA020972834B1B500251225 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7FA020962834B1B500251225 /* logo.png */; };
 		7FA6B7D627C0C67100BFEBDA /* SecessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA6B7D527C0C67100BFEBDA /* SecessionViewController.swift */; };
 		7FB50F7C27FC63C500BC2B09 /* FirebaseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB50F7B27FC63C500BC2B09 /* FirebaseAuthentication.swift */; };
 		7FBC6B1227EA05720067BAD5 /* PlusPortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC6B1127EA05720067BAD5 /* PlusPortfolioCell.swift */; };
@@ -168,6 +169,7 @@
 		7F94E55C27FAF245000047A7 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		7F9B8AF027E0CA11008B705B /* ParentDetailEvaluationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentDetailEvaluationViewController.swift; sourceTree = "<group>"; };
 		7F9B8AF227E0D31A008B705B /* TeacherEvaluationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherEvaluationViewController.swift; sourceTree = "<group>"; };
+		7FA020962834B1B500251225 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		7FA6B7D527C0C67100BFEBDA /* SecessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecessionViewController.swift; sourceTree = "<group>"; };
 		7FB50F7A27FC5CFB00BC2B09 /* BINDER.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BINDER.entitlements; sourceTree = "<group>"; };
 		7FB50F7B27FC63C500BC2B09 /* FirebaseAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthentication.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				7F716945276499CA001FD4F4 /* Main.storyboard */,
 				7F16D1452749390300745522 /* SceneDelegate.swift */,
 				7F16D14C2749390500745522 /* Assets.xcassets */,
+				7FA020962834B1B500251225 /* logo.png */,
 				7F16D14E2749390500745522 /* LaunchScreen.storyboard */,
 				7F16D1512749390500745522 /* Info.plist */,
 				7F5278B6282FFFA2001AC18A /* MainViewController.swift */,
@@ -522,6 +525,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F16D1502749390500745522 /* LaunchScreen.storyboard in Resources */,
+				7FA020972834B1B500251225 /* logo.png in Resources */,
 				6FE4FB2927BD376C000E16F4 /* GoogleService-Info.plist in Resources */,
 				7F16D14D2749390500745522 /* Assets.xcassets in Resources */,
 				7F716946276499CA001FD4F4 /* Main.storyboard in Resources */,
