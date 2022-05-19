@@ -81,7 +81,6 @@ public class DetailClassViewController: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         calendarView.scope = .week
         calendarText(view: calendarView, design: calenderDesign)
-//        calendarColor(view: calendarView, design: calenderDesign)
         calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
         

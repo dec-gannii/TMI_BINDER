@@ -3404,7 +3404,6 @@ public func CheckmarkButtonClicked(self : ToDoListViewController, checkTime : Bo
             } else {
                 print("Document successfully updated")
             }
-            
         }
     } else {
         db.collection("teacher").document(self.teacherUid).collection("class").document(self.studentName + "(" + self.studentEmail + ") " + self.userSubject).collection("ToDoList").document(self.todoDoc[sender.tag]).updateData([
