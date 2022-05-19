@@ -17,6 +17,33 @@ class EditInfoViewController: UIViewController {
     @IBOutlet weak var parentPassword: UITextField!
     @IBOutlet weak var parentPasswordLabel: UILabel!
     
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
+    // 키보드 내리기
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    /// 키보드 올라올때 처리
+    /// - Parameter notification: 노티피케이션
+    @objc func keyboardWillShow(notification:NSNotification) {
+        if (self.parentPassword.isFirstResponder == true) {
+            self.view.frame.origin.y = -(self.parentPassword.frame.height + 30)
+        } else if (self.newPasswordCheck.isFirstResponder == true) {
+            self.view.frame.origin.y = -(self.newPasswordCheck.frame.height + 40)
+        } else if (self.newPassword.isFirstResponder == true) {
+            self.view.frame.origin.y = -(self.newPassword.frame.height + 50)
+        }
+    }
+    
+    /// 키보드 내려갈때 처리
+    @objc func keyboardWillHide(notification:NSNotification) {
+        self.view.frame.origin.y = 0 // Move view 150 points upward
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         /// 키보드 띄우기
@@ -28,15 +55,17 @@ class EditInfoViewController: UIViewController {
         functionShare.textFieldPaddingSetting(textfields)
         
         self.currentPW = sharedCurrentPW
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tap)
+        
+        /// 키보드 올라올 때 화면 쉽게 이동할 수 있도록 해주는 것, 키보드 높이만큼 padding
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         GetUserInfoForEditInfo(nameTF: self.nameTextField, emailLabel: self.emailLabel, parentPassword: self.parentPassword, parentPasswordLabel: self.parentPasswordLabel)
-    }
-    
-    // 화면 터치 시 키보드 내려가도록 하는 메소드
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-        self.view.endEditing(true)
     }
     
     // 유효한 이름인지 (공백은 아닌지) 검사하는 메소드

@@ -134,7 +134,6 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
         self.view.frame.origin.y = 0 // Move view 150 points upward
     }
     
-    
     @IBAction func editButton(_ sender: Any) {
         SaveEditedPlot(self: self)
         
