@@ -3299,12 +3299,13 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                     self.testScoreTextField.text = "\(testScore)"
                 }
                 print("Document data: \(dataDescription)")
+                
+                self.placeholderSetting(self.progressTextView)
+                    
             } else {
                 print("Document does not exist")
                 // 값 다시 공백 설정
-                self.testScoreTextField.text = ""
-                self.homeworkScoreTextField.text = ""
-                self.classScoreTextField.text = ""
+                self.resetTextFields()
             }
         }
         
@@ -3324,13 +3325,17 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                                 print("\(document.documentID) => \(document.data())")
                                 let teacherName = document.data()["name"] as? String ?? ""
                                 let teacherEmail = document.data()["email"] as? String ?? ""
-                                
-                                db.collection("student").document(studentUid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(self.selectedMonth + "월").getDocument(){ (document, error) in
-                                    if let document = document, document.exists {
-                                        let data = document.data()
-                                        let evaluation = data!["evaluation"] as? String ?? ""
-                                        self.monthlyEvaluationTextView.text = evaluation
-                                        self.monthlyEvaluationTextView.textColor = .black
+                                if let selectedMonth = self.selectedMonth {
+                                    db.collection("student").document(studentUid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(selectedMonth + "월").getDocument(){ (document, error) in
+                                        if let document = document, document.exists {
+                                            let data = document.data()
+                                            let evaluation = data!["evaluation"] as? String ?? ""
+                                            self.monthlyEvaluationTextView.text = evaluation
+                                            self.placeholderSetting(self.monthlyEvaluationTextView)
+                                        } else {
+                                            self.monthlyEvaluationTextView.text = ""
+                                            self.placeholderSetting(self.monthlyEvaluationTextView)
+                                        }
                                     }
                                 }
                             }
@@ -3339,7 +3344,6 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                 }
             }
         }
-        
     } else if (self.userType == "student") {
         // 데이터를 받아와서 각각의 값에 따라 textfield 값 설정 (만약 없다면 공백 설정, 있다면 그 값 불러옴)
         db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").getDocument { (document, error) in
@@ -3381,6 +3385,8 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                 }
                 
                 print("Document data: \(dataDescription)")
+                
+                self.placeholderSetting(self.progressTextView)
             } else {
                 print("Document does not exist")
                 self.resetTextFields()
@@ -3458,7 +3464,6 @@ public func AddToDoListFactors(self : ToDoListViewController, checkTime : Bool) 
                                     }
                                 }
                             }
-                            
                             self.todoTF.text = ""
                         }
                     }

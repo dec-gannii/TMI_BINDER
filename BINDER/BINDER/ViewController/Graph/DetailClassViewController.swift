@@ -58,6 +58,8 @@ public class DetailClassViewController: UIViewController {
     var temail: String!
     var fcmToken: String!
     
+    let nowDate = Date()
+    
     func _init(){
         userEmail = ""
         userSubject = ""
@@ -79,12 +81,16 @@ public class DetailClassViewController: UIViewController {
     
     func placeholderSetting(_ textView: UITextView) {
         textView.delegate = self // 유저가 선언한 outlet
-        if (textView == self.progressTextView) {
-            textView.text = StringUtils.progressText.rawValue
-        } else if (textView == self.monthlyEvaluationTextView) {
-            textView.text = StringUtils.monthlyEvaluation.rawValue
+        if textView.text.isEmpty || textView.text == "" {
+            if (textView == self.progressTextView) {
+                textView.text = StringUtils.progressText.rawValue
+            } else if (textView == self.monthlyEvaluationTextView) {
+                textView.text = StringUtils.monthlyEvaluation.rawValue
+            }
+            textView.textColor = UIColor.lightGray
+        } else {
+            textView.textColor = UIColor.black
         }
-        textView.textColor = UIColor.lightGray
     }
     
     // TextView Place Holder
@@ -97,13 +103,15 @@ public class DetailClassViewController: UIViewController {
     
     // TextView Place Holder
     public func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
+        if textView.text.isEmpty || textView.text == "" {
             if (textView == self.progressTextView) {
                 textView.text = StringUtils.progressText.rawValue
             } else if (textView == self.monthlyEvaluationTextView) {
                 textView.text = StringUtils.monthlyEvaluation.rawValue
             }
             textView.textColor = UIColor.lightGray
+        } else {
+            textView.textColor = UIColor.black
         }
     }
     
@@ -119,6 +127,13 @@ public class DetailClassViewController: UIViewController {
     }
     
     public override func viewDidLoad() {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateStr = dateFormatter.string(from: nowDate)
+        
+        GetEvaluations(self: self, dateStr: dateStr)
         
         self.classTimeTextField.keyboardType = .numberPad
         self.testScoreTextField.keyboardType = .numberPad
@@ -138,9 +153,6 @@ public class DetailClassViewController: UIViewController {
         self.monthlyEvaluationOKBtn.isHidden = true
         self.monthlyEvaluationTextView.isHidden = true
         self.monthlyEvaluationQuestionLabel.isHidden = true
-        
-        self.progressTextView.textColor = .black
-        self.evaluationMemoTextView.textColor = .black
         
         if (self.payType == "T") {
             self.classTimeTextField.isEnabled = true
@@ -169,6 +181,8 @@ public class DetailClassViewController: UIViewController {
         self.evaluationMemoTextView.text = ""
         self.homeworkScoreTextField.text = ""
         self.classScoreTextField.text = ""
+        placeholderSetting(self.progressTextView)
+        placeholderSetting(self.monthlyEvaluationTextView)
     }
     
     func calendarEvent() {
@@ -202,7 +216,6 @@ public class DetailClassViewController: UIViewController {
                 let data = document.data()
                 self.tname = data?["name"] as? String ?? ""
                 self.temail = data?["email"] as? String ?? ""
-                print("선생님 정보 : \(self.tname), \(self.temail)")
                 
                 db.collection("parent").whereField("teacherEmail", isEqualTo: self.temail!).getDocuments() { (querySnapshot, err) in
                     if let err = err {
@@ -214,7 +227,6 @@ public class DetailClassViewController: UIViewController {
                             /// 문서 존재하면
                             for document in querySnapshot!.documents {
                                 self.fcmToken = document.data()["fcmToken"] as? String ?? ""
-                                print("fcmtoken: \(self.fcmToken)")
                             }
                         }
                     }
@@ -229,9 +241,6 @@ public class DetailClassViewController: UIViewController {
 extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate, UITextViewDelegate {
     public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
-        placeholderSetting(self.progressTextView)
-        placeholderSetting(self.monthlyEvaluationTextView)
-        
         if (self.userType == "teacher") {
             if (self.currentCnt % 8 == 0 && (self.currentCnt == 0 || self.currentCnt == 8)) {
                 self.monthlyEvaluationQuestionLabel.isHidden = false
@@ -250,48 +259,40 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
         
         
         let selectedDate = date
-        let nowDate = Date()
         
-        // 수업을 하지 않은 미래의 수업에 대해서는 평가를 할 수 없도록 하기 위해서 오늘 날짜와 선택한 날짜 비교
-        let distanceDay = Calendar.current.dateComponents([.day], from: selectedDate, to: nowDate).day
-        
-        // 차이가 0보다 작거나 같으면
-        if (!(distanceDay! <= 0)) {
-            // 평가 입력 뷰를 숨김 해제
-            if (self.evaluationView.isHidden == true) {
-                self.evaluationView.isHidden = false
-                self.evaluationOKBtn.isHidden = false
-            } else {
-                self.evaluationView.isHidden = true
-                self.evaluationOKBtn.isHidden = true
-            }
-            
-            self.classTimeTextField.text = ""
-            self.resetTextFields()
-            
-            // 날짜 받아와서 변수에 저장
-            let dateFormatter = DateFormatter()
-            
-            dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
-            dateFormatter.locale = Locale(identifier: "ko_KR")
-            let dateStr = dateFormatter.string(from: selectedDate)
-            self.date = dateStr
-            
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            dateFormatter.locale = Locale(identifier: "ko_KR")
-            let dateStrWithoutDays = dateFormatter.string(from: selectedDate)
-            self.dateStrWithoutDays = dateStrWithoutDays
-            
-            dateFormatter.dateFormat = "MM"
-            let monthStr = dateFormatter.string(from: selectedDate)
-            self.selectedMonth = monthStr
-            
-            GetEvaluations(self: self, dateStr: dateStr)
+        if (self.evaluationView.isHidden == true) {
+            self.evaluationView.isHidden = false
+            self.evaluationOKBtn.isHidden = false
+        } else {
+            self.evaluationView.isHidden = true
+            self.evaluationOKBtn.isHidden = true
         }
+        
+        self.classTimeTextField.text = ""
+        self.resetTextFields()
+        
+        // 날짜 받아와서 변수에 저장
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateStr = dateFormatter.string(from: selectedDate)
+        self.date = dateStr
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateStrWithoutDays = dateFormatter.string(from: selectedDate)
+        self.dateStrWithoutDays = dateStrWithoutDays
+        
+        dateFormatter.dateFormat = "MM"
+        let monthStr = dateFormatter.string(from: selectedDate)
+        self.selectedMonth = monthStr
+        
+        GetEvaluations(self: self, dateStr: dateStr)
     }
     
     public func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool){
-        calendarHeight.constant = bounds.height + 20
+        calendarHeight.constant = bounds.height
         self.view.layoutIfNeeded()
     }
 }
