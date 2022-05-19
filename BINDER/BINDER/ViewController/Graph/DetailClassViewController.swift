@@ -115,12 +115,28 @@ public class DetailClassViewController: UIViewController {
         }
     }
     
+    func calendarText(view:FSCalendar, design:CalendarDesign) {
+        view.headerHeight = CGFloat(18)
+        view.appearance.headerTitleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
+        view.appearance.headerMinimumDissolvedAlpha = 0.0
+        view.appearance.headerDateFormat = "YYYY년 M월"
+        view.appearance.titleFont = UIFont.systemFont(ofSize: 14)
+        view.appearance.weekdayFont = UIFont.systemFont(ofSize: 14)
+        view.locale = Locale(identifier: "ko_KR")
+        view.weekdayHeight = CGFloat(40)
+    }
+    
     /// Load View
     public override func viewWillAppear(_ animated: Bool) {
         calendarView.scope = .week
-        calendarText(view: calendarView, design: calenderDesign)
+        self.calendarText(view: calendarView, design: calenderDesign)
         calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
+        let color = UIColor(red: 84, green: 83, blue: 87, alpha: 1.0)
+        self.calendarView.appearance.borderSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 0.6)
+        self.calendarView.appearance.weekdayTextColor = color
+        self.calendarView.appearance.titleWeekendColor = color
+        self.calendarView.appearance.headerTitleColor =  color
         
         let roundViews: Array<AnyObject> = [progressTextView,evaluationMemoTextView,evaluationOKBtn,monthlyEvaluationOKBtn]
         allRound(views:roundViews,design: btnDesign)
@@ -203,6 +219,7 @@ public class DetailClassViewController: UIViewController {
         
         self.monthlyEvaluationOKBtn.isHidden = true
         self.monthlyEvaluationTextView.isHidden = true
+        self.monthlyEvaluationQuestionLabel.isHidden = true
     }
     
     /// save evaluation button clicked
@@ -259,17 +276,15 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             self.monthlyEvaluationTextView.isHidden = true
         }
         
-        let selectedDate = date
-        
-        if (self.evaluationView.isHidden == true) {
+        if self.evaluationView.isHidden {
             self.evaluationView.isHidden = false
             self.evaluationOKBtn.isHidden = false
-        } else {
-            self.evaluationView.isHidden = true
-            self.evaluationOKBtn.isHidden = true
         }
         
+        let selectedDate = date
+        
         self.progressTextView.endEditing(true)
+        self.monthlyEvaluationTextView.endEditing(true)
         
         // 날짜 받아와서 변수에 저장
         let dateFormatter = DateFormatter()

@@ -3331,6 +3331,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                                             self.monthlyEvaluationTextView.text = evaluation
                                             self.placeholderSetting(self.monthlyEvaluationTextView)
                                         } else {
+                                            self.monthlyEvaluationTextView.text = ""
                                             self.placeholderSetting(self.monthlyEvaluationTextView)
                                         }
                                     }
@@ -3584,10 +3585,11 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             let payType = document.data()["payType"] as? String ?? ""
                                             let email = document.data()["email"] as? String ?? ""
                                             let index = document.data()["index"] as? Int ?? 0
-                                            
-                                            detailClassVC.payType = payType
                                             let currentCnt = document.data()["currentCnt"] as? Int ?? 0
-                                            detailClassVC.currentCnt = currentCnt
+                                            
+                                            self.currentCnt = currentCnt
+                                            detailClassVC.currentCnt = self.currentCnt
+                                            detailClassVC.payType = payType
                                             
                                             let userEmail = document.data()["email"] as? String ?? ""
                                             
@@ -3598,6 +3600,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             if index == linkBtnIndex {
                                                 self.userIndex = linkBtnIndex
                                             }
+                                            
                                             detailClassVC.userIndex = self.userIndex
                                             graphVC.userIndex = self.userIndex
                                             todolistVC.userIndex = self.userIndex
