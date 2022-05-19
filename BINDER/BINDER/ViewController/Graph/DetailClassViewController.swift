@@ -133,6 +133,7 @@ public class DetailClassViewController: UIViewController {
         calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
         let color = UIColor(red: 84, green: 83, blue: 87, alpha: 1.0)
+        self.calendarView.appearance.borderSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 0.6)
         self.calendarView.appearance.weekdayTextColor = color
         self.calendarView.appearance.titleWeekendColor = color
         self.calendarView.appearance.headerTitleColor =  color
