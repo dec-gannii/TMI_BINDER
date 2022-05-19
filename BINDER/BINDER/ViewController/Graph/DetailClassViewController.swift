@@ -189,37 +189,7 @@ public class DetailClassViewController: UIViewController {
             self.testLabel.text = "수업 난이도 점수"
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        self.view.addGestureRecognizer(tap)
-        
-        /// 키보드 올라올 때 화면 쉽게 이동할 수 있도록 해주는 것, 키보드 높이만큼 padding
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
-        
         super.viewDidLoad()
-    }
-    
-    // 화면 터치 시 키보드 내려가도록 하는 메소드
-    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-        self.view.endEditing(true)
-    }
-    
-    // 키보드 내리기
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    /// 키보드 올라올때 처리
-    /// - Parameter notification: 노티피케이션
-    @objc func keyboardWillShow(notification:NSNotification) {
-        if (self.monthlyEvaluationTextView.isFirstResponder == true) {
-            self.view.frame.origin.y = -(self.monthlyEvaluationTextView.frame.height)
-        }
-    }
-    
-    /// 키보드 내려갈때 처리
-    @objc func keyboardWillHide(notification:NSNotification) {
-        self.view.frame.origin.y = 0 // Move view 150 points upward
     }
     
     func resetTextFields() {
@@ -236,6 +206,31 @@ public class DetailClassViewController: UIViewController {
     func calendarEvent() {
         calendarView.dataSource = self
         calendarView.delegate = self
+    }
+    
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
+    // 키보드 내리기
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    /// 키보드 올라올때 처리
+    /// - Parameter notification: 노티피케이션
+    @objc func keyboardWillShow(notification:NSNotification) {
+        if (self.monthlyEvaluationTextView.isFirstResponder == true) {
+            self.view.frame.origin.y = -(self.monthlyEvaluationTextView.frame.height + 20)
+        } else {
+            self.view.frame.origin.y = 0 // Move view 150 points upward
+        }
+    }
+    
+    /// 키보드 내려갈때 처리
+    @objc func keyboardWillHide(notification:NSNotification) {
+        self.view.frame.origin.y = 0 // Move view 150 points upward
     }
     
     /// monthly evaluation save button clicked
@@ -287,6 +282,14 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
     {
         if (self.userType == "teacher") {
             if (self.currentCnt % 8 == 0 && (self.currentCnt == 0 || self.currentCnt == 8)) {
+                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+                self.view.addGestureRecognizer(tap)
+                
+                /// 키보드 올라올 때 화면 쉽게 이동할 수 있도록 해주는 것, 키보드 높이만큼 padding
+                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+                
                 self.monthlyEvaluationQuestionLabel.isHidden = false
                 self.monthlyEvaluationOKBtn.isHidden = false
                 self.monthlyEvaluationTextView.isHidden = false

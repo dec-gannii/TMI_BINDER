@@ -95,8 +95,8 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         
         let barWidth = data.barWidth
         
-        let left = x - barWidth / 2.0
-        let right = x + barWidth / 2.0
+        let left = x - barWidth / 1.0
+        let right = x + barWidth / 1.0
         let top = y >= 0.0 ? y : 0.0
         let bottom = y <= 0.0 ? y : 0.0
         
