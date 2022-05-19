@@ -39,8 +39,7 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     var sname: String!
     var fcmtoken: String!
     
-    var captureImage: UIImage!
-    var videoURL: URL!
+    var newImage: UIImage!
     var flagImageSave = false
     
     public override func viewDidLoad() {
@@ -182,6 +181,7 @@ extension QuestionPlusViewController: UIImagePickerControllerDelegate,UINavigati
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
     }
     
@@ -198,15 +198,17 @@ extension QuestionPlusViewController: UIImagePickerControllerDelegate,UINavigati
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         imagePicker.dismiss(animated: true, completion: nil)
         
-        guard let selectedImage = info[.originalImage] as? UIImage else {
-            return
+        if let captureImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            newImage = captureImage // 수정된 이미지가 있을 경우
+        } else if let captureImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            newImage = captureImage // 원본 이미지가 있을 경우
         }
         
         if let url = info[.imageURL] as? URL {
             file_name = (url.lastPathComponent as NSString).deletingPathExtension
         }
         
-        imageView.image = selectedImage
+        imageView.image = newImage
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드

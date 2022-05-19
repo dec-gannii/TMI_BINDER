@@ -43,7 +43,7 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
     let imagePicker: UIImagePickerController! = UIImagePickerController()
     let notification = PushNotificationSender()
     
-    var captureImage: UIImage!
+    var newImage: UIImage!
     var videoURL: URL!
     var flagImageSave = false
     var imgtype:Int = 1
@@ -175,15 +175,18 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
         // 미디어 종류가 사진(Image)일 경우
         if mediaType.isEqual(to: kUTTypeImage as NSString as String){
             
-            // 사진을 가져와 captureImage에 저장
-            captureImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+            if let captureImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                newImage = captureImage // 수정된 이미지가 있을 경우
+            } else if let captureImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                newImage = captureImage // 원본 이미지가 있을 경우
+            }
             imgtype = 1
             
             if flagImageSave { // flagImageSave가 true이면
                 // 사진을 포토 라이브러리에 저장
-                UIImageWriteToSavedPhotosAlbum(captureImage, self, nil, nil)
+                UIImageWriteToSavedPhotosAlbum(newImage, self, nil, nil)
             }
-            imgView.image = captureImage // 가져온 사진을 이미지 뷰에 출력
+            imgView.image = newImage // 가져온 사진을 이미지 뷰에 출력
             
             // 미디어 종류가 비디오(Movie)일 경우
         } else if mediaType.isEqual(to: kUTTypeMovie as NSString as String) {
