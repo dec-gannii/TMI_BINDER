@@ -219,6 +219,7 @@ public class DetailClassViewController: UIViewController {
         
         self.monthlyEvaluationOKBtn.isHidden = true
         self.monthlyEvaluationTextView.isHidden = true
+        self.monthlyEvaluationQuestionLabel.isHidden = true
     }
     
     /// save evaluation button clicked
@@ -275,9 +276,15 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             self.monthlyEvaluationTextView.isHidden = true
         }
         
+        if self.evaluationView.isHidden {
+            self.evaluationView.isHidden = false
+            self.evaluationOKBtn.isHidden = false
+        }
+        
         let selectedDate = date
         
         self.progressTextView.endEditing(true)
+        self.monthlyEvaluationTextView.endEditing(true)
         
         // 날짜 받아와서 변수에 저장
         let dateFormatter = DateFormatter()
