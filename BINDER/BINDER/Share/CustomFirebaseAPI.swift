@@ -3780,15 +3780,13 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                                         for document in querySnapshot!.documents {
                                                             print("\(document.documentID) => \(document.data())")
                                                             let userSubject = document.data()["subject"] as! String ?? ""
+                                                            print ("===== \(teacherUid) / \(studentName) / \(studentEmail) / \(userSubject)")
                                                             // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
                                                             db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
                                                                 if let snapshot = snapshot {
-                                                                    
                                                                     snapshot.documents.map { doc in
-                                                                        
                                                                         if doc.data()["todo"] != nil{
                                                                             // 순서대로 todolist를 담는 배열에 추가해주기
-                                                                            
                                                                             todolistVC.todoDoc.append(doc.documentID)
                                                                             todolistVC.todos.append(doc.data()["todo"] as! String)
                                                                             todolistVC.todoCheck.append(doc.data()["check"] as! Bool)

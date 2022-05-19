@@ -18,22 +18,6 @@ public class ShowPortfolioViewController: UIViewController {
     @IBOutlet weak var teacherEmailTextField: UITextField!
     @IBOutlet weak var showBtn: UIButton!
     
-    public override func updateViewConstraints() {
-        let TOP_CARD_DISTANCE: CGFloat = 40.0
-        
-        var height: CGFloat = 0.0
-        for v in self.view.subviews {
-            height = height + 500
-        }
-        // change size of Viewcontroller's view to that height
-        self.view.frame.size.height = height
-        // reposition the view (if not it will be near the top)
-        self.view.frame.origin.y = UIScreen.main.bounds.height - height - TOP_CARD_DISTANCE
-        // apply corner radius only to top corners
-        self.view.roundCorners(corners: [.topLeft, .topRight], radius: 30.0)
-        super.updateViewConstraints()
-    }
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
