@@ -102,7 +102,7 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
         if cell.checkButton.isSelected == true {
             cell.checkButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
         } else {
-            cell.checkButton.setImage(UIImage(systemName: "square"), for: .normal)
+            cell.checkButton.setImage(UIImage(named: "checkbox_square_notChecked"), for: .normal)
         }
         return cell
     }
@@ -118,7 +118,7 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
             sender.isSelected = false
             checkTime = false
             //체크 내용 업데이트
-            sender.setImage(UIImage(systemName: "square"), for: .normal)
+            sender.setImage(UIImage(named: "checkbox_square_notChecked"), for: .normal)
         } else {
             sender.isSelected = true
             checkTime = true
