@@ -5315,7 +5315,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="920"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="FmS-hV-hrn">
-                                                <rect key="frame" x="24" y="162" width="366" height="448"/>
+                                                <rect key="frame" x="24" y="152" width="366" height="448"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="vwB-KA-HeC">
                                                         <rect key="frame" x="0.0" y="0.0" width="366" height="448"/>
@@ -5565,20 +5565,20 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3cg-tj-gpk" customClass="FSCalendar">
-                                                <rect key="frame" x="20" y="16" width="374" height="130"/>
+                                                <rect key="frame" x="20" y="16" width="374" height="120"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="130" id="CTM-Bc-ntw"/>
+                                                    <constraint firstAttribute="height" constant="120" id="CTM-Bc-ntw"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="월말 평가" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QFG-dL-lYo">
-                                                <rect key="frame" x="24" y="666" width="366" height="17"/>
+                                                <rect key="frame" x="24" y="656" width="366" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fP5-MV-W3l">
-                                                <rect key="frame" x="24" y="616" width="366" height="44"/>
+                                                <rect key="frame" x="24" y="606" width="366" height="44"/>
                                                 <color key="backgroundColor" red="0.80392156859999997" green="0.90196078430000004" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="onu-Ot-Ya5"/>
@@ -5599,7 +5599,7 @@
                                                 </connections>
                                             </button>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dSb-Kf-fCZ">
-                                                <rect key="frame" x="24" y="689" width="366" height="100"/>
+                                                <rect key="frame" x="24" y="679" width="366" height="100"/>
                                                 <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="KvR-TV-fxa"/>
@@ -5615,7 +5615,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vi5-Ob-pQC">
-                                                <rect key="frame" x="24" y="795" width="366" height="44"/>
+                                                <rect key="frame" x="24" y="785" width="366" height="44"/>
                                                 <color key="backgroundColor" red="0.80392156859999997" green="0.90196078430000004" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="agw-rq-gTZ"/>
@@ -7403,8 +7403,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="DJa-wf-ISd">
-                                <rect key="frame" x="24" y="60" width="366" height="180"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="DJa-wf-ISd">
+                                <rect key="frame" x="24" y="60" width="366" height="188"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="숙제는 선생님만 추가할 수 있어요!" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2sV-4P-KoU">
                                         <rect key="frame" x="0.0" y="0.0" width="366" height="130"/>
@@ -7422,7 +7422,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Tt-Qd-D4L">
-                                        <rect key="frame" x="0.0" y="136" width="366" height="44"/>
+                                        <rect key="frame" x="0.0" y="144" width="366" height="44"/>
                                         <color key="backgroundColor" red="0.80392156859999997" green="0.90196078430000004" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="6PI-WE-vqw"/>
@@ -7446,7 +7446,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="lja-uo-7hw">
-                                <rect key="frame" x="0.0" y="246" width="414" height="300"/>
+                                <rect key="frame" x="0.0" y="254" width="414" height="300"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="tAx-3W-Lvx"/>

@@ -77,6 +77,36 @@ public class DetailClassViewController: UIViewController {
         payType = ""
     }
     
+    func placeholderSetting(_ textView: UITextView) {
+        textView.delegate = self // 유저가 선언한 outlet
+        if (textView == self.progressTextView) {
+            textView.text = StringUtils.progressText.rawValue
+        } else if (textView == self.monthlyEvaluationTextView) {
+            textView.text = StringUtils.monthlyEvaluation.rawValue
+        }
+        textView.textColor = UIColor.lightGray
+    }
+    
+    // TextView Place Holder
+    public func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    // TextView Place Holder
+    public func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            if (textView == self.progressTextView) {
+                textView.text = StringUtils.progressText.rawValue
+            } else if (textView == self.monthlyEvaluationTextView) {
+                textView.text = StringUtils.monthlyEvaluation.rawValue
+            }
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
     /// Load View
     public override func viewWillAppear(_ animated: Bool) {
         calendarView.scope = .week
@@ -128,9 +158,6 @@ public class DetailClassViewController: UIViewController {
             self.evaluationLabel.text = "수업 만족도 점수"
             self.testLabel.text = "수업 난이도 점수"
         }
-        
-        let textViews:Array<UITextView> = [progressTextView,evaluationMemoTextView,monthlyEvaluationTextView]
-        setBorder(views: textViews, design: viewDesign)
         
         super.viewDidLoad()
     }
@@ -202,6 +229,9 @@ public class DetailClassViewController: UIViewController {
 extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransitioningDelegate, UITextViewDelegate {
     public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
+        placeholderSetting(self.progressTextView)
+        placeholderSetting(self.monthlyEvaluationTextView)
+        
         if (self.userType == "teacher") {
             if (self.currentCnt % 8 == 0 && (self.currentCnt == 0 || self.currentCnt == 8)) {
                 self.monthlyEvaluationQuestionLabel.isHidden = false
@@ -262,7 +292,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
     
     public func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool){
         calendarHeight.constant = bounds.height + 20
-        self.view.layoutIfNeeded ()
+        self.view.layoutIfNeeded()
     }
 }
 
