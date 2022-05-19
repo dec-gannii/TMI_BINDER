@@ -4113,7 +4113,7 @@ public func UpdateAnswer(answer : String, imgtype : Int, self : AnswerViewContro
             /// image exists
             // 이미지가 있는 경우
             if let data = image.pngData(){
-                let urlRef = storageRef.child("image/\(self.captureImage).png")
+                let urlRef = storageRef.child("image/\(self.newImage).png")
                 let metadata = StorageMetadata()
                 metadata.contentType = "image/png"
                 let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
