@@ -100,7 +100,7 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
         cell.checkButton.layer.cornerRadius = cell.checkButton.frame.size.width / 2
         cell.checkButton.layer.masksToBounds = true
         if cell.checkButton.isSelected == true {
-            cell.checkButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+            cell.checkButton.setImage(UIImage(named: "checkbox_square_Checked"), for: .normal)
         } else {
             cell.checkButton.setImage(UIImage(named: "checkbox_square_notChecked"), for: .normal)
         }
@@ -123,7 +123,7 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
             sender.isSelected = true
             checkTime = true
             // 체크 내용 업데이트
-            sender.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+            sender.setImage(UIImage(named: "checkbox_square_Checked"), for: .normal)
         }
         CheckmarkButtonClicked(self: self, checkTime: checkTime, sender: sender)
     }

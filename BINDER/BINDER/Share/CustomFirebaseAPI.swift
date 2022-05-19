@@ -3299,9 +3299,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                     self.testScoreTextField.text = "\(testScore)"
                 }
                 print("Document data: \(dataDescription)")
-                
                 self.placeholderSetting(self.progressTextView)
-                    
             } else {
                 print("Document does not exist")
                 // 값 다시 공백 설정
@@ -3333,7 +3331,6 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                                             self.monthlyEvaluationTextView.text = evaluation
                                             self.placeholderSetting(self.monthlyEvaluationTextView)
                                         } else {
-                                            self.monthlyEvaluationTextView.text = ""
                                             self.placeholderSetting(self.monthlyEvaluationTextView)
                                         }
                                     }
@@ -3346,7 +3343,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
         }
     } else if (self.userType == "student") {
         // 데이터를 받아와서 각각의 값에 따라 textfield 값 설정 (만약 없다면 공백 설정, 있다면 그 값 불러옴)
-        db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").getDocument { (document, error) in
+        db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document(dateStr).getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
                 let date = data?["evaluationDate"] as? String ?? ""
@@ -3360,15 +3357,15 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                     self.homeworkScoreTextField.text = "\(prepare)"
                 }
                 
-                let summary = data?["summary"] as? Int ?? 0
-                if (summary == 0) {
+                let summary = data?["summary"] as? String ?? ""
+                if (summary == "") {
                     self.progressTextView.text = ""
                 } else {
-                    self.progressTextView.text = "\(summary)"
+                    self.progressTextView.text = summary
                 }
                 
                 let satisfy = data?["satisfy"] as? Int ?? 0
-                if (summary == 0) {
+                if (satisfy == 0) {
                     self.classScoreTextField.text = ""
                 } else {
                     self.classScoreTextField.text = "\(satisfy)"
@@ -3385,7 +3382,6 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                 }
                 
                 print("Document data: \(dataDescription)")
-                
                 self.placeholderSetting(self.progressTextView)
             } else {
                 print("Document does not exist")
