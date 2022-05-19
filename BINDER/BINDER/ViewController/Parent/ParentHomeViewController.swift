@@ -35,6 +35,7 @@ public class ParentHomeViewController: UIViewController {
         
         setEvaluation() // 평가 불러오기
         GetParentUserInfo(self: self) // 사용자 정보 받아오기
+        updateFCM()
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM" // MM월의 형태로 설정
@@ -46,6 +47,18 @@ public class ParentHomeViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         progressListTableView.reloadData() // 평가가 나타나는 tableview 그리기
+    }
+    
+    func updateFCM(){
+        let db = Firestore.firestore()
+        
+        db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
+            "fcmToken": Messaging.messaging().fcmToken
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            }
+        }
     }
     
     // 평가 불러오기
