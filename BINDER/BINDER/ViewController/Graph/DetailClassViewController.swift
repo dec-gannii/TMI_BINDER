@@ -115,12 +115,27 @@ public class DetailClassViewController: UIViewController {
         }
     }
     
+    func calendarText(view:FSCalendar, design:CalendarDesign) {
+        view.headerHeight = CGFloat(18)
+        view.appearance.headerTitleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
+        view.appearance.headerMinimumDissolvedAlpha = 0.0
+        view.appearance.headerDateFormat = "YYYY년 M월"
+        view.appearance.titleFont = UIFont.systemFont(ofSize: 14)
+        view.appearance.weekdayFont = UIFont.systemFont(ofSize: 14)
+        view.locale = Locale(identifier: "ko_KR")
+        view.weekdayHeight = CGFloat(40)
+    }
+    
     /// Load View
     public override func viewWillAppear(_ animated: Bool) {
         calendarView.scope = .week
-        calendarText(view: calendarView, design: calenderDesign)
+        self.calendarText(view: calendarView, design: calenderDesign)
         calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
+        let color = UIColor(red: 84, green: 83, blue: 87, alpha: 1.0)
+        self.calendarView.appearance.weekdayTextColor = color
+        self.calendarView.appearance.titleWeekendColor = color
+        self.calendarView.appearance.headerTitleColor =  color
         
         let roundViews: Array<AnyObject> = [progressTextView,evaluationMemoTextView,evaluationOKBtn,monthlyEvaluationOKBtn]
         allRound(views:roundViews,design: btnDesign)
@@ -260,14 +275,6 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
         }
         
         let selectedDate = date
-        
-        if (self.evaluationView.isHidden == true) {
-            self.evaluationView.isHidden = false
-            self.evaluationOKBtn.isHidden = false
-        } else {
-            self.evaluationView.isHidden = true
-            self.evaluationOKBtn.isHidden = true
-        }
         
         self.progressTextView.endEditing(true)
         
