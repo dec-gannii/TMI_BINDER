@@ -83,12 +83,12 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             if (userType == "teacher"){
                 cell.isHidden = false
                 cell.messageLabel.text = "학생 등록하기"
-                cell.plusImage.isHidden = false
+                cell.plusImage.image = UIImage(systemName: "plus")
                 return cell
             } else if (userType == "student"){
                 if (classItems.count == 0){
                     cell.messageLabel.text = "등록된 수업이 없습니다."
-                    cell.plusImage.isHidden = true
+                    cell.plusImage.removeFromSuperview()
                 } else {
                     cell.isHidden = true
                 }

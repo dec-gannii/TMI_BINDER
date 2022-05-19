@@ -128,10 +128,12 @@ public class DetailClassViewController: UIViewController {
     
     public override func viewDidLoad() {
         let dateFormatter = DateFormatter()
+        self.evaluationMemoTextView.textColor = .black
         
         dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
         dateFormatter.locale = Locale(identifier: "ko_KR")
         let dateStr = dateFormatter.string(from: nowDate)
+        self.date = dateStr
         
         GetEvaluations(self: self, dateStr: dateStr)
         
@@ -257,7 +259,6 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             self.monthlyEvaluationTextView.isHidden = true
         }
         
-        
         let selectedDate = date
         
         if (self.evaluationView.isHidden == true) {
@@ -268,8 +269,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             self.evaluationOKBtn.isHidden = true
         }
         
-        self.classTimeTextField.text = ""
-        self.resetTextFields()
+        self.progressTextView.endEditing(true)
         
         // 날짜 받아와서 변수에 저장
         let dateFormatter = DateFormatter()
