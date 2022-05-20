@@ -13,10 +13,27 @@ public class AddStudentVC: BaseVC {
     
     weak var delegate: AddStudentDelegate?
     var functionShare = FunctionShare()
-    // MARK: - 라이프 사이클
     
+    public override func updateViewConstraints() {
+        let TOP_CARD_DISTANCE: CGFloat = 40.0
+        
+        var height: CGFloat = 0.0
+        for v in self.view.subviews {
+            height = height + 500
+        }
+        // change size of Viewcontroller's view to that height
+        self.view.frame.size.height = height
+        // reposition the view (if not it will be near the top)
+        self.view.frame.origin.y = UIScreen.main.bounds.height - height - TOP_CARD_DISTANCE
+        // apply corner radius only to top corners
+        self.view.roundCorners(corners: [.topLeft, .topRight], radius: 30.0)
+        super.updateViewConstraints()
+    }
+        
+        // MARK: - 라이프 사이클
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.frame.size.height = 200
         
         var textfields = [UITextField]()
         textfields = [self.emailTf]
@@ -50,3 +67,11 @@ public class AddStudentVC: BaseVC {
     }
 }
 
+extension UIView {
+   func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+    }
+}

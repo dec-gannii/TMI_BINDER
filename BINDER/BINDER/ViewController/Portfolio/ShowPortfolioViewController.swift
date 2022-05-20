@@ -21,6 +21,8 @@ public class ShowPortfolioViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.roundCorners(corners: [.topLeft, .topRight], radius: 30.0)
+        
         var textfields = [UITextField]()
         textfields = [self.teacherEmailTextField]
         

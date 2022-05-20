@@ -21,4 +21,6 @@ enum StringUtils: String {
     case contentNotExist = "등록된 내용이 없습니다."
     case loginFail = "로그인에 실패하였습니다. 다시 시도해주세요."
     case galleryAccessFail = "어플리케이션이 갤러리에 접근 불가능합니다."
+    case progressText = "입력한 진도사항은 학생과 학부모에게 공유됩니다! (150자 이내로 작성해주세요.)"
+    case monthlyEvaluation = "한달에 한번 있는 월말 평가를 등록해주세요!"
 }

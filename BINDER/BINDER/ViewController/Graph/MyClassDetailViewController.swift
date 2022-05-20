@@ -163,11 +163,7 @@ public class MyClassDetailViewController: UIViewController {
     private func setupDataSource() {
         var titles = Array<String>()
         titles = []
-        if (self.userType == "student") {
-            titles = ["숙제 리스트", "성적 그래프", "진도 및 평가"]
-        } else {
-            titles = ["진도 및 평가", "성적 그래프", "숙제 리스트"]
-        }
+        titles = ["진도 및 평가", "성적 그래프", "숙제 리스트"]
         
         for i in 0...2 {
             let model = MyCollectionViewModel(title: titles[i])

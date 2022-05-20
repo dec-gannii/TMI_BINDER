@@ -3299,12 +3299,11 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                     self.testScoreTextField.text = "\(testScore)"
                 }
                 print("Document data: \(dataDescription)")
+                self.placeholderSetting(self.progressTextView)
             } else {
                 print("Document does not exist")
                 // 값 다시 공백 설정
-                self.testScoreTextField.text = ""
-                self.homeworkScoreTextField.text = ""
-                self.classScoreTextField.text = ""
+                self.resetTextFields()
             }
         }
         
@@ -3324,13 +3323,17 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                                 print("\(document.documentID) => \(document.data())")
                                 let teacherName = document.data()["name"] as? String ?? ""
                                 let teacherEmail = document.data()["email"] as? String ?? ""
-                                
-                                db.collection("student").document(studentUid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(self.selectedMonth + "월").getDocument(){ (document, error) in
-                                    if let document = document, document.exists {
-                                        let data = document.data()
-                                        let evaluation = data!["evaluation"] as? String ?? ""
-                                        self.monthlyEvaluationTextView.text = evaluation
-                                        self.monthlyEvaluationTextView.textColor = .black
+                                if let selectedMonth = self.selectedMonth {
+                                    db.collection("student").document(studentUid).collection("class").document(teacherName + "(" + teacherEmail + ") " + self.userSubject).collection("Evaluation").document(selectedMonth + "월").getDocument(){ (document, error) in
+                                        if let document = document, document.exists {
+                                            let data = document.data()
+                                            let evaluation = data!["evaluation"] as? String ?? ""
+                                            self.monthlyEvaluationTextView.text = evaluation
+                                            self.placeholderSetting(self.monthlyEvaluationTextView)
+                                        } else {
+                                            self.monthlyEvaluationTextView.text = ""
+                                            self.placeholderSetting(self.monthlyEvaluationTextView)
+                                        }
                                     }
                                 }
                             }
@@ -3339,10 +3342,9 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                 }
             }
         }
-        
     } else if (self.userType == "student") {
         // 데이터를 받아와서 각각의 값에 따라 textfield 값 설정 (만약 없다면 공백 설정, 있다면 그 값 불러옴)
-        db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").getDocument { (document, error) in
+        db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document(dateStr).getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
                 let date = data?["evaluationDate"] as? String ?? ""
@@ -3356,15 +3358,15 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                     self.homeworkScoreTextField.text = "\(prepare)"
                 }
                 
-                let summary = data?["summary"] as? Int ?? 0
-                if (summary == 0) {
+                let summary = data?["summary"] as? String ?? ""
+                if (summary == "") {
                     self.progressTextView.text = ""
                 } else {
-                    self.progressTextView.text = "\(summary)"
+                    self.progressTextView.text = summary
                 }
                 
                 let satisfy = data?["satisfy"] as? Int ?? 0
-                if (summary == 0) {
+                if (satisfy == 0) {
                     self.classScoreTextField.text = ""
                 } else {
                     self.classScoreTextField.text = "\(satisfy)"
@@ -3381,6 +3383,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
                 }
                 
                 print("Document data: \(dataDescription)")
+                self.placeholderSetting(self.progressTextView)
             } else {
                 print("Document does not exist")
                 self.resetTextFields()
@@ -3458,7 +3461,6 @@ public func AddToDoListFactors(self : ToDoListViewController, checkTime : Bool) 
                                     }
                                 }
                             }
-                            
                             self.todoTF.text = ""
                         }
                     }
@@ -3583,10 +3585,11 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             let payType = document.data()["payType"] as? String ?? ""
                                             let email = document.data()["email"] as? String ?? ""
                                             let index = document.data()["index"] as? Int ?? 0
-                                            
-                                            detailClassVC.payType = payType
                                             let currentCnt = document.data()["currentCnt"] as? Int ?? 0
-                                            detailClassVC.currentCnt = currentCnt
+                                            
+                                            self.currentCnt = currentCnt
+                                            detailClassVC.currentCnt = self.currentCnt
+                                            detailClassVC.payType = payType
                                             
                                             let userEmail = document.data()["email"] as? String ?? ""
                                             
@@ -3597,6 +3600,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             if index == linkBtnIndex {
                                                 self.userIndex = linkBtnIndex
                                             }
+                                            
                                             detailClassVC.userIndex = self.userIndex
                                             graphVC.userIndex = self.userIndex
                                             todolistVC.userIndex = self.userIndex
@@ -3736,9 +3740,9 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         graphVC.userSubject = self.userSubject
                                         todolistVC.userSubject = self.userSubject
                                         
-                                        self.dataSourceVC.append(todolistVC)
-                                        self.dataSourceVC.append(graphVC)
                                         self.dataSourceVC.append(detailClassVC)
+                                        self.dataSourceVC.append(graphVC)
+                                        self.dataSourceVC.append(todolistVC)
                                     }
                                 }
                             }
@@ -3776,15 +3780,13 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                                         for document in querySnapshot!.documents {
                                                             print("\(document.documentID) => \(document.data())")
                                                             let userSubject = document.data()["subject"] as! String ?? ""
+                                                            print ("===== \(teacherUid) / \(studentName) / \(studentEmail) / \(userSubject)")
                                                             // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
                                                             db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
                                                                 if let snapshot = snapshot {
-                                                                    
                                                                     snapshot.documents.map { doc in
-                                                                        
                                                                         if doc.data()["todo"] != nil{
                                                                             // 순서대로 todolist를 담는 배열에 추가해주기
-                                                                            
                                                                             todolistVC.todoDoc.append(doc.documentID)
                                                                             todolistVC.todos.append(doc.data()["todo"] as! String)
                                                                             todolistVC.todoCheck.append(doc.data()["check"] as! Bool)

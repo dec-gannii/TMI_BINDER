@@ -70,14 +70,6 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
         self.contactTV.layer.cornerRadius = btnDesign.cornerRadius
         self.evaluationTV.clipsToBounds = true
         self.evaluationTV.layer.cornerRadius = btnDesign.cornerRadius
-        
-        placeholderSetting(self.eduHistoryTV)
-        placeholderSetting(self.manageTV)
-        placeholderSetting(self.contactTV)
-        placeholderSetting(self.timeTV)
-        placeholderSetting(self.evaluationTV)
-        placeholderSetting(self.classMetTV)
-        placeholderSetting(self.extraExpTV)
     }
     
     func placeholderSetting(_ textView: UITextView) {
@@ -141,7 +133,6 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     @objc func keyboardWillHide(notification:NSNotification) {
         self.view.frame.origin.y = 0 // Move view 150 points upward
     }
-    
     
     @IBAction func editButton(_ sender: Any) {
         SaveEditedPlot(self: self)

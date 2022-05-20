@@ -58,6 +58,8 @@ public class DetailClassViewController: UIViewController {
     var temail: String!
     var fcmToken: String!
     
+    let nowDate = Date()
+    
     func _init(){
         userEmail = ""
         userSubject = ""
@@ -77,18 +79,79 @@ public class DetailClassViewController: UIViewController {
         payType = ""
     }
     
+    func placeholderSetting(_ textView: UITextView) {
+        textView.delegate = self // 유저가 선언한 outlet
+        if textView.text.isEmpty || textView.text == "" {
+            if (textView == self.progressTextView) {
+                textView.text = StringUtils.progressText.rawValue
+            } else if (textView == self.monthlyEvaluationTextView) {
+                textView.text = StringUtils.monthlyEvaluation.rawValue
+            }
+            textView.textColor = UIColor.lightGray
+        } else {
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    // TextView Place Holder
+    public func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    // TextView Place Holder
+    public func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty || textView.text == "" {
+            if (textView == self.progressTextView) {
+                textView.text = StringUtils.progressText.rawValue
+            } else if (textView == self.monthlyEvaluationTextView) {
+                textView.text = StringUtils.monthlyEvaluation.rawValue
+            }
+            textView.textColor = UIColor.lightGray
+        } else {
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func calendarText(view:FSCalendar, design:CalendarDesign) {
+        view.headerHeight = CGFloat(18)
+        view.appearance.headerTitleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
+        view.appearance.headerMinimumDissolvedAlpha = 0.0
+        view.appearance.headerDateFormat = "YYYY년 M월"
+        view.appearance.titleFont = UIFont.systemFont(ofSize: 14)
+        view.appearance.weekdayFont = UIFont.systemFont(ofSize: 14)
+        view.locale = Locale(identifier: "ko_KR")
+        view.weekdayHeight = CGFloat(40)
+    }
+    
     /// Load View
     public override func viewWillAppear(_ animated: Bool) {
         calendarView.scope = .week
-        calendarText(view: calendarView, design: calenderDesign)
+        self.calendarText(view: calendarView, design: calenderDesign)
         calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
+        let color = UIColor(red: 84, green: 83, blue: 87, alpha: 1.0)
+        self.calendarView.appearance.borderSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 0.6)
+        self.calendarView.appearance.weekdayTextColor = color
+        self.calendarView.appearance.titleWeekendColor = color
+        self.calendarView.appearance.headerTitleColor =  color
         
         let roundViews: Array<AnyObject> = [progressTextView,evaluationMemoTextView,evaluationOKBtn,monthlyEvaluationOKBtn]
         allRound(views:roundViews,design: btnDesign)
     }
     
     public override func viewDidLoad() {
+        let dateFormatter = DateFormatter()
+        self.evaluationMemoTextView.textColor = .black
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateStr = dateFormatter.string(from: nowDate)
+        self.date = dateStr
+        
+        GetEvaluations(self: self, dateStr: dateStr)
         
         self.classTimeTextField.keyboardType = .numberPad
         self.testScoreTextField.keyboardType = .numberPad
@@ -109,9 +172,6 @@ public class DetailClassViewController: UIViewController {
         self.monthlyEvaluationTextView.isHidden = true
         self.monthlyEvaluationQuestionLabel.isHidden = true
         
-        self.progressTextView.textColor = .black
-        self.evaluationMemoTextView.textColor = .black
-        
         if (self.payType == "T") {
             self.classTimeTextField.isEnabled = true
         } else if (self.payType == "C") {
@@ -129,9 +189,6 @@ public class DetailClassViewController: UIViewController {
             self.testLabel.text = "수업 난이도 점수"
         }
         
-        let textViews:Array<UITextView> = [progressTextView,evaluationMemoTextView,monthlyEvaluationTextView]
-        setBorder(views: textViews, design: viewDesign)
-        
         super.viewDidLoad()
     }
     
@@ -142,6 +199,8 @@ public class DetailClassViewController: UIViewController {
         self.evaluationMemoTextView.text = ""
         self.homeworkScoreTextField.text = ""
         self.classScoreTextField.text = ""
+        placeholderSetting(self.progressTextView)
+        placeholderSetting(self.monthlyEvaluationTextView)
     }
     
     func calendarEvent() {
@@ -154,12 +213,33 @@ public class DetailClassViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    // 키보드 내리기
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    /// 키보드 올라올때 처리
+    /// - Parameter notification: 노티피케이션
+    @objc func keyboardWillShow(notification:NSNotification) {
+        if (self.monthlyEvaluationTextView.isFirstResponder == true) {
+            self.view.frame.origin.y = -(self.monthlyEvaluationTextView.frame.height + 20)
+        } else {
+            self.view.frame.origin.y = 0 // Move view 150 points upward
+        }
+    }
+    
+    /// 키보드 내려갈때 처리
+    @objc func keyboardWillHide(notification:NSNotification) {
+        self.view.frame.origin.y = 0 // Move view 150 points upward
+    }
+    
     /// monthly evaluation save button clicked
     @IBAction func SaveMonthlyEvaluation(_ sender: Any) {
         BINDER.SaveMonthlyEvaluation(self: self)
         
         self.monthlyEvaluationOKBtn.isHidden = true
         self.monthlyEvaluationTextView.isHidden = true
+        self.monthlyEvaluationQuestionLabel.isHidden = true
     }
     
     /// save evaluation button clicked
@@ -175,7 +255,6 @@ public class DetailClassViewController: UIViewController {
                 let data = document.data()
                 self.tname = data?["name"] as? String ?? ""
                 self.temail = data?["email"] as? String ?? ""
-                print("선생님 정보 : \(self.tname), \(self.temail)")
                 
                 db.collection("parent").whereField("teacherEmail", isEqualTo: self.temail!).getDocuments() { (querySnapshot, err) in
                     if let err = err {
@@ -187,7 +266,6 @@ public class DetailClassViewController: UIViewController {
                             /// 문서 존재하면
                             for document in querySnapshot!.documents {
                                 self.fcmToken = document.data()["fcmToken"] as? String ?? ""
-                                print("fcmtoken: \(self.fcmToken)")
                             }
                         }
                     }
@@ -204,6 +282,14 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
     {
         if (self.userType == "teacher") {
             if (self.currentCnt % 8 == 0 && (self.currentCnt == 0 || self.currentCnt == 8)) {
+                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+                self.view.addGestureRecognizer(tap)
+                
+                /// 키보드 올라올 때 화면 쉽게 이동할 수 있도록 해주는 것, 키보드 높이만큼 padding
+                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+                
                 self.monthlyEvaluationQuestionLabel.isHidden = false
                 self.monthlyEvaluationOKBtn.isHidden = false
                 self.monthlyEvaluationTextView.isHidden = false
@@ -218,51 +304,39 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             self.monthlyEvaluationTextView.isHidden = true
         }
         
+        if self.evaluationView.isHidden {
+            self.evaluationView.isHidden = false
+            self.evaluationOKBtn.isHidden = false
+        }
         
         let selectedDate = date
-        let nowDate = Date()
         
-        // 수업을 하지 않은 미래의 수업에 대해서는 평가를 할 수 없도록 하기 위해서 오늘 날짜와 선택한 날짜 비교
-        let distanceDay = Calendar.current.dateComponents([.day], from: selectedDate, to: nowDate).day
+        self.progressTextView.endEditing(true)
+        self.monthlyEvaluationTextView.endEditing(true)
         
-        // 차이가 0보다 작거나 같으면
-        if (!(distanceDay! <= 0)) {
-            // 평가 입력 뷰를 숨김 해제
-            if (self.evaluationView.isHidden == true) {
-                self.evaluationView.isHidden = false
-                self.evaluationOKBtn.isHidden = false
-            } else {
-                self.evaluationView.isHidden = true
-                self.evaluationOKBtn.isHidden = true
-            }
-            
-            self.classTimeTextField.text = ""
-            self.resetTextFields()
-            
-            // 날짜 받아와서 변수에 저장
-            let dateFormatter = DateFormatter()
-            
-            dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
-            dateFormatter.locale = Locale(identifier: "ko_KR")
-            let dateStr = dateFormatter.string(from: selectedDate)
-            self.date = dateStr
-            
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            dateFormatter.locale = Locale(identifier: "ko_KR")
-            let dateStrWithoutDays = dateFormatter.string(from: selectedDate)
-            self.dateStrWithoutDays = dateStrWithoutDays
-            
-            dateFormatter.dateFormat = "MM"
-            let monthStr = dateFormatter.string(from: selectedDate)
-            self.selectedMonth = monthStr
-            
-            GetEvaluations(self: self, dateStr: dateStr)
-        }
+        // 날짜 받아와서 변수에 저장
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd EEEE"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateStr = dateFormatter.string(from: selectedDate)
+        self.date = dateStr
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateStrWithoutDays = dateFormatter.string(from: selectedDate)
+        self.dateStrWithoutDays = dateStrWithoutDays
+        
+        dateFormatter.dateFormat = "MM"
+        let monthStr = dateFormatter.string(from: selectedDate)
+        self.selectedMonth = monthStr
+        
+        GetEvaluations(self: self, dateStr: dateStr)
     }
     
     public func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool){
-        calendarHeight.constant = bounds.height + 20
-        self.view.layoutIfNeeded ()
+        calendarHeight.constant = bounds.height
+        self.view.layoutIfNeeded()
     }
 }
 
