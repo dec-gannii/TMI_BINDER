@@ -39,6 +39,8 @@ public class TeacherEvaluationViewController: UIViewController {
         GetEvaluation(self: self)
         GetUserAndClassInfo(self: self)
         
+        self.view.roundCorners(corners: [.topLeft, .topRight], radius: 30.0)
+        
         teacherAttitude.keyboardType = .numberPad
         teacherManagingSatisfyScore.keyboardType = .numberPad
         
@@ -50,6 +52,28 @@ public class TeacherEvaluationViewController: UIViewController {
         evaluationTextView.layer.cornerRadius = btnDesign.cornerRadius
         okBtn.clipsToBounds = true
         okBtn.layer.cornerRadius = btnDesign.cornerRadius
+        
+        let size = CGSize(width: self.view.frame.width, height: .infinity)
+        let estimatedSize = self.evaluationTextView.sizeThatFits(size)
+        
+        self.evaluationTextView.constraints.forEach { (constraint) in
+            
+            /// 180 이하일때는 더 이상 줄어들지 않게하기
+            if estimatedSize.height <= 100 {
+                
+            }
+            else {
+                if constraint.firstAttribute == .height {
+                    constraint.constant = estimatedSize.height
+                }
+            }
+        }
+        
+    }
+    
+    // 화면 터치 시 키보드 내려가도록 하는 메소드
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
     }
     
     public override func viewWillAppear(_ animated: Bool) {

@@ -1171,7 +1171,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5lc-Ot-Ed8">
-                                <rect key="frame" x="24" y="157.5" width="366" height="19.5"/>
+                                <rect key="frame" x="24" y="145.5" width="366" height="19.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수업 성실도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etP-iP-Zac">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="19.5"/>
@@ -1191,7 +1191,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MYy-BO-BsO">
-                                <rect key="frame" x="24" y="201" width="366" height="19.5"/>
+                                <rect key="frame" x="24" y="177" width="366" height="19.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="테스트 점수" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReK-RW-WSn">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="19.5"/>
@@ -1211,10 +1211,10 @@
                                 </subviews>
                             </stackView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="선택된 날짜에는 수업이 없었습니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="l2P-PL-8vq">
-                                <rect key="frame" x="24" y="235.5" width="366" height="150"/>
+                                <rect key="frame" x="24" y="211.5" width="366" height="100"/>
                                 <color key="backgroundColor" red="0.92941176469999998" green="0.96470588239999999" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="gQz-2f-dSd"/>
+                                    <constraint firstAttribute="height" constant="100" id="gQz-2f-dSd"/>
                                 </constraints>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1227,13 +1227,13 @@
                                 </userDefinedRuntimeAttributes>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="선생님의 이번 달 수업은..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vyq-vD-Un5">
-                                <rect key="frame" x="24" y="417.5" width="366" height="24"/>
+                                <rect key="frame" x="24" y="327.5" width="366" height="24"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" red="0.17462652919999999" green="0.40809917449999999" blue="0.9647597671" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e6n-PV-nVO">
-                                <rect key="frame" x="24" y="457.5" width="366" height="27"/>
+                                <rect key="frame" x="24" y="367.5" width="366" height="27"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수업 및 평가 성실도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Yq-js-m1f">
                                         <rect key="frame" x="0.0" y="0.0" width="291" height="27"/>
@@ -1269,7 +1269,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cyx-Q9-cwZ">
-                                <rect key="frame" x="24" y="508.5" width="366" height="27"/>
+                                <rect key="frame" x="24" y="406.5" width="366" height="27"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="학생 관리 만족도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ddu-VT-5H0">
                                         <rect key="frame" x="0.0" y="0.0" width="291" height="27"/>
@@ -1305,7 +1305,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHw-tH-Lrk">
-                                <rect key="frame" x="24" y="559.5" width="366" height="44"/>
+                                <rect key="frame" x="24" y="457.5" width="366" height="44"/>
                                 <color key="backgroundColor" red="0.80392156859999997" green="0.90196078430000004" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="2dC-fk-EYf"/>
@@ -1329,7 +1329,7 @@
                         <viewLayoutGuide key="safeArea" id="NFv-21-qLN"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="5lc-Ot-Ed8" firstAttribute="top" secondItem="xRz-7S-BXf" secondAttribute="bottom" constant="24" id="1BM-HE-4O6"/>
+                            <constraint firstItem="5lc-Ot-Ed8" firstAttribute="top" secondItem="xRz-7S-BXf" secondAttribute="bottom" constant="12" id="1BM-HE-4O6"/>
                             <constraint firstItem="cyx-Q9-cwZ" firstAttribute="leading" secondItem="NFv-21-qLN" secondAttribute="leading" constant="24" id="1kW-gn-7mu"/>
                             <constraint firstItem="5lc-Ot-Ed8" firstAttribute="leading" secondItem="NFv-21-qLN" secondAttribute="leading" constant="24" id="5Ud-ji-5R4"/>
                             <constraint firstItem="NFv-21-qLN" firstAttribute="trailing" secondItem="e6n-PV-nVO" secondAttribute="trailing" constant="24" id="5n3-sI-I6X"/>
@@ -1339,15 +1339,15 @@
                             <constraint firstItem="WnQ-wO-Fx9" firstAttribute="leading" secondItem="NFv-21-qLN" secondAttribute="leading" constant="24" id="IEy-lg-Zcc"/>
                             <constraint firstItem="l2P-PL-8vq" firstAttribute="leading" secondItem="NFv-21-qLN" secondAttribute="leading" constant="24" id="Mzk-CF-iR9"/>
                             <constraint firstItem="NFv-21-qLN" firstAttribute="trailing" secondItem="5lc-Ot-Ed8" secondAttribute="trailing" constant="24" id="OcL-HE-TZm"/>
-                            <constraint firstItem="Vyq-vD-Un5" firstAttribute="top" secondItem="l2P-PL-8vq" secondAttribute="bottom" constant="32" id="Rkr-Hn-tfd"/>
+                            <constraint firstItem="Vyq-vD-Un5" firstAttribute="top" secondItem="l2P-PL-8vq" secondAttribute="bottom" constant="16" id="Rkr-Hn-tfd"/>
                             <constraint firstItem="NFv-21-qLN" firstAttribute="trailing" secondItem="l2P-PL-8vq" secondAttribute="trailing" constant="24" id="V1I-ya-9l5"/>
                             <constraint firstItem="AHw-tH-Lrk" firstAttribute="leading" secondItem="NFv-21-qLN" secondAttribute="leading" constant="24" id="ZlB-7F-fmG"/>
                             <constraint firstItem="NFv-21-qLN" firstAttribute="trailing" secondItem="xRz-7S-BXf" secondAttribute="trailing" constant="24" id="baK-3T-CwL"/>
                             <constraint firstItem="l2P-PL-8vq" firstAttribute="top" secondItem="MYy-BO-BsO" secondAttribute="bottom" constant="15" id="dCc-8i-c1R"/>
-                            <constraint firstItem="MYy-BO-BsO" firstAttribute="top" secondItem="5lc-Ot-Ed8" secondAttribute="bottom" constant="24" id="dG5-e4-24h"/>
+                            <constraint firstItem="MYy-BO-BsO" firstAttribute="top" secondItem="5lc-Ot-Ed8" secondAttribute="bottom" constant="12" id="dG5-e4-24h"/>
                             <constraint firstItem="e6n-PV-nVO" firstAttribute="top" secondItem="Vyq-vD-Un5" secondAttribute="bottom" constant="16" id="esd-Yd-Asu"/>
                             <constraint firstItem="NFv-21-qLN" firstAttribute="trailing" secondItem="AHw-tH-Lrk" secondAttribute="trailing" constant="24" id="f3x-Jb-nMr"/>
-                            <constraint firstItem="cyx-Q9-cwZ" firstAttribute="top" secondItem="e6n-PV-nVO" secondAttribute="bottom" constant="24" id="h1A-FY-FGt"/>
+                            <constraint firstItem="cyx-Q9-cwZ" firstAttribute="top" secondItem="e6n-PV-nVO" secondAttribute="bottom" constant="12" id="h1A-FY-FGt"/>
                             <constraint firstItem="Vyq-vD-Un5" firstAttribute="leading" secondItem="NFv-21-qLN" secondAttribute="leading" constant="24" id="hp2-Bn-khj"/>
                             <constraint firstItem="e6n-PV-nVO" firstAttribute="leading" secondItem="NFv-21-qLN" secondAttribute="leading" constant="24" id="iNh-rF-vA2"/>
                             <constraint firstItem="NFv-21-qLN" firstAttribute="trailing" secondItem="cyx-Q9-cwZ" secondAttribute="trailing" constant="24" id="jFc-fd-H9H"/>
@@ -6317,6 +6317,12 @@
                                         <color key="textColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </textView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YOX-mO-wMS">
                                         <rect key="frame" x="24" y="206.5" width="366" height="366"/>
