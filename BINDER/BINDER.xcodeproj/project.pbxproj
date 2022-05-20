@@ -89,6 +89,7 @@
 		7FCEBE7C2831189500A259E6 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEBE7B2831189500A259E6 /* MyCollectionViewCell.swift */; };
 		7FCEBE7E283118DB00A259E6 /* MyClassDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEBE7D283118DB00A259E6 /* MyClassDetailViewController.swift */; };
 		7FD18BE8281EB7D000FB86C0 /* CustomFirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD18BE7281EB7D000FB86C0 /* CustomFirebaseAPI.swift */; };
+		7FF0FC3528378EB400D8B313 /* PretendardVariable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7FF0FC3428378EB300D8B313 /* PretendardVariable.ttf */; };
 		7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */; };
 		7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */; };
 		CD13139741E4256CB5B9AA88 /* Pods_BINDER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C86D2241045D496397DACDDB /* Pods_BINDER.framework */; };
@@ -180,6 +181,7 @@
 		7FCEBE7B2831189500A259E6 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
 		7FCEBE7D283118DB00A259E6 /* MyClassDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyClassDetailViewController.swift; sourceTree = "<group>"; };
 		7FD18BE7281EB7D000FB86C0 /* CustomFirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFirebaseAPI.swift; sourceTree = "<group>"; };
+		7FF0FC3428378EB300D8B313 /* PretendardVariable.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PretendardVariable.ttf; sourceTree = "<group>"; };
 		7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailClassViewController.swift; sourceTree = "<group>"; };
 		B7DC38B79B711E876C867FDB /* Pods-BINDER.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BINDER.debug.xcconfig"; path = "Target Support Files/Pods-BINDER/Pods-BINDER.debug.xcconfig"; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 		7F16D1422749390300745522 /* BINDER */ = {
 			isa = PBXGroup;
 			children = (
+				7FF0FC3428378EB300D8B313 /* PretendardVariable.ttf */,
 				7FB50F7A27FC5CFB00BC2B09 /* BINDER.entitlements */,
 				6FE4FB2827BD376C000E16F4 /* GoogleService-Info.plist */,
 				6918F341281E398D008B3404 /* Share */,
@@ -529,6 +532,7 @@
 				6FE4FB2927BD376C000E16F4 /* GoogleService-Info.plist in Resources */,
 				7F16D14D2749390500745522 /* Assets.xcassets in Resources */,
 				7F716946276499CA001FD4F4 /* Main.storyboard in Resources */,
+				7FF0FC3528378EB400D8B313 /* PretendardVariable.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

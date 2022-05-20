@@ -9,14 +9,13 @@
 import UIKit
 import Firebase
 
-class AddScheduleViewController: UIViewController {
+class AddScheduleViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var scheduleTitle: UITextField!
     @IBOutlet weak var schedulePlace: UITextField!
     @IBOutlet weak var scheduleTime: UITextField!
     @IBOutlet weak var scheduleMemo: UITextView!
-    @IBOutlet weak var dateLabelBGView: UIView!
     @IBOutlet weak var okBtn: UIButton!
     
     var date: String!
@@ -48,9 +47,10 @@ class AddScheduleViewController: UIViewController {
         
         scheduleMemo.layer.cornerRadius = 8
         scheduleTime.layer.cornerRadius = 8
-        dateLabelBGView.layer.cornerRadius = 8
         schedulePlace.layer.cornerRadius = 8
         scheduleMemo.textContainerInset = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 8)
+        
+        placeholderSetting()
         
         // 만약 넘어온 수정할 제목이 넘어와서 nil이 아니라면,
         if (self.editingTitle != nil) {
@@ -90,6 +90,28 @@ class AddScheduleViewController: UIViewController {
     // 취소 버튼 클릭 시 실행되는 메소드
     @IBAction func CancelBtnClicked(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func placeholderSetting() {
+        self.scheduleMemo.delegate = self // 유저가 선언한 outlet
+        self.scheduleMemo.text = "(50자 이내로 작성해주세요.)"
+        self.scheduleMemo.textColor = UIColor.lightGray
+    }
+    
+    // TextView Place Holder
+    public func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    // TextView Place Holder
+    public func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "(50자 이내로 작성해주세요.)"
+            textView.textColor = UIColor.lightGray
+        }
     }
     
     // 추가 버튼 클릭 시 실행되는 메소드

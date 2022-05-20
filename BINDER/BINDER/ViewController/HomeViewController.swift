@@ -27,10 +27,12 @@ public class HomeViewController: UIViewController {
     
     @IBOutlet weak var textView: UIView!
     
+    @IBOutlet weak var linkTypeLabel: UILabel!
     @IBOutlet weak var eventCountTxt: UILabel!
     @IBOutlet weak var homeStudentClassTxt: UILabel!
     @IBOutlet weak var homeStudentClassTxt2: UILabel!
     @IBOutlet weak var homeStudentClassTxt3: UILabel!
+    
     var classItems: [String] = [] // 수업 변수 배열
     var events: [Date] = [] // 이벤트가 있는 날짜 배열
     var days: [Date] = [] // 선택된 월의 날짜들
