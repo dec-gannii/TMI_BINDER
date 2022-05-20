@@ -53,6 +53,7 @@ public class QuestionListViewController : BaseVC {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationBar.shadowImage = UIImage()
         answeredToggle.setOn(false, animated: true)
         
         GetUserInfoInQuestionView(toggleLabel: self.toggleLabel, index: self.index, navigationBar: self.navigationBar, navigationBarItem: self.navigationBarItem, self: self)

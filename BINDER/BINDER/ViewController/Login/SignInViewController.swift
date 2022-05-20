@@ -141,11 +141,7 @@ public class SignInViewController: UIViewController {
         } else {
             DeleteUserWhileSignUp()
             // 로그인 화면(첫화면)으로 다시 이동
-            guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
-            loginVC.modalPresentationStyle = .fullScreen
-            loginVC.modalTransitionStyle = .crossDissolve
-            
-            self.present(loginVC, animated: true, completion: nil)
+            self.dismiss(animated: true)
         }
     }
     

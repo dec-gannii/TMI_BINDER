@@ -279,6 +279,7 @@ public func GetTeacherMyClass(self : HomeViewController) {
             print("Error getting documents: \(err)")
         } else {
             for document in querySnapshot!.documents {
+                self.linkTypeLabel.text = "학생 바로가기"
                 print("\(document.documentID) => \(document.data())")
                 if ((querySnapshot?.documents.count)! >= 3) {
                     if count <= 2 {
@@ -323,6 +324,7 @@ public func GetStudentMyClass(self : HomeViewController) {
         } else {
             for document in querySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")
+                self.linkTypeLabel.text = "선생님 바로가기"
                 if ((querySnapshot?.documents.count)! >= 3) {
                     if count <= 2 {
                         let name = document.data()["name"] as? String ?? ""
@@ -2435,6 +2437,7 @@ public func GetUserInfoForMyPage(self : MyPageViewController) {
                 let url = URL(string: LoginRepository.shared.teacherItem!.profile)!
                 self.imageView.kf.setImage(with: url)
                 self.imageView.makeCircle()
+                self.pageViewTitleLabel.text = "열람 여부"
             } failure: { error in
                 self.showDefaultAlert(msg: "")
             }
@@ -2457,19 +2460,15 @@ public func GetUserInfoForMyPage(self : MyPageViewController) {
                     self.portfoiolBtn.removeFromSuperview()
                     self.portolioLabel.isHidden = true
                     self.pageViewTitleLabel.text = "목표"
-                    let pageViewContentLabel = UILabel(frame: CGRect(x: 85, y: 15, width: 230, height: 17))
+                    let pageViewContentLabel = UILabel(frame: CGRect(x: 60, y: 15, width: 230, height: 17))
                     
                     self.whiteBGOnView.addSubview(pageViewContentLabel)
                     
                     pageViewContentLabel.text = goal
-                    pageViewContentLabel.numberOfLines = 2
+                    pageViewContentLabel.numberOfLines = 1
                     pageViewContentLabel.textAlignment = .left
                     pageViewContentLabel.textColor = UIColor(red: 84, green: 83, blue: 87, alpha: 1.0)
                     pageViewContentLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
-                    
-                    pageViewContentLabel.centerXAnchor.constraint(equalTo: self.whiteBGOnView.centerXAnchor).isActive = true
-                    pageViewContentLabel.centerYAnchor.constraint(equalTo: self.whiteBGOnView.centerYAnchor).isActive = true
-                    
                 } else {
                     print("Document does not exist")
                 }
