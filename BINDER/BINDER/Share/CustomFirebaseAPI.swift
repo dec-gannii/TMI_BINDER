@@ -274,12 +274,12 @@ public func GetTeacherMyClass(self : HomeViewController) {
     let buttons = [self.firstLinkBtn, self.secondLinkBtn, self.thirdLinkBtn]
     let subjectLabels = [self.homeStudentClassTxt2, self.homeStudentClassTxt3, self.homeStudentClassTxt]
     
+    self.linkTypeLabel.text = "학생 바로가기"
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
         if let err = err {
             print("Error getting documents: \(err)")
         } else {
             for document in querySnapshot!.documents {
-                self.linkTypeLabel.text = "학생 바로가기"
                 print("\(document.documentID) => \(document.data())")
                 if ((querySnapshot?.documents.count)! >= 3) {
                     if count <= 2 {
@@ -318,13 +318,13 @@ public func GetStudentMyClass(self : HomeViewController) {
     let buttons = [self.firstLinkBtn, self.secondLinkBtn, self.thirdLinkBtn]
     let subjectLabels = [self.homeStudentClassTxt2, self.homeStudentClassTxt3, self.homeStudentClassTxt]
     
+    self.linkTypeLabel.text = "선생님 바로가기"
     db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
         if let err = err {
             print("Error getting documents: \(err)")
         } else {
             for document in querySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")
-                self.linkTypeLabel.text = "선생님 바로가기"
                 if ((querySnapshot?.documents.count)! >= 3) {
                     if count <= 2 {
                         let name = document.data()["name"] as? String ?? ""

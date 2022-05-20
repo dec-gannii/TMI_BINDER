@@ -2059,13 +2059,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="바인더로 간편한 과외 관리!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="koo-xe-j9E">
-                                <rect key="frame" x="24" y="186" width="260" height="19.5"/>
+                                <rect key="frame" x="24" y="186" width="260" height="19"/>
                                 <fontDescription key="fontDescription" name="PretendardVariable-Bold" family="Pretendard Variable" pointSize="16"/>
                                 <color key="textColor" red="0.3294117647" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h9H-pA-sXr">
-                                <rect key="frame" x="24" y="211.5" width="260" height="33.5"/>
+                                <rect key="frame" x="24" y="211" width="260" height="33"/>
                                 <string key="text">원하는 방법으로 3초만에 가입하고 
 과외 관리 서비스를 무료로 누려보세요.</string>
                                 <fontDescription key="fontDescription" name="PretendardVariable-Regular" family="Pretendard Variable" pointSize="14"/>
@@ -2073,7 +2073,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uTK-UT-0hw">
-                                <rect key="frame" x="24" y="305" width="366" height="50"/>
+                                <rect key="frame" x="24" y="304" width="366" height="50"/>
                                 <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="A41-Dj-8X3"/>
@@ -2094,14 +2094,14 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mail" translatesAutoresizingMaskIntoConstraints="NO" id="YBg-T6-I8r">
-                                <rect key="frame" x="40" y="315" width="30" height="30"/>
+                                <rect key="frame" x="40" y="314" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="YBg-T6-I8r" secondAttribute="height" multiplier="1:1" id="8uY-tg-z9r"/>
                                 </constraints>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xdv-Hn-4EA" customClass="GIDSignInButton">
-                                <rect key="frame" x="20" y="363" width="374" height="50"/>
+                                <rect key="frame" x="20" y="362" width="374" height="50"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="oSv-OO-Bd5"/>
