@@ -112,6 +112,18 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
         DeleteToDoList(self: self, editingStyle: editingStyle, tableView: tableView, indexPath: indexPath)
     }
     
+    public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
+            -> UISwipeActionsConfiguration? {
+            let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
+                // delete the item here
+                completionHandler(true)
+            }
+            deleteAction.image = UIImage(systemName: "trash")
+                deleteAction.backgroundColor = .systemGray
+            let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+            return configuration
+    }
+    
     // 투두리스트 선택에 따라
     @objc func checkMarkButtonClicked(sender: UIButton){
         if sender.isSelected{
