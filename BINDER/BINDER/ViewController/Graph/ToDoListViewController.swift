@@ -22,6 +22,7 @@ public class ToDoListViewController: UIViewController {
     var teacherUid: String!
     var studentName: String!
     var studentEmail: String!
+    var studentSubject: String!
     
     func _init(){
         userEmail = ""

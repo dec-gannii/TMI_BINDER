@@ -49,6 +49,7 @@ public class DetailClassViewController: UIViewController {
     var teacherUid: String!
     var studentName: String!
     var studentEmail: String!
+    var studentSubject: String!
     var viewDesign = ViewDesign()
     var calenderDesign = CalendarDesign()
     var btnDesign = ButtonDesign()
