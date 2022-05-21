@@ -10,4 +10,5 @@ import UIKit
 class Todocell:UITableViewCell{
     @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var todoLabel: UILabel!
+    @IBOutlet weak var todoDelete: UIButton!
 }
