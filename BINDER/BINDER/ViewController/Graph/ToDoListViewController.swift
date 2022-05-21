@@ -119,7 +119,6 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
     @objc func deleteMarkButtonClicked(sender: UIButton){
         print("delete todo clicked")
         DeleteToDoList(self: self,sender: sender)
-        self.todoTableView.reloadData()
     }
     
     // 투두리스트 선택에 따라
