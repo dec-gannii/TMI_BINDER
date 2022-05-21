@@ -39,6 +39,7 @@ public class MyClassDetailViewController: UIViewController {
     var teacherUid: String!
     var studentName: String!
     var studentEmail: String!
+    var payType: String!
     var viewDesign = ViewDesign()
     var calenderDesign = CalendarDesign()
     var chartDesign = ChartDesign()
@@ -68,6 +69,7 @@ public class MyClassDetailViewController: UIViewController {
         teacherUid = ""
         studentName = ""
         studentEmail = ""
+        payType = ""
     }
     
     @IBOutlet weak var collectionViewBG: UIView!

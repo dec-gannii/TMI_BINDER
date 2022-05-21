@@ -3641,6 +3641,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             self.currentCnt = currentCnt
                                             detailClassVC.currentCnt = self.currentCnt
                                             detailClassVC.payType = payType
+                                            self.payType = payType
                                             
                                             let userEmail = document.data()["email"] as? String ?? ""
                                             

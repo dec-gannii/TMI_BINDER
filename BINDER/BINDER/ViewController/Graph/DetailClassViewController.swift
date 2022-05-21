@@ -33,6 +33,7 @@ public class DetailClassViewController: UIViewController {
     @IBOutlet weak var classTimeTextField: UITextField!
     @IBOutlet weak var monthlyEvaluationOKBtn: UIButton!
     @IBOutlet weak var calendarHeight: NSLayoutConstraint!
+    @IBOutlet weak var timeStackView: UIStackView!
     
     var userEmail: String!
     var userSubject: String!
@@ -150,6 +151,12 @@ public class DetailClassViewController: UIViewController {
         dateFormatter.locale = Locale(identifier: "ko_KR")
         let dateStr = dateFormatter.string(from: nowDate)
         self.date = dateStr
+        
+        if (self.payType == "C") {
+            self.timeStackView.isHidden = true
+        } else {
+            self.timeStackView.isHidden = false
+        }
         
         GetEvaluations(self: self, dateStr: dateStr)
         
