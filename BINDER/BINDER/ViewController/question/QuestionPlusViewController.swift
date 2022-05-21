@@ -141,7 +141,7 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
             print("제목 작성 완료")
             UpdateImage(self: self)
             
-            notification.sendPushNotification(token: fcmtoken, title: "선생님 질문 있어요!", body: "\(self.sname!) 학생이 질문을 올렸어요")
+            notification.sendPushNotification(token: fcmtoken, title: "선생님 질문 있어요!", body: "\(self.sname!) 학생이 질문을 올렸어요.")
         }
     }
     

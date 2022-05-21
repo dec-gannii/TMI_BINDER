@@ -3215,6 +3215,8 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                                 print("Error adding document: \(err)")
                             }
                         }
+                            print("true로 넘어왔다요")
+                            notification.sendPushNotification(token: self.fcmToken, title: "입금기간이에요!", body: "\(self.tname!) 선생님의 입금날짜가 되었어요.")
                     } else {
                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                             "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
@@ -3235,25 +3237,8 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                                 print("Error adding document: \(err)")
                             }
                         }
-                        
-                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { (document, error) in
-                            if let document = document, document.exists {
-                                let data = document.data()
-                                var currentCnt = data?["currentCnt"] as? Int ?? 0
-                                
-                                if currentCnt == 8 || currentCnt == 0 {
-                                    print("true로 넘어왔다요")
-                                    self.getNameFcm()
-                                    notification.sendPushNotification(token: self.fcmToken, title: "입금기간이에요!", body: "\(self.tname!) 선생님의 입금날짜가 되었어요.")
-                                    print("currentCnt :\(currentCnt)")
-                                } else{
-                                    print("currentCnt :\(currentCnt)")
-                                }
-                                
-                            } else {
-                                print("Document does not exist")
-                            }
-                        }
+                            print("true로 넘어왔다요")
+                            notification.sendPushNotification(token: self.fcmToken, title: "입금기간이에요!", body: "\(self.tname!) 선생님의 입금날짜가 되었어요.")
                     } else {
                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                             "currentCnt": currentCnt + 1

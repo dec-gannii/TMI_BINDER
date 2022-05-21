@@ -252,6 +252,7 @@ public class DetailClassViewController: UIViewController {
     
     /// save evaluation button clicked
     @IBAction func OKButtonClicked(_ sender: Any) {
+        getNameFcm()
         SaveDailyEvaluation(self: self)
     }
     
@@ -263,6 +264,7 @@ public class DetailClassViewController: UIViewController {
                 let data = document.data()
                 self.tname = data?["name"] as? String ?? ""
                 self.temail = data?["email"] as? String ?? ""
+                print("tname : \(self.tname), temail: \(self.temail) ")
                 
                 db.collection("parent").whereField("teacherEmail", isEqualTo: self.temail!).getDocuments() { (querySnapshot, err) in
                     if let err = err {
@@ -274,6 +276,8 @@ public class DetailClassViewController: UIViewController {
                             /// 문서 존재하면
                             for document in querySnapshot!.documents {
                                 self.fcmToken = document.data()["fcmToken"] as? String ?? ""
+                                print()
+                                print("fcmToken : \(self.fcmToken)")
                             }
                         }
                     }
