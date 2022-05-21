@@ -42,6 +42,8 @@ public class ClassInfoVC: BaseVC {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.roundCorners(corners: [.topLeft, .topRight], radius: 30.0)
+        
         var textfields = [UITextField]()
         textfields = [self.subjectTextField, self.moneyTextField, self.creditDayTextField]
         

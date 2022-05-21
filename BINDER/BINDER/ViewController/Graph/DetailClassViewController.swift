@@ -281,6 +281,9 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
     public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
         if (self.userType == "teacher") {
+            self.evaluationView.isHidden = false
+            self.evaluationOKBtn.isHidden = false
+            
             if (self.currentCnt % 8 == 0 && (self.currentCnt == 0 || self.currentCnt == 8)) {
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -304,10 +307,10 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             self.monthlyEvaluationTextView.isHidden = true
         }
         
-        if self.evaluationView.isHidden {
-            self.evaluationView.isHidden = false
-            self.evaluationOKBtn.isHidden = false
-        }
+//        if self.evaluationView.isHidden == true {
+        self.evaluationView.isHidden = false
+        self.evaluationOKBtn.isHidden = false
+//        }
         
         let selectedDate = date
         

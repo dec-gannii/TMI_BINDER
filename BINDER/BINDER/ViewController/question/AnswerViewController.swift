@@ -36,6 +36,8 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
     var tname : String!
     var fcmtoken: String!
     
+    var viewDesign = ViewDesign()
+    
     @IBOutlet var imgView: UIImageView!
     @IBOutlet weak var textView: UITextView!
     
@@ -54,6 +56,7 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
         storageRef = storage.reference()
         placeholderSetting()
         getNameFcm()
+        textView.textContainerInset = viewDesign.EdgeInsets
     }
     
     @IBAction func undoBtn(_ sender: Any) {

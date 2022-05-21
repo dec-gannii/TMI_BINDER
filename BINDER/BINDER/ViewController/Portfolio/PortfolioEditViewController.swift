@@ -17,8 +17,8 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var contactTV: UITextView!
     @IBOutlet weak var manageTV: UITextView!
     @IBOutlet weak var evaluationTV: UITextView!
+    @IBOutlet weak var memoTV: UITextView!
     
-    let db = Firestore.firestore()
     var ref: DatabaseReference!
     
     var edu = ""
@@ -45,6 +45,8 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
         self.manageTV.layer.borderColor = viewDesign.borderColor
         self.evaluationTV.layer.borderWidth = viewDesign.borderWidth
         self.evaluationTV.layer.borderColor = viewDesign.borderColor
+        self.memoTV.layer.borderWidth = viewDesign.borderWidth
+        self.memoTV.layer.borderColor = viewDesign.borderColor
         
         // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
         self.eduHistoryTV.textContainerInset = viewDesign.EdgeInsets
@@ -54,6 +56,7 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
         self.manageTV.textContainerInset = viewDesign.EdgeInsets
         self.contactTV.textContainerInset = viewDesign.EdgeInsets
         self.evaluationTV.textContainerInset = viewDesign.EdgeInsets
+        self.memoTV.textContainerInset = viewDesign.EdgeInsets
         
         // cornerRadius 지정
         self.eduHistoryTV.clipsToBounds = true
@@ -70,12 +73,32 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
         self.contactTV.layer.cornerRadius = btnDesign.cornerRadius
         self.evaluationTV.clipsToBounds = true
         self.evaluationTV.layer.cornerRadius = btnDesign.cornerRadius
+        self.memoTV.clipsToBounds = true
+        self.memoTV.layer.cornerRadius = btnDesign.cornerRadius
     }
     
     func placeholderSetting(_ textView: UITextView) {
         textView.delegate = self // 유저가 선언한 outlet
-        textView.text = StringUtils.contentNotExist.rawValue
-        textView.textColor = UIColor.lightGray
+        if (textView.text.isEmpty) {
+            if (textView == self.eduHistoryTV) {
+                textView.text = StringUtils.eduHistoryPlaceHolder.rawValue
+            } else if (textView == self.classMetTV) {
+                textView.text = StringUtils.classMethodPlaceHolder.rawValue
+            } else if (textView == self.extraExpTV) {
+                textView.text = StringUtils.extraExperiencePlaceHolder.rawValue
+            } else if (textView == self.timeTV) {
+                textView.text = StringUtils.timePlaceHolder.rawValue
+            } else if (textView == self.contactTV) {
+                textView.text = StringUtils.contactPlaceHolder.rawValue
+            } else if (textView == self.manageTV) {
+                textView.text = StringUtils.managePlaceHolder.rawValue
+            } else if (textView == self.memoTV) {
+                textView.text = StringUtils.memoPlaceHolder.rawValue
+            }
+            textView.textColor = UIColor.lightGray
+        } else {
+            textView.textColor = UIColor.black
+        }
     }
     
     // TextView Place Holder
@@ -89,8 +112,24 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     // TextView Place Holder
     public func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = StringUtils.contentNotExist.rawValue
+            if (textView == self.eduHistoryTV) {
+                textView.text = StringUtils.eduHistoryPlaceHolder.rawValue
+            } else if (textView == self.classMetTV) {
+                textView.text = StringUtils.classMethodPlaceHolder.rawValue
+            } else if (textView == self.extraExpTV) {
+                textView.text = StringUtils.extraExperiencePlaceHolder.rawValue
+            } else if (textView == self.timeTV) {
+                textView.text = StringUtils.timePlaceHolder.rawValue
+            } else if (textView == self.contactTV) {
+                textView.text = StringUtils.contactPlaceHolder.rawValue
+            } else if (textView == self.manageTV) {
+                textView.text = StringUtils.managePlaceHolder.rawValue
+            } else if (textView == self.memoTV) {
+                textView.text = StringUtils.memoPlaceHolder.rawValue
+            }
             textView.textColor = UIColor.lightGray
+        } else {
+            textView.textColor = UIColor.black
         }
     }
     
@@ -126,6 +165,8 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
             self.view.frame.origin.y = -(self.timeTV.frame.height + self.contactTV.frame.height)
         } else if (self.manageTV.isFirstResponder == true) {
             self.view.frame.origin.y = -(self.contactTV.frame.height + self.manageTV.frame.height)
+        } else if (self.manageTV.isFirstResponder == true) {
+            self.view.frame.origin.y = -(self.manageTV.frame.height + self.memoTV.frame.height)
         }
     }
     

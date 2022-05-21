@@ -58,31 +58,13 @@ public class PortfolioTableViewController: UIViewController {
 extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSource {
     /// 테이블 셀 개수
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return infos.count + 1
+        return infos.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.row == infos.count) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PlusPortfolioCell")! as! PlusPortfolioCell
-            if (indexPath.row == 7 || self.isShowMode == true) { // 총 7개의 정보가 모두 차거나 포트폴리오 조회인 경우
-                cell.isHidden = true // 정보 추가 셀 숨기기
-            } else {
-                cell.isHidden = false
-            }
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PortfolioDefaultCell")! as! PortfolioDefaultCell
-            GetPortfolioFactors(self: self, indexPath: indexPath, cell: cell)
-            
-            return cell
-        }
-    }
-    
-    /// didDelectRowAt: 셀 전체 클릭
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // 플러스 row
-        if indexPath.row == infos.count {
-            performSegue(withIdentifier: "addPortfolioItemSegue", sender: nil)
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PortfolioDefaultCell")! as! PortfolioDefaultCell
+        GetPortfolioFactors(self: self, indexPath: indexPath, cell: cell)
+        
+        return cell
     }
 }

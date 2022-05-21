@@ -2031,6 +2031,7 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
                             let time = data?["time"] as? String ?? "" // 과외 시간
                             let contact = data?["contact"] as? String ?? "" // 연락 수단
                             let manage = data?["manage"] as? String ?? "" // 학생 관리 방법
+                            let memo = data?["memo"] as? String ?? "" // 메모
                             
                             if (eduText != "") {
                                 self.infos.append("학력사항")
@@ -2049,6 +2050,9 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
                             }
                             if (manage != "") {
                                 self.infos.append("학생 관리 방법")
+                            }
+                            if (memo != "") {
+                                self.infos.append("메모")
                             }
                             self.infos.append("선생님 평가")
                         }
@@ -2094,6 +2098,7 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
                 let time = data?["time"] as? String ?? ""
                 let contact = data?["contact"] as? String ?? ""
                 let manage = data?["manage"] as? String ?? ""
+                let memo = data?["memo"] as? String ?? ""
                 
                 if (eduText != "") {
                     self.infos.append("학력사항")
@@ -2112,6 +2117,9 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
                 }
                 if (manage != "") {
                     self.infos.append("학생 관리 방법")
+                }
+                if (memo != "") {
+                    self.infos.append("메모")
                 }
                 self.infos.append("선생님 평가")
             }
@@ -2182,6 +2190,7 @@ public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath :
                         let contact = data?["contact"] as? String ?? ""
                         let manage = data?["manage"] as? String ?? ""
                         let portfolioShow = data?["portfolioShow"] as? String ?? ""
+                        let memo = data?["memo"] as? String ?? ""
                         
                         if self.infos[indexPath.row] == "연락 수단" {
                             cell.content.text = contact
@@ -2197,6 +2206,8 @@ public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath :
                             cell.content.text = time
                         } else if self.infos[indexPath.row] == "학생 관리 방법" {
                             cell.content.text = manage
+                        } else if self.infos[indexPath.row] == "메모" {
+                            cell.content.text = memo
                         }
                         
                         if (portfolioShow == "Off" && self.isShowMode == true) {
@@ -2215,6 +2226,8 @@ public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath :
                                 cell.content.text = message
                             } else if self.infos[indexPath.row] == "학생 관리 방법" {
                                 cell.content.text = message
+                            } else if self.infos[indexPath.row] == "메모" {
+                                cell.content.text = memo
                             }
                         }
                         cell.title.text = self.infos[indexPath.row]
@@ -2249,7 +2262,7 @@ public func GetPortfolioPlots(self : PortfolioEditViewController) {
             self.eduHistoryTV.text = eduHistory
             // placeholder 설정
             if (self.eduHistoryTV.text == "") {
-                self.placeholderSetting(self.eduHistoryTV)
+                self.placeholderSetting(self.classMetTV)
                 self.textViewDidBeginEditing(self.eduHistoryTV)
                 self.textViewDidEndEditing(self.eduHistoryTV)
             }
@@ -2293,6 +2306,14 @@ public func GetPortfolioPlots(self : PortfolioEditViewController) {
                 self.textViewDidBeginEditing(self.timeTV)
                 self.textViewDidEndEditing(self.timeTV)
             }
+            let memo = data?["memo"] as? String ?? ""
+            self.memoTV.text = memo
+            // placeholder 설정
+            if (self.memoTV.text == "") {
+                self.placeholderSetting(self.memoTV)
+                self.textViewDidBeginEditing(self.memoTV)
+                self.textViewDidEndEditing(self.memoTV)
+            }
             self.evaluationTV.text = "선생님이 수정할 수 없습니다."
             self.evaluationTV.isEditable = false
             
@@ -2304,6 +2325,16 @@ public func GetPortfolioPlots(self : PortfolioEditViewController) {
             }
         } else {
             print("Document does not exist")
+            self.placeholderSetting(self.memoTV)
+            self.placeholderSetting(self.timeTV)
+            self.placeholderSetting(self.contactTV)
+            self.placeholderSetting(self.manageTV)
+            self.placeholderSetting(self.extraExpTV)
+            self.placeholderSetting(self.classMetTV)
+            self.placeholderSetting(self.eduHistoryTV)
+            
+            self.evaluationTV.text = "선생님이 수정할 수 없습니다."
+            self.evaluationTV.isEditable = false
         }
     }
 }
@@ -2330,34 +2361,39 @@ public func SaveEditedPlot(self : PortfolioEditViewController) {
         }
     }
     
-    if (self.eduHistoryTV.text == StringUtils.contentNotExist.rawValue) {
+    if (self.eduHistoryTV.text == StringUtils.eduHistoryPlaceHolder.rawValue) {
         self.eduHistoryTV.text = ""
     }
-    if (self.classMetTV.text == StringUtils.contentNotExist.rawValue) {
+    if (self.classMetTV.text == StringUtils.classMethodPlaceHolder.rawValue) {
         self.classMetTV.text = ""
     }
-    if (self.extraExpTV.text == StringUtils.contentNotExist.rawValue) {
+    if (self.extraExpTV.text == StringUtils.extraExperiencePlaceHolder.rawValue) {
         self.extraExpTV.text = ""
     }
-    if (self.timeTV.text == StringUtils.contentNotExist.rawValue) {
+    if (self.timeTV.text == StringUtils.timePlaceHolder.rawValue) {
         self.timeTV.text = ""
     }
-    if (self.manageTV.text == StringUtils.contentNotExist.rawValue) {
+    if (self.manageTV.text == StringUtils.managePlaceHolder.rawValue) {
         self.manageTV.text = ""
     }
-    if (self.contactTV.text == StringUtils.contentNotExist.rawValue) {
+    if (self.contactTV.text == StringUtils.contactPlaceHolder.rawValue) {
         self.contactTV.text = ""
     }
-    
-    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").setData([
+    if (self.memoTV.text == StringUtils.memoPlaceHolder.rawValue) {
+        self.memoTV.text = ""
+    }
+    let array = [
         "eduHistory": self.eduHistoryTV.text ?? "",
         "classMethod": self.classMetTV.text ?? "",
         "extraExprience": self.extraExpTV.text ?? "",
         "portfolioShow": self.showPortfolio,
+        "memo": self.memoTV.text ?? "",
         "time": self.timeTV.text ?? "",
         "manage": self.manageTV.text ?? "",
         "contact": self.contactTV.text ?? ""
-    ]) { err in
+    ]
+    
+    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").setData(array) { err in
         if let err = err {
             print("Error adding document: \(err)")
         }
@@ -3131,9 +3167,6 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                 print("Error adding document: \(err)")
             }
             // 저장 이후에는 다시 안 보이도록 함
-            self.monthlyEvaluationOKBtn.isHidden = true
-            self.monthlyEvaluationTextView.isHidden = true
-            self.monthlyEvaluationQuestionLabel.isHidden = true
             self.evaluationOKBtn.isHidden = true
             self.evaluationView.isHidden = true
             
