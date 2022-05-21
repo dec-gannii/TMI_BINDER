@@ -39,6 +39,7 @@ public class MyClassDetailViewController: UIViewController {
     var teacherUid: String!
     var studentName: String!
     var studentEmail: String!
+    var studentSubject: String!
     var payType: String!
     var viewDesign = ViewDesign()
     var calenderDesign = CalendarDesign()
