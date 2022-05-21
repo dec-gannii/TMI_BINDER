@@ -3758,7 +3758,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                     detailClassVC.studentEmail = studentEmail
                     graphVC.studentEmail = studentEmail
                     
-                    db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: self.userIndex)
+                    db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").whereField("email", isEqualTo: self.userEmail)
                         .getDocuments() { (querySnapshot, err) in
                             if let err = err {
                                 print(">>>>> document 에러 : \(err)")
@@ -3768,6 +3768,10 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                 } else {
                                     for document in querySnapshot!.documents {
                                         print("\(document.documentID) => \(document.data())")
+                                        let subject = document.data()["subject"] as? String ?? ""
+                                        if (subject != self.userSubject) {
+                                            continue
+                                        }
                                         // 이름과 이메일, 과목 등을 가져와서 각각을 저장할 변수에 저장
                                         // 네비게이션 바의 이름도 설정해주기
                                         let name = document.data()["name"] as? String ?? ""
@@ -3860,7 +3864,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                                             
                                                             print ("===== \(teacherUid) / \(studentName) / \(studentEmail) / \(self.studentSubject)")
                                                             // 선생님의 수업 목록 중 학생과 일치하는 정보 불러오기
-                                                            db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.studentSubject).collection("ToDoList").getDocuments {(snapshot, error) in
+                                                            db.collection("teacher").document(teacherUid).collection("class").document(studentName + "(" + studentEmail + ") " + self.userSubject).collection("ToDoList").getDocuments {(snapshot, error) in
                                                                 if let snapshot = snapshot {
                                                                     snapshot.documents.map { doc in
                                                                         if doc.data()["todo"] != nil{
