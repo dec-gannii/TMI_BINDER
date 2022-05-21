@@ -3913,6 +3913,7 @@ public func DeleteToDoList(self: ToDoListViewController, sender : UIButton) {
                             
                             db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("ToDoList").document(self.todoDoc[sender.tag]).delete() { err in
                                 if let err = err {
+                                    
                                     print("Error removing document: \(err)")
                                 } else {
                                     print("Document successfully removed!")
