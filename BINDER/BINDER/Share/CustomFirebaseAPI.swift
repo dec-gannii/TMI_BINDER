@@ -2328,6 +2328,25 @@ public func SaveEditedPlot(self : PortfolioEditViewController) {
         }
     }
     
+    if (self.eduHistoryTV.text == StringUtils.contentNotExist.rawValue) {
+        self.eduHistoryTV.text = ""
+    }
+    if (self.classMetTV.text == StringUtils.contentNotExist.rawValue) {
+        self.classMetTV.text = ""
+    }
+    if (self.extraExpTV.text == StringUtils.contentNotExist.rawValue) {
+        self.extraExpTV.text = ""
+    }
+    if (self.timeTV.text == StringUtils.contentNotExist.rawValue) {
+        self.timeTV.text = ""
+    }
+    if (self.manageTV.text == StringUtils.contentNotExist.rawValue) {
+        self.manageTV.text = ""
+    }
+    if (self.contactTV.text == StringUtils.contentNotExist.rawValue) {
+        self.contactTV.text = ""
+    }
+    
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").setData([
         "eduHistory": self.eduHistoryTV.text ?? "",
         "classMethod": self.classMetTV.text ?? "",
