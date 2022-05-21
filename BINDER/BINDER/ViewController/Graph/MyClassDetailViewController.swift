@@ -133,14 +133,6 @@ public class MyClassDetailViewController: UIViewController {
         
         GetUserInfoInDetailClassVC(self: self, detailClassVC: nil, graphVC: nil, todolistVC: nil)
         
-        if (self.userName != nil) { // 사용자 이름이 nil이 아닌 경우
-            if (self.userType == "student") { // 사용자가 학생이면
-                self.classNavigationBar.topItem!.title = self.userName + " 선생님"
-            } else { // 사용자가 학생이 아니면(선생님이면)
-                self.classNavigationBar.topItem!.title = self.userName + " 학생"
-            }
-        }
-        
         setupDataSource()
 
         setupViewControllers()

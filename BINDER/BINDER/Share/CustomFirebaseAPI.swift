@@ -289,6 +289,8 @@ public func SaveSchedule(type : String, date : String, scheduleTitleTF : UITextF
 
 public func GetTeacherMyClass(self : HomeViewController) {
     count = 0
+    self.linkTypeLabel.text = "학생 바로가기"
+    
     let db = Firestore.firestore()
     let labels = [self.HomeStudentIconLabel, self.HomeStudentIconSecondLabel, self.HomeStudentIconThirdLabel]
     let buttons = [self.firstLinkBtn, self.secondLinkBtn, self.thirdLinkBtn]
@@ -298,8 +300,8 @@ public func GetTeacherMyClass(self : HomeViewController) {
         if let err = err {
             print("Error getting documents: \(err)")
         } else {
-            self.linkTypeLabel.text = "학생 바로가기"
             for document in querySnapshot!.documents {
+                self.linkTypeLabel.text = "학생 바로가기"
                 print("\(document.documentID) => \(document.data())")
                 if ((querySnapshot?.documents.count)! >= 3) {
                     if count <= 2 {
@@ -332,6 +334,7 @@ public func GetTeacherMyClass(self : HomeViewController) {
 
 public func GetStudentMyClass(self : HomeViewController) {
     count = 0
+    self.linkTypeLabel.text = "선생님 바로가기"
     
     let db = Firestore.firestore()
     let labels = [self.HomeStudentIconLabel, self.HomeStudentIconSecondLabel, self.HomeStudentIconThirdLabel]
@@ -342,8 +345,8 @@ public func GetStudentMyClass(self : HomeViewController) {
         if let err = err {
             print("Error getting documents: \(err)")
         } else {
-            self.linkTypeLabel.text = "선생님 바로가기"
             for document in querySnapshot!.documents {
+                self.linkTypeLabel.text = "선생님 바로가기"
                 print("\(document.documentID) => \(document.data())")
                 if ((querySnapshot?.documents.count)! >= 3) {
                     if count <= 2 {

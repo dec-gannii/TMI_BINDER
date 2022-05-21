@@ -146,6 +146,7 @@ public class HomeViewController: UIViewController {
         calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
         self.setCalendar()
+        
     }
     
     /// 내 수업 가져오기 : 선생님

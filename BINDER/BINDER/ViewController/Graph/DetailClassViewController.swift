@@ -314,10 +314,8 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
             self.monthlyEvaluationTextView.isHidden = true
         }
         
-//        if self.evaluationView.isHidden == true {
         self.evaluationView.isHidden = false
         self.evaluationOKBtn.isHidden = false
-//        }
         
         let selectedDate = date
         
