@@ -3514,24 +3514,24 @@ public func AddToDoListFactors(self : ToDoListViewController, checkTime : Bool) 
                             let email = document.data()["email"] as? String ?? ""
                             let subject = document.data()["subject"] as? String ?? ""
                             
-                            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("ToDoList").addDocument(data: ["todo" : self.todoTF.text, "check" : checkTime])
-                            { err in
-                                if let err = err {
-                                    print("Error adding document: \(err)")
-                                } else {
-                                    print("data is inserted!")
-                                    
-                                }
+                            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("ToDoList").addDocument(
+                                data: ["todo" : self.todoTF.text, "check" : checkTime]){ err in
+                                    if let err = err {
+                                        print("Error adding document: \(err)")
+                                    } else {
+                                        print("data is inserted!")
+                                        
+                                    }
                             }
                             
-                            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("ToDoList").getDocuments {(snapshot, error) in
-                                if let snapshot = snapshot {
-                                    snapshot.documents.map { doc in
-                                        if doc.data()["todo"] != nil {
-                                            self.todoDoc.append(doc.documentID)
-                                        } else {
-                                            print("Document does not exist")
-                                        }
+                            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("ToDoList").whereField("todo", isEqualTo: self.todoTF.text).getDocuments() {
+                                (querySnapshot, err) in
+                                if let err = err {
+                                    print(">>>>> document 에러 : \(err)")
+                                } else {
+                                    for document in querySnapshot!.documents {
+                                        self.todoDoc.append(document.documentID)
+                                        print("todoDoc: \(document.documentID)")
                                     }
                                 }
                             }

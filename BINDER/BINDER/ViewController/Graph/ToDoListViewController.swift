@@ -74,7 +74,6 @@ public class ToDoListViewController: UIViewController {
         if todoTF.text != "" {
             todos.append(todoTF.text ?? "")
             todoCheck.append(false)
-            todoDoc = []
             AddToDoListFactors(self: self, checkTime: false)
             self.todoTableView.reloadData()
         }
@@ -119,6 +118,8 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
     //투두리스트 삭제에 따라
     @objc func deleteMarkButtonClicked(sender: UIButton){
         print("delete todo clicked")
+        print("todoDoc delete: \(todoDoc)")
+        print("todotf : \(todos)")
         DeleteToDoList(self: self,sender: sender)
         self.todoTableView.reloadData()
     }
