@@ -3811,45 +3811,39 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
         }
 }
 
-public func DeleteToDoList(self: ToDoListViewController, editingStyle: UITableViewCell.EditingStyle, tableView : UITableView, indexPath : IndexPath) {
+public func DeleteToDoList(self: ToDoListViewController, sender: UIButton) {
     let db = Firestore.firestore()
-    if self.userType == "teacher" {
-        if editingStyle == .delete {
-            if let index = self.userIndex { // userIndex가 nil이 아니라면
-                // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
-                db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
-                    .getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print(">>>>> document 에러 : \(err)")
-                        } else {
-                            if let err = err {
-                                print("Error getting documents: \(err)")
-                            } else {
-                                for document in querySnapshot!.documents {
-                                    print("\(document.documentID) => \(document.data())")
-                                    let name = document.data()["name"] as? String ?? ""
-                                    let email = document.data()["email"] as? String ?? ""
-                                    let subject = document.data()["subject"] as? String ?? ""
-                                    
-                                    db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("ToDoList").document(self.todoDoc[indexPath.row]).delete() { err in
-                                        if let err = err {
-                                            print("Error removing document: \(err)")
-                                        } else {
-                                            print("Document successfully removed!")
-                                        }
-                                    }
-                                    self.todos.remove(at: indexPath.row)
-                                    self.todoDoc.remove(at: indexPath.row)
-                                    
-                                    tableView.deleteRows(at: [indexPath], with: .fade)
+    if let index = self.userIndex { // userIndex가 nil이 아니라면
+        // index가 현재 관리하는 학생의 인덱스와 동일한지 비교 후 같은 학생의 데이터 가져오기
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").whereField("index", isEqualTo: index)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print(">>>>> document 에러 : \(err)")
+                } else {
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            let name = document.data()["name"] as? String ?? ""
+                            let email = document.data()["email"] as? String ?? ""
+                            let subject = document.data()["subject"] as? String ?? ""
+                            
+                            db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(name + "(" + email + ") " + subject).collection("ToDoList").document(self.todoDoc[sender.tag]).delete() { err in
+                                if let err = err {
+                                    print("Error removing document: \(err)")
+                                } else {
+                                    print("Document successfully removed!")
                                 }
                             }
+                            self.todos.remove(at: sender.tag)
+                            self.todoDoc.remove(at: sender.tag)
+                            self.todoCheck.remove(at: sender.tag)
+                            self.todoTableView.reloadData()
                         }
                     }
+                }
             }
-        } else if editingStyle == .insert {
-            
-        }
     }
 }
 

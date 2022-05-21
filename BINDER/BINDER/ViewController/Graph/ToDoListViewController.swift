@@ -78,6 +78,7 @@ public class ToDoListViewController: UIViewController {
             self.todoTableView.reloadData()
         }
     }
+    
 }
 
 extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
@@ -91,10 +92,17 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell") as! Todocell
         let todo = self.todos[indexPath.row]
+       
+        if self.userType == "student"{
+            cell.todoDelete.isHidden = true
+        }
         
         cell.todoLabel.text = "\(todo)"
         cell.checkButton.tag = indexPath.row
         cell.checkButton.addTarget(self, action: #selector(checkMarkButtonClicked(sender:)),for: .touchUpInside)
+        
+        cell.todoDelete.tag = indexPath.row
+        cell.todoDelete.addTarget(self, action: #selector(deleteMarkButtonClicked(sender:)), for: .touchUpInside)
         
         cell.checkButton.isSelected = todoCheck[indexPath.row]
         cell.checkButton.layer.cornerRadius = cell.checkButton.frame.size.width / 2
@@ -107,9 +115,11 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    // 데이터 삭제
-    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        DeleteToDoList(self: self, editingStyle: editingStyle, tableView: tableView, indexPath: indexPath)
+    //투두리스트 삭제에 따라
+    @objc func deleteMarkButtonClicked(sender: UIButton){
+        print("delete todo clicked")
+        DeleteToDoList(self: self,sender: sender)
+        self.todoTableView.reloadData()
     }
     
     // 투두리스트 선택에 따라
