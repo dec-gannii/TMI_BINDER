@@ -2065,7 +2065,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h9H-pA-sXr">
-                                <rect key="frame" x="24" y="211" width="260" height="33.5"/>
+                                <rect key="frame" x="24" y="211" width="260" height="33"/>
                                 <string key="text">원하는 방법으로 3초만에 가입하고 
 과외 관리 서비스를 무료로 누려보세요.</string>
                                 <fontDescription key="fontDescription" name="PretendardVariable-Regular" family="Pretendard Variable" pointSize="14"/>
@@ -2073,7 +2073,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uTK-UT-0hw">
-                                <rect key="frame" x="24" y="304.5" width="366" height="50"/>
+                                <rect key="frame" x="24" y="304" width="366" height="50"/>
                                 <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="A41-Dj-8X3"/>
@@ -2094,14 +2094,14 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mail" translatesAutoresizingMaskIntoConstraints="NO" id="YBg-T6-I8r">
-                                <rect key="frame" x="40" y="314.5" width="30" height="30"/>
+                                <rect key="frame" x="40" y="314" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="YBg-T6-I8r" secondAttribute="height" multiplier="1:1" id="8uY-tg-z9r"/>
                                 </constraints>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xdv-Hn-4EA" customClass="GIDSignInButton">
-                                <rect key="frame" x="20" y="362.5" width="374" height="50"/>
+                                <rect key="frame" x="20" y="362" width="374" height="50"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="oSv-OO-Bd5"/>
@@ -3239,7 +3239,7 @@
                                                                     <rect key="frame" x="28" y="130" width="338" height="90"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q73-e5-WNA">
-                                                                            <rect key="frame" x="11" y="44" width="37" height="23"/>
+                                                                            <rect key="frame" x="11" y="53" width="37" height="23"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="목표" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fcA-vO-n3f">
                                                                                     <rect key="frame" x="6.5" y="3" width="24.5" height="17"/>
@@ -3262,8 +3262,8 @@
                                                                                 </userDefinedRuntimeAttribute>
                                                                             </userDefinedRuntimeAttributes>
                                                                         </view>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" text="수업 목표가 없습니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOT-sd-OFo">
-                                                                            <rect key="frame" x="58" y="47" width="225" height="17"/>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" text="수업 목표가 없습니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOT-sd-OFo">
+                                                                            <rect key="frame" x="58" y="51" width="220" height="24"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" constant="225" id="RcP-nV-kZt"/>
                                                                             </constraints>
@@ -3272,7 +3272,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gSi-n6-Lx8">
-                                                                            <rect key="frame" x="11" y="11" width="63" height="23"/>
+                                                                            <rect key="frame" x="11" y="15" width="63" height="23"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최근 수업" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sZP-m7-7h4">
                                                                                     <rect key="frame" x="5.5" y="3" width="52" height="17"/>
@@ -3296,7 +3296,7 @@
                                                                             </userDefinedRuntimeAttributes>
                                                                         </view>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최근 수업 날짜가 없습니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecp-94-Nlb">
-                                                                            <rect key="frame" x="84" y="11" width="244" height="23"/>
+                                                                            <rect key="frame" x="84" y="16" width="244" height="23"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="23" id="ICG-uP-O5J"/>
                                                                             </constraints>
@@ -3309,12 +3309,13 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="90" id="1fK-3L-k8k"/>
                                                                         <constraint firstItem="gSi-n6-Lx8" firstAttribute="leading" secondItem="U1A-rh-tE7" secondAttribute="leading" constant="11" id="A4H-IW-I4f"/>
-                                                                        <constraint firstItem="ecp-94-Nlb" firstAttribute="top" secondItem="U1A-rh-tE7" secondAttribute="top" constant="11" id="Fk6-cp-dI6"/>
-                                                                        <constraint firstItem="Q73-e5-WNA" firstAttribute="top" secondItem="gSi-n6-Lx8" secondAttribute="bottom" constant="10" id="HV3-5s-P8Z"/>
+                                                                        <constraint firstItem="ecp-94-Nlb" firstAttribute="top" secondItem="U1A-rh-tE7" secondAttribute="top" constant="16" id="Fk6-cp-dI6"/>
+                                                                        <constraint firstItem="Q73-e5-WNA" firstAttribute="top" secondItem="gSi-n6-Lx8" secondAttribute="bottom" constant="15" id="HV3-5s-P8Z"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="vOT-sd-OFo" secondAttribute="trailing" constant="60" id="OwV-Ab-0jt"/>
                                                                         <constraint firstItem="vOT-sd-OFo" firstAttribute="leading" secondItem="Q73-e5-WNA" secondAttribute="trailing" constant="10" id="U1c-S1-Hkd"/>
                                                                         <constraint firstItem="Q73-e5-WNA" firstAttribute="leading" secondItem="U1A-rh-tE7" secondAttribute="leading" constant="11" id="VPJ-zr-GEc"/>
-                                                                        <constraint firstItem="gSi-n6-Lx8" firstAttribute="top" secondItem="U1A-rh-tE7" secondAttribute="top" constant="11" id="WL9-bZ-ZUM"/>
-                                                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="vOT-sd-OFo" secondAttribute="bottom" constant="3" id="hrc-HB-09p"/>
+                                                                        <constraint firstItem="gSi-n6-Lx8" firstAttribute="top" secondItem="U1A-rh-tE7" secondAttribute="top" constant="15" id="WL9-bZ-ZUM"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="vOT-sd-OFo" secondAttribute="bottom" constant="15" id="hrc-HB-09p"/>
                                                                         <constraint firstItem="vOT-sd-OFo" firstAttribute="top" secondItem="gSi-n6-Lx8" secondAttribute="bottom" constant="13" id="q5n-Mv-CoH"/>
                                                                         <constraint firstAttribute="trailing" secondItem="ecp-94-Nlb" secondAttribute="trailing" constant="10" id="q9d-Np-QjO"/>
                                                                         <constraint firstItem="ecp-94-Nlb" firstAttribute="leading" secondItem="gSi-n6-Lx8" secondAttribute="trailing" constant="10" id="zEX-Zr-WlO"/>
@@ -3327,7 +3328,7 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </view>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igG-WR-fRF">
-                                                                    <rect key="frame" x="315" y="179" width="40" height="40"/>
+                                                                    <rect key="frame" x="315" y="165" width="40" height="40"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="40" id="Cbc-KR-XRh"/>
                                                                         <constraint firstAttribute="width" constant="40" id="sn9-D3-h00"/>
@@ -3380,7 +3381,7 @@
                                                                 <constraint firstItem="c1M-kg-tZs" firstAttribute="top" secondItem="eGq-cj-ccQ" secondAttribute="top" constant="24" id="13f-bA-aAn"/>
                                                                 <constraint firstItem="6Yg-BH-UAh" firstAttribute="top" secondItem="bpg-Qp-z6a" secondAttribute="top" constant="79" id="1rd-5M-PRw"/>
                                                                 <constraint firstAttribute="bottom" secondItem="eGq-cj-ccQ" secondAttribute="bottom" constant="10" id="601-an-rDw"/>
-                                                                <constraint firstItem="eGq-cj-ccQ" firstAttribute="bottom" secondItem="igG-WR-fRF" secondAttribute="bottom" constant="11" id="CDp-Ci-Zlc"/>
+                                                                <constraint firstItem="U1A-rh-tE7" firstAttribute="bottom" secondItem="igG-WR-fRF" secondAttribute="bottom" constant="15" id="CDp-Ci-Zlc"/>
                                                                 <constraint firstItem="U1A-rh-tE7" firstAttribute="trailing" secondItem="igG-WR-fRF" secondAttribute="trailing" constant="11" id="Edp-cx-Iux"/>
                                                                 <constraint firstItem="U1A-rh-tE7" firstAttribute="leading" secondItem="eGq-cj-ccQ" secondAttribute="leading" constant="12" id="IRr-MR-XRV"/>
                                                                 <constraint firstItem="x2e-2W-Qsy" firstAttribute="top" secondItem="bpg-Qp-z6a" secondAttribute="top" constant="50" id="LFB-F4-cX4"/>

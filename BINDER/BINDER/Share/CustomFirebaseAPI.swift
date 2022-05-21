@@ -197,6 +197,16 @@ public func SaveEditSchedule(type : String, date : String, editingTitle : String
         }
     }
     
+    if scheduleMemoTV.text == "(50자 이내로 작성해주세요.)" {
+        scheduleMemoTV.text = ""
+    }
+    if schedulePlaceTF.text == "장소를 입력해주세요." {
+        schedulePlaceTF.text = ""
+    }
+    if scheduleTimeTF.text == "시간을 입력해주세요." {
+        schedulePlaceTF.text = ""
+    }
+    
     db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document(scheduleTitleTF.text!).setData([
         "title": scheduleTitleTF.text!,
         "place": schedulePlaceTF.text!,
@@ -213,6 +223,16 @@ public func SaveEditSchedule(type : String, date : String, editingTitle : String
 
 public func SaveSchedule(type : String, date : String, scheduleTitleTF : UITextField, scheduleMemoTV : UITextView, schedulePlaceTF : UITextField, scheduleTimeTF : UITextField, datestr : String, current_time_string : String) {
     let db = Firestore.firestore()
+    
+    if scheduleMemoTV.text == "(50자 이내로 작성해주세요.)" {
+        scheduleMemoTV.text = ""
+    }
+    if schedulePlaceTF.text == "장소를 입력해주세요." {
+        schedulePlaceTF.text = ""
+    }
+    if scheduleTimeTF.text == "시간을 입력해주세요." {
+        schedulePlaceTF.text = ""
+    }
     
     // 데이터베이스에 입력된 내용 추가
     db.collection(type).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document(scheduleTitleTF.text!).setData([
@@ -274,11 +294,11 @@ public func GetTeacherMyClass(self : HomeViewController) {
     let buttons = [self.firstLinkBtn, self.secondLinkBtn, self.thirdLinkBtn]
     let subjectLabels = [self.homeStudentClassTxt2, self.homeStudentClassTxt3, self.homeStudentClassTxt]
     
-    self.linkTypeLabel.text = "학생 바로가기"
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
         if let err = err {
             print("Error getting documents: \(err)")
         } else {
+            self.linkTypeLabel.text = "학생 바로가기"
             for document in querySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")
                 if ((querySnapshot?.documents.count)! >= 3) {
@@ -318,11 +338,11 @@ public func GetStudentMyClass(self : HomeViewController) {
     let buttons = [self.firstLinkBtn, self.secondLinkBtn, self.thirdLinkBtn]
     let subjectLabels = [self.homeStudentClassTxt2, self.homeStudentClassTxt3, self.homeStudentClassTxt]
     
-    self.linkTypeLabel.text = "선생님 바로가기"
     db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
         if let err = err {
             print("Error getting documents: \(err)")
         } else {
+            self.linkTypeLabel.text = "선생님 바로가기"
             for document in querySnapshot!.documents {
                 print("\(document.documentID) => \(document.data())")
                 if ((querySnapshot?.documents.count)! >= 3) {
