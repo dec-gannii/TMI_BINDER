@@ -3774,6 +3774,8 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         let payType = document.data()["payType"] as? String ?? ""
                                         let index = document.data()["index"] as? Int ?? 0
                                         
+                                        self.classNavigationBar.topItem!.title = name + " 선생님"
+                                        
                                         detailClassVC.payType = payType
                                         
                                         let currentCnt = document.data()["currentCnt"] as? Int ?? 0
