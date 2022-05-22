@@ -1366,7 +1366,7 @@ public func SetMyClasses(self : MyClassVC) {
                             let currentCnt = classDt["currentCnt"] as? Int ?? 0
                             let totalCnt = classDt["totalCnt"] as? Int ?? 0
                             let classColor = classDt["circleColor"] as? String ?? "026700"
-                            let recentDate = classDt["recentDate"] as? String ?? ""
+                            let recentDate = classDt["recentDate"] as? String ?? "최근 수업 날짜가 없습니다."
                             let payType = classDt["payType"] as? String ?? ""
                             let payDate = classDt["payDate"] as? String ?? ""
                             let payAmount = classDt["payAmount"] as? String ?? ""
@@ -1406,7 +1406,7 @@ public func SetMyClasses(self : MyClassVC) {
                 let currentCnt = classDt["currentCnt"] as? Int ?? 0
                 let totalCnt = classDt["totalCnt"] as? Int ?? 0
                 let classColor = classDt["circleColor"] as? String ?? "026700"
-                let recentDate = classDt["recentDate"] as? String ?? ""
+                let recentDate = classDt["recentDate"] as? String ?? "최근 수업 날짜가 없습니다."
                 let payType = classDt["payType"] as? String ?? ""
                 let payDate = classDt["payDate"] as? String ?? ""
                 let payAmount = classDt["payAmount"] as? String ?? ""
@@ -1613,7 +1613,7 @@ public func SaveClassInfo(self : ClassInfoVC, subject : String, payDate : String
                                     "currentCnt" : 0,
                                     "totalCnt" : 8,
                                     "circleColor" : self.classColor1,
-                                    "recentDate" : "",
+                                    "recentDate" : Date(),
                                     "datetime": Date().formatted(),
                                     "goal": self.studentItem.goal])
                                 { err in
@@ -3177,6 +3177,14 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
     let db = Firestore.firestore()
     // 경로는 각 학생의 class의 Evaluation
     if(self.userType == "teacher") {
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+            "recentDate": self.date
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            }
+        }
+            
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
             "progress": self.progressTextView.text!,
             "testScore": Int(self.testScoreTextField.text!) ?? 0,
@@ -3207,6 +3215,9 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                 var count = 0
                 
                 if (payType == "T") {
+                    if self.classTimeTextField.text == nil {
+                        self.classTimeTextField.text = "2"
+                    }
                     if (currentCnt+Int(self.classTimeTextField.text!)! >= 8) {
                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                             "currentCnt": (currentCnt + Int(self.classTimeTextField.text!)!) % 8
@@ -3216,7 +3227,7 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                             }
                         }
                             print("true로 넘어왔다요")
-                            notification.sendPushNotification(token: self.fcmToken, title: "입금기간이에요!", body: "\(self.tname!) 선생님의 입금날짜가 되었어요.")
+                            notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
                     } else {
                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                             "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
@@ -3238,7 +3249,7 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                             }
                         }
                             print("true로 넘어왔다요")
-                            notification.sendPushNotification(token: self.fcmToken, title: "입금기간이에요!", body: "\(self.tname!) 선생님의 입금날짜가 되었어요.")
+                            notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
                     } else {
                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                             "currentCnt": currentCnt + 1
@@ -3285,6 +3296,13 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
         self.evaluationView.isHidden = true
         self.evaluationOKBtn.isHidden = true
     } else if (self.userType == "student") {
+        db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+            "recentDate": self.date
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            }
+        }
         db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document("\(self.date!)").setData([
             "summary": self.progressTextView.text!,
             "prepare": Int(self.testScoreTextField.text!) ?? 0,
