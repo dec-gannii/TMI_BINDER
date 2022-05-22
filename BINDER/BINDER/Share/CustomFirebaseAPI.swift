@@ -5375,7 +5375,7 @@ public func SetQnA (self : QnADetailViewController) {
                                                     } else {
                                                         if imgType == "image"{
                                                             let url = URL(string: imgurl)
-                                                            self.answerImgView.isHidden = true
+                                                            self.answerImgView.isHidden = false
                                                             DispatchQueue.global().async {
                                                                 let data = try? Data(contentsOf: url!)
                                                                 DispatchQueue.main.async {
