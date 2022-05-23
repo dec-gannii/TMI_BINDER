@@ -352,7 +352,7 @@ public func GetStudentMyClass(self : HomeViewController) {
                     if count <= 2 {
                         let name = document.data()["name"] as? String ?? ""
                         let subject = document.data()["subject"] as? String ?? ""
-                        let index = document.data()["index"] as? Int ?? 0
+                        __ = document.data()["index"] as? Int ?? 0
                         labels[count]!.text = name
                         buttons[count]!.isHidden = false
                         labels[count]!.isHidden = false
@@ -858,7 +858,7 @@ public func GoogleLogIn(googleCredential : AuthCredential, self : MainViewContro
 }
 
 public func AppleLogIn(credential : OAuthCredential, self : MainViewController) {
-    let db = Firestore.firestore()
+    __ = Firestore.firestore()
     // Sign in with Firebase.
     Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
         if (error != nil) {
@@ -1094,7 +1094,7 @@ public func CheckStudentPhoneNumberForParent(phoneNumber: String, self: StudentS
                                     return
                                 }
                                 for document in querySnapshot!.documents {
-                                    var sphonenum = document.data()["phonenum"] as? String ?? ""
+                                    let sphonenum = document.data()["phonenum"] as? String ?? ""
                                     
                                     if sphonenum == phoneNumber {
                                         db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
@@ -1237,7 +1237,7 @@ public func CreateUser(type : String, self : SignInViewController, name : String
                         // 정보 저장
                         SaveInfoForSignUp(self: self, number: SignInViewController.number, name: name, email: id, password: pw, type: self.type)
                         SignInViewController.number = SignInViewController.number + 1
-                        guard let user = authResult?.user else {
+                        guard (authResult?.user) != nil(authResult?.user) != nil else {
                             return
                         }
                     }
@@ -1290,7 +1290,7 @@ public func GetUserInfoForClassList(self : MyClassVC) {
                     self.type = type
                     let profile = document.data()["profile"] as? String ?? "https://i.postimg.cc/9XKgzY5z/teacher-profile.png"
                     
-                    let url = URL(string: profile)!
+                    __ = URL(string: profile)!
                     self.setTeacherInfo()
                     
                     LoadingHUD.show()
@@ -1315,7 +1315,7 @@ public func GetUserInfoForClassList(self : MyClassVC) {
                     self.type = type
                     
                     let profile = document.data()["profile"] as? String ?? "https://i.postimg.cc/4xbWLCKh/student-profile.png"
-                    let url = URL(string: profile)!
+                    __ = URL(string: profile)!
                     
                     self.setStudentInfo()
                     
@@ -2446,9 +2446,9 @@ public func PortfolioToggleButtonClicked(self : MyPageViewController) {
 }
 
 public func SaveImage(self : MyPageViewController) {
-    let db = Firestore.firestore()
+    __ = Firestore.firestore()
     let storage = Storage.storage()
-    var storageRef = storage.reference()
+    let storageRef = storage.reference()
     
     let image = self.imageView.image!
     if let data = image.pngData(){
@@ -2456,8 +2456,8 @@ public func SaveImage(self : MyPageViewController) {
         
         let metadata = StorageMetadata()
         metadata.contentType = "image/png"
-        let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-            guard let metadata = metadata else {
+        __ = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+            guard metadata != nilmetadata != nil else {
                 return
             }
             
@@ -2759,7 +2759,7 @@ public func GetParentInfo(self : ParentMyPageViewController) {
 public func SaveProfileImage(self : ParentMyPageViewController, profile : String) {
     let db = Firestore.firestore()
     let storage = Storage.storage()
-    var storageRef = storage.reference()
+    let storageRef = storage.reference()
     
     let image = self.profileImageView.image!
     if let data = image.pngData(){
@@ -2767,8 +2767,8 @@ public func SaveProfileImage(self : ParentMyPageViewController, profile : String
         
         let metadata = StorageMetadata()
         metadata.contentType = "image/png"
-        let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-            guard let metadata = metadata else {
+        __ = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+            guard metadata != nilmetadata != nil else {
                 return
             }
             
@@ -3338,7 +3338,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document(dateStr).getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                let dateStrWithoutDays = data?["evaluationDate"] as? String ?? ""
+                __ = data?["evaluationDate"] as? String ?? ""
                 
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 
@@ -3428,7 +3428,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
         db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document(dateStr).getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                let date = data?["evaluationDate"] as? String ?? ""
+                __ = data?["evaluationDate"] as? String ?? ""
                 
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 
@@ -3704,6 +3704,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                             self.dataSourceVC.append(detailClassVC)
                                             self.dataSourceVC.append(graphVC)
                                             self.dataSourceVC.append(todolistVC)
+                                            self.currentPage = 0
                                             
                                             todolistVC.todoDoc.removeAll()
                                             todolistVC.todos.removeAll()
@@ -3832,6 +3833,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         self.dataSourceVC.append(detailClassVC)
                                         self.dataSourceVC.append(graphVC)
                                         self.dataSourceVC.append(todolistVC)
+                                        self.currentPage = 0
                                     }
                                 }
                             }
@@ -3846,7 +3848,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                 for document in querySnapshot!.documents {
                                     print("\(document.documentID) => \(document.data())")
                                     let teacherUid = document.data()["uid"] as? String ?? ""
-                                    let teacherName = document.data()["name"] as? String ?? ""
+                                    __ = document.data()["name"] as? String ?? ""
                                     
                                     todolistVC.teacherUid = teacherUid
                                     self.teacherUid = teacherUid
@@ -4120,8 +4122,8 @@ public func SetQuestionDoc(self : QuestionPlusViewController) {
                                             let urlRef = self.storageRef.child("image/\(self.file_name!).png")
                                             let metadata = StorageMetadata()
                                             metadata.contentType = "image/png"
-                                            let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-                                                guard let metadata = metadata else {
+                                            __ = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                                                guard metadata != nilmetadata != nil else {
                                                     return}
                                                 urlRef.downloadURL { (url, error) in
                                                     guard let downloadURL = url else {
@@ -4151,7 +4153,7 @@ public func SetQuestionDoc(self : QuestionPlusViewController) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
                     LoadingHUD.hide()
                 }
-                if let preVC = self.presentingViewController as? UIViewController {
+                if let preVC = self.presentingViewController {
                     preVC.dismiss(animated: true, completion: nil)
                 }
             }
@@ -4203,8 +4205,8 @@ public func UpdateAnswer(answer : String, imgtype : Int, self : AnswerViewContro
                 let urlRef = storageRef.child("image/\(self.newImage).png")
                 let metadata = StorageMetadata()
                 metadata.contentType = "image/png"
-                let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-                    guard let metadata = metadata else {
+                __ = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                    guard metadata != nilmetadata != nil else {
                         return
                     }
                     
@@ -4233,8 +4235,8 @@ public func UpdateAnswer(answer : String, imgtype : Int, self : AnswerViewContro
                 
                 let metadata = StorageMetadata()
                 metadata.contentType = "video/mp4"
-                let uploadTask = urlRef.putData(data as Data, metadata: metadata){ (metadata, error) in
-                    guard let metadata = metadata else {
+                __ = urlRef.putData(data as Data, metadata: metadata){ (metadata, error) in
+                    guard metadata != nilmetadata != nil else {
                         return
                     }
                     
@@ -4529,7 +4531,7 @@ public func GetUserInfoInQuestionVC (self : QuestionViewController) {
                     userEmail = document.data()["email"] as? String ?? ""
                     userName = document.data()["name"] as? String ?? ""
                     let userProfile = document.data()["profile"] as? String ?? ""
-                    let url = URL(string: userProfile)!
+                    __ = URL(string: userProfile)!
                     self.setTeacherInfo()
                 }
             }
@@ -4548,7 +4550,7 @@ public func GetUserInfoInQuestionVC (self : QuestionViewController) {
                     let type = document.data()["type"] as? String ?? ""
                     userType = type
                     let userProfile = document.data()["profile"] as? String ?? ""
-                    let url = URL(string: userProfile)!
+                    __ = URL(string: userProfile)!
                     self.setStudentInfo()
                 }
             }
@@ -5229,7 +5231,7 @@ public func SetQnA (self : QnADetailViewController) {
                         let title = questionDt["title"] as? String ?? ""
                         let questionContent = questionDt["questionContent"] as? String ?? ""
                         let imgURL = questionDt["imgURL"] as? String ?? ""
-                        let num = questionDt["num"] as? String ?? ""
+                        __ = questionDt["num"] as? String ?? ""
                         
                         self.titleName.text = title
                         self.questionContent.text = questionContent
