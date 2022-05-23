@@ -65,6 +65,7 @@ public func ShowScheduleList(type : String, date : String, datestr: String, sche
                 if (!scheduleTitles.contains(scheduleTitle)) {
                     // 여러 개의 일정이 있을 수 있으므로 가져와서 배열에 저장
                     varScheduleTitles.append(scheduleTitle)
+                    publicTitles.append(scheduleTitle)
                     varScheduleMemos.append(scheduleMemo)
                 }
                 
@@ -174,6 +175,9 @@ public func GetBeforeEditSchedule(type : String, date : String, editingTitle : S
             let data = document.data()
             let memo = data?["memo"] as? String ?? ""
             scheduleMemo.text = memo
+            if scheduleMemo.text != "" {
+                scheduleMemo.textColor = .black
+            }
             let place = data?["place"] as? String ?? ""
             schedulePlace.text = place
             let title = data?["title"] as? String ?? ""
@@ -490,9 +494,9 @@ public func GetTeacherEvents(events : [Date], days : [Date], self : HomeViewCont
                             formatter.dateFormat = "YYYY-MM-dd"
                             let date_d = formatter.date(from: date)!
                             sharedEvents.append(date_d)
-                            self.calendarView.reloadData()
                         }
                         self.eventCountTxt.text = "\(sharedEvents.count)개의 일정"
+                        self.calendarView.reloadData()
                     }
                 }
             }
@@ -539,9 +543,9 @@ public func GetStudentEvents(events : [Date], days : [Date], self : HomeViewCont
                             formatter.dateFormat = "YYYY-MM-dd"
                             let date_d = formatter.date(from: date)!
                             sharedEvents.append(date_d)
-                            self.calendarView.reloadData()
                         }
                         self.eventCountTxt.text = "\(sharedEvents.count)개의 일정"
+                        self.calendarView.reloadData()
                     }
                 }
             }
@@ -592,6 +596,7 @@ public func GetTeacherInfo(days : [Date], homeStudentScrollView : UIScrollView, 
                             let date_d = formatter.date(from: date)!
                             
                             sharedEvents.append(date_d)
+                            self.calendarView.reloadData()
                         }
                         
                         self.eventCountTxt.text = "\(sharedEvents.count)개의 일정"
@@ -647,6 +652,7 @@ public func GetStudentInfo(days : [Date], homeStudentScrollView : UIScrollView, 
                             let date_d = formatter.date(from: date)!
                             
                             sharedEvents.append(date_d)
+                            self.calendarView.reloadData()
                         }
                         self.eventCountTxt.text = "\(sharedEvents.count)개의 일정"
                     }

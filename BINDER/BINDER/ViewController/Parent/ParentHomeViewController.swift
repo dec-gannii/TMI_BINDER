@@ -29,13 +29,13 @@ public class ParentHomeViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        GetParentUserInfo(self: self) // 사용자 정보 받아오기
+        setEvaluation() // 평가 불러오기
+        updateFCM()
+        
         // TableView 관련 delegate, dataSource 처리
         progressListTableView.delegate = self
         progressListTableView.dataSource = self
-        
-        setEvaluation() // 평가 불러오기
-        GetParentUserInfo(self: self) // 사용자 정보 받아오기
-        updateFCM()
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM" // MM월의 형태로 설정

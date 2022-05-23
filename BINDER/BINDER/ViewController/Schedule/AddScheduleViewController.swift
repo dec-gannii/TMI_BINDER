@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class AddScheduleViewController: UIViewController, UITextViewDelegate {
+public class AddScheduleViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var scheduleTitle: UITextField!
@@ -26,7 +26,7 @@ class AddScheduleViewController: UIViewController, UITextViewDelegate {
     var viewDesign = ViewDesign()
     var functionShare = FunctionShare()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -49,9 +49,9 @@ class AddScheduleViewController: UIViewController, UITextViewDelegate {
         scheduleTime.layer.cornerRadius = 8
         schedulePlace.layer.cornerRadius = 8
         scheduleMemo.textContainerInset = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 8)
-        
-        placeholderSetting()
-        
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
         // 만약 넘어온 수정할 제목이 넘어와서 nil이 아니라면,
         if (self.editingTitle != nil) {
             // 버튼의 타이틀을 일정 수정하기로 변경
@@ -61,6 +61,12 @@ class AddScheduleViewController: UIViewController, UITextViewDelegate {
             GetBeforeEditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, scheduleMemo: self.scheduleMemo, schedulePlace: self.schedulePlace, scheduleTitle: self.scheduleTitle, scheduleTime: self.scheduleTime)
         } else {
             varIsEditMode = false
+        }
+        
+        self.placeholderSetting()
+        
+        if (self.scheduleMemo.text != "(50자 이내로 작성해주세요.)") {
+            self.scheduleMemo.textColor = .black
         }
     }
     
@@ -94,8 +100,12 @@ class AddScheduleViewController: UIViewController, UITextViewDelegate {
     
     func placeholderSetting() {
         self.scheduleMemo.delegate = self // 유저가 선언한 outlet
-        self.scheduleMemo.text = "(50자 이내로 작성해주세요.)"
-        self.scheduleMemo.textColor = UIColor.lightGray
+        if self.scheduleMemo.text == "" {
+            self.scheduleMemo.text = "(50자 이내로 작성해주세요.)"
+            self.scheduleMemo.textColor = UIColor.lightGray
+        } else {
+            self.scheduleMemo.textColor = UIColor.black
+        }
     }
     
     // TextView Place Holder
@@ -108,9 +118,11 @@ class AddScheduleViewController: UIViewController, UITextViewDelegate {
     
     // TextView Place Holder
     public func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
+        if textView.text.isEmpty || self.scheduleMemo.text == "" {
             textView.text = "(50자 이내로 작성해주세요.)"
             textView.textColor = UIColor.lightGray
+        } else {
+            textView.textColor = UIColor.black
         }
     }
     
