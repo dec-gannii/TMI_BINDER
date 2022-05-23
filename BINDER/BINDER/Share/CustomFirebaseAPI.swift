@@ -4,7 +4,6 @@
 //
 //  Created by 김가은 on 2022/05/01.
 //
-
 import Foundation
 import Firebase
 import FirebaseFirestore
@@ -16,30 +15,23 @@ import UIKit
 import AVKit
 import Kingfisher
 import FSCalendar
-
 public var linkBtnEmail : String = ""
 public var linkBtnIndex : Int = 0
 public var linkBtnSubject : String = ""
 public var linkBtnName : String = ""
-
 public var userType : String = ""
 public var userEmail : String = ""
 public var userName : String = ""
 public var userSubject : String = ""
 public var userPW : String = ""
-
 public var sharedCurrentPW : String = ""
-
 public var sharedEvents : [Date] = []
 public var sharedDays : [Date] = []
 public var publicTitles: [String] = []
-
 let notification = PushNotificationSender()
-
 public var varCount = 0
 public var varIsEditMode = false
 var count = 0
-
 public func ShowScheduleList(type : String, date : String, datestr: String, scheduleTitles : [String], scheduleMemos : [String], count : Int) {
     let db = Firestore.firestore()
     
@@ -74,7 +66,6 @@ public func ShowScheduleList(type : String, date : String, datestr: String, sche
         }
     }
 }
-
 public func SetScheduleTexts(type : String, date : String, datestr: String, scheduleTitles : [String], scheduleMemos : [String], count : Int, scheduleCell : ScheduleCellTableViewCell, indexPathRow : Int) {
     // 데이터베이스에서 일정 리스트 가져오기
     let db = Firestore.firestore()
@@ -115,7 +106,6 @@ public func SetScheduleTexts(type : String, date : String, datestr: String, sche
         }
     }
 }
-
 public func DeleteSchedule(type : String, date : String , indexPathRow : Int, scheduleListTableView : UITableView) {
     let db = Firestore.firestore()
     
@@ -163,7 +153,6 @@ public func DeleteSchedule(type : String, date : String , indexPathRow : Int, sc
         }
     }
 }
-
 public func GetBeforeEditSchedule(type : String, date : String, editingTitle : String, scheduleMemo : UITextView, schedulePlace : UITextField, scheduleTitle : UITextField, scheduleTime : UITextField) {
     let db = Firestore.firestore()
     
@@ -185,7 +174,6 @@ public func GetBeforeEditSchedule(type : String, date : String, editingTitle : S
         }
     }
 }
-
 public func SaveEditSchedule(type : String, date : String, editingTitle : String, isEditMode : Bool, scheduleMemoTV : UITextView, schedulePlaceTF : UITextField, scheduleTitleTF : UITextField, scheduleTimeTF : UITextField, datestr : String, current_time_string : String) {
     // 원래 데이터베이스에 저장되어 있던 일정은 삭제하고 새롭게 수정한 내용으로 추가 후 현재 modal dismiss
     let db = Firestore.firestore()
@@ -220,7 +208,6 @@ public func SaveEditSchedule(type : String, date : String, editingTitle : String
         }
     }
 }
-
 public func SaveSchedule(type : String, date : String, scheduleTitleTF : UITextField, scheduleMemoTV : UITextView, schedulePlaceTF : UITextField, scheduleTimeTF : UITextField, datestr : String, current_time_string : String) {
     let db = Firestore.firestore()
     
@@ -286,7 +273,6 @@ public func SaveSchedule(type : String, date : String, scheduleTitleTF : UITextF
         }
     }
 }
-
 public func GetTeacherMyClass(self : HomeViewController) {
     count = 0
     self.linkTypeLabel.text = "학생 바로가기"
@@ -331,7 +317,6 @@ public func GetTeacherMyClass(self : HomeViewController) {
         }
     }
 }
-
 public func GetStudentMyClass(self : HomeViewController) {
     count = 0
     self.linkTypeLabel.text = "선생님 바로가기"
@@ -352,7 +337,7 @@ public func GetStudentMyClass(self : HomeViewController) {
                     if count <= 2 {
                         let name = document.data()["name"] as? String ?? ""
                         let subject = document.data()["subject"] as? String ?? ""
-                        __ = document.data()["index"] as? Int ?? 0
+                        let index = document.data()["index"] as? Int ?? 0
                         labels[count]!.text = name
                         buttons[count]!.isHidden = false
                         labels[count]!.isHidden = false
@@ -377,7 +362,6 @@ public func GetStudentMyClass(self : HomeViewController) {
         }
     }
 }
-
 public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLabel : UILabel, thirdLabel : UILabel, detailVC : MyClassDetailViewController, self : HomeViewController) {
     let db = Firestore.firestore()
     let labels = [self.HomeStudentIconLabel, self.HomeStudentIconSecondLabel, self.HomeStudentIconThirdLabel]
@@ -451,8 +435,6 @@ public func GetLinkButtonInfos(sender : UIButton, firstLabel : UILabel, secondLa
         }
     }
 }
-
-
 public func GetTeacherEvents(events : [Date], days : [Date], self : HomeViewController) {
     let db = Firestore.firestore()
     // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
@@ -501,7 +483,6 @@ public func GetTeacherEvents(events : [Date], days : [Date], self : HomeViewCont
         }
     }
 }
-
 public func GetStudentEvents(events : [Date], days : [Date], self : HomeViewController) {
     let db = Firestore.firestore()
     
@@ -550,7 +531,6 @@ public func GetStudentEvents(events : [Date], days : [Date], self : HomeViewCont
         }
     }
 }
-
 public func GetTeacherInfo(days : [Date], homeStudentScrollView : UIScrollView, stateLabel : UILabel, self: HomeViewController) {
     let db = Firestore.firestore()
     // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
@@ -604,7 +584,6 @@ public func GetTeacherInfo(days : [Date], homeStudentScrollView : UIScrollView, 
         }
     }
 }
-
 public func GetStudentInfo(days : [Date], homeStudentScrollView : UIScrollView, stateLabel : UILabel, self: HomeViewController) {
     let db = Firestore.firestore()
     
@@ -658,7 +637,6 @@ public func GetStudentInfo(days : [Date], homeStudentScrollView : UIScrollView, 
         }
     }
 }
-
 public func ShowScheduleList(date : String, scheduleListVC : ScheduleListViewController, self : HomeViewController) {
     let db = Firestore.firestore()
     db.collection(userType).document(Auth.auth().currentUser!.uid).collection("schedule").document(date).collection("scheduleList").document("Count").addSnapshotListener { documentSnapshot, error in
@@ -679,7 +657,6 @@ public func ShowScheduleList(date : String, scheduleListVC : ScheduleListViewCon
     scheduleListVC.modalPresentationStyle = .fullScreen
     self.present(scheduleListVC, animated: true, completion: nil)
 }
-
 /// 로그인을 위한 DB 메소드들
 public func LogInAndShowHomeVC (email : String, password: String, self : LogInViewController) {
     let db = Firestore.firestore()
@@ -730,7 +707,6 @@ public func LogInAndShowHomeVC (email : String, password: String, self : LogInVi
         }
     }
 }
-
 public func GoogleLogIn(googleCredential : AuthCredential, self : MainViewController) {
     Auth.auth().signIn(with: googleCredential) {
         (authResult, error) in if let error = error {
@@ -856,9 +832,8 @@ public func GoogleLogIn(googleCredential : AuthCredential, self : MainViewContro
         }
     }
 }
-
 public func AppleLogIn(credential : OAuthCredential, self : MainViewController) {
-    __ = Firestore.firestore()
+    let db = Firestore.firestore()
     // Sign in with Firebase.
     Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
         if (error != nil) {
@@ -984,7 +959,6 @@ public func AppleLogIn(credential : OAuthCredential, self : MainViewController) 
         }
     }
 }
-
 public func DeleteUser(self : StudentSubInfoController) {
     let user = Auth.auth().currentUser // 사용자 정보 가져오기
     let db = Firestore.firestore()
@@ -1028,7 +1002,6 @@ public func DeleteUser(self : StudentSubInfoController) {
         }
     }
 }
-
 public func UpdateStudentSubInfo(age : String, phonenum : String, goal : String) {
     let db = Firestore.firestore()
     db.collection("student").document(Auth.auth().currentUser!.uid).updateData([
@@ -1041,7 +1014,6 @@ public func UpdateStudentSubInfo(age : String, phonenum : String, goal : String)
         }
     }
 }
-
 public func UpdateTeacherSubInfo(parentPW : String) {
     let db = Firestore.firestore()
     db.collection("teacher").document(Auth.auth().currentUser!.uid).updateData([
@@ -1052,7 +1024,6 @@ public func UpdateTeacherSubInfo(parentPW : String) {
         }
     }
 }
-
 public func CheckStudentPhoneNumberForParent(phoneNumber: String, self: StudentSubInfoController, goal : String) {
     let db = Firestore.firestore()
     db.collection("teacher").whereField("email", isEqualTo: goal).getDocuments() { (querySnapshot, err) in
@@ -1094,7 +1065,7 @@ public func CheckStudentPhoneNumberForParent(phoneNumber: String, self: StudentS
                                     return
                                 }
                                 for document in querySnapshot!.documents {
-                                    let sphonenum = document.data()["phonenum"] as? String ?? ""
+                                    var sphonenum = document.data()["phonenum"] as? String ?? ""
                                     
                                     if sphonenum == phoneNumber {
                                         db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
@@ -1125,7 +1096,6 @@ public func CheckStudentPhoneNumberForParent(phoneNumber: String, self: StudentS
         }
     }
 }
-
 public func SaveInfoForSignUp (self : SignInViewController, number: Int, name: String, email: String, password: String, type: String) {
     let db = Firestore.firestore()
     var profileImage = ""
@@ -1162,7 +1132,6 @@ public func SaveInfoForSignUp (self : SignInViewController, number: Int, name: S
     emailVerificationVC.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정
     self.present(emailVerificationVC, animated: true, completion: nil)
 }
-
 public func DeleteUserWhileSignUp () {
     let db = Firestore.firestore()
     let user = Auth.auth().currentUser // 사용자 정보 가져오기
@@ -1206,7 +1175,6 @@ public func DeleteUserWhileSignUp () {
         }
     }
 }
-
 public func CreateUser(type : String, self : SignInViewController, name : String, id : String, pw : String) {
     let db = Firestore.firestore()
     db.collection(type).whereField("email", isEqualTo: id).getDocuments() { (querySnapshot, err) in
@@ -1237,7 +1205,7 @@ public func CreateUser(type : String, self : SignInViewController, name : String
                         // 정보 저장
                         SaveInfoForSignUp(self: self, number: SignInViewController.number, name: name, email: id, password: pw, type: self.type)
                         SignInViewController.number = SignInViewController.number + 1
-                        guard (authResult?.user) != nil(authResult?.user) != nil else {
+                        guard let user = authResult?.user else {
                             return
                         }
                     }
@@ -1273,7 +1241,6 @@ public func CreateUser(type : String, self : SignInViewController, name : String
         }
     }
 }
-
 /// 나의 수업을 위한 DB 메소드들
 public func GetUserInfoForClassList(self : MyClassVC) {
     let db = Firestore.firestore()
@@ -1290,7 +1257,7 @@ public func GetUserInfoForClassList(self : MyClassVC) {
                     self.type = type
                     let profile = document.data()["profile"] as? String ?? "https://i.postimg.cc/9XKgzY5z/teacher-profile.png"
                     
-                    __ = URL(string: profile)!
+                    let url = URL(string: profile)!
                     self.setTeacherInfo()
                     
                     LoadingHUD.show()
@@ -1315,7 +1282,7 @@ public func GetUserInfoForClassList(self : MyClassVC) {
                     self.type = type
                     
                     let profile = document.data()["profile"] as? String ?? "https://i.postimg.cc/4xbWLCKh/student-profile.png"
-                    __ = URL(string: profile)!
+                    let url = URL(string: profile)!
                     
                     self.setStudentInfo()
                     
@@ -1328,7 +1295,6 @@ public func GetUserInfoForClassList(self : MyClassVC) {
         }
     }
 }
-
 public func SetMyClasses(self : MyClassVC) {
     let db = Firestore.firestore()
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").getDocuments() { (querySnapshot, err) in
@@ -1425,7 +1391,6 @@ public func SetMyClasses(self : MyClassVC) {
         }
     }
 }
-
 public func MoveToDetailClassVC (self : MyClassVC, sender : UIButton) {
     var index: Int!
     var name: String!
@@ -1483,8 +1448,6 @@ public func MoveToDetailClassVC (self : MyClassVC, sender : UIButton) {
             }
         }
 }
-
-
 public func SearchStudent(self : AddStudentVC, email : String) {
     let db = Firestore.firestore()
     /// 입력한 이메일과 갖고있는 이메일이 같은지 확인
@@ -1518,7 +1481,6 @@ public func SearchStudent(self : AddStudentVC, email : String) {
             self.emailTf.text = ""
         }
 }
-
 public func GetStudentClassCount(self : ClassInfoVC, uid : String) {
     let db = Firestore.firestore()
     self.studentCount = 0
@@ -1548,7 +1510,6 @@ public func GetStudentClassCount(self : ClassInfoVC, uid : String) {
         }
     }
 }
-
 public func GetTeacherClassCount(self : ClassInfoVC) {
     let db = Firestore.firestore()
     self.studentCount = 0
@@ -1581,7 +1542,6 @@ public func GetTeacherClassCount(self : ClassInfoVC) {
         }
     }
 }
-
 public func SaveClassInfo(self : ClassInfoVC, subject : String, payDate : String, payment : String , schedule : String) {
     // 데이터베이스 연결
     var studentUid = ""
@@ -1659,7 +1619,6 @@ public func SaveClassInfo(self : ClassInfoVC, subject : String, payDate : String
         }
     }
 }
-
 public func UpdateClassInfo(self : EditClassVC, schedule : String) {
     let db = Firestore.firestore()
     
@@ -1676,9 +1635,6 @@ public func UpdateClassInfo(self : EditClassVC, schedule : String) {
         }
     }
 }
-
-
-
 public func GetClassInfo(self : EditClassVC) {
     let db = Firestore.firestore()
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).getDocument { [self] (document, error) in
@@ -1739,7 +1695,6 @@ public func GetClassInfo(self : EditClassVC) {
         }
     }
 }
-
 /// 설정을 위한 DB 메소드들
 public func Secession(self : SecessionViewController) {
     let db = Firestore.firestore()
@@ -1785,7 +1740,6 @@ public func Secession(self : SecessionViewController) {
         self.present(loginVC, animated: true, completion: nil)
     }
 }
-
 public func GetPW() {
     let db = Firestore.firestore()
     
@@ -1816,7 +1770,6 @@ public func GetPW() {
         }
     }
 }
-
 public func SaveTeacherInfos(name : String, password : String , parentPW : String) {
     let db = Firestore.firestore()
     // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
@@ -1830,7 +1783,6 @@ public func SaveTeacherInfos(name : String, password : String , parentPW : Strin
         }
     }
 }
-
 public func SaveStudentInfos(name : String, password : String , parentPassword : UITextField) {
     let db = Firestore.firestore()
     // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
@@ -1844,7 +1796,6 @@ public func SaveStudentInfos(name : String, password : String , parentPassword :
         }
     }
 }
-
 public func SaveParentInfos (name : String, password : String, childPhoneNumber : String) {
     let db = Firestore.firestore()
     // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
@@ -1884,7 +1835,6 @@ public func SaveParentInfos (name : String, password : String, childPhoneNumber 
         }
     }
 }
-
 public func SaveChildPhoneNum(childPhoneNumber : String) {
     let db = Firestore.firestore()
     // 타입과 이름, 이메일, 비밀번호, 나이, uid 등을 저장
@@ -1922,7 +1872,6 @@ public func SaveChildPhoneNum(childPhoneNumber : String) {
         }
     }
 }
-
 public func GetUserInfoForEditInfo(nameTF : UITextField, emailLabel : UILabel, parentPassword : UITextField, parentPasswordLabel : UILabel) {
     let db = Firestore.firestore()
     db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
@@ -1973,7 +1922,6 @@ public func GetUserInfoForEditInfo(nameTF : UITextField, emailLabel : UILabel, p
         }
     }
 }
-
 /// 포트폴리오를 위한 DB 메소드들
 public func ShowPortfolio(self : ShowPortfolioViewController) {
     let db = Firestore.firestore()
@@ -2006,7 +1954,6 @@ public func ShowPortfolio(self : ShowPortfolioViewController) {
     /// 변수 다시 공백으로 바꾸기
     self.teacherEmailTextField.text = ""
 }
-
 public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewController) {
     let db = Firestore.firestore()
     
@@ -2167,7 +2114,6 @@ public func GetUserInfoInPortfolioTableViewController(self : PortfolioTableViewC
         }
     }
 }
-
 public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath : IndexPath, cell : PortfolioDefaultCell) {
     let db = Firestore.firestore()
     
@@ -2264,7 +2210,6 @@ public func GetPortfolioFactors(self : PortfolioTableViewController, indexPath :
         }
     }
 }
-
 public func AddPortfolioFactors(title : String, content : String) {
     let db = Firestore.firestore()
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").updateData([
@@ -2275,7 +2220,6 @@ public func AddPortfolioFactors(title : String, content : String) {
         }
     }
 }
-
 public func GetPortfolioPlots(self : PortfolioEditViewController) {
     let db = Firestore.firestore()
     db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("Portfolio").document("portfolio").getDocument { (document, error) in
@@ -2361,7 +2305,6 @@ public func GetPortfolioPlots(self : PortfolioEditViewController) {
         }
     }
 }
-
 public func SaveEditedPlot(self : PortfolioEditViewController) {
     let db = Firestore.firestore()
     db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
@@ -2422,7 +2365,6 @@ public func SaveEditedPlot(self : PortfolioEditViewController) {
         }
     }
 }
-
 public func PortfolioToggleButtonClicked(self : MyPageViewController) {
     let db = Firestore.firestore()
     
@@ -2444,11 +2386,10 @@ public func PortfolioToggleButtonClicked(self : MyPageViewController) {
         }
     }
 }
-
 public func SaveImage(self : MyPageViewController) {
-    __ = Firestore.firestore()
+    let db = Firestore.firestore()
     let storage = Storage.storage()
-    let storageRef = storage.reference()
+    var storageRef = storage.reference()
     
     let image = self.imageView.image!
     if let data = image.pngData(){
@@ -2456,8 +2397,8 @@ public func SaveImage(self : MyPageViewController) {
         
         let metadata = StorageMetadata()
         metadata.contentType = "image/png"
-        __ = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-            guard metadata != nilmetadata != nil else {
+        let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+            guard let metadata = metadata else {
                 return
             }
             
@@ -2482,7 +2423,6 @@ public func SaveImage(self : MyPageViewController) {
         }
     }
 }
-
 public func GetUserInfoForMyPage(self : MyPageViewController) {
     let db = Firestore.firestore()
     db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
@@ -2535,7 +2475,6 @@ public func GetUserInfoForMyPage(self : MyPageViewController) {
         }
     }
 }
-
 public func GetPortfolioShow(self : MyPageViewController) {
     let db = Firestore.firestore()
     
@@ -2556,7 +2495,6 @@ public func GetPortfolioShow(self : MyPageViewController) {
         }
     }
 }
-
 /// 학부모 페이지를 위한 DB 메소드
 public func GetParentUserInfo(self : ParentHomeViewController) {
     let db = Firestore.firestore()
@@ -2579,7 +2517,6 @@ public func GetParentUserInfo(self : ParentHomeViewController) {
         }
     }
 }
-
 public func SetEvaluation(self : ParentHomeViewController) {
     let db = Firestore.firestore()
     // parent collection에서 현재 로그인한 uid와 같은 uid 정보를 가지는 문서 찾기
@@ -2649,7 +2586,6 @@ public func SetEvaluation(self : ParentHomeViewController) {
         }
     }
 }
-
 public func DeleteChildPhone() {
     let db = Firestore.firestore()
     /// parent/현재 유저의 uid에서 문서를 가져와서 문서가 있다면
@@ -2670,7 +2606,6 @@ public func DeleteChildPhone() {
         }
     }
 }
-
 public func GetParentInfo(self : ParentMyPageViewController) {
     let db = Firestore.firestore()
     // parent collection에서 uid 필드가 현재 사용자의 uid와 동일한 문서 찾기
@@ -2755,11 +2690,10 @@ public func GetParentInfo(self : ParentMyPageViewController) {
         }
     }
 }
-
 public func SaveProfileImage(self : ParentMyPageViewController, profile : String) {
     let db = Firestore.firestore()
     let storage = Storage.storage()
-    let storageRef = storage.reference()
+    var storageRef = storage.reference()
     
     let image = self.profileImageView.image!
     if let data = image.pngData(){
@@ -2767,8 +2701,8 @@ public func SaveProfileImage(self : ParentMyPageViewController, profile : String
         
         let metadata = StorageMetadata()
         metadata.contentType = "image/png"
-        __ = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-            guard metadata != nilmetadata != nil else {
+        let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+            guard let metadata = metadata else {
                 return
             }
             
@@ -2788,8 +2722,6 @@ public func SaveProfileImage(self : ParentMyPageViewController, profile : String
         }
     }
 }
-
-
 public func GetChildrenInfo(self : ParentDetailEvaluationViewController) {
     let db = Firestore.firestore()
     db.collection("parent").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
@@ -2830,7 +2762,6 @@ public func GetChildrenInfo(self : ParentDetailEvaluationViewController) {
         }
     }
 }
-
 public func GetStudentMonthlyEvaluations(self : ParentDetailEvaluationViewController) {
     let db = Firestore.firestore()
     /// parent collection / 현재 사용자 uid의 경로에서 정보를 가져오기
@@ -2891,7 +2822,6 @@ public func GetStudentMonthlyEvaluations(self : ParentDetailEvaluationViewContro
         }
     }
 }
-
 public func GetStudentDailyEvaluations (self : ParentDetailEvaluationViewController) {
     // 데이터베이스 경로
     let db = Firestore.firestore()
@@ -2972,7 +2902,6 @@ public func GetStudentDailyEvaluations (self : ParentDetailEvaluationViewControl
         self.calendarView.reloadData()
     }
 }
-
 public func GetUserAndClassInfo(self : TeacherEvaluationViewController) {
     let db = Firestore.firestore()
     /// parent collection / 현재 사용자 uid 경로에서 문서 찾기
@@ -3023,7 +2952,6 @@ public func GetUserAndClassInfo(self : TeacherEvaluationViewController) {
         }
     }
 }
-
 public func GetEvaluation (self : TeacherEvaluationViewController) {
     let db = Firestore.firestore()
     // 데이터베이스 경로
@@ -3092,7 +3020,6 @@ public func GetEvaluation (self : TeacherEvaluationViewController) {
         }
     }
 }
-
 public func SaveTeacherEvaluation(self : TeacherEvaluationViewController) {
     let db = Firestore.firestore()
     /// parent collection / 현재 사용자 Uid / teacherEvaluation / 선생님이름(선생님이메일) / 현재 달 collection / evaluation 아래에 선생님 태도 점수와 학생 관리 만족도 점수 저장
@@ -3108,7 +3035,6 @@ public func SaveTeacherEvaluation(self : TeacherEvaluationViewController) {
         }
     }
 }
-
 public func SaveMonthlyEvaluation(self : DetailClassViewController) {
     let date = self.selectedMonth + "월"
     self.db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument {(document, error) in
@@ -3142,7 +3068,6 @@ public func SaveMonthlyEvaluation(self : DetailClassViewController) {
         }
     }
 }
-
 public func DeleteClass (self : MyClassDetailViewController) {
     let db = Firestore.firestore()
     
@@ -3172,7 +3097,6 @@ public func DeleteClass (self : MyClassDetailViewController) {
         }
     }
 }
-
 public func SaveDailyEvaluation(self : DetailClassViewController) {
     let db = Firestore.firestore()
     // 경로는 각 학생의 class의 Evaluation
@@ -3224,15 +3148,15 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                         ]) { err in
                             if let err = err {
                                 print("Error adding document: \(err)")
-                            }
-                        }
-                            print("true로 넘어왔다요")
-                        if(currentCnt != 0){
-                            notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
-                        }
-                    } else {
-                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
-                            "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
+                             }
+                         }
+                             print("true로 넘어왔다요")
+                         if(currentCnt != 0){
+                             notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
+                         }
+                     } else {
+                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                             "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
                         ]) { err in
                             if let err = err {
                                 print("Error adding document: \(err)")
@@ -3248,15 +3172,15 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                         ]) { err in
                             if let err = err {
                                 print("Error adding document: \(err)")
-                            }
-                        }
-                            print("true로 넘어왔다요")
-                        if(currentCnt != 0){
-                            notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
-                        }
-                    } else {
-                        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
-                            "currentCnt": currentCnt + 1
+                             }
+                         }
+                             print("true로 넘어왔다요")
+                         if(currentCnt != 0){
+                             notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
+                         }
+                     } else {
+                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
+                             "currentCnt": currentCnt + 1
                         ]) { err in
                             if let err = err {
                                 print("Error adding document: \(err)")
@@ -3328,8 +3252,6 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
         }
     }
 }
-
-
 public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
     let db = Firestore.firestore()
     // 데이터베이스 경로
@@ -3338,7 +3260,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
         db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document(dateStr).getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                __ = data?["evaluationDate"] as? String ?? ""
+                let dateStrWithoutDays = data?["evaluationDate"] as? String ?? ""
                 
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 
@@ -3428,7 +3350,7 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
         db.collection("student").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).collection("Evaluation").document(dateStr).getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                __ = data?["evaluationDate"] as? String ?? ""
+                let date = data?["evaluationDate"] as? String ?? ""
                 
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 
@@ -3476,7 +3398,6 @@ public func GetEvaluations(self : DetailClassViewController, dateStr : String) {
         self.evaluationView.isHidden = true
     }
 }
-
 public func CheckmarkButtonClicked(self : ToDoListViewController, checkTime : Bool, sender : UIButton) {
     let db = Firestore.firestore()
     if(self.userType == "teacher"){
@@ -3501,7 +3422,6 @@ public func CheckmarkButtonClicked(self : ToDoListViewController, checkTime : Bo
         }
     }
 }
-
 public func AddToDoListFactors(self : ToDoListViewController, checkTime : Bool) {
     let db = Firestore.firestore()
     
@@ -3549,7 +3469,6 @@ public func AddToDoListFactors(self : ToDoListViewController, checkTime : Bool) 
             }
     }
 }
-
 public func GetScores(self : GraphViewController, studentEmail : String) {
     self.floatValue = [5,5]
     let db = Firestore.firestore()
@@ -3612,7 +3531,6 @@ public func GetScores(self : GraphViewController, studentEmail : String) {
         
     }
 }
-
 public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, detailClassVC: DetailClassViewController?, graphVC: GraphViewController?, todolistVC: ToDoListViewController?) {
     let db = Firestore.firestore()
     // 선생님이면
@@ -3833,6 +3751,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                         self.dataSourceVC.append(detailClassVC)
                                         self.dataSourceVC.append(graphVC)
                                         self.dataSourceVC.append(todolistVC)
+                                        
                                         self.currentPage = 0
                                     }
                                 }
@@ -3848,7 +3767,7 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
                                 for document in querySnapshot!.documents {
                                     print("\(document.documentID) => \(document.data())")
                                     let teacherUid = document.data()["uid"] as? String ?? ""
-                                    __ = document.data()["name"] as? String ?? ""
+                                    let teacherName = document.data()["name"] as? String ?? ""
                                     
                                     todolistVC.teacherUid = teacherUid
                                     self.teacherUid = teacherUid
@@ -3901,7 +3820,6 @@ public func GetUserInfoInDetailClassVC (self : MyClassDetailViewController?, det
             }
         }
 }
-
 public func DeleteToDoList(self: ToDoListViewController, sender : UIButton) {
     let db = Firestore.firestore()
     if let index = self.userIndex { // userIndex가 nil이 아니라면
@@ -3940,7 +3858,6 @@ public func DeleteToDoList(self: ToDoListViewController, sender : UIButton) {
           
     }
 }
-
 public func SaveGraphScore(todayStudy: String, todayScore : String, self : PlusGraphViewController) {
     let db = Firestore.firestore()
     // 데이터 저장
@@ -3994,7 +3911,6 @@ public func SaveGraphScore(todayStudy: String, todayScore : String, self : PlusG
         }
     }
 }
-
 public func GetScoreForEdit(self : PlusGraphViewController, todayStudy: String) {
     let db = Firestore.firestore()
     db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph").whereField("type", isEqualTo: todayStudy)
@@ -4017,7 +3933,6 @@ public func GetScoreForEdit(self : PlusGraphViewController, todayStudy: String) 
         }
     self.scoreTextField.text = ""
 }
-
 /// 질문방을 위한 DB 메소드
 public func UpdateImage(self : QuestionPlusViewController) {
     let db = Firestore.firestore()
@@ -4060,7 +3975,6 @@ public func UpdateImage(self : QuestionPlusViewController) {
             }
         }
 }
-
 public func SetQuestionDoc(self : QuestionPlusViewController) {
     let db = Firestore.firestore()
     if let index = self.index {
@@ -4122,8 +4036,8 @@ public func SetQuestionDoc(self : QuestionPlusViewController) {
                                             let urlRef = self.storageRef.child("image/\(self.file_name!).png")
                                             let metadata = StorageMetadata()
                                             metadata.contentType = "image/png"
-                                            __ = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-                                                guard metadata != nilmetadata != nil else {
+                                            let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                                                guard let metadata = metadata else {
                                                     return}
                                                 urlRef.downloadURL { (url, error) in
                                                     guard let downloadURL = url else {
@@ -4153,14 +4067,13 @@ public func SetQuestionDoc(self : QuestionPlusViewController) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
                     LoadingHUD.hide()
                 }
-                if let preVC = self.presentingViewController {
+                if let preVC = self.presentingViewController as? UIViewController {
                     preVC.dismiss(animated: true, completion: nil)
                 }
             }
         }
     }
 }
-
 public func UpdateAnswer(answer : String, imgtype : Int, self : AnswerViewController, imgView : UIImageView) {
     let db = Firestore.firestore()
     let storage = Storage.storage()
@@ -4205,8 +4118,8 @@ public func UpdateAnswer(answer : String, imgtype : Int, self : AnswerViewContro
                 let urlRef = storageRef.child("image/\(self.newImage).png")
                 let metadata = StorageMetadata()
                 metadata.contentType = "image/png"
-                __ = urlRef.putData(data, metadata: metadata){ (metadata, error) in
-                    guard metadata != nilmetadata != nil else {
+                let uploadTask = urlRef.putData(data, metadata: metadata){ (metadata, error) in
+                    guard let metadata = metadata else {
                         return
                     }
                     
@@ -4235,8 +4148,8 @@ public func UpdateAnswer(answer : String, imgtype : Int, self : AnswerViewContro
                 
                 let metadata = StorageMetadata()
                 metadata.contentType = "video/mp4"
-                __ = urlRef.putData(data as Data, metadata: metadata){ (metadata, error) in
-                    guard metadata != nilmetadata != nil else {
+                let uploadTask = urlRef.putData(data as Data, metadata: metadata){ (metadata, error) in
+                    guard let metadata = metadata else {
                         return
                     }
                     
@@ -4267,7 +4180,6 @@ public func UpdateAnswer(answer : String, imgtype : Int, self : AnswerViewContro
         }
     }
 }
-
 public func GetUserInfoInQuestionView(toggleLabel : UILabel, index : Int, navigationBar : UINavigationBar, navigationBarItem : UINavigationItem, self : QuestionListViewController) {
     let db = Firestore.firestore()
     
@@ -4345,7 +4257,6 @@ public func GetUserInfoInQuestionView(toggleLabel : UILabel, index : Int, naviga
         }
     }
 }
-
 public func SetQuestionList(self : QuestionListViewController) {
     let db = Firestore.firestore()
     if (userType == "teacher") {
@@ -4515,7 +4426,6 @@ public func SetQuestionList(self : QuestionListViewController) {
         }
     }
 }
-
 public func GetUserInfoInQuestionVC (self : QuestionViewController) {
     let db = Firestore.firestore()
     db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).getDocuments() { (querySnapshot, err) in
@@ -4531,7 +4441,7 @@ public func GetUserInfoInQuestionVC (self : QuestionViewController) {
                     userEmail = document.data()["email"] as? String ?? ""
                     userName = document.data()["name"] as? String ?? ""
                     let userProfile = document.data()["profile"] as? String ?? ""
-                    __ = URL(string: userProfile)!
+                    let url = URL(string: userProfile)!
                     self.setTeacherInfo()
                 }
             }
@@ -4550,14 +4460,13 @@ public func GetUserInfoInQuestionVC (self : QuestionViewController) {
                     let type = document.data()["type"] as? String ?? ""
                     userType = type
                     let userProfile = document.data()["profile"] as? String ?? ""
-                    __ = URL(string: userProfile)!
+                    let url = URL(string: userProfile)!
                     self.setStudentInfo()
                 }
             }
         }
     }
 }
-
 public func SetQuestionRoom (self : QuestionViewController) {
     let db = Firestore.firestore()
     
@@ -4721,7 +4630,6 @@ public func SetQuestionRoom (self : QuestionViewController) {
         return
     }
 }
-
 public func QuestionCellClicked(self : QuestionViewController, indexPath : IndexPath) {
     let docRef : CollectionReference!
     let db = Firestore.firestore()
@@ -4787,7 +4695,6 @@ public func QuestionCellClicked(self : QuestionViewController, indexPath : Index
         self.present(questionListVC, animated: true, completion: nil)
     }
 }
-
 public func GetUserInfoInQuestionDetailVC (self : QuestionDetailViewController) {
     let db = Firestore.firestore()
     db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
@@ -4875,7 +4782,6 @@ public func GetUserInfoInQuestionDetailVC (self : QuestionDetailViewController) 
             }
         }
 }
-
 public func SetQuestion(self : QuestionDetailViewController) {
     let db = Firestore.firestore()
     if (self.type == "teacher") {
@@ -5048,7 +4954,6 @@ public func SetQuestion(self : QuestionDetailViewController) {
     }
     return
 }
-
 public func GetUserInfoInQnADetailVC (self : QnADetailViewController) {
     let db = Firestore.firestore()
     db.collection("teacher").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid) // Uid 필드가 현재 로그인한 사용자의 Uid와 같은 필드 찾기
@@ -5128,7 +5033,6 @@ public func GetUserInfoInQnADetailVC (self : QnADetailViewController) {
             }
         }
 }
-
 public func SetQnA (self : QnADetailViewController) {
     let db = Firestore.firestore()
     if (self.type == "teacher") {
@@ -5231,7 +5135,7 @@ public func SetQnA (self : QnADetailViewController) {
                         let title = questionDt["title"] as? String ?? ""
                         let questionContent = questionDt["questionContent"] as? String ?? ""
                         let imgURL = questionDt["imgURL"] as? String ?? ""
-                        __ = questionDt["num"] as? String ?? ""
+                        let num = questionDt["num"] as? String ?? ""
                         
                         self.titleName.text = title
                         self.questionContent.text = questionContent
@@ -5433,7 +5337,6 @@ public func SetQnA (self : QnADetailViewController) {
         }
     }
 }
-
 public func GetParentInfoForParentDetailVC(self : ParentDetailEvaluationViewController) {
     /// parent collection / 현재 사용자 uid의 경로에서 정보를 가져오기
     let db = Firestore.firestore()
