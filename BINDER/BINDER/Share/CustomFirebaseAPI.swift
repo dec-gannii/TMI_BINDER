@@ -3227,7 +3227,9 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                             }
                         }
                             print("true로 넘어왔다요")
+                        if(currentCnt != 0){
                             notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
+                        }
                     } else {
                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                             "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
@@ -3249,7 +3251,9 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                             }
                         }
                             print("true로 넘어왔다요")
+                        if(currentCnt != 0){
                             notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
+                        }
                     } else {
                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                             "currentCnt": currentCnt + 1

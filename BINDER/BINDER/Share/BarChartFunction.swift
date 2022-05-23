@@ -24,6 +24,7 @@ func barColorSetting(design:ChartDesign) -> [UIColor]{
 func setChart(dataPoints: [String], values: [Double], view:BarChartView, design:ChartDesign, colors: [UIColor],fvalue:[CGFloat]) {
     // 데이터 생성
     var dataEntries: [BarChartDataEntry] = []
+    print("count : \(dataPoints.count)")
     for i in 0..<dataPoints.count {
         let dataEntry = BarChartDataEntry(x: Double(i), y: values[i])
         dataEntries.append(dataEntry)
