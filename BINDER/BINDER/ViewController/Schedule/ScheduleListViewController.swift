@@ -63,7 +63,7 @@ public class ScheduleListViewController: UIViewController {
     }
     
     @IBAction func BackButtonClicked(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil) 
     }
 }
 

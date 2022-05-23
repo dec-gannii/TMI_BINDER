@@ -111,6 +111,7 @@ public class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         getTeacherInfo()
         getStudentInfo()
+        self.calendarView.reloadData()
     }
     
     public override func viewDidLoad() {
