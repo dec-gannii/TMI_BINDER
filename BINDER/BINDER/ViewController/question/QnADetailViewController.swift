@@ -36,6 +36,11 @@ public class QnADetailViewController: UIViewController {
     @IBOutlet weak var answerContent: UITextView!
     @IBOutlet weak var answerImgView: UIImageView!
     
+    public override func viewWillAppear(_ animated: Bool) {
+        GetUserInfoInQnADetailVC(self: self)
+        setQnA()
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         GetUserInfoInQnADetailVC(self: self)
