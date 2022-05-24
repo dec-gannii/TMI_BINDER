@@ -3068,6 +3068,7 @@ public func SaveMonthlyEvaluation(self : DetailClassViewController) {
                                 }
                             }
                         }
+                        notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
                     }
                 }
             }
@@ -3156,10 +3157,6 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                                 print("Error adding document: \(err)")
                              }
                          }
-                             print("true로 넘어왔다요")
-                         if(currentCnt != 0){
-                             notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
-                         }
                      } else {
                          self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                              "currentCnt": currentCnt + Int(self.classTimeTextField.text!)!
@@ -3171,7 +3168,7 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                     }
                     count = currentCnt + Int(self.classTimeTextField.text!)!
                 } else if (payType == "C") {
-                    if (currentCnt+1 >= 8) {
+                    if ((currentCnt+1) >= 8) {
                         currentCnt = currentCnt % 8
                         self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
                             "currentCnt": currentCnt + 1
@@ -3179,10 +3176,6 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                             if let err = err {
                                 print("Error adding document: \(err)")
                              }
-                         }
-                             print("true로 넘어왔다요")
-                         if(currentCnt != 0){
-                             notification.sendPushNotification(token: self.fcmToken, title: "입금 기간이에요!", body: "\(self.tname!) 선생님께 교육비를 입금해주세요.")
                          }
                      } else {
                          self.db.collection("teacher").document(Auth.auth().currentUser!.uid).collection("class").document(self.userName + "(" + self.userEmail + ") " + self.userSubject).updateData([
@@ -3221,6 +3214,7 @@ public func SaveDailyEvaluation(self : DetailClassViewController) {
                                 }
                             }
                         }
+                        self.currentCnt = count
                     }
                 }
             } else {

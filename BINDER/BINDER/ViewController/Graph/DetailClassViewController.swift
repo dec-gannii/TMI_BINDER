@@ -223,6 +223,7 @@ public class DetailClassViewController: UIViewController {
     
     /// monthly evaluation save button clicked
     @IBAction func SaveMonthlyEvaluation(_ sender: Any) {
+        getNameFcm()
         BINDER.SaveMonthlyEvaluation(self: self)
         
         self.monthlyEvaluationOKBtn.isHidden = true
@@ -232,7 +233,6 @@ public class DetailClassViewController: UIViewController {
     
     /// save evaluation button clicked
     @IBAction func OKButtonClicked(_ sender: Any) {
-        getNameFcm()
         SaveDailyEvaluation(self: self)
     }
     
@@ -273,7 +273,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
     public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition)
     {
         if (self.userType == "teacher") {
-            if (self.currentCnt % 8 == 0 && (self.currentCnt == 0 || self.currentCnt == 8)) {
+            if (self.currentCnt % 8 == 7 && self.currentCnt == 7) {
                 self.monthlyEvaluationQuestionLabel.isHidden = false
                 self.monthlyEvaluationOKBtn.isHidden = false
                 self.monthlyEvaluationTextView.isHidden = false
