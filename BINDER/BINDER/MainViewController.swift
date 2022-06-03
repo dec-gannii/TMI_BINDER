@@ -44,6 +44,7 @@ public class MainViewController : UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
         authorizationAppleIDButton.addTarget(self, action: #selector(handleAuthorizationAppleIDButton(_:)), for: .touchUpInside)
         
         view.addSubview(authorizationAppleIDButton)
@@ -77,7 +78,6 @@ public class MainViewController : UIViewController {
     }
     
     @IBAction func GoSignInByEmailBtnClicked(_ sender: Any) {
-        
         let typeSelectVC = self.storyboard?.instantiateViewController(withIdentifier: "TypeSelectViewController")
         typeSelectVC?.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
         typeSelectVC?.modalTransitionStyle = .crossDissolve //전환 애니메이션 설정

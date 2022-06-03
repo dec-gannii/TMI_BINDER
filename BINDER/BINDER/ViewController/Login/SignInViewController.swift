@@ -40,6 +40,7 @@ public class SignInViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
         ref = Database.database().reference()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))

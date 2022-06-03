@@ -37,6 +37,31 @@ public class LogInViewController: UIViewController {
         //            GIDSignIn.sharedInstance()?.restorePreviousSignIn() // 자동로그인
         //        }
         
+        /// 전시용 코드
+        print("fcmToken: \(Messaging.messaging().fcmToken!)")
+        let fcmToken = Messaging.messaging().fcmToken
+        
+        let loginView = LogInViewController()
+        
+        if(fcmToken == "e9o0G9ROxE2YvggFLStPSL:APA91bHTZA4j-UNGoHQ1y05glybBJUvPeyiSvLpVnG3rBzalsFxNts1wP1dHK2EvQYokBUaPNA5NlvaGJbCabsp6TIrTA-oQ15Y2kNObNEy7Bh1O2BxYhVftIP1ztQGMv9LtI80-nohT"){
+            let email = "rlarkdms0123@naver.com"
+            let pw = "123456"
+            self.emailTextField.text = email
+            self.pwTextField.text = pw
+        } else if (fcmToken == "c3Y07619p0uRtOnbk1D3z0:APA91bGyyBii3cCt4y8qHzjCe8oH_HLReYGAfP7-Gn52fkfDo-cIOQASTvhKxo1QWpuw-1qdKnFloegpRIZH3fszybEgGGApzzp3pSoK0GeYJucyDtWj1xF4YtXwDI-EfdaGU5iI6bgo"){
+            let email = "decrkdms@gmail.com"
+            let pw = "123456"
+            self.emailTextField.text = email
+            self.pwTextField.text = pw
+        } else {
+            let email = "graduate.tmi@gmail.com"
+            let pw = "123456"
+            self.emailTextField.text = email
+            self.pwTextField.text = pw
+        }
+        /// 전시용 코드 끝
+        
+        
         /// 키보드 띄우기
         self.emailTextField.becomeFirstResponder()
         
