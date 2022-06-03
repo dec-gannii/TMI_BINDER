@@ -48,7 +48,7 @@ public class LogInViewController: UIViewController {
             let pw = "123456"
             self.emailTextField.text = email
             self.pwTextField.text = pw
-        } else if (fcmToken == "c3Y07619p0uRtOnbk1D3z0:APA91bGyyBii3cCt4y8qHzjCe8oH_HLReYGAfP7-Gn52fkfDo-cIOQASTvhKxo1QWpuw-1qdKnFloegpRIZH3fszybEgGGApzzp3pSoK0GeYJucyDtWj1xF4YtXwDI-EfdaGU5iI6bgo"){
+        } else if (fcmToken == "c3Y07619p0uRtOnbk1D3z0:APA91bGWxIOCAPfgelT0Q-kXF5mkKFZvrbEDagaROacLrFYtCqZTIHLYRvZ19-xcm4La4GltypP5s8sldtOIPqKuv52zLEEglKHN4tz671Sk7s7OJ2N2F5-gUJs9rT_gO8IV2t3q-BhW"){
             let email = "decrkdms@gmail.com"
             let pw = "123456"
             self.emailTextField.text = email
