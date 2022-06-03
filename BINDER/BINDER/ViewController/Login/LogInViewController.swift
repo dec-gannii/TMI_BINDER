@@ -43,7 +43,7 @@ public class LogInViewController: UIViewController {
         
         let loginView = LogInViewController()
         
-        if(fcmToken == "e9o0G9ROxE2YvggFLStPSL:APA91bHTZA4j-UNGoHQ1y05glybBJUvPeyiSvLpVnG3rBzalsFxNts1wP1dHK2EvQYokBUaPNA5NlvaGJbCabsp6TIrTA-oQ15Y2kNObNEy7Bh1O2BxYhVftIP1ztQGMv9LtI80-nohT"){
+        if(fcmToken == "e9o0G9ROxE2YvggFLStPSL:APA91bFeXkpKYEd63hivg2O7BuiZLVh7mlu2trGmTWi5mMpJ5PlfY5c69Tcn8i6w2vLSTgpvAs_EEN6gWO-BaA__GG2ZOrAg04ncwYPlVFvVprPyghzqYMulMoUEkzdYPuXd9oyySvhH"){
             let email = "rlarkdms0123@naver.com"
             let pw = "123456"
             self.emailTextField.text = email
