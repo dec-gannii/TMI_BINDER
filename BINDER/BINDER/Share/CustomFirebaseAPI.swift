@@ -15,6 +15,7 @@ import UIKit
 import AVKit
 import Kingfisher
 import FSCalendar
+
 public var linkBtnEmail : String = ""
 public var linkBtnIndex : Int = 0
 public var linkBtnSubject : String = ""
