@@ -12,7 +12,7 @@ import FirebaseDatabase
 import FSCalendar
 
 /// home view controller
-public class HomeViewController: UIViewController {
+public class HomeViewController: UIViewController, FSCalendarDataSource {
     // 변수 선언
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var stateLabel: UILabel!
@@ -45,8 +45,8 @@ public class HomeViewController: UIViewController {
     var date : String!
     
     var ref: DatabaseReference!
-    let db = Firestore.firestore()
     var calenderDesign = CalendarDesign()
+    var homeDB = HomeVCDBFunctions()
     
     /// calendar custom
     private var currentPage: Date?
@@ -56,31 +56,17 @@ public class HomeViewController: UIViewController {
     
     @IBAction func nextBtnTapped(_ sender: UIButton) { scrollCurrentPage(isPrev: false) }
     
-    private lazy var dateFormatter: DateFormatter = {
-        let df = DateFormatter()
-        df.locale = Locale(identifier: "ko_KR")
-        df.dateFormat = "yyyy년 MM월"
-        return df
-    }()
-    
-    func setCalendar() {
-        calendarView.delegate = self
-        calendarView.headerHeight = 0
-        calendarView.scope = .month
-        monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
-    }
-    
     public func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         self.days.removeAll()
         self.events.removeAll()
         
-        self.monthLabel.text = self.dateFormatter.string(from: calendar.currentPage)
-        let date = self.dateFormatter.date(from: self.monthLabel.text!)
+        self.monthLabel.text = calenderDesign.dateFormatter.string(from: calendar.currentPage)
+        let date = calenderDesign.dateFormatter.date(from: self.monthLabel.text!)
         
         days = setUpDays(date!)
         
-        GetTeacherEvents(events: self.events, days: self.days, self: self)
-        GetStudentEvents(events: self.events, days: self.days, self: self)
+        homeDB.GetTeacherEvents(events: self.events, days: self.days, self: self)
+        homeDB.GetStudentEvents(events: self.events, days: self.days, self: self)
     }
     
     private func scrollCurrentPage(isPrev: Bool) {
@@ -146,7 +132,7 @@ public class HomeViewController: UIViewController {
         
         calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
-        self.setCalendar()
+        calenderDesign.setCalendar(calendarView: self.calendarView, monthLabel: self.monthLabel)
     }
     
     /// 내 수업 가져오기 : 선생님
@@ -165,7 +151,7 @@ public class HomeViewController: UIViewController {
         self.thirdLinkBtn.isHidden = true
         self.HomeStudentIconThirdLabel.isHidden = true
         
-        self.db.collection("teacher").document(Auth.auth().currentUser!.uid).updateData([
+        db.collection("teacher").document(Auth.auth().currentUser!.uid).updateData([
             "fcmToken": Messaging.messaging().fcmToken
         ]) { err in
             if let err = err {
@@ -173,7 +159,7 @@ public class HomeViewController: UIViewController {
             }
         }
         
-        GetTeacherMyClass(self: self)
+        homeDB.GetTeacherMyClass(self: self)
     }
     
     /// 내 수업 가져오기 : 학생
@@ -192,7 +178,7 @@ public class HomeViewController: UIViewController {
         self.thirdLinkBtn.isHidden = true
         self.HomeStudentIconThirdLabel.isHidden = true
         
-        self.db.collection("student").document(Auth.auth().currentUser!.uid).updateData([
+        db.collection("student").document(Auth.auth().currentUser!.uid).updateData([
             "fcmToken": Messaging.messaging().fcmToken
         ]) { err in
             if let err = err {
@@ -200,32 +186,24 @@ public class HomeViewController: UIViewController {
             }
         }
         
-        GetStudentMyClass(self: self)
+        homeDB.GetStudentMyClass(self: self)
     }
     
     /// linked button clicked
     @IBAction func ButtonClicked(_ sender: Any) {
         guard let detailClassVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassDetailViewController") as? MyClassDetailViewController else { return }
         
-        GetLinkButtonInfos(sender: sender as! UIButton, firstLabel: HomeStudentIconLabel, secondLabel: HomeStudentIconSecondLabel, thirdLabel: HomeStudentIconThirdLabel, detailVC: detailClassVC, self: self)
+        homeDB.GetLinkButtonInfos(sender: sender as! UIButton, firstLabel: HomeStudentIconLabel, secondLabel: HomeStudentIconSecondLabel, thirdLabel: HomeStudentIconThirdLabel, detailVC: detailClassVC, self: self)
     }
     
     /// setting informations
     func getTeacherInfo(){
-        GetTeacherInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel, self: self)
-        
-        self.id = userEmail
-        self.pw = userPW
-        self.type = userType
+        homeDB.GetTeacherInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel, self: self)
         setTeacherMyClasses()
     }
     
     func getStudentInfo(){
-        GetStudentInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel, self: self)
-        
-        self.id = userEmail
-        self.pw = userPW
-        self.type = userType
+        homeDB.GetStudentInfo(days: self.days, homeStudentScrollView: self.HomeStudentScrollView, stateLabel: self.stateLabel, self: self)
         setStudentMyClasses()
     }
 }
@@ -242,29 +220,18 @@ extension HomeViewController: FSCalendarDelegate, UIViewControllerTransitioningD
         // 일정 리스트 뷰 보여주기
         guard let scheduleListVC = self.storyboard?.instantiateViewController(withIdentifier: "ScheduleListViewController") as? ScheduleListViewController else { return }
         // 데이터베이스의 Count document에서 count 정보를 받아서 전달
-        ShowScheduleList(date: datestr, scheduleListVC: scheduleListVC, self: self)
+        homeDB.ShowScheduleList(date: datestr, scheduleListVC: scheduleListVC, self: self)
     }
     
     //이벤트 표시 개수
     public func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        if sharedEvents.contains(date) {
-            return 1
-        } else {
-            return 0
-        }
+        if sharedEvents.contains(date) { return 1 }
+        else { return 0 }
     }
     
     public func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        if sharedEvents.contains(date) {
-            return UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        } else {
-            return nil
-        }
+        if sharedEvents.contains(date) { return UIColor(red: 1, green: 104, blue: 255, alpha: 1) }
+        else { return nil }
     }
 }
-
-extension HomeViewController: FSCalendarDataSource {
-}
-
-
 

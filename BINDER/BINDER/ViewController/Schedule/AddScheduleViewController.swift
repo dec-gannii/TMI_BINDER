@@ -25,6 +25,7 @@ public class AddScheduleViewController: UIViewController, UITextViewDelegate {
     var type: String = ""
     var viewDesign = ViewDesign()
     var functionShare = FunctionShare()
+    var scheduleDB = ScheduleVCDBFunctions()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +59,7 @@ public class AddScheduleViewController: UIViewController, UITextViewDelegate {
             self.okBtn.setTitle("일정 수정하기", for: .normal)
             
             // 내용이 있다는 의미이므로 데이터베이스에서 다시 받아와서 textfield의 값으로 설정
-            GetBeforeEditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, scheduleMemo: self.scheduleMemo, schedulePlace: self.schedulePlace, scheduleTitle: self.scheduleTitle, scheduleTime: self.scheduleTime)
+            scheduleDB.GetBeforeEditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, scheduleMemo: self.scheduleMemo, schedulePlace: self.schedulePlace, scheduleTitle: self.scheduleTitle, scheduleTime: self.scheduleTime)
         } else {
             varIsEditMode = false
         }
@@ -141,14 +142,14 @@ public class AddScheduleViewController: UIViewController, UITextViewDelegate {
         
         // 수정 모드라면,
         if (varIsEditMode == true) {
-            SaveEditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, isEditMode: self.isEditMode, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTitleTF: self.scheduleTitle, scheduleTimeTF: self.scheduleTime, datestr: datestr, current_time_string: current_time_string)
+            scheduleDB.SaveEditSchedule(type: self.type, date: self.date, editingTitle: self.editingTitle, isEditMode: self.isEditMode, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTitleTF: self.scheduleTitle, scheduleTimeTF: self.scheduleTime, datestr: datestr, current_time_string: current_time_string)
             self.dismiss(animated: true, completion: nil)
         }
         else {
             // 수정 모드가 아니라면,
             if (scheduleTitle.text != "") {
                 if ((scheduleTitle.text?.trimmingCharacters(in: .whitespaces)) != "") {
-                    SaveSchedule(type: self.type, date: self.date, scheduleTitleTF: self.scheduleTitle, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTimeTF: self.scheduleTime, datestr: datestr, current_time_string: current_time_string)
+                    scheduleDB.SaveSchedule(type: self.type, date: self.date, scheduleTitleTF: self.scheduleTitle, scheduleMemoTV: self.scheduleMemo, schedulePlaceTF: self.schedulePlace, scheduleTimeTF: self.scheduleTime, datestr: datestr, current_time_string: current_time_string)
                 }
                 dismiss(animated: true, completion: nil)
             }

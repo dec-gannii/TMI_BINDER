@@ -9,18 +9,12 @@ import UIKit
 import AVKit
 import MobileCoreServices
 import Firebase
-import FirebaseDatabase
 import FirebaseFirestore
-import FirebaseStorage
 import Photos
 
 public class AnswerViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextViewDelegate{
-    
-    let db = Firestore.firestore()
     var ref: DatabaseReference!
     
-    let storage = Storage.storage()
-    var storageRef:StorageReference!
     var name:String!
     
     // 값을 받아오기 위한 변수들
@@ -37,6 +31,8 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
     var fcmtoken: String!
     
     var viewDesign = ViewDesign()
+    var functionShare = FunctionShare()
+    var questionDB = QuestionDBFunctions()
     
     @IBOutlet var imgView: UIImageView!
     @IBOutlet weak var textView: UITextView!
@@ -53,7 +49,6 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        storageRef = storage.reference()
         placeholderSetting()
         getNameFcm()
         textView.textContainerInset = viewDesign.EdgeInsets
@@ -100,8 +95,6 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
         
         // 갤러리 버튼 추가
         let action_gallery = UIAlertAction(title: "사진 앨범", style: .default) { action in
-            print("push gallery button")
-            
             switch PHPhotoLibrary.authorizationStatus() {
             case .authorized:
                 print("접근 가능")
@@ -114,9 +107,8 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
             default:
                 let alertVC = UIAlertController(title: "권한 필요", message: "사진첩 접근 권한이 필요합니다. 설정 화면에서 설정해주세요", preferredStyle: .alert)
                 
-                let action_settings = UIAlertAction(title: "Go Settings", style: .default){
+                let action_settings = UIAlertAction(title: "설정", style: .default){
                     action in
-                    print("go settings")
                     if let appSettings = URL(string: UIApplication.openSettingsURLString){
                         UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
                     }
@@ -149,7 +141,7 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
             
             present(imagePicker, animated: true, completion: nil)
         } else {
-            myAlert("권한 필요", message: "사진첩 접근 권한이 필요합니다. 설정 화면에서 설정해주세요.")
+            functionShare.AlertShow(alertTitle: "권한 필요", message: "사진첩 접근 권한이 필요합니다. 설정 화면에서 설정해주세요.", okTitle: "확인", self: self)
         }
     }
     
@@ -166,7 +158,7 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
             
             present(imagePicker, animated: true, completion: nil)
         } else {
-            myAlert("권한 필요", message: "사진첩 접근 권한이 필요합니다. 설정 화면에서 설정해주세요.")
+            functionShare.AlertShow(alertTitle: "권한 필요", message: "사진첩 접근 권한이 필요합니다. 설정 화면에서 설정해주세요.", okTitle: "확인", self: self)
         }
     }
     
@@ -210,13 +202,11 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
     }
     
     func videoinImage(){
-        
         player = AVPlayer(url: videoURL!)
         avPlayerLayer = AVPlayerLayer(player: player)
         avPlayerLayer.videoGravity = AVLayerVideoGravity.resize
         
         imgView.layer.addSublayer(avPlayerLayer)
-        
     }
     
     public override func viewDidLayoutSubviews() {
@@ -231,17 +221,9 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
         self.dismiss(animated: true, completion: nil)
     }
     
-    // 경고 창 출력 함수
-    func myAlert(_ title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        let action = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default , handler: nil)
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     @IBAction func btnAnswer(_ sender: Any) {
         answer = textView.text
-        UpdateAnswer(answer: answer, imgtype: self.imgtype, self: self, imgView: self.imgView)
+        questionDB.UpdateAnswer(answer: answer, imgtype: self.imgtype, self: self, imgView: self.imgView)
         
         notification.sendPushNotification(token: fcmtoken, title: "답변이 올라왔어요!", body: "\(tname!) 선생님이 답변을 달았어요.")
         
@@ -256,7 +238,6 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
     }
     
     func getNameFcm(){
-        let db = Firestore.firestore()
         // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
         db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
             if let document = document, document.exists {

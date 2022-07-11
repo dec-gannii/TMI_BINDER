@@ -2,13 +2,11 @@ import UIKit
 import Firebase
 
 class EditInfoViewController: UIViewController {
-    
     var ref: DatabaseReference!
-    let db = Firestore.firestore()
-    
     var type = ""
     var currentPW = ""
     var functionShare = FunctionShare()
+    var settingDB = SettingDBFunctions()
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
@@ -65,7 +63,7 @@ class EditInfoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        GetUserInfoForEditInfo(nameTF: self.nameTextField, emailLabel: self.emailLabel, parentPassword: self.parentPassword, parentPasswordLabel: self.parentPasswordLabel)
+        settingDB.GetUserInfoForEditInfo(nameTF: self.nameTextField, emailLabel: self.emailLabel, parentPassword: self.parentPassword, parentPasswordLabel: self.parentPasswordLabel)
     }
     
     // 유효한 이름인지 (공백은 아닌지) 검사하는 메소드
@@ -154,11 +152,11 @@ class EditInfoViewController: UIViewController {
             // 만약 새로운 비밀번호가 현재 비밀번호와 다르면
             if (newPW != self.currentPW) {
                 if (userType == "teacher") { // 선생님인 경우, 선생님 정보 저장 메소드로 정보 저장
-                    SaveTeacherInfos(name: name, password: newPW, parentPW: parentPW)
+                    settingDB.SaveTeacherInfos(name: name, password: newPW, parentPW: parentPW)
                 } else if (userType == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
-                    SaveStudentInfos(name: name, password: newPW, parentPassword: self.parentPassword)
+                    settingDB.SaveStudentInfos(name: name, password: newPW, parentPassword: self.parentPassword)
                 } else if (userType == "parent") {
-                    SaveParentInfos(name: name, password: newPW, childPhoneNumber: parentPW)
+                    settingDB.SaveParentInfos(name: name, password: newPW, childPhoneNumber: parentPW)
                 }
                 
                 // 새로운 비밀번호로 지정
@@ -177,11 +175,11 @@ class EditInfoViewController: UIViewController {
             } else {
                 if (name != "") { // 이름이 공백이 아니면
                     if (userType == "teacher") { // 선생님인 경우, 선생님 정보 저장 메소드로 정보 저장
-                        SaveTeacherInfos(name: name, password: newPW, parentPW: parentPW)
+                        settingDB.SaveTeacherInfos(name: name, password: newPW, parentPW: parentPW)
                     } else if (userType == "student") { // 학생인 경우, 학생 정보 저장 메소드로 정보 저장
-                        SaveStudentInfos(name: name, password: newPW, parentPassword: self.parentPassword)
+                        settingDB.SaveStudentInfos(name: name, password: newPW, parentPassword: self.parentPassword)
                     } else if (userType == "parent") {
-                        SaveParentInfos(name: name, password: newPW, childPhoneNumber: parentPW)
+                        settingDB.SaveParentInfos(name: name, password: newPW, childPhoneNumber: parentPW)
                     }
                     
                     if (userType == "parent") {

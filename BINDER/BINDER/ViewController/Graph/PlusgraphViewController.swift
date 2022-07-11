@@ -12,8 +12,6 @@ import FirebaseAuth
 import FirebaseDatabase
 
 public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    let db = Firestore.firestore()
     var ref: DatabaseReference!
     
     @IBOutlet weak var studyShowPicker: UITextField!
@@ -23,6 +21,7 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
     @IBOutlet weak var scoreLabel: UILabel!
     
     var functionShare = FunctionShare()
+    var detailClassDB = DetailClassDBFunctions()
     
     var todayStudy: String!
     var todayScore: String!
@@ -98,7 +97,7 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
     @objc func donePicker() {
         studyShowPicker.text = todayStudy
         self.studyShowPicker.resignFirstResponder()
-        GetScoreForEdit(self: self, todayStudy: todayStudy)
+        detailClassDB.GetScoreForEdit(self: self, todayStudy: todayStudy)
     }
     
     @objc func cancelPicker() {
@@ -114,7 +113,7 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
         } else if todayScore == "" {
             scoreLabel.text = "성적을 작성해주세요"
         } else {
-            SaveGraphScore(todayStudy: todayStudy, todayScore: todayScore, self: self)
+            detailClassDB.SaveGraphScore(todayStudy: todayStudy, todayScore: todayScore, self: self)
         }
     }
     

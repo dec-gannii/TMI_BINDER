@@ -7,6 +7,8 @@
 
 import UIKit
 import Firebase
+import RxSwift
+import RxCocoa
 
 /// log in view controller
 public class LogInViewController: UIViewController {
@@ -15,6 +17,7 @@ public class LogInViewController: UIViewController {
     @IBOutlet weak var emailAlertLabel: UILabel!
     @IBOutlet weak var pwAlertLabel: UILabel!
     @IBOutlet weak var stackview: UIStackView!
+    @IBOutlet weak var loginButton: UIButton!
     
     // 변수 선언
     var isLogouted: Bool!
@@ -22,6 +25,9 @@ public class LogInViewController: UIViewController {
     var name:String!
     
     var functionShare = FunctionShare()
+    var loginDB = LogInVCDBFunctions()
+    
+    var disposeBag = DisposeBag()
     
     func _init(){
         isLogouted = true
@@ -29,38 +35,64 @@ public class LogInViewController: UIViewController {
         name = ""
     }
     
+    private func checkId(_ email: String) -> Bool {
+        return email.contains("@") && email.contains(".")
+    }
+    
+    private func checkPw(_ password: String) -> Bool {
+        return password.count >= 6 && !password.isEmpty
+    }
+    
+    private func bindUI() {
+        
+        let idInputOb = emailTextField.rx.text.orEmpty.asObservable()
+        let idCheckOb = idInputOb.map(checkId)   // 아이디 유형체크
+        let pwInputOb = pwTextField.rx.text.orEmpty.asObservable()
+        let pwCheckOb = pwInputOb.map(checkPw)   // 비밀번호 유형체크
+        
+        self.emailAlertLabel.isHidden = true
+        self.pwAlertLabel.isHidden = true
+        
+        idCheckOb.subscribe(onNext: { s in   // s: true or false
+                if s {   //아이디 형식이 맞는경우
+                    self.emailAlertLabel.isHidden = true
+                } else {  //아이디 형식 아닌경우
+                    self.emailAlertLabel.text = StringUtils.emailValidationAlert.rawValue
+                    self.emailAlertLabel.textColor = .red
+                    self.emailAlertLabel.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        pwCheckOb.subscribe(onNext: { s in   // s: true or false
+                if s {   //아이디 형식이 맞는경우
+                    self.pwAlertLabel.isHidden = true
+                } else {  //아이디 형식 아닌경우
+                    self.pwAlertLabel.text = StringUtils.wrongPassword.rawValue
+                    self.pwAlertLabel.textColor = .red
+                    self.pwAlertLabel.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        Observable.combineLatest(
+            //아이디 유형을 체크한 값이 내려옴 true/false
+            idCheckOb, pwCheckOb, resultSelector: {s1, s2 in s1 && s2}
+            )
+            .subscribe(onNext: {s in  // s1 && s2 결과값
+                self.loginButton.isEnabled = s
+                if s {
+                    self.loginButton.backgroundColor = .skyBlue
+                } else {
+                    self.loginButton.backgroundColor = .white
+                }
+            })
+            .disposed(by: disposeBag)
+        }
+    
     /// Load View
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //        if (isLogouted == false) {
-        //            GIDSignIn.sharedInstance()?.restorePreviousSignIn() // 자동로그인
-        //        }
-        
-        /// 전시용 코드
-        print("fcmToken: \(Messaging.messaging().fcmToken!)")
-        let fcmToken = Messaging.messaging().fcmToken
-        
-        let loginView = LogInViewController()
-        
-        if(fcmToken == "e9o0G9ROxE2YvggFLStPSL:APA91bFeXkpKYEd63hivg2O7BuiZLVh7mlu2trGmTWi5mMpJ5PlfY5c69Tcn8i6w2vLSTgpvAs_EEN6gWO-BaA__GG2ZOrAg04ncwYPlVFvVprPyghzqYMulMoUEkzdYPuXd9oyySvhH"){
-            let email = "rlarkdms0123@naver.com"
-            let pw = "123456"
-            self.emailTextField.text = email
-            self.pwTextField.text = pw
-        } else if (fcmToken == "c3Y07619p0uRtOnbk1D3z0:APA91bGWxIOCAPfgelT0Q-kXF5mkKFZvrbEDagaROacLrFYtCqZTIHLYRvZ19-xcm4La4GltypP5s8sldtOIPqKuv52zLEEglKHN4tz671Sk7s7OJ2N2F5-gUJs9rT_gO8IV2t3q-BhW"){
-            let email = "decrkdms@gmail.com"
-            let pw = "123456"
-            self.emailTextField.text = email
-            self.pwTextField.text = pw
-        } else {
-            let email = "graduate.tmi@gmail.com"
-            let pw = "123456"
-            self.emailTextField.text = email
-            self.pwTextField.text = pw
-        }
-        /// 전시용 코드 끝
-        
         
         /// 키보드 띄우기
         self.emailTextField.becomeFirstResponder()
@@ -72,6 +104,8 @@ public class LogInViewController: UIViewController {
         
         emailAlertLabel.isHidden = true
         pwAlertLabel.isHidden = true
+        
+        bindUI()
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
@@ -113,7 +147,7 @@ public class LogInViewController: UIViewController {
                 }
             } else {
                 // 별 오류 없으면 로그인 되어서 홈 뷰 컨트롤러 띄우기
-                LogInAndShowHomeVC(email: email, password: password, self: self)
+                self.loginDB.LogInAndShowHomeVC(email: email, password: password, self: self)
             }
         }
     }

@@ -12,6 +12,7 @@ public class AddStudentVC: BaseVC {
     @IBOutlet weak var emailTf: UITextField!
     
     weak var delegate: AddStudentDelegate?
+    var myClassDB = MyClassDBFunctions()
     var functionShare = FunctionShare()
     
     public override func updateViewConstraints() {
@@ -40,7 +41,6 @@ public class AddStudentVC: BaseVC {
         
         functionShare.textFieldPaddingSetting(textfields)
         
-        
         /// 키보드 띄우기
         emailTf.becomeFirstResponder()
     }
@@ -63,7 +63,7 @@ public class AddStudentVC: BaseVC {
             showDefaultAlert(msg: "이메일을 입력해주세요.")
             return
         }
-        SearchStudent(self: self, email: email)
+        myClassDB.SearchStudent(self: self, email: email)
     }
 }
 

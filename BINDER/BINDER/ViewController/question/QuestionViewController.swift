@@ -7,15 +7,11 @@
 
 import UIKit
 import Kingfisher
-import Firebase
 import AVFoundation
 
 public class QuestionViewController: BaseVC {
     // 테이블 뷰 연결
     @IBOutlet weak var questionTV: UITableView!
-    
-    let db = Firestore.firestore()
-    var docRef : CollectionReference!
     
     // 값을 넘겨주기 위한 변수들
     var index : Int!
@@ -25,10 +21,11 @@ public class QuestionViewController: BaseVC {
     var classColor : String!
     var type = ""       // 유저의 타입
     var questionItems: [QuestionItem] = []
+    var questionDB = QuestionDBFunctions()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        GetUserInfoInQuestionVC(self: self)
+        questionDB.GetUserInfoInQuestionVC(self: self)
     }
     
     /// 선생님 셋팅
@@ -56,7 +53,7 @@ public class QuestionViewController: BaseVC {
     /// 질문방 내용 세팅
     // 내 수업 가져오기
     func setQuestionroom() {
-        SetQuestionRoom(self: self)
+        questionDB.SetQuestionRoom(self: self)
     }
 }
 
@@ -90,6 +87,6 @@ extension QuestionViewController: UITableViewDelegate, UITableViewDataSource {
     
     /// didDelectRowAt: 셀 전체 클릭
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        QuestionCellClicked(self: self, indexPath: indexPath)
+        questionDB.QuestionCellClicked(self: self, indexPath: indexPath)
     }
 }

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Firebase
 import Kingfisher
 import SwiftUI
 
@@ -18,10 +17,10 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var manageBtn: UIButton!
     @IBOutlet weak var memoBtn: UIButton!
     
-    let db = Firestore.firestore()
     var btnDesign = ButtonDesign()
     var viewDesign = ViewDesign()
     var functionShare = FunctionShare()
+    var myPageDB = MyPageDBFunctions()
     
     func setUI() {
         var textfields = [UITextField]()
@@ -135,7 +134,7 @@ class AddPortfolioItemViewController: UIViewController, UITextViewDelegate {
             } else if (data == memoBtn.titleLabel!.text) {
                 title = "memo"
             }
-            AddPortfolioFactors(title: title, content: content)
+            myPageDB.AddPortfolioFactors(title: title, content: content)
             dismiss(animated: true, completion: nil)
         } else {
             print("Document does not exist")

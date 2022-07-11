@@ -6,13 +6,8 @@
 //
 
 import UIKit
-import Firebase
-import FirebaseDatabase
-import FirebaseFirestore
 
 public class TeacherEvaluationViewController: UIViewController {
-    let db = Firestore.firestore()
-    
     @IBOutlet var studentTitle: UILabel!
     @IBOutlet var TeacherTitle: UILabel!
     @IBOutlet var averageHomeworkCompletion: UILabel!
@@ -32,12 +27,12 @@ public class TeacherEvaluationViewController: UIViewController {
     var teacherUid: String!
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
-    
+    var parentDB = ParentDBFunctions()
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        GetEvaluation(self: self)
-        GetUserAndClassInfo(self: self)
+        parentDB.GetEvaluation(self: self)
+        parentDB.GetUserAndClassInfo(self: self)
         
         self.view.roundCorners(corners: [.topLeft, .topRight], radius: 30.0)
         
@@ -77,13 +72,13 @@ public class TeacherEvaluationViewController: UIViewController {
     }
     
     public override func viewWillAppear(_ animated: Bool) {
-        GetEvaluation(self: self)
-        GetUserAndClassInfo(self: self) // 사용자 정보 가져오기
+        parentDB.GetEvaluation(self: self)
+        parentDB.GetUserAndClassInfo(self: self) // 사용자 정보 가져오기
     }
     
     /// 선생님 평가 저장 버튼 클릭 시 실행되는 메소드
     @IBAction func SaveTeacherEvaluation(_ sender: Any) {
-        BINDER.SaveTeacherEvaluation(self: self)
+        parentDB.SaveTeacherEvaluation(self: self)
         // modal dismiss
         self.dismiss(animated: true, completion: nil)
     }

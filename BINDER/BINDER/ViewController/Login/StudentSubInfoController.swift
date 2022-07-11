@@ -8,13 +8,8 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-import FirebaseDatabase
 
 public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    let db = Firestore.firestore()
-    var ref: DatabaseReference!
-    
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
@@ -32,6 +27,7 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet weak var ageAlertLabel: UILabel!
     
     let functionShare = FunctionShare()
+    let studentSubInfoDB = StudentSubInfoVCDBFunctions()
     
     let agelist = ["초등학생","중학생","고등학생","일반인"]
     var age = "0"
@@ -43,7 +39,6 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        ref = Database.database().reference()
         
         var textfields = [UITextField]()
         textfields = [self.ageShowPicker, self.phonenumTextField, self.goalTextField]
@@ -165,7 +160,7 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
     
     @IBAction func goSignInPage(_ sender: Any) {
         let user = Auth.auth().currentUser // 사용자 정보 가져오기
-        DeleteUser(self: self)
+        studentSubInfoDB.DeleteUser(self: self)
         // 로그인 화면(첫화면)으로 다시 이동
         guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
         loginVC.modalPresentationStyle = .fullScreen
@@ -186,7 +181,7 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
             var thirdPart = ""
             var count = 0
             
-            for char in phonenum{
+            for char in phonenum {
                 if (count >= 0 && count <= 2) {
                     firstPart += String(char)
                 } else if (count >= 3 && count <= 6){
@@ -208,7 +203,7 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
             } else {
                 // 데이터 저장
                 ageAlertLabel.isHidden = true
-                UpdateTeacherSubInfo(parentPW: ageShowPicker.text!)
+                studentSubInfoDB.UpdateTeacherSubInfo(parentPW: ageShowPicker.text!)
                 guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else { return }
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 self.present(tb, animated: true, completion: nil)
@@ -235,16 +230,16 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
                 phoneAlertLabel.isHidden = true
                 ageAlertLabel.isHidden = true
                 // 데이터 저장
-                UpdateStudentSubInfo(age: age, phonenum: phoneNumberWithDash, goal: goal)
+                studentSubInfoDB.UpdateStudentSubInfo(age: age, phonenum: phoneNumberWithDash, goal: goal)
                 guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else { return }
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 self.present(tb, animated: true, completion: nil)
             }
         } else if (type == "parent") {
             // 선생님 이메일 이용한 비밀번호 받아오기
-            SaveChildPhoneNum(childPhoneNumber: phoneNumberWithDash)
+            studentSubInfoDB.SaveChildPhoneNum(childPhoneNumber: phoneNumberWithDash)
             if(isValidEmail(goal)){
-                CheckStudentPhoneNumberForParent(phoneNumber: phoneNumberWithDash, self: self, goal: goal)
+                studentSubInfoDB.CheckStudentPhoneNumberForParent(phoneNumber: phoneNumberWithDash, self: self, goal: goal)
                 guard let tb = self.storyboard?.instantiateViewController(withIdentifier: "ParentTabBarController") as? TabBarController else { return }
                 tb.modalPresentationStyle = .fullScreen //전체화면으로 보이게 설정
                 self.present(tb, animated: true, completion: nil)

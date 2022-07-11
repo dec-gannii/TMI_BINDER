@@ -7,19 +7,14 @@
 // 비밀번호 확인 화면
 
 import UIKit
-import Firebase
-import FirebaseDatabase
 
 public class CheckPasswordViewController: UIViewController {
-    
-    var ref: DatabaseReference!
-    let db = Firestore.firestore()
-    
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var okBtn: UIButton!
     var currentPW = ""
     var functionShare = FunctionShare()
+    var settingDB = SettingDBFunctions()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +26,7 @@ public class CheckPasswordViewController: UIViewController {
         
         functionShare.textFieldPaddingSetting(textfields)
         
-        GetPW() // 현재 비밀번호가 맞는지 확인하기 위해 호출
+        settingDB.GetPW() // 현재 비밀번호가 맞는지 확인하기 위해 호출
         okBtn.clipsToBounds = true
         okBtn.layer.cornerRadius = 10
     }

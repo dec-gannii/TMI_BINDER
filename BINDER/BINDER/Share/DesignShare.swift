@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FSCalendar
 
 struct LoginDesign {
     var textColor = UIColor.black
@@ -15,11 +16,11 @@ struct LoginDesign {
 
 struct ViewDesign {
     var EdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    var borderWidth = 1.0 // 뷰들간
+    var borderWidth = 1.0
     var borderColor = UIColor.systemGray6.cgColor
     var shadowColor = UIColor.black.cgColor
     
-    var titleColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100) // 토글등 보여질 색상
+    var titleColor = UIColor.init(red: 19/255, green: 32/255, blue: 62/255, alpha: 100) // 토글 등 보여질 색상
     
     var viewconerRadius = CGFloat(30)
     var childViewconerRadius = CGFloat(15)
@@ -29,28 +30,38 @@ struct ViewDesign {
 }
 
 struct CalendarDesign {
+    var dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "ko_KR")
+        df.dateFormat = "yyyy년 MM월"
+        return df
+    }()
+    
+    func setCalendar(calendarView: FSCalendar, monthLabel: UILabel) {
+        calendarView.headerHeight = 0
+        calendarView.scope = .month
+        monthLabel.text = dateFormatter.string(from: calendarView.currentPage)
+    }
     
     var headerHeight = CGFloat(16)
     var weekdayHeight = CGFloat(14)
     
-    
-    var calendarColor = UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-    var calendarTodayColor = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
-    var calendartitleColor = UIColor(red: 196/255, green: 196/255, blue: 196/255, alpha: 1.0)
+    var calendarColor = UIColor.blue
+    var calendarTodayColor = UIColor.skyBlue
+    var calendartitleColor = UIColor.gray2
 
     var headerFont = UIFont.systemFont(ofSize: 12)
     var titleFont = UIFont.systemFont(ofSize: 13)
 }
 
 struct ChartDesign {
+    var gridColor = UIColor.gray1
     
-    var gridColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 0.4)
-    
-    var chartColor_60 = UIColor(red: 205, green: 231, blue: 252, alpha: 1)
+    var chartColor_60 = UIColor.skyBlue
     var chartColor_70 = UIColor(red: 158, green: 211, blue: 255, alpha: 1)
     var chartColor_80 = UIColor(red: 84, green: 179, blue: 255, alpha: 1)
     var chartColor_90 = UIColor(red: 0, green: 141, blue: 255, alpha: 1)
-    var chartColor_100 = UIColor(red: 0, green: 103, blue: 255, alpha: 1)
+    var chartColor_100 = UIColor.blue
 }
 
 struct ButtonDesign {

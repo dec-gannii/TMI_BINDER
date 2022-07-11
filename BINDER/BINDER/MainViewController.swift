@@ -22,6 +22,8 @@ public class MainViewController : UIViewController {
     var name:String!
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
+    var mainDB = MainVCDBFunctions()
+    
     fileprivate var currentNonce: String?
     
     let authorizationAppleIDButton = ASAuthorizationAppleIDButton()
@@ -97,7 +99,7 @@ extension MainViewController: GIDSignInDelegate {
         
         guard let auth = user.authentication else { return }
         let googleCredential = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken) // 파이어베이스 로그인
-        GoogleLogIn(googleCredential: googleCredential, self: self)
+        mainDB.GoogleLogIn(googleCredential: googleCredential, self: self)
     }
 }
 
@@ -127,7 +129,7 @@ extension MainViewController: ASAuthorizationControllerPresentationContextProvid
                                                       rawNonce: nonce)
             
             let appleSignIndb = Firestore.firestore()
-            AppleLogIn(credential: credential, self: self)
+            mainDB.AppleLogIn(credential: credential, self: self)
         }
     }
     

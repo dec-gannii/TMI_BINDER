@@ -25,4 +25,43 @@ extension UIColor {
         self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: alpha)
     }
     
+    @nonobjc class var white: UIColor {
+      return UIColor(white: 1.0, alpha: 1.0)
+    }
+
+    @nonobjc class var gray2: UIColor {
+      return UIColor(white: 194.0 / 255.0, alpha: 1.0)
+    }
+
+    @nonobjc class var gray1: UIColor {
+      return UIColor(white: 245.0 / 255.0, alpha: 1.0)
+    }
+
+    @nonobjc class var black: UIColor {
+      return UIColor(white: 0.0, alpha: 1.0)
+    }
+
+    @nonobjc class var blue: UIColor {
+      return UIColor(red: 1.0 / 255.0, green: 104.0 / 255.0, blue: 1.0, alpha: 1.0)
+    }
+
+    @nonobjc class var gray3: UIColor {
+      return UIColor(red: 179.0 / 255.0, green: 178.0 / 255.0, blue: 185.0 / 255.0, alpha: 1.0)
+    }
+
+    @nonobjc class var gray17: UIColor {
+      return UIColor(white: 215.0 / 255.0, alpha: 1.0)
+    }
+
+    @nonobjc class var gray15: UIColor {
+      return UIColor(white: 229.0 / 255.0, alpha: 1.0)
+    }
+
+    @nonobjc class var gray4: UIColor {
+      return UIColor(red: 84.0 / 255.0, green: 83.0 / 255.0, blue: 87.0 / 255.0, alpha: 1.0)
+    }
+
+    @nonobjc class var skyBlue: UIColor {
+      return UIColor(red: 205.0 / 255.0, green: 231.0 / 255.0, blue: 252.0 / 255.0, alpha: 1.0)
+    }
 }

@@ -6,10 +6,8 @@
 //
 
 import UIKit
-import FirebaseFirestore
 import Firebase
 import Kingfisher
-import FirebaseStorage
 import Photos
 
 public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINavigationControllerDelegate {
@@ -27,19 +25,16 @@ public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINav
     @IBOutlet weak var portfolioShowView: UIView!
     
     let imagePicker: UIImagePickerController! = UIImagePickerController()
-    let storage = Storage.storage()
-    var storageRef:StorageReference!
-    let db = Firestore.firestore()
     var profile:String!
     var type:String!
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
+    var myPageDB = MyPageDBFunctions()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        storageRef = storage.reference()
-        GetUserInfoForMyPage(self: self)
-        GetPortfolioShow(self: self)
+        myPageDB.GetUserInfoForMyPage(self: self)
+        myPageDB.GetPortfolioShow(self: self)
         imageChange()
     }
     
@@ -72,7 +67,7 @@ public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINav
     }
     
     @IBAction func ShowProtfolioBtnClicked(_ sender: Any) {
-        PortfolioToggleButtonClicked(self: self)
+        myPageDB.PortfolioToggleButtonClicked(self: self)
     }
     
     @IBAction func LogOutBtnClicked(_ sender: Any) {
@@ -114,6 +109,6 @@ public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINav
         }
         
         imageView.image = selectedImage
-        SaveImage(self: self)
+        myPageDB.SaveImage(self: self)
     }
 }

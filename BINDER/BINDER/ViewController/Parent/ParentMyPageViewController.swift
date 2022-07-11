@@ -8,22 +8,19 @@
 import UIKit
 import Firebase
 import Kingfisher
-import FirebaseStorage
 import Photos
-import FirebaseFirestore
 
 // 학부모 버전의 myPage 화면
 public class ParentMyPageViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    let db = Firestore.firestore()
     let imagePicker: UIImagePickerController! = UIImagePickerController()
-    let storage = Storage.storage()
-    var storageRef:StorageReference!
+    
     var profile:String!
     var viewDesign = ViewDesign()
+    var functionShare = FunctionShare()
+    var parentDB = ParentDBFunctions()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        storageRef = storage.reference()
         imageChange() // 이미지 변경
         self.profileImageView.makeCircle() // 프로필 이미지 동그랗게 보이도록 설정
     }
@@ -35,11 +32,11 @@ public class ParentMyPageViewController: UIViewController, UIImagePickerControll
     @IBOutlet weak var childNameLabel: UILabel! // 학생 이름 Label
     
     public override func viewWillAppear(_ animated: Bool) {
-        GetParentInfo(self: self)
+        parentDB.GetParentInfo(self: self)
     }
     /// 학생 전화번호 삭제 버튼 클릭 시 실행
     @IBAction func DeleteChildInfoBtnClicked(_ sender: Any) {
-        DeleteChildPhone()
+        parentDB.DeleteChildPhone()
         // 없애고 나면 전화번호가 없는 것이므로 아예 숨겨주기
         self.childInfoBackgroundView.isHidden = true
     }
@@ -104,15 +101,8 @@ public class ParentMyPageViewController: UIViewController, UIImagePickerControll
             present(imagePicker, animated: true, completion: nil)
             
         } else {
-            myAlert("갤러리 접근 불가", message: StringUtils.galleryAccessFail.rawValue)
+            functionShare.AlertShow(alertTitle: "갤러리 접근 불가", message: StringUtils.galleryAccessFail.rawValue, okTitle: "확인", self: self)
         }
-    }
-    
-    func myAlert(_ title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default , handler: nil)
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
     }
     
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -127,6 +117,6 @@ public class ParentMyPageViewController: UIViewController, UIImagePickerControll
         }
         
         profileImageView.image = selectedImage
-        SaveProfileImage(self: self, profile: self.profile!)
+        parentDB.SaveProfileImage(self: self, profile: self.profile!)
     }
 }

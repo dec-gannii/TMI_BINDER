@@ -16,8 +16,8 @@ class CircleButton: UIButton {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        backgroundColor = UIColor.init(rgb: 0xF5F5F5)
-        setTitleColor(UIColor.init(rgb: 0x545357), for: .normal)
+        backgroundColor = .gray1
+        setTitleColor(.gray4, for: .normal)
     }
     
     override func layoutSubviews() {
@@ -27,18 +27,16 @@ class CircleButton: UIButton {
     /// 클릭했을 때가 Highlight
     override open var isHighlighted: Bool {
         didSet {
-            backgroundColor = isHighlighted ? UIColor.init(rgb: 0xCDE7FC) : isSelected ? UIColor.init(rgb: 0xCDE7FC) : UIColor.init(rgb: 0xF5F5F5)
-            setTitleColor(isHighlighted ? UIColor.init(rgb: 0x0168FF) : isSelected ? UIColor.init(rgb: 0x0168FF) : UIColor.init(rgb: 0x545357), for: .normal)
+            backgroundColor = isHighlighted ? .skyBlue : isSelected ? .skyBlue : .gray1
+            setTitleColor(isHighlighted ? .blue : isSelected ? .blue : .gray4, for: .normal)
         }
     }
     
     override open var isSelected: Bool {
         didSet {
-            backgroundColor = isSelected ? UIColor.init(rgb: 0xCDE7FC) : UIColor.init(rgb: 0xF5F5F5)
-            setTitleColor(isSelected ? UIColor.init(rgb: 0x0168FF) : UIColor.init(rgb: 0x545357), for: .normal)
+            backgroundColor = isSelected ? .skyBlue : .gray1
+            setTitleColor(isSelected ? .blue : .gray4, for: .normal)
         }
     }
-
-    
     
 }

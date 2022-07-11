@@ -11,6 +11,20 @@ import FSCalendar
 import FirebaseStorage
 
 struct FunctionShare{
+    func LoadingShow(sec: Double) {
+        LoadingHUD.show()
+        DispatchQueue.main.asyncAfter(deadline: .now() + sec) {
+            LoadingHUD.hide()
+        }
+    }
+
+    func AlertShow(alertTitle: String, message: String, okTitle: String, self: UIViewController) {
+        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: okTitle, style: .default) { (action) in }
+        alert.addAction(okAction)
+        self.present(alert, animated: false, completion: nil)
+    }
+
     func viewDecorating(btn: UIButton, view: UIView, design: ViewDesign){
         btn.layer.cornerRadius = design.viewconerRadius
         view.layer.cornerRadius = design.viewconerRadius
@@ -51,7 +65,6 @@ struct FunctionShare{
     
     /// calendar custom
     func calendarColor(view: FSCalendar, design: CalendarDesign) {
-        
         view.appearance.weekdayTextColor = .systemGray
         view.appearance.titleWeekendColor = .black
         view.appearance.headerTitleColor =  design.calendarColor

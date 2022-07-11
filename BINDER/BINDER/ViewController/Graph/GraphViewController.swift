@@ -26,6 +26,7 @@ public class GraphViewController: UIViewController {
     var barColors = [UIColor]()
     
     var chartDesign = ChartDesign()
+    var detailClassDB = DetailClassDBFunctions()
     
     func _init(){
         userEmail = ""
@@ -96,7 +97,7 @@ public class GraphViewController: UIViewController {
             } else {
                 studentEmail = email
             }
-            GetScores(self: self, studentEmail: studentEmail)
+            detailClassDB.GetScores(self: self, studentEmail: studentEmail)
         }
     }
 }

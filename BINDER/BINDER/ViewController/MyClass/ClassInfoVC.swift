@@ -35,6 +35,7 @@ public class ClassInfoVC: BaseVC {
     weak var delegate: AddStudentDelegate?
     
     var studentItem: StudentItem!
+    var myClassDB = MyClassDBFunctions()
     var functionShare = FunctionShare()
     
     // MARK: - 라이프 사이클
@@ -143,8 +144,8 @@ extension ClassInfoVC {
             return
         }
         
-        SaveClassInfo(self: self, subject: subject, payDate: payDate, payment: payment, schedule: schedule)
-        GetTeacherClassCount(self: self)
+        myClassDB.SaveClassInfo(self: self, subject: subject, payDate: payDate, payment: payment, schedule: schedule)
+        myClassDB.GetTeacherClassCount(self: self)
     }
     
     /// 과외비 버튼 클릭

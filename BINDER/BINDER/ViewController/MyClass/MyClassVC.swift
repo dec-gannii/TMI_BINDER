@@ -17,6 +17,8 @@ public class MyClassVC: BaseVC{
     var type = ""
     var studentEmail = ""
     
+    var myClassDB = MyClassDBFunctions()
+    
     // MARK: - 라이프 사이클
     
     public override func viewDidLoad() {
@@ -42,14 +44,14 @@ public class MyClassVC: BaseVC{
     
     /// 유저 정보 가져오기
     func getUserInfo() {
-        GetUserInfoForClassList(self: self)
+        myClassDB.GetUserInfoForClassList(self: self)
     }
     
     /// 선생님 셋팅
     func setTeacherInfo() {
         LoginRepository.shared.doLogin {
             /// 클래스 가져오기
-            SetMyClasses(self: self)
+            self.myClassDB.SetMyClasses(self: self)
         } failure: { error in
             self.showDefaultAlert(msg: "")
         }
@@ -60,7 +62,7 @@ public class MyClassVC: BaseVC{
     func setStudentInfo() {
         LoginRepository.shared.doLogin {
             /// 클래스 가져오기
-            SetMyClasses(self: self)
+            self.myClassDB.SetMyClasses(self: self)
         } failure: { error in
             self.showDefaultAlert(msg: "")
         }
@@ -103,7 +105,7 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
             let item:ClassItem = classItems[indexPath.row]
             
             if (self.type == "teacher") {
-                cell.studentName.text = "\(item.name)"
+                cell.studentName.text = "\(item.name) 학생"
                 
             } else {
                 cell.studentName.text = "\(item.name) 선생님"
@@ -125,7 +127,7 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
     /// 수업관리하기 버튼 클릭
     /// - Parameter sender: 버튼
     @IBAction func onClickManageButton(_ sender: UIButton) {
-        MoveToDetailClassVC(self: self, sender: sender)
+        myClassDB.MoveToDetailClassVC(self: self, sender: sender)
         print("클릭됨 : \(sender.tag)")
     }
     
@@ -150,7 +152,7 @@ extension MyClassVC: AddStudentDelegate {
     
     /// 학생 추가가 완료된 경우
     func onSuccess() {
-        SetMyClasses(self: self)
+        myClassDB.SetMyClasses(self: self)
     }
     
 }

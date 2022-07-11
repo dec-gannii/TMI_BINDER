@@ -7,12 +7,8 @@
 
 import UIKit
 import Kingfisher
-import Firebase
 
 public class QuestionDetailViewController: UIViewController {
-    
-    let db = Firestore.firestore()
-    
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var titleName: UILabel!
     @IBOutlet weak var questionContent: UITextView!
@@ -28,9 +24,12 @@ public class QuestionDetailViewController: UIViewController {
     var qnum: Int!
     var teacherUid: String!
     
+    var functionShare = FunctionShare()
+    var questionDB = QuestionDBFunctions()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
-        GetUserInfoInQuestionDetailVC(self: self)
+        questionDB.GetUserInfoInQuestionDetailVC(self: self)
     }
     
     @IBAction func undoBtn(_ sender: Any) {
@@ -62,10 +61,7 @@ public class QuestionDetailViewController: UIViewController {
     
     // 질문 리스트 가져오기
     func setQuestion() {
-        LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            LoadingHUD.hide()
-        }
-        SetQuestion(self: self)
+        functionShare.LoadingShow(sec: 2.0)
+        questionDB.SetQuestion(self: self)
     }
 }

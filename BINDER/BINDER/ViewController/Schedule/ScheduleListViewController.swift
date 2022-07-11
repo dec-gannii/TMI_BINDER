@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Firebase
 
 // 일정 리스트 뷰 컨트롤러
 public class ScheduleListViewController: UIViewController {
@@ -20,7 +19,7 @@ public class ScheduleListViewController: UIViewController {
     var selectedTitle: String = ""
     var type: String = ""
     
-    let db = Firestore.firestore()
+    var scheduleDB = ScheduleVCDBFunctions()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,9 +45,8 @@ public class ScheduleListViewController: UIViewController {
         let date = formatter.date(from: dateWithoutDays[0])!
         let datestr = formatter.string(from: date)
         
-        
         // 데이터베이스에서 일정 리스트 가져오기
-        ShowScheduleList(type: self.type, date: self.date, datestr: datestr, scheduleTitles: scheduleTitles, scheduleMemos: scheduleMemos, count: self.count)
+        scheduleDB.ShowScheduleList(type: self.type, date: self.date, datestr: datestr, scheduleTitles: scheduleTitles, scheduleMemos: scheduleMemos, count: self.count)
         
         scheduleListTableView.reloadData()
     }
@@ -79,7 +77,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
         let datestr = formatter.string(from: date)
         
         // 일정 리스트 받아와서 날짜에 맞는 일정 텍스트 설정
-        SetScheduleTexts(type: self.type, date: self.date, datestr: datestr, scheduleTitles: self.scheduleTitles, scheduleMemos: self.scheduleMemos, count: self.count, scheduleCell: scheduleCell, indexPathRow: indexPath.row)
+        scheduleDB.SetScheduleTexts(type: self.type, date: self.date, datestr: datestr, scheduleTitles: self.scheduleTitles, scheduleMemos: self.scheduleMemos, count: self.count, scheduleCell: scheduleCell, indexPathRow: indexPath.row)
         // 날짜는 선택된 날짜로 고정되도록 설정
         scheduleCell.scheduleDate.text = self.date
         
@@ -107,7 +105,7 @@ extension ScheduleListViewController: UITableViewDataSource, UITableViewDelegate
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let selectedTitle = publicTitles[indexPath.row]
         if editingStyle == .delete {
-            DeleteSchedule(type: self.type, date: self.date, indexPathRow: indexPath.row, scheduleListTableView: self.scheduleListTableView)
+            scheduleDB.DeleteSchedule(type: self.type, date: self.date, indexPathRow: indexPath.row, scheduleListTableView: self.scheduleListTableView)
         }
     }
 }

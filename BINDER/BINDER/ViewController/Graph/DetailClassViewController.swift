@@ -9,10 +9,8 @@ import UIKit
 import Firebase
 import FSCalendar
 import Charts
-import BLTNBoard
 
 public class DetailClassViewController: UIViewController {
-    let db = Firestore.firestore()
     var ref: DatabaseReference!
     /// 변수 선언
     @IBOutlet weak var progressLabel: UILabel!
@@ -55,6 +53,7 @@ public class DetailClassViewController: UIViewController {
     var calenderDesign = CalendarDesign()
     var btnDesign = ButtonDesign()
     var functionShare = FunctionShare()
+    var detailClassDB = DetailClassDBFunctions()
     var payType: String!
     var tname: String!
     var temail: String!
@@ -159,7 +158,7 @@ public class DetailClassViewController: UIViewController {
             self.timeStackView.isHidden = false
         }
         
-        GetEvaluations(self: self, dateStr: dateStr)
+        detailClassDB.GetEvaluations(self: self, dateStr: dateStr)
         
         self.classTimeTextField.keyboardType = .numberPad
         self.testScoreTextField.keyboardType = .numberPad
@@ -224,7 +223,7 @@ public class DetailClassViewController: UIViewController {
     /// monthly evaluation save button clicked
     @IBAction func SaveMonthlyEvaluation(_ sender: Any) {
         getNameFcm()
-        BINDER.SaveMonthlyEvaluation(self: self)
+        detailClassDB.SaveMonthlyEvaluation(self: self)
         
         self.monthlyEvaluationOKBtn.isHidden = true
         self.monthlyEvaluationTextView.isHidden = true
@@ -233,11 +232,10 @@ public class DetailClassViewController: UIViewController {
     
     /// save evaluation button clicked
     @IBAction func OKButtonClicked(_ sender: Any) {
-        SaveDailyEvaluation(self: self)
+        detailClassDB.SaveDailyEvaluation(self: self)
     }
     
     func getNameFcm(){
-        let db = Firestore.firestore()
         // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
         db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
             if let document = document, document.exists {
@@ -313,7 +311,7 @@ extension DetailClassViewController: FSCalendarDelegate, UIViewControllerTransit
         let monthStr = dateFormatter.string(from: selectedDate)
         self.selectedMonth = monthStr
         
-        GetEvaluations(self: self, dateStr: dateStr)
+        detailClassDB.GetEvaluations(self: self, dateStr: dateStr)
     }
     
     public func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool){

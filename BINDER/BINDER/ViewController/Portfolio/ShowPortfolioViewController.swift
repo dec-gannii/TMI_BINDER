@@ -6,14 +6,12 @@
 //
 
 import UIKit
-import Firebase
 
 // 포트폴리오 조회 뷰 컨트롤러
 public class ShowPortfolioViewController: UIViewController {
-    
-    let db = Firestore.firestore()
     var btnDesign = ButtonDesign()
     var functionShare = FunctionShare()
+    var myPageDB = MyPageDBFunctions()
     
     @IBOutlet weak var teacherEmailTextField: UITextField!
     @IBOutlet weak var showBtn: UIButton!
@@ -37,7 +35,7 @@ public class ShowPortfolioViewController: UIViewController {
     
     // 포트폴리오 조회 버튼 클릭 시 실행되는 메소드
     @IBAction func ShowProtfolioBtn(_ sender: Any) {
-        ShowPortfolio(self: self)
+        myPageDB.ShowPortfolio(self: self)
     }
     
     // x 버튼 클릭 시 실행되는 메소드

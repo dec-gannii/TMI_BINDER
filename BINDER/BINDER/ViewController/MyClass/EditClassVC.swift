@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Firebase
 
 public class EditClassVC : UIViewController {
     
@@ -21,6 +20,7 @@ public class EditClassVC : UIViewController {
     @IBOutlet var daysBtn: [UIButton]!
     
     var functionShare = FunctionShare()
+    var myClassDB = MyClassDBFunctions()
     var schedule = ""
     
     @IBOutlet weak var cancelBtn: UIButton!
@@ -108,16 +108,12 @@ public class EditClassVC : UIViewController {
                 schedule += "\((daysBtn[index].titleLabel?.text)!) "
             }
         }
-        UpdateClassInfo(self: self, schedule: schedule)
+        myClassDB.UpdateClassInfo(self: self, schedule: schedule)
         
         if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
-    
-    let db = Firestore.firestore()
-    var ref: DatabaseReference!
-    
     // 이 부분 주석 처리 해제해야 1 코드 적용 했을 때 정상 작동
     var userName = ""
     var userEmail = ""
@@ -142,7 +138,7 @@ public class EditClassVC : UIViewController {
         functionShare.textFieldPaddingSetting(textfields)
         
         box.allRound()
-        GetClassInfo(self: self)
+        myClassDB.GetClassInfo(self: self)
     }
 }
 

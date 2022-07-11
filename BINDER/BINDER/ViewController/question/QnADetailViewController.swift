@@ -8,12 +8,8 @@
 import UIKit
 import AVKit
 import Kingfisher
-import Firebase
 
 public class QnADetailViewController: UIViewController {
-    
-    let db = Firestore.firestore()
-    
     // 값을 받아오기 위한 변수들
     var userName : String!
     var subject : String!
@@ -26,6 +22,9 @@ public class QnADetailViewController: UIViewController {
     var player : AVPlayer!
     var avPlayerLayer : AVPlayerLayer!
     
+    var functionShare = FunctionShare()
+    var questionDB = QuestionDBFunctions()
+    
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var titleName: UILabel!
     @IBOutlet weak var questionContent: UITextView!
@@ -37,18 +36,15 @@ public class QnADetailViewController: UIViewController {
     @IBOutlet weak var answerImgView: UIImageView!
     
     public override func viewWillAppear(_ animated: Bool) {
-        GetUserInfoInQnADetailVC(self: self)
+        questionDB.GetUserInfoInQnADetailVC(self: self)
         setQnA()
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        GetUserInfoInQnADetailVC(self: self)
+        questionDB.GetUserInfoInQnADetailVC(self: self)
         setQnA()
-        LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
-            LoadingHUD.hide()
-        }
+        functionShare.LoadingShow(sec: 2.3)
         self.answerContent.isEditable = false
         answerImgView.isUserInteractionEnabled = false
         imageViewClick()
@@ -96,10 +92,7 @@ public class QnADetailViewController: UIViewController {
     /// 질문방 내용 세팅
     // 질문 리스트 가져오기
     func setQnA() {
-        SetQnA(self: self)
-        LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            LoadingHUD.hide()
-        }
+        questionDB.SetQnA(self: self)
+        functionShare.LoadingShow(sec: 1.0)
     }
 }

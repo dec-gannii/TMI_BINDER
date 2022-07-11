@@ -54,7 +54,6 @@ class StudentEvaluationCell: UITableViewCell, UITextFieldDelegate {
     }
     
     func getEvaluation() {
-        let db = Firestore.firestore()
         db.collection("parent").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")

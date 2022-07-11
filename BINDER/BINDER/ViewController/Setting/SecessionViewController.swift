@@ -10,8 +10,8 @@ import UIKit
 import Firebase
 
 public class SecessionViewController: UIViewController {
-    let db = Firestore.firestore()
     var btnDesign = ButtonDesign()
+    var settingDB = SettingDBFunctions()
     @IBOutlet weak var secessionBtn: UIButton!
     
     public override func viewDidLoad() {
@@ -36,7 +36,7 @@ public class SecessionViewController: UIViewController {
             } else {
                 // Account deleted.
                 // 선생님 학생 학부모이냐에 관계 없이 DB에 저장된 정보 삭제
-                Secession(self: self)
+                self.settingDB.Secession(self: self)
             }
             
             print("delete success, go sign in page")

@@ -7,20 +7,13 @@
 
 import UIKit
 import Firebase
-import FirebaseDatabase
 import FirebaseFirestore
-import FirebaseStorage
 import Photos
 
 public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
-    
-    let db = Firestore.firestore()
-    var ref: DatabaseReference!
-    
     let notification = PushNotificationSender()
-    let storage = Storage.storage()
-    var storageRef:StorageReference!
     var imagePicker:UIImagePickerController!
+    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var questionName: UITextField!
@@ -42,11 +35,13 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     var newImage: UIImage!
     var flagImageSave = false
     
+    var functionShare = FunctionShare()
+    var questionDB = QuestionDBFunctions()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         /// 키보드 띄우기
         self.questionName.becomeFirstResponder()
-        storageRef = storage.reference()
         placeholderSetting()
         getFcm()
         
@@ -109,9 +104,8 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
             default:
                 let alertVC = UIAlertController(title: "권한 필요", message: "사진첩 접근 권한이 필요합니다. 설정 화면에서 설정해주세요", preferredStyle: .alert)
                 
-                let action_settings = UIAlertAction(title: "Go Settings", style: .default){
+                let action_settings = UIAlertAction(title: "설정", style: .default){
                     action in
-                    print("go settings")
                     if let appSettings = URL(string: UIApplication.openSettingsURLString){
                         UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
                     }
@@ -131,22 +125,16 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         studyMemo = textView.text!
         
         if name == "" || studyMemo == "질문 내용을 작성해주세요." {
-            let textalertVC = UIAlertController(title: "알림", message: "질문의 제목 또는 질문 내용을 작성해주세요", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            textalertVC.addAction(okAction)
-            self.present(textalertVC, animated: true, completion: nil)
-            print("제목 없음")
+            functionShare.AlertShow(alertTitle: "알림", message: "질문의 제목 또는 질문 내용을 작성해주세요", okTitle: "확인", self: self)
         }
         else {
-            print("제목 작성 완료")
-            UpdateImage(self: self)
+            questionDB.UpdateImage(self: self)
             
             notification.sendPushNotification(token: fcmtoken, title: "선생님 질문 있어요!", body: "\(self.sname!) 학생이 질문을 올렸어요.")
         }
     }
     
     func getFcm(){
-        let db = Firestore.firestore()
         // 존재하는 데이터라면, 데이터 받아와서 각각 변수에 저장
         db.collection("student").document(Auth.auth().currentUser!.uid).getDocument { (document, error) in
             if let document = document, document.exists {

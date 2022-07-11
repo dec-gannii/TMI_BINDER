@@ -75,7 +75,7 @@
 		7F716942276498B0001FD4F4 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F716941276498B0001FD4F4 /* LogInViewController.swift */; };
 		7F716946276499CA001FD4F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F716945276499CA001FD4F4 /* Main.storyboard */; };
 		7F7818E827B3AE2600241655 /* EditInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7818E727B3AE2600241655 /* EditInfoViewController.swift */; };
-		7F8CC8FA275BB29E00BE195D /* ScheduleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8CC8F9275BB29E00BE195D /* ScheduleListViewController.swift */; };
+		7F79E8D128781D1500C35764 /* ScheduleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F79E8D028781D1500C35764 /* ScheduleListViewController.swift */; };
 		7F94E55D27FAF245000047A7 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F94E55C27FAF245000047A7 /* ResetPasswordViewController.swift */; };
 		7F9B8AF127E0CA11008B705B /* ParentDetailEvaluationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9B8AF027E0CA11008B705B /* ParentDetailEvaluationViewController.swift */; };
 		7F9B8AF327E0D31A008B705B /* TeacherEvaluationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9B8AF227E0D31A008B705B /* TeacherEvaluationViewController.swift */; };
@@ -88,6 +88,18 @@
 		7FCEBE7C2831189500A259E6 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEBE7B2831189500A259E6 /* MyCollectionViewCell.swift */; };
 		7FCEBE7E283118DB00A259E6 /* MyClassDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEBE7D283118DB00A259E6 /* MyClassDetailViewController.swift */; };
 		7FD18BE8281EB7D000FB86C0 /* CustomFirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD18BE7281EB7D000FB86C0 /* CustomFirebaseAPI.swift */; };
+		7FEC1888287C70220029A2E5 /* QuestionVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC1887287C70220029A2E5 /* QuestionVCFunctionShare_DB.swift */; };
+		7FEC188B287C72E40029A2E5 /* MyPageVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC188A287C72E40029A2E5 /* MyPageVCFunctionShare_DB.swift */; };
+		7FEC188D287C73AF0029A2E5 /* SettingVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC188C287C73AF0029A2E5 /* SettingVCFunctionShare_DB.swift */; };
+		7FEC188F287C749B0029A2E5 /* ParentVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC188E287C749B0029A2E5 /* ParentVCFunctionShare_DB.swift */; };
+		7FEC1891287C75110029A2E5 /* MyClassVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC1890287C75110029A2E5 /* MyClassVCFunctionShare_DB.swift */; };
+		7FEC1893287C758A0029A2E5 /* DetailClassVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC1892287C758A0029A2E5 /* DetailClassVCFunctionShare_DB.swift */; };
+		7FEC1895287C763D0029A2E5 /* SignInVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC1894287C763D0029A2E5 /* SignInVCFunctionShare_DB.swift */; };
+		7FEC1897287C77600029A2E5 /* ScheduleVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC1896287C77600029A2E5 /* ScheduleVCFunctionShare_DB.swift */; };
+		7FEC1899287C77DB0029A2E5 /* HomeVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC1898287C77DB0029A2E5 /* HomeVCFunctionShare_DB.swift */; };
+		7FEC189B287C78560029A2E5 /* StudentSubInfoVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC189A287C78560029A2E5 /* StudentSubInfoVCFunctionShare_DB.swift */; };
+		7FEC189F287C790E0029A2E5 /* MainVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC189E287C790E0029A2E5 /* MainVCFunctionShare_DB.swift */; };
+		7FEC18A1287C797D0029A2E5 /* LogInVCFunctionShare_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC18A0287C797D0029A2E5 /* LogInVCFunctionShare_DB.swift */; };
 		7FF0FC3528378EB400D8B313 /* PretendardVariable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7FF0FC3428378EB300D8B313 /* PretendardVariable.ttf */; };
 		7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */; };
 		7FF68A782750C698004EB9E6 /* DetailClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */; };
@@ -165,7 +177,7 @@
 		7F716941276498B0001FD4F4 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		7F716945276499CA001FD4F4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		7F7818E727B3AE2600241655 /* EditInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInfoViewController.swift; sourceTree = "<group>"; };
-		7F8CC8F9275BB29E00BE195D /* ScheduleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleListViewController.swift; sourceTree = "<group>"; };
+		7F79E8D028781D1500C35764 /* ScheduleListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleListViewController.swift; sourceTree = "<group>"; };
 		7F94E55C27FAF245000047A7 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		7F9B8AF027E0CA11008B705B /* ParentDetailEvaluationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentDetailEvaluationViewController.swift; sourceTree = "<group>"; };
 		7F9B8AF227E0D31A008B705B /* TeacherEvaluationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherEvaluationViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +191,18 @@
 		7FCEBE7B2831189500A259E6 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
 		7FCEBE7D283118DB00A259E6 /* MyClassDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyClassDetailViewController.swift; sourceTree = "<group>"; };
 		7FD18BE7281EB7D000FB86C0 /* CustomFirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFirebaseAPI.swift; sourceTree = "<group>"; };
+		7FEC1887287C70220029A2E5 /* QuestionVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC188A287C72E40029A2E5 /* MyPageVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC188C287C73AF0029A2E5 /* SettingVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC188E287C749B0029A2E5 /* ParentVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC1890287C75110029A2E5 /* MyClassVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyClassVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC1892287C758A0029A2E5 /* DetailClassVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailClassVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC1894287C763D0029A2E5 /* SignInVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC1896287C77600029A2E5 /* ScheduleVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC1898287C77DB0029A2E5 /* HomeVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC189A287C78560029A2E5 /* StudentSubInfoVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSubInfoVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC189E287C790E0029A2E5 /* MainVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVCFunctionShare_DB.swift; sourceTree = "<group>"; };
+		7FEC18A0287C797D0029A2E5 /* LogInVCFunctionShare_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVCFunctionShare_DB.swift; sourceTree = "<group>"; };
 		7FF0FC3428378EB300D8B313 /* PretendardVariable.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PretendardVariable.ttf; sourceTree = "<group>"; };
 		7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		7FF68A772750C698004EB9E6 /* DetailClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailClassViewController.swift; sourceTree = "<group>"; };
@@ -202,6 +226,7 @@
 		6918F341281E398D008B3404 /* Share */ = {
 			isa = PBXGroup;
 			children = (
+				7FEC1889287C72BA0029A2E5 /* FirebaseAPI */,
 				6918F342281E39A7008B3404 /* DesignShare.swift */,
 				6965DE79275DEF410072C16A /* CircleButton.swift */,
 				7FD18BE7281EB7D000FB86C0 /* CustomFirebaseAPI.swift */,
@@ -428,8 +453,8 @@
 		7FAC9E5227C213D1005BDFB2 /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
+				7F79E8D028781D1500C35764 /* ScheduleListViewController.swift */,
 				7FF2EF28274CF84200EBAB85 /* AddScheduleViewController.swift */,
-				7F8CC8F9275BB29E00BE195D /* ScheduleListViewController.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -444,6 +469,25 @@
 				7FA6B7D527C0C67100BFEBDA /* SecessionViewController.swift */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		7FEC1889287C72BA0029A2E5 /* FirebaseAPI */ = {
+			isa = PBXGroup;
+			children = (
+				7FEC1887287C70220029A2E5 /* QuestionVCFunctionShare_DB.swift */,
+				7FEC188A287C72E40029A2E5 /* MyPageVCFunctionShare_DB.swift */,
+				7FEC188C287C73AF0029A2E5 /* SettingVCFunctionShare_DB.swift */,
+				7FEC188E287C749B0029A2E5 /* ParentVCFunctionShare_DB.swift */,
+				7FEC1890287C75110029A2E5 /* MyClassVCFunctionShare_DB.swift */,
+				7FEC1892287C758A0029A2E5 /* DetailClassVCFunctionShare_DB.swift */,
+				7FEC1894287C763D0029A2E5 /* SignInVCFunctionShare_DB.swift */,
+				7FEC1896287C77600029A2E5 /* ScheduleVCFunctionShare_DB.swift */,
+				7FEC1898287C77DB0029A2E5 /* HomeVCFunctionShare_DB.swift */,
+				7FEC189A287C78560029A2E5 /* StudentSubInfoVCFunctionShare_DB.swift */,
+				7FEC189E287C790E0029A2E5 /* MainVCFunctionShare_DB.swift */,
+				7FEC18A0287C797D0029A2E5 /* LogInVCFunctionShare_DB.swift */,
+			);
+			path = FirebaseAPI;
 			sourceTree = "<group>";
 		};
 		839068290A7852076C3D8CCB /* Pods */ = {
@@ -606,13 +650,20 @@
 				6965DE85275DEF670072C16A /* BaseVC.swift in Sources */,
 				6FFDBAE727D88004006B0622 /* EditClassVC.swift in Sources */,
 				7FCEBE7E283118DB00A259E6 /* MyClassDetailViewController.swift in Sources */,
+				7FEC189F287C790E0029A2E5 /* MainVCFunctionShare_DB.swift in Sources */,
 				7F2EC22627F5CC8F005A9214 /* LoadingHUD.swift in Sources */,
+				7F79E8D128781D1500C35764 /* ScheduleListViewController.swift in Sources */,
 				7F7818E827B3AE2600241655 /* EditInfoViewController.swift in Sources */,
 				7F2E9EA127DB23D1008991EB /* StudentEvaluationCell.swift in Sources */,
 				6FA406F42764D63900ED847F /* QuestionItem.swift in Sources */,
 				7F63AB6F27B4E3620081ED49 /* TermViewController.swift in Sources */,
+				7FEC189B287C78560029A2E5 /* StudentSubInfoVCFunctionShare_DB.swift in Sources */,
 				7FA6B7D627C0C67100BFEBDA /* SecessionViewController.swift in Sources */,
+				7FEC188F287C749B0029A2E5 /* ParentVCFunctionShare_DB.swift in Sources */,
+				7FEC188D287C73AF0029A2E5 /* SettingVCFunctionShare_DB.swift in Sources */,
+				7FEC1888287C70220029A2E5 /* QuestionVCFunctionShare_DB.swift in Sources */,
 				7F17FB83275BB45500834B4D /* ScheduleCellTableViewCell.swift in Sources */,
+				7FEC1897287C77600029A2E5 /* ScheduleVCFunctionShare_DB.swift in Sources */,
 				7F716942276498B0001FD4F4 /* LogInViewController.swift in Sources */,
 				6965DE70275DEF290072C16A /* UIView.swift in Sources */,
 				7F16D16127496FC800745522 /* TypeSelectViewController.swift in Sources */,
@@ -620,6 +671,7 @@
 				6FB9139B27B3A499000154FF /* QuestionListTableViewCell.swift in Sources */,
 				6965DE83275DEF670072C16A /* AddStudentVC.swift in Sources */,
 				7F94E55D27FAF245000047A7 /* ResetPasswordViewController.swift in Sources */,
+				7FEC1895287C763D0029A2E5 /* SignInVCFunctionShare_DB.swift in Sources */,
 				69E5F6902764C762003D7DD1 /* QuestionViewController.swift in Sources */,
 				6965DE7C275DEF490072C16A /* PayType.swift in Sources */,
 				7F6E5E4D27B2C3ED00292601 /* CheckPasswordViewController.swift in Sources */,
@@ -635,7 +687,6 @@
 				6965DE7A275DEF410072C16A /* CircleButton.swift in Sources */,
 				6F86FBD427B37FDC00670928 /* QuestionListItem.swift in Sources */,
 				6965DE7E275DEF5D0072C16A /* AddStudentDelegate.swift in Sources */,
-				7F8CC8FA275BB29E00BE195D /* ScheduleListViewController.swift in Sources */,
 				6965DE76275DEF330072C16A /* PlusTableViewCell.swift in Sources */,
 				7F4285312765034500BA0310 /* ShowPortfolioViewController.swift in Sources */,
 				7F2E9EA327DB482B008991EB /* EvaluationItem.swift in Sources */,
@@ -650,6 +701,7 @@
 				6F2ED45027B3444800DD7CB7 /* QuestionListViewController.swift in Sources */,
 				7F5278B7282FFFA2001AC18A /* MainViewController.swift in Sources */,
 				7F16D1442749390300745522 /* AppDelegate.swift in Sources */,
+				7FEC1893287C758A0029A2E5 /* DetailClassVCFunctionShare_DB.swift in Sources */,
 				69EE72AF275D0662007F6F7C /* PlusGraphViewController.swift in Sources */,
 				7F2E9E9F27DB2217008991EB /* TabBarController.swift in Sources */,
 				6965DE78275DEF3B0072C16A /* LoginRepository.swift in Sources */,
@@ -658,18 +710,22 @@
 				6918F343281E39A7008B3404 /* DesignShare.swift in Sources */,
 				691A7BA2276460C6003DCB05 /* Todocell.swift in Sources */,
 				6965DE6A275DEF1C0072C16A /* StudentItem.swift in Sources */,
+				7FEC1899287C77DB0029A2E5 /* HomeVCFunctionShare_DB.swift in Sources */,
 				7FBC6B1827EA0A0A0067BAD5 /* AddPortfolioItemViewController.swift in Sources */,
 				6965DE72275DEF290072C16A /* Date.swift in Sources */,
 				7FBC6B1627EA06690067BAD5 /* PortfolioTableViewController.swift in Sources */,
 				7FF2EF29274CF84200EBAB85 /* AddScheduleViewController.swift in Sources */,
 				7F645B66282A962200FF2BC6 /* CalendarFunction.swift in Sources */,
 				7F6E5E4B27B2C00000292601 /* SettingViewController.swift in Sources */,
+				7FEC1891287C75110029A2E5 /* MyClassVCFunctionShare_DB.swift in Sources */,
 				7F1CE0F02832382000EBBA8B /* ToDoListViewController.swift in Sources */,
 				6FFDECC927CDF9380028B652 /* QuestionAnsweredListItem.swift in Sources */,
 				7FD18BE8281EB7D000FB86C0 /* CustomFirebaseAPI.swift in Sources */,
 				6912805F276398EB00712739 /* PortfolioEditViewController.swift in Sources */,
 				7F645B64282A960200FF2BC6 /* BarChartFunction.swift in Sources */,
 				7FBC6B1427EA05930067BAD5 /* PortfolioDefaultCell.swift in Sources */,
+				7FEC188B287C72E40029A2E5 /* MyPageVCFunctionShare_DB.swift in Sources */,
+				7FEC18A1287C797D0029A2E5 /* LogInVCFunctionShare_DB.swift in Sources */,
 				7FB50F7C27FC63C500BC2B09 /* FirebaseAuthentication.swift in Sources */,
 				6FB9139927B3A1C2000154FF /* QuestionListTableViewImageCell.swift in Sources */,
 				7F2E9E9D27DB1DBD008991EB /* ParentMyPageViewController.swift in Sources */,

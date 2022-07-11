@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import Firebase
 import FirebaseAuth
 import FirebaseDatabase
@@ -19,12 +21,12 @@ public class SignInViewController: UIViewController {
     @IBOutlet weak var nameAlertLabel: UILabel!
     @IBOutlet weak var emailAlertLabel: UILabel!
     @IBOutlet weak var pwAlertLabel: UILabel!
+    @IBOutlet weak var continueButton: UIButton!
     
     static var number : Int = 1
     var verified : Bool = false
     var type : String = ""
     var ref: DatabaseReference!
-    let db = Firestore.firestore()
     var isGoogleSignIn : Bool = false
     var isAppleSignIn : Bool = false
     
@@ -32,6 +34,82 @@ public class SignInViewController: UIViewController {
     var email: String = ""
     var viewDesign = ViewDesign()
     var functionShare = FunctionShare()
+    var signinDB = SignInVCDBFunctions()
+    
+    var disposeBag = DisposeBag()
+    
+    private func checkname(_ name: String) -> Bool {
+        return (name.count >= 3 && name.count <= 5) && !name.contains(" ")
+    }
+    
+    private func checkId(_ email: String) -> Bool {
+        return email.contains("@") && email.contains(".")
+    }
+    
+    private func checkPw(_ password: String) -> Bool {
+        return password.count >= 6
+    }
+    
+    private func bindUI() {
+        
+        let idInputOb = emailTextField.rx.text.orEmpty.asObservable()
+        let idCheckOb = idInputOb.map(checkId)   // 아이디 유형체크
+        let pwInputOb = pwTextField.rx.text.orEmpty.asObservable()
+        let pwCheckOb = pwInputOb.map(checkPw)   // 비밀번호 유형체크
+        let nameInputOb = nameTextField.rx.text.orEmpty.asObservable()
+        let nameCheckOb = nameInputOb.map(checkname)   // 이름 유형체크
+        
+        idCheckOb.subscribe(onNext: { s in   // s: true or false
+                if s {   //아이디 형식이 맞는경우
+                    self.emailAlertLabel.text = "사용 가능한 이메일입니다."
+                    self.emailAlertLabel.textColor = .blue
+                    self.emailAlertLabel.isHidden = false
+                } else {  //아이디 형식 아닌경우
+                    self.emailAlertLabel.text = "이메일이 올바르지 않습니다."
+                    self.emailAlertLabel.textColor = .red
+                    self.emailAlertLabel.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        pwCheckOb.subscribe(onNext: { s in   // s: true or false
+                if s {   //아이디 형식이 맞는경우
+                    self.pwAlertLabel.text = "사용 가능한 비밀번호입니다."
+                    self.pwAlertLabel.textColor = .blue
+                    self.pwAlertLabel.isHidden = false
+                } else {  //아이디 형식 아닌경우
+                    self.pwAlertLabel.text = StringUtils.passwordValidationAlert.rawValue
+                    self.pwAlertLabel.textColor = .red
+                    self.pwAlertLabel.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        nameCheckOb.subscribe(onNext: { s in   // s: true or false
+                if s {   //이름 형식이 맞는경우
+                    self.nameAlertLabel.isHidden = true
+                } else {  //이름 형식 아닌경우
+                    self.nameAlertLabel.text = StringUtils.nameValidationAlert.rawValue
+                    self.nameAlertLabel.textColor = .red
+                    self.nameAlertLabel.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        Observable.combineLatest(
+            //아이디 유형을 체크한 값이 내려옴 true/false
+            idCheckOb, pwCheckOb, nameCheckOb, resultSelector: {s1, s2, s3 in s1 && s2 && s3}
+            )
+            .subscribe(onNext: {s in  // s1 && s2 결과값
+                self.continueButton.isEnabled = s
+                if s {
+                    self.continueButton.backgroundColor = .skyBlue
+                } else {
+                    self.continueButton.backgroundColor = .lightGray
+                }
+            })
+            .disposed(by: disposeBag)
+        }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -61,6 +139,8 @@ public class SignInViewController: UIViewController {
         nameAlertLabel.isHidden = true
         pwAlertLabel.isHidden = true
         emailAlertLabel.isHidden = true
+        
+        bindUI()
         
         if (isGoogleSignIn == true || isAppleSignIn == true) {
             emailTextField.text = Auth.auth().currentUser?.email
@@ -140,7 +220,7 @@ public class SignInViewController: UIViewController {
             self.present(tb, animated: true, completion: nil)
             self.present(homeVC, animated: true, completion: nil)
         } else {
-            DeleteUserWhileSignUp()
+            signinDB.DeleteUserWhileSignUp()
             // 로그인 화면(첫화면)으로 다시 이동
             self.dismiss(animated: true)
         }
@@ -159,7 +239,7 @@ public class SignInViewController: UIViewController {
         
         switch self.type {
         case "teacher", "student", "parent":
-            CreateUser(type: self.type, self: self, name: name, id: id, pw: pw)
+            signinDB.CreateUser(type: self.type, self: self, name: name, id: id, pw: pw)
             break
         default:
             break

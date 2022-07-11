@@ -4,16 +4,7 @@
 //
 //  Created by 김가은 on 2022/03/15.
 //
-
-//
-//  ParentDetailEvaluationViewController.swift
-//  BINDER
-//
-//  Created by 김가은 on 2022/03/15.
-//
 import UIKit
-import Firebase
-import FirebaseDatabase
 import FSCalendar
 
 // Parent 버전의 더보기 버튼 클릭 시 나타나는 평가 상세보기 화면
@@ -23,8 +14,6 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
     @IBOutlet weak var monthlyEvaluationTextView: UITextView! // 월간 평가가 나타나는 textview
     @IBOutlet weak var monthlyEvaluationTitle: UILabel! // 평가 제목 Label
     @IBOutlet weak var navigationBarTitle: UINavigationItem! // 네비게이션 바
-    
-    let db = Firestore.firestore()
     
     var studentUid: String! // 학생 Uid
     var studentEmail: String! // 학생 이메일
@@ -41,6 +30,8 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
     
     var calendarDesign = CalendarDesign()
     var viewDesign = ViewDesign()
+    var functionShare = FunctionShare()
+    var parentDB = ParentDBFunctions()
     
     func _init(){
         studentUid = ""
@@ -60,18 +51,12 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
     
     private lazy var today: Date = { return Date() }()
     
-    private lazy var dateFormatter: DateFormatter = { let df = DateFormatter()
-        df.locale = Locale(identifier: "ko_KR")
-        df.dateFormat = "yyyy년 MM월"
-        return df
-    }()
-    
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setCalendar()
-        GetParentInfoForParentDetailVC(self: self)
-        GetStudentMonthlyEvaluations(self: self)
-        GetStudentDailyEvaluations(self: self)
+        calendarDesign.setCalendar(calendarView: self.calendarView, monthLabel: self.monthLabel)
+        parentDB.GetParentInfoForParentDetailVC(self: self)
+        parentDB.GetStudentMonthlyEvaluations(self: self)
+        parentDB.GetStudentDailyEvaluations(self: self)
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -79,22 +64,12 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         self.calendarView.reloadData()
     }
     
-    func setCalendar() {
-        calendarView.delegate = self
-        calendarView.headerHeight = 0
-        calendarView.scope = .month
-        monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
-    }
-    
     private func scrollCurrentPage(isPrev: Bool) {
         let cal = Calendar.current
         var dateComponents = DateComponents()
         dateComponents.month = isPrev ? -1 : 1
         self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
-        LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            LoadingHUD.hide()
-        }
+        functionShare.LoadingShow(sec: 1.0)
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
     }
    
@@ -128,7 +103,7 @@ public class ParentDetailEvaluationViewController: UIViewController, FSCalendarD
         self.calendarEvent()
         
         /// parent collection에서 현재 사용자의 uid와 동일한 값의 uid를 가지는 문서 찾기
-        GetChildrenInfo(self: self)
+        parentDB.GetChildrenInfo(self: self)
     }
     
     /// 뒤로가기 버튼 클릭 시 실행
@@ -174,14 +149,11 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
     
     /// 캘린더의 현재 페이지가 달라진 경우 실행되는 메소드
     public func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            LoadingHUD.hide()
-        }
+        functionShare.LoadingShow(sec: 1.0)
         
         let currentPageDate = calendar.currentPage // 현재 페이지 정보
         
-        self.monthLabel.text = self.dateFormatter.string(from: calendar.currentPage)
+        self.monthLabel.text = calendarDesign.dateFormatter.string(from: calendar.currentPage)
         
         let month = Calendar.current.component(.month, from: currentPageDate) // 현재 페이지의 날짜에서 '월' 정보
         if (month < 10) { // 월이 1-9월 사이면
@@ -193,28 +165,22 @@ extension ParentDetailEvaluationViewController: FSCalendarDelegate, UIViewContro
         self.days.removeAll()
         self.events.removeAll()
         
-        self.monthLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
-        let date = self.dateFormatter.date(from: self.monthLabel.text!)
+        self.monthLabel.text = calendarDesign.dateFormatter.string(from: calendarView.currentPage)
+        let date = calendarDesign.dateFormatter.date(from: self.monthLabel.text!)
         
         self.days = setUpDays(date!)
-        GetStudentMonthlyEvaluations(self: self)
-        GetStudentDailyEvaluations(self: self)
+        parentDB.GetStudentMonthlyEvaluations(self: self)
+        parentDB.GetStudentDailyEvaluations(self: self)
     }
     
     //이벤트 표시 개수
     public func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        if self.events.contains(date) {
-            return 1
-        } else {
-            return 0
-        }
+        if self.events.contains(date) { return 1 }
+        else { return 0 }
     }
     
     public func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        if self.events.contains(date) {
-            return UIColor(red: 1, green: 104, blue: 255, alpha: 1)
-        } else {
-            return nil
-        }
+        if self.events.contains(date) { return UIColor(red: 1, green: 104, blue: 255, alpha: 1) }
+        else { return nil }
     }
 }

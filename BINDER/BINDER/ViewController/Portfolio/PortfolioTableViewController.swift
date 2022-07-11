@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import Firebase
 import Kingfisher
+
 // 포트폴리오 정보 뷰 컨트롤러 (tableview 활용)
 public class PortfolioTableViewController: UIViewController {
     @IBOutlet weak var teacherName: UILabel!
@@ -23,10 +23,10 @@ public class PortfolioTableViewController: UIViewController {
     var showModeEmail: String = ""
     var isShowOK: Bool = false
     var content: [String] = []
-    
     var teacherUid: String = ""
     
-    let db = Firestore.firestore()
+    var myPageDB = MyPageDBFunctions()
+    var functionShare = FunctionShare()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,14 +40,11 @@ public class PortfolioTableViewController: UIViewController {
     }
     
     public override func viewWillAppear(_ animated: Bool) {
-        GetUserInfoInPortfolioTableViewController(self: self)
+        myPageDB.GetUserInfoInPortfolioTableViewController(self: self)
     }
     
     public override func viewDidAppear(_ animated: Bool) {
-        LoadingHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            LoadingHUD.hide()
-        }
+        functionShare.LoadingShow(sec: 1)
         self.portfolioTableView.reloadData() // tableview 다시 그려주기
     }
     
@@ -63,7 +60,7 @@ extension PortfolioTableViewController: UITableViewDelegate, UITableViewDataSour
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PortfolioDefaultCell")! as! PortfolioDefaultCell
-        GetPortfolioFactors(self: self, indexPath: indexPath, cell: cell)
+        myPageDB.GetPortfolioFactors(self: self, indexPath: indexPath, cell: cell)
         
         return cell
     }

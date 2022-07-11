@@ -17,7 +17,6 @@ class LoginRepository {
     }
     
     func doLogin(completion: @escaping () -> Void, failure: @escaping ((_ error: Error?) -> Void)) {
-        let db = Firestore.firestore()
         db.collection("teacher").document(Auth.auth().currentUser!.uid).getDocument { (document, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
@@ -65,7 +64,10 @@ class LoginRepository {
                             let phone = studentDt["phone"] as? String ?? ""
                             let profile = studentDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
                             let goal = studentDt["goal"] as? String ?? ""
-                            self.studentItem = StudentItem(age: age, email: email, goal: goal, name: name, password: password, phone: phone, profile: profile)
+                            let type = studentDt["type"] as? String ?? ""
+                            let uid = studentDt["uid"] as? String ?? ""
+                            
+                            self.studentItem = StudentItem(email: email, goal: goal, name: name, password: password, phone: phone, profile: profile, type: type, uid: uid)
                             
                             /// 성공 알림
                             completion()
@@ -82,7 +84,10 @@ class LoginRepository {
                 let password = teacherDt["password"] as? String ?? ""
                 let phone = teacherDt["phone"] as? String ?? ""
                 let profile = teacherDt["profile"] as? String ?? "https://ifh.cc/g/Lt9Ip8.png"
-                self.teacherItem = TeacherItem(age: age, email: email, name: name, password: password, phone: phone, profile: profile)
+                let type = teacherDt["type"] as? String ?? ""
+                let uid = teacherDt["uid"] as? String ?? ""
+                
+                self.teacherItem = TeacherItem(email: email, name: name, password: password, profile: profile, type: type, uid: uid)
                 
                 /// 성공 알림
                 completion()

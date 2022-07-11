@@ -45,6 +45,7 @@ public class MyClassDetailViewController: UIViewController {
     var calenderDesign = CalendarDesign()
     var chartDesign = ChartDesign()
     var btnDesign = ButtonDesign()
+    var detailClassDB = DetailClassDBFunctions()
     
     func _init(){
         userEmail = ""
@@ -132,7 +133,7 @@ public class MyClassDetailViewController: UIViewController {
             }
         }
         
-        GetUserInfoInDetailClassVC(self: self, detailClassVC: nil, graphVC: nil, todolistVC: nil)
+        detailClassDB.GetUserInfoInDetailClassVC(self: self, detailClassVC: nil, graphVC: nil, todolistVC: nil)
         
         setupDataSource()
 
@@ -171,7 +172,7 @@ public class MyClassDetailViewController: UIViewController {
         let viewController2 = storyboard!.instantiateViewController(identifier: "GraphViewController")
         let viewController3 = storyboard!.instantiateViewController(identifier: "ToDoListViewController")
         
-        GetUserInfoInDetailClassVC(self: self, detailClassVC: viewController1 as! DetailClassViewController, graphVC: viewController2 as! GraphViewController, todolistVC: viewController3 as! ToDoListViewController)
+        detailClassDB.GetUserInfoInDetailClassVC(self: self, detailClassVC: viewController1 as! DetailClassViewController, graphVC: viewController2 as! GraphViewController, todolistVC: viewController3 as! ToDoListViewController)
     }
 
     private func addSubviews() {
@@ -245,7 +246,7 @@ public class MyClassDetailViewController: UIViewController {
         })
         
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
-            DeleteClass(self: self)
+            self.detailClassDB.DeleteClass(self: self)
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         

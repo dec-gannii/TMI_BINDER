@@ -44,6 +44,7 @@ public class ToDoListViewController: UIViewController {
     @IBOutlet weak var plusBtn: UIButton!
     
     var functionShare = FunctionShare()
+    var detailClassDB = DetailClassDBFunctions()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +56,7 @@ public class ToDoListViewController: UIViewController {
         /// 키보드 띄우기
         self.todoTF.becomeFirstResponder()
         
-        GetUserInfoInDetailClassVC(self: nil, detailClassVC: nil, graphVC: nil, todolistVC: self)
+        detailClassDB.GetUserInfoInDetailClassVC(self: nil, detailClassVC: nil, graphVC: nil, todolistVC: self)
         if self.userType == "student" {
             self.plusBtn.isHidden = true
             self.todoTF.isHidden = true
@@ -74,7 +75,7 @@ public class ToDoListViewController: UIViewController {
         if todoTF.text != "" {
             todos.append(todoTF.text ?? "")
             todoCheck.append(false)
-            AddToDoListFactors(self: self, checkTime: false)
+            detailClassDB.AddToDoListFactors(self: self, checkTime: false)
             self.todoTableView.reloadData()
         }
     }
@@ -118,7 +119,7 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
     //투두리스트 삭제에 따라
     @objc func deleteMarkButtonClicked(sender: UIButton){
         print("delete todo clicked")
-        DeleteToDoList(self: self,sender: sender)
+        detailClassDB.DeleteToDoList(self: self,sender: sender)
     }
     
     // 투두리스트 선택에 따라
@@ -134,6 +135,6 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
             // 체크 내용 업데이트
             sender.setImage(UIImage(named: "checkbox_square_Checked"), for: .normal)
         }
-        CheckmarkButtonClicked(self: self, checkTime: checkTime, sender: sender)
+        detailClassDB.CheckmarkButtonClicked(self: self, checkTime: checkTime, sender: sender)
     }
 }

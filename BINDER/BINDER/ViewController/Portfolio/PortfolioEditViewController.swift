@@ -28,6 +28,7 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
+    var myPageDB = MyPageDBFunctions()
     
     func setTextViewUI() {
         // Border setting
@@ -136,7 +137,7 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setTextViewUI()
-        GetPortfolioPlots(self: self)
+        myPageDB.GetPortfolioPlots(self: self)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tap)
@@ -176,7 +177,7 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func editButton(_ sender: Any) {
-        SaveEditedPlot(self: self)
+        myPageDB.SaveEditedPlot(self: self)
         
         if let preVC = self.presentingViewController {
             preVC.dismiss(animated: true, completion: nil)

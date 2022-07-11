@@ -7,13 +7,8 @@
 
 import UIKit
 import Kingfisher
-import Firebase
 
 public class QuestionListViewController : BaseVC {
-    
-    let db = Firestore.firestore()
-    var docRef : CollectionReference!
-    
     // 네비게이션바
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var navigationBarItem: UINavigationItem!
@@ -25,6 +20,8 @@ public class QuestionListViewController : BaseVC {
     @IBOutlet weak var answeredToggle: UISwitch!
     // 테이블 뷰 연결
     @IBOutlet weak var questionListTV: UITableView!
+    
+    var questionDB = QuestionDBFunctions()
     
     @IBAction func clickBackbutton(_ sender: Any) {
         if let preVC = self.presentingViewController {
@@ -56,7 +53,7 @@ public class QuestionListViewController : BaseVC {
         self.navigationBar.shadowImage = UIImage()
         answeredToggle.setOn(false, animated: true)
         
-        GetUserInfoInQuestionView(toggleLabel: self.toggleLabel, index: self.index, navigationBar: self.navigationBar, navigationBarItem: self.navigationBarItem, self: self)
+        questionDB.GetUserInfoInQuestionView(toggleLabel: self.toggleLabel, index: self.index, navigationBar: self.navigationBar, navigationBarItem: self.navigationBarItem, self: self)
         
         self.questionListTV.reloadData()
         
@@ -75,7 +72,7 @@ public class QuestionListViewController : BaseVC {
         super.viewWillAppear(true)
         answeredToggle.setOn(false, animated: true)
         
-        GetUserInfoInQuestionView(toggleLabel: self.toggleLabel, index: self.index, navigationBar: self.navigationBar, navigationBarItem: self.navigationBarItem, self: self)
+        questionDB.GetUserInfoInQuestionView(toggleLabel: self.toggleLabel, index: self.index, navigationBar: self.navigationBar, navigationBarItem: self.navigationBarItem, self: self)
         
         self.questionListTV.reloadData()
         
@@ -113,7 +110,7 @@ public class QuestionListViewController : BaseVC {
     /// 질문방 내용 세팅
     // 질문 리스트 가져오기
     func setQuestionList() {
-        SetQuestionList(self: self)
+        questionDB.SetQuestionList(self: self)
         questionListTV.reloadData()
         return
     }

@@ -26,10 +26,12 @@ public class ParentHomeViewController: UIViewController {
     @IBOutlet weak var parentNameLabel: UILabel! // 학부모 이름 Label
     @IBOutlet weak var progressListTableView: UITableView! // TableView
     
+    var parentDB = ParentDBFunctions()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        GetParentUserInfo(self: self) // 사용자 정보 받아오기
+        parentDB.GetParentUserInfo(self: self) // 사용자 정보 받아오기
         setEvaluation() // 평가 불러오기
         updateFCM()
         
@@ -50,8 +52,6 @@ public class ParentHomeViewController: UIViewController {
     }
     
     func updateFCM(){
-        let db = Firestore.firestore()
-        
         db.collection("parent").document(Auth.auth().currentUser!.uid).updateData([
             "fcmToken": Messaging.messaging().fcmToken
         ]) { err in
@@ -65,7 +65,7 @@ public class ParentHomeViewController: UIViewController {
     func setEvaluation() {
         self.teacherEmails.removeAll()
         self.teacherNames.removeAll()
-        SetEvaluation(self: self)
+        parentDB.SetEvaluation(self: self)
     }
 }
 
