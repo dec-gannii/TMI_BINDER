@@ -111,7 +111,7 @@ public class MyClassDetailViewController: UIViewController {
 
         return vc
     }()
-
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         

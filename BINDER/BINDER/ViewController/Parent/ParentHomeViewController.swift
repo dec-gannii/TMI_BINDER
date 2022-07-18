@@ -32,7 +32,7 @@ public class ParentHomeViewController: UIViewController {
         super.viewDidLoad()
         
         parentDB.GetParentUserInfo(self: self) // 사용자 정보 받아오기
-        setEvaluation() // 평가 불러오기
+        parentDB.SetEvaluation(self: self)
         updateFCM()
         
         // TableView 관련 delegate, dataSource 처리
@@ -59,13 +59,6 @@ public class ParentHomeViewController: UIViewController {
                 print("Error adding document: \(err)")
             }
         }
-    }
-    
-    // 평가 불러오기
-    func setEvaluation() {
-        self.teacherEmails.removeAll()
-        self.teacherNames.removeAll()
-        parentDB.SetEvaluation(self: self)
     }
 }
 

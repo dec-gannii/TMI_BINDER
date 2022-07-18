@@ -29,53 +29,18 @@ public class PortfolioEditViewController: UIViewController, UITextViewDelegate {
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
     var myPageDB = MyPageDBFunctions()
+    var functionShare = FunctionShare()
     
     func setTextViewUI() {
         // Border setting
-        self.eduHistoryTV.layer.borderWidth = viewDesign.borderWidth
-        self.eduHistoryTV.layer.borderColor = viewDesign.borderColor
-        self.classMetTV.layer.borderWidth = viewDesign.borderWidth
-        self.classMetTV.layer.borderColor = viewDesign.borderColor
-        self.extraExpTV.layer.borderWidth = viewDesign.borderWidth
-        self.extraExpTV.layer.borderColor = viewDesign.borderColor
-        self.timeTV.layer.borderWidth = viewDesign.borderWidth
-        self.timeTV.layer.borderColor = viewDesign.borderColor
-        self.contactTV.layer.borderWidth = viewDesign.borderWidth
-        self.contactTV.layer.borderColor = viewDesign.borderColor
-        self.manageTV.layer.borderWidth = viewDesign.borderWidth
-        self.manageTV.layer.borderColor = viewDesign.borderColor
-        self.evaluationTV.layer.borderWidth = viewDesign.borderWidth
-        self.evaluationTV.layer.borderColor = viewDesign.borderColor
-        self.memoTV.layer.borderWidth = viewDesign.borderWidth
-        self.memoTV.layer.borderColor = viewDesign.borderColor
-        
-        // textview의 안쪽에 padding을 주기 위해 EdgeInsets 설정
-        self.eduHistoryTV.textContainerInset = viewDesign.EdgeInsets
-        self.classMetTV.textContainerInset = viewDesign.EdgeInsets
-        self.extraExpTV.textContainerInset = viewDesign.EdgeInsets
-        self.timeTV.textContainerInset = viewDesign.EdgeInsets
-        self.manageTV.textContainerInset = viewDesign.EdgeInsets
-        self.contactTV.textContainerInset = viewDesign.EdgeInsets
-        self.evaluationTV.textContainerInset = viewDesign.EdgeInsets
-        self.memoTV.textContainerInset = viewDesign.EdgeInsets
-        
-        // cornerRadius 지정
-        self.eduHistoryTV.clipsToBounds = true
-        self.eduHistoryTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.classMetTV.clipsToBounds = true
-        self.classMetTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.extraExpTV.clipsToBounds = true
-        self.extraExpTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.timeTV.clipsToBounds = true
-        self.timeTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.manageTV.clipsToBounds = true
-        self.manageTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.contactTV.clipsToBounds = true
-        self.contactTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.evaluationTV.clipsToBounds = true
-        self.evaluationTV.layer.cornerRadius = btnDesign.cornerRadius
-        self.memoTV.clipsToBounds = true
-        self.memoTV.layer.cornerRadius = btnDesign.cornerRadius
+        functionShare.setTextUI(textView: self.eduHistoryTV, design: viewDesign, btnDesign: btnDesign)
+        functionShare.setTextUI(textView: self.classMetTV, design: viewDesign, btnDesign: btnDesign)
+        functionShare.setTextUI(textView: self.extraExpTV, design: viewDesign, btnDesign: btnDesign)
+        functionShare.setTextUI(textView: self.contactTV, design: viewDesign, btnDesign: btnDesign)
+        functionShare.setTextUI(textView: self.timeTV, design: viewDesign, btnDesign: btnDesign)
+        functionShare.setTextUI(textView: self.manageTV, design: viewDesign, btnDesign: btnDesign)
+        functionShare.setTextUI(textView: self.evaluationTV, design: viewDesign, btnDesign: btnDesign)
+        functionShare.setTextUI(textView: self.memoTV, design: viewDesign, btnDesign: btnDesign)
     }
     
     func placeholderSetting(_ textView: UITextView) {

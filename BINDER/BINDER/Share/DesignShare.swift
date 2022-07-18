@@ -49,13 +49,14 @@ struct CalendarDesign {
     var calendarColor = UIColor.blue
     var calendarTodayColor = UIColor.skyBlue
     var calendartitleColor = UIColor.gray2
+    var calendarSelectDateColor = UIColor.gray4
 
     var headerFont = UIFont.systemFont(ofSize: 12)
     var titleFont = UIFont.systemFont(ofSize: 13)
 }
 
 struct ChartDesign {
-    var gridColor = UIColor.gray1
+    var gridColor = UIColor.gray2
     
     var chartColor_60 = UIColor.skyBlue
     var chartColor_70 = UIColor(red: 158, green: 211, blue: 255, alpha: 1)

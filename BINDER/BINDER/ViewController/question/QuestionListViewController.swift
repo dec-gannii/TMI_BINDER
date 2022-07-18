@@ -57,7 +57,7 @@ public class QuestionListViewController : BaseVC {
         
         self.questionListTV.reloadData()
         
-        if (userName != nil) { // 사용자 이름이 nil이 아닌 경우
+        if (userName != "") { // 사용자 이름이 nil이 아닌 경우
             if (userType == "student") { // 사용자가 학생이면
                 self.navigationBar.topItem!.title = userName + " 선생님"
                 self.toggleLabel.text = "답변 완료만 보기"
@@ -76,7 +76,7 @@ public class QuestionListViewController : BaseVC {
         
         self.questionListTV.reloadData()
         
-        if (userName != nil) { // 사용자 이름이 nil이 아닌 경우
+        if (userName != "") { // 사용자 이름이 nil이 아닌 경우
             if (userType == "student") { // 사용자가 학생이면
                 self.navigationBar.topItem!.title = userName + " 선생님"
                 self.toggleLabel.text = "답변 완료만 보기"
@@ -133,11 +133,7 @@ public class QuestionListViewController : BaseVC {
     }
 }
 
-
-
-
 // MARK: - 테이블 뷰 관련
-
 extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource {
     
     /// 테이블 셀 개수
@@ -247,8 +243,8 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                     cell.title.text = item.title
                     cell.questionContent.text = "\(item.questionContent)"
                     cell.answerCheck.text = "답변 완료"
-                    cell.background.backgroundColor = UIColor.init(rgb: 0xE5E5E5)
-                    cell.answerCheck.textColor = UIColor.init(rgb: 0xB3B2B9)
+                    cell.background.backgroundColor = .gray15
+                    cell.answerCheck.textColor = .gray3
                     return cell
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
@@ -256,8 +252,8 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                     cell.questionImage.kf.setImage(with: URL(string: item.imgURL), placeholder: UIImage(systemName: "no image"), options: nil, completionHandler: nil)
                     cell.questionContent.text = "\(item.questionContent)"
                     cell.answerCheck.text = "답변 완료"
-                    cell.background.backgroundColor = UIColor.init(rgb: 0xE5E5E5)
-                    cell.answerCheck.textColor = UIColor.init(rgb: 0xB3B2B9)
+                    cell.background.backgroundColor = .gray15
+                    cell.answerCheck.textColor = .gray3
                     return cell
                 }
             } else {
@@ -267,8 +263,8 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                     cell.title.text = item.title
                     cell.questionContent.text = "\(item.questionContent)"
                     cell.answerCheck.text = "답변 대기"
-                    cell.background.backgroundColor = UIColor.init(rgb: 0xCDE7FC)
-                    cell.answerCheck.textColor = UIColor.init(rgb: 0x0168FF)
+                    cell.background.backgroundColor = .skyBlue
+                    cell.answerCheck.textColor = .blue
                     return cell
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "imageCell")! as! QuestionListTableViewImageCell
@@ -276,8 +272,8 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                     cell.questionImage.kf.setImage(with: URL(string: item.imgURL), placeholder: UIImage(systemName: "no image"), options: nil, completionHandler: nil)
                     cell.questionContent.text = "\(item.questionContent)"
                     cell.answerCheck.text = "답변 대기"
-                    cell.background.backgroundColor = UIColor.init(rgb: 0xCDE7FC)
-                    cell.answerCheck.textColor = UIColor.init(rgb: 0x0168FF)
+                    cell.background.backgroundColor = .skyBlue
+                    cell.answerCheck.textColor = .blue
                     return cell
                 }
             }
@@ -290,12 +286,12 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                     cell.questionContent.text = "\(item.questionContent)"
                     if (item.answerCheck == true) {
                         cell.answerCheck.text = "답변 완료"
-                        cell.background.backgroundColor = UIColor.init(rgb: 0xE5E5E5)
-                        cell.answerCheck.textColor = UIColor.init(rgb: 0xB3B2B9)
+                        cell.background.backgroundColor = .gray15
+                        cell.answerCheck.textColor = .gray3
                     } else {
                         cell.answerCheck.text = "답변 대기"
-                        cell.background.backgroundColor = UIColor.init(rgb: 0xCDE7FC)
-                        cell.answerCheck.textColor = UIColor.init(rgb: 0x0168FF)
+                        cell.background.backgroundColor = .skyBlue
+                        cell.answerCheck.textColor = .blue
                     }
                     return cell
                 } else {
@@ -305,12 +301,12 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                     cell.questionContent.text = "\(item.questionContent)"
                     if (item.answerCheck == true) {
                         cell.answerCheck.text = "답변 완료"
-                        cell.background.backgroundColor = UIColor.init(rgb: 0xE5E5E5)
-                        cell.answerCheck.textColor = UIColor.init(rgb: 0xB3B2B9)
+                        cell.background.backgroundColor = .gray15
+                        cell.answerCheck.textColor = .gray3
                     } else {
                         cell.answerCheck.text = "답변 대기"
-                        cell.background.backgroundColor = UIColor.init(rgb: 0xCDE7FC)
-                        cell.answerCheck.textColor = UIColor.init(rgb: 0x0168FF)
+                        cell.background.backgroundColor = .skyBlue
+                        cell.answerCheck.textColor = .blue
                     }
                     return cell
                 }
@@ -321,12 +317,12 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                     cell.questionContent.text = "\(item.questionContent)"
                     if (item.answerCheck == true) {
                         cell.answerCheck.text = "답변 완료"
-                        cell.background.backgroundColor = UIColor.init(rgb: 0xE5E5E5)
-                        cell.answerCheck.textColor = UIColor.init(rgb: 0xB3B2B9)
+                        cell.background.backgroundColor = .gray15
+                        cell.answerCheck.textColor = .gray3
                     } else {
                         cell.answerCheck.text = "답변 대기"
-                        cell.background.backgroundColor = UIColor.init(rgb: 0xCDE7FC)
-                        cell.answerCheck.textColor = UIColor.init(rgb: 0x0168FF)
+                        cell.background.backgroundColor = .skyBlue
+                        cell.answerCheck.textColor = .blue
                     }
                     return cell
                 } else {
@@ -336,12 +332,12 @@ extension QuestionListViewController: UITableViewDelegate, UITableViewDataSource
                     cell.questionContent.text = "\(item.questionContent)"
                     if (item.answerCheck == true) {
                         cell.answerCheck.text = "답변 완료"
-                        cell.background.backgroundColor = UIColor.init(rgb: 0xE5E5E5)
-                        cell.answerCheck.textColor = UIColor.init(rgb: 0xB3B2B9)
+                        cell.background.backgroundColor = .gray15
+                        cell.answerCheck.textColor = .gray3
                     } else {
                         cell.answerCheck.text = "답변 대기"
-                        cell.background.backgroundColor = UIColor.init(rgb: 0xCDE7FC)
-                        cell.answerCheck.textColor = UIColor.init(rgb: 0x0168FF)
+                        cell.background.backgroundColor = .skyBlue
+                        cell.answerCheck.textColor = .blue
                     }
                     return cell
                 }

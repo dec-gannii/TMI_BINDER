@@ -39,8 +39,6 @@ public class SecessionViewController: UIViewController {
                 self.settingDB.Secession(self: self)
             }
             
-            print("delete success, go sign in page")
-            
             // 로그인 화면(첫화면)으로 다시 이동
             guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController else { return }
             loginVC.modalPresentationStyle = .fullScreen

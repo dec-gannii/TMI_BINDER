@@ -28,6 +28,7 @@ public class TeacherEvaluationViewController: UIViewController {
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
     var parentDB = ParentDBFunctions()
+    var functionShare = FunctionShare()
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +79,11 @@ public class TeacherEvaluationViewController: UIViewController {
     
     /// 선생님 평가 저장 버튼 클릭 시 실행되는 메소드
     @IBAction func SaveTeacherEvaluation(_ sender: Any) {
-        parentDB.SaveTeacherEvaluation(self: self)
+        if (functionShare.CheckScore(textField: teacherAttitude) && functionShare.CheckScore(textField: teacherManagingSatisfyScore)) {
+            parentDB.SaveTeacherEvaluation(self: self)
+        } else {
+            functionShare.AlertShow(alertTitle: "오류", message: "잘못된 입력입니다!", okTitle: "확인", self: self)
+        }
         // modal dismiss
         self.dismiss(animated: true, completion: nil)
     }

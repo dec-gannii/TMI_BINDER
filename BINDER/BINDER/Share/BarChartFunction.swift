@@ -21,6 +21,13 @@ func barColorSetting(design:ChartDesign) -> [UIColor]{
     return barColors
 }
 
+func NoDataSetting(view: BarChartView) {
+    // 데이터 없을 때 나올 텍스트 설정
+    view.noDataText = "입력된 성적이 없어요! 입력해보는 건 어떨까요?"
+    view.noDataFont = .systemFont(ofSize: 14.0, weight: .bold)
+    view.noDataTextColor = .gray4
+}
+
 func setChart(dataPoints: [String], values: [Double], view:BarChartView, design:ChartDesign, colors: [UIColor],fvalue:[CGFloat]) {
     // 데이터 생성
     var dataEntries: [BarChartDataEntry] = []
@@ -45,6 +52,7 @@ func setChart(dataPoints: [String], values: [Double], view:BarChartView, design:
     view.data = chartData
     view.drawValueAboveBarEnabled = true
     chartData.barWidth = Double(0.4)
+    
     // 선택 안되게
     chartDataSet.highlightEnabled = false
     

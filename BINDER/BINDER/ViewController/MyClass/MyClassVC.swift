@@ -26,10 +26,6 @@ public class MyClassVC: BaseVC{
         getUserInfo()
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
-        getUserInfo()
-    }
-    
     /// segue를 호출할 때, 데이터를 넘기고 싶은 경우에 사용
     public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -53,7 +49,7 @@ public class MyClassVC: BaseVC{
             /// 클래스 가져오기
             self.myClassDB.SetMyClasses(self: self)
         } failure: { error in
-            self.showDefaultAlert(msg: "")
+            self.showDefaultAlert(msg: "다시 시도해주세요.")
         }
         /// 클로저, 리스너
     }
@@ -64,7 +60,7 @@ public class MyClassVC: BaseVC{
             /// 클래스 가져오기
             self.myClassDB.SetMyClasses(self: self)
         } failure: { error in
-            self.showDefaultAlert(msg: "")
+            self.showDefaultAlert(msg: "다시 시도해주세요.")
         }
         /// 클로저, 리스너
     }
@@ -149,7 +145,6 @@ extension MyClassVC: UITableViewDelegate, UITableViewDataSource {
 // MARK: - 학생 추가 후 처리
 
 extension MyClassVC: AddStudentDelegate {
-    
     /// 학생 추가가 완료된 경우
     func onSuccess() {
         myClassDB.SetMyClasses(self: self)

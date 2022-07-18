@@ -100,7 +100,6 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
                 print("접근 가능")
                 self.showGallery()
             case .notDetermined:
-                print("권한 요청한 적 없음")
                 PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
                 }
                 
@@ -134,7 +133,6 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
             imagePicker.delegate = self
             // 이미지 피커의 소스 타입을 PhotoLibrary로 설정
             imagePicker.sourceType = .photoLibrary
-            
             imagePicker.mediaTypes = [kUTTypeImage as String]
             // 편집을 허용
             imagePicker.allowsEditing = true
@@ -185,7 +183,6 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
             
             // 미디어 종류가 비디오(Movie)일 경우
         } else if mediaType.isEqual(to: kUTTypeMovie as NSString as String) {
-            
             if flagImageSave { // flagImageSave가 true이면
                 // 촬영한 비디오를 옴
                 videoURL = (info[UIImagePickerController.InfoKey.mediaURL] as! URL)
@@ -225,7 +222,7 @@ public class AnswerViewController: UIViewController, UINavigationControllerDeleg
         answer = textView.text
         questionDB.UpdateAnswer(answer: answer, imgtype: self.imgtype, self: self, imgView: self.imgView)
         
-        notification.sendPushNotification(token: fcmtoken, title: "답변이 올라왔어요!", body: "\(tname!) 선생님이 답변을 달았어요.")
+        notification.sendPushNotification(token: fcmtoken, title: "답변이 달렸어요!", body: "\(tname!) 선생님이 답변을 달았어요.")
         
         if let preVC = self.presentingViewController as? UIViewController {
             preVC.dismiss(animated: true, completion: nil)

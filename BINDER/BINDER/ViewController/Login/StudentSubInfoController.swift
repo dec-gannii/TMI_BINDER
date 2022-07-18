@@ -18,7 +18,6 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet weak var ageShowPicker: UITextField!
     @IBOutlet weak var phonenumTextField: UITextField!
     @IBOutlet weak var goalTextField: UITextField!
-    
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var goalLabel: UILabel!
@@ -96,7 +95,7 @@ public class StudentSubInfoController: UIViewController, UITextFieldDelegate, UI
     
     //  숫자인지를 검사하는 메소드
     func isValidPw(_ pw: Int) -> Bool {
-        //         공백 검사
+        // 공백 검사
         if (pw == Int(ageShowPicker.text!.trimmingCharacters(in: .whitespaces))) { return true }
         else { return false }
     }

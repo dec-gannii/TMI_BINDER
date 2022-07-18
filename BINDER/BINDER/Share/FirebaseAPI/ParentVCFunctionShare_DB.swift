@@ -37,6 +37,9 @@ struct ParentDBFunctions {
     }
     
     func SetEvaluation(self : ParentHomeViewController) {
+        self.teacherEmails.removeAll()
+        self.teacherNames.removeAll()
+        
         // parent collection에서 현재 로그인한 uid와 같은 uid 정보를 가지는 문서 찾기
         db.collection("parent").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments() { (querySnapshot, err) in
             if let err = err {

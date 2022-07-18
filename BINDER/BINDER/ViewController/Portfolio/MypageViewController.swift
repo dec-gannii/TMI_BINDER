@@ -30,6 +30,7 @@ public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINav
     var viewDesign = ViewDesign()
     var btnDesign = ButtonDesign()
     var myPageDB = MyPageDBFunctions()
+    var functionShare = FunctionShare()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,24 +47,15 @@ public class MyPageViewController: BaseVC, UIImagePickerControllerDelegate,UINav
     
     @objc func touchToPickPhoto(sender: UITapGestureRecognizer){
         if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
-            
             imagePicker.delegate = self
             // 이미지 피커의 소스 타입을 PhotoLibrary로 설정
             imagePicker.sourceType = .photoLibrary
             // 편집을 허용
             imagePicker.allowsEditing = true
             present(imagePicker, animated: true, completion: nil)
-            
         } else {
-            myAlert("갤러리 접근 불가", message: StringUtils.galleryAccessFail.rawValue)
+            functionShare.AlertShow(alertTitle: "갤러리 접근 불가", message: StringUtils.galleryAccessFail.rawValue, okTitle: "확인", self: self)
         }
-    }
-    
-    func myAlert(_ title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        let action = UIAlertAction(title: "확인", style: UIAlertAction.Style.default , handler: nil)
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func ShowProtfolioBtnClicked(_ sender: Any) {

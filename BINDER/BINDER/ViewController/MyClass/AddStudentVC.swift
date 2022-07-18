@@ -52,7 +52,6 @@ public class AddStudentVC: BaseVC {
             resultVC.studentItem = item
             resultVC.delegate = delegate
         }
-        
     }
     
     /// 계속하기 버튼 클릭

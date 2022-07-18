@@ -9,7 +9,6 @@ import UIKit
 import Firebase
 
 public class ToDoListViewController: UIViewController {
-    
     var userEmail: String!
     var userSubject: String!
     var userName: String!
@@ -66,11 +65,6 @@ public class ToDoListViewController: UIViewController {
         self.todoTableView.reloadData()
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
-        guard let myClassDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "MyClassDetailViewController") as? MyClassDetailViewController else { return }
-        super.viewWillAppear(true)
-    }
-    
     @IBAction func goButtonClicked(_ sender: Any) {
         if todoTF.text != "" {
             todos.append(todoTF.text ?? "")
@@ -79,11 +73,9 @@ public class ToDoListViewController: UIViewController {
             self.todoTableView.reloadData()
         }
     }
-    
 }
 
 extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
-    
     //데이터 카운트
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todos.count
@@ -118,7 +110,6 @@ extension ToDoListViewController:UITableViewDataSource, UITableViewDelegate {
     
     //투두리스트 삭제에 따라
     @objc func deleteMarkButtonClicked(sender: UIButton){
-        print("delete todo clicked")
         detailClassDB.DeleteToDoList(self: self,sender: sender)
     }
     

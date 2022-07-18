@@ -50,6 +50,7 @@ public class EmailVerificationViewController: UIViewController {
             self.present(subInfoVC, animated: true, completion: nil)
         } else {
             self.emailVerificationAlertLabel.text = "인증 확인이 완료되지 않았습니다."
+            self.emailVerificationAlertLabel.textColor = .red
             self.emailVerificationAlertLabel.isHidden = false
         }
     }

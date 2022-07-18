@@ -16,7 +16,6 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
     
     @IBOutlet weak var studyShowPicker: UITextField!
     @IBOutlet weak var scoreTextField: UITextField!
-    
     @IBOutlet weak var studyLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     
@@ -31,21 +30,21 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
     var userType: String!
     let study = ["3월 모평","1차 중간","6월 모평","1차 기말","9월 모평","2차 중간","11월 모평","2차 기말"]
     
-     public override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
-         
-         scoreTextField.keyboardType = .numberPad
-         
-         var textfields = [UITextField]()
-         textfields = [self.studyShowPicker, self.scoreTextField]
-         
-         functionShare.textFieldPaddingSetting(textfields)
-         
-         studyLabel.text = nil
-         scoreLabel.text = nil
-         
-         createPickerView()
-         dismissPickerView()
+        
+        scoreTextField.keyboardType = .numberPad
+        
+        var textfields = [UITextField]()
+        textfields = [self.studyShowPicker, self.scoreTextField]
+        
+        functionShare.textFieldPaddingSetting(textfields)
+        
+        studyLabel.text = nil
+        scoreLabel.text = nil
+        
+        createPickerView()
+        dismissPickerView()
     }
     
     // 화면 터치 시 키보드 내려가도록 하는 메소드
@@ -57,16 +56,13 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
         return 1
     }
     
-    
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return study.count
     }
     
-    
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return study[row]
     }
-    
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.todayStudy = study[row]
@@ -104,16 +100,18 @@ public class PlusGraphViewController:UIViewController, UITextFieldDelegate, UIPi
         studyShowPicker.resignFirstResponder()
     }
     
-    
     @IBAction func goPlus(_ sender: Any) {
         todayScore = scoreTextField.text!
-        let docRef = db.collection("student").document(Auth.auth().currentUser!.uid).collection("Graph")
         if todayStudy == "0"{
             studyLabel.text = "하나를 선택해주세요"
         } else if todayScore == "" {
             scoreLabel.text = "성적을 작성해주세요"
         } else {
-            detailClassDB.SaveGraphScore(todayStudy: todayStudy, todayScore: todayScore, self: self)
+            if (functionShare.CheckScore(textField: scoreTextField)) {
+                detailClassDB.SaveGraphScore(todayStudy: todayStudy, todayScore: todayScore, self: self)
+            } else {
+                functionShare.AlertShow(alertTitle: "오류", message: "잘못된 입력입니다!", okTitle: "확인", self: self)
+            }
         }
     }
     

@@ -105,6 +105,7 @@ struct SignInVCDBFunctions {
                 for document in querySnapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
                     self.emailAlertLabel.text = StringUtils.emailExistAlert.rawValue
+                    self.emailAlertLabel.textColor = .red
                     self.emailAlertLabel.isHidden = false
                     self.emailTextField.text = ""
                     return

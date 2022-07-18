@@ -13,13 +13,14 @@ import FSCalendar
 // 캘린더 외관을 꾸미기 위한 메소드
 func calendarColor(view:FSCalendar, design:CalendarDesign) {
     view.appearance.weekdayTextColor = .systemGray
-    view.appearance.titleWeekendColor = .black
     view.appearance.headerTitleColor =  design.calendartitleColor
     view.appearance.eventDefaultColor = design.calendarColor
     view.appearance.eventSelectionColor = design.calendarColor
-    view.appearance.titleSelectionColor = design.calendartitleColor
+    view.appearance.titleSelectionColor = .black
     view.appearance.borderSelectionColor = design.calendarTodayColor
     view.appearance.titleTodayColor = design.calendarColor
+    view.appearance.titleDefaultColor = .black
+    view.appearance.titleWeekendColor = .black
     view.appearance.todaySelectionColor = design.calendarTodayColor
     view.appearance.selectionColor = .none
     view.appearance.todayColor = design.calendarTodayColor
@@ -37,6 +38,18 @@ func calendarText(view:FSCalendar, design:CalendarDesign) {
     view.weekdayHeight = CGFloat(design.weekdayHeight)
 }
 
+// 캘린더 텍스트 스타일 설정을 위한 메소드
+func CalendarText_week(view:FSCalendar, design:CalendarDesign) {
+    view.headerHeight = CGFloat(design.headerHeight)
+    view.appearance.headerMinimumDissolvedAlpha = 0.0
+    view.appearance.headerDateFormat = "YYYY년 M월"
+    view.locale = Locale(identifier: "ko_KR")
+    view.appearance.headerTitleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
+    view.appearance.titleFont = UIFont.systemFont(ofSize: 14)
+    view.appearance.weekdayFont = UIFont.systemFont(ofSize: 14)
+    view.weekdayHeight = CGFloat(40)
+}
+
 /// UI setting
 func setBorder(views:Array<UITextView>, design:ViewDesign) {
     for view in views{
@@ -50,7 +63,6 @@ func allRound(views: Array<AnyObject>, design:ButtonDesign) {
         view.layer.cornerRadius = design.cornerRadius
     }
 }
-
 
 //달별 달력 날짜 셋팅
 func setUpDays(_ date: Date) -> Array<Date> {

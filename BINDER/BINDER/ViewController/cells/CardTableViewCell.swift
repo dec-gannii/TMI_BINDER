@@ -20,7 +20,6 @@ class CardTableViewCell: UITableViewCell {
     // 둥글게하기
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         self.selectionStyle = .none
     }
 

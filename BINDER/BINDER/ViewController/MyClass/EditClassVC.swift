@@ -74,10 +74,7 @@ public class EditClassVC : UIViewController {
             }
             break
         default:
-            let alert = UIAlertController(title: "오류", message: "일정이 선택되지 않았습니다!", preferredStyle: UIAlertController.Style.alert)
-            let okAction = UIAlertAction(title: "확인", style: .default) { (action) in }
-            alert.addAction(okAction)
-            self.present(alert, animated: false, completion: nil)
+            functionShare.AlertShow(alertTitle: "오류", message: "일정이 선택되지 않았습니다!", okTitle: "확인", self: self)
             break
             
         }
@@ -114,7 +111,7 @@ public class EditClassVC : UIViewController {
             preVC.dismiss(animated: true, completion: nil)
         }
     }
-    // 이 부분 주석 처리 해제해야 1 코드 적용 했을 때 정상 작동
+    
     var userName = ""
     var userEmail = ""
     var userSubject = ""

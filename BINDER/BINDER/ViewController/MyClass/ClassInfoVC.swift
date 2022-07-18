@@ -140,7 +140,7 @@ extension ClassInfoVC {
         
         let schedule = getSchedule()
         guard !schedule.isEmpty else {
-            showDefaultAlert(msg: "과외일정을 입력해주세요.")
+            showDefaultAlert(msg: "과외 일정을 입력해주세요.")
             return
         }
         

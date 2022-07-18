@@ -61,7 +61,7 @@ public class SignInViewController: UIViewController {
         
         idCheckOb.subscribe(onNext: { s in   // s: true or false
                 if s {   //아이디 형식이 맞는경우
-                    self.emailAlertLabel.text = "사용 가능한 이메일입니다."
+                    self.emailAlertLabel.text = "올바른 형식의 이메일입니다."
                     self.emailAlertLabel.textColor = .blue
                     self.emailAlertLabel.isHidden = false
                 } else {  //아이디 형식 아닌경우

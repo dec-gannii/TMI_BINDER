@@ -76,8 +76,6 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func selectImage(_ sender: UIButton) {
-        print("select")
-        
         let actionSheet = UIAlertController(title: "사진 선택", message: "사진의 위치를 선택해주세요.", preferredStyle: .actionSheet)
         // 취소 버튼 추가
         let action_cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
@@ -90,8 +88,6 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         
         // 갤러리 버튼 추가
         let action_gallery = UIAlertAction(title: "사진 앨범", style: .default) { action in
-            print("push gallery button")
-            
             switch PHPhotoLibrary.authorizationStatus() {
             case .authorized:
                 print("접근 가능")
@@ -129,7 +125,6 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
         }
         else {
             questionDB.UpdateImage(self: self)
-            
             notification.sendPushNotification(token: fcmtoken, title: "선생님 질문 있어요!", body: "\(self.sname!) 학생이 질문을 올렸어요.")
         }
     }
@@ -145,6 +140,7 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                 print("Document does not exist")
             }
         }
+        
         db.collection("teacher").whereField("name", isEqualTo: self.userName!).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print(">>>>> document 에러 : \(err)")
@@ -155,7 +151,6 @@ public class QuestionPlusViewController: UIViewController, UITextViewDelegate {
                     /// 문서 존재하면
                     for document in querySnapshot!.documents {
                         self.fcmtoken = document.data()["fcmToken"] as? String ?? ""
-                        print("fcmToken: \(self.fcmtoken)")
                     }
                 }
             }

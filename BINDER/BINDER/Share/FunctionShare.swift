@@ -11,6 +11,23 @@ import FSCalendar
 import FirebaseStorage
 
 struct FunctionShare{
+    func CheckScore(textField: UITextField) -> Bool {
+        if (textField.text == "") {
+            return true
+        }
+        let nf = NumberFormatter()
+        if let score = textField.text {
+            let scoreVal = nf.number(from: score)?.intValue
+            if (scoreVal! <= 100 && scoreVal! >= 0) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+    
     func LoadingShow(sec: Double) {
         LoadingHUD.show()
         DispatchQueue.main.asyncAfter(deadline: .now() + sec) {
@@ -106,6 +123,14 @@ struct FunctionShare{
             item.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 10.0, height: 0.0))
             item.leftViewMode = .always
         }
+    }
+    
+    func setTextUI(textView: UITextView, design: ViewDesign, btnDesign: ButtonDesign) {
+        textView.layer.borderWidth = design.borderWidth
+        textView.layer.borderColor = design.borderColor
+        textView.textContainerInset = design.EdgeInsets
+        textView.clipsToBounds = true
+        textView.layer.cornerRadius = btnDesign.cornerRadius
     }
 }
 

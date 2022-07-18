@@ -49,17 +49,17 @@ public class DetailClassViewController: UIViewController {
     var studentName: String!
     var studentEmail: String!
     var studentSubject: String!
+    var payType: String!
+    var tname: String!
+    var temail: String!
+    var fcmToken: String!
+    let nowDate = Date()
+    
     var viewDesign = ViewDesign()
     var calenderDesign = CalendarDesign()
     var btnDesign = ButtonDesign()
     var functionShare = FunctionShare()
     var detailClassDB = DetailClassDBFunctions()
-    var payType: String!
-    var tname: String!
-    var temail: String!
-    var fcmToken: String!
-    
-    let nowDate = Date()
     
     func _init(){
         userEmail = ""
@@ -116,28 +116,12 @@ public class DetailClassViewController: UIViewController {
         }
     }
     
-    func calendarText(view:FSCalendar, design:CalendarDesign) {
-        view.headerHeight = CGFloat(18)
-        view.appearance.headerTitleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
-        view.appearance.headerMinimumDissolvedAlpha = 0.0
-        view.appearance.headerDateFormat = "YYYY년 M월"
-        view.appearance.titleFont = UIFont.systemFont(ofSize: 14)
-        view.appearance.weekdayFont = UIFont.systemFont(ofSize: 14)
-        view.locale = Locale(identifier: "ko_KR")
-        view.weekdayHeight = CGFloat(40)
-    }
-    
     /// Load View
     public override func viewWillAppear(_ animated: Bool) {
         calendarView.scope = .week
-        self.calendarText(view: calendarView, design: calenderDesign)
+        CalendarText_week(view: calendarView, design: calenderDesign)
         calendarColor(view: calendarView, design: calenderDesign)
         self.calendarEvent()
-        let color = UIColor(red: 84, green: 83, blue: 87, alpha: 1.0)
-        self.calendarView.appearance.borderSelectionColor = UIColor(red: 1, green: 104, blue: 255, alpha: 0.6)
-        self.calendarView.appearance.weekdayTextColor = color
-        self.calendarView.appearance.titleWeekendColor = color
-        self.calendarView.appearance.headerTitleColor =  color
         
         let roundViews: Array<AnyObject> = [progressTextView,evaluationMemoTextView,evaluationOKBtn,monthlyEvaluationOKBtn]
         allRound(views:roundViews,design: btnDesign)
@@ -232,7 +216,11 @@ public class DetailClassViewController: UIViewController {
     
     /// save evaluation button clicked
     @IBAction func OKButtonClicked(_ sender: Any) {
-        detailClassDB.SaveDailyEvaluation(self: self)
+        if (functionShare.CheckScore(textField: testScoreTextField) && functionShare.CheckScore(textField: classScoreTextField) && functionShare.CheckScore(textField: homeworkScoreTextField)) {
+            detailClassDB.SaveDailyEvaluation(self: self)
+        } else {
+            functionShare.AlertShow(alertTitle: "오류", message: "잘못된 입력입니다!", okTitle: "확인", self: self)
+        }
     }
     
     func getNameFcm(){
@@ -242,7 +230,6 @@ public class DetailClassViewController: UIViewController {
                 let data = document.data()
                 self.tname = data?["name"] as? String ?? ""
                 self.temail = data?["email"] as? String ?? ""
-                print("tname : \(self.tname), temail: \(self.temail) ")
                 
                 db.collection("parent").whereField("teacherEmail", isEqualTo: self.temail!).getDocuments() { (querySnapshot, err) in
                     if let err = err {

@@ -47,7 +47,6 @@ public class ScheduleListViewController: UIViewController {
         
         // 데이터베이스에서 일정 리스트 가져오기
         scheduleDB.ShowScheduleList(type: self.type, date: self.date, datestr: datestr, scheduleTitles: scheduleTitles, scheduleMemos: scheduleMemos, count: self.count)
-        
         scheduleListTableView.reloadData()
     }
     
